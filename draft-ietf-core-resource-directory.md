@@ -69,9 +69,24 @@
             </postal>
             <phone>+358407796297</phone>
             <email>zach@sensinode.com</email>
-    </address>
+          </address>
         </author>
 
+        <author initials="S" surname="Krco" fullname="Srdjan Krco">
+          <organization>
+             Ericsson
+          </organization>
+          <address>
+            <postal>
+             <street></street>
+             <city></city>
+             <code></code>
+             <country></country>
+            </postal>
+            <phone></phone>
+            <email>srdjan.krco@ericsson.com</email>
+    	   </address>
+        </author>
 
   <date year="2011"/>
 
@@ -118,26 +133,49 @@
   <section anchor='arch' title="Architecture and Use Cases">
 
 	<t>
-	Introduction
+	The resource directory architecture is shown in <xref target="fig-arch"/>. A Resource Directory (RD) is used as a repository for Web Links about resources hosted on other web servers, which are called end-points (EP). An end-point is a web server associated with a port, thus a physical node may host one or more end-points. The RD implements a set of REST interfaces, several for end-points to register and maintain sets of Web Links (called resource directory entries), and another for clients to lookup resources from the RD. End-points themselves can act as clients.
+	</t>
+	<t>
+	End-points are assumed to proactively register and maintain resource directory entries on the RD, which are soft state and need to be periodially refreshed. An EP is provided with interfaces to register, update and remove a resource directory entry. Furthermore, a mechanism to discover a RD using the CoRE Link Format is defined. It is also possible for an RD to proactively discover Web Links from EPs and add them as resource directory entries, or to validate existing resource directory entries. A lookup interface for discovering any of the Web Links held in the RD is provided using the CoRE Link Format. 
 	</t>
 
 
-		<figure>
+
+		<figure anchor="fig-arch" title="The resource directory architecture.">
           <artwork align="left"><![CDATA[
-
-                        +------+ 
-  +----+                |      |
-  | EP | ---------------|  RD  |
-  +----+                |      |
-                        +------+
-
+          
+             Registration         Lookup
+  +----+          |                 |
+  | EP |----      |                 |
+  +----+    ----  |                 |
+                --|-    +------+    |
+  +----+          | ----|      |    |     +--------+
+  | EP | ---------|-----|  RD  |----|-----| Client |
+  +----+          | ----|      |    |     +--------+
+                --|-    +------+    |
+  +----+    ----  |                 |
+  | EP |----      |                 |
+  +----+
+  
             ]]></artwork>
         </figure>
 
-	<t>
-	Use cases: Home automation, building automation, Cellular M2M
-	</t>
 
+	  <section anchor='cellular' title="Use Case: Cellular M2M">
+  	  <t>
+	  Over the last few years, mobile operators around the world have focused on development of M2M solutions in order to expand the business to the new type of users, i.e. machines. The machines are connected directly to a mobile network using appropriate embedded air interface (GSM/GPRS, WCDMA, LTE) or via a gateway providing short and wide range wireless interfaces. From the system design point of view, the ambition is to design horizontal solutions that can enable utilization of machines in different applications depending on their current availability and capabilities as well as application requirements, thus avoiding silo like solutions. One of the crucial enablers of such design is the ability to discover resources (machines - End Points) capable of providing required information at a given time or acting on instructions from the end users. 	
+	  </t>
+	  
+	  <t>
+	  In a typical scenario, during a boot-up procedure (and periodically afterwards), the machines (EPs) register with a Resource Directory (for example EPs installed on vehicles enabling tracking of their position for the fleet management purposes and monitoring environment parameters) hosted by the mobile operator or somewhere else in the network, submiting a description of own capabilities. Due to the usual network configuration of mobile networks, the EPs attached to the mobile network do not have routable addresses. Therefore, a remote server is usually used to provide proxy access to the EPs. The address of each (proxy) EP on this server is included in the resource description stored in the RD. The users, for example mobile applications for environment monitoring, contact the RD, look-up the EPs capable of providing information about the environment using appropriate set of tags, obtain information on how to contact them (URLs of the proxy server) and then initate interaction to obtain information that is finally processed, displayed on the screen and usually stored in a database. Similarly, fleet management systems provide a set of credentials along with the appropriate tags to the RD to look-up for EPs deployed on the vehicles the application is responsible for. 
+	  </t>
+	  </section>
+
+	  <section anchor='automation' title="Use Case: Home and Building Automation">
+	  <t>
+	  TODO
+	  </t>
+	  </section>
 
   </section>
 
@@ -526,7 +564,7 @@ Res: 2.02 Deleted
 
 <section title="Acknowledgments">
 
-<t>Szymon Sasin, Carsten Bormann, Kerry Lynn, Peter van der Stok, Anders Brandt and Linyi Tian.</t>
+<t>Szymon Sasin, Carsten Bormann, Kerry Lynn, Peter van der Stok, Anders Brandt and Linyi Tian. The authors would also like to thank their collagues from the EU FP7 SENSEI project, where many of the resource directory concepts were originally developed.</t>
 
 </section>
 
