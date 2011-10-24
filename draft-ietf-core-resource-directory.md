@@ -46,7 +46,7 @@
 <?rfc subcompact="no" ?>
 <!-- keep one blank line between list items -->
 <!-- end of list of popular I-D processing instructions -->
-<rfc category="std" ipr="trust200902" docName="draft-shelby-core-resource-directory-00">
+<rfc category="std" ipr="trust200902" docName="draft-shelby-core-resource-directory-01">
 
 <?xml-stylesheet type='text/xsl' href='rfc2629.xslt' ?>
 
@@ -108,6 +108,17 @@
 
     <middle>
 
+
+<!--
+Comments from IETF Quebec:
+
+issues:
+- terminology is a mess
+- how to differentiate between multiple RDs in discovery
+- how to tell the RD about the host
+- hannes > trying to give meaning to the nice Architecture picture in the presentation
+
+-->
 
 
   <!-- **************************************************************** -->
@@ -221,6 +232,7 @@
           <t hangText="Parameters:"> 
           	<list style="hanging">
           		<t hangText="Resource Type (rt):">MUST contain the value "core-rd"</t>
+          		<t hangText="Instance (ins):">Used to differentiate between multiple RDs.</t>
           	</list>
           </t>
           <t hangText="Success:"> 2.05 "Content" with an application/link-format payload containing a matching entry for the RD resource.</t>
@@ -257,7 +269,7 @@
 Req: GET coap://[ff02::1]/.well-known/core?rt=core-rd
 		
 Res: 2.05 Content
-</rd>; rt="core-rd" 
+</rd>; rt="core-rd"; ins="Primary"
             ]]></artwork>
         </figure>
 		
@@ -268,7 +280,7 @@ Res: 2.05 Content
 	  <section anchor='registration' title="Registration">
 
 		<t>
-		After discovering the location of an RD, an end-point MAY register its resources to the RD's registration interface. This interface accepts a POST from an end-point containing the list of resources to be added to the directory as the message payload in the CoRE Link Format along with query string parameters indicating the name of the end-point, an optional node identifier and the lifetime of the registration. The RD then creates a new resource or updates an existing resource in the RD and returns its location. An end-point MUST use that location when refreshing registrations using this interface. End-point resources in the RD are kept active for the period indicated by the lifetime parameter. The end-point is reponsible for refreshing the entry within this period using either the registration or update interface. 
+		After discovering the location of an RD, an end-point MAY register its resources to the RD's registration interface. This interface accepts a POST from an end-point containing the list of resources to be added to the directory as the message payload in the CoRE Link Format along with query string parameters indicating the name of the end-point, an optional node identifier and the lifetime of the registration. The end-point name is formed by concatenating the Host and Instance parameters included with the registration. All parameters of the registration are optional. In the absense of a Host parameter, the RD will generate a unique one on behalf of the end-point. The RD then creates a new resource or updates an existing resource in the RD and returns its location. An end-point MUST use that location when refreshing registrations using this interface. End-point resources in the RD are kept active for the period indicated by the lifetime parameter. The end-point is reponsible for refreshing the entry within this period using either the registration or update interface. 
 		</t>
 
         <t>The registration interface is specified as follows: 
@@ -280,9 +292,10 @@ Res: 2.05 Content
           <t hangText="Etag:">The Etag option MUST be included to allow an RD to perform validation in the future.</t>
           <t hangText="Parameters:"> 
           	<list>
-          		<t hangText="End-point Name (n):">Name of the end-point, MUST be unique within this domain. If no end-point name is included, the RD SHOULD generate a unique name for the end-point. The maximum length of this parameter is 63 octets.</t>
-          		<t hangText="Node Identifier (id):">An optional unique identifier for the node hosting the end-point (e.g. a serial number, EUI-64, UUID or iNumber).</t>
           		<t hangText="Lifetime (lt):">Lifetime of the registration in seconds. Range of 60-4294967295. If no lifetime is included, a default value of 86400 (24 hours) SHOULD be assumed.</t>
+ 				<t hangText="Host (h):">The host identifier or name of the registering node. The maximum length of this parameter is 63 octets. This parameter is combined with the Instance parameter (if any) to form the end-point name. If not included, the RD MUST generate a unique Host name on behalf of the node. </t>
+ 				<t hangText="Instance (ins):">The instance of the end-point on this host, if there are multiple. The maximum length of this parameter is 63 octets.</t>
+ 				<t hangText="Type (rt):">The semantic type of end-point. The maximum length of this parameter is 63 octets.</t>
           	</list>
           </t>
           <t hangText="Success:"> 2.01 "Created". The Location header of the new resource entry for the end-point could be e.g. in the form /{rd-base}/{end-point name}</t>
@@ -290,6 +303,10 @@ Res: 2.05 Content
           <t hangText="Failure:"> 5.03 "Service Unavailable". Service could not perform the operation. </t>
         </list>
        	</t>
+
+<!-- TODO: Explain hos host and ins are used, and that the RD generates them if ommitted. The combination of host + ins must be unique within the RD. -->
+
+<!-- TODO: Explain how the RD generates the Location: and how the node will use it. -->
 
 		<t>
 		The following example shows an end-point with the name "node1" registering two resources to an RD using this interface. 
@@ -311,7 +328,7 @@ Res: 2.05 Content
 
 		<figure>
           <artwork align="left"><![CDATA[
-Req: POST coap://rd.example.org/rd?n=node1&lt=1024
+Req: POST coap://rd.example.org/rd?h=node1&lt=1024
 Etag: 0x3f
 Payload:
 </sensors/temp>;ct=41;rt="TemperatureC";if="sensor",
@@ -497,7 +514,7 @@ Res: 2.02 Deleted
         <t>The lookup interface is specified as follows: 
         <list style="hanging">
           <t hangText="Interaction:">Client -> RD</t>
-          <t hangText="Path:">/{rd-base} or e.g. /{rd-base}/{end-point name}</t>
+          <t hangText="Path:">/{rd-base} or e.g. /{rd-base}/{end-point}</t>
           <t hangText="Method:">GET</t>	
           <t hangText="Content-Type:">application/link-format (if any)</t>
           <t hangText="Parameters:"> 
@@ -523,7 +540,7 @@ Res: 2.02 Deleted
 
    Client                                                          RD
      |                                                             |
-     | ----- GET /rd?rt=Temperature ---------------------------->  |
+     | ----- GET /rd/node1?rt=Temperature ---------------------->  |
      |                                                             |
      |                                                             |
      | <-- 2.05 Content "<coap://node1/temp>;rt="Temperature" ---- |
@@ -537,7 +554,7 @@ Res: 2.02 Deleted
 		
 		<figure>
           <artwork align="left"><![CDATA[
-Req: GET /rd?rt=Temperature
+Req: GET /rd/node1?rt=Temperature
 
 Res: 2.05 Content
 <coap://node1/temp>;rt="Temperature"
