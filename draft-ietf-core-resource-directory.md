@@ -47,7 +47,7 @@
 <?rfc subcompact="no" ?>
 <!-- keep one blank line between list items -->
 <!-- end of list of popular I-D processing instructions -->
-<rfc category="std" ipr="trust200902" docName="draft-shelby-core-resource-directory-02">
+<rfc category="std" ipr="trust200902" docName="draft-shelby-core-resource-directory-03pre">
 
 <?xml-stylesheet type='text/xsl' href='rfc2629.xslt' ?>
 
@@ -92,7 +92,7 @@
     	   </address>
         </author>
 
-  <date year="2011"/>
+  <date year="2012"/>
 
   <area>Internet</area>
 
@@ -146,12 +146,7 @@
 	  <t hangText="Domain"><vspace />
 		In the context of a Resource Directory, a domain is a logical grouping of end-points. All end-point within a domain MUST be unique.</t>
 	  <t hangText="End-point"><vspace />
-		An end-point (EP) is a term used to describe a web server or client in  <xref target="I-D.ietf-core-coap"/>. In the context of this specificaiton an end-point is used to describe a web server that registers resources to the Resource Directory. During registration 
-		the end-point is identified by a combination of the Host and Instance fields.</t>
-	  <t hangText="Host"><vspace />
-		In the context of this specification, a Host name can be given to the device that is registering.</t>
-	  <t hangText="Instance"><vspace />
-		In the context of this specification, the Instance is used when registering to differentiate between multiple web servers running on the same device.</t>
+		An end-point (EP) is a term used to describe a web server or client in  <xref target="I-D.ietf-core-coap"/>. In the context of this specificaiton an end-point is used to describe a web server that registers resources to the Resource Directory. An end-point is identified by its end-point name, which is included during registration, and MUST be unique within the associated domain of the registration.</t>
 	</list>
 	</t>
 
@@ -234,7 +229,7 @@
 		</t>
 		
 		<t>
-		Discovery is performed by sending either a multicast or unicast GET request to /.well-known/core and including a Resource Type (rt) parameter <xref target="I-D.ietf-core-link-format"/> with the value "core-rd" in the query string. Upon success, the response will contain a payload with a link format entry for each RD discovered, with the URL indicating the root resource of the RD. When performing multicast discovery, the multicast IP address used will depend on the scope required and the multicast capabilities of the network (TBD if a specific multicast address should be defined for RDs).
+		Discovery is performed by sending either a multicast or unicast GET request to /.well-known/core and including a Resource Type (rt) parameter <xref target="I-D.ietf-core-link-format"/> with the value "core.rd" in the query string. Likewise, a Resource Type parameter value of "core.rd-lookup" is used to discover the RD lookup interface. Upon success, the response will contain a payload with a link format entry for each RD discovered, with the URL indicating the root resource of the RD. When performing multicast discovery, the multicast IP address used will depend on the scope required and the multicast capabilities of the network (TBD if a specific multicast address should be defined for RDs).
 		</t>
 		
 		<t>
@@ -250,7 +245,6 @@
           <t hangText="Parameters:"> 
           	<list style="hanging">
           		<t hangText="Resource Type (rt):">MUST contain the value "core-rd"</t>
-          		<t hangText="Instance (ins):">Used to differentiate between multiple RDs.</t>
           	</list>
           </t>
           <t hangText="Success:"> 2.05 "Content" with an application/link-format payload containing a matching entry for the RD resource.</t>
@@ -270,10 +264,10 @@
 
  End-point                                             RD
      |                                                 |
-     | ----- GET /.well-known/core?rt=core-rd ------>  |
+     | ----- GET /.well-known/core?rt=core.rd* ------>  |
      |                                                 |
      |                                                 |
-     | <---- 2.05 Content "</rd>; rt="core-rd" ------  |
+     | <---- 2.05 Content "</rd>; rt="core.rd" ------  |
      |                                                 |
 
 
@@ -287,7 +281,8 @@
 Req: GET coap://[ff02::1]/.well-known/core?rt=core-rd
 		
 Res: 2.05 Content
-</rd>;rt="core-rd";ins="Primary"
+</rd>;rt="core.rd",
+</rd-lookup>;rt="core.rd-lookup"
             ]]></artwork>
         </figure>
 		
@@ -311,8 +306,7 @@ Res: 2.05 Content
           <t hangText="Parameters:"> 
           	<list>
           		<t hangText="Lifetime (lt):">Lifetime of the registration in seconds. Range of 60-4294967295. If no lifetime is included, a default value of 86400 (24 hours) SHOULD be assumed.</t>
- 				<t hangText="Host (h):">The host identifier or name of the registering node. The maximum length of this parameter is 63 octets. This parameter is combined with the Instance parameter (if any) to form the end-point name. If not included, the RD MUST generate a unique Host name on behalf of the node. </t>
- 				<t hangText="Instance (ins):">The instance of the end-point on this host, if there are more than one. The maximum length of this parameter is 63 octets. Optional.</t>
+ 				<t hangText="End-point (ep):">The end-point identifier or name of the registering node, unique within that domain. The maximum length of this parameter is 63 octets. If not included, the RD MUST generate a unique end-point name on behalf of the registering end-point. </t>
  				<t hangText="Type (rt):">The semantic type of the end-point. The maximum length of this parameter is 63 octets. Optional.</t>
  				<t hangText="Domain (d):">The domain to which this end-point belongs. The maximum length of this parameter is 63 octets. Optional.</t>
  				<t hangText="Context (con):">This parameter sets the scheme, address and port at which this server is available in the form scheme://host:port. Optional. In the absence of this parameter the scheme of the protocol, source IP address and source port used to register are assumed. </t>
@@ -348,7 +342,7 @@ Res: 2.05 Content
 
 		<figure>
           <artwork align="left"><![CDATA[
-Req: POST coap://rd.example.org/rd?h=node1&lt=1024
+Req: POST coap://rd.example.org/rd?ep=node1&lt=1024
 Etag: 0x3f
 Payload:
 </sensors/temp>;ct=41;rt="TemperatureC";if="sensor",
@@ -379,8 +373,7 @@ Location: /rd/4521
           <t hangText="Parameters:"> 
           	<list>
           		<t hangText="Lifetime (lt):">Lifetime of the registration in seconds. Range of 60-4294967295. If no lifetime is included, a default value of 86400 (24 hours) SHOULD be assumed.</t>
-          		<t hangText="Host (h):">The host identifier or name of the registering node. The maximum length of this parameter is 63 octets. This parameter is combined with the Instance parameter (if any) to form the end-point name. If not included, the RD MUST generate a unique Host name on behalf of the node. </t>
- 				<t hangText="Instance (ins):">The instance of the end-point on this host, if there are more than one. The maximum length of this parameter is 63 octets. Optional.</t>
+ 				<t hangText="End-point (ep):">The end-point identifier or name of the registering node, unique within that domain. The maximum length of this parameter is 63 octets. If not included, the RD MUST generate a unique end-point name on behalf of the registering end-point. </t>
  				<t hangText="Type (rt):">The semantic type of the end-point. The maximum length of this parameter is 63 octets. Optional.</t>
  				<t hangText="Domain (d):">The domain to which this end-point belongs. The maximum length of this parameter is 63 octets. Optional.</t>
  				<t hangText="Context (con):">This parameter sets the scheme, address and port at which this server is available in the form scheme://host:port. Optional. In the absence of this parameter the scheme of the protocol, source IP address and source port used to register are assumed. </t>
@@ -542,7 +535,7 @@ Res: 2.02 Deleted
         <t>The lookup interface is specified as follows: 
         <list style="hanging">
           <t hangText="Interaction:">Client -> RD</t>
-          <t hangText="Path:">/{rd-base}, e.g. /rd</t>
+          <t hangText="Path:">/{rd-lookup-base}/{res,ep,domain}, e.g. /rd-lookup/ep</t>
           <t hangText="Method:">GET</t>	
           <t hangText="Content-Type:">application/link-format (if any)</t>
           <t hangText="Parameters:"> 
@@ -561,7 +554,7 @@ Res: 2.02 Deleted
        	</t>
 
 		<t>
-		The following example shows a client performing a lookup on an RD using this interface. 
+		The following example shows a client performing a resource lookup:
 		</t>
 
 		<figure>
@@ -570,7 +563,7 @@ Res: 2.02 Deleted
 
    Client                                                          RD
      |                                                             |
-     | ----- GET /rd?rt=Temperature ---------------------------->  |
+     | ----- GET /rd-lookup/res?rt=Temperature ----------------->  |
      |                                                             |
      |                                                             |
      | <-- 2.05 Content "<coap://node1/temp>;rt="Temperature" ---- |
@@ -580,17 +573,75 @@ Res: 2.02 Deleted
             ]]></artwork>
         </figure>
 		
-		
+		<figure>
+          <artwork align="left"><![CDATA[
+Req: GET /rd-lookup/res?rt=Temperature
+
+Res: 2.05 Content
+<coap://{ip:port}/temp>;rt="Temperature"
+            ]]></artwork>
+        </figure>
+
+		<t>
+		The following example shows a client performing an end-point lookup:
+		</t>
+
+		<figure>
+          <artwork align="left"><![CDATA[
+
+
+   Client                                                          RD
+     |                                                             |
+     | ----- GET /rd-lookup/ep?rt=PowerNode -------------------->  |
+     |                                                             |
+     |                                                             |
+     | <-- 2.05 Content "</rd/4734>;ep="node5" ------------------- |
+     |                                                             |
+
+
+            ]]></artwork>
+        </figure>
 		
 		<figure>
           <artwork align="left"><![CDATA[
-Req: GET /rd?rt=Temperature
+Req: GET /rd-lookup/ep?rt=PowerNode
 
 Res: 2.05 Content
-<coap://node1/temp>;rt="Temperature"
+</rd/4734>;ep="node5";con="coap://{ip:port}"
+</rd/4739>;ep="node7";con="coap://{ip:port}"
+            ]]></artwork>
+        </figure>			  
+
+		<t>
+		The following example shows a client performing a domain lookup:
+		</t>
+
+		<figure>
+          <artwork align="left"><![CDATA[
+
+
+   Client                                                          RD
+     |                                                             |
+     | ----- GET /rd-lookup/domain ----------------------------->  |
+     |                                                             |
+     |                                                             |
+     | <-- 2.05 Content "</rd/domain1>,</rd/domain2> ------------- |
+     |                                                             |
+
+
             ]]></artwork>
         </figure>
-			  
+		
+		<figure>
+          <artwork align="left"><![CDATA[
+Req: GET /rd-lookup/domain
+
+Res: 2.05 Content
+</rd/domain1>,
+</rd/domain2>
+            ]]></artwork>
+        </figure>	
+
 	  
 	  </section>
 
@@ -664,7 +715,7 @@ Res: 2.05 Content
   <section title="IANA Considerations">
 
 	<t>
-	"core-rd" resource type needs to be registered if an appropriate registry is created.
+	"core-rd" resource type needs to be registered when the appropriate registry is created by <xref target="I-D.ietf-core-link-format"/>.
 	</t>
 	
 	<t>
