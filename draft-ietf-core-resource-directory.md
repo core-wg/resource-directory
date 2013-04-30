@@ -16,10 +16,10 @@
 <!ENTITY RFC5785 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.5785.xml">
 <!ENTITY RFC5988 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.5988.xml">
 <!ENTITY RFC6570 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.6570.xml">
+<!ENTITY RFC6775 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.6775.xml">
+<!ENTITY RFC6690 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.6690.xml">
 <!ENTITY I-D.ietf-core-coap SYSTEM "http://xml.resource.org/public/rfc/bibxml3/reference.I-D.ietf-core-coap.xml">
-<!ENTITY I-D.ietf-core-link-format SYSTEM "http://xml.resource.org/public/rfc/bibxml3/reference.I-D.ietf-core-link-format.xml">
 <!ENTITY I-D.vanderstok-core-bc SYSTEM "http://xml.resource.org/public/rfc/bibxml3/reference.I-D.vanderstok-core-bc.xml">
-<!ENTITY I-D.ietf-6lowpan-nd SYSTEM "http://xml.resource.org/public/rfc/bibxml3/reference.I-D.ietf-6lowpan-nd.xml">
 <!ENTITY I-D.brandt-coap-subnet-discovery SYSTEM "http://xml.resource.org/public/rfc/bibxml3/reference.I-D.brandt-coap-subnet-discovery.xml">
 
 ]>
@@ -48,7 +48,7 @@
 <?rfc subcompact="no" ?>
 <!-- keep one blank line between list items -->
 <!-- end of list of popular I-D processing instructions -->
-<rfc category="std" ipr="trust200902" docName="draft-shelby-core-resource-directory-04">
+<rfc category="std" ipr="trust200902" docName="draft-shelby-core-resource-directory-05">
 
 <?xml-stylesheet type='text/xsl' href='rfc2629.xslt' ?>
 
@@ -108,7 +108,7 @@
       </address>
     </author>
 
-  <date year="2012"/>
+  <date year="2013"/>
 
   <area>Internet</area>
 
@@ -136,10 +136,10 @@
   The Constrained RESTful Environments (CoRE) work aims at realizing the REST architecture in a suitable form for the most constrained nodes (e.g. 8-bit microcontrollers with limited RAM and ROM) and networks (e.g. 6LoWPAN). CoRE is aimed at machine-to-machine (M2M) applications such as smart energy and building automation.
   </t>
   <t>
-  The discovery of resources offered by a constrained server is very important in machine-to-machine applications where there are no humans in the loop and static interfaces result in fragility. The discovery of resources provided by an HTTP Web Server is typically called Web Linking <xref target="RFC5988"/>. The use of Web Linking for the description and discovery of resources hosted by constrained web servers is specified by the CoRE Link Format <xref target="I-D.ietf-core-link-format"/>. This specification however only describes how to discover resources from the web server that hosts them by requesting /.well-known/core. In many M2M scenarios, direct discovery of resources is not practical due to sleeping nodes, disperse networks, or networks where multicast traffic is inefficient. These problems can be solved by employing an entity called a Resource Directory (RD), which hosts descriptions of resources held on other servers, allowing lookups to be performed for those resources.
+  The discovery of resources offered by a constrained server is very important in machine-to-machine applications where there are no humans in the loop and static interfaces result in fragility. The discovery of resources provided by an HTTP Web Server is typically called Web Linking <xref target="RFC5988"/>. The use of Web Linking for the description and discovery of resources hosted by constrained web servers is specified by the CoRE Link Format <xref target="RFC6690"/>. This specification however only describes how to discover resources from the web server that hosts them by requesting /.well-known/core. In many M2M scenarios, direct discovery of resources is not practical due to sleeping nodes, disperse networks, or networks where multicast traffic is inefficient. These problems can be solved by employing an entity called a Resource Directory (RD), which hosts descriptions of resources held on other servers, allowing lookups to be performed for those resources.
   </t>
   <t>
-  This document specifies the web interfaces that a Resource Directory supports in order for web servers to discover the RD and to registrer, maintain, lookup and remove resources descriptions. Furthermore, new link attributes useful in conjunction with a Resource Directory are defined. Although the examples in this document show the use of these interfaces with CoAP <xref target="I-D.ietf-core-coap"/>, they may be applied in an equivalent manner to HTTP <xref target="RFC2616"/>. 
+  This document specifies the web interfaces that a Resource Directory supports in order for web servers to discover the RD and to registrer, maintain, lookup and remove resource descriptions. Furthermore, new link attributes useful in conjunction with a Resource Directory are defined. Although the examples in this document show the use of these interfaces with CoAP <xref target="I-D.ietf-core-coap"/>, they may be applied in an equivalent manner to HTTP <xref target="RFC2616"/>. 
   </t>
 
   </section>
@@ -155,14 +155,16 @@
 	term "byte" is used in its now customary sense as a synonym for "octet".</t>
 
 	<t>This specification requires readers to be familiar with all the terms
-	and concepts that are discussed in <xref target="RFC5988"/> and <xref target="I-D.ietf-core-link-format"/>. Readers should also be familiar with the terms and concepts discussed in <xref target="I-D.ietf-core-coap"/>. The URI Template format is used to describe the REST interfaces defined in this specification <xref target="RFC6570"/>. This specification makes use of the following additional terminology:
+	and concepts that are discussed in <xref target="RFC5988"/> and <xref target="RFC6690"/>. Readers should also be familiar with the terms and concepts discussed in <xref target="I-D.ietf-core-coap"/>. The URI Template format is used to describe the REST interfaces defined in this specification <xref target="RFC6570"/>. This specification makes use of the following additional terminology:
 	<list style="hanging">
 	  <t hangText="Resource Directory"><vspace />
 		An web entity that stores information about web resources and  implements the REST interfaces defined in this specification for registration and lookup of those resources.</t>
 	  <t hangText="Domain"><vspace />
-		In the context of a Resource Directory, a Domain is a logical grouping of endpoints. All endpoint within a Domain MUST be unique. This specification assumes that the list of Domains supported by an RD is pre-configured by that RD.</t>
+		In the context of a Resource Directory, a domain is a logical grouping of endpoints. All endpoint within a domain MUST be unique. This specification assumes that the list of Domains supported by an RD is pre-configured by that RD.</t>
+	  <t hangText="Group"><vspace />
+		In the context of a Resource Directory, a group is a logical grouping of endpoints for the purpose of group communications. All groups within a domain MUST be unique. </t>
 	  <t hangText="Endpoint"><vspace />
-		An endpoint (EP) is a term used to describe a web server or client in  <xref target="I-D.ietf-core-coap"/>. In the context of this specification an endpoint is used to describe a web server that registers resources to the Resource Directory. An endpoint is identified by its endpoint name, which is included during registration, and MUST be unique within the associated Domain of the registration.</t>
+		An endpoint (EP) is a term used to describe a web server or client in  <xref target="I-D.ietf-core-coap"/>. In the context of this specification an endpoint is used to describe a web server that registers resources to the Resource Directory. An endpoint is identified by its endpoint name, which is included during registration, and MUST be unique within the associated domain of the registration.</t>
 	</list>
 	</t>
 
@@ -176,7 +178,7 @@
   <section anchor='arch' title="Architecture and Use Cases">
 
 	<t>
-	The resource directory architecture is shown in <xref target="fig-arch"/>. A Resource Directory (RD) is used as a repository for Web Links <xref target="RFC5988"/> about resources hosted on other web servers, which are called endpoints (EP). An endpoint is a web server associated with a port, thus a physical node may host one or more endpoints. The RD implements a set of REST interfaces for endpoints to register and maintain sets of Web Links (called resource directory entries), for the RD to validate entries, and for clients to lookup resources from the RD. Endpoints themselves can also act as clients. An RD can be logically segmented by the use of Domains. The Domain an endpoint is associated with can be defined by the RD or configured by an outside entity.
+	The resource directory architecture is shown in <xref target="fig-arch"/>. A Resource Directory (RD) is used as a repository for Web Links <xref target="RFC5988"/> about resources hosted on other web servers, which are called endpoints (EP). An endpoint is a web server associated with a port, thus a physical node may host one or more endpoints. The RD implements a set of REST interfaces for endpoints to register and maintain sets of Web Links (called resource directory entries), for the RD to validate entries, and for clients to lookup resources from the RD. Endpoints themselves can also act as clients. An RD can be logically segmented by the use of Domains. The domain an endpoint is associated with can be defined by the RD or configured by an outside entity.
 	</t>
 	<t>
 	Endpoints are assumed to proactively register and maintain resource directory entries on the RD, which are soft state and need to be periodially refreshed. An endpoint is provided with interfaces to register, update and remove a resource directory entry. Furthermore, a mechanism to discover a RD using the CoRE Link Format is defined. It is also possible for an RD to proactively discover Web Links from endpoints and add them as resource directory entries, or to validate existing resource directory entries. A lookup interface for discovering any of the Web Links held in the RD is provided using the CoRE Link Format.  
@@ -243,7 +245,7 @@
   <t>
   This approach requires that the endpoint makes the hosted resources that it 
   wants discovered available as links on its /.well-known/core interface as 
-  specified in <xref target="I-D.ietf-core-link-format"/>.
+  specified in <xref target="RFC6690"/>.
   </t>
   <t>
   The endpoint then finds one or more IP addresses of the directory server it 
@@ -305,7 +307,7 @@ addresses for such servers in a number of ways.</t>
 
 <t><list style='symbols'>
   <t>specific static configuration (e.g., anycast addresses), if any,</t>
-  <t>the ABRO option of 6LoWPAN-ND <xref target="I-D.ietf-6lowpan-nd"/>,</t>
+  <t>the ABRO option of 6LoWPAN-ND <xref target="RFC6775"/>,</t>
   <t>other ND options that happen to point to servers (such as RDNSS),</t>
   <t>DHCPv6 options that might be defined later.</t>
 </list></t>
@@ -349,15 +351,15 @@ to act as a directory server.</t>
 	  <section anchor='discovery' title="Discovery">
 	
 		<t>
-		Before an endpoint can make use of an RD, it must first know the RD's IP address, port and the path of its RD Function Set. There can be several mechanisms for discovering the RD including assuming a default location (e.g. on an Edge Router in a LoWPAN), by assigning an anycast address to the RD, using DHCP, or by discovering the RD using the CoRE Link Format (also see <xref target="simple_finding"/>). This section defines discovery of the RD using the well-known interface of the CoRE Link Format <xref target="I-D.ietf-core-link-format"/> as the required mechanism. It is however expected that RDs will also be discoverable via other methods depending on the deployment. 
+		Before an endpoint can make use of an RD, it must first know the RD's IP address, port and the path of its RD Function Set. There can be several mechanisms for discovering the RD including assuming a default location (e.g. on an Edge Router in a LoWPAN), by assigning an anycast address to the RD, using DHCP, or by discovering the RD using the CoRE Link Format (also see <xref target="simple_finding"/>). This section defines discovery of the RD using the well-known interface of the CoRE Link Format <xref target="RFC6690"/> as the required mechanism. It is however expected that RDs will also be discoverable via other methods depending on the deployment. 
 		</t>
 		
 		<t>
-		Discovery is performed by sending either a multicast or unicast GET request to /.well-known/core and including a Resource Type (rt) parameter <xref target="I-D.ietf-core-link-format"/> with the value "core.rd" in the query string. Likewise, a Resource Type parameter value of "core.rd-lookup" is used to discover the RD Lookup Function Set. Upon success, the response will contain a payload with a link format entry for each RD discovered, with the URL indicating the root resource of the RD. When performing multicast discovery, the multicast IP address used will depend on the scope required and the multicast capabilities of the network.
+		Discovery is performed by sending either a multicast or unicast GET request to /.well-known/core and including a Resource Type (rt) parameter <xref target="RFC6690"/> with the value "core.rd" in the query string. Likewise, a Resource Type parameter value of "core.rd-lookup" is used to discover the RD Lookup Function Set. Upon success, the response will contain a payload with a link format entry for each RD discovered, with the URL indicating the root resource of the RD. When performing multicast discovery, the multicast IP address used will depend on the scope required and the multicast capabilities of the network.
 		</t>
 		
 		<t>
-		An RD implementation of this specification MUST support query filtering for the rt parameter as defined in <xref target="I-D.ietf-core-link-format"/>.
+		An RD implementation of this specification MUST support query filtering for the rt parameter as defined in <xref target="RFC6690"/>.
 		</t>
 
         <t>The discovery request interface is specified as follows: 
@@ -411,7 +413,8 @@ Req: GET coap://[ff02::1]/.well-known/core?rt=core.rd*
 		
 Res: 2.05 Content
 </rd>;rt="core.rd",
-</rd-lookup>;rt="core.rd-lookup"
+</rd-lookup>;rt="core.rd-lookup",
+</rd-group>;rt="core.rd-group"
             ]]></artwork>
         </figure>
 		
@@ -422,22 +425,22 @@ Res: 2.05 Content
 	  <section anchor='registration' title="Registration">
 
 		<t>
-		After discovering the location of an RD Function Set, an endpoint MAY register its resources using the registration interface. This interface accepts a POST from an endpoint containing the list of resources to be added to the directory as the message payload in the CoRE Link Format along with query string parameters indicating the name of the endpoint, its Domain and the lifetime of the registration. All parameters except the endpoint name are optional. The RD then creates a new resource or updates an existing resource in the RD and returns its location. An endpoint MUST use that location when refreshing registrations using this interface. endpoint resources in the RD are kept active for the period indicated by the lifetime parameter. The endpoint is responsible for refreshing the entry within this period using either the registration or update interface. The registration interface MUST be implemented to be idempotent, so that registering twice with the same endpoint parameter does not create multiple RD entries.  
+		After discovering the location of an RD Function Set, an endpoint MAY register its resources using the registration interface. This interface accepts a POST from an endpoint containing the list of resources to be added to the directory as the message payload in the CoRE Link Format along with query string parameters indicating the name of the endpoint, its domain and the lifetime of the registration. All parameters except the endpoint name are optional. It is expected that other specifications MAY define further parameters (it is to be determined if a registry of parameters is needed for this purpose). The RD then creates a new resource or updates an existing resource in the RD and returns its location. An endpoint MUST use that location when refreshing registrations using this interface. Endpoint resources in the RD are kept active for the period indicated by the lifetime parameter. The endpoint is responsible for refreshing the entry within this period using either the registration or update interface. The registration interface MUST be implemented to be idempotent, so that registering twice with the same endpoint parameter does not create multiple RD entries.  
 		</t>
 
         <t>The registration request interface is specified as follows: 
         <list style="hanging">
           <t hangText="Interaction:">EP -> RD</t>
           <t hangText="Method:">POST</t>	
-          <t hangText="URI Template:">/{+rd}{?ep,d,rt,lt,con}</t>
+          <t hangText="URI Template:">/{+rd}{?ep,d,et,lt,con}</t>
           <t hangText="URI Template Variables:"> 
           	<list>
  				<t hangText="rd := ">RD Function Set path (mandatory). This is the path of the RD Function Set. An RD SHOULD use the value "rd" for this variable whenever possible.</t>   
- 				<t hangText="ep := ">Endpoint (mandatory). The endpoint identifier or name of the registering node, unique within that Domain. The maximum length of this parameter is 63 bytes. </t>          	
- 				<t hangText="d := ">Domain (optional). The Domain to which this endpoint belongs. The maximum length of this parameter is 63 bytes. Optional. When this parameter is elided, the RD MAY associate the endpoint with a configured default Domain.</t>
- 				<t hangText="rt := ">Endpoint Type (optional). The semantic type of the endpoint. The maximum length of this parameter is 63 bytes. Optional.</t>
+ 				<t hangText="ep := ">Endpoint (mandatory). The endpoint identifier or name of the registering node, unique within that domain. The maximum length of this parameter is 63 bytes. </t>          	
+ 				<t hangText="d := ">Domain (optional). The domain to which this endpoint belongs. The maximum length of this parameter is 63 bytes. Optional. When this parameter is elided, the RD MAY associate the endpoint with a configured default domain.</t>
+ 				<t hangText="et := ">Endpoint Type (optional). The semantic type of the endpoint. The maximum length of this parameter is 63 bytes. Optional.</t>
           		<t hangText="lt := ">Lifetime (optional). Lifetime of the registration in seconds. Range of 60-4294967295. If no lifetime is included, a default value of 86400 (24 hours) SHOULD be assumed.</t>
- 				<t hangText="con := ">Context (optional). This parameter sets the scheme, address and port at which this server is available in the form scheme://host:port. Optional. In the absence of this parameter the scheme of the protocol, source IP address and source port used to register are assumed. </t>
+ 				<t hangText="con := ">Context (optional). This parameter sets the scheme, address and port at which this server is available in the form scheme://host:port. Optional. In the absence of this parameter the scheme of the protocol, source IP address and source port of the register request are assumed. </t>
           	</list>
           </t>
           <t hangText="Content-Type:">application/link-format</t>
@@ -474,8 +477,8 @@ Res: 2.05 Content
           <artwork align="left"><![CDATA[
 Req: POST coap://rd.example.com/rd?ep=node1
 Payload:
-</sensors/temp>;ct=41;rt="TemperatureC";if="sensor",
-</sensors/light>;ct=41;rt="LightLux";if="sensor"
+</sensors/temp>;ct=41;rt="temperature-c";if="sensor",
+</sensors/light>;ct=41;rt="light-lux";if="sensor"
 		
 Res: 2.01 Created 
 Location: /rd/4521
@@ -488,29 +491,29 @@ Location: /rd/4521
 	  <section anchor='update' title="Update">
 
 		<t>
-		The update interface is used by an endpoint to refresh or update its registration with an RD. To use the interface, the endpoint sends a PUT request to the resource returned in the Location option in the response to the first registration. An update MAY contain registration parameters or a payload in CoRE Link Format if there have been changes since the last registration or update. Paremeters that have not changed SHOULD NOT be included in an update.
+		The update interface is used by an endpoint to refresh or update its registration with an RD. To use the interface, the endpoint sends a PUT request to the resource returned in the Location option in the response to the first registration. An update MAY contain registration parameters if there have been changes since the last registration or update. Parameters that have not changed SHOULD NOT be included in an update. Upon receiving an update request, the RD resets the timeout for that endpoint and stores the values of the parameters included in the update (if any).
 		</t>
 
         <t>The update request interface is specified as follows: 
         <list style="hanging">
           <t hangText="Interaction:">EP -> RD</t>
           <t hangText="Method:">PUT</t>	
-          <t hangText="URI Template:">/{+location}{?rt,lt,con}</t>
+          <t hangText="URI Template:">/{+location}{?et,lt,con}</t>
           <t hangText="URI Template Variables:"> 
           	<list>
  				<t hangText="location := ">This is the Location path returned by the RD as a result of a successful registration.</t>   
- 				<t hangText="rt := ">Endpoint Type (optional). The semantic type of the endpoint. The maximum length of this parameter is 63 btyes. Optional.</t>
+ 				<t hangText="et := ">Endpoint Type (optional). The semantic type of the endpoint. The maximum length of this parameter is 63 btyes. Optional.</t>
           		<t hangText="lt := ">Lifetime (optional). Lifetime of the registration in seconds. Range of 60-4294967295. If no lifetime is included, a default value of 86400 (24 hours) SHOULD be assumed.</t>
  				<t hangText="con := ">Context (optional). This parameter sets the scheme, address and port at which this server is available in the form scheme://host:port. Optional. In the absence of this parameter the scheme of the protocol, source IP address and source port used to register are assumed. </t>
           	</list>
           </t>
-          <t hangText="Content-Type:">application/link-format (if any)</t>
+          <t hangText="Content-Type:">None</t>
         </list>
        	</t>
  
  		<t>The following response codes are defined for this interface: 
         <list style="hanging">
-          <t hangText="Success:"> 2.04 "Changed" in case the resource and/or lifetime was successfully updated</t>
+          <t hangText="Success:"> 2.04 "Changed" in the update was successfully processed.</t>
           <t hangText="Failure:"> 4.00 "Bad Request". Malformed request. </t>
           <t hangText="Failure:"> 5.03 "Service Unavailable". Service could not perform the operation. </t>
         </list>
@@ -527,7 +530,7 @@ Location: /rd/4521
 
      EP                                                RD
      |                                                 |
-     | --- PUT /rd/4521 "</sensors..." ------------>   |
+     | --- PUT /rd/4521  -------------------------->   |
      |                                                 |
      |                                                 |
      | <-- 2.04 Changed  ----------------------------  |
@@ -539,16 +542,11 @@ Location: /rd/4521
 		<figure>
           <artwork align="left"><![CDATA[
 Req: PUT /rd/4521
-Payload:
-</sensors/temp/1>;ct=41;ins="Indoor";rt="TemperatureC";if="sensor",
-</sensors/temp/2>;ct=41;ins="Outdoor";rt="TemperatureC";if="sensor",
-</sensors/light>;ct=41;rt="LightLux";if="sensor"
 		
 Res: 2.04 Changed 
             ]]></artwork>
         </figure>
 
-	
 	  </section>
 	  
 	  
@@ -664,29 +662,170 @@ Res: 2.02 Deleted
 	  </section>
 
 
+
+<!-- **************************************************************** -->
+<!-- **************************************************************** -->
+<!-- **************************************************************** -->
+<!-- **************************************************************** -->
+<section anchor='group' title="Group Function Set">
+
+	<t>
+		This section defines a function set for the creation of groups of endpoints for the purpose of managing and looking up endpoints for group operations. The group function set is similar to the resource directory function set, in that a group may be created or removed. However unlike an endpoint entry, a group entry consists of a list of endpoints and does not have a lifetime associated with it. In order to make use of multicast requests with CoAP, a group MAY have a multicast address associated with it.  
+	</t>
+	
+	
+	  <section anchor='group-register' title="Register a Group">
+
+		<t>
+			In order to create a group, a management entity used to configure groups, makes a request to the RD indicating the name of the group to create (or update), the optional domain the group belongs to, and the optional multicast address of the group. The registration message includes the list of endpoints that belong to that group. If an endpoint has already registered with the RD, the RD attempts to use the context of the endpoint from its RD endpoint entry. If the client registering the group knows the endpoint has already registered, then it MAY send a blank target URI for that endpoint link when registering the group.
+		</t>
+
+        <t>The registration request interface is specified as follows: 
+        <list style="hanging">
+          <t hangText="Interaction:">Manager -> RD</t>
+          <t hangText="Method:">POST</t>	
+          <t hangText="URI Template:">/{+rd-group}{?gp,d,con}</t>
+          <t hangText="URI Template Variables:"> 
+          	<list>
+ 				<t hangText="rd-group := ">RD Group Function Set path (mandatory). This is the path of the RD Group Function Set. An RD SHOULD use the value "rd-group" for this variable whenever possible.</t>   
+ 				<t hangText="gp := ">Group Name (mandatory). The name of the group to be created or replaced, unique within that domain. The maximum length of this parameter is 63 bytes. </t>          	
+ 				<t hangText="d := ">Domain (optional). The domain to which this group belongs. The maximum length of this parameter is 63 bytes. Optional. When this parameter is elided, the RD MAY associate the endpoint with a configured default domain.</t>
+ 				<t hangText="con := ">Context (optional). This parameter is used to set the IP multicast address at which this server is available in the form scheme://multicast-address:port. Optional. In the absence of this parameter no multicast address is configured. </t>
+          	</list>
+          </t>
+          <t hangText="Content-Type:">application/link-format</t>
+        </list>
+       	</t>
+
+        <t>The following response codes are defined for this interface: 
+        <list style="hanging">
+          <t hangText="Success:"> 2.01 "Created". The Location header MUST be included with the new group entry. This Location MUST be a stable identifier generated by the RD as it is used for delete operations on this registration.</t>
+          <t hangText="Failure:"> 4.00 "Bad Request". Malformed request. </t>
+          <t hangText="Failure:"> 5.03 "Service Unavailable". Service could not perform the operation. </t>
+        </list>
+       	</t>
+
+		<t>
+		The following example shows a group with the name "lights" registering two endpoints to an RD using this interface. The resulting location /rd-group/12 is just an example of an RD generated group location.
+		</t>
+
+		<figure>
+          <artwork align="left"><![CDATA[
+
+
+    EP                                                RD
+     |                                                 |
+     | - POST /rd-group?gp=lights "<>;ep=node1..." --> |
+     |                                                 |
+     |                                                 |
+     | <---- 2.01 Created Location: /rd-group/12 ----  |
+     |                                                 |
+            ]]></artwork>
+        </figure>
+
+		<figure>
+          <artwork align="left"><![CDATA[
+Req: POST coap://rd.example.com/rd-group?gp=lights
+Payload:
+<>;ep="node1",
+<>;ep="node2"
+		
+Res: 2.01 Created 
+Location: /rd-group/12
+            ]]></artwork>
+        </figure>
+	
+	  </section>
+
+	  <section anchor='group-removal' title="Group Removal">
+
+	  <t>
+	  A group can be removed simply by sending a removal message to the location returned when registering the group. Removing a group MUST NOT remove the endpoints of the group from the RD. 
+	  </t>
+
+        <t>The removal request interface is specified as follows: 
+        <list style="hanging">
+          <t hangText="Interaction:">Manager -> RD</t>
+          <t hangText="Method:">DELETE</t>	
+          <t hangText="URI Template:">/{+location}</t>
+          <t hangText="URI Template Variables:"> 
+          	<list>
+ 				<t hangText="location := ">This is the Location path returned by the RD as a result of a successful group registration.</t>  
+ 			</list>
+ 		  </t>
+        </list>
+       	</t>
+
+		<t>The following responses codes are defined for this interface: 
+        <list style="hanging">
+          <t hangText="Success:"> 2.02 "Deleted" upon successful deletion</t>
+          <t hangText="Failure:"> 4.00 "Bad Request". Malformed request. </t>
+          <t hangText="Failure:"> 5.03 "Service Unavailable". Service could not perform the operation. </t>
+        </list>
+       	</t>
+
+		<t>The following examples shows successful removal of the group from the RD.</t>
+
+
+		<figure>
+          <artwork align="left"><![CDATA[
+
+
+    EP                                                RD
+     |                                                 |
+     | --- DELETE /rd-group/412  ------------------->  |
+     |                                                 |
+     |                                                 |
+     | <-- 2.02 Deleted  ----------------------------  |
+     |                                                 |
+            ]]></artwork>
+        </figure>
+
+
+		<figure>
+          <artwork align="left"><![CDATA[
+Req: DELETE /rd-group/12
+		
+Res: 2.02 Deleted 
+            ]]></artwork>
+        </figure>
+
+	
+	  </section>	
+	  
+</section>
+
+
+<!-- **************************************************************** -->
+<!-- **************************************************************** -->
+<!-- **************************************************************** -->
+<!-- **************************************************************** -->
 <section anchor='lookup' title="RD Lookup Function Set">
 
 	  <t>
 	  In order for an RD to be used for discovering resources registered with it, a lookup interface can be provided using this function set. This lookup interface is defined as a default, and it is assumed that RDs may also support lookups to return resource descriptions in alternative formats (e.g. Atom or HTML Link) or using more advanced interfaces (e.g. supporting context or semantic based lookup). 
 	  </t>
 	  <t>
-	  This function set allows lookups for Domains, endpoints and resources using attributes defined in the RD Function Set and for use with the CoRE Link Format. The result of a lookup request is the list of links (if any) in CoRE Link Format corresponding to the type of lookup. The target of these links SHOULD be the actual location of the Domain, endpoint or resource, but MAY be an intermediate proxy e.g. in the case of an HTTP lookup interface for CoAP endpoints. 
+	  This function set allows lookups for domains, groups, endpoints and resources using attributes defined in the RD Function Set and for use with the CoRE Link Format. The result of a lookup request is the list of links (if any) in CoRE Link Format corresponding to the type of lookup. The target of these links SHOULD be the actual location of the domain, endpoint or resource, but MAY be an intermediate proxy e.g. in the case of an HTTP lookup interface for CoAP endpoints. Multiple query parameters MAY be included in a lookup, all included parameters MUST match for a resource to be returned. The character '*' MAY be included at the end of a parameter value as a wildcard operator.
 	  </t>
 
         <t>The lookup interface is specified as follows: 
         <list style="hanging">
           <t hangText="Interaction:">Client -> RD</t>
           <t hangText="Method:">GET</t>	
-          <t hangText="URI Template:">/{+rd-lookup-base}/{lookup-type}{?d,ep,resource-param}</t>
+          <t hangText="URI Template:">/{+rd-lookup-base}/{lookup-type}{?d,ep,gp,et,rt,page,count,resource-param}</t>
           <t hangText="Parameters:">
           	<list style="hanging">
           	
           		<t hangText="rd-lookup-base := ">RD Lookup Function Set path (mandatory). This is the path of the RD Lookup Function Set. An RD SHOULD use the value "rd-lookup" for this variable whenever possible.</t>
-				<t hangText="lookup-type := ">("d", "ep", "res") (mandatory) This variable is used to select the kind of lookup to perform (Domain, endpoint or resource).</t>
- 				<t hangText="ep := ">endpoint (optional). Used for endpoint and resource lookups.</t>          	
- 				<t hangText="d := ">Domain (optional). Used for Domain, endpoint and resource lookups.</t>			
- 				<t hangText="rt := ">endpoint type (optional). Used for endpoint lookups.</t>	 				
- 				<t hangText="resource-param := ">Link attribute parameters (optional). Any link attribute as defined in Section 4.1 of <xref target="I-D.ietf-core-link-format"/>, used for resource lookups. </t>  
+				<t hangText="lookup-type := ">("d", "ep", "res", "gp") (mandatory) This variable is used to select the kind of lookup to perform (domain, endpoint or resource).</t>
+ 				<t hangText="ep := ">Endpoint (optional). Used for endpoint, group and resource lookups.</t>          	
+ 				<t hangText="d := ">Domain (optional). Used for domain, group, endpoint and resource lookups.</t>			
+ 				<t hangText="page := ">Page (optional). Parameter can not be used without the count parameter. Results are returned from result set in pages that contains 'count' results starting from index (page * count).</t>
+  				<t hangText="count := ">Count (optional). Number of results is limited to this parameter value. If the parameter is not present, then an RD implementation specific default value SHOULD be used.</t>
+ 				<t hangText="rt := ">Resource type (optional). Used for group, endpoint and resource lookups.</t>	 
+ 				<t hangText="rt := ">Endpoint type (optional). Used for group, endpoint and resource lookups.</t>				
+ 				<t hangText="resource-param := ">Link attribute parameters (optional). Any link attribute as defined in Section 4.1 of <xref target="RFC6690"/>, used for resource lookups. </t>  
           	</list>
           </t>
         </list>
@@ -714,10 +853,10 @@ Res: 2.02 Deleted
 
    Client                                                          RD
      |                                                             |
-     | ----- GET /rd-lookup/res?rt=Temperature ----------------->  |
+     | ----- GET /rd-lookup/res?rt=temperature ----------------->  |
      |                                                             |
      |                                                             |
-     | <-- 2.05 Content "<coap://node1/temp>;rt="Temperature" ---- |
+     | <-- 2.05 Content "<coap://node1/temp>;rt="temperature" ---- |
      |                                                             |
 
 
@@ -726,10 +865,10 @@ Res: 2.02 Deleted
 		
 		<figure>
           <artwork align="left"><![CDATA[
-Req: GET /rd-lookup/res?rt=Temperature
+Req: GET /rd-lookup/res?rt=temperature
 
 Res: 2.05 Content
-<coap://{ip:port}/temp>;rt="Temperature"
+<coap://{ip:port}/temp>
             ]]></artwork>
         </figure>
 
@@ -743,7 +882,7 @@ Res: 2.05 Content
 
    Client                                                          RD
      |                                                             |
-     | ----- GET /rd-lookup/ep?rt=PowerNode -------------------->  |
+     | ----- GET /rd-lookup/ep?et=power-node -------------------->  |
      |                                                             |
      |                                                             |
      | <-- 2.05 Content "<coap://{ip:port}>;ep="node5" ----------- |
@@ -755,16 +894,16 @@ Res: 2.05 Content
 		
 		<figure>
           <artwork align="left"><![CDATA[
-Req: GET /rd-lookup/ep?rt=PowerNode
+Req: GET /rd-lookup/ep?et=power-node
 
 Res: 2.05 Content
-<coap://{ip:port}>;ep="node5"
+<coap://{ip:port}>;ep="node5",
 <coap://{ip:port}>;ep="node7"
             ]]></artwork>
         </figure>			  
 
 		<t>
-		The following example shows a client performing a Domain lookup:
+		The following example shows a client performing a domain lookup:
 		</t>
 
 		<figure>
@@ -773,7 +912,7 @@ Res: 2.05 Content
 
    Client                                                          RD
      |                                                             |
-     | ----- GET /rd-lookup/domain ----------------------------->  |
+     | ----- GET /rd-lookup/d ---------------------------------->  |
      |                                                             |
      |                                                             |
      | <-- 2.05 Content "</rd>;d=domain1,</rd>;d=domain2 --------- |
@@ -785,11 +924,99 @@ Res: 2.05 Content
 		
 		<figure>
           <artwork align="left"><![CDATA[
-Req: GET /rd-lookup/domain
+Req: GET /rd-lookup/d
 
 Res: 2.05 Content
-</rd>;d=domain1,
-</rd>;d=domain2
+</rd>;d="domain1",
+</rd>;d="domain2"
+            ]]></artwork>
+        </figure>	
+
+		<t>
+		The following example shows a client performing a group lookup for all groups:
+		</t>
+
+		<figure>
+          <artwork align="left"><![CDATA[
+
+
+   Client                                                          RD
+     |                                                             |
+     | ----- GET /rd-lookup/gp --------------------------------->  |
+     |                                                             |
+     |                                                             |
+     | <-- 2.05 Content </rd-group/12>;gp="lights1";d="domain1" -- |
+     |                                                             |
+
+
+            ]]></artwork>
+        </figure>
+		
+		<figure>
+          <artwork align="left"><![CDATA[
+Req: GET /rd-lookup/gp
+
+Res: 2.05 Content
+</rd-group/12>;gp="lights1";d="domain1"
+            ]]></artwork>
+        </figure>	
+	
+		<t>
+		The following example shows a client performing a lookup for all endpoints in a particular group:
+		</t>
+
+		<figure>
+          <artwork align="left"><![CDATA[
+
+
+   Client                                                          RD
+     |                                                             |
+     | ----- GET GET /rd-lookup/ep?gp=lights1------------------->  |
+     |                                                             |
+     |                                                             |
+     | <-- 2.05 Content "</rd>;d=domain1,</rd>;d=domain2 --------- |
+     |                                                             |
+
+
+            ]]></artwork>
+        </figure>
+		
+		<figure>
+          <artwork align="left"><![CDATA[
+Req: GET /rd-lookup/ep?gp=lights1
+
+Res: 2.05 Content
+<coap://host:port>;ep="node1",
+<coap://host:port>;ep="node2",
+            ]]></artwork>
+        </figure>		
+
+		<t>
+		The following example shows a client performing a lookup for all groups an endpoint belongs to:
+		</t>
+
+		<figure>
+          <artwork align="left"><![CDATA[
+
+
+   Client                                                          RD
+     |                                                             |
+     | ----- GET /rd-lookup/gp?ep=node1 ------------------------>  |
+     |                                                             |
+     |                                                             |
+     | <-- 2.05 Content "</rd>;d=domain1,</rd>;d=domain2 --------- |
+     |                                                             |
+
+
+            ]]></artwork>
+        </figure>
+		
+		<figure>
+          <artwork align="left"><![CDATA[
+Req: GET /rd-lookup/gp?ep=node1
+
+Res: 2.05 Content
+<coap://host:port>;gp="lights1";ep="node1",
             ]]></artwork>
         </figure>	
 
@@ -805,7 +1032,7 @@ Res: 2.05 Content
   <section anchor="attributes" title="New Link-Format Attributes">
 
 	<t>
-	When using the CoRE Link Format to describe resources being discovered by or posted to a resource directory service, additional information about those resources is useful. This specification defines the following new attributes for use in the CoRE Link Format <xref target="I-D.ietf-core-link-format"/>:
+	When using the CoRE Link Format to describe resources being discovered by or posted to a resource directory service, additional information about those resources is useful. This specification defines the following new attributes for use in the CoRE Link Format <xref target="RFC6690"/>:
 	</t>
 
       <figure>
@@ -820,7 +1047,7 @@ Res: 2.05 Content
 	<section title="Resource Instance 'ins' attribute">
 	
 	 	 <t>
-	 	 The Resource Instance "ins" attribute is an identifier for this resource, which makes it possible to distinguish from other similar resources. This attribute is similar in use to the "Instance" portion of a DNS-SD record, and SHOULD be unique across resources with the same Resource Type attribute in the Domain it is used. A Resource Instance might be a descriptive string like "Ceiling Light, Room 3", a short ID like "AF39" or a unique UUID or iNumber. This attribute is used by a Resource Directory to distinguish between multiple instances of the same resource type within a system.
+	 	 The Resource Instance "ins" attribute is an identifier for this resource, which makes it possible to distinguish from other similar resources. This attribute is similar in use to the "Instance" portion of a DNS-SD record, and SHOULD be unique across resources with the same Resource Type attribute in the domain it is used. A Resource Instance might be a descriptive string like "Ceiling Light, Room 3", a short ID like "AF39" or a unique UUID or iNumber. This attribute is used by a Resource Directory to distinguish between multiple instances of the same resource type within a system.
 	 	 </t>
  	 
 	 	 <t>
@@ -850,10 +1077,10 @@ Res: 2.05 Content
 
   <section title="Security Considerations">
          <t> 
-         This document needs the same security considerations as described in Section 7 of <xref target="RFC5988"/> and Section 6 of <xref target="I-D.ietf-core-link-format"/>. The /.well-known/core resource may be protected e.g. using DTLS when hosted on a CoAP server as described in <xref target="I-D.ietf-core-coap"/>. 
+         This document needs the same security considerations as described in Section 7 of <xref target="RFC5988"/> and Section 6 of <xref target="RFC6690"/>. The /.well-known/core resource may be protected e.g. using DTLS when hosted on a CoAP server as described in <xref target="I-D.ietf-core-coap"/>. 
      	 </t>
      	 <t>
-     	 Access control SHOULD be performed separately for the RD Function Set and the RD Lookup Function Set, as different endpoints may be authorized to register with an RD from those authorized to lookup endpoints from the RD. Such access control SHOULD be performed in as fine-grained a level as possible. For example access control for lookups could be performed either at the Domain, endpoint or resource level. 
+     	 Access control SHOULD be performed separately for the RD Function Set and the RD Lookup Function Set, as different endpoints may be authorized to register with an RD from those authorized to lookup endpoints from the RD. Such access control SHOULD be performed in as fine-grained a level as possible. For example access control for lookups could be performed either at the domain, endpoint or resource level. 
      	 </t>
 
   </section>
@@ -866,7 +1093,7 @@ Res: 2.05 Content
   <section title="IANA Considerations">
 
 	<t>
-	"core.rd" and "core.rd-lookup" resource type needs to be registered when the appropriate registry is created by <xref target="I-D.ietf-core-link-format"/>.
+	"core.rd", "core.rd-group" and "core.rd-lookup" resource types need to be registered with the resource type registry defined by <xref target="RFC6690"/>.
 	</t>
 	
 	<t>
@@ -876,13 +1103,13 @@ Res: 2.05 Content
      
   </section>
 
-<!------------------------------------------------------>
+<!-- ---------------------------------------------------- -->
 <!--  SECTION: ACKNOWLEDGMENTS          -->
-<!------------------------------------------------------>
+<!-- ---------------------------------------------------- -->
 
 <section title="Acknowledgments">
 
-<t>Szymon Sasin, Kerry Lynn, Peter van der Stok, Anders Brandt, Matthieu Vial, Sampo Ukkola and Linyi Tian have provided helpful comments, discussions and ideas to improve and shape this document. The authors would also like to thank their collagues from the EU FP7 SENSEI project, where many of the resource directory concepts were originally developed.</t>
+<t>Szymon Sasin, Kerry Lynn, Esko Dijk, Peter van der Stok, Anders Brandt, Matthieu Vial, Sampo Ukkola and Linyi Tian have provided helpful comments, discussions and ideas to improve and shape this document. The authors would also like to thank their collagues from the EU FP7 SENSEI project, where many of the resource directory concepts were originally developed.</t>
 
 </section>
 
@@ -892,6 +1119,16 @@ Res: 2.05 Content
   <!-- **************************************************************** -->
 
   <section title="Changelog">
+
+    <t>Changes from -04 to -05:
+      <list>
+        <t>o Restricted Update to parameter updates.</t>
+        <t>o Added pagination support for the Lookup interface.</t>
+        <t>o Minor editing, bug fixes and reference updates.</t>
+        <t>o Added group support.</t>
+        <t>o Changed rt= to et= for the registration & update interface</t>
+      </list>
+    </t>
 
     <t>Changes from -03 to -04:
       <list>
@@ -928,7 +1165,7 @@ Res: 2.05 Content
 
     <back>
     <references title='Normative References'>
-       &I-D.ietf-core-link-format;
+       &RFC6690;
        &RFC2119;
        &RFC5988;
        &RFC6570;
@@ -939,7 +1176,7 @@ Res: 2.05 Content
 		&I-D.ietf-core-coap;
 		&I-D.vanderstok-core-bc;
 		&I-D.brandt-coap-subnet-discovery;
-		&I-D.ietf-6lowpan-nd;
+		&RFC6775;
 		&RFC2616;
        
     </references>
