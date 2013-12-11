@@ -48,7 +48,8 @@
 <?rfc subcompact="no" ?>
 <!-- keep one blank line between list items -->
 <!-- end of list of popular I-D processing instructions -->
-<rfc category="std" ipr="trust200902" docName="draft-shelby-core-resource-directory-05">
+<rfc category="std" ipr="trust200902" docName="draft-shelby-core-resource-directory-06">
+
 
 <?xml-stylesheet type='text/xsl' href='rfc2629.xslt' ?>
 
