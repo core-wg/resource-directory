@@ -932,7 +932,7 @@ Res: 2.05 Content
 
    Client                                                          RD
      |                                                             |
-     | ----- GET GET /rd-lookup/ep?gp=lights1------------------->  |
+     | ----- GET /rd-lookup/ep?gp=lights1----------------------->  |
      |                                                             |
      |                                                             |
      | <-- 2.05 Content "</rd>;d=domain1,</rd>;d=domain2 --------- |
@@ -1056,6 +1056,10 @@ Res: 2.05 Content
      	 Access control SHOULD be performed separately for the RD Function Set and the RD Lookup Function Set, as different endpoints may be authorized to register with an RD from those authorized to lookup endpoints from the RD. Such access control SHOULD be performed in as fine-grained a level as possible. For example access control for lookups could be performed either at the domain, endpoint or resource level. 
      	 </t>
 
+	<t>
+Services that run over UDP unprotected are vulnerable to unknowingly become part of a DDoS attack as UDP does not require return routability check. Therefore, an attacker can easily spoof the source IP of the target entity and send requests to such a service which would then respond to the target entity. This can be used for large-scale DDoS attacks on the target. Especially, if the service returns a response that is order of magnitudes larger than the request, the situation becomes even worse as now the attack can be amplified. DNS servers have been widely used for DDoS amplification attacks. Recently, it has been observed that NTP Servers, that also run on unprotected UDP have been used for DDoS attacks (http://tools.cisco.com/security/center/content/CiscoSecurityNotice/CVE-2013-5211) [TODO: Ref] since there is no return routability check and can have a large amplification factor. The responses from the NTP server were found to be 19 times larger than the request. A Resource Directory (RD) which responds to wild-card lookups is potentially vulnerable if run with CoAP over UDP. Since there is no return routability check and the responses can be significantly larger than requests, RDs can unknowingly become part of a DDoS amplification attack. Therefore, it is recommended that implementations must ensure return routability. This can be done, for example by responding to wild card lookups only over DTLS or TLS or TCP.
+	</t>
+
   </section>
 
   <!-- **************************************************************** -->
@@ -1136,7 +1140,7 @@ Res: 2.05 Content
 
 <section title="Acknowledgments">
 
-<t>Szymon Sasin, Kerry Lynn, Esko Dijk, Peter van der Stok, Anders Brandt, Matthieu Vial, Sampo Ukkola and Linyi Tian have provided helpful comments, discussions and ideas to improve and shape this document. The authors would also like to thank their collagues from the EU FP7 SENSEI project, where many of the resource directory concepts were originally developed.</t>
+<t>Srdjan Krco, Szymon Sasin, Kerry Lynn, Esko Dijk, Peter van der Stok, Anders Brandt, Matthieu Vial, Michael Koster, Mohit Sethi, Sampo Ukkola and Linyi Tian have provided helpful comments, discussions and ideas to improve and shape this document. The authors would also like to thank their collagues from the EU FP7 SENSEI project, where many of the resource directory concepts were originally developed.</t>
 
 </section>
 
@@ -1153,6 +1157,7 @@ Res: 2.05 Content
         <t>o Added a catalogue use case.</t>
         <t>o Changed the registration update to a POST with optional link format payload. Removed the endpoint type update from the update.</t>
         <t>o Additional examples section added for more complex use cases.</t>
+        <t>o DDoS security consideration added.</t>
       </list>
     </t>
 
