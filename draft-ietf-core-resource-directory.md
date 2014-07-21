@@ -2,28 +2,28 @@
 <!-- This template is for creating an Internet Draft using xml2rfc,
      which is available here: http://xml.resource.org. -->
 <!DOCTYPE rfc SYSTEM "rfc2629.dtd" [
-<!ENTITY RFC0792 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.0792.xml">
-<!ENTITY RFC2045 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.2045.xml">
-<!ENTITY RFC2046 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.2046.xml">
-<!ENTITY RFC2119 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.2119.xml">
-<!ENTITY RFC2616 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.2616.xml">
-<!ENTITY RFC3986 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.3986.xml">
-<!ENTITY RFC4288 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.4288.xml">
-<!ENTITY RFC4346 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.4346.xml">
-<!ENTITY RFC4347 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.4347.xml">
-<!ENTITY RFC4944 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.4944.xml">
-<!ENTITY RFC5234 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.5234.xml">
-<!ENTITY RFC5226 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.5226.xml">
-<!ENTITY RFC5785 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.5785.xml">
-<!ENTITY RFC5988 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.5988.xml">
-<!ENTITY RFC6570 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.6570.xml">
-<!ENTITY RFC6775 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.6775.xml">
-<!ENTITY RFC6690 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.6690.xml">
-<!ENTITY I-D.ietf-core-coap SYSTEM "http://xml.resource.org/public/rfc/bibxml3/reference.I-D.ietf-core-coap.xml">
-<!ENTITY I-D.vanderstok-core-bc SYSTEM "http://xml.resource.org/public/rfc/bibxml3/reference.I-D.vanderstok-core-bc.xml">
-<!ENTITY I-D.brandt-coap-subnet-discovery SYSTEM "http://xml.resource.org/public/rfc/bibxml3/reference.I-D.brandt-coap-subnet-discovery.xml">
-<!ENTITY I-D.ietf-core-groupcomm SYSTEM "http://xml.resource.org/public/rfc/bibxml3/reference.I-D.ietf-core-groupcomm.xml">
-<!ENTITY I-D.ietf-core-links-json SYSTEM "http://xml.resource.org/public/rfc/bibxml3/reference.I-D.ietf-core-links-json.xml">
+<!ENTITY RFC0792 SYSTEM "http://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.0792.xml">
+<!ENTITY RFC2045 SYSTEM "http://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.2045.xml">
+<!ENTITY RFC2046 SYSTEM "http://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.2046.xml">
+<!ENTITY RFC2119 SYSTEM "http://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.2119.xml">
+<!ENTITY RFC2616 SYSTEM "http://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.2616.xml">
+<!ENTITY RFC3986 SYSTEM "http://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.3986.xml">
+<!ENTITY RFC4288 SYSTEM "http://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.4288.xml">
+<!ENTITY RFC4346 SYSTEM "http://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.4346.xml">
+<!ENTITY RFC4347 SYSTEM "http://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.4347.xml">
+<!ENTITY RFC4944 SYSTEM "http://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.4944.xml">
+<!ENTITY RFC5234 SYSTEM "http://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.5234.xml">
+<!ENTITY RFC5226 SYSTEM "http://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.5226.xml">
+<!ENTITY RFC5785 SYSTEM "http://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.5785.xml">
+<!ENTITY RFC5988 SYSTEM "http://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.5988.xml">
+<!ENTITY RFC6570 SYSTEM "http://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.6570.xml">
+<!ENTITY RFC6775 SYSTEM "http://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.6775.xml">
+<!ENTITY RFC6690 SYSTEM "http://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.6690.xml">
+<!ENTITY I-D.ietf-core-coap SYSTEM "http://xml2rfc.ietf.org/public/rfc/bibxml3/reference.I-D.ietf-core-coap.xml">
+<!ENTITY I-D.vanderstok-core-bc SYSTEM "http://xml2rfc.ietf.org/public/rfc/bibxml3/reference.I-D.vanderstok-core-bc.xml">
+<!ENTITY I-D.brandt-coap-subnet-discovery SYSTEM "http://xml2rfc.ietf.org/public/rfc/bibxml3/reference.I-D.brandt-coap-subnet-discovery.xml">
+<!ENTITY I-D.ietf-core-groupcomm SYSTEM "http://xml2rfc.ietf.org/public/rfc/bibxml3/reference.I-D.ietf-core-groupcomm.xml">
+<!ENTITY I-D.ietf-core-links-json SYSTEM "http://xml2rfc.ietf.org/public/rfc/bibxml3/reference.I-D.ietf-core-links-json.xml">
 
 ]>
 <?xml-stylesheet type='text/xsl' href='rfc2629.xslt' ?>
@@ -51,7 +51,7 @@
 <?rfc subcompact="no" ?>
 <!-- keep one blank line between list items -->
 <!-- end of list of popular I-D processing instructions -->
-<rfc category="std" ipr="trust200902" docName="draft-ietf-core-resource-directory-01">
+<rfc category="std" ipr="trust200902" docName="draft-ietf-core-resource-directory-02-pre">
 
 <?xml-stylesheet type='text/xsl' href='rfc2629.xslt' ?>
 
@@ -94,23 +94,7 @@
       </address>
     </author>
 
-        <author initials="S" surname="Krco" fullname="Srdjan Krco">
-          <organization>
-             Ericsson
-          </organization>
-          <address>
-            <postal>
-             <street></street>
-             <city></city>
-             <code></code>
-             <country></country>
-            </postal>
-            <phone></phone>
-            <email>srdjan.krco@ericsson.com</email>
-    	   </address>
-        </author>
-
-  <date year="2013"/>
+  <date year="2014"/>
 
   <area>Internet</area>
 
@@ -225,6 +209,26 @@
 	  The exporting of resource information to other discovery systems is also important in these automation applications. In home automation there is a need to interact with other consumer electronics, which may already support DNS-SD, and in building automation larger resource directories or DNS-SD covering multiple buildings.
 	  </t>
 	  
+	  </section>
+
+	  <section anchor='usecase-catalogues' title="Use Case: Semantics Catalogues">
+	  
+	  <t> 
+	  Resources may be shared through data brokers that have no knowledge 		beforehand of who is going to consume the data. Resource Directory can be used to hold links about resources and services hosted anywhere to make them discoverable by a general class of applications. 
+</t>
+
+<t>
+For example, environmental and weather sensors that generate data for public consumption may provide the data to an intermediary server, or broker. Sensor data are published to the intermediary upon changes or at regular intervals. Descriptions of the sensors that resolve to links to sensor data may be published to a Resource Directory. Applications wishing to consume the data can use the Resource Directory lookup function set to discover and resolve links to the desired resources and endpoints. The Resource Directory service need not be coupled with the data intermediary service. Mapping of Resource Directories to data intermediaries may be many-to-many.
+</t>
+
+<t>
+Metadata in link-format or link-format+json representations are supplied by Resource Directories, which may be internally stored as semantic triples, or relation/attribute pairs providing metadata about resource links. External catalogs that are represented in other formats may be converted to link-format or link-format+json for storage and access by Resource Directories. Since it is common practice for these to be URN encoded, simple and lossless structural transforms will generally be sufficient to store external metadata in Resource Directories.
+</t>
+
+<t>
+The additional features of Resource Directory allow domains to be defined to enable access to a particular set of resources from particular applications. this provides isolation and protection of sensitive data when needed. Resource groups may defined to allow batched reads from multiple resources.
+</t>
+
 	  </section>
 
   </section>
@@ -452,7 +456,7 @@ Res: 2.05 Content
 
         <t>The following response codes are defined for this interface: 
         <list style="hanging">
-          <t hangText="Success:"> 2.01 "Created". The Location header MUST be included with the new resource entry for the endpoint. This Location MUST be a stable identifier generated by the RD as it is used for all subsequent operations on this registration. The resource returned in the Location is only for the purpose of the Update (PUT) and Removal (DELETE), and MUST NOT implement GET or POST methods.</t>
+          <t hangText="Success:"> 2.01 "Created". The Location header MUST be included with the new resource entry for the endpoint. This Location MUST be a stable identifier generated by the RD as it is used for all subsequent operations on this registration. The resource returned in the Location is only for the purpose of the Update (POST) and Removal (DELETE), and MUST NOT implement GET or PUT methods.</t>
           <t hangText="Failure:"> 4.00 "Bad Request". Malformed request. </t>
           <t hangText="Failure:"> 5.03 "Service Unavailable". Service could not perform the operation. </t>
         </list>
@@ -490,27 +494,33 @@ Location: /rd/4521
 	
 	  </section>
 
-
 	  <section anchor='update' title="Update">
 
 		<t>
-		The update interface is used by an endpoint to refresh or update its registration with an RD. To use the interface, the endpoint sends a PUT request to the resource returned in the Location option in the response to the first registration. An update MAY contain registration parameters if there have been changes since the last registration or update. Parameters that have not changed SHOULD NOT be included in an update. Upon receiving an update request, the RD resets the timeout for that endpoint and stores the values of the parameters included in the update (if any). 
+		The update interface is used by an endpoint to refresh or update its registration with an RD. To use the interface, the endpoint sends a POST request to the resource returned in the Location option in the response to the first registration. An update MAY update the lifetime or context parameters if they have changed since the last registration or update. Parameters that have not changed SHOULD NOT be included in an update. Upon receiving an update request, the RD resets the timeout for that endpoint and updates the scheme, IP address and port of the endpoint (using the source address of the update, or the context parameter if present).   
+		</t>
+		<t>
+		An update MAY optionally add or replace links for the endpoint by including those  links in the payload of the update as a CoRE Link Format document. Including links in an update message greatly increases the load on an RD and SHOULD be done infrequently.
 		</t>
 
         <t>The update request interface is specified as follows: 
         <list style="hanging">
           <t hangText="Interaction:">EP -> RD</t>
-          <t hangText="Method:">PUT</t>	
-          <t hangText="URI Template:">/{+location}{?et,lt,con}</t>
+          <t hangText="Method:">POST</t>	
+          <t hangText="URI Template:">/{+location}{?lt,con}</t>
           <t hangText="URI Template Variables:"> 
           	<list>
  				<t hangText="location := ">This is the Location path returned by the RD as a result of a successful registration.</t>   
+<!--
  				<t hangText="et := ">Endpoint Type (optional). The semantic type of the endpoint. The maximum length of this parameter is 63 btyes. Optional.</t>
+-->
           		<t hangText="lt := ">Lifetime (optional). Lifetime of the registration in seconds. Range of 60-4294967295. If no lifetime is included, a default value of 86400 (24 hours) SHOULD be assumed.</t>
  				<t hangText="con := ">Context (optional). This parameter sets the scheme, address and port at which this server is available in the form scheme://host:port. Optional. In the absence of this parameter the scheme of the protocol, source IP address and source port used to register are assumed. </t>
           	</list>
+
           </t>
-          <t hangText="Content-Type:">None</t>
+          <t hangText="Content-Type:">application/link-format (optional)</t>
+          <t hangText="Content-Type:">application/link-format+json (optional)</t>
         </list>
        	</t>
  
@@ -533,7 +543,7 @@ Location: /rd/4521
 
      EP                                                RD
      |                                                 |
-     | --- PUT /rd/4521  -------------------------->   |
+     | --- POST /rd/4521  -------------------------->   |
      |                                                 |
      |                                                 |
      | <-- 2.04 Changed  ----------------------------  |
@@ -544,7 +554,7 @@ Location: /rd/4521
 
 		<figure>
           <artwork align="left"><![CDATA[
-Req: PUT /rd/4521
+Req: POST /rd/4521
 		
 Res: 2.04 Changed 
             ]]></artwork>
@@ -1108,11 +1118,28 @@ Res: 2.05 Content
 
 </section>
 
+  <!-- **************************************************************** -->
+  <!-- **************************************************************** -->
+  <!-- **************************************************************** -->
+  <!-- **************************************************************** -->
+
+<!-- TODO: Add an advanced use case example section -->
+
+<section anchor="examples" title="Examples">
+
+	<t>
+	
+	</t>
+
+</section>
+
+
 <section title="Acknowledgments">
 
 <t>Szymon Sasin, Kerry Lynn, Esko Dijk, Peter van der Stok, Anders Brandt, Matthieu Vial, Sampo Ukkola and Linyi Tian have provided helpful comments, discussions and ideas to improve and shape this document. The authors would also like to thank their collagues from the EU FP7 SENSEI project, where many of the resource directory concepts were originally developed.</t>
 
 </section>
+
 
   <!-- **************************************************************** -->
   <!-- **************************************************************** -->
@@ -1120,6 +1147,14 @@ Res: 2.05 Content
   <!-- **************************************************************** -->
 
   <section title="Changelog">
+
+    <t>Changes from -01 to -02:
+      <list>
+        <t>o Added a catalogue use case.</t>
+        <t>o Changed the registration update to a POST with optional link format payload. Removed the endpoint type update from the update.</t>
+        <t>o Additional examples section added for more complex use cases.</t>
+      </list>
+    </t>
 
     <t>Changes from -00 to -01:
       <list>
