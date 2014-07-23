@@ -500,7 +500,7 @@ Location: /rd/4521
 		The update interface is used by an endpoint to refresh or update its registration with an RD. To use the interface, the endpoint sends a POST request to the resource returned in the Location option in the response to the first registration. An update MAY update the lifetime or context parameters if they have changed since the last registration or update. Parameters that have not changed SHOULD NOT be included in an update. Upon receiving an update request, the RD resets the timeout for that endpoint and updates the scheme, IP address and port of the endpoint (using the source address of the update, or the context parameter if present).   
 		</t>
 		<t>
-		An update MAY optionally add or replace links for the endpoint by including those  links in the payload of the update as a CoRE Link Format document. Including links in an update message greatly increases the load on an RD and SHOULD be done infrequently.
+		An update MAY optionally add or replace links for the endpoint by including those  links in the payload of the update as a CoRE Link Format document. Including links in an update message greatly increases the load on an RD and SHOULD be done infrequently. A link is replaced only if both the target URI and relation type match (TODO: Section on what is a unique link in an RD needed.)
 		</t>
 
         <t>The update request interface is specified as follows: 
@@ -1157,7 +1157,7 @@ Services that run over UDP unprotected are vulnerable to unknowingly become part
         <t>o Added a catalogue use case.</t>
         <t>o Changed the registration update to a POST with optional link format payload. Removed the endpoint type update from the update.</t>
         <t>o Additional examples section added for more complex use cases.</t>
-        <t>o DDoS security consideration added.</t>
+        <t>	</t>
       </list>
     </t>
 
