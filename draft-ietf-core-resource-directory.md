@@ -211,10 +211,10 @@
 	  
 	  </section>
 
-	  <section anchor='usecase-catalogues' title="Use Case: Semantics Catalogues">
-	  
+	  <section anchor='usecase-catalogues' title="Use Case: Semantics Catalogs">
+
 	  <t> 
-	  Resources may be shared through data brokers that have no knowledge 		beforehand of who is going to consume the data. Resource Directory can be used to hold links about resources and services hosted anywhere to make them discoverable by a general class of applications. 
+	  Resources may be shared through data brokers that have no knowledge beforehand of who is going to consume the data. Resource Directory can be used to hold links about resources and services hosted anywhere to make them discoverable by a general class of applications. 
 </t>
 
 <t>
@@ -1103,9 +1103,9 @@ Services that run over UDP unprotected are vulnerable to unknowingly become part
           <ttcol align="left">Validity</ttcol>
           <ttcol align="left">Description</ttcol>
 
-          <c>Endpoint Name</c><c>ep</c><c> < 63 bytes</c><c>Name of the endpoint</c>
+          <c>Endpoint Name</c><c>ep</c><c> &lt; 63 bytes</c><c>Name of the endpoint</c>
 		  <c>Lifetime</c><c>lt</c><c>60-4294967295</c><c>Lifetime of the registration in seconds</c>
-		  <c>Domain</c><c>d</c><c> < 63 bytes</c><c>Domain to which this endpoint belongs</c>
+		  <c>Domain</c><c>d</c><c> &lt; 63 bytes</c><c>Domain to which this endpoint belongs</c>
 		  <c>Endpoint Type</c><c>et</c><c></c><c>Semantic name of the endpoint</c>
 		  <c>Context</c><c>con</c><c>URI</c><c>The scheme, address and port at which this server is available</c>
 		  <c>Endpoint Name</c><c>ep</c><c></c><c>Name of the endpoint, max 63 bytes</c>
@@ -1141,7 +1141,7 @@ Services that run over UDP unprotected are vulnerable to unknowingly become part
 <section title="Acknowledgments">
 
 <t>Srdjan Krco, Szymon Sasin, Kerry Lynn, Esko Dijk, Peter van der Stok, Anders Brandt, Matthieu Vial, Michael Koster, Mohit Sethi, Sampo Ukkola and Linyi Tian have provided helpful comments, discussions and ideas to improve and shape this document. An early implementation of simple discovery was provided by Julian Kornberger and Henning Mueller.
-The authors would also like to thank their collagues from the EU FP7 SENSEI project, where many of the resource directory concepts were originally developed.</t>
+The authors would also like to thank their colleagues from the EU FP7 SENSEI project, where many of the resource directory concepts were originally developed.</t>
 
 </section>
 
@@ -1155,7 +1155,7 @@ The authors would also like to thank their collagues from the EU FP7 SENSEI proj
 
     <t>Changes from -01 to -02:
       <list>
-        <t>o Added a catalogue use case.</t>
+        <t>o Added a catalog use case.</t>
         <t>o Changed the registration update to a POST with optional link format payload. Removed the endpoint type update from the update.</t>
         <t>o Additional examples section added for more complex use cases.</t>
         <t>	</t>
@@ -1204,14 +1204,14 @@ The authors would also like to thank their collagues from the EU FP7 SENSEI proj
         <t>o Updated REST interface descriptions to use RFC6570 URI Template format.</t>
         <t>o Introduced an improved RD Lookup design as its own function set.</t>
         <t>o Improved the security considerations section.</t>   
-        <t>o Made the POST registration interface idempotent by requiring the ep= paramter to be present.</t>  
+        <t>o Made the POST registration interface idempotent by requiring the ep= parameter to be present.</t>  
       </list>
     </t>
 
     <t>Changes from -01 to -02:
       <list>
         <t>o Added a terminology section.</t>
-        <t>o Changed the inclusing of an ETag in registration or update to a MAY.</t>
+        <t>o Changed the inclusion of an ETag in registration or update to a MAY.</t>
 		<t>o Added the concept of an RD Domain and a registration parameter for it. </t>
 		<t>o Recommended the Location returned from a registration to be stable, allowing for endpoint and Domain information to be changed during updates. </t>
 		<t>o Changed the lookup interface to accept endpoint and Domain as query string parameters to control the scope of a lookup. </t>
@@ -1246,3 +1246,16 @@ The authors would also like to thank their collagues from the EU FP7 SENSEI proj
     </back>
 
 </rfc>
+
+<!--  LocalWords:  multicast lookups lookup RESTful CoRE LoWPAN CoAP
+-->
+<!--  LocalWords:  microcontrollers URI EP IP EPs routable subnets
+-->
+<!--  LocalWords:  DNS discoverable Metadata metadata lossless ABRO
+-->
+<!--  LocalWords:  anycast ICMP RD's DHCP RDs unicast JSON wildcard
+-->
+<!--  LocalWords:  UUID CDATA observability DTLS UDP DDoS routability
+-->
+<!--  LocalWords:  NTP IANA
+-->
