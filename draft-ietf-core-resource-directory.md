@@ -8,7 +8,6 @@
 <!ENTITY RFC2045 SYSTEM "http://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.2045.xml">
 <!ENTITY RFC2046 SYSTEM "http://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.2046.xml">
 <!ENTITY RFC2119 SYSTEM "http://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.2119.xml">
-<!ENTITY RFC2616 SYSTEM "http://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.2616.xml">
 <!ENTITY RFC3629 SYSTEM "http://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.3629.xml">
 <!ENTITY RFC3986 SYSTEM "http://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.3986.xml">
 <!ENTITY RFC4288 SYSTEM "http://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.4288.xml">
@@ -16,16 +15,17 @@
 <!ENTITY RFC4347 SYSTEM "http://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.4347.xml">
 <!ENTITY RFC4944 SYSTEM "http://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.4944.xml">
 <!ENTITY RFC5198 SYSTEM "http://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.5198.xml">
-<!ENTITY RFC5234 SYSTEM "http://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.5234.xml">
 <!ENTITY RFC5226 SYSTEM "http://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.5226.xml">
+<!ENTITY RFC5234 SYSTEM "http://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.5234.xml">
 <!ENTITY RFC5785 SYSTEM "http://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.5785.xml">
 <!ENTITY RFC5988 SYSTEM "http://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.5988.xml">
 <!ENTITY RFC6335 SYSTEM "http://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.6335.xml">
 <!ENTITY RFC6570 SYSTEM "http://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.6570.xml">
+<!ENTITY RFC6690 SYSTEM "http://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.6690.xml">
 <!ENTITY RFC6763 SYSTEM "http://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.6763.xml">
 <!ENTITY RFC6775 SYSTEM "http://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.6775.xml">
-<!ENTITY RFC6690 SYSTEM "http://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.6690.xml">
-<!ENTITY I-D.ietf-core-coap SYSTEM "http://xml2rfc.ietf.org/public/rfc/bibxml3/reference.I-D.ietf-core-coap.xml">
+<!ENTITY RFC7230 SYSTEM "http://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.7230.xml">
+<!ENTITY RFC7252 SYSTEM "http://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.7252.xml">
 <!ENTITY I-D.ietf-core-groupcomm SYSTEM "http://xml2rfc.ietf.org/public/rfc/bibxml3/reference.I-D.ietf-core-groupcomm.xml">
 <!ENTITY I-D.ietf-core-links-json SYSTEM "http://xml2rfc.ietf.org/public/rfc/bibxml3/reference.I-D.ietf-core-links-json.xml">
 
@@ -123,13 +123,13 @@
   <section anchor='introduction' title="Introduction">
 
   <t>
-  The Constrained RESTful Environments (CoRE) working group aims at realizing the REST architecture in a suitable form for the most constrained nodes (e.g. 8-bit microcontrollers with limited RAM and ROM) and networks (e.g. 6LoWPAN). CoRE is aimed at machine-to-machine (M2M) applications such as smart energy and building automation.
+  The work on Constrained RESTful Environments (CoRE) aims at realizing the REST architecture in a suitable form for the most constrained nodes (e.g. 8-bit microcontrollers with limited RAM and ROM) and networks (e.g. 6LoWPAN). CoRE is aimed at machine-to-machine (M2M) applications such as smart energy and building automation.
   </t>
   <t>
-  The discovery of resources offered by a constrained server is very important in machine-to-machine applications where there are no humans in the loop and static interfaces result in fragility. The discovery of resources provided by an HTTP Web Server is typically called Web Linking <xref target="RFC5988"/>. The use of Web Linking for the description and discovery of resources hosted by constrained web servers is specified by the CoRE Link Format <xref target="RFC6690"/>. This specification however only describes how to discover resources from the web server that hosts them by requesting /.well-known/core. In many M2M scenarios, direct discovery of resources is not practical due to sleeping nodes, disperse networks, or networks where multicast traffic is inefficient. These problems can be solved by employing an entity called a Resource Directory (RD), which hosts descriptions of resources held on other servers, allowing lookups to be performed for those resources.
+  The discovery of resources offered by a constrained server is very important in machine-to-machine applications where there are no humans in the loop and static interfaces result in fragility. The discovery of resources provided by an HTTP Web Server is typically called Web Linking <xref target="RFC5988"/>. The use of Web Linking for the description and discovery of resources hosted by constrained web servers is specified by the CoRE Link Format <xref target="RFC6690"/>. This specification however only describes how to discover resources from the web server that hosts them by requesting <spanx style="verb">/.well-known/core</spanx>. In many M2M scenarios, direct discovery of resources is not practical due to sleeping nodes, disperse networks, or networks where multicast traffic is inefficient. These problems can be solved by employing an entity called a Resource Directory (RD), which hosts descriptions of resources held on other servers, allowing lookups to be performed for those resources.
   </t>
   <t>
-  This document specifies the web interfaces that a Resource Directory supports in order for web servers to discover the RD and to register, maintain, lookup and remove resource descriptions. Furthermore, new link attributes useful in conjunction with a Resource Directory are defined. Although the examples in this document show the use of these interfaces with CoAP <xref target="I-D.ietf-core-coap"/>, they can be applied in an equivalent manner to HTTP <xref target="RFC2616"/>. 
+  This document specifies the web interfaces that a Resource Directory supports in order for web servers to discover the RD and to register, maintain, lookup and remove resource descriptions. Furthermore, new link attributes useful in conjunction with a Resource Directory are defined. Although the examples in this document show the use of these interfaces with CoAP <xref target="RFC7252"/>, they can be applied in an equivalent manner to HTTP <xref target="RFC7230"/>. 
   </t>
 
   </section>
@@ -140,21 +140,29 @@
   <!-- **************************************************************** --> 
   <section anchor="terminology" title="Terminology">
 	<t>The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
-	"SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this
+	"SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and "OPTIONAL" in this
 	document are to be interpreted as described in <xref target="RFC2119"/>. The
 	term "byte" is used in its now customary sense as a synonym for "octet".</t>
 
 	<t>This specification requires readers to be familiar with all the terms
-	and concepts that are discussed in <xref target="RFC5988"/> and <xref target="RFC6690"/>. Readers should also be familiar with the terms and concepts discussed in <xref target="I-D.ietf-core-coap"/>. The URI Template format is used to describe the REST interfaces defined in this specification <xref target="RFC6570"/>. This specification makes use of the following additional terminology:
+	and concepts that are discussed in <xref target="RFC5988"/>
+        and <xref target="RFC6690"/>. Readers should also be familiar
+        with the terms and concepts discussed in <xref
+        target="RFC7252"/>.  To describe the REST interfaces defined in this specification, the URI Template format is used <xref target="RFC6570"/>. </t>
+        <t>This specification makes use of the following additional terminology:
 	<list style="hanging">
 	  <t hangText="Resource Directory"><vspace />
-		An web entity that stores information about web resources and  implements the REST interfaces defined in this specification for registration and lookup of those resources.</t>
+		A web entity that stores information about web resources and  implements the REST interfaces defined in this specification for registration and lookup of those resources.</t>
 	  <t hangText="Domain"><vspace />
-		In the context of a Resource Directory, a domain is a logical grouping of endpoints. This specification assumes that the list of Domains supported by an RD is pre-configured by that RD. When domain is exported to DNS, domain value equates to the DNS domain name.</t>
+		In the context of a Resource Directory, a domain is a
+          logical grouping of endpoints. This specification assumes
+          that the list of Domains supported by an RD is
+          pre-configured by that RD. When a domain is exported to DNS,
+          the domain value equates to the DNS domain name.</t>
 	  <t hangText="Group"><vspace />
 		In the context of a Resource Directory, a group is a logical grouping of endpoints for the purpose of group communications. All groups within a domain are unique. </t>
 	  <t hangText="Endpoint"><vspace />
-		An endpoint (EP) is a term used to describe a web server or client in  <xref target="I-D.ietf-core-coap"/>. In the context of this specification an endpoint is used to describe a web server that registers resources to the Resource Directory. An endpoint is identified by its endpoint name, which is included during registration, and is unique within the associated domain of the registration.</t>
+		Endpoint (EP) is a term used to describe a web server or client in <xref target="RFC7252"/>. In the context of this specification an endpoint is used to describe a web server that registers resources to the Resource Directory. An endpoint is identified by its endpoint name, which is included during registration, and is unique within the associated domain of the registration.</t>
 	</list>
 	</t>
 
@@ -168,7 +176,7 @@
   <section anchor='arch' title="Architecture and Use Cases">
 
 	<t>
-	The resource directory architecture is shown in <xref target="fig-arch"/>. A Resource Directory (RD) is used as a repository for Web Links <xref target="RFC5988"/> about resources hosted on other web servers, which are called endpoints (EP). An endpoint is a web server associated with an IP address and port, thus a physical node may host one or more endpoints. The RD implements a set of REST interfaces for endpoints to register and maintain sets of Web Links (called resource directory entries), for the RD to validate entries, and for clients to lookup resources from the RD or maintain groups. Endpoints themselves can also act as clients. An RD can be logically segmented by the use of Domains. The domain an endpoint is associated with can be defined by the RD or configured by an outside entity.
+	The resource directory architecture is illustrated in <xref target="fig-arch"/>. A Resource Directory (RD) is used as a repository for Web Links <xref target="RFC5988"/> about resources hosted on other web servers, which are called endpoints (EP). An endpoint is a web server associated with an IP address and port, thus a physical node may host one or more endpoints. The RD implements a set of REST interfaces for endpoints to register and maintain sets of Web Links (called resource directory entries), for the RD to validate entries, and for clients to lookup resources from the RD or maintain groups. Endpoints themselves can also act as clients. An RD can be logically segmented by the use of Domains. The domain an endpoint is associated with can be defined by the RD or configured by an outside entity.
 	</t>
 	<t>
 	Endpoints are assumed to proactively register and maintain resource directory entries on the RD, which are soft state and need to be periodically refreshed. An endpoint is provided with interfaces to register, update and remove a resource directory entry. Furthermore, a mechanism to discover an RD using the CoRE Link Format is defined. It is also possible for an RD to proactively discover Web Links from endpoints and add them as resource directory entries, or to validate existing resource directory entries. A lookup interface for discovering any of the Web Links held in the RD is provided using the CoRE Link Format.  
@@ -197,11 +205,14 @@
 
 	  <section anchor='cellular' title="Use Case: Cellular M2M">
   	  <t>
-	  Over the last few years, mobile operators around the world have focused on development of M2M solutions in order to expand the business to the new type of users, i.e. machines. The machines are connected directly to a mobile network using appropriate embedded air interface (GSM/GPRS, WCDMA, LTE) or via a gateway providing short and wide range wireless interfaces. From the system design point of view, the ambition is to design horizontal solutions that can enable utilization of machines in different applications depending on their current availability and capabilities as well as application requirements, thus avoiding silo like solutions. One of the crucial enablers of such design is the ability to discover resources (machines - endpoints) capable of providing required information at a given time or acting on instructions from the end users. 	
+	  Over the last few years, mobile operators around the world
+          have focused on development of M2M solutions in order to
+          expand the business to the new type of users: machines. The
+          machines are connected directly to a mobile network using an appropriate embedded air interface (GSM/GPRS, WCDMA, LTE) or via a gateway providing short and wide range wireless interfaces. From the system design point of view, the ambition is to design horizontal solutions that can enable utilization of machines in different applications depending on their current availability and capabilities as well as application requirements, thus avoiding silo like solutions. One of the crucial enablers of such design is the ability to discover resources (machines -- endpoints) capable of providing required information at a given time or acting on instructions from the end users.
 	  </t>
-	  
+
 	  <t>
-	  In a typical scenario, during a boot-up procedure (and periodically afterwards), the machines (endpoints) register with a Resource Directory (for example EPs installed on vehicles enabling tracking of their position for the fleet management purposes and monitoring environment parameters) hosted by the mobile operator or somewhere else in the network, periodically a description of its own capabilities. Due to the usual network configuration of mobile networks, the EPs attached to the mobile network do not have routable addresses. Therefore, a remote server is usually used to provide proxy access to the EPs. The address of each (proxy) endpoint on this server is included in the resource description stored in the RD. The users, for example mobile applications for environment monitoring, contact the RD, look-up the endpoints capable of providing information about the environment using appropriate set of link parameters, obtain information on how to contact them (URLs of the proxy server) and then initiate interaction to obtain information that is finally processed, displayed on the screen and usually stored in a database. Similarly, fleet management systems provide the appropriate link parameters to the RD to look-up for EPs deployed on the vehicles the application is responsible for. 
+	  In a typical scenario, during a boot-up procedure (and periodically afterwards), the machines (endpoints) register with a Resource Directory (for example EPs installed on vehicles enabling tracking of their position for fleet management purposes and monitoring environment parameters) hosted by the mobile operator or somewhere else in the network, periodically a description of its own capabilities. Due to the usual network configuration of mobile networks, the EPs attached to the mobile network do not have routable addresses. Therefore, a remote server is usually used to provide proxy access to the EPs. The address of each (proxy) endpoint on this server is included in the resource description stored in the RD. The users, for example mobile applications for environment monitoring, contact the RD, look-up the endpoints capable of providing information about the environment using appropriate set of link parameters, obtain information on how to contact them (URLs of the proxy server) and then initiate interaction to obtain information that is finally processed, displayed on the screen and usually stored in a database. Similarly, fleet management systems provide the appropriate link parameters to the RD to look-up for EPs deployed on the vehicles the application is responsible for.
 	  </t>
 	  </section>
 
@@ -353,7 +364,7 @@ to act as a directory server.</t>
 
 	<t>
 	This section defines the REST interfaces between an RD and endpoints, which is called the Resource Directory Function Set. Although the examples throughout this section assume use of CoAP    
-	<xref target="I-D.ietf-core-coap"/>, these REST interfaces can also be realized using HTTP <xref target="RFC2616"/>. An RD implementing this specification MUST support the discovery, registration, update, lookup, and removal interfaces defined in this section. 
+	<xref target="RFC7252"/>, these REST interfaces can also be realized using HTTP <xref target="RFC7230"/>. An RD implementing this specification MUST support the discovery, registration, update, lookup, and removal interfaces defined in this section. 
 	</t>
 	
 	<t>
@@ -449,7 +460,7 @@ Res: 2.05 Content
           	<list>
  				<t hangText="rd := ">RD Function Set path (mandatory). This is the path of the RD Function Set. An RD SHOULD use the value "rd" for this variable whenever possible.</t>   
  				<t hangText="ep := ">Endpoint (mandatory). The endpoint identifier or name of the registering node, unique within that domain. The maximum length of this parameter is 63 bytes. </t>          	
- 				<t hangText="d := ">Domain (optional). The domain to which this endpoint belongs. The maximum length of this parameter is 63 bytes. Optional. When this parameter is elided, the RD MAY associate the endpoint with a configured default domain. The domain value is needed to export the end-point to DNS-SD (see <xref target="dns-sd"/>) </t>
+ 				<t hangText="d := ">Domain (optional). The domain to which this endpoint belongs. The maximum length of this parameter is 63 bytes. Optional. When this parameter is elided, the RD MAY associate the endpoint with a configured default domain. The domain value is needed to export the endpoint to DNS-SD (see <xref target="dns-sd"/>) </t>
  				<t hangText="et := ">Endpoint Type (optional). The semantic type of the endpoint. The maximum length of this parameter is 63 bytes. Optional.</t>
           		<t hangText="lt := ">Lifetime (optional). Lifetime of the registration in seconds. Range of 60-4294967295. If no lifetime is included, a default value of 86400 (24 hours) SHOULD be assumed.</t>
  				<t hangText="con := ">Context (optional). This parameter sets the scheme, address and port at which this server is available in the form scheme://host:port. Optional. In the absence of this parameter the scheme of the protocol, source IP address and source port of the register request are assumed. This parameter is compulsory when the directory is filled by an installation tool.</t>
@@ -652,7 +663,14 @@ Res: 2.02 Deleted
           	<list>
  				<t hangText="rd-group := ">RD Group Function Set path (mandatory). This is the path of the RD Group Function Set. An RD SHOULD use the value "rd-group" for this variable whenever possible.</t>   
  				<t hangText="gp := ">Group Name (mandatory). The name of the group to be created or replaced, unique within that domain. The maximum length of this parameter is 63 bytes. </t>          	
- 				<t hangText="d := ">Domain (optional). The domain to which this group belongs. The maximum length of this parameter is 63 bytes. Optional. When this parameter is elided, the RD MAY associate the endpoint with a configured default domain.The domain value is needed to export the end-point to DNS-SD (see <xref target="dns-sd"/>) </t>
+ 				<t hangText="d := ">Domain
+                                (optional). The domain to which this
+                                group belongs. The maximum length of
+                                this parameter is 63
+                                bytes. Optional. When this parameter
+                                is elided, the RD MAY associate the
+                                endpoint with a configured default
+                                domain. The domain value is needed to export the endpoint to DNS-SD (see <xref target="dns-sd"/>) </t>
  				<t hangText="con := ">Context (optional). This parameter is used to set the IP multicast address at which this server is available in the form scheme://multicast-address:port. Optional. In the absence of this parameter no multicast address is configured. This parameter is compulsory when the directory is filled by an installation tool.</t>
           	</list>
           </t>
@@ -1045,7 +1063,7 @@ Res: 2.05 Content
  CoRE Resource
    Discovery is intended to support fine-grained discovery of hosted
    resources, their attributes, and possibly other resource relations <xref target="RFC6690"/>. In contrast, service discovery generally refers to a coarse-grained
-   resolution of an end-point's IP address, port number, and protocol.
+   resolution of an endpoint's IP address, port number, and protocol.
 </t><t>
 Resource and service discovery are complementary in the case of large
    networks, where the latter can facilitate scaling.  This document
@@ -1254,7 +1272,7 @@ In the above figure the Service Name is chosen as FrontSpot._dali._udp.example.c
 
   <section title="Security Considerations">
          <t> 
-         This document needs the same security considerations as described in Section 7 of <xref target="RFC5988"/> and Section 6 of <xref target="RFC6690"/>. The /.well-known/core resource may be protected e.g. using DTLS when hosted on a CoAP server as described in <xref target="I-D.ietf-core-coap"/>. DTLS or TLS based security SHOULD be used on all resource directory interfaces defined in this document (TODO: Improve the exact DTLS or TLS security requirements and references). 
+         This document needs the same security considerations as described in Section 7 of <xref target="RFC5988"/> and Section 6 of <xref target="RFC6690"/>. The /.well-known/core resource may be protected e.g. using DTLS when hosted on a CoAP server as described in <xref target="RFC7252"/>. DTLS or TLS based security SHOULD be used on all resource directory interfaces defined in this document (TODO: Improve the exact DTLS or TLS security requirements and references). 
      	 </t>
 
 	<section anchor="endpoint_identification" title="Endpoint Identification and Authentication">
@@ -1456,10 +1474,10 @@ Services that run over UDP unprotected are vulnerable to unknowingly become part
     </references>
 
     <references title='Informative References'>
-		&I-D.ietf-core-coap;
+		&RFC7252;
 		&I-D.ietf-core-groupcomm;
 		&RFC6775;
-		&RFC2616;
+		&RFC7230;
 		&RFC3629;
 		&RFC5198;
 		&RFC1123;
