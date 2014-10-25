@@ -1376,6 +1376,7 @@ Services that run over UDP unprotected are vulnerable to unknowingly become part
         <t>o Changed the registration update to a POST with optional link format payload. Removed the endpoint type update from the update.</t>
         <t>o Additional examples section added for more complex use cases.</t>
         <t>o New DNS-SD mapping section.</t>
+        <t>o Added text on endpoint identification and authentication.</t>
         <t>	</t>
       </list>
     </t>
