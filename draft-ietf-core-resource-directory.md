@@ -1120,7 +1120,7 @@ The Resource Instance "ins" attribute maps to the &lt;Instance&gt; part of
    can be used.  A sensible choice of default name can allow the device
    or service to be accessed in many cases without any manual
    configuration at all.  The default name should be short and
-   descriptive, and MAY include a collision-resistent substring such as
+   descriptive, and MAY include a collision-resistant substring such as
    the lower bits of the device's MAC address, serial number,
    fingerprint, or other identifier in an attempt to make the name
    relatively unique.
@@ -1223,7 +1223,7 @@ Assuming the ability to query a Resource Directory or multicast a GET
         </figure>
 <t>
 
-   The agent subsequenly registers the following DNS-SD RRs:
+   The agent subsequently registers the following DNS-SD RRs:
 </t>
 <figure>
           <artwork align="left"><![CDATA[
@@ -1257,7 +1257,7 @@ In the above figure the Service Name is chosen as FrontSpot._dali._udp.example.c
          This document needs the same security considerations as described in Section 7 of <xref target="RFC5988"/> and Section 6 of <xref target="RFC6690"/>. The /.well-known/core resource may be protected e.g. using DTLS when hosted on a CoAP server as described in <xref target="I-D.ietf-core-coap"/>. DTLS or TLS based security SHOULD be used on all resource directory interfaces defined in this document (TODO: Improve the exact DTLS or TLS security requirements and references). 
      	 </t>
 
-	<section anchor="endpoint_identification" title="Endpoint Identification & Authentication">
+	<section anchor="endpoint_identification" title="Endpoint Identification and Authentication">
 	<t>
 		An Endpoint is determined to be unique by a Resource Direction by the Endpoint identifier parameter included during Registration, and any associated TLS or DTLS security bindings. An Endpoint MUST NOT be identified by its protocol, port or IP address as these may change over the lifetime of an Endpoint. 
 	</t>
@@ -1274,7 +1274,7 @@ In the above figure the Service Name is chosen as FrontSpot._dali._udp.example.c
 	
 	<section title="Denial of Service Attacks">
 	<t>
-Services that run over UDP unprotected are vulnerable to unknowingly become part of a DDoS attack as UDP does not require return routability check. Therefore, an attacker can easily spoof the source IP of the target entity and send requests to such a service which would then respond to the target entity. This can be used for large-scale DDoS attacks on the target. Especially, if the service returns a response that is order of magnitudes larger than the request, the situation becomes even worse as now the attack can be amplified. DNS servers have been widely used for DDoS amplification attacks. Recently, it has been observed that NTP Servers, that also run on unprotected UDP have been used for DDoS attacks (http://tools.cisco.com/security/center/content/CiscoSecurityNotice/CVE-2013-5211) [TODO: Ref] since there is no return routability check and can have a large amplification factor. The responses from the NTP server were found to be 19 times larger than the request. A Resource Directory (RD) which responds to wild-card lookups is potentially vulnerable if run with CoAP over UDP. Since there is no return routability check and the responses can be significantly larger than requests, RDs can unknowingly become part of a DDoS amplification attack. Therefore, it is recommended that implementations must ensure return routability. This can be done, for example by responding to wild card lookups only over DTLS or TLS or TCP.
+Services that run over UDP unprotected are vulnerable to unknowingly become part of a DDoS attack as UDP does not require return routability check. Therefore, an attacker can easily spoof the source IP of the target entity and send requests to such a service which would then respond to the target entity. This can be used for large-scale DDoS attacks on the target. Especially, if the service returns a response that is order of magnitudes larger than the request, the situation becomes even worse as now the attack can be amplified. DNS servers have been widely used for DDoS amplification attacks. Recently, it has been observed that NTP Servers, that also run on unprotected UDP have been used for DDoS attacks (http://tools.cisco.com/security/center/content/CiscoSecurityNotice/CVE-2013-5211) [TODO: Ref] since there is no return routability check and can have a large amplification factor. The responses from the NTP server were found to be 19 times larger than the request. A Resource Directory (RD) which responds to wild-card lookups is potentially vulnerable if run with CoAP over UDP. Since there is no return routability check and the responses can be significantly larger than requests, RDs can unknowingly become part of a DDoS amplification attack. Therefore, it is RECOMMENDED that implementations ensure return routability. This can be done, for example by responding to wild card lookups only over DTLS or TLS or TCP.
 	</t>
 	</section>
 
@@ -1358,7 +1358,7 @@ Services that run over UDP unprotected are vulnerable to unknowingly become part
 
 <section title="Acknowledgments">
 
-<t>Srdjan Krco, Szymon Sasin, Kerry Lynn, Esko Dijk, Peter van der Stok, Anders Brandt, Matthieu Vial, Michael Koster, Mohit Sethi, Sampo Ukkola and Linyi Tian have provided helpful comments, discussions and ideas to improve and shape this document. The authors would also like to thank their collagues from the EU FP7 SENSEI project, where many of the resource directory concepts were originally developed.</t>
+<t>Srdjan Krco, Szymon Sasin, Kerry Lynn, Esko Dijk, Peter van der Stok, Anders Brandt, Matthieu Vial, Michael Koster, Mohit Sethi, Sampo Ukkola and Linyi Tian have provided helpful comments, discussions and ideas to improve and shape this document. Zach would also like to thank his collagues from the EU FP7 SENSEI project, where many of the resource directory concepts were originally developed.</t>
 
 </section>
 
@@ -1423,14 +1423,14 @@ Services that run over UDP unprotected are vulnerable to unknowingly become part
         <t>o Updated REST interface descriptions to use RFC6570 URI Template format.</t>
         <t>o Introduced an improved RD Lookup design as its own function set.</t>
         <t>o Improved the security considerations section.</t>   
-        <t>o Made the POST registration interface idempotent by requiring the ep= paramter to be present.</t>  
+        <t>o Made the POST registration interface idempotent by requiring the ep= parameter to be present.</t>  
       </list>
     </t>
 
     <t>Changes from -01 to -02:
       <list>
         <t>o Added a terminology section.</t>
-        <t>o Changed the inclusing of an ETag in registration or update to a MAY.</t>
+        <t>o Changed the inclusion of an ETag in registration or update to a MAY.</t>
 		<t>o Added the concept of an RD Domain and a registration parameter for it. </t>
 		<t>o Recommended the Location returned from a registration to be stable, allowing for endpoint and Domain information to be changed during updates. </t>
 		<t>o Changed the lookup interface to accept endpoint and Domain as query string parameters to control the scope of a lookup. </t>
@@ -1480,5 +1480,7 @@ Services that run over UDP unprotected are vulnerable to unknowingly become part
 -->
 <!--  LocalWords:  UUID CDATA observability DTLS UDP DDoS routability
 -->
-<!--  LocalWords:  NTP IANA
+<!--  LocalWords:  NTP IANA subdomain TXT URIs subtype SRV AAAA TLS
+-->
+<!--  LocalWords:  precomposed substring prepending TCP
 -->
