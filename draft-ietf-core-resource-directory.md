@@ -3,25 +3,29 @@
      which is available here: http://xml.resource.org. -->
 <!DOCTYPE rfc SYSTEM "rfc2629.dtd" [
 <!ENTITY RFC0792 SYSTEM "http://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.0792.xml">
+<!ENTITY RFC1034 SYSTEM "http://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.1034.xml">
+<!ENTITY RFC1123 SYSTEM "http://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.1123.xml">
 <!ENTITY RFC2045 SYSTEM "http://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.2045.xml">
 <!ENTITY RFC2046 SYSTEM "http://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.2046.xml">
 <!ENTITY RFC2119 SYSTEM "http://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.2119.xml">
 <!ENTITY RFC2616 SYSTEM "http://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.2616.xml">
+<!ENTITY RFC3629 SYSTEM "http://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.3629.xml">
 <!ENTITY RFC3986 SYSTEM "http://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.3986.xml">
 <!ENTITY RFC4288 SYSTEM "http://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.4288.xml">
 <!ENTITY RFC4346 SYSTEM "http://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.4346.xml">
 <!ENTITY RFC4347 SYSTEM "http://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.4347.xml">
 <!ENTITY RFC4944 SYSTEM "http://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.4944.xml">
+<!ENTITY RFC5198 SYSTEM "http://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.5198.xml">
 <!ENTITY RFC5234 SYSTEM "http://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.5234.xml">
 <!ENTITY RFC5226 SYSTEM "http://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.5226.xml">
 <!ENTITY RFC5785 SYSTEM "http://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.5785.xml">
 <!ENTITY RFC5988 SYSTEM "http://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.5988.xml">
+<!ENTITY RFC6335 SYSTEM "http://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.6335.xml">
 <!ENTITY RFC6570 SYSTEM "http://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.6570.xml">
+<!ENTITY RFC6763 SYSTEM "http://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.6763.xml">
 <!ENTITY RFC6775 SYSTEM "http://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.6775.xml">
 <!ENTITY RFC6690 SYSTEM "http://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.6690.xml">
 <!ENTITY I-D.ietf-core-coap SYSTEM "http://xml2rfc.ietf.org/public/rfc/bibxml3/reference.I-D.ietf-core-coap.xml">
-<!ENTITY I-D.vanderstok-core-bc SYSTEM "http://xml2rfc.ietf.org/public/rfc/bibxml3/reference.I-D.vanderstok-core-bc.xml">
-<!ENTITY I-D.brandt-coap-subnet-discovery SYSTEM "http://xml2rfc.ietf.org/public/rfc/bibxml3/reference.I-D.brandt-coap-subnet-discovery.xml">
 <!ENTITY I-D.ietf-core-groupcomm SYSTEM "http://xml2rfc.ietf.org/public/rfc/bibxml3/reference.I-D.ietf-core-groupcomm.xml">
 <!ENTITY I-D.ietf-core-links-json SYSTEM "http://xml2rfc.ietf.org/public/rfc/bibxml3/reference.I-D.ietf-core-links-json.xml">
 
@@ -119,7 +123,7 @@
   <section anchor='introduction' title="Introduction">
 
   <t>
-  The Constrained RESTful Environments (CoRE) work aims at realizing the REST architecture in a suitable form for the most constrained nodes (e.g. 8-bit microcontrollers with limited RAM and ROM) and networks (e.g. 6LoWPAN). CoRE is aimed at machine-to-machine (M2M) applications such as smart energy and building automation.
+  The Constrained RESTful Environments (CoRE) working group aims at realizing the REST architecture in a suitable form for the most constrained nodes (e.g. 8-bit microcontrollers with limited RAM and ROM) and networks (e.g. 6LoWPAN). CoRE is aimed at machine-to-machine (M2M) applications such as smart energy and building automation.
   </t>
   <t>
   The discovery of resources offered by a constrained server is very important in machine-to-machine applications where there are no humans in the loop and static interfaces result in fragility. The discovery of resources provided by an HTTP Web Server is typically called Web Linking <xref target="RFC5988"/>. The use of Web Linking for the description and discovery of resources hosted by constrained web servers is specified by the CoRE Link Format <xref target="RFC6690"/>. This specification however only describes how to discover resources from the web server that hosts them by requesting /.well-known/core. In many M2M scenarios, direct discovery of resources is not practical due to sleeping nodes, disperse networks, or networks where multicast traffic is inefficient. These problems can be solved by employing an entity called a Resource Directory (RD), which hosts descriptions of resources held on other servers, allowing lookups to be performed for those resources.
@@ -146,7 +150,7 @@
 	  <t hangText="Resource Directory"><vspace />
 		An web entity that stores information about web resources and  implements the REST interfaces defined in this specification for registration and lookup of those resources.</t>
 	  <t hangText="Domain"><vspace />
-		In the context of a Resource Directory, a domain is a logical grouping of endpoints. This specification assumes that the list of Domains supported by an RD is pre-configured by that RD.</t>
+		In the context of a Resource Directory, a domain is a logical grouping of endpoints. This specification assumes that the list of Domains supported by an RD is pre-configured by that RD. When domain is exported to DNS, domain value equates to the DNS domain name.</t>
 	  <t hangText="Group"><vspace />
 		In the context of a Resource Directory, a group is a logical grouping of endpoints for the purpose of group communications. All groups within a domain are unique. </t>
 	  <t hangText="Endpoint"><vspace />
@@ -173,8 +177,8 @@
 
 		<figure anchor="fig-arch" title="The resource directory architecture.">
           <artwork align="left"><![CDATA[
-          
-             Registration         Lookup
+                                 
+             Registration     Lookup, Group
   +----+          |                 |
   | EP |----      |                 |
   +----+    ----  |                 |
@@ -203,7 +207,7 @@
 
 	  <section anchor='automation' title="Use Case: Home and Building Automation">
 	  <t>
-	  Home and commercial building automation systems can benefit from the use of M2M web services. The use of CoRE in home automation across multiple subnets is described in <xref target="I-D.brandt-coap-subnet-discovery"/> and in commercial building automation in <xref target="I-D.vanderstok-core-bc"/>. The discovery requirements of these applications are demanding. Home automation usually relies on run-time discovery to commission the system, whereas in building automation a combination of professional commissioning and run-time discovery is used. Both home and building automation involve peer-to-peer interactions between endpoints, and involve battery-powered sleeping devices. 
+	  Home and commercial building automation systems can benefit from the use of M2M web services.  The discovery requirements of these applications are demanding. Home automation usually relies on run-time discovery to commission the system, whereas in building automation a combination of professional commissioning and run-time discovery is used. Both home and building automation involve peer-to-peer interactions between endpoints, and involve battery-powered sleeping devices. 
 	  </t>
 	  <t>
 	  The exporting of resource information to other discovery systems is also important in these automation applications. In home automation there is a need to interact with other consumer electronics, which may already support DNS-SD, and in building automation larger resource directories or DNS-SD covering multiple buildings.
@@ -211,7 +215,7 @@
 	  
 	  </section>
 
-	  <section anchor='usecase-catalogues' title="Use Case: Semantics Catalogs">
+	  <section anchor='usecase-catalogues' title="Use Case: Semantics Catalogues">
 
 	  <t> 
 	  Resources may be shared through data brokers that have no knowledge beforehand of who is going to consume the data. Resource Directory can be used to hold links about resources and services hosted anywhere to make them discoverable by a general class of applications. 
@@ -241,7 +245,7 @@ The additional features of Resource Directory allow domains to be defined to ena
   <section anchor='simple' title="Simple Directory Discovery">
   
   <t> Not all endpoints hosting resources are expected to know how to implement
-  the Resource Directory Function Set and thus explicitly register with a
+  the Resource Directory Function Set (see <xref target="rd"/>) and thus explicitly register with a
   Resource Directory (or other such directory server). Instead, simple endpoints
   can implement the generic Simple Directory Discovery approach described in
   this section. An RD implementing this specification MUST implement Simple
@@ -302,7 +306,9 @@ this document.</t>
 
             ]]></artwork>
         </figure>
-  
+  <t>
+In a controlled environment (e.g. building control) the Resource Directory can be filled by a third device, called installation tool. The installation tool can fill the Resource Directory from a database or other means. For that purpose the IP address and port of the registered device is communicated in the request as well.
+</t>
   
 <section anchor="simple_finding" title="Finding a Directory Server">
 
@@ -346,8 +352,8 @@ to act as a directory server.</t>
   <section anchor='rd' title="Resource Directory Function Set">
 
 	<t>
-	This section defines the REST interfaces between an RD and endpoint servers, which is called the Resource Directory Function Set. Although the examples throughout this section assume use of CoAP    
-	<xref target="I-D.ietf-core-coap"/>, these REST interfaces can also be realized using HTTP <xref target="RFC2616"/>. An RD implementing this specification MUST support the discovery, registration, update, and removal interfaces defined in this section. 
+	This section defines the REST interfaces between an RD and endpoints, which is called the Resource Directory Function Set. Although the examples throughout this section assume use of CoAP    
+	<xref target="I-D.ietf-core-coap"/>, these REST interfaces can also be realized using HTTP <xref target="RFC2616"/>. An RD implementing this specification MUST support the discovery, registration, update, lookup, and removal interfaces defined in this section. 
 	</t>
 	
 	<t>
@@ -443,10 +449,10 @@ Res: 2.05 Content
           	<list>
  				<t hangText="rd := ">RD Function Set path (mandatory). This is the path of the RD Function Set. An RD SHOULD use the value "rd" for this variable whenever possible.</t>   
  				<t hangText="ep := ">Endpoint (mandatory). The endpoint identifier or name of the registering node, unique within that domain. The maximum length of this parameter is 63 bytes. </t>          	
- 				<t hangText="d := ">Domain (optional). The domain to which this endpoint belongs. The maximum length of this parameter is 63 bytes. Optional. When this parameter is elided, the RD MAY associate the endpoint with a configured default domain.</t>
+ 				<t hangText="d := ">Domain (optional). The domain to which this endpoint belongs. The maximum length of this parameter is 63 bytes. Optional. When this parameter is elided, the RD MAY associate the endpoint with a configured default domain. The domain value is needed to export the end-point to DNS-SD (see <xref target="dns-sd"/>) </t>
  				<t hangText="et := ">Endpoint Type (optional). The semantic type of the endpoint. The maximum length of this parameter is 63 bytes. Optional.</t>
           		<t hangText="lt := ">Lifetime (optional). Lifetime of the registration in seconds. Range of 60-4294967295. If no lifetime is included, a default value of 86400 (24 hours) SHOULD be assumed.</t>
- 				<t hangText="con := ">Context (optional). This parameter sets the scheme, address and port at which this server is available in the form scheme://host:port. Optional. In the absence of this parameter the scheme of the protocol, source IP address and source port of the register request are assumed. </t>
+ 				<t hangText="con := ">Context (optional). This parameter sets the scheme, address and port at which this server is available in the form scheme://host:port. Optional. In the absence of this parameter the scheme of the protocol, source IP address and source port of the register request are assumed. This parameter is compulsory when the directory is filled by an installation tool.</t>
           	</list>
           </t>
           <t hangText="Content-Type:">application/link-format</t>
@@ -510,12 +516,12 @@ Location: /rd/4521
           <t hangText="URI Template:">/{+location}{?lt,con}</t>
           <t hangText="URI Template Variables:"> 
           	<list>
- 				<t hangText="location := ">This is the Location path returned by the RD as a result of a successful registration.</t>   
+ 				<t hangText="location := ">This is the Location path returned by the RD as a result of a successful earlier registration.</t>   
 <!--
  				<t hangText="et := ">Endpoint Type (optional). The semantic type of the endpoint. The maximum length of this parameter is 63 btyes. Optional.</t>
 -->
           		<t hangText="lt := ">Lifetime (optional). Lifetime of the registration in seconds. Range of 60-4294967295. If no lifetime is included, a default value of 86400 (24 hours) SHOULD be assumed.</t>
- 				<t hangText="con := ">Context (optional). This parameter sets the scheme, address and port at which this server is available in the form scheme://host:port. Optional. In the absence of this parameter the scheme of the protocol, source IP address and source port used to register are assumed. </t>
+ 				<t hangText="con := ">Context (optional). This parameter sets the scheme, address and port at which this server is available in the form scheme://host:port. Optional. In the absence of this parameter the scheme of the protocol, source IP address and source port used to register are assumed. This parameter is compulsory when the directory is filled by an installation tool.</t>
           	</list>
 
           </t>
@@ -576,7 +582,7 @@ Res: 2.04 Changed
           <t hangText="URI Template:">/{+location}</t>
           <t hangText="URI Template Variables:"> 
           	<list>
- 				<t hangText="location := ">This is the Location path returned by the RD as a result of a successful registration.</t>  
+ 				<t hangText="location := ">This is the Location path returned by the RD as a result of a successful earlier registration.</t>  
  			</list>
  		  </t>
         </list>
@@ -649,8 +655,8 @@ Res: 2.02 Deleted
           	<list>
  				<t hangText="rd-group := ">RD Group Function Set path (mandatory). This is the path of the RD Group Function Set. An RD SHOULD use the value "rd-group" for this variable whenever possible.</t>   
  				<t hangText="gp := ">Group Name (mandatory). The name of the group to be created or replaced, unique within that domain. The maximum length of this parameter is 63 bytes. </t>          	
- 				<t hangText="d := ">Domain (optional). The domain to which this group belongs. The maximum length of this parameter is 63 bytes. Optional. When this parameter is elided, the RD MAY associate the endpoint with a configured default domain.</t>
- 				<t hangText="con := ">Context (optional). This parameter is used to set the IP multicast address at which this server is available in the form scheme://multicast-address:port. Optional. In the absence of this parameter no multicast address is configured. </t>
+ 				<t hangText="d := ">Domain (optional). The domain to which this group belongs. The maximum length of this parameter is 63 bytes. Optional. When this parameter is elided, the RD MAY associate the endpoint with a configured default domain.The domain value is needed to export the end-point to DNS-SD (see <xref target="dns-sd"/>) </t>
+ 				<t hangText="con := ">Context (optional). This parameter is used to set the IP multicast address at which this server is available in the form scheme://multicast-address:port. Optional. In the absence of this parameter no multicast address is configured. This parameter is compulsory when the directory is filled by an installation tool.</t>
           	</list>
           </t>
           <t hangText="Content-Type:">application/link-format</t>
@@ -817,7 +823,7 @@ Res: 2.02 Deleted
      | ----- GET /rd-lookup/res?rt=temperature ----------------->  |
      |                                                             |
      |                                                             |
-     | <-- 2.05 Content "<coap://node1/temp>;rt="temperature" ---- |
+     | <-- 2.05 Content <coap://{host:port}/temp>;rt="temperature" |
      |                                                             |
 
 
@@ -829,7 +835,7 @@ Res: 2.02 Deleted
 Req: GET /rd-lookup/res?rt=temperature
 
 Res: 2.05 Content
-<coap://{ip:port}/temp>
+<coap://{host:port}/temp>;rt="temperature"
             ]]></artwork>
         </figure>
 
@@ -846,7 +852,7 @@ Res: 2.05 Content
      | ----- GET /rd-lookup/ep?et=power-node -------------------->  |
      |                                                             |
      |                                                             |
-     | <-- 2.05 Content "<coap://{ip:port}>;ep="node5" ----------- |
+     | <-- 2.05 Content <coap://{ip:port}>;ep="node5" ------------ |
      |                                                             |
 
 
@@ -876,7 +882,7 @@ Res: 2.05 Content
      | ----- GET /rd-lookup/d ---------------------------------->  |
      |                                                             |
      |                                                             |
-     | <-- 2.05 Content "</rd>;d=domain1,</rd>;d=domain2 --------- |
+     | <-- 2.05 Content </rd>;d=domain1,</rd>;d=domain2 ---------- |
      |                                                             |
 
 
@@ -906,7 +912,8 @@ Res: 2.05 Content
      | ----- GET /rd-lookup/gp --------------------------------->  |
      |                                                             |
      |                                                             |
-     | <-- 2.05 Content </rd-group/12>;gp="lights1";d="domain1" -- |
+     | <-- 2.05 Content </rd-group/12>;gp="lights1"; ------------- |
+     |                               d="example.com" ------------- |
      |                                                             |
 
 
@@ -918,7 +925,7 @@ Res: 2.05 Content
 Req: GET /rd-lookup/gp
 
 Res: 2.05 Content
-</rd-group/12>;gp="lights1";d="domain1"
+</rd-group/12>;gp="lights1";d="example.com"
             ]]></artwork>
         </figure>	
 	
@@ -935,7 +942,7 @@ Res: 2.05 Content
      | ----- GET /rd-lookup/ep?gp=lights1----------------------->  |
      |                                                             |
      |                                                             |
-     | <-- 2.05 Content "</rd>;d=domain1,</rd>;d=domain2 --------- |
+     | <-- 2.05 Content <coap://{host:port}>;ep="node1" ---------- |
      |                                                             |
 
 
@@ -947,8 +954,8 @@ Res: 2.05 Content
 Req: GET /rd-lookup/ep?gp=lights1
 
 Res: 2.05 Content
-<coap://host:port>;ep="node1",
-<coap://host:port>;ep="node2",
+<coap://{host:port}>;ep="node1",
+<coap://{host:port}>;ep="node2",
             ]]></artwork>
         </figure>		
 
@@ -965,7 +972,7 @@ Res: 2.05 Content
      | ----- GET /rd-lookup/gp?ep=node1 ------------------------>  |
      |                                                             |
      |                                                             |
-     | <-- 2.05 Content "</rd>;d=domain1,</rd>;d=domain2 --------- |
+     | <-- 2.05 Content <coap://{ip:port}>;gp="lights1";ep="node1" |
      |                                                             |
 
 
@@ -977,7 +984,7 @@ Res: 2.05 Content
 Req: GET /rd-lookup/gp?ep=node1
 
 Res: 2.05 Content
-<coap://host:port>;gp="lights1";ep="node1",
+<coap://{ip:port}>;gp="lights1";ep="node1",
             ]]></artwork>
         </figure>	
 
@@ -1008,7 +1015,7 @@ Res: 2.05 Content
 	<section title="Resource Instance 'ins' attribute">
 	
 	 	 <t>
-	 	 The Resource Instance "ins" attribute is an identifier for this resource, which makes it possible to distinguish from other similar resources. This attribute is similar in use to the "Instance" portion of a DNS-SD record, and SHOULD be unique across resources with the same Resource Type attribute in the domain it is used. A Resource Instance might be a descriptive string like "Ceiling Light, Room 3", a short ID like "AF39" or a unique UUID or iNumber. This attribute is used by a Resource Directory to distinguish between multiple instances of the same resource type within a system.
+	 	 The Resource Instance "ins" attribute is an identifier for this resource, which makes it possible to distinguish from other similar resources. This attribute is similar in use to the &lt;Instance&gt; portion of a DNS-SD record (see <xref target="cheshire"/>, and SHOULD be unique across resources with the same Resource Type attribute in the domain it is used. A Resource Instance might be a descriptive string like "Ceiling Light, Room 3", a short ID like "AF39" or a unique UUID or iNumber. This attribute is used by a Resource Directory to distinguish between multiple instances of the same resource type within the directory.
 	 	 </t>
  	 
 	 	 <t>
@@ -1038,9 +1045,209 @@ Res: 2.05 Content
   <section anchor="dns-sd" title="DNS-SD Mapping">
 
 	<t>
-		TODO
+ CoRE Resource
+   Discovery is intended to support fine-grained discovery of hosted
+   resources, their attributes, and possibly other resource relations <xref target="RFC6690"/>. In contrast, service discovery generally refers to a coarse-grained
+   resolution of an end-point's IP address, port number, and protocol.
+</t><t>
+Resource and service discovery are complementary in the case of large
+   networks, where the latter can facilitate scaling.  This document
+   defines a mapping between CoRE Link Format attributes and DNS-Based
+   Service Discovery <xref target="RFC6763"/> fields that permits
+   discovery of CoAP services by either means.
 	</t>
    
+<section anchor="cheshire" title="DNS-based Service discovery">
+<t>
+DNS-Based Service Discovery (DNS-SD) defines a conventional method of
+   configuring DNS PTR, SRV, and TXT resource records to facilitate
+   discovery of services (such as CoAP servers in a subdomain) using the
+   existing DNS infrastructure.  This section gives a brief overview of
+   DNS-SD; see <xref target="RFC6763"/> for a detailed
+   specification.
+</t><t>
+
+   DNS-SD service names are limited to 255 octets and are of the form:
+</t><t>
+Service Name = &lt;Instance&gt;.&lt;ServiceType&gt;.&lt;Domain&gt;.
+</t><t>
+The service name is the label of SRV/TXT resource records. The SRV RR specifies the host and the port of the endpoint. The TXT RR provides additional information.
+</t><t>
+   The &lt;Domain&gt; part of the service name is identical to the global (DNS
+   subdomain) part of the authority in URIs that identify servers or groups of servers.
+</t><t>
+The &lt;ServiceType&gt; part is composed of at least two labels.  The first
+   label of the pair is the application protocol name <xref target="RFC6335"/> preceded
+   by an underscore character.  The second label indicates the transport
+   and is always "_udp" for CoAP services.  In cases where narrowing the
+   scope of the search may be useful, these labels may be optionally
+   preceded by a subtype name followed by the "_sub" label.  An example
+   of this more specific &lt;ServiceType&gt; is "lamp._sub._dali._udp".
+</t><t>
+   The default &lt;Instance&gt; part of the service name may be set at the
+   factory or during the commissioning process.  It SHOULD uniquely
+   identify an instance of &lt;ServiceType&gt; within a &lt;Domain&gt;.  Taken
+   together, these three elements comprise a unique name for an SRV/ TXT
+   record pair within the DNS subdomain.
+</t><t>
+   The granularity of a service name MAY be that of a host or group, or
+   it could represent a particular resource within a CoAP server.  The
+   SRV record contains the host name (AAAA record name) and port of the
+   service while protocol is part of the service name.  In the case
+   where a service name identifies a particular resource, the path part
+   of the URI must be carried in a corresponding TXT record.
+</t><t>
+   A DNS TXT record is in practice limited to a few hundred octets in
+   length, which is indicated in the resource record header in the DNS
+   response message.  The data consists of
+   one or more strings comprising a key=value pair.  By convention, the
+   first pair is txtver=&lt;number&gt; (to support different versions of a
+   service description).  
+</t>
+  </section>
+   
+  <section anchor="ins" title="mapping ins to &lt;Instance&gt;">
+<t>
+The Resource Instance "ins" attribute maps to the &lt;Instance&gt; part of
+   a DNS-SD service name.  It is stored directly in the DNS as a single
+   DNS label of canonical precomposed UTF-8 <xref target="RFC3629"/> "Net-Unicode"
+   (Unicode Normalization Form C) <xref target="RFC5198"/> text.  However, to the
+   extent that the "ins" attribute may be chosen to match the DNS host
+   name of a service, it SHOULD use the syntax defined in Section 3.5 of
+   <xref target="RFC1034"/> and Section 2.1 of <xref target="RFC1123"/>.
+</t><t>
+   The &lt;Instance&gt; part of the name of a service being offered on the
+   network SHOULD be configurable by the user setting up the service, so
+   that he or she may give it an informative name.  However, the device
+   or service SHOULD NOT require the user to configure a name before it
+   can be used.  A sensible choice of default name can allow the device
+   or service to be accessed in many cases without any manual
+   configuration at all.  The default name should be short and
+   descriptive, and MAY include a collision-resistent substring such as
+   the lower bits of the device's MAC address, serial number,
+   fingerprint, or other identifier in an attempt to make the name
+   relatively unique.
+</t><t>
+   DNS labels are currently limited to 63 octets in length and the
+   entire service name may not exceed 255 octets.
+</t>
+</section>
+
+<section anchor="exp" title="Mapping rt to &lt;ServiceType&gt;">
+<t>
+The resource type "rt" attribute is mapped into the &lt;ServiceType&gt;
+   part of a DNS-SD service name and SHOULD
+   conform to the reg-rel-type production of the Link Format defined in
+   Section 2 of <xref target="RFC6690"/>.
+
+   The "rt" attribute MUST be composed of at least a single Net-Unicode
+   text string, without underscore '_' or period '.' and limited to 15
+   octets in length, which represents the application protocol name.
+   This string is mapped to the DNS-SD &lt;ServiceType&gt; by prepending an
+   underscore and appending a period followed by the "_udp" label.  For
+   example, rt="dali" is mapped into "_dali._udp".
+</t><t>
+   The application protocol name may be optionally followed by a period
+   and a service subtype name consisting of a Net-Unicode text string,
+   without underscore or period and limited to 63 octets.  This string
+   is mapped to the DNS-SD &lt;ServiceType&gt; by appending a period followed
+   by the "_sub" label and then appending a period followed by the
+   service type label pair derived as in the previous paragraph.  For
+   example, rt="dali.light" is mapped into "light._sub._dali._udp".
+</t><t>
+   The resulting string is used to form labels for DNS-SD records which
+   are stored directly in the DNS.
+</t>
+</section>
+
+<section anchor="domain" title="Domain mapping">
+<t>
+DNS zones are defined from the "d" attribute.The domain attribute is suffixed to the host name and should be consistent with the domain name attributed to the hosting network segment.
+</t>
+</section>
+
+<section anchor="TXT" title="TXT Record key=value strings">
+<t>
+The resource &lt;URI&gt; is exported to the TXT record key=value string
+   "path=&lt;URI&gt;".
+</t><t>
+   The Interface Description "if" attribute is exported to the TXT
+   record key=value string "if=&lt;Interface Description&gt;".
+</t><t>
+   The DNS TXT record can be further populated by importing any other
+   resource description attributes as they share the same key=value
+   format specified in Section 6 of <xref target="RFC6763"/>.
+</t>
+</section>
+
+<section anchor="import" title="Importing resource links into DNS-SD">
+<t>
+Assuming the ability to query a Resource Directory or multicast a GET
+   (?exp) over the local link, CoAP resource discovery may be used to
+   populate the DNS-SD database in an automated fashion.  CoAP resource
+   descriptions (links) can be exported to DNS-SD for exposure to
+   service discovery by using the Resource Instance attribute as the
+   basis for a unique service name, composed with the Resource Type as
+   the &lt;ServiceType&gt;, and registered in the correct &lt;Domain&gt;.  The agent responsible for exporting records to the DNS
+   zone file SHOULD be authenticated to the DNS server.
+
+   The following example shows an agent discovering a resource to be
+   exported:
+</t>
+
+<figure>
+          <artwork align="left"><![CDATA[
+
+    Agent                                                          RD
+      |                                                             |
+      | --- GET /rd-lookup/res?exp ------------------------------>  |
+      |                                                             |
+      |                                                             |
+      | <-- 2.05 Content "<coap://node1/light/1>;exp; ------------  |
+      |                   rt="dali.light";ins="FrontSpot"           |
+      |                   d="example.com"                           |
+      |                                                             |
+
+            ]]></artwork>
+        </figure>
+		
+
+		<figure>
+          <artwork align="left"><![CDATA[
+
+   Req: GET /rd-lookup/res?exp
+
+   Res: 2.05 Content
+   <coap://[FDFD::1234]:61616/light/1>;
+     exp;ct=41;rt="dali.light";ins="FrontSpot";
+               d="example.com"
+
+]]></artwork>
+        </figure>
+<t>
+
+   The agent subsequenly registers the following DNS-SD RRs:
+</t>
+<figure>
+          <artwork align="left"><![CDATA[
+node1.example.com.                IN AAAA 
+                          FDFD::1234
+_dali._udp.example.com            IN PTR
+                          FrontSpot._dali._udp.example.com
+light._sub._dali._udp.example.com IN PTR  
+                          FrontSpot._dali._udp.example.com
+FrontSpot._dali._udp.example.com  IN SRV  0 0 5678
+                          node1.example.com.
+FrontSpot._dali._udp.example.com  IN TXT
+                          txtver=1;path=/light/1
+]]></artwork>
+        </figure>
+<t>
+In the above figure the Service Name is chosen as FrontSpot._dali._udp.example.com without the light._sub service prefix. An alternative Service Name would be: FrontSpot.light._sub._dali._udp.example.com.
+</t>
+
+</section>
+
   </section>
 
   <!-- **************************************************************** -->
@@ -1052,13 +1259,18 @@ Res: 2.05 Content
          <t> 
          This document needs the same security considerations as described in Section 7 of <xref target="RFC5988"/> and Section 6 of <xref target="RFC6690"/>. The /.well-known/core resource may be protected e.g. using DTLS when hosted on a CoAP server as described in <xref target="I-D.ietf-core-coap"/>. 
      	 </t>
+
+	<section title="Access Control">
      	 <t>
      	 Access control SHOULD be performed separately for the RD Function Set and the RD Lookup Function Set, as different endpoints may be authorized to register with an RD from those authorized to lookup endpoints from the RD. Such access control SHOULD be performed in as fine-grained a level as possible. For example access control for lookups could be performed either at the domain, endpoint or resource level. 
      	 </t>
-
+	</section>
+	
+	<section title="Denial of Service Attacks">
 	<t>
 Services that run over UDP unprotected are vulnerable to unknowingly become part of a DDoS attack as UDP does not require return routability check. Therefore, an attacker can easily spoof the source IP of the target entity and send requests to such a service which would then respond to the target entity. This can be used for large-scale DDoS attacks on the target. Especially, if the service returns a response that is order of magnitudes larger than the request, the situation becomes even worse as now the attack can be amplified. DNS servers have been widely used for DDoS amplification attacks. Recently, it has been observed that NTP Servers, that also run on unprotected UDP have been used for DDoS attacks (http://tools.cisco.com/security/center/content/CiscoSecurityNotice/CVE-2013-5211) [TODO: Ref] since there is no return routability check and can have a large amplification factor. The responses from the NTP server were found to be 19 times larger than the request. A Resource Directory (RD) which responds to wild-card lookups is potentially vulnerable if run with CoAP over UDP. Since there is no return routability check and the responses can be significantly larger than requests, RDs can unknowingly become part of a DDoS amplification attack. Therefore, it is recommended that implementations must ensure return routability. This can be done, for example by responding to wild card lookups only over DTLS or TLS or TCP.
 	</t>
+	</section>
 
   </section>
 
@@ -1140,8 +1352,7 @@ Services that run over UDP unprotected are vulnerable to unknowingly become part
 
 <section title="Acknowledgments">
 
-<t>Srdjan Krco, Szymon Sasin, Kerry Lynn, Esko Dijk, Peter van der Stok, Anders Brandt, Matthieu Vial, Michael Koster, Mohit Sethi, Sampo Ukkola and Linyi Tian have provided helpful comments, discussions and ideas to improve and shape this document. An early implementation of simple discovery was provided by Julian Kornberger and Henning Mueller.
-The authors would also like to thank their colleagues from the EU FP7 SENSEI project, where many of the resource directory concepts were originally developed.</t>
+<t>Srdjan Krco, Szymon Sasin, Kerry Lynn, Esko Dijk, Peter van der Stok, Anders Brandt, Matthieu Vial, Michael Koster, Mohit Sethi, Sampo Ukkola and Linyi Tian have provided helpful comments, discussions and ideas to improve and shape this document. The authors would also like to thank their collagues from the EU FP7 SENSEI project, where many of the resource directory concepts were originally developed.</t>
 
 </section>
 
@@ -1155,7 +1366,7 @@ The authors would also like to thank their colleagues from the EU FP7 SENSEI pro
 
     <t>Changes from -01 to -02:
       <list>
-        <t>o Added a catalog use case.</t>
+        <t>o Added a catalogue use case.</t>
         <t>o Changed the registration update to a POST with optional link format payload. Removed the endpoint type update from the update.</t>
         <t>o Additional examples section added for more complex use cases.</t>
         <t>	</t>
@@ -1204,14 +1415,14 @@ The authors would also like to thank their colleagues from the EU FP7 SENSEI pro
         <t>o Updated REST interface descriptions to use RFC6570 URI Template format.</t>
         <t>o Introduced an improved RD Lookup design as its own function set.</t>
         <t>o Improved the security considerations section.</t>   
-        <t>o Made the POST registration interface idempotent by requiring the ep= parameter to be present.</t>  
+        <t>o Made the POST registration interface idempotent by requiring the ep= paramter to be present.</t>  
       </list>
     </t>
 
     <t>Changes from -01 to -02:
       <list>
         <t>o Added a terminology section.</t>
-        <t>o Changed the inclusion of an ETag in registration or update to a MAY.</t>
+        <t>o Changed the inclusing of an ETag in registration or update to a MAY.</t>
 		<t>o Added the concept of an RD Domain and a registration parameter for it. </t>
 		<t>o Recommended the Location returned from a registration to be stable, allowing for endpoint and Domain information to be changed during updates. </t>
 		<t>o Changed the lookup interface to accept endpoint and Domain as query string parameters to control the scope of a lookup. </t>
@@ -1229,18 +1440,22 @@ The authors would also like to thank their colleagues from the EU FP7 SENSEI pro
        &RFC3986;
        &RFC5226;
        &RFC5988;
+       &RFC6335;
        &RFC6570;
+	 &RFC6763;
        &I-D.ietf-core-links-json;
            
     </references>
 
     <references title='Informative References'>
 		&I-D.ietf-core-coap;
-		&I-D.vanderstok-core-bc;
-		&I-D.brandt-coap-subnet-discovery;
 		&I-D.ietf-core-groupcomm;
 		&RFC6775;
 		&RFC2616;
+		&RFC3629;
+		&RFC5198;
+		&RFC1123;
+		&RFC1034;
        
     </references>
     </back>
