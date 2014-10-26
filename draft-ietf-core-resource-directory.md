@@ -457,7 +457,7 @@ Res: 2.05 Content
           <t hangText="Method:">POST</t>	
           <t hangText="URI Template:">/{+rd}{?ep,d,et,lt,con}</t>
           <t hangText="URI Template Variables:"> 
-          	<list>
+          	<list style="hanging">
  				<t hangText="rd := ">RD Function Set path (mandatory). This is the path of the RD Function Set. An RD SHOULD use the value "rd" for this variable whenever possible.</t>   
  				<t hangText="ep := ">Endpoint (mandatory). The endpoint identifier or name of the registering node, unique within that domain. The maximum length of this parameter is 63 bytes. </t>          	
  				<t hangText="d := ">Domain (optional). The domain to which this endpoint belongs. The maximum length of this parameter is 63 bytes. Optional. When this parameter is elided, the RD MAY associate the endpoint with a configured default domain. The domain value is needed to export the endpoint to DNS-SD (see <xref target="dns-sd"/>) </t>
@@ -526,7 +526,7 @@ Location: /rd/4521
           <t hangText="Method:">POST</t>	
           <t hangText="URI Template:">/{+location}{?lt,con}</t>
           <t hangText="URI Template Variables:"> 
-          	<list>
+          	<list style="hanging">
  				<t hangText="location := ">This is the Location path returned by the RD as a result of a successful earlier registration.</t>   
           		<t hangText="lt := ">Lifetime (optional). Lifetime of the registration in seconds. Range of 60-4294967295. If no lifetime is included, a default value of 86400 (24 hours) SHOULD be assumed.</t>
  				<t hangText="con := ">Context (optional). This parameter sets the scheme, address and port at which this server is available in the form scheme://host:port. Optional. In the absence of this parameter the scheme of the protocol, source IP address and source port used to register are assumed. This parameter is compulsory when the directory is filled by an installation tool.</t>
@@ -589,7 +589,7 @@ Res: 2.04 Changed
           <t hangText="Method:">DELETE</t>	
           <t hangText="URI Template:">/{+location}</t>
           <t hangText="URI Template Variables:"> 
-          	<list>
+          	<list style="hanging">
  				<t hangText="location := ">This is the Location path returned by the RD as a result of a successful earlier registration.</t>  
  			</list>
  		  </t>
@@ -660,7 +660,7 @@ Res: 2.02 Deleted
           <t hangText="Method:">POST</t>	
           <t hangText="URI Template:">/{+rd-group}{?gp,d,con}</t>
           <t hangText="URI Template Variables:"> 
-          	<list>
+          	<list style="hanging">
  				<t hangText="rd-group := ">RD Group Function Set path (mandatory). This is the path of the RD Group Function Set. An RD SHOULD use the value "rd-group" for this variable whenever possible.</t>   
  				<t hangText="gp := ">Group Name (mandatory). The name of the group to be created or replaced, unique within that domain. The maximum length of this parameter is 63 bytes. </t>          	
  				<t hangText="d := ">Domain
@@ -731,7 +731,7 @@ Location: /rd-group/12
           <t hangText="Method:">DELETE</t>	
           <t hangText="URI Template:">/{+location}</t>
           <t hangText="URI Template Variables:"> 
-          	<list>
+          	<list style="hanging">
  				<t hangText="location := ">This is the Location path returned by the RD as a result of a successful group registration.</t>  
  			</list>
  		  </t>
