@@ -317,9 +317,7 @@ this document.</t>
 
             ]]></artwork>
         </figure>
-  <t>
-In a controlled environment (e.g. building control) the Resource Directory can be filled by a third device, called installation tool. The installation tool can fill the Resource Directory from a database or other means. For that purpose the IP address and port of the registered device is communicated in the request as well.
-</t>
+
   
 <section anchor="simple_finding" title="Finding a Directory Server">
 
@@ -350,8 +348,19 @@ server on the candidate host, or a CoAP error response code such as
 to act as a directory server.</t>
 
 </section>
-  
-  
+
+<section anchor="third-party-registration" title="Third-party registration">
+
+        <t>
+          For some applications, even Simple Directory Discovery may
+          be too taxing for certain very constrained devices, in
+          particular if the security requirements become too onerous.
+        </t>
+        <t>
+In a controlled environment (e.g. building control), the Resource Directory can be filled by a third device, called installation tool. The installation tool can fill the Resource Directory from a database or other means. For that purpose the IP address and port of the registered device is communicated in the request as well.
+</t>  
+</section>
+
   </section>
 
 
