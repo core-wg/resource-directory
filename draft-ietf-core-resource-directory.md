@@ -377,13 +377,15 @@ In a controlled environment (e.g. building control), the Resource Directory can 
 	</t>
 	
 	<t>
-	Resource directory entries are designed to be easily exported to other discovery mechanisms such as DNS-SD. For that reason, parameters that would meaningfully be mapped to DNS are limited to a maximum length of 63 bytes.  
+	Resource directory entries are designed to be easily exported to other discovery mechanisms such as DNS-SD. For that reason, parameters that would meaningfully be mapped to DNS are limited to a maximum length of 63 bytes.
+        <!-- TODO: Is there maybe also a need to further restrict the
+             set of characters available? -->
 	</t>
 
 	  <section anchor='discovery' title="Discovery">
 	
 		<t>
-		Before an endpoint can make use of an RD, it must first know the RD's IP address, port and the path of its RD Function Set. There can be several mechanisms for discovering the RD including assuming a default location (e.g. on an Edge Router in a LoWPAN), by assigning an anycast address to the RD, using DHCP, or by discovering the RD using the CoRE Link Format (also see <xref target="simple_finding"/>). This section defines discovery of the RD using the well-known interface of the CoRE Link Format <xref target="RFC6690"/> as the required mechanism. It is however expected that RDs will also be discoverable via other methods depending on the deployment. 
+		Before an endpoint can make use of an RD, it must first know the RD's IP address, port and the path of its RD Function Set. There can be several mechanisms for discovering the RD including assuming a default location (e.g. on an Edge Router in a LoWPAN), by assigning an anycast address to the RD, using DHCP, or by discovering the RD using the CoRE Link Format (see also <xref target="simple_finding"/>). This section defines discovery of the RD using the well-known interface of the CoRE Link Format <xref target="RFC6690"/> as the required mechanism. It is however expected that RDs will also be discoverable via other methods depending on the deployment. 
 		</t>
 		
 		<t>
@@ -410,7 +412,8 @@ In a controlled environment (e.g. building control), the Resource Directory can 
           
 		<t>The following response codes are defined for this interface: 
         <list style="hanging">         
-          <t hangText="Success:"> 2.05 "Content" with an application/link-format payload containing a matching entry for the RD resource.</t>
+          <t hangText="Success:"> 2.05 "Content" with an
+          application/link-format payload containing one or more matching entries for the RD resource.</t>
           <t hangText="Failure:"> 4.04 "Not Found" is returned in case no matching entry is found for a unicast request.</t>
           <t hangText="Failure:"> 4.00 "Bad Request" is returned in case of a malformed request for a unicast request.</t>
         <t hangText="Failure:"> No error response to a multicast request.</t>
@@ -418,7 +421,12 @@ In a controlled environment (e.g. building control), the Resource Directory can 
        	</t>
 
 		<t>
-		The following example shows an endpoint discovering an RD using this interface, thus learning that the base RD resource is at /rd. Note that it is up to the RD to choose its base RD resource, although it is recommended to use the base paths specified here where possible. 
+		The following example shows an endpoint discovering an
+                RD using this interface, thus learning that the base
+                RD resource is, in this example, at /rd. Note that it
+                is up to the RD to choose its base RD resource,
+                although diagnostics and debugging is facilitated by
+                using the base paths specified here where possible.
 		</t>
 
 		<figure>
@@ -467,12 +475,24 @@ Res: 2.05 Content
           <t hangText="URI Template:">/{+rd}{?ep,d,et,lt,con}</t>
           <t hangText="URI Template Variables:"> 
           	<list style="hanging">
- 				<t hangText="rd := ">RD Function Set path (mandatory). This is the path of the RD Function Set. An RD SHOULD use the value "rd" for this variable whenever possible.</t>   
+ 				<t hangText="rd := ">RD Function Set
+                                path (mandatory). This is the path of
+                                the RD Function Set, as obtained from discovery. An RD SHOULD use the value "rd" for this variable whenever possible.</t>   
  				<t hangText="ep := ">Endpoint (mandatory). The endpoint identifier or name of the registering node, unique within that domain. The maximum length of this parameter is 63 bytes. </t>          	
- 				<t hangText="d := ">Domain (optional). The domain to which this endpoint belongs. The maximum length of this parameter is 63 bytes. Optional. When this parameter is elided, the RD MAY associate the endpoint with a configured default domain. The domain value is needed to export the endpoint to DNS-SD (see <xref target="dns-sd"/>) </t>
+ 				<t hangText="d := ">Domain (optional). The domain to which this endpoint belongs. The maximum length of this parameter is 63 bytes. Optional. When this parameter is elided, the RD MAY associate the endpoint with a configured default domain. The domain value is needed to export the endpoint to DNS-SD (see <xref target="dns-sd"/>).</t>
  				<t hangText="et := ">Endpoint Type (optional). The semantic type of the endpoint. The maximum length of this parameter is 63 bytes. Optional.</t>
           		<t hangText="lt := ">Lifetime (optional). Lifetime of the registration in seconds. Range of 60-4294967295. If no lifetime is included, a default value of 86400 (24 hours) SHOULD be assumed.</t>
- 				<t hangText="con := ">Context (optional). This parameter sets the scheme, address and port at which this server is available in the form scheme://host:port. Optional. In the absence of this parameter the scheme of the protocol, source IP address and source port of the register request are assumed. This parameter is compulsory when the directory is filled by an installation tool.</t>
+ 				<t hangText="con := ">Context
+                                (optional). This parameter sets the
+                                scheme, address and port at which this
+                                server is available in the form
+                                scheme://host:port. Optional. In the
+                                absence of this parameter the scheme
+                                of the protocol, source IP address and
+                                source port of the register request
+                                are assumed. This parameter is
+                                compulsory when the directory is
+                                filled by a third party such as an installation tool.</t>
           	</list>
           </t>
           <t hangText="Content-Type:">application/link-format</t>
@@ -482,7 +502,14 @@ Res: 2.05 Content
 
         <t>The following response codes are defined for this interface: 
         <list style="hanging">
-          <t hangText="Success:"> 2.01 "Created". The Location header MUST be included with the new resource entry for the endpoint. This Location MUST be a stable identifier generated by the RD as it is used for all subsequent operations on this registration. The resource returned in the Location is only for the purpose of the Update (POST) and Removal (DELETE), and MUST NOT implement GET or PUT methods.</t>
+          <t hangText="Success:"> 2.01 "Created". The Location header
+          MUST be included with the new resource entry for the
+          endpoint. This Location MUST be a stable identifier
+          generated by the RD as it is used for all subsequent
+          operations on this registration. The resource returned in
+          the Location is only for the purpose of the Update (POST)
+          and Removal (DELETE), and MUST NOT implement GET or PUT
+          methods.</t> <!--TODO: Discuss!  Really no GET?-->
           <t hangText="Failure:"> 4.00 "Bad Request". Malformed request. </t>
           <t hangText="Failure:"> 5.03 "Service Unavailable". Service could not perform the operation. </t>
         </list>
@@ -526,7 +553,16 @@ Location: /rd/4521
 		The update interface is used by an endpoint to refresh or update its registration with an RD. To use the interface, the endpoint sends a POST request to the resource returned in the Location option in the response to the first registration. An update MAY update the lifetime or context parameters if they have changed since the last registration or update. Parameters that have not changed SHOULD NOT be included in an update. Upon receiving an update request, the RD resets the timeout for that endpoint and updates the scheme, IP address and port of the endpoint (using the source address of the update, or the context parameter if present).   
 		</t>
 		<t>
-		An update MAY optionally add or replace links for the endpoint by including those  links in the payload of the update as a CoRE Link Format document. Including links in an update message greatly increases the load on an RD and SHOULD be done infrequently. A link is replaced only if both the target URI and relation type match <xref target="endpoint_identification"/>.
+		An update MAY optionally add or replace links for the
+                endpoint by including those  links in the payload of
+                the update as a CoRE Link Format document. Including
+                links in an update message greatly increases the load
+                on an RD and SHOULD be done infrequently. A link is
+                replaced only if both the target URI and relation type
+                match (see <xref target="endpoint_identification"/>).
+                (TODO: explain how a patch format, probably not
+                <xref target="RFC7386"/>, could be used to delete, replace, and add
+                entries.)
 		</t>
 
         <t>The update request interface is specified as follows: 
@@ -538,7 +574,16 @@ Location: /rd/4521
           	<list style="hanging">
  				<t hangText="location := ">This is the Location path returned by the RD as a result of a successful earlier registration.</t>   
           		<t hangText="lt := ">Lifetime (optional). Lifetime of the registration in seconds. Range of 60-4294967295. If no lifetime is included, a default value of 86400 (24 hours) SHOULD be assumed.</t>
- 				<t hangText="con := ">Context (optional). This parameter sets the scheme, address and port at which this server is available in the form scheme://host:port. Optional. In the absence of this parameter the scheme of the protocol, source IP address and source port used to register are assumed. This parameter is compulsory when the directory is filled by an installation tool.</t>
+ 				<t hangText="con := ">Context
+                                (optional). This parameter sets the
+                                scheme, address and port at which this
+                                server is available in the form
+                                scheme://host:port. Optional. In the
+                                absence of this parameter the scheme
+                                of the protocol, source IP address and
+                                source port used to register are
+                                assumed. This parameter is compulsory
+                                when the directory is filled by a third party such as an installation tool.</t>
           	</list>
 
           </t>
@@ -550,7 +595,10 @@ Location: /rd/4521
  		<t>The following response codes are defined for this interface: 
         <list style="hanging">
           <t hangText="Success:"> 2.04 "Changed" in the update was successfully processed.</t>
-          <t hangText="Failure:"> 4.00 "Bad Request". Malformed request. </t>
+          <t hangText="Failure:"> 4.00 "Bad Request". Malformed
+          request. </t>
+          <!-- TODO: This clearly needs a 4.04 code if the
+               registration does not exist (e.g., was already expired) -->
           <t hangText="Failure:"> 5.03 "Service Unavailable". Service could not perform the operation. </t>
         </list>
        	</t>
@@ -609,6 +657,10 @@ Res: 2.04 Changed
         <list style="hanging">
           <t hangText="Success:"> 2.02 "Deleted" upon successful deletion</t>
           <t hangText="Failure:"> 4.00 "Bad Request". Malformed request. </t>
+          <!-- TODO: This clearly needs a 4.04 code if the
+               registration does not exist (e.g., was already
+               expired); this is then an innocuous error!
+          -->
           <t hangText="Failure:"> 5.03 "Service Unavailable". Service could not perform the operation. </t>
         </list>
        	</t>
@@ -660,7 +712,7 @@ Res: 2.02 Deleted
 	  <section anchor='group-register' title="Register a Group">
 
 		<t>
-			In order to create a group, a management entity used to configure groups, makes a request to the RD indicating the name of the group to create (or update), the optional domain the group belongs to, and the optional multicast address of the group. The registration message includes the list of endpoints that belong to that group. If an endpoint has already registered with the RD, the RD attempts to use the context of the endpoint from its RD endpoint entry. If the client registering the group knows the endpoint has already registered, then it MAY send a blank target URI for that endpoint link when registering the group. Configuration of the endpoints themselves is out of scope of this specification. Such an interface for managing the group membership of an endpoint has been defined in <xref target="I-D.ietf-core-groupcomm"/>. 
+			In order to create a group, a management entity used to configure groups, makes a request to the RD indicating the name of the group to create (or update), optionally the domain the group belongs to, and optionally the multicast address of the group. The registration message includes the list of endpoints that belong to that group. If an endpoint has already registered with the RD, the RD attempts to use the context of the endpoint from its RD endpoint entry. If the client registering the group knows the endpoint has already registered, then it MAY send a blank target URI for that endpoint link when registering the group. Configuration of the endpoints themselves is out of scope of this specification. Such an interface for managing the group membership of an endpoint has been defined in <xref target="I-D.ietf-core-groupcomm"/>. 
 		</t>
 
         <t>The registration request interface is specified as follows: 
@@ -797,7 +849,15 @@ Res: 2.02 Deleted
 	  In order for an RD to be used for discovering resources registered with it, a lookup interface can be provided using this function set. This lookup interface is defined as a default, and it is assumed that RDs may also support lookups to return resource descriptions in alternative formats (e.g. Atom or HTML Link) or using more advanced interfaces (e.g. supporting context or semantic based lookup). 
 	  </t>
 	  <t>
-	  This function set allows lookups for domains, groups, endpoints and resources using attributes defined in the RD Function Set and for use with the CoRE Link Format. The result of a lookup request is the list of links (if any) in CoRE Link Format corresponding to the type of lookup. The target of these links SHOULD be the actual location of the domain, endpoint or resource, but MAY be an intermediate proxy e.g. in the case of an HTTP lookup interface for CoAP endpoints. Multiple query parameters MAY be included in a lookup, all included parameters MUST match for a resource to be returned. The character '*' MAY be included at the end of a parameter value as a wildcard operator.
+	  This function set allows lookups for domains, groups,
+          endpoints and resources using attributes defined in the RD
+          Function Set and for use with the CoRE Link Format. The
+          result of a lookup request is the list of links (if any)
+          corresponding to the type of lookup.  Using the Accept
+          Option, the requester can control whether this list is
+          returned in CoRE Link Format (<spanx style="verb">application/link-format</spanx>, default) or
+          its JSON form (<spanx style="verb">application/link-format+json</spanx>).
+The target of these links SHOULD be the actual location of the domain, endpoint or resource, but MAY be an intermediate proxy e.g. in the case of an HTTP lookup interface for CoAP endpoints. Multiple query parameters MAY be included in a lookup, all included parameters MUST match for a resource to be returned. The character '*' MAY be included at the end of a parameter value as a wildcard operator.
 	  </t>
 
         <t>The lookup interface is specified as follows: 
@@ -809,7 +869,11 @@ Res: 2.02 Deleted
           	<list style="hanging">
           	
           		<t hangText="rd-lookup-base := ">RD Lookup Function Set path (mandatory). This is the path of the RD Lookup Function Set. An RD SHOULD use the value "rd-lookup" for this variable whenever possible.</t>
-				<t hangText="lookup-type := ">("d", "ep", "res", "gp") (mandatory) This variable is used to select the kind of lookup to perform (domain, endpoint or resource).</t>
+				<t hangText="lookup-type := ">("d",
+                                "ep", "res", "gp") (mandatory) This
+                                variable is used to select the kind of
+                                lookup to perform (domain, endpoint,
+                                resource, or group).</t>
  				<t hangText="ep := ">Endpoint (optional). Used for endpoint, group and resource lookups.</t>          	
  				<t hangText="d := ">Domain (optional). Used for domain, group, endpoint and resource lookups.</t>			
  				<t hangText="page := ">Page (optional). Parameter can not be used without the count parameter. Results are returned from result set in pages that contains 'count' results starting from index (page * count).</t>
@@ -824,7 +888,8 @@ Res: 2.02 Deleted
        	
  		<t>The following responses codes are defined for this interface: 
         <list style="hanging">      	
-          <t hangText="Success:"> 2.05 "Content" with an application/link-format  or application/link-format+json payload containing a matching entries for the lookup.</t>
+          <t hangText="Success:"> 2.05 "Content" with an <spanx style="verb">application/link-format</spanx>  or <spanx style="verb">application/link-format+json</spanx>
+ payload containing a matching entries for the lookup.</t>
           <t hangText="Failure:"> 4.04 "Not Found" in case no matching entry is found for a unicast request.</t>
           <t hangText="Failure:"> No error response to a multicast request.</t>
           <t hangText="Failure:"> 4.00 "Bad Request". Malformed request. </t>
@@ -882,7 +947,7 @@ Res: 2.05 Content
 
             ]]></artwork>
         </figure>
-		
+	<!-- TODO: Get rid of {ip:port} or {host:port} metasyntax in the examples-->
 		<figure>
           <artwork align="left"><![CDATA[
 Req: GET /rd-lookup/ep?et=power-node
@@ -1036,10 +1101,12 @@ Res: 2.05 Content
          ]]></artwork>
        </figure>
 
-	<section title="Resource Instance 'ins' attribute">
+	<section title="Resource Instance attribute 'ins'">
 	
 	 	 <t>
-	 	 The Resource Instance "ins" attribute is an identifier for this resource, which makes it possible to distinguish from other similar resources. This attribute is similar in use to the &lt;Instance&gt; portion of a DNS-SD record (see <xref target="cheshire"/>, and SHOULD be unique across resources with the same Resource Type attribute in the domain it is used. A Resource Instance might be a descriptive string like "Ceiling Light, Room 3", a short ID like "AF39" or a unique UUID or iNumber. This attribute is used by a Resource Directory to distinguish between multiple instances of the same resource type within the directory.
+	 	 The Resource Instance "ins" attribute is an
+                 identifier for this resource, which makes it possible
+                 to distinguish it from other similar resources. This attribute is similar in use to the &lt;Instance&gt; portion of a DNS-SD record (see <xref target="cheshire"/>, and SHOULD be unique across resources with the same Resource Type attribute in the domain it is used. A Resource Instance might be a descriptive string like "Ceiling Light, Room 3", a short ID like "AF39" or a unique UUID or iNumber. This attribute is used by a Resource Directory to distinguish between multiple instances of the same resource type within the directory.
 	 	 </t>
  	 
 	 	 <t>
@@ -1048,11 +1115,12 @@ Res: 2.05 Content
 	
 	</section>
    
-	<section title="Export 'exp' attribute">
+	<section title="Export attribute 'exp'">
 	
 	 	 <t>
-	 	 The Export "exp" attribute is used as a flag to indicate that a link description MAY be exported by a resource directory to external directories.  
+	 	 The Export "exp" attribute is used as a flag to indicate that a link description MAY be exported by a resource directory to external directories.
 	 	 </t>
+                 <!-- TODO: a bit is probably too simple -->
 	 	 <t>
 	 	 The CoRE Link Format is used for many purposes between CoAP endpoints. Some are useful mainly locally, for example checking the observability of a resource before accessing it, determining the size of a resource, or traversing dynamic resource structures. However, other links are very useful to be exported to other directories, for example the entry point resource to a functional service. 
          </t>
@@ -1103,7 +1171,7 @@ The service name is the label of SRV/TXT resource records. The SRV RR specifies 
 The &lt;ServiceType&gt; part is composed of at least two labels.  The first
    label of the pair is the application protocol name <xref target="RFC6335"/> preceded
    by an underscore character.  The second label indicates the transport
-   and is always "_udp" for CoAP services.  In cases where narrowing the
+   and is always "_udp" for UDP-based CoAP services.  In cases where narrowing the
    scope of the search may be useful, these labels may be optionally
    preceded by a subtype name followed by the "_sub" label.  An example
    of this more specific &lt;ServiceType&gt; is "lamp._sub._dali._udp".
@@ -1186,17 +1254,23 @@ The resource type "rt" attribute is mapped into the &lt;ServiceType&gt;
 
 <section anchor="domain" title="Domain mapping">
 <t>
-DNS zones are defined from the "d" attribute.The domain attribute is suffixed to the host name and should be consistent with the domain name attributed to the hosting network segment.
+DNS domains are defined from the "d" attribute.The domain attribute is suffixed to the host name and should be consistent with the domain name attributed to the hosting network segment.
+<!-- Was "zone", but I'm sure this is orthogonal to DNS delegation. -->
 </t>
 </section>
 
 <section anchor="TXT" title="TXT Record key=value strings">
 <t>
-The resource &lt;URI&gt; is exported to the TXT record key=value string
+A number of <xref target="RFC6763"/> key/value pairs are derived from link-format
+information, to be exported in the DNS-SD as key=value strings in a
+TXT record (<xref target="RFC6763"/>, Section 6.3).
+</t>
+<t>
+The resource &lt;URI&gt; is exported as key/value pair
    "path=&lt;URI&gt;".
 </t><t>
-   The Interface Description "if" attribute is exported to the TXT
-   record key=value string "if=&lt;Interface Description&gt;".
+   The Interface Description "if" attribute is exported as key/value
+   pair "if=&lt;Interface Description&gt;".
 </t><t>
    The DNS TXT record can be further populated by importing any other
    resource description attributes as they share the same key=value
@@ -1281,12 +1355,15 @@ In the above figure the Service Name is chosen as FrontSpot._dali._udp.example.c
 
   <section title="Security Considerations">
          <t> 
-         This document needs the same security considerations as described in Section 7 of <xref target="RFC5988"/> and Section 6 of <xref target="RFC6690"/>. The /.well-known/core resource may be protected e.g. using DTLS when hosted on a CoAP server as described in <xref target="RFC7252"/>. DTLS or TLS based security SHOULD be used on all resource directory interfaces defined in this document (TODO: Improve the exact DTLS or TLS security requirements and references). 
+         The security considerations as described in Section 7 of
+         <xref target="RFC5988"/> and Section 6 of <xref
+         target="RFC6690"/> apply. The <spanx style="verb">/.well-known/core</spanx>
+ resource may be protected e.g. using DTLS when hosted on a CoAP server as described in <xref target="RFC7252"/>. DTLS or TLS based security SHOULD be used on all resource directory interfaces defined in this document (TODO: Improve the exact DTLS or TLS security requirements and references). 
      	 </t>
 
 	<section anchor="endpoint_identification" title="Endpoint Identification and Authentication">
 	<t>
-		An Endpoint is determined to be unique by a Resource Direction by the Endpoint identifier parameter included during Registration, and any associated TLS or DTLS security bindings. An Endpoint MUST NOT be identified by its protocol, port or IP address as these may change over the lifetime of an Endpoint. 
+		An Endpoint is determined to be unique by an RD by the Endpoint identifier parameter included during Registration, and any associated TLS or DTLS security bindings. An Endpoint MUST NOT be identified by its protocol, port or IP address as these may change over the lifetime of an Endpoint. 
 	</t>
 	<t>
 		Every operation performed by an Endpoint or Client on a resource directory SHOULD be mutually authenticated using Pre-Shared Key, Raw Public Key or Certificate based security. Endpoints using a Certificate MUST include the Endpoint identifier as the Subject of the Certificate, and this identifier MUST be checked by a resource directory to match the Endpoint identifier included in the Registration message. 
@@ -1301,7 +1378,20 @@ In the above figure the Service Name is chosen as FrontSpot._dali._udp.example.c
 	
 	<section title="Denial of Service Attacks">
 	<t>
-Services that run over UDP unprotected are vulnerable to unknowingly become part of a DDoS attack as UDP does not require return routability check. Therefore, an attacker can easily spoof the source IP of the target entity and send requests to such a service which would then respond to the target entity. This can be used for large-scale DDoS attacks on the target. Especially, if the service returns a response that is order of magnitudes larger than the request, the situation becomes even worse as now the attack can be amplified. DNS servers have been widely used for DDoS amplification attacks. Recently, it has been observed that NTP Servers, that also run on unprotected UDP have been used for DDoS attacks (http://tools.cisco.com/security/center/content/CiscoSecurityNotice/CVE-2013-5211) [TODO: Ref] since there is no return routability check and can have a large amplification factor. The responses from the NTP server were found to be 19 times larger than the request. A Resource Directory (RD) which responds to wild-card lookups is potentially vulnerable if run with CoAP over UDP. Since there is no return routability check and the responses can be significantly larger than requests, RDs can unknowingly become part of a DDoS amplification attack. Therefore, it is RECOMMENDED that implementations ensure return routability. This can be done, for example by responding to wild card lookups only over DTLS or TLS or TCP.
+Services that run over UDP unprotected are vulnerable to unknowingly
+become part of a DDoS attack as UDP does not require return
+routability check. Therefore, an attacker can easily spoof the source
+IP of the target entity and send requests to such a service which
+would then respond to the target entity. This can be used for
+large-scale DDoS attacks on the target. Especially, if the service
+returns a response that is order of magnitudes larger than the
+request, the situation becomes even worse as now the attack can be
+amplified. DNS servers have been widely used for DDoS amplification
+attacks. Recently, it has been observed that NTP Servers, that also
+run on unprotected UDP have been used for DDoS attacks
+(http://tools.cisco.com/security/center/content/CiscoSecurityNotice/CVE-2013-5211)
+[TODO: Ref, and cut down the verbiage, as this is already discussed in
+RFC 7252] since there is no return routability check and can have a large amplification factor. The responses from the NTP server were found to be 19 times larger than the request. A Resource Directory (RD) which responds to wild-card lookups is potentially vulnerable if run with CoAP over UDP. Since there is no return routability check and the responses can be significantly larger than requests, RDs can unknowingly become part of a DDoS amplification attack. Therefore, it is RECOMMENDED that implementations ensure return routability. This can be done, for example by responding to wild card lookups only over DTLS or TLS or TCP.
 	</t>
 	</section>
 
@@ -1360,7 +1450,7 @@ Services that run over UDP unprotected are vulnerable to unknowingly become part
     </texttable>
      
      <t>
-     The IANA policy for future additions to the sub-registry is "Expert Review" as described in <xref target="RFC5226"/>
+     The IANA policy for future additions to the sub-registry is "Expert Review" as described in <xref target="RFC5226"/>.
      </t>     
      
   </section>
