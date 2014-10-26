@@ -265,7 +265,7 @@ The additional features of Resource Directory allow domains to be defined to ena
   
   <t>
   This approach requires that the endpoint makes available the hosted resources
-that it wants to be discovered, as links on its /.well-known/core interface as 
+that it wants to be discovered, as links on its <spanx style="verb">/.well-known/core</spanx> interface as 
   specified in <xref target="RFC6690"/>.
   </t>
   <t>
@@ -275,7 +275,7 @@ that it wants to be discovered, as links on its /.well-known/core interface as
   </t>
   <t>
   An endpoint that wants to make itself discoverable occasionally
-  sends a POST request to the /.well-known/core URI of any candidate directory
+  sends a POST request to the <spanx style="verb">/.well-known/core</spanx> URI of any candidate directory
   server that it finds. The body of the POST request is either</t>
 
 <t><list style='symbols'>
@@ -378,7 +378,7 @@ to act as a directory server.</t>
 		</t>
 		
 		<t>
-		Discovery is performed by sending either a multicast or unicast GET request to /.well-known/core and including a Resource Type (rt) parameter <xref target="RFC6690"/> with the value "core.rd" in the query string. Likewise, a Resource Type parameter value of "core.rd-lookup" is used to discover the RD Lookup Function Set. Upon success, the response will contain a payload with a link format entry for each RD discovered, with the URL indicating the root resource of the RD. When performing multicast discovery, the multicast IP address used will depend on the scope required and the multicast capabilities of the network.
+		Discovery is performed by sending either a multicast or unicast GET request to <spanx style="verb">/.well-known/core</spanx> and including a Resource Type (rt) parameter <xref target="RFC6690"/> with the value "core.rd" in the query string. Likewise, a Resource Type parameter value of "core.rd-lookup" is used to discover the RD Lookup Function Set. Upon success, the response will contain a payload with a link format entry for each RD discovered, with the URL indicating the root resource of the RD. When performing multicast discovery, the multicast IP address used will depend on the scope required and the multicast capabilities of the network.
 		</t>
 		
 		<t>
