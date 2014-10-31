@@ -26,6 +26,7 @@
 <!ENTITY RFC6775 SYSTEM "http://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.6775.xml">
 <!ENTITY RFC7230 SYSTEM "http://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.7230.xml">
 <!ENTITY RFC7252 SYSTEM "http://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.7252.xml">
+<!ENTITY RFC7386 SYSTEM "http://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.7386.xml">
 <!ENTITY I-D.ietf-core-groupcomm SYSTEM "http://xml2rfc.ietf.org/public/rfc/bibxml3/reference.I-D.ietf-core-groupcomm.xml">
 <!ENTITY I-D.ietf-core-links-json SYSTEM "http://xml2rfc.ietf.org/public/rfc/bibxml3/reference.I-D.ietf-core-links-json.xml">
 
@@ -1577,6 +1578,7 @@ RFC 7252] since there is no return routability check and can have a large amplif
 		&I-D.ietf-core-groupcomm;
 		&RFC6775;
 		&RFC7230;
+		&RFC7386;
 		&RFC3629;
 		&RFC5198;
 		&RFC1123;
