@@ -26,7 +26,6 @@
 <!ENTITY RFC6775 SYSTEM "http://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.6775.xml">
 <!ENTITY RFC7230 SYSTEM "http://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.7230.xml">
 <!ENTITY RFC7252 SYSTEM "http://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.7252.xml">
-<!ENTITY RFC7386 SYSTEM "http://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.7386.xml">
 <!ENTITY I-D.ietf-core-groupcomm SYSTEM "http://xml2rfc.ietf.org/public/rfc/bibxml3/reference.I-D.ietf-core-groupcomm.xml">
 <!ENTITY I-D.ietf-core-links-json SYSTEM "http://xml2rfc.ietf.org/public/rfc/bibxml3/reference.I-D.ietf-core-links-json.xml">
 
@@ -56,7 +55,7 @@
 <?rfc subcompact="no" ?>
 <!-- keep one blank line between list items -->
 <!-- end of list of popular I-D processing instructions -->
-<rfc category="std" ipr="trust200902" docName="draft-ietf-core-resource-directory-02-pre">
+<rfc category="std" ipr="trust200902" docName="draft-ietf-core-resource-directory-02">
 
 <?xml-stylesheet type='text/xsl' href='rfc2629.xslt' ?>
 
@@ -153,7 +152,7 @@
         <t>This specification makes use of the following additional terminology:
 	<list style="hanging">
 	  <t hangText="Resource Directory"><vspace />
-		A web entity that stores information about web resources and  implements the REST interfaces defined in this specification for registration and lookup of those resources.</t>
+		A web entity that stores information about web resources and implements the REST interfaces defined in this specification for registration and lookup of those resources.</t>
 	  <t hangText="Domain"><vspace />
 		In the context of a Resource Directory, a domain is a
           logical grouping of endpoints. This specification assumes
@@ -167,6 +166,10 @@
 	</list>
 	</t>
 
+<!-- To Add: 
+  * Context
+-->
+
   </section>
   
 
@@ -177,12 +180,11 @@
   <section anchor='arch' title="Architecture and Use Cases">
 
 	<t>
-	The resource directory architecture is illustrated in <xref target="fig-arch"/>. A Resource Directory (RD) is used as a repository for Web Links <xref target="RFC5988"/> about resources hosted on other web servers, which are called endpoints (EP). An endpoint is a web server associated with an IP address and port, thus a physical node may host one or more endpoints. The RD implements a set of REST interfaces for endpoints to register and maintain sets of Web Links (called resource directory entries), for the RD to validate entries, and for clients to lookup resources from the RD or maintain groups. Endpoints themselves can also act as clients. An RD can be logically segmented by the use of Domains. The domain an endpoint is associated with can be defined by the RD or configured by an outside entity.
+	The resource directory architecture is illustrated in <xref target="fig-arch"/>. A Resource Directory (RD) is used as a repository for Web Links <xref target="RFC5988"/> about resources hosted on other web servers, which are called endpoints (EP). An endpoint is a web server associated with a scheme, IP address and port (called Context), thus a physical node may host one or more endpoints. The RD implements a set of REST interfaces for endpoints to register and maintain sets of Web Links (called resource directory entries), and for clients to lookup resources from the RD or maintain groups. Endpoints themselves can also act as clients. An RD can be logically segmented by the use of Domains. The domain an endpoint is associated with can be defined by the RD or configured by an outside entity. This information hierarchy is shown in <xref target="fig-hierarchy"/>.
 	</t>
 	<t>
-	Endpoints are assumed to proactively register and maintain resource directory entries on the RD, which are soft state and need to be periodically refreshed. An endpoint is provided with interfaces to register, update and remove a resource directory entry. Furthermore, a mechanism to discover an RD using the CoRE Link Format is defined. It is also possible for an RD to proactively discover Web Links from endpoints and add them as resource directory entries, or to validate existing resource directory entries. A lookup interface for discovering any of the Web Links held in the RD is provided using the CoRE Link Format.  
+	Endpoints are assumed to proactively register and maintain resource directory entries on the RD, which are soft state and need to be periodically refreshed. An endpoint is provided with interfaces to register, update and remove a resource directory entry. Furthermore, a mechanism to discover an RD using the CoRE Link Format is defined. It is also possible for an RD to proactively discover Web Links from endpoints and add them as resource directory entries. A lookup interface for discovering any of the Web Links held in the RD is provided using the CoRE Link Format.  
 	</t>
-
 
 		<figure anchor="fig-arch" title="The resource directory architecture.">
           <artwork align="left"><![CDATA[
@@ -202,6 +204,31 @@
   
             ]]></artwork>
         </figure>
+
+		<figure anchor="fig-hierarchy" title="The resource directory information hierarchy.">
+          <artwork align="left"><![CDATA[
+       
+       
+               +------------+
+               |   Domain   | <-- Name
+               +------------+ 
+                    |     |
+                    |   +------------+
+                    |   |   Group    | <-- Name, IP
+                    |   +------------+ 
+                    |     |
+               +------------+
+               |  Endpoint  |  <-- Name, Scheme, IP, Port
+               +------------+ 
+                     |
+                     | 
+               +------------+
+               |  Resource  |  <-- Target, Parameters
+               +------------+                    
+  
+            ]]></artwork>
+        </figure>
+
 
 
 	  <section anchor='cellular' title="Use Case: Cellular M2M">
@@ -227,7 +254,7 @@
 	  
 	  </section>
 
-	  <section anchor='usecase-catalogues' title="Use Case: Semantics Catalogues">
+	  <section anchor='usecase-catalogues' title="Use Case: Link Catalogues">
 
 	  <t> 
 	  Resources may be shared through data brokers that have no knowledge beforehand of who is going to consume the data. Resource Directory can be used to hold links about resources and services hosted anywhere to make them discoverable by a general class of applications. 
@@ -238,7 +265,7 @@ For example, environmental and weather sensors that generate data for public con
 </t>
 
 <t>
-Metadata in link-format or link-format+json representations are supplied by Resource Directories, which may be internally stored as semantic triples, or relation/attribute pairs providing metadata about resource links. External catalogs that are represented in other formats may be converted to link-format or link-format+json for storage and access by Resource Directories. Since it is common practice for these to be URN encoded, simple and lossless structural transforms will generally be sufficient to store external metadata in Resource Directories.
+Metadata in link-format or link-format+json representations are supplied by Resource Directories, which may be internally stored as  triples, or relation/attribute pairs providing metadata about resource links. External catalogs that are represented in other formats may be converted to link-format or link-format+json for storage and access by Resource Directories. Since it is common practice for these to be URN encoded, simple and lossless structural transforms will generally be sufficient to store external metadata in Resource Directories.
 </t>
 
 <t>
@@ -342,7 +369,7 @@ found by simply sending POST requests to that well-known multicast address
 <t>As some of these sources are just (more or less educated) guesses,
 endpoints MUST make use of any error messages to very strictly
 rate-limit requests to candidate IP addresses that don't work out.
-E.g., an ICMP Destination Unreachable message (and, in particular, the
+For example, an ICMP Destination Unreachable message (and, in particular, the
 port unreachable code for this message) may indicate the lack of a CoAP
 server on the candidate host, or a CoAP error response code such as
 4.05 "Method Not Allowed" may indicate unwillingness of a CoAP server
@@ -352,14 +379,13 @@ to act as a directory server.</t>
 
 <section anchor="third-party-registration" title="Third-party registration">
 
-        <t>
-          For some applications, even Simple Directory Discovery may
-          be too taxing for certain very constrained devices, in
-          particular if the security requirements become too onerous.
-        </t>
-        <t>
-In a controlled environment (e.g. building control), the Resource Directory can be filled by a third device, called installation tool. The installation tool can fill the Resource Directory from a database or other means. For that purpose the IP address and port of the registered device is communicated in the request as well.
-</t>  
+	<t>
+	  For some applications, even Simple Directory Discovery may be too taxing for certain very constrained devices, in particular if the security requirements become too onerous.
+	</t>
+
+	<t>
+	In a controlled environment (e.g. building control), the Resource Directory can be filled by a third device, called an installation tool. The installation tool can fill the Resource Directory from a database or other means. For that purpose the scheme, IP address and port of the registered device is indicated in the Context parameter of the registration as well.
+	</t>  
 </section>
 
   </section>
@@ -373,14 +399,16 @@ In a controlled environment (e.g. building control), the Resource Directory can 
   <section anchor='rd' title="Resource Directory Function Set">
 
 	<t>
-	This section defines the REST interfaces between an RD and endpoints, which is called the Resource Directory Function Set. Although the examples throughout this section assume use of CoAP    
+	This section defines the REST interfaces between an RD and endpoints, which is called the Resource Directory Function Set. Although the examples throughout this section assume the use of CoAP    
 	<xref target="RFC7252"/>, these REST interfaces can also be realized using HTTP <xref target="RFC7230"/>. An RD implementing this specification MUST support the discovery, registration, update, lookup, and removal interfaces defined in this section. 
 	</t>
 	
 	<t>
-	Resource directory entries are designed to be easily exported to other discovery mechanisms such as DNS-SD. For that reason, parameters that would meaningfully be mapped to DNS are limited to a maximum length of 63 bytes.
-        <!-- TODO: Is there maybe also a need to further restrict the
+	Resource directory entries are designed to be easily exported to other discovery mechanisms such as DNS-SD. For that reason, parameters that would meaningfully be mapped to DNS SHOULD be limited to a maximum length of 63 bytes.
+
+<!-- TODO: Is there maybe also a need to further restrict the
              set of characters available? -->
+             
 	</t>
 
 	  <section anchor='discovery' title="Discovery">
@@ -421,14 +449,9 @@ In a controlled environment (e.g. building control), the Resource Directory can 
         </list>
        	</t>
 
-		<t>
-		The following example shows an endpoint discovering an
-                RD using this interface, thus learning that the base
-                RD resource is, in this example, at /rd. Note that it
-                is up to the RD to choose its base RD resource,
-                although diagnostics and debugging is facilitated by
-                using the base paths specified here where possible.
-		</t>
+	<t> 
+	The following example shows an endpoint discovering an RD using this interface, thus learning that the base RD resource is, in this example, at /rd.  Note that it is up to the RD to choose its base RD resource, although diagnostics and debugging is facilitated by using the base paths specified here where possible. 
+	</t>
 
 		<figure>
           <artwork align="left"><![CDATA[
@@ -446,8 +469,6 @@ In a controlled environment (e.g. building control), the Resource Directory can 
             ]]></artwork>
         </figure>
 		
-		
-		
 		<figure>
           <artwork align="left"><![CDATA[
 Req: GET coap://[ff02::1]/.well-known/core?rt=core.rd*
@@ -459,14 +480,12 @@ Res: 2.05 Content
             ]]></artwork>
         </figure>
 		
-	
 	  </section>
-	  
-	
+	  	
 	  <section anchor='registration' title="Registration">
 
 		<t>
-		After discovering the location of an RD Function Set, an endpoint MAY register its resources using the registration interface. This interface accepts a POST from an endpoint containing the list of resources to be added to the directory as the message payload in the CoRE Link Format <xref target="RFC6690"/> or JSON Link Format <xref target="I-D.ietf-core-links-json"/> along with query string parameters indicating the name of the endpoint, its domain and the lifetime of the registration. All parameters except the endpoint name are optional. It is expected that other specifications MAY define further parameters (it is to be determined if a registry of parameters is needed for this purpose). The RD then creates a new resource or updates an existing resource in the RD and returns its location. An endpoint MUST use that location when refreshing registrations using this interface. Endpoint resources in the RD are kept active for the period indicated by the lifetime parameter. The endpoint is responsible for refreshing the entry within this period using either the registration or update interface. The registration interface MUST be implemented to be idempotent, so that registering twice with the same endpoint parameter does not create multiple RD entries.  
+		After discovering the location of an RD Function Set, an endpoint MAY register its resources using the registration interface. This interface accepts a POST from an endpoint containing the list of resources to be added to the directory as the message payload in the CoRE Link Format <xref target="RFC6690"/> or JSON Link Format <xref target="I-D.ietf-core-links-json"/> along with query string parameters indicating the name of the endpoint, its domain and the lifetime of the registration. All parameters except the endpoint name are optional. It is expected that other specifications will define further parameters (see <xref target="iana-registry"/>). The RD then creates a new resource or updates an existing resource in the RD and returns its location. An endpoint MUST use that location when refreshing registrations using this interface. Endpoint resources in the RD are kept active for the period indicated by the lifetime parameter. The endpoint is responsible for refreshing the entry within this period using either the registration or update interface. The registration interface MUST be implemented to be idempotent, so that registering twice with the same endpoint parameter does not create multiple RD entries.  
 		</t>
 
         <t>The registration request interface is specified as follows: 
@@ -480,8 +499,8 @@ Res: 2.05 Content
                                 path (mandatory). This is the path of
                                 the RD Function Set, as obtained from discovery. An RD SHOULD use the value "rd" for this variable whenever possible.</t>   
  				<t hangText="ep := ">Endpoint (mandatory). The endpoint identifier or name of the registering node, unique within that domain. The maximum length of this parameter is 63 bytes. </t>          	
- 				<t hangText="d := ">Domain (optional). The domain to which this endpoint belongs. The maximum length of this parameter is 63 bytes. Optional. When this parameter is elided, the RD MAY associate the endpoint with a configured default domain. The domain value is needed to export the endpoint to DNS-SD (see <xref target="dns-sd"/>).</t>
- 				<t hangText="et := ">Endpoint Type (optional). The semantic type of the endpoint. The maximum length of this parameter is 63 bytes. Optional.</t>
+ 				<t hangText="d := ">Domain (optional). The domain to which this endpoint belongs. This parameter SHOULD be less than 63 bytes. Optional. When this parameter is elided, the RD MAY associate the endpoint with a configured default domain. The domain value is needed to export the endpoint to DNS-SD (see <xref target="dns-sd"/>).</t>
+ 				<t hangText="et := ">Endpoint Type (optional). The semantic type of the endpoint. This parameter SHOULD be less than 63 bytes. Optional.</t>
           		<t hangText="lt := ">Lifetime (optional). Lifetime of the registration in seconds. Range of 60-4294967295. If no lifetime is included, a default value of 86400 (24 hours) SHOULD be assumed.</t>
  				<t hangText="con := ">Context
                                 (optional). This parameter sets the
@@ -492,7 +511,7 @@ Res: 2.05 Content
                                 of the protocol, source IP address and
                                 source port of the register request
                                 are assumed. This parameter is
-                                compulsory when the directory is
+                                mandatory when the directory is
                                 filled by a third party such as an installation tool.</t>
           	</list>
           </t>
@@ -510,7 +529,10 @@ Res: 2.05 Content
           operations on this registration. The resource returned in
           the Location is only for the purpose of the Update (POST)
           and Removal (DELETE), and MUST NOT implement GET or PUT
-          methods.</t> <!--TODO: Discuss!  Really no GET?-->
+          methods.</t> 
+<!--TODO: Discuss!  Really no GET? 
+Zach: GET would only make sense if we treated this location as a collection rather than just an internal handle for the RD.
+-->
           <t hangText="Failure:"> 4.00 "Bad Request". Malformed request. </t>
           <t hangText="Failure:"> 5.03 "Service Unavailable". Service could not perform the operation. </t>
         </list>
@@ -555,15 +577,15 @@ Location: /rd/4521
 		</t>
 		<t>
 		An update MAY optionally add or replace links for the
-                endpoint by including those  links in the payload of
+                endpoint by including those links in the payload of
                 the update as a CoRE Link Format document. Including
                 links in an update message greatly increases the load
                 on an RD and SHOULD be done infrequently. A link is
                 replaced only if both the target URI and relation type
                 match (see <xref target="endpoint_identification"/>).
-                (TODO: explain how a patch format, probably not
-                <xref target="RFC7386"/>, could be used to delete, replace, and add
-                entries.)
+
+<!-- TODO: explain how a patch format, probably not RFC7386, could be used to delete, replace, and add entries.) -->
+                
 		</t>
 
         <t>The update request interface is specified as follows: 
@@ -598,8 +620,7 @@ Location: /rd/4521
           <t hangText="Success:"> 2.04 "Changed" in the update was successfully processed.</t>
           <t hangText="Failure:"> 4.00 "Bad Request". Malformed
           request. </t>
-          <!-- TODO: This clearly needs a 4.04 code if the
-               registration does not exist (e.g., was already expired) -->
+          <t hangText="Failure:"> 4.04 "Not Found". Registration does not exist (e.g. may have expired).</t>
           <t hangText="Failure:"> 5.03 "Service Unavailable". Service could not perform the operation. </t>
         </list>
        	</t>
@@ -658,10 +679,7 @@ Res: 2.04 Changed
         <list style="hanging">
           <t hangText="Success:"> 2.02 "Deleted" upon successful deletion</t>
           <t hangText="Failure:"> 4.00 "Bad Request". Malformed request. </t>
-          <!-- TODO: This clearly needs a 4.04 code if the
-               registration does not exist (e.g., was already
-               expired); this is then an innocuous error!
-          -->
+           <t hangText="Failure:"> 4.04 "Not Found". Registration does not exist (e.g. may have expired).</t>
           <t hangText="Failure:"> 5.03 "Service Unavailable". Service could not perform the operation. </t>
         </list>
        	</t>
@@ -804,6 +822,7 @@ Location: /rd-group/12
         <list style="hanging">
           <t hangText="Success:"> 2.02 "Deleted" upon successful deletion</t>
           <t hangText="Failure:"> 4.00 "Bad Request". Malformed request. </t>
+		  <t hangText="Failure:"> 4.04 "Not Found". Group does not exist. </t>          
           <t hangText="Failure:"> 5.03 "Service Unavailable". Service could not perform the operation. </t>
         </list>
        	</t>
@@ -1439,9 +1458,9 @@ RFC 7252] since there is no return routability check and can have a large amplif
           <ttcol align="left">Validity</ttcol>
           <ttcol align="left">Description</ttcol>
 
-          <c>Endpoint Name</c><c>ep</c><c> &lt; 63 bytes</c><c>Name of the endpoint</c>
+          <c>Endpoint Name</c><c>ep</c><c> </c><c>Name of the endpoint</c>
 		  <c>Lifetime</c><c>lt</c><c>60-4294967295</c><c>Lifetime of the registration in seconds</c>
-		  <c>Domain</c><c>d</c><c> &lt; 63 bytes</c><c>Domain to which this endpoint belongs</c>
+		  <c>Domain</c><c>d</c><c> </c><c>Domain to which this endpoint belongs</c>
 		  <c>Endpoint Type</c><c>et</c><c></c><c>Semantic name of the endpoint</c>
 		  <c>Context</c><c>con</c><c>URI</c><c>The scheme, address and port at which this server is available</c>
 		  <c>Endpoint Name</c><c>ep</c><c></c><c>Name of the endpoint, max 63 bytes</c>
@@ -1495,6 +1514,8 @@ RFC 7252] since there is no return routability check and can have a large amplif
         <t>o Additional examples section added for more complex use cases.</t>
         <t>o New DNS-SD mapping section.</t>
         <t>o Added text on endpoint identification and authentication.</t>
+        <t>o Error code 4.04 added to Registration Update and Delete requests.</t>
+        <t>o Made 63 bytes a SHOULD rather than a MUST for endpoint name and resource type parameters.</t>  
         <t>	</t>
       </list>
     </t>
@@ -1568,7 +1589,7 @@ RFC 7252] since there is no return routability check and can have a large amplif
        &RFC5988;
        &RFC6335;
        &RFC6570;
-	 &RFC6763;
+	   &RFC6763;
        &I-D.ietf-core-links-json;
            
     </references>
@@ -1578,7 +1599,6 @@ RFC 7252] since there is no return routability check and can have a large amplif
 		&I-D.ietf-core-groupcomm;
 		&RFC6775;
 		&RFC7230;
-		&RFC7386;
 		&RFC3629;
 		&RFC5198;
 		&RFC1123;
