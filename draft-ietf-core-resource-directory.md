@@ -1,7 +1,7 @@
 ---
 stand_alone: true
 ipr: trust200902
-docname: draft-ietf-core-resource-directory-03pre
+docname: draft-ietf-core-resource-directory-03pre-a
 cat: std
 pi:
   strict: 'yes'
@@ -16,7 +16,7 @@ title: CoRE Resource Directory
 area: Internet
 wg: CoRE
 kw: CoRE, Web Linking, Resource Discovery, Resource Directory
-date: '2015-03-24'
+date: '2015-04-29'
 author:
 - ins: Z. Shelby
   name: Zach Shelby
@@ -39,6 +39,13 @@ author:
   country: Germany
   phone: "+49-421-218-63921"
   email: cabo@tzi.org
+- ins: P. van der Stok
+  name: Peter van der Stok
+  org: consultant
+  abbrev: consultant
+  phone: "+31-492474673 (Netherlands), +33-966015248 (France)"
+  email: consultancy@vanderstok.org
+  uri: www.vanderstok.org
 normative:
   RFC6690:
   RFC2119:
@@ -51,13 +58,14 @@ normative:
   I-D.ietf-core-links-json:
 informative:
   RFC7252:
-  I-D.ietf-core-groupcomm:
+  RFC7390: 
   RFC6775:
   RFC7230:
   RFC3629:
   RFC5198:
   RFC1123:
   RFC1034:
+  I-D.ietf-core-interfaces: 
 
 --- abstract
 
@@ -692,7 +700,7 @@ an RD using this interface.
 ~~~~
      EP                                                RD
      |                                                 |
-     | --- POST /rd/4521  -------------------------->   |
+     | --- POST /rd/4521  -------------------------->  |
      |                                                 |
      |                                                 |
      | <-- 2.04 Changed  ----------------------------  |
@@ -793,7 +801,7 @@ entry. If the client registering the group knows the endpoint has already
 registered, then it MAY send a blank target URI for that endpoint link when
 registering the group. Configuration of the endpoints themselves is out of
 scope of this specification. Such an interface for managing the group membership
-of an endpoint has been defined in {{I-D.ietf-core-groupcomm}}.
+of an endpoint has been defined in {{RFC7390}}.
 
 The registration request interface is specified as follows:
 
@@ -1056,13 +1064,13 @@ Res: 2.05 Content
 ~~~~
 {: align="left"}
 
-The following example shows a client performing an endpoint lookup:
+The following example shows a client performing an endpoint type lookup:
 
 
 ~~~~
    Client                                                          RD
      |                                                             |
-     | ----- GET /rd-lookup/ep?et=power-node -------------------->  |
+     | ----- GET /rd-lookup/ep?et=power-node --------------------> |
      |                                                             |
      |                                                             |
      | <-- 2.05 Content <coap://{ip:port}>;ep="node5" ------------ |
@@ -1329,10 +1337,10 @@ are stored directly in the DNS.
 
 ## Domain mapping {#domain}
 
-DNS domains are defined from the "d" attribute.The domain attribute is
-suffixed to the host name and should be consistent with the domain name
-attributed to the hosting network segment.<!-- Was "zone", but I'm sure this
-is orthogonal to DNS delegation.  -->
+DNS domains may be derived from the "d" attribute. The domain attribute may
+be suffixed with the zone name of the authoritative DNS server to generate
+the domain name. The "ep" attribute is prefixed to the domain name to generate
+the FQDN to be stored into DNS with an AAAA RR.
 
 
 ## TXT Record key=value strings {#TXT}
@@ -1371,9 +1379,9 @@ exported:
       | --- GET /rd-lookup/res?exp ------------------------------>  |
       |                                                             |
       |                                                             |
-      | <-- 2.05 Content "<coap://node1/light/1>;exp; ------------  |
+      | <-- 2.05 Content "<coap://[FDFD::1234]:61616/light/1>;exp;  |
       |                   rt="dali.light";ins="FrontSpot"           |
-      |                   d="example.com"                           |
+      |                   d="office";ep="node1"                     |
       |                                                             |
 ~~~~
 {: align="left"}
@@ -1384,31 +1392,32 @@ exported:
 
    Res: 2.05 Content
    <coap://[FDFD::1234]:61616/light/1>;
-     exp;ct=41;rt="dali.light";ins="FrontSpot";
-               d="example.com"
+     exp;rt="dali.light";ins="Spot";
+               d="office"; ep="node1"
+
 ~~~~
 {: align="left"}
 
-The agent subsequently registers the following DNS-SD RRs:
+The agent subsequently registers the following DNS-SD RRs, assuming a zone
+name "example.com" prefixed with "office":
+
 
 ~~~~
-node1.example.com.                IN AAAA
-                          FDFD::1234
-_dali._udp.example.com            IN PTR
-                          FrontSpot._dali._udp.example.com
-light._sub._dali._udp.example.com IN PTR
-                          FrontSpot._dali._udp.example.com
-FrontSpot._dali._udp.example.com  IN SRV  0 0 5678
-                          node1.example.com.
-FrontSpot._dali._udp.example.com  IN TXT
+node1.office.example.com.          IN AAAA        FDFD::1234
+_dali._udp.office.example.com      IN PTR
+                          Spot._dali._udp.office.example.com
+light._sub._dali._udp.example.com  IN PTR
+                          Spot._dali._udp.office.example.com
+Spot._dali._udp.office.example.com IN SRV  0 0 5678
+                          node1.office.example.com.
+Spot._dali._udp.office.example.com IN TXT
                           txtver=1;path=/light/1
 ~~~~
 {: align="left"}
 
-In the above figure the Service Name is chosen as
-FrontSpot._dali._udp.example.com without the light._sub service prefix. An
-alternative Service Name would be:
-FrontSpot.light._sub._dali._udp.example.com.
+In the above figure the Service Name is chosen as Spot._dali._udp.office.example.com
+without the light._sub service prefix. An alternative Service Name would
+be: Spot.light._sub._dali._udp.office.example.com.
 
 
 
@@ -1519,6 +1528,401 @@ as described in {{RFC5226}}.
 
 # Examples {#examples}
 
+Examples are added here.
+
+## Lighting Installation {#lt-ex}
+
+This example shows a simplified lighting installation which makes use of
+the Resource Directory (RD) to facilitate the installation and start up of
+the application code in the lights and sensors. In particular, the example
+leads to the definition of a group and the enabling of the corresponding
+multicast address. No conclusions must be drawn on the realization of actual
+installation procedures, because the example "emphasizes" some of the issues
+that may influence the use of the RD.
+
+### Installation Characteristics {#lt-in-ch}
+
+The example assumes that the installation is managed. That means that a Commissioning
+Tool (CT) is used to authorize the addition of nodes, name them, and name
+their services. The CT can be connected to the installation in many ways:
+the CT can be part of the installation network, connected by wifi to the
+installation network, or connected via GPRS link, or other method.
+
+It is assumed that there are two naming authorities for the installation:
+(1) the network manager that is responsible for the correct operation of
+the network and the connected interfaces, and (2) the lighting manager that
+is responsible for the correct functioning of networked lights and sensors.
+The result is the existence of two naming schemes coming from the two managing
+entities.
+
+The example installation consists of one presence sensor, and two luminaries,
+luminary1 and luminary2, each with their own wireless interface. Each luminary
+contains three lamps: left, right and middle. Each luminary is accessible
+through one end-point. For each lamp a resource exists to modify the settings
+of a lamp in a luminary. The purpose of the installation is that the presence
+sensor notifies the presence of persons to a group of lamps. The group of
+lamps consists of: middle and left lamps of luminary1 and right lamp of luminary2.
+
+Before commissioning by the lighting manager, the network is installed and
+access to the interfaces is proven to work by the network manager. Following
+the lay-out of cables and routers the network manager has defined DNS domains.
+The presence sensor and luminary1 are part of DNS
+domain: rtr_5612_rrt.example.com and luminary2 is part of rtr_7899_pfa.example.com.
+The names of luminary1- luminary2-, and sensor- interfaces are respectively:
+lm_12-345-678, lm_12-456-378, and sn_12-345-781. These names are stored in
+DNS together with their IP addresses. The FQDN of the interfaces is shown
+in {{interface-F}} below:
+
+| Name | FQDN |
+| luminary1 | lm_12-345-678.rtr_5612_rrt.example.com  |
+| luminary2 | lm_12-456-378.rtr_7899_pfa.example.com |
+| Presence sensor | sn_12-345-781.rtr_5612_rrt.example.com |
+| Resource directory | pc_123456.rtr_5612_rrt.example.com |
+{: #interface-F title='interface FQDNs'}
+
+At the moment of installation, the network under installation is not necessarily
+connected to the DNS infra structure. Therefore, SLAAC IPv6 addresses are
+assigned to CT, RD, luminaries and sensor shown in {{interface-S}} below:
+
+| Name | IPv6 address |
+| luminary1 | FDFD::ABCD:1 |
+| luminary2 | FDFD::ABCD:2 |
+| Presence sensor | FDFD::ABCD:3 |
+| Resource directory | FDFD::ABCD:0 |
+{: #interface-S title='interface SLAAC addresses'}
+
+In {{rd-en}} the use of resource directory during installation is presented. In {{dns-en}} the connection to DNS is discussed.
+
+
+### RD entries {#rd-en}
+
+It is assumed that access to the DNS infrastructure is not always possible
+during installation. Therefore, the SLAAC addresses are used in this section.
+
+For discovery, the resource types (rt) of the devices are important. The
+lamps in the luminaries have rt: light, and the presence sensor has rt: p-sensor.
+The end-points have names which are relevant to the light installation manager.
+In this case luminary1, luminary2, and the presence sensor are located in
+room 2-4-015, where luminary1 is located at the window and luminary2 and
+the presence sensor are located at the door. The end-point names reflect
+this physical location. The middle, left and right lamps are accessed via
+path /light/middle, /light/left, and /light/right respectively. The identifiers
+relevant to the Resource Directory are shown in {{end-point}} below:
+
+| Name | end-point | resource path | resource type |
+| luminary1 | lm_R2-4-015_wndw  | /light/left  |  light  |
+| luminary1 | lm_R2-4-015_wndw  | /light/middle  |  light  |
+| luminary1 | lm_R2-4-015_wndw  | /light/right  |  light  |
+| luminary2 | lm_R2-4-015_door  | /light/left  |  light  |
+| luminary2 | lm_R2-4-015_door  | /light/middle  |  light  |
+| luminary2 | lm_R2-4-015_door  | /light/right  |  light  |
+| Presence sensor | ps_R2-4-015_door  | /ps  |  p-sensor  |
+{: #end-point title='Resource Directory identifiers'}
+
+The CT inserts the end-points of the luminaries and the sensor in the RD
+using the Context parameter (con) to specify the interface address:
+
+
+~~~~
+Req: POST
+ coap://[FDFD::ABCD:0]/rd?ep=lm_R2-4-015_wndw
+Payload:
+</light/left>;rt="light";
+  con="FDFD::ABCD:1";
+  d="R2-4-015"; ins="lamp4444"; exp,
+</light/middle>;rt="light";
+  con="FDFD::ABCD:1";
+  d="R2-4-015"; ins="lamp5555"; exp,
+</light/right>;rt="light";
+  con="FDFD::ABCD:1";
+  d="R2-4-015"; ins="lamp6666"; exp
+
+Res: 2.01 Created
+Location: /rd/4521
+~~~~
+{: align="left"}
+
+
+~~~~
+Req: POST coap://[FDFD::ABCD:0]/rd?ep=lm_R2-4-015_door
+Payload:
+</light/left>;rt="light";
+  con="FDFD::ABCD:2";
+  d="R2-4-015"; ins="lamp1111"; exp,
+</light/middle>;rt="light";
+  con="FDFD::ABCD:2";
+  d="R2-4-015"; ins="lamp2222"; exp,
+</light/right>;rt="light";
+  con="FDFD::ABCD:2";
+  d="R2-4-015"; ins="lamp3333"; exp
+
+Res: 2.01 Created
+Location: /rd/4522
+~~~~
+{: align="left"}
+
+
+~~~~
+Req: POST coap://[FDFD::ABCD:0]/rd?ep=ps_R2-4-015_door
+Payload:
+</ps>;rt="p-sensor";
+  con="FDFD::ABCD:3";
+  d="R2-4-015"; ins="pres1234"; exp
+
+Res: 2.01 Created
+Location: /rd/4523
+~~~~
+{: align="left"}
+
+The domain name d="R2-4-015" has been added for an efficient lookup because
+filtering on "ep" name is awkward. The same domain name is communicated to
+the two luminaries and the presence sensor by the CT. The "exp" attribute
+is set for the later administration in DNS of the instance name ins="lampxxxx".
+
+Once the individual endpoints are registered, the group needs to be registered.
+Because the presence sensor sends one multicast message to the luminaries,
+all lamps in the group need to have an identical path. This path is created
+on the two luminaries using the batch command defined in {{I-D.ietf-core-interfaces}}. The path to a batch of lamps is defined as: /light/grp1. In the example
+below, two endpoints are updated with an additional resource using the path
+/light/grp1 on the two luminaries.
+
+
+~~~~
+Req: POST
+ coap://[FDFD::ABCD:1]/light/grp1
+ (content-type:application/link-format)light/middle, light/left
+
+Res: 2.04 Changed
+
+Req: POST
+ coap://[FDFD::ABCD:2]/light/grp1
+(content-type:application/link-format)light/right
+
+Res: 2.04 Changed
+~~~~
+{: align="left"}
+
+The group is specified in the RD. The Context parameter is set to the site-local
+multicast address allocated to the group.
+In the POST in the example below, these two end-points and the end-point
+of the presence sensor are registered as members of the group.
+
+It is expected that Standards Developing Organization (SDO) may develop other
+special purpose protocols to specify additional group links, group membership,
+group names and other parameters in the individual nodes.
+
+
+~~~~
+Req: POST coap://[FDFD::ABCD:0]/rd-group
+?gp=grp_R2-4-015;con="FF05::1";exp; ins="grp1234"
+Payload:
+<>ep=lm_R2-4-015_wndw,
+<>ep=lm_R2-4-015_door,
+<>ep=ps_R2-4-015_door
+
+Res: 2.01 Created
+Location: /rd-group/501
+~~~~
+{: align="left"}
+
+After the filling of the RD by the CT, the application in the luminaries
+can learn to which groups they belong, and enable their interface for the
+multicast address.
+
+The luminary, knowing its domain, queries the RD for the end-point with rt=light
+and d=R2-4-015. The RD returns all end-points in the domain.
+
+
+~~~~
+Req: GET coap://[FDFD::ABCD:0]/rd-lookup/ep
+  ?d=R2-4-015; rt=light
+
+Res: 2.05 Content
+<coap://[FDFD::ABCD:1]>;
+  ep="lm_R2-4-015_wndw",
+<coap://[FDFD::ABCD:2]>;
+   ep="lm_R2-4-015_door"
+~~~~
+{: align="left"}
+
+Knowing its own IPv6 address, the luminary discovers its endpoint name. With
+the end-point name the luminary queries the RD for all groups to which the
+end-point belongs.
+
+
+~~~~
+Req: GET coap://[FDFD::ABCD:0]/rd-lookup/gp
+  ?ep=lm_R2-4-015_wndw
+
+Res: 2.05 Content
+</rd-group/501;gp="grp_R2-4-015";con="FF05::1"
+~~~~
+{: align="left"}
+
+From the context parameter value, the luminary learns the multicast address
+of the multicast group.
+
+Alternatively, the CT can communicate the multicast address directly to the
+luminaries by using the "coap-group" resource specified in {{RFC7390}}.
+
+<!-- XXX: the following isn't JSON -->
+
+~~~~
+Req: POST //[FDFD::ABCD:1]/coap-group
+          Content-Format: application/coap-group+json
+       { "a": "[FF05::1]" }
+       { "n": "grp_R2-4-015"}
+
+Res: 2.01 Created
+Location-Path: /coap-group/1
+~~~~
+{: align="left"}
+
+Dependent on the situation only the address ,"a", or the name, "n", is specified
+in the coap-group resource. Instead of the RD group name also the DNS group
+name can be used.
+
+
+### DNS entries {#dns-en}
+
+The network manager assigns the domain bc.example.com to the entries coming
+from the RD.
+The agent that looks up the resource directory uses the domain name bc.example.com
+as prescribed, to enter the services and hosts into the DNS.
+
+The agent does a lookup as specified in {{import}}. The RD returns all entries annotated with "exp". The agent subsequently
+registers the following DNS-SD RRs:
+
+
+~~~~
+lm_R2-4-015_wndw.bc.example.com.        IN AAAA      FDFD::ABCD:1
+lm_R2-4-015_door.bc.example.com.        IN AAAA      FDFD::ABCD:2
+ps_R2-4-015_door.bc.example.com.        IN AAAA      FDFD::ABCD:3
+_light._udp.bc.example.com              IN PTR
+                           lamp1111._light._udp.bc.example.com
+_light._udp.bc.example.com              IN PTR
+                           lamp2222._light._udp.bc.example.com
+_light._udp.bc.example.com              IN PTR
+                           lamp3333._light._udp.bc.example.com
+_light._udp.bc.example.com              IN PTR
+                           lamp4444._light._udp.bc.example.com
+_light._udp.bc.example.com              IN PTR
+                           lamp5555._light._udp.bc.example.com
+_light._udp.bc.example.com              IN PTR
+                           lamp6666._light._udp.bc.example.com
+_p-sensor._udp.bc.example.com           IN PTR
+                       pres12324._p-sensor._udp.bc.example.com
+lamp1111._light._udp.bc.example.com     IN SRV  0 0 5678
+                              lm_R2-4-015_door.bc.example.com.
+lamp1111._light._udp.bc.example.com     IN TXT
+                                     txtver=1;path=/light/left
+lamp2222._light._udp.bc.example.com     IN SRV  0 0 5678
+                              lm_R2-4-015_door.bc.example.com.
+lamp2222._light._udp.bc.example.com     IN TXT
+                                   txtver=1;path=/light/middle
+lamp3333._light._udp.bc.example.com     IN SRV  0 0 5678
+                              lm_R2-4-015_door.bc.example.com.
+lamp3333._light._udp.bc.example.com     IN TXT
+                                    txtver=1;path=/light/right
+lamp4444._light._udp.bc.example.com     IN SRV  0 0 5678
+                              lm_R2-4-015_wndw.bc.example.com.
+lamp4444._light._udp.bc.example.com     IN TXT
+                                     txtver=1;path=/light/left
+lamp5555._light._udp.bc.example.com     IN SRV  0 0 5678
+                              lm_R2-4-015_wndw.bc.example.com.
+lamp5555._light._udp.bc.example.com     IN TXT
+                                   txtver=1;path=/light/middle
+lamp6666._light._udp.bc.example.com     IN SRV  0 0 5678
+                              lm_R2-4-015_wndw.bc.example.com.
+lamp6666._light._udp.bc.example.com     IN TXT
+                                    txtver=1;path=/light/right
+pres1234._p-sensor._udp.bc.example.com  IN SRV  0 0 5678
+                              ps_R2-4-015_door.bc.example.com.
+pres1234._p-sensor._udp.bc.example.com  IN TXT
+                                             txtver=1;path=/ps
+~~~~
+{: align="left"}
+
+To ask for all lamps is equivalent to returning all PTR RR with label _light.udp.bc.example.com.
+from the DNS. When it is required to filter on the rd=R2-4-015 value in the
+DNS, additional PTR RRs have to be entered into the DNS.
+
+
+~~~~
+R2-4-015._light._udp.bc.example.com              IN PTR
+                           lamp1111._light._udp.bc.example.com
+R2-4-015._light._udp.bc.example.com              IN PTR
+                           lamp2222._light._udp.bc.example.com
+R2-4-015._light._udp.bc.example.com              IN PTR
+                           lamp3333._light._udp.bc.example.com
+R2-4-015._light._udp.bc.example.com              IN PTR
+                           lamp4444._light._udp.bc.example.com
+R2-4-015._light._udp.bc.example.com              IN PTR
+                           lamp5555._light._udp.bc.example.com
+R2-4-015._light._udp.bc.example.com              IN PTR
+                           lamp6666._light._udp.bc.example.com
+~~~~
+{: align="left"}
+
+Returning all PTR RRs with label R2-4-015._light._udp.bc.example.com provides
+all service instances within the domain R2-4-015. This filtering can be handy
+when there are many rooms. In the example there is only one room, making
+the filtering superfluous.
+
+The agent can also discover groups that need to be discovered. It queries
+RD to return all groups which are exported.
+
+
+~~~~
+   Req: GET /rd-lookup/gp?exp
+
+   Res: 2.05 Content
+   <coap://[FF05::1]/>; exp; gp="grp_R2-4-015; ins="grp1234";
+ep="lm_R2-4-015_wndw";
+ep="lm_R2-4-015_door
+
+~~~~
+{: align="left"}
+
+The group with FQDN grp_R2-4-015.bc.example.com can be entered into the DNS
+by the agent. The accompanying instance name is grp1234. The &lt;ServiceType>
+is chosen to be _group._udp. The agent enters the following RRs into the
+DNS.
+
+
+~~~~
+grp_R2-4-015.bc.example.com.        IN AAAA            FF05::1
+_group._udp.bc.example.com          IN PTR
+                            grp1234._group._udp.bc.example.com
+grp1234._group._udp.bc.example.com  IN SRV  0 0 5678
+                             grp_R2-4-015_door.bc.example.com.
+grp1234._group._udp.bc.example.com  IN TXT
+                                     txtver=1;path=/light/grp1
+~~~~
+{: align="left"}
+
+
+### RD Operation {#rd-op}
+
+The specification of the group can be used by devices other than the luminaries
+and the sensor to learn the multicast address of the group in a given room.
+For example a smart phone may be used to adjust the lamps in the room.
+
+After entry into the room, on request of the user, the smart phone queries
+the presence of RDs and may display all the domain names found on the RDs.
+The user can, for example, scroll all domains (room names in this case) and
+select the room that he entered. After selection the phone shows all groups
+in the selected room with their members. Selecting a group, the user can
+dim, switch on/off the group of lights, or possibly even create temporary
+new groups.
+
+In all examples the SLAAC IPv6 address can be exchanged with the FQDN, when
+a connection to DNS exists.
+Using the FQDN, a node learns the interface's IPv6 address, or the group's
+multicast address from DNS.
+In the same way the presence sensor can learn the multicast address to which
+it should send its presence messages.
+
 
 
 
@@ -1527,7 +1931,7 @@ as described in {{RFC5226}}.
 Srdjan Krco, Szymon Sasin, Kerry Lynn, Esko Dijk, Peter van der Stok, Anders
 Brandt, Matthieu Vial, Michael Koster, Mohit Sethi, Sampo Ukkola and Linyi
 Tian have provided helpful comments, discussions and ideas to improve and
-shape this document. Zach would also like to thank his collagues from the
+shape this document. Zach would also like to thank his colleagues from the
 EU FP7 SENSEI project, where many of the resource directory concepts were
 originally developed.
 
