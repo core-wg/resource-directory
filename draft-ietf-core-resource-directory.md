@@ -27,9 +27,10 @@ author:
   country: USA
   phone: "+1-408-203-9434"
   email: zach.shelby@arm.com
-- ins: M. Koster
+- ins: M. K. Koster
   name: Michael Koster
-  org: ARM
+  org: ARM Limited
+  email: Michael.Koster@arm.com
 - ins: C. Bormann
   name: Carsten Bormann
   org: Universitaet Bremen TZI
