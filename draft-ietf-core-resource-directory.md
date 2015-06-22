@@ -699,7 +699,7 @@ Failure:
 : 5.03 "Service Unavailable". Service could not perform the operation.
 
 
-The following example shows an endpoint updating it's registration at
+The following example shows an endpoint updating its registration at
 an RD using this interface.
 
 
@@ -1992,15 +1992,17 @@ it should send its presence messages.
 
 This example shows how the OMA LWM2M specification makes use of Resource Directory (RD). 
 
-OMA LWM2M is a profile for device services based on CoAP, CoRE RD, and other IETF RFCs and drafts. LWM2M defines simple object model and a number of abstract interfaces and operations for device management and device service enablement. 
+OMA LWM2M is a profile for device services based on CoAP, CoRE RD, and
+other IETF RFCs and drafts. LWM2M defines a simple object model and a number of abstract interfaces and operations for device management and device service enablement. 
 
 An LWM2M server is an instance of an LWM2M middleware service layer, containing a Resource Directory along with other LWM2M interfaces defined by the LWM2M specification.
 
 CoRE Resource Directory (RD) is used to provide the LWM2M Registration interface. 
 
-LWM2M does not provide for registration domains and does not currently use rd-group or rd-lookup interfaces.
+LWM2M does not provide for registration domains and does not currently
+use the rd-group or rd-lookup interfaces.
 
-The LWM2M specification describes a set of interfaces and resource model used between a LWM2M device and an LWM2M server. Other interfaces, proxies, applications, and function sets are currently out of scope for LWM2M.
+The LWM2M specification describes a set of interfaces and a resource model used between a LWM2M device and an LWM2M server. Other interfaces, proxies, applications, and function sets are currently out of scope for LWM2M.
 
 The location of the LWM2M Server and RD Function Set is provided by the LWM2M Bootstrap process, so no dynamic discovery of the RD function set is used. LWM2M Servers and endpoints are not required to implement the ./well-known/core resource.
 
@@ -2022,7 +2024,7 @@ The URI template for LWM2M consists of a base URI followed by Object, Instance, 
 ~~~~
 {: align="left"}
  
-LWM2M IDs are 16 bit decimal values represented by URI format strings. For example, a LWM2M URI might be:
+LWM2M IDs are 16 bit numbers represented in decimal by URI format strings. For example, a LWM2M URI might be:
 
 
 ~~~~
@@ -2080,7 +2082,7 @@ Here is an example LWM2M registration payload:
 
 
 ~~~~
-</1>,</1/0>, </3/0>, </5>
+</1>,</1/0>,</3/0>,</5>
 ~~~~
 {: align="left"}
 
@@ -2092,7 +2094,7 @@ If the LWM2M endpoint exposes objects at a base URI other that "/", the endpoint
 
 
 ~~~~
-</my_lwm2m>;rt="oma.lwm2m",</my_lwm2m/1>, <my_lwm2m/1/0>, <my_lwm2m/5>
+</my_lwm2m>;rt="oma.lwm2m",</my_lwm2m/1>,<my_lwm2m/1/0>,<my_lwm2m/5>
 ~~~~
 {: align="left"}
 
@@ -2100,7 +2102,7 @@ This link payload indicates that the lwm2m objects will be placed under the base
 
 ### LWM2M Update Endpoint Registration {#lwm2m-regupdate}
 
-LWM2M Registration update proceeds as described in {{update}}, and adds some optional parameter updates:
+An LWM2M Registration update proceeds as described in {{update}}, and adds some optional parameter updates:
 
 
 ~~~~
@@ -2111,7 +2113,7 @@ link payload - new or modified links
 ~~~~
 {: align="left"}
 
-Registration update is also specified to be used to update the LWM2M server whenever the endpoint's UDP port or IP address are changed.
+A Registration update is also specified to be used to update the LWM2M server whenever the endpoint's UDP port or IP address are changed.
 
 ### LWM2M De-Register Endpoint {#lwm2m-dereg}
 
@@ -2120,8 +2122,8 @@ LWM2M allows for de-registration using the delete method on the returned locatio
 
 # Acknowledgments
 
-Srdjan Krco, Szymon Sasin, Kerry Lynn, Esko Dijk, Peter van der Stok, Anders
-Brandt, Matthieu Vial, Michael Koster, Mohit Sethi, Sampo Ukkola and Linyi
+Srdjan Krco, Szymon Sasin, Kerry Lynn, Esko Dijk, Anders
+Brandt, Matthieu Vial, Mohit Sethi, Sampo Ukkola and Linyi
 Tian have provided helpful comments, discussions and ideas to improve and
 shape this document. Zach would also like to thank his colleagues from the
 EU FP7 SENSEI project, where many of the resource directory concepts were
