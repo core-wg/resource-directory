@@ -1,7 +1,7 @@
 ---
 stand_alone: true
 ipr: trust200902
-docname: draft-ietf-core-resource-directory-03pre-a
+docname: draft-ietf-core-resource-directory-03
 cat: std
 pi:
   strict: 'yes'
@@ -27,9 +27,14 @@ author:
   country: USA
   phone: "+1-408-203-9434"
   email: zach.shelby@arm.com
-- ins: M. K. Koster
+- ins: M. Koster
   name: Michael Koster
-  org: ARM Limited
+  org: ARM
+  street: 150 Rose Orchard
+  city: San Jose
+  code: '95134'
+  country: USA
+  phone: "+1-408-576-1500 x11516"
   email: Michael.Koster@arm.com
 - ins: C. Bormann
   name: Carsten Bormann
@@ -694,7 +699,7 @@ Failure:
 : 5.03 "Service Unavailable". Service could not perform the operation.
 
 
-The following example shows an endpoint updating a new set of resources to
+The following example shows an endpoint updating it's registration at
 an RD using this interface.
 
 
@@ -778,6 +783,65 @@ Res: 2.02 Deleted
 ~~~~
 {: align="left"}
 
+
+## Read Endpoint Links {#read}
+
+Some endpoints may wish to manage their links as a collection, and may need to read the current set of links in order to determine link maintenance operations.
+
+The read request interface is specified as follows:
+
+Interaction:
+: EP -> RD
+
+Method:
+: GET
+
+URI Template:
+: /{+location}{?rt,if,ct}
+
+URI Template Variables:
+: location :=
+  : This is the Location path returned by the RD as a result of a successful
+    earlier registration.
+
+The following responses codes are defined for this interface:
+
+Success:
+: 2.05 "Content" upon success
+
+Failure:
+: 4.00 "Bad Request". Malformed request.
+
+Failure:
+: 4.04 "Not Found". Registration does not exist (e.g. may have expired).
+
+Failure:
+: 5.03 "Service Unavailable". Service could not perform the operation.
+
+The following examples show successful read of the endpoint links from the RD.
+
+
+~~~~
+    EP                                                RD
+     |                                                 |
+     | --- GET /rd/4521  ------------------------>  |
+     |                                                 |
+     |                                                 |
+     | <-- 2.05 Content </sensors... ----------------  |
+     |                                                 |
+~~~~
+{: align="left"}
+
+
+~~~~
+Req: GET /rd/4521
+
+Res: 2.01 Content
+Payload:
+</sensors/temp>;ct=41;rt="temperature-c";if="sensor",
+</sensors/light>;ct=41;rt="light-lux";if="sensor"
+~~~~
+{: align="left"}
 
 
 # Group Function Set {#group}
@@ -1428,8 +1492,8 @@ The security considerations as described in Section 7 of {{RFC5988}} and
 Section 6 of {{RFC6690}} apply. The `/.well-known/core` resource may be
 protected e.g. using DTLS when hosted on a CoAP server as described in
 {{RFC7252}}. DTLS or TLS based security SHOULD be used on all resource
-directory interfaces defined in this document (TODO: Improve the exact DTLS
-or TLS security requirements and references).
+directory interfaces defined in this document<!-- TODO: Improve the exact DTLS
+or TLS security requirements and references  -->.
 
 ## Endpoint Identification and Authentication {#endpoint_identification}
 
@@ -1469,9 +1533,8 @@ request, the situation becomes even worse as now the attack can be
 amplified. DNS servers have been widely used for DDoS amplification
 attacks. Recently, it has been observed that NTP Servers, that also
 run on unprotected UDP have been used for DDoS attacks
-(http://tools.cisco.com/security/center/content/CiscoSecurityNotice/CVE-2013-5211)
-[TODO: Ref, and cut down the verbiage, as this is already discussed in
-RFC 7252] since there is no return routability check and can have a large
+(http://tools.cisco.com/security/center/content/CiscoSecurityNotice/CVE-2013-5211) <!-- TODO: Ref, and cut down the verbiage, as this is already discussed in
+RFC 7252 --> since there is no return routability check and can have a large
 amplification factor. The responses from the NTP server were found to be
 19 times larger than the request. A Resource Directory (RD) which responds
 to wild-card lookups is potentially vulnerable if run with CoAP over UDP.
@@ -1925,6 +1988,134 @@ In the same way the presence sensor can learn the multicast address to which
 it should send its presence messages.
 
 
+## OMA Lightweight M2M (LWM2M) Example {#lwm2m-ex}
+
+This example shows how the OMA LWM2M specification makes use of Resource Directory (RD). 
+
+OMA LWM2M is a profile for device services based on CoAP, CoRE RD, and other IETF RFCs and drafts. LWM2M defines simple object model and a number of abstract interfaces and operations for device management and device service enablement. 
+
+An LWM2M server is an instance of an LWM2M middleware service layer, containing a Resource Directory along with other LWM2M interfaces defined by the LWM2M specification.
+
+CoRE Resource Directory (RD) is used to provide the LWM2M Registration interface. 
+
+LWM2M does not provide for registration domains and does not currently use rd-group or rd-lookup interfaces.
+
+The LWM2M specification describes a set of interfaces and resource model used between a LWM2M device and an LWM2M server. Other interfaces, proxies, applications, and function sets are currently out of scope for LWM2M.
+
+The location of the LWM2M Server and RD Function Set is provided by the LWM2M Bootstrap process, so no dynamic discovery of the RD function set is used. LWM2M Servers and endpoints are not required to implement the ./well-known/core resource.
+
+### The LWM2M Object Model {#lwm2m-obj}
+
+The OMA LWM2M object model is based on a simple 2 level class hierarchy consisting of Objects and Resources. 
+
+An LWM2M Resource is a REST endpoint, allowed to be a single value or an array of values of the same data type.
+
+An LWM2M Object is a resource template and container type that encapsulates a set of related resources. An LWM2M Object represents a specific type of information source; for example, there is a LWM2M Device Management object that represents a network connection, containing resources that represent individual properties like radio signal strength.
+
+Since there may potentially be more than one of a given type object, for example more than one network connection, LWM2M defines instances of objects that contain the resources that represent a specific physical thing.
+
+The URI template for LWM2M consists of a base URI followed by Object, Instance, and Resource IDs:
+
+
+~~~~
+/{base-uri}/{object-id}/{instance-id}/{resource-id}
+~~~~
+{: align="left"}
+ 
+LWM2M IDs are 16 bit decimal values represented by URI format strings. For example, a LWM2M URI might be:
+
+
+~~~~
+/1/0/1
+~~~~
+{: align="left"}
+
+The base uri is "/", the Object ID is 1, the instance ID is 0, and the resource ID is 1. This example URI points to internal resource 1, which represents the registration lifetime configured, in instance 0 of a type 1 object (LWM2M Server Object).
+
+### LWM2M Register Endpoint {#lwm2m-reg}
+
+LWM2M defines a registration interface based on the Resource Directory Function Set, described in {{rd}}. The URI of the LWM2M Resource Directory function set is specified to be "/rd" as recommended in {{registration}}.
+
+LWM2M endpoints register object IDs, for example </1>, to indicate that a particular object type is supported, and register object instances, for example </1/0>, to indicate that a particular instance of that object type exists. 
+
+Resources within the LWM2M object instance are not registered with the RD, but may be discovered by reading the resource links from the object instance using GET with a CoAP Content-Format of application/link-format. Resources may also be read as a structured object by performing a GET to the object instance with a Content-Format of senml+json.
+
+When an LWM2M object or instance is registered, this indicates to the LWM2M server that the object and it's resources are available for management and service enablement (REST API) operations. 
+
+LWM2M endpoints may use the following RD registration parameters as defined in {{tab-registry}} :
+
+
+~~~~
+ep - Endpoint Name
+lt - registration lifetime
+~~~~
+{: align="left"}
+
+Endpoint Name is mandatory, all other registration parameters are optional.
+
+Additional optional LWM2M registration parameters are defined:
+
+
+|       Name       | Query |           Validity           | Description                                                    |
+| Protocol Binding | b     | {"U",UQ","S","SQ","US","UQS"}| Available Protocols                                            |
+|
+| LWM2M Version    | ver   | 1.0                          | Spec Version
+|
+| SMS Number       | sms   |                              | MSISDN
+{: #tab-lwm2m-registry title='LWM2M Additional Registration Parameters'}
+
+
+The following RD registration parameters are not currently specified for use in LWM2M:
+
+
+~~~~
+et - Endpoint Type 
+con - Context
+~~~~
+{: align="left"}
+
+The endpoint registration must include a payload containing links to all supported objects and existing object instances, optionally including the appropriate link-format relations.
+
+Here is an example LWM2M registration payload:
+
+
+~~~~
+</1>,</1/0>, </3/0>, </5>
+~~~~
+{: align="left"}
+
+This link format payload indicates that object ID 1 (LWM2M Server Object) is supported, with a single instance 0 existing, object ID 3 (LWM2M Device object) is supported, with a single instance 0 existing, and object 5 (LWM2M Firmware Object) is supported, with no existing instances.
+
+### Alternate Base URI {#lwm2m-altbase}
+
+If the LWM2M endpoint exposes objects at a base URI other that "/", the endpoint must register the base URI using rt="oma.lwm2m". An example link payload using alternate base URI would be:
+
+
+~~~~
+</my_lwm2m>;rt="oma.lwm2m",</my_lwm2m/1>, <my_lwm2m/1/0>, <my_lwm2m/5>
+~~~~
+{: align="left"}
+
+This link payload indicates that the lwm2m objects will be placed under the base URI "/my_lwm2m" and that object ID 1 (server) is supported, with a single instance 0 existing, and object 5 (firmware update) is supported.
+
+### LWM2M Update Endpoint Registration {#lwm2m-regupdate}
+
+LWM2M Registration update proceeds as described in {{update}}, and adds some optional parameter updates:
+
+
+~~~~
+lt - Registration Lifetime
+b - Protocol Binding
+sms - MSISDN
+link payload - new or modified links
+~~~~
+{: align="left"}
+
+Registration update is also specified to be used to update the LWM2M server whenever the endpoint's UDP port or IP address are changed.
+
+### LWM2M De-Register Endpoint {#lwm2m-dereg}
+
+LWM2M allows for de-registration using the delete method on the returned location from the initial registration operation. LWM2M de-registration proceeds as described in {{removal}}.
 
 
 # Acknowledgments
@@ -1938,6 +2129,18 @@ originally developed.
 
 
 # Changelog
+
+Changes from -02 to -03:
+
+* Added an example for lighting and DNS integration
+
+* Added an example for RD use in OMA LWM2M
+
+* Added Read Links operation for link inspection by endpoints
+
+* Expanded DNS-SD section
+
+* Added draft authors Peter van der Stok and Michael Koster
 
 Changes from -01 to -02:
 
