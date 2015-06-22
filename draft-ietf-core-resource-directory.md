@@ -16,7 +16,7 @@ title: CoRE Resource Directory
 area: Internet
 wg: CoRE
 kw: CoRE, Web Linking, Resource Discovery, Resource Directory
-date: '2015-04-29'
+date: 2015-06-22
 author:
 - ins: Z. Shelby
   name: Zach Shelby
