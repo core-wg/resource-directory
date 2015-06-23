@@ -1445,7 +1445,7 @@ exported:
       |                                                             |
       |                                                             |
       | <-- 2.05 Content "<coap://[FDFD::1234]:61616/light/1>;exp;  |
-      |                   rt="dali.light";ins="FrontSpot"           |
+      |                   rt="dali.light";ins="Spot";               |
       |                   d="office";ep="node1"                     |
       |                                                             |
 ~~~~
@@ -1473,7 +1473,7 @@ _dali._udp.office.example.com      IN PTR
                           Spot._dali._udp.office.example.com
 light._sub._dali._udp.example.com  IN PTR
                           Spot._dali._udp.office.example.com
-Spot._dali._udp.office.example.com IN SRV  0 0 5678
+Spot._dali._udp.office.example.com IN SRV  0 0 61616
                           node1.office.example.com.
 Spot._dali._udp.office.example.com IN TXT
                           txtver=1;path=/light/1
@@ -1689,16 +1689,13 @@ using the Context parameter (con) to specify the interface address:
 
 ~~~~
 Req: POST
- coap://[FDFD::ABCD:0]/rd?ep=lm_R2-4-015_wndw
+ coap://[FDFD::ABCD:0]/rd?ep=lm_R2-4-015_wndw&con=coap://[FDFD::ABCD:1]
 Payload:
 </light/left>;rt="light";
-  con="FDFD::ABCD:1";
   d="R2-4-015"; ins="lamp4444"; exp,
 </light/middle>;rt="light";
-  con="FDFD::ABCD:1";
   d="R2-4-015"; ins="lamp5555"; exp,
 </light/right>;rt="light";
-  con="FDFD::ABCD:1";
   d="R2-4-015"; ins="lamp6666"; exp
 
 Res: 2.01 Created
@@ -1708,16 +1705,13 @@ Location: /rd/4521
 
 
 ~~~~
-Req: POST coap://[FDFD::ABCD:0]/rd?ep=lm_R2-4-015_door
+Req: POST coap://[FDFD::ABCD:0]/rd?ep=lm_R2-4-015_door&con=coap://[FDFD::ABCD:2]
 Payload:
 </light/left>;rt="light";
-  con="FDFD::ABCD:2";
   d="R2-4-015"; ins="lamp1111"; exp,
 </light/middle>;rt="light";
-  con="FDFD::ABCD:2";
   d="R2-4-015"; ins="lamp2222"; exp,
 </light/right>;rt="light";
-  con="FDFD::ABCD:2";
   d="R2-4-015"; ins="lamp3333"; exp
 
 Res: 2.01 Created
@@ -1727,10 +1721,9 @@ Location: /rd/4522
 
 
 ~~~~
-Req: POST coap://[FDFD::ABCD:0]/rd?ep=ps_R2-4-015_door
+Req: POST coap://[FDFD::ABCD:0]/rd?ep=ps_R2-4-015_door&con=coap://[FDFD::ABCD:3]
 Payload:
 </ps>;rt="p-sensor";
-  con="FDFD::ABCD:3";
   d="R2-4-015"; ins="pres1234"; exp
 
 Res: 2.01 Created
@@ -1754,13 +1747,13 @@ below, two endpoints are updated with an additional resource using the path
 ~~~~
 Req: POST
  coap://[FDFD::ABCD:1]/light/grp1
- (content-type:application/link-format)light/middle, light/left
+ (content-type:application/link-format)<light/middle>, <light/left>
 
 Res: 2.04 Changed
 
 Req: POST
  coap://[FDFD::ABCD:2]/light/grp1
-(content-type:application/link-format)light/right
+(content-type:application/link-format)<light/right>
 
 Res: 2.04 Changed
 ~~~~
@@ -1876,31 +1869,31 @@ _light._udp.bc.example.com              IN PTR
                            lamp6666._light._udp.bc.example.com
 _p-sensor._udp.bc.example.com           IN PTR
                        pres12324._p-sensor._udp.bc.example.com
-lamp1111._light._udp.bc.example.com     IN SRV  0 0 5678
+lamp1111._light._udp.bc.example.com     IN SRV  0 0 5683
                               lm_R2-4-015_door.bc.example.com.
 lamp1111._light._udp.bc.example.com     IN TXT
                                      txtver=1;path=/light/left
-lamp2222._light._udp.bc.example.com     IN SRV  0 0 5678
+lamp2222._light._udp.bc.example.com     IN SRV  0 0 5683
                               lm_R2-4-015_door.bc.example.com.
 lamp2222._light._udp.bc.example.com     IN TXT
                                    txtver=1;path=/light/middle
-lamp3333._light._udp.bc.example.com     IN SRV  0 0 5678
+lamp3333._light._udp.bc.example.com     IN SRV  0 0 5683
                               lm_R2-4-015_door.bc.example.com.
 lamp3333._light._udp.bc.example.com     IN TXT
                                     txtver=1;path=/light/right
-lamp4444._light._udp.bc.example.com     IN SRV  0 0 5678
+lamp4444._light._udp.bc.example.com     IN SRV  0 0 5683
                               lm_R2-4-015_wndw.bc.example.com.
 lamp4444._light._udp.bc.example.com     IN TXT
                                      txtver=1;path=/light/left
-lamp5555._light._udp.bc.example.com     IN SRV  0 0 5678
+lamp5555._light._udp.bc.example.com     IN SRV  0 0 5683
                               lm_R2-4-015_wndw.bc.example.com.
 lamp5555._light._udp.bc.example.com     IN TXT
                                    txtver=1;path=/light/middle
-lamp6666._light._udp.bc.example.com     IN SRV  0 0 5678
+lamp6666._light._udp.bc.example.com     IN SRV  0 0 5683
                               lm_R2-4-015_wndw.bc.example.com.
 lamp6666._light._udp.bc.example.com     IN TXT
                                     txtver=1;path=/light/right
-pres1234._p-sensor._udp.bc.example.com  IN SRV  0 0 5678
+pres1234._p-sensor._udp.bc.example.com  IN SRV  0 0 5683
                               ps_R2-4-015_door.bc.example.com.
 pres1234._p-sensor._udp.bc.example.com  IN TXT
                                              txtver=1;path=/ps
@@ -1958,7 +1951,7 @@ DNS.
 grp_R2-4-015.bc.example.com.        IN AAAA            FF05::1
 _group._udp.bc.example.com          IN PTR
                             grp1234._group._udp.bc.example.com
-grp1234._group._udp.bc.example.com  IN SRV  0 0 5678
+grp1234._group._udp.bc.example.com  IN SRV  0 0 5683
                              grp_R2-4-015_door.bc.example.com.
 grp1234._group._udp.bc.example.com  IN TXT
                                      txtver=1;path=/light/grp1
