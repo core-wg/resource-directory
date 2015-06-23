@@ -1,7 +1,7 @@
 ---
 stand_alone: true
 ipr: trust200902
-docname: draft-ietf-core-resource-directory-03
+docname: draft-ietf-core-resource-directory-04pre
 cat: std
 pi:
   strict: 'yes'
@@ -16,7 +16,7 @@ title: CoRE Resource Directory
 area: Internet
 wg: CoRE
 kw: CoRE, Web Linking, Resource Discovery, Resource Directory
-date: 2015-06-22
+date: 2015-06-23
 author:
 - ins: Z. Shelby
   name: Zach Shelby
