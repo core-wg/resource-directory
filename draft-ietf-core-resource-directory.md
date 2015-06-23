@@ -487,7 +487,7 @@ possible.
      | ----- GET /.well-known/core?rt=core.rd* ------> |
      |                                                 |
      |                                                 |
-     | <---- 2.05 Content "</rd>; rt="core.rd" ------  |
+     | <---- 2.05 Content "</rd>;rt="core.rd"  ------- |
      |                                                 |
 
 
@@ -1258,7 +1258,7 @@ or posted to a resource directory service, additional information about those
 resources is useful. This specification defines the following new attributes
 for use in the CoRE Link Format {{RFC6690}}:
 
-~~~~
+~~~~ ABNF
    link-extension    = ( "ins" "=" quoted-string ) ; Max 63 bytes
    link-extension    = ( "exp" )
 ~~~~
@@ -1458,7 +1458,7 @@ exported:
    Res: 2.05 Content
    <coap://[FDFD::1234]:61616/light/1>;
      exp;rt="dali.light";ins="Spot";
-               d="office"; ep="node1"
+               d="office";ep="node1"
 
 ~~~~
 {: align="left"}
@@ -1692,11 +1692,11 @@ Req: POST
  coap://[FDFD::ABCD:0]/rd?ep=lm_R2-4-015_wndw&con=coap://[FDFD::ABCD:1]
 Payload:
 </light/left>;rt="light";
-  d="R2-4-015"; ins="lamp4444"; exp,
+  d="R2-4-015";ins="lamp4444";exp,
 </light/middle>;rt="light";
-  d="R2-4-015"; ins="lamp5555"; exp,
+  d="R2-4-015";ins="lamp5555";exp,
 </light/right>;rt="light";
-  d="R2-4-015"; ins="lamp6666"; exp
+  d="R2-4-015";ins="lamp6666";exp
 
 Res: 2.01 Created
 Location: /rd/4521
@@ -1708,11 +1708,11 @@ Location: /rd/4521
 Req: POST coap://[FDFD::ABCD:0]/rd?ep=lm_R2-4-015_door&con=coap://[FDFD::ABCD:2]
 Payload:
 </light/left>;rt="light";
-  d="R2-4-015"; ins="lamp1111"; exp,
+  d="R2-4-015";ins="lamp1111";exp,
 </light/middle>;rt="light";
-  d="R2-4-015"; ins="lamp2222"; exp,
+  d="R2-4-015";ins="lamp2222";exp,
 </light/right>;rt="light";
-  d="R2-4-015"; ins="lamp3333"; exp
+  d="R2-4-015";ins="lamp3333";exp
 
 Res: 2.01 Created
 Location: /rd/4522
@@ -1724,7 +1724,7 @@ Location: /rd/4522
 Req: POST coap://[FDFD::ABCD:0]/rd?ep=ps_R2-4-015_door&con=coap://[FDFD::ABCD:3]
 Payload:
 </ps>;rt="p-sensor";
-  d="R2-4-015"; ins="pres1234"; exp
+  d="R2-4-015";ins="pres1234";exp
 
 Res: 2.01 Created
 Location: /rd/4523
@@ -1747,7 +1747,7 @@ below, two endpoints are updated with an additional resource using the path
 ~~~~
 Req: POST
  coap://[FDFD::ABCD:1]/light/grp1
- (content-type:application/link-format)<light/middle>, <light/left>
+ (content-type:application/link-format)<light/middle>,<light/left>
 
 Res: 2.04 Changed
 
@@ -1771,7 +1771,7 @@ group names and other parameters in the individual nodes.
 
 ~~~~
 Req: POST coap://[FDFD::ABCD:0]/rd-group
-?gp=grp_R2-4-015;con="FF05::1";exp; ins="grp1234"
+?gp=grp_R2-4-015;con="FF05::1";exp;ins="grp1234"
 Payload:
 <>ep=lm_R2-4-015_wndw,
 <>ep=lm_R2-4-015_door,
@@ -1792,7 +1792,7 @@ and d=R2-4-015. The RD returns all end-points in the domain.
 
 ~~~~
 Req: GET coap://[FDFD::ABCD:0]/rd-lookup/ep
-  ?d=R2-4-015; rt=light
+  ?d=R2-4-015;rt=light
 
 Res: 2.05 Content
 <coap://[FDFD::ABCD:1]>;
@@ -1934,7 +1934,7 @@ RD to return all groups which are exported.
    Req: GET /rd-lookup/gp?exp
 
    Res: 2.05 Content
-   <coap://[FF05::1]/>; exp; gp="grp_R2-4-015; ins="grp1234";
+   <coap://[FF05::1]/>;exp;gp="grp_R2-4-015;ins="grp1234";
 ep="lm_R2-4-015_wndw";
 ep="lm_R2-4-015_door
 
@@ -2074,7 +2074,7 @@ The endpoint registration must include a payload containing links to all support
 Here is an example LWM2M registration payload:
 
 
-~~~~
+~~~~ linkformat
 </1>,</1/0>,</3/0>,</5>
 ~~~~
 {: align="left"}
@@ -2086,7 +2086,7 @@ This link format payload indicates that object ID 1 (LWM2M Server Object) is sup
 If the LWM2M endpoint exposes objects at a base URI other that "/", the endpoint must register the base URI using rt="oma.lwm2m". An example link payload using alternate base URI would be:
 
 
-~~~~
+~~~~ linkformat
 </my_lwm2m>;rt="oma.lwm2m",</my_lwm2m/1>,<my_lwm2m/1/0>,<my_lwm2m/5>
 ~~~~
 {: align="left"}
