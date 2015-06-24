@@ -1444,7 +1444,7 @@ exported:
       | --- GET /rd-lookup/res?exp ------------------------------>  |
       |                                                             |
       |                                                             |
-      | <-- 2.05 Content "<coap://[FDFD::1234]:61616/light/1>;exp;  |
+      | <-- 2.05 Content "<coap://[FDFD::1234]:5683/light/1>;exp;  |
       |                   rt="dali.light";ins="Spot";               |
       |                   d="office";ep="node1"                     |
       |                                                             |
@@ -1456,7 +1456,7 @@ exported:
    Req: GET /rd-lookup/res?exp
 
    Res: 2.05 Content
-   <coap://[FDFD::1234]:61616/light/1>;
+   <coap://[FDFD::1234]:5683/light/1>;
      exp;rt="dali.light";ins="Spot";
                d="office";ep="node1"
 
@@ -1473,7 +1473,7 @@ _dali._udp.office.example.com      IN PTR
                           Spot._dali._udp.office.example.com
 light._sub._dali._udp.example.com  IN PTR
                           Spot._dali._udp.office.example.com
-Spot._dali._udp.office.example.com IN SRV  0 0 61616
+Spot._dali._udp.office.example.com IN SRV  0 0 5683
                           node1.office.example.com.
 Spot._dali._udp.office.example.com IN TXT
                           txtver=1;path=/light/1
@@ -1771,7 +1771,7 @@ group names and other parameters in the individual nodes.
 
 ~~~~
 Req: POST coap://[FDFD::ABCD:0]/rd-group
-?gp=grp_R2-4-015;con="FF05::1";exp;ins="grp1234"
+?gp=grp_R2-4-015;con="coap//[FF05::1]";exp;ins="grp1234"
 Payload:
 <>ep=lm_R2-4-015_wndw,
 <>ep=lm_R2-4-015_door,
@@ -1812,7 +1812,7 @@ Req: GET coap://[FDFD::ABCD:0]/rd-lookup/gp
   ?ep=lm_R2-4-015_wndw
 
 Res: 2.05 Content
-</rd-group/501;gp="grp_R2-4-015";con="FF05::1"
+<coap://[FF05::1]>;gp="grp_R2-4-015"
 ~~~~
 {: align="left"}
 
