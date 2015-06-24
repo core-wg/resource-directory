@@ -1106,7 +1106,7 @@ Failure:
 Failure:
 : 5.03 "Service Unavailable". Service could not perform the operation.
 
-The following example shows a client performing a resource lookup:
+The examples in this section assume a host with IP address FDFD::123 and a default coap port 61616. The following example shows a client performing a resource lookup:
 
 
 ~~~~
@@ -1115,7 +1115,8 @@ The following example shows a client performing a resource lookup:
      | ----- GET /rd-lookup/res?rt=temperature ----------------->  |
      |                                                             |
      |                                                             |
-     | <-- 2.05 Content <coap://{host:port}/temp>;rt="temperature" |
+     | <-- 2.05 Content <coap://[FDFD::123]:61616/temp>;---------  |
+     |                                  rt="temperature" --------  |
      |                                                             |
 ~~~~
 {: align="left"}
@@ -1125,7 +1126,7 @@ The following example shows a client performing a resource lookup:
 Req: GET /rd-lookup/res?rt=temperature
 
 Res: 2.05 Content
-<coap://{host:port}/temp>;rt="temperature"
+<coap://[FDFD::123]:61616/temp>;rt="temperature"
 ~~~~
 {: align="left"}
 
@@ -1138,7 +1139,7 @@ The following example shows a client performing an endpoint type lookup:
      | ----- GET /rd-lookup/ep?et=power-node --------------------> |
      |                                                             |
      |                                                             |
-     | <-- 2.05 Content <coap://{ip:port}>;ep="node5" ------------ |
+     | <-- 2.05 Content <coap://[FDFD::123]:61616>;ep="node5" ---- |
      |                                                             |
 ~~~~
 {: align="left"}
@@ -1148,8 +1149,8 @@ The following example shows a client performing an endpoint type lookup:
 Req: GET /rd-lookup/ep?et=power-node
 
 Res: 2.05 Content
-<coap://{ip:port}>;ep="node5",
-<coap://{ip:port}>;ep="node7"
+<coap://[FDFD::123]:61616>;ep="node5",
+<coap://[FDFD::123]:61616>;ep="node7"
 ~~~~
 {: align="left"}
 
@@ -1211,7 +1212,7 @@ in a particular group:
      | ----- GET /rd-lookup/ep?gp=lights1----------------------->  |
      |                                                             |
      |                                                             |
-     | <-- 2.05 Content <coap://{host:port}>;ep="node1" ---------- |
+     | <-- 2.05 Content <coap://[FDFD::123]:61616>;ep="node1" ---- |
      |                                                             |
 ~~~~
 {: align="left"}
@@ -1221,8 +1222,8 @@ in a particular group:
 Req: GET /rd-lookup/ep?gp=lights1
 
 Res: 2.05 Content
-<coap://{host:port}>;ep="node1",
-<coap://{host:port}>;ep="node2",
+<coap://[FDFD::123]:61616>;ep="node1",
+<coap://[FDFD::123]:61616>;ep="node2",
 ~~~~
 {: align="left"}
 
@@ -1231,13 +1232,14 @@ endpoint belongs to:
 
 
 ~~~~
-   Client                                                          RD
-     |                                                             |
-     | ----- GET /rd-lookup/gp?ep=node1 ------------------------>  |
-     |                                                             |
-     |                                                             |
-     | <-- 2.05 Content <coap://{ip:port}>;gp="lights1";ep="node1" |
-     |                                                             |
+   Client                                                         RD
+     |                                                            |
+     | ----- GET /rd-lookup/gp?ep=node1 ----------------------->  |
+     |                                                            |
+     |                                                            |
+     |< 2.05 Content <coap://[FDFD::123]:61616>;gp="lights1"; --  |
+     |                                          ep="node1" ------ |
+     |                                                            |
 ~~~~
 {: align="left"}
 
@@ -1246,7 +1248,7 @@ endpoint belongs to:
 Req: GET /rd-lookup/gp?ep=node1
 
 Res: 2.05 Content
-<coap://{ip:port}>;gp="lights1";ep="node1",
+<coap://[FDFD::123]:61616>;gp="lights1";ep="node1",
 ~~~~
 {: align="left"}
 
