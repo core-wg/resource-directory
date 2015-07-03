@@ -546,9 +546,9 @@ URI Template Variables:
     "rd" for this variable whenever possible.
 
   ep :=
-  : Endpoint (mandatory). The endpoint identifier or name of the registering
-    node, unique within that domain. The maximum length of this parameter is
-    63 bytes.
+  : Endpoint name (mandatory). The endpoint name is an identifier
+    that MUST be unique within a domain.  The maximum length of this
+    parameter is 63 bytes.
 
   d :=
   : Domain (optional). The domain to which this endpoint belongs. This parameter
@@ -1061,7 +1061,7 @@ URI Template Variables:
     kind of lookup to perform (domain, endpoint, resource, or group).
 
   ep :=
-  : Endpoint (optional). Used for endpoint, group and resource lookups.
+  : Endpoint name (optional). Used for endpoint, group and resource lookups.
 
   d :=
   : Domain (optional). Used for domain, group, endpoint and resource lookups.
