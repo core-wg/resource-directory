@@ -16,7 +16,7 @@ title: CoRE Resource Directory
 area: Internet
 wg: CoRE
 kw: CoRE, Web Linking, Resource Discovery, Resource Directory
-date: 2015-06-23
+date: 2015-07-04
 author:
 - ins: Z. Shelby
   name: Zach Shelby
@@ -188,6 +188,7 @@ provided using the CoRE Link Format.
 
 ~~~~
              Registration     Lookup, Group
+              Interface        Interfaces
   +----+          |                 |
   | EP |----      |                 |
   +----+    ----  |                 |
@@ -245,7 +246,7 @@ EPs installed on vehicles enabling tracking of their position for fleet manageme
 purposes and monitoring environment parameters) hosted by the mobile operator
 or somewhere else in the network, periodically a description of its own capabilities.
 Due to the usual network configuration of mobile networks, the EPs attached
-to the mobile network do not have routable addresses. Therefore, a remote
+to the mobile network may not always be efficiently reachable. Therefore, a remote
 server is usually used to provide proxy access to the EPs. The address of
 each (proxy) endpoint on this server is included in the resource description
 stored in the RD. The users, for example mobile applications for environment
@@ -292,12 +293,9 @@ to the desired resources and endpoints. The Resource Directory service need
 not be coupled with the data intermediary service. Mapping of Resource Directories
 to data intermediaries may be many-to-many.
 
-Metadata in link-format or link-format+json representations are supplied
-by Resource Directories, which may be internally stored as  triples, or relation/attribute
+Metadata in link-format, link-format+cbor, or link-format+json representations are supplied by Resource Directories, which may be internally stored as  triples, or relation/attribute
 pairs providing metadata about resource links. External catalogs that are
-represented in other formats may be converted to link-format or link-format+json
-for storage and access by Resource Directories. Since it is common practice
-for these to be URN encoded, simple and lossless structural transforms will
+represented in other formats may be converted to link-format, link-format+json, or link-format+cbor for storage and access by Resource Directories. Since it is common practice for these to be URN encoded, simple and lossless structural transforms will
 generally be sufficient to store external metadata in Resource Directories.
 
 The additional features of Resource Directory allow domains to be defined
@@ -373,8 +371,8 @@ In a 6LoWPAN, good candidates can be taken from:
 
 In networks with more inexpensive use of multicast, the candidate IP
 address may be a well-known multicast address, i.e. directory servers are
-found by simply sending POST requests to that well-known multicast address
-(details TBD).
+found by simply sending GET requests to that well-known multicast address
+(see {{discovery}}).
 
 As some of these sources are just (more or less educated) guesses, endpoints
 MUST make use of any error messages to very strictly rate-limit requests to
@@ -457,12 +455,17 @@ URI Template Variables:
 Content-Type:
 : application/link-format (if any)
 
+Content-Type:
+: application/link-format+json (if any)
+
+Content-Type:
+: application/link-format+cbor (if any)
+
 The following response codes are defined for this interface:
 
 Success:
 : 2.05 "Content" or 200 "OK" with an
-  application/link-format payload containing one or more matching entries for
-  the RD resource.
+  application/link-format, application/link-format+json, or application/link-format+cbor payload containing one or more matching entries for the RD resource.
 
 Failure:
 : 4.04 "Not Found" or 404 "Not Found" is returned in case no matching entry is found for a unicast
@@ -510,8 +513,7 @@ Res: 2.05 Content
 After discovering the location of an RD Function Set, an endpoint MAY
 register its resources using the registration interface. This interface
 accepts a POST from an endpoint containing the list of resources to be added
-to the directory as the message payload in the CoRE Link Format {{RFC6690}}
-or JSON Link Format {{I-D.ietf-core-links-json}} along with query string
+to the directory as the message payload in the CoRE Link Format {{RFC6690}}, JSON CoRE Link Format {{I-D.ietf-core-links-json}}, or CBOR CoRE Link Format (application/link-format+cbor) along with query string
 parameters indicating the name of the endpoint, its domain and the lifetime
 of the registration. All parameters except the endpoint name are optional. It
 is expected that other specifications will define further parameters (see
@@ -578,6 +580,9 @@ Content-Type:
 
 Content-Type:
 : application/link-format+json
+
+Content-Type:
+: application/link-format+cbor
 
 The following response codes are defined for this interface:
 
@@ -683,6 +688,8 @@ Content-Type:
 Content-Type:
 : application/link-format+json (optional)
 
+Content-Type:
+: application/link-format+cbor (optional)
 
 The following response codes are defined for this interface:
 
@@ -807,7 +814,7 @@ URI Template Variables:
 The following responses codes are defined for this interface:
 
 Success:
-: 2.05 "Content" or 200 "OK" upon success
+: 2.05 "Content" or 200 "OK" upon success with an `application/link-format`, `application/link-format+cbor`, or `application/link-format+json` payload.
 
 Failure:
 : 4.00 "Bad Request" or 400 "Bad Request". Malformed request.
@@ -909,6 +916,8 @@ Content-Type:
 Content-Type:
 : application/link-format+json
 
+Content-Type:
+: application/link-format+cbor
 
 The following response codes are defined for this interface:
 
@@ -923,9 +932,7 @@ Failure:
 Failure:
 : 5.03 "Service Unavailable" or 503 "Service Unavailable". Service could not perform the operation.
 
-
-The following example shows a group with the name "lights" registering two
-endpoints to an RD using this interface. The resulting location /rd-group/12
+The following example shows an EP registering a group with the name “lights” which has two endpoints to an RD using this interface. The resulting location /rd-group/12
 is just an example of an RD generated group location.
 
 
@@ -1029,8 +1036,9 @@ using attributes defined in the RD Function Set and for use with the CoRE
 Link Format. The result of a lookup request is the list of links (if any)
 corresponding to the type of lookup.  Using the Accept Option, the requester
 can control whether this list is returned in CoRE Link Format
-(`application/link-format`, default) or its JSON form
-(`application/link-format+json`).  The target of these links SHOULD be the
+(`application/link-format`, default) or its alternate content-formats
+(`application/link-format+json` or `application/link-format+cbor`).  
+The target of these links SHOULD be the
 actual location of the domain, endpoint or resource, but MAY be an
 intermediate proxy e.g. in the case of an HTTP lookup interface for CoAP
 endpoints. Multiple query parameters MAY be included in a lookup, all
@@ -1090,9 +1098,7 @@ URI Template Variables:
 The following responses codes are defined for this interface:
 
 Success:
-: 2.05 "Content" or 200 "OK" with an `application/link-format` or
-  `application/link-format+json` payload containing a matching entries for
-  the lookup.
+: 2.05 "Content" or 200 "OK" with an `application/link-format`, `application/link-format+cbor`, or `application/link-format+json` payload containing matching entries for the lookup.
 
 Failure:
 : 4.04 "Not Found" or 404 "Not Found" in case no matching entry is found for a unicast request.
@@ -2013,12 +2019,17 @@ Since there may potentially be more than one of a given type object, for example
 
 The URI template for LWM2M consists of a base URI followed by Object, Instance, and Resource IDs:
 
-
-~~~~
-/{base-uri}/{object-id}/{instance-id}/{resource-id}
-~~~~
-{: align="left"}
+{/base-uri}{/object-id}{/object-instance}{/resource-id}{/resource-instance}
  
+base-uri := URI for LWM2M resources or undef for default (empty) base URI
+object-id := OMNA registered object ID (0-65535) 
+
+object-instance := Object instance identifier (0-65535) or undef to refere to all instances of an object ID
+
+resource-id := OMNA registered resource ID (0-65535) or undef to refer to all resources within an instance
+
+resource-instance := Resource instance identifier or undef to refer to single instance of a resource
+
 LWM2M IDs are 16 bit numbers represented in decimal by URI format strings. For example, a LWM2M URI might be:
 
 
@@ -2027,7 +2038,7 @@ LWM2M IDs are 16 bit numbers represented in decimal by URI format strings. For e
 ~~~~
 {: align="left"}
 
-The base uri is "/", the Object ID is 1, the instance ID is 0, and the resource ID is 1. This example URI points to internal resource 1, which represents the registration lifetime configured, in instance 0 of a type 1 object (LWM2M Server Object).
+The base uri is empty, the Object ID is 1, the instance ID is 0, and the resource ID is 1. This example URI points to internal resource 1, which represents the registration lifetime configured, in instance 0 of a type 1 object (LWM2M Server Object).
 
 ### LWM2M Register Endpoint {#lwm2m-reg}
 
@@ -2085,7 +2096,7 @@ This link format payload indicates that object ID 1 (LWM2M Server Object) is sup
 
 ### Alternate Base URI {#lwm2m-altbase}
 
-If the LWM2M endpoint exposes objects at a base URI other that "/", the endpoint must register the base URI using rt="oma.lwm2m". An example link payload using alternate base URI would be:
+If the LWM2M endpoint exposes objects at a base URI other than the default empty base path, the endpoint must register the base URI using rt="oma.lwm2m". An example link payload using alternate base URI would be:
 
 
 ~~~~ linkformat
@@ -2126,6 +2137,13 @@ originally developed.
 
 
 # Changelog
+Changes from -03 to -04:
+
+* Added http response codes
+
+* Clarified endpoint name usage
+
+* Add application/link-format+cbor content-format
 
 Changes from -02 to -03:
 
