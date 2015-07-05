@@ -10,6 +10,7 @@ pi:
   symrefs: 'yes'
   sortrefs: 'yes'
   compact: 'yes'
+  comments: yes
   subcompact: 'no'
   iprnotified: 'no'
 title: CoRE Resource Directory
@@ -1693,8 +1694,8 @@ using the Context parameter (con) to specify the interface address:
 
 
 ~~~~
-Req: POST
- coap://[FDFD::ABCD:0]/rd?ep=lm_R2-4-015_wndw&con=coap://[FDFD::ABCD:1]
+Req: POST coap://[FDFD::ABCD:0]/rd
+  ?ep=lm_R2-4-015_wndw&con=coap://[FDFD::ABCD:1]
 Payload:
 </light/left>;rt="light";
   d="R2-4-015";ins="lamp4444";exp,
@@ -1710,7 +1711,8 @@ Location: /rd/4521
 
 
 ~~~~
-Req: POST coap://[FDFD::ABCD:0]/rd?ep=lm_R2-4-015_door&con=coap://[FDFD::ABCD:2]
+Req: POST coap://[FDFD::ABCD:0]/rd
+  ?ep=lm_R2-4-015_door&con=coap://[FDFD::ABCD:2]
 Payload:
 </light/left>;rt="light";
   d="R2-4-015";ins="lamp1111";exp,
@@ -1726,7 +1728,8 @@ Location: /rd/4522
 
 
 ~~~~
-Req: POST coap://[FDFD::ABCD:0]/rd?ep=ps_R2-4-015_door&con=coap://[FDFD::ABCD:3]
+Req: POST coap://[FDFD::ABCD:0]/rd
+  ?ep=ps_R2-4-015_door&con=coap://[FDFD::ABCD:3]
 Payload:
 </ps>;rt="p-sensor";
   d="R2-4-015";ins="pres1234";exp
@@ -2017,26 +2020,42 @@ Since there may potentially be more than one of a given type object, for example
 The URI template for LWM2M consists of a base URI followed by Object, Instance, and Resource IDs:
 
 {/base-uri}{/object-id}{/object-instance}{/resource-id}{/resource-instance}
- 
-base-uri := URI for LWM2M resources or undef for default (empty) base URI
 
-object-id := OMNA registered object ID (0-65535) 
+The five variables given here are strings.  base-uri can also have the
+special value "undefined" (sometimes called "null" in RFC 6570).
+Each of the variables object-instance, resource-id, and
+resource-instance can be the special value "undefined" only if the
+values behind it in this sequence also are "undefined".  As a special
+case, object-instance can be "empty" (which is different from
+"undefined") if resource-id is not "undefined".  [^_TEMPLATE_TODO]
 
-object-instance := Object instance identifier (0-65535) or undef to refer to all instances of an object ID
+[^_TEMPLATE_TODO]: This text needs some help from an RFC 6570 expert.
 
-resource-id := OMNA registered resource ID (0-65535) or undef to refer to all resources within an instance
+base-uri := Base URI for LWM2M resources or "undefined" for default (empty) base URI
 
-resource-instance := Resource instance identifier or undef to refer to single instance of a resource
+object-id := OMNA registered object ID (0-65535)
 
-LWM2M IDs are 16 bit numbers represented in decimal by URI format strings. For example, a LWM2M URI might be:
+object-instance := Object instance identifier (0-65535) or
+"undefined"/"empty" (see above)) to refer to all instances of an object ID
 
+resource-id := OMNA registered resource ID (0-65535) or "undefined" to refer to all resources within an instance
+
+resource-instance := Resource instance identifier or "undefined" to refer to single instance of a resource
+
+LWM2M IDs are 16 bit unsigned integers represented in decimal (no
+leading zeroes except for the value 0) by URI format strings. For
+example, a LWM2M URI might be:
 
 ~~~~
 /1/0/1
 ~~~~
 {: align="left"}
 
-The base uri is empty, the Object ID is 1, the instance ID is 0, and the resource ID is 1. This example URI points to internal resource 1, which represents the registration lifetime configured, in instance 0 of a type 1 object (LWM2M Server Object).
+The base uri is empty, the Object ID is 1, the instance ID is 0, the
+resource ID is 1, and the resource instance is "undefined". This
+example URI points to internal resource 1, which represents the
+registration lifetime configured, in instance 0 of a type 1 object
+(LWM2M Server Object).
 
 ### LWM2M Register Endpoint {#lwm2m-reg}
 
