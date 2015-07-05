@@ -2217,6 +2217,7 @@ Changes from -03 to -04:
 
 *  Fixed the use of ETags.
 
+* Fixed tickets 383 and 372
 
 Changes from -02 to -03:
 
