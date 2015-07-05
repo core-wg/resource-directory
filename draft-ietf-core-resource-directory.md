@@ -138,7 +138,6 @@ Resource Directory
 :   A web entity that stores information about web resources and implements the
 REST interfaces defined in this specification for registration and lookup
 of those resources.
-{: vspace='0'}
 
 Domain
 :   In the context of a Resource Directory, a domain is a
@@ -146,13 +145,11 @@ logical grouping of endpoints. This specification assumes
 that the list of Domains supported by an RD is
 pre-configured by that RD. When a domain is exported to DNS,
 the domain value equates to the DNS domain name.
-{: vspace='0'}
 
 Group
 :   In the context of a Resource Directory, a group is a logical grouping of
 endpoints for the purpose of group communications. All groups within a domain
 are unique.
-{: vspace='0'}
 
 Endpoint
 :   Endpoint (EP) is a term used to describe a web server or client in {{RFC7252}}. In the context of this specification an endpoint is used to describe a
@@ -1112,7 +1109,7 @@ Failure:
 Failure:
 : 5.03 "Service Unavailable" or 503 "Service Unavailable". Service could not perform the operation.
 
-The examples in this section assume a host with IP address FDFD::123 and a default coap port 61616. The following example shows a client performing a resource lookup:
+The examples in this section assume a host with IP address FDFD::123 and a default CoAP port 61616. The following example shows a client performing a resource lookup:
 
 
 ~~~~
@@ -1617,7 +1614,7 @@ that may influence the use of the RD.
 The example assumes that the installation is managed. That means that a Commissioning
 Tool (CT) is used to authorize the addition of nodes, name them, and name
 their services. The CT can be connected to the installation in many ways:
-the CT can be part of the installation network, connected by wifi to the
+the CT can be part of the installation network, connected by WiFi to the
 installation network, or connected via GPRS link, or other method.
 
 It is assumed that there are two naming authorities for the installation:
@@ -1772,7 +1769,7 @@ multicast address allocated to the group.
 In the POST in the example below, these two end-points and the end-point
 of the presence sensor are registered as members of the group.
 
-It is expected that Standards Developing Organization (SDO) may develop other
+It is expected that Standards Developing Organizations (SDOs) may develop other
 special purpose protocols to specify additional group links, group membership,
 group names and other parameters in the individual nodes.
 
@@ -2022,9 +2019,10 @@ The URI template for LWM2M consists of a base URI followed by Object, Instance, 
 {/base-uri}{/object-id}{/object-instance}{/resource-id}{/resource-instance}
  
 base-uri := URI for LWM2M resources or undef for default (empty) base URI
+
 object-id := OMNA registered object ID (0-65535) 
 
-object-instance := Object instance identifier (0-65535) or undef to refere to all instances of an object ID
+object-instance := Object instance identifier (0-65535) or undef to refer to all instances of an object ID
 
 resource-id := OMNA registered resource ID (0-65535) or undef to refer to all resources within an instance
 
@@ -2245,3 +2243,18 @@ Changes from -01 to -02:
 *  Changed the lookup interface to accept endpoint and Domain as query string parameters to control the scope of a lookup.
 
 --- back
+
+<!--  LocalWords:  lookups multicast lookup RESTful CoRE LoWPAN CoAP
+ -->
+<!--  LocalWords:  microcontrollers URI DNS EP IP EPs discoverable
+ -->
+<!--  LocalWords:  Metadata metadata lossless anycast ABRO RDNSS ICMP
+ -->
+<!--  LocalWords:  DHCPv RD's DHCP RDs unicast JSON CBOR wildcard TLS
+ -->
+<!--  LocalWords:  subdomain substring prepending subtype DTLS UDP
+ -->
+<!--  LocalWords:  routability NTP TCP WiFi GPRS FQDN SLAAC IPv SDOs
+ -->
+<!--  LocalWords:  OMA LWM IETF OMNA API SMS MSISDN
+ -->
