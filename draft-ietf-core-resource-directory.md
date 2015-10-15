@@ -399,7 +399,7 @@ indicated in the Context parameter of the registration as well.
 This section defines the REST interfaces between an RD and endpoints, which
 is called the Resource Directory Function Set. Although the examples
 throughout this section assume the use of CoAP {{RFC7252}}, these REST
-interfaces can also be realized using HTTP {{RFC7230}}. In all definitions in this section, both CoAP response codes (with dot notation) and HTTP response codes (without dot notation) are shown. An RD implementing
+interfaces can also be realized using HTTP {{RFC7230}}. In all definitions in this section, both CoAP response codes (with dot notation) and HTTP response codes (without dot notation) are shown. In a selection of examples the HTTP invocation format is shown after the CoAP invocation. An RD implementing
 this specification MUST support the discovery, registration, update, lookup,
 and removal interfaces defined in this section.
 
@@ -504,6 +504,23 @@ Res: 2.05 Content
 </rd-group>;rt="core.rd-group"
 ~~~~
 {: align="left"}
+
+The alternative htpt format looks like:
+
+{: align="left"}
+~~~~
+Req: GET .well-known/core?rt=core.rd* HTTP/1.1
+Host: ff02::1
+Accept: application/link-format
+
+Res: 200 OK
+</rd>;rt="core.rd",
+</rd-lookup>;rt="core.rd-lookup",
+</rd-group>;rt="core.rd-group"
+~~~~
+
+{: align="left"}
+
 
 
 ## Registration {#registration}
