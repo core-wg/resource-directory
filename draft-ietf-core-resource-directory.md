@@ -1,7 +1,7 @@
 ---
 stand_alone: true
 ipr: trust200902
-docname: draft-ietf-core-resource-directory-04
+docname: draft-ietf-core-resource-directory-05
 cat: std
 pi:
   strict: 'yes'
@@ -17,7 +17,7 @@ title: CoRE Resource Directory
 area: Internet
 wg: CoRE
 kw: CoRE, Web Linking, Resource Discovery, Resource Directory
-date: 2015-07-06
+date: 2015-10-16
 author:
 - ins: Z. Shelby
   name: Zach Shelby
@@ -399,7 +399,7 @@ indicated in the Context parameter of the registration as well.
 This section defines the REST interfaces between an RD and endpoints, which
 is called the Resource Directory Function Set. Although the examples
 throughout this section assume the use of CoAP {{RFC7252}}, these REST
-interfaces can also be realized using HTTP {{RFC7230}}. In all definitions in this section, both CoAP response codes (with dot notation) and HTTP response codes (without dot notation) are shown. In a selection of examples the HTTP invocation format is shown after the CoAP invocation. An RD implementing
+interfaces can also be realized using HTTP {{RFC7230}}. In all definitions in this section, both CoAP response codes (with dot notation) and HTTP response codes (without dot notation) are shown. An RD implementing
 this specification MUST support the discovery, registration, update, lookup,
 and removal interfaces defined in this section.
 
@@ -430,6 +430,8 @@ a link format entry for each RD discovered, with the URL indicating the root
 resource of the RD. When performing multicast discovery, the multicast IP
 address used will depend on the scope required and the multicast capabilities
 of the network.
+
+HTTP does not support multicast and consequently discovery has no HTTP interface.
 
 An RD implementation of this specification MUST support query filtering for
 the rt parameter as defined in {{RFC6690}}.
@@ -462,19 +464,22 @@ Content-Type:
 The following response codes are defined for this interface:
 
 Success:
-: 2.05 "Content" or 200 "OK" with an
+: 2.05 "Content" with an
   application/link-format, application/link-format+json, or application/link-format+cbor payload containing one or more matching entries for the RD resource.
 
 Failure:
-: 4.04 "Not Found" or 404 "Not Found" is returned in case no matching entry is found for a unicast
+: 4.04 "Not Found" is returned in case no matching entry is found for a unicast
   request.
 
 Failure:
-: 4.00 "Bad Request" or 400 "Bad Request" is returned in case of a malformed request for a unicast
+: 4.00 "Bad Request" is returned in case of a malformed request for a unicast
   request.
 
 Failure:
 : No error response to a multicast request.
+
+HTTP support :
+: NO
 
 The following example shows an endpoint discovering an RD using this interface,
 thus learning that the base RD resource is, in this example, at /rd.  Note
@@ -504,23 +509,6 @@ Res: 2.05 Content
 </rd-group>;rt="core.rd-group"
 ~~~~
 {: align="left"}
-
-The alternative htpt format looks like:
-
-{: align="left"}
-~~~~
-Req: GET .well-known/core?rt=core.rd* HTTP/1.1
-Host: ff02::1
-Accept: application/link-format
-
-Res: 200 OK
-</rd>;rt="core.rd",
-</rd-lookup>;rt="core.rd-lookup",
-</rd-group>;rt="core.rd-group"
-~~~~
-
-{: align="left"}
-
 
 
 ## Registration {#registration}
@@ -619,6 +607,9 @@ Failure:
 Failure:
 : 5.03 "Service Unavailable" or 503 "Service Unavailable". Service could not perform the operation.
 
+HTTP support:
+: YES
+
 The following example shows an endpoint with the name "node1" registering
 two resources to an RD using this interface. The resulting location /rd/4521
 is just an example of an RD generated location.
@@ -636,6 +627,7 @@ is just an example of an RD generated location.
 
 ~~~~
 Req: POST coap://rd.example.com/rd?ep=node1
+Content-Format: 40
 Payload:
 </sensors/temp>;ct=41;rt="temperature-c";if="sensor",
 </sensors/light>;ct=41;rt="light-lux";if="sensor"
@@ -644,6 +636,21 @@ Res: 2.01 Created
 Location: /rd/4521
 ~~~~
 {: align="left"}
+
+~~~~
+Req: POST /rd?ep=node1 HTTP/1.1
+Host : example.com
+Content-Type: application/link-format
+Payload:
+</sensors/temp>;ct=41;rt="temperature-c";if="sensor",
+</sensors/light>;ct=41;rt="light-lux";if="sensor"
+
+Res: 201 Created
+Location: /rd/4521
+~~~~
+{: align="left"}
+
+
 
 
 ## Update {#update}
@@ -662,9 +669,7 @@ An update MAY optionally add or replace links for the endpoint by including
 those links in the payload of the update as a CoRE Link Format
 document. Including links in an update message greatly increases the load on
 an RD and SHOULD be done infrequently. A link is replaced only if both the
-target URI and relation type match (see {{endpoint_identification}}).<!--
-TODO: explain how a patch format, probably not RFC7386, could be used to
-delete, replace, and add entries.)  -->
+target URI and relation type match (see {{endpoint_identification}})
 
 The update request interface is specified as follows:
 
@@ -709,7 +714,7 @@ Content-Type:
 The following response codes are defined for this interface:
 
 Success:
-: 2.04 "Changed" 0r 204 "No Content" in the update was successfully processed.
+: 2.04 "Changed" or 204 "No Content" in the update was successfully processed.
 
 Failure:
 : 4.00 "Bad Request" or 400 "Bad Request". Malformed request.
@@ -719,6 +724,9 @@ Failure:
 
 Failure:
 : 5.03 "Service Unavailable" or 503 "Service Unavailable". Service could not perform the operation.
+
+HTTP support:
+: YES
 
 
 The following example shows an endpoint updating its registration at
@@ -783,6 +791,9 @@ Failure:
 Failure:
 : 5.03 "Service Unavailable" or 503 "Service Unavailable". Service could not perform the operation.
 
+HTTP support:
+: YES
+
 The following examples shows successful removal of the endpoint from the RD.
 
 
@@ -819,12 +830,14 @@ Method:
 : GET
 
 URI Template:
-: /{+location}{?rt,if,ct}
+: /{+location}{?href,rel,rt,if,ct}
 
 URI Template Variables:
 : location :=
   : This is the Location path returned by the RD as a result of a successful
     earlier registration.
+
+: href,rel,rt,if,ct := link relations and attributes specified in the query in order to select particular links based on their relations and attributes. "href" denotes the URI target of the link.
 
 The following responses codes are defined for this interface:
 
@@ -862,6 +875,122 @@ Res: 2.01 Content
 Payload:
 </sensors/temp>;ct=41;rt="temperature-c";if="sensor",
 </sensors/light>;ct=41;rt="light-lux";if="sensor"
+~~~~
+{: align="left"}
+
+
+## Update Endpoint Links {#link-up}
+
+A PATCH update adds, removes or changes links for the endpoint by including link update information in the payload of the update as a merge-patch+json format {{RFC7396}}
+document. 
+
+One or more links are selected for update by supplying query parameters as in the Read Endpoint Links interface.
+
+The update request interface is specified as follows:
+
+Interaction:
+: EP -> RD
+
+Method:
+: PATCH
+
+URI Template:
+: /{+location}{?href,rel,rt,if,ct}
+
+URI Template Variables:
+: location :=
+  : This is the Location path returned by the RD as a result of a successful
+    earlier registration.
+
+: href,rel,rt,if,ct := link relations and attributes specified in the query in order to select particular links based on their relations and attributes. "href" denotes the URI target of the link.
+
+Content-Format:
+: application/merge-patch+json (mandatory)
+
+The following response codes are defined for this interface:
+
+Success:
+: 2.04 "Changed" 0r 204 "No Content" in the update was successfully processed.
+
+Failure:
+: 4.00 "Bad Request" or 400 "Bad Request". Malformed request.
+
+Failure:
+: 4.04 "Not Found" or 404 "Not Found". Registration resource does not exist (e.g. may have expired).
+
+Failure:
+: 5.03 "Service Unavailable" or 503 "Service Unavailable". Service could not perform the operation.
+
+
+The following example shows an endpoint adding </sensors/humid>, modifying </sensors/temp>, and removing </sensors/light> links in RD using this interface.
+
+
+Add </sensors/humid>;ct=41;rt="humidity-s";if="sensor"
+
+~~~~
+     EP                                                RD
+     |                                                 |
+     | --- PATCH /rd/4521--------------------------->  |
+     |                                                 |
+     |                                                 |
+     | <-- 2.04 Changed  ----------------------------  |
+     |                                                 |
+~~~~
+{: align="left"}
+
+~~~~
+Req: PATCH /rd/4521
+
+Payload: [{"href":"/sensors/humid","ct": 41, "rt": "humidity-s", "if": "sensor"}]
+
+Res: 2.04 Changed
+~~~~
+{: align="left"}
+
+
+Modify </sensors/temp>;rt="temperature"
+to: </sensors/temp>;rt="temperature-c";if="sensor"
+
+~~~~
+     EP                                                RD
+     |                                                 |
+     | --- PATCH /rd/4521?href="/sensors/temp"  ---->  |
+     |                                                 |
+     |                                                 |
+     | <-- 2.04 Changed  ----------------------------  |
+     |                                                 |
+~~~~
+{: align="left"}
+
+~~~~
+Req: PATCH /rd/4521?href="/sensors/temp"
+
+Payload: {"rt": "temperature-c", "if": "sensor"},
+
+Res: 2.04 Changed
+~~~~
+{: align="left"}
+
+
+Remove </sensors/light>
+
+~~~~
+     EP                                                RD
+     |                                                 |
+     | --- PATCH /rd/4521?href="/sensors/light"  ---->  |
+     |                                                 |
+     |                                                 |
+     | <-- 2.04 Changed  ----------------------------  |
+     |                                                 |
+~~~~
+{: align="left"}
+
+~~~~
+Req: PATCH /rd/4521?href="/sensors/light"
+
+Payload: {null}
+
+Res: 2.04 Changed
 ~~~~
 {: align="left"}
 
@@ -947,6 +1076,9 @@ Failure:
 Failure:
 : 5.03 "Service Unavailable" or 503 "Service Unavailable". Service could not perform the operation.
 
+HTTP support:
+: YES
+
 The following example shows an EP registering a group with the name “lights” which has two endpoints to an RD using this interface. The resulting location /rd-group/12
 is just an example of an RD generated group location.
 
@@ -974,6 +1106,18 @@ Location: /rd-group/12
 ~~~~
 {: align="left"}
 
+~~~~
+Req: POST /rd-group?gp=lights HTTP/1.1
+Host: example.com
+Accept: application/link-format
+Payload:
+<>;ep="node1",
+<>;ep="node2"
+
+Res: 201 Created
+Location: /rd-group/12
+~~~~
+{: align="left"}
 
 ## Group Removal {#group-removal}
 
@@ -1011,6 +1155,9 @@ Failure:
 
 Failure:
 : 5.03 "Service Unavailable" or 503 "Service Unavailable". Service could not perform the operation.
+
+HTTP support:
+: YES
 
 
 The following examples shows successful removal of the group from the RD.
@@ -1127,7 +1274,11 @@ Failure:
 Failure:
 : 5.03 "Service Unavailable" or 503 "Service Unavailable". Service could not perform the operation.
 
-The examples in this section assume a host with IP address FDFD::123 and a default CoAP port 61616. The following example shows a client performing a resource lookup:
+HTTP support:
+: YES
+
+The examples in this section assume a CoAP host with IP address FDFD::123 and a default CoAP port 61616. HTTP hosts are possible and do not change the nature of the examples.
+The following example shows a client performing a resource lookup:
 
 
 ~~~~
@@ -1620,7 +1771,7 @@ Examples are added here.
 ## Lighting Installation {#lt-ex}
 
 This example shows a simplified lighting installation which makes use of
-the Resource Directory (RD) to facilitate the installation and start up of
+the Resource Directory (RD) with a CoAP interface to facilitate the installation and start up of
 the application code in the lights and sensors. In particular, the example
 leads to the definition of a group and the enabling of the corresponding
 multicast address. No conclusions must be drawn on the realization of actual
@@ -2171,6 +2322,16 @@ originally developed.
 
 
 # Changelog
+
+changes from -04 to -05
+
+* http access made explicit in  interface specification
+
+* Added http examples
+
+
+
+
 Changes from -03 to -04:
 
 * Added http response codes
