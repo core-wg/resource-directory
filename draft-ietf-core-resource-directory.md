@@ -62,6 +62,7 @@ normative:
   RFC6335:
   RFC6570:
   RFC6763:
+  RFC7396:
   I-D.ietf-core-links-json:
 informative:
   RFC7252:
@@ -821,6 +822,8 @@ Res: 2.02 Deleted
 
 Some endpoints may wish to manage their links as a collection, and may need to read the current set of links in order to determine link maintenance operations.
 
+One or more links MAY be selected by using query filtering as specified in {{RFC6690}} Section 4.1
+
 The read request interface is specified as follows:
 
 Interaction:
@@ -837,7 +840,7 @@ URI Template Variables:
   : This is the Location path returned by the RD as a result of a successful
     earlier registration.
 
-: href,rel,rt,if,ct := link relations and attributes specified in the query in order to select particular links based on their relations and attributes. "href" denotes the URI target of the link.
+: href,rel,rt,if,ct := link relations and attributes specified in the query in order to select particular links based on their relations and attributes. "href" denotes the URI target of the link. See {{RFC6690}} Sec. 4.1
 
 The following responses codes are defined for this interface:
 
@@ -884,7 +887,7 @@ Payload:
 A PATCH update adds, removes or changes links for the endpoint by including link update information in the payload of the update as a merge-patch+json format {{RFC7396}}
 document. 
 
-One or more links are selected for update by supplying query parameters as in the Read Endpoint Links interface.
+One or more links are selected for update by using query filtering as specified in {{RFC6690}} Section 4.1
 
 The update request interface is specified as follows:
 
@@ -902,7 +905,7 @@ URI Template Variables:
   : This is the Location path returned by the RD as a result of a successful
     earlier registration.
 
-: href,rel,rt,if,ct := link relations and attributes specified in the query in order to select particular links based on their relations and attributes. "href" denotes the URI target of the link.
+: href,rel,rt,if,ct := link relations and attributes specified in the query in order to select particular links based on their relations and attributes. "href" denotes the URI target of the link. See {{RFC6690}} Sec. 4.1
 
 Content-Format:
 : application/merge-patch+json (mandatory)
@@ -2325,7 +2328,9 @@ originally developed.
 
 changes from -04 to -05
 
-* http access made explicit in  interface specification
+* added Update Endpoint Links using PATCH
+
+* http access made explicit in interface specification
 
 * Added http examples
 
