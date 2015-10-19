@@ -890,6 +890,12 @@ document.
 
 One or more links are selected for update by using query filtering as specified in {{RFC6690}} Section 4.1
 
+The query filter selects the links to be modified or deleted, by matching the query parameter values to the values of the link attributes.
+
+When the query parameters are not present in the request, the payload specifies links to be added to the target document. When the query parameters are present, the attribute names and values in the query parameters select one or more links on which to apply the PATCH operation. 
+
+If an attribute name specified in the PATCH document exists in any the set of selected links, all occurrences of the attribute value in the target document MUST be updated using the value from the PATCH payload. If the attribute name is not present in any selected links, the attribute MUST be added to the links.
+
 The update request interface is specified as follows:
 
 Interaction:
