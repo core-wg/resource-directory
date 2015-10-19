@@ -517,7 +517,7 @@ Res: 2.05 Content
 After discovering the location of an RD Function Set, an endpoint MAY
 register its resources using the registration interface. This interface
 accepts a POST from an endpoint containing the list of resources to be added
-to the directory as the message payload in the CoRE Link Format {{RFC6690}}, JSON CoRE Link Format {{I-D.ietf-core-links-json}}, or CBOR CoRE Link Format (application/link-format+cbor) along with query string
+to the directory as the message payload in the CoRE Link Format {{RFC6690}}, JSON CoRE Link Format (application/link-format+json), or CBOR CoRE Link Format (application/link-format+cbor)  {{I-D.ietf-core-links-json}}, along with query string
 parameters indicating the name of the endpoint, its domain and the lifetime
 of the registration. All parameters except the endpoint name are optional. It
 is expected that other specifications will define further parameters (see
@@ -792,8 +792,7 @@ Failure:
 Failure:
 : 5.03 "Service Unavailable" or 503 "Service Unavailable". Service could not perform the operation.
 
-HTTP support:
-: YES
+HTTP support: YES
 
 The following examples shows successful removal of the endpoint from the RD.
 
@@ -855,6 +854,8 @@ Failure:
 
 Failure:
 : 5.03 "Service Unavailable" or 503 "Service Unavailable". Service could not perform the operation.
+
+HTTP support: YES
 
 The following examples show successful read of the endpoint links from the RD.
 
@@ -924,11 +925,12 @@ Failure:
 Failure:
 : 5.03 "Service Unavailable" or 503 "Service Unavailable". Service could not perform the operation.
 
+HTTP support: YES
 
-The following example shows an endpoint adding </sensors/humid>, modifying </sensors/temp>, and removing </sensors/light> links in RD using this interface.
+The following examples show an endpoint adding </sensors/humid>, modifying </sensors/temp>, and removing </sensors/light> links in RD using the Update Endpoint Links function.
 
 
-Add </sensors/humid>;ct=41;rt="humidity-s";if="sensor"
+The following example shows an EP adding the link </sensors/humid>;ct=41;rt="humidity-s";if="sensor" to the collection of links at the location /rd/4521.
 
 ~~~~
      EP                                                RD
@@ -944,15 +946,18 @@ Add </sensors/humid>;ct=41;rt="humidity-s";if="sensor"
 ~~~~
 Req: PATCH /rd/4521
 
-Payload: [{"href":"/sensors/humid","ct": 41, "rt": "humidity-s", "if": "sensor"}]
+Payload: 
+[{"href":"/sensors/humid","ct": 41, "rt": "humidity-s", "if": "sensor"}]
+
+Content-Format:
+application/merge-patch+json
 
 Res: 2.04 Changed
 ~~~~
 {: align="left"}
 
 
-Modify </sensors/temp>;rt="temperature"
-to: </sensors/temp>;rt="temperature-c";if="sensor"
+The following example shows an EF modifying all links at the location /rd/4521 which are  identified by href="/sensors/temp", from the initial link-value of </sensors/temp>;rt="temperature" to the new link-value </sensors/temp>;rt="temperature-c";if="sensor" by adding the link attribute if="sensor" using the PATCH operation with the supplied merge-patch+json document payload.
 
 ~~~~
      EP                                                RD
@@ -968,14 +973,18 @@ to: </sensors/temp>;rt="temperature-c";if="sensor"
 ~~~~
 Req: PATCH /rd/4521?href="/sensors/temp"
 
-Payload: {"rt": "temperature-c", "if": "sensor"},
+Payload: 
+{"rt": "temperature-c", "if": "sensor"},
+
+Content-Format:
+application/merge-patch+json
 
 Res: 2.04 Changed
 ~~~~
 {: align="left"}
 
 
-Remove </sensors/light>
+This example shows an EP removing all links at the location /rd/4521 which are identified by href="/sensors/light". 
 
 ~~~~
      EP                                                RD
@@ -991,7 +1000,11 @@ Remove </sensors/light>
 ~~~~
 Req: PATCH /rd/4521?href="/sensors/light"
 
-Payload: {null}
+Payload: 
+{null}
+
+Content-Format:
+application/merge-patch+json
 
 Res: 2.04 Changed
 ~~~~
