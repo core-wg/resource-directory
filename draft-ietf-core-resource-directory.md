@@ -963,7 +963,7 @@ Res: 2.04 Changed
 {: align="left"}
 
 
-The following example shows an EF modifying all links at the location /rd/4521 which are  identified by href="/sensors/temp", from the initial link-value of </sensors/temp>;rt="temperature" to the new link-value </sensors/temp>;rt="temperature-c";if="sensor" by adding the link attribute if="sensor" using the PATCH operation with the supplied merge-patch+json document payload.
+The following example shows an EP modifying all links at the location /rd/4521 which are  identified by href="/sensors/temp", from the initial link-value of </sensors/temp>;rt="temperature" to the new link-value </sensors/temp>;rt="temperature-c";if="sensor" by changing the value of the link attribute "rt" and adding the link attribute if="sensor" using the PATCH operation with the supplied merge-patch+json document payload.
 
 ~~~~
      EP                                                RD
