@@ -1,7 +1,9 @@
 ---
+title: CoRE Resource Directory
+docname: draft-ietf-core-resource-directory-06
+date: 2016-03-21
 stand_alone: true
 ipr: trust200902
-docname: draft-ietf-core-resource-directory-05
 cat: std
 pi:
   strict: 'yes'
@@ -13,11 +15,9 @@ pi:
   comments: yes
   subcompact: 'no'
   iprnotified: 'no'
-title: CoRE Resource Directory
 area: Internet
 wg: CoRE
 kw: CoRE, Web Linking, Resource Discovery, Resource Directory
-date: 2015-10-16
 author:
 - ins: Z. Shelby
   name: Zach Shelby
@@ -884,6 +884,8 @@ Payload:
 
 
 ## Update Endpoint Links {#link-up}
+
+\[This section will be removed before or as a result of a working-group last-call if the PATCH methods do not achieve the same level of consensus as the present document.]
 
 A PATCH update adds, removes or changes links for the endpoint by including link update information in the payload of the update as a merge-patch+json format {{RFC7396}}
 document. 
@@ -2345,7 +2347,13 @@ originally developed.
 
 # Changelog
 
-changes from -04 to -05
+Changes from -05 to -06
+
+* added note that the PATCH section is contingent on the progress of
+  the PATCH method
+
+
+Changes from -04 to -05
 
 * added Update Endpoint Links using PATCH
 
