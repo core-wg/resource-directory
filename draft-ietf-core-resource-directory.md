@@ -1,6 +1,6 @@
 ---
 title: CoRE Resource Directory
-docname: draft-ietf-core-resource-directory-06
+docname: draft-ietf-core-resource-directory-07
 date: 2016-03-21
 stand_alone: true
 ipr: trust200902
@@ -15,6 +15,7 @@ pi:
   comments: yes
   subcompact: 'no'
   iprnotified: 'no'
+title: CoRE Resource Directory
 area: Internet
 wg: CoRE
 kw: CoRE, Web Linking, Resource Discovery, Resource Directory
@@ -30,13 +31,13 @@ author:
   email: zach.shelby@arm.com
 - ins: M. Koster
   name: Michael Koster
-  org: ARM
-  street: 150 Rose Orchard
-  city: San Jose
-  code: '95134'
+  org: SmartThings
+  street: 665 Clyde Avenue
+  city: Mountain View
+  code: '94043'
   country: USA
-  phone: "+1-408-576-1500 x11516"
-  email: Michael.Koster@arm.com
+  phone: "+1-707-502-5136"
+  email: Michael.Koster@smartthings.com
 - ins: C. Bormann
   name: Carsten Bormann
   org: Universitaet Bremen TZI
@@ -103,7 +104,7 @@ static interfaces result in fragility. The discovery of resources provided by
 an HTTP Web Server is typically called Web Linking {{RFC5988}}. The use of
 Web Linking for the description and discovery of resources hosted by
 constrained web servers is specified by the CoRE Link Format
-{{RFC6690}}. This specification however only describes how to discover
+{{RFC6690}}. However, {{RFC6690}} only describes how to discover
 resources from the web server that hosts them by requesting
 `/.well-known/core`. In many M2M scenarios, direct discovery of resources is
 not practical due to sleeping nodes, disperse networks, or networks where
@@ -292,9 +293,9 @@ to the desired resources and endpoints. The Resource Directory service need
 not be coupled with the data intermediary service. Mapping of Resource Directories
 to data intermediaries may be many-to-many.
 
-Metadata in link-format, link-format+cbor, or link-format+json representations are supplied by Resource Directories, which may be internally stored as  triples, or relation/attribute
+Metadata in web link compatible representations are supplied by Resource Directories, which may be internally stored as  triples, or relation/attribute
 pairs providing metadata about resource links. External catalogs that are
-represented in other formats may be converted to link-format, link-format+json, or link-format+cbor for storage and access by Resource Directories. Since it is common practice for these to be URN encoded, simple and lossless structural transforms will
+represented in other formats may be converted to common web linking formats for storage and access by Resource Directories. Since it is common practice for these to be URN encoded, simple and lossless structural transforms should
 generally be sufficient to store external metadata in Resource Directories.
 
 The additional features of Resource Directory allow domains to be defined
@@ -432,7 +433,11 @@ resource of the RD. When performing multicast discovery, the multicast IP
 address used will depend on the scope required and the multicast capabilities
 of the network.
 
-HTTP does not support multicast and consequently discovery has no HTTP interface.
+A Resource Directory MAY provide hints about the content-formats it supports in the links it exposes or registers, using the "ct" link attribute, as shown in the example below. Clients MAY use these hints to select alternate content-formats for interaction with the Resource Directory.
+
+HTTP does not support multicast and consequently only unicast discovery can be supported 
+using HTTP. Links to Resource Directories MAY be registered in other Resource Directories,
+and well-known entry points SHOULD be provided to enable the bootstrapping of unicast discovery.
 
 An RD implementation of this specification MUST support query filtering for
 the rt parameter as defined in {{RFC6690}}.
@@ -450,16 +455,16 @@ URI Template:
 
 URI Template Variables:
 : rt :=
-  : Resource Type (optional). MAY contain the value "core.rd", "core.rd-lookup",
+  : Resource Type (optional). MAY contain one or more of the values "core.rd", "core.rd-lookup",
   "core.rd-group" or "core.rd\*"
 
-Content-Type:
+Content-Format:
 : application/link-format (if any)
 
-Content-Type:
+Content-Format:
 : application/link-format+json (if any)
 
-Content-Type:
+Content-Format:
 : application/link-format+cbor (if any)
 
 The following response codes are defined for this interface:
@@ -505,9 +510,9 @@ possible.
 Req: GET coap://[ff02::1]/.well-known/core?rt=core.rd*
 
 Res: 2.05 Content
-</rd>;rt="core.rd",
-</rd-lookup>;rt="core.rd-lookup",
-</rd-group>;rt="core.rd-group"
+</rd>;rt="core.rd";ct="application/link-format+cbor",
+</rd-lookup>;rt="core.rd-lookup";ct="application/link-format+cbor",
+</rd-group>;rt="core.rd-group";ct="application/link-format+cbor"
 ~~~~
 {: align="left"}
 
@@ -579,13 +584,13 @@ URI Template Variables:
     mandatory when the directory is filled by a third party such as an
     installation tool.
 
-Content-Type:
+Content-Format:
 : application/link-format
 
-Content-Type:
+Content-Format:
 : application/link-format+json
 
-Content-Type:
+Content-Format:
 : application/link-format+cbor
 
 The following response codes are defined for this interface:
@@ -641,7 +646,7 @@ Location: /rd/4521
 ~~~~
 Req: POST /rd?ep=node1 HTTP/1.1
 Host : example.com
-Content-Type: application/link-format
+Content-Format: application/link-format
 Payload:
 </sensors/temp>;ct=41;rt="temperature-c";if="sensor",
 </sensors/light>;ct=41;rt="light-lux";if="sensor"
@@ -703,19 +708,19 @@ URI Template Variables:
     assumed. This parameter is compulsory when the directory is filled by a
     third party such as an installation tool.
 
-Content-Type:
+Content-Format:
 : application/link-format (optional)
 
-Content-Type:
+Content-Format:
 : application/link-format+json (optional)
 
-Content-Type:
+Content-Format:
 : application/link-format+cbor (optional)
 
 The following response codes are defined for this interface:
 
 Success:
-: 2.04 "Changed" or 204 "No Content" in the update was successfully processed.
+: 2.04 "Changed" or 204 "No Content" if the update was successfully processed.
 
 Failure:
 : 4.00 "Bad Request" or 400 "Bad Request". Malformed request.
@@ -1078,13 +1083,13 @@ URI Template Variables:
     no multicast address is configured.  This parameter is compulsory when the
     directory is filled by an installation tool.
 
-Content-Type:
+Content-Format:
 : application/link-format
 
-Content-Type:
+Content-Format:
 : application/link-format+json
 
-Content-Type:
+Content-Format:
 : application/link-format+cbor
 
 The following response codes are defined for this interface:
@@ -1249,6 +1254,14 @@ URI Template Variables:
     Function Set. An RD SHOULD use the value "rd-lookup" for this variable whenever
     possible.
 
+Content-Format:
+: application/link-format (optional)
+
+Content-Format:
+: application/link-format+json (optional)
+
+Content-Format:
+: application/link-format+cbor (optional)
 
   lookup-type :=
   : ("d", "ep", "res", "gp") (mandatory) This variable is used to select the
@@ -1501,7 +1514,7 @@ Resource and service discovery are complementary in the case of large
 networks, where the latter can facilitate scaling.  This document
 defines a mapping between CoRE Link Format attributes and DNS-Based
 Service Discovery {{RFC6763}} fields that permits
-discovery of CoAP services by either means.
+discovery of CoAP services by either method.
 
 ## DNS-based Service discovery {#cheshire}
 
@@ -1517,7 +1530,8 @@ DNS-SD service names are limited to 255 octets and are of the form:
 Service Name = &lt;Instance>.&lt;ServiceType>.&lt;Domain>.
 
 The service name is the label of SRV/TXT resource records. The SRV RR specifies
-the host and the port of the endpoint. The TXT RR provides additional information.
+the host and the port of the endpoint. The TXT RR provides additional information 
+in the form of key/value pairs.
 
 The &lt;Domain> part of the service name is identical to the global (DNS
 subdomain) part of the authority in URIs that identify servers or groups
@@ -1529,9 +1543,9 @@ underscore character.  The second label indicates the transport and is always
 "_udp" for UDP-based CoAP services.  In cases where narrowing the scope of
 the search may be useful, these labels may be optionally preceded by a
 subtype name followed by the "_sub" label.  An example of this more specific
-&lt;ServiceType> is "lamp._sub._dali._udp".
+&lt;ServiceType> is "light._sub._dali._udp".
 
-The default &lt;Instance> part of the service name may be set at the factory
+A default &lt;Instance> part of the service name may be set at the factory
 or during the commissioning process.  It SHOULD uniquely identify an instance
 of &lt;ServiceType> within a &lt;Domain>.  Taken together, these three
 elements comprise a unique name for an SRV/ TXT record pair within the DNS
@@ -1947,13 +1961,13 @@ below, two endpoints are updated with an additional resource using the path
 ~~~~
 Req: POST
  coap://[FDFD::ABCD:1]/light/grp1
- (content-type:application/link-format)<light/middle>,<light/left>
+ (Content-Format:application/link-format)<light/middle>,<light/left>
 
 Res: 2.04 Changed
 
 Req: POST
  coap://[FDFD::ABCD:2]/light/grp1
-(content-type:application/link-format)<light/right>
+(Content-Format:application/link-format)<light/right>
 
 Res: 2.04 Changed
 ~~~~
@@ -2340,12 +2354,24 @@ LWM2M allows for de-registration using the delete method on the returned locatio
 Srdjan Krco, Szymon Sasin, Kerry Lynn, Esko Dijk, Anders
 Brandt, Matthieu Vial, Mohit Sethi, Sampo Ukkola and Linyi
 Tian have provided helpful comments, discussions and ideas to improve and
-shape this document. Zach would also like to thank his colleagues from the
+shape this document. Section 9 is based on an earlier draft
+by Kerry Lynn. Zach would also like to thank his colleagues from the
 EU FP7 SENSEI project, where many of the resource directory concepts were
 originally developed.
 
 
 # Changelog
+
+changes from -06 to -07
+
+* added text in the discovery section to allow content format hints to be exposed in the discovery link attributes
+
+* editorial updates to section 9
+
+* update author information
+
+* minor text corrections
+
 
 Changes from -05 to -06
 
@@ -2353,15 +2379,13 @@ Changes from -05 to -06
   the PATCH method
 
 
-Changes from -04 to -05
+changes from -04 to -05
 
 * added Update Endpoint Links using PATCH
 
 * http access made explicit in interface specification
 
 * Added http examples
-
-
 
 
 Changes from -03 to -04:
