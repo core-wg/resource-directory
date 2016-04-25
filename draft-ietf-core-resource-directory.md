@@ -161,6 +161,9 @@ is identified by its endpoint name, which is included during registration,
 and is unique within the associated domain of the registration.
 {: vspace='0'}
 
+Commissioning Tool
+: Commissioning Tool (CT) is a device that assists during the installation of the network by assigning values to parameters, naming endpoints and groups, or adapting the installation to the needs of the applications.
+
 
 # Architecture and Use Cases {#arch}
 
@@ -390,7 +393,7 @@ for certain very constrained devices, in particular if the security requirements
 become too onerous.
 
 In a controlled environment (e.g. building control), the Resource Directory
-can be filled by a third device, called an installation tool. The installation
+can be filled by a third device, called a commissioning tool. The commissioning
 tool can fill the Resource Directory from a database or other means. For
 that purpose the scheme, IP address and port of the registered device is
 indicated in the Context parameter of the registration as well.
@@ -494,19 +497,6 @@ and debugging is facilitated by using the base paths specified here where
 possible.
 
 ~~~~
-     EP                                               RD
-     |                                                 |
-     | ----- GET /.well-known/core?rt=core.rd* ------> |
-     |                                                 |
-     |                                                 |
-     | <---- 2.05 Content "</rd>;rt="core.rd"  ------- |
-     |                                                 |
-
-
-~~~~
-{: align="left"}
-
-~~~~
 Req: GET coap://[ff02::1]/.well-known/core?rt=core.rd*
 
 Res: 2.05 Content
@@ -582,7 +572,7 @@ URI Template Variables:
     the absence of this parameter the scheme of the protocol, source IP address
     and source port of the register request are assumed. This parameter is
     mandatory when the directory is filled by a third party such as an
-    installation tool.
+    commissioning tool.
 
 Content-Format:
 : application/link-format
@@ -620,16 +610,6 @@ The following example shows an endpoint with the name "node1" registering
 two resources to an RD using this interface. The resulting location /rd/4521
 is just an example of an RD generated location.
 
-~~~~
-    EP                                                RD
-     |                                                 |
-     | --- POST /rd?ep=node1 "</sensors..." ------->   |
-     |                                                 |
-     |                                                 |
-     | <-- 2.01 Created Location: /rd/4521 ----------  |
-     |                                                 |
-~~~~
-{: align="left"}
 
 ~~~~
 Req: POST coap://rd.example.com/rd?ep=node1
@@ -706,7 +686,7 @@ URI Template Variables:
     scheme://host:port. Optional. In the absence of this parameter the scheme
     of the protocol, source IP address and source port used to register are
     assumed. This parameter is compulsory when the directory is filled by a
-    third party such as an installation tool.
+    third party such as a commissioning tool.
 
 Content-Format:
 : application/link-format (optional)
@@ -737,18 +717,6 @@ HTTP support:
 
 The following example shows an endpoint updating its registration at
 an RD using this interface.
-
-
-~~~~
-     EP                                                RD
-     |                                                 |
-     | --- POST /rd/4521  -------------------------->  |
-     |                                                 |
-     |                                                 |
-     | <-- 2.04 Changed  ----------------------------  |
-     |                                                 |
-~~~~
-{: align="left"}
 
 
 ~~~~
@@ -803,18 +771,6 @@ The following examples shows successful removal of the endpoint from the RD.
 
 
 ~~~~
-    EP                                                RD
-     |                                                 |
-     | --- DELETE /rd/4521  ------------------------>  |
-     |                                                 |
-     |                                                 |
-     | <-- 2.02 Deleted  ----------------------------  |
-     |                                                 |
-~~~~
-{: align="left"}
-
-
-~~~~
 Req: DELETE /rd/4521
 
 Res: 2.02 Deleted
@@ -863,18 +819,6 @@ Failure:
 HTTP support: YES
 
 The following examples show successful read of the endpoint links from the RD.
-
-
-~~~~
-    EP                                                RD
-     |                                                 |
-     | --- GET /rd/4521  ------------------------>  |
-     |                                                 |
-     |                                                 |
-     | <-- 2.05 Content </sensors... ----------------  |
-     |                                                 |
-~~~~
-{: align="left"}
 
 
 ~~~~
@@ -945,16 +889,6 @@ The following examples show an endpoint adding </sensors/humid>, modifying </sen
 
 The following example shows an EP adding the link </sensors/humid>;ct=41;rt="humidity-s";if="sensor" to the collection of links at the location /rd/4521.
 
-~~~~
-     EP                                                RD
-     |                                                 |
-     | --- PATCH /rd/4521--------------------------->  |
-     |                                                 |
-     |                                                 |
-     | <-- 2.04 Changed  ----------------------------  |
-     |                                                 |
-~~~~
-{: align="left"}
 
 ~~~~
 Req: PATCH /rd/4521
@@ -972,16 +906,6 @@ Res: 2.04 Changed
 
 The following example shows an EP modifying all links at the location /rd/4521 which are  identified by href="/sensors/temp", from the initial link-value of </sensors/temp>;rt="temperature" to the new link-value </sensors/temp>;rt="temperature-c";if="sensor" by changing the value of the link attribute "rt" and adding the link attribute if="sensor" using the PATCH operation with the supplied merge-patch+json document payload.
 
-~~~~
-     EP                                                RD
-     |                                                 |
-     | --- PATCH /rd/4521?href="/sensors/temp"  ---->  |
-     |                                                 |
-     |                                                 |
-     | <-- 2.04 Changed  ----------------------------  |
-     |                                                 |
-~~~~
-{: align="left"}
 
 ~~~~
 Req: PATCH /rd/4521?href="/sensors/temp"
@@ -998,17 +922,6 @@ Res: 2.04 Changed
 
 
 This example shows an EP removing all links at the location /rd/4521 which are identified by href="/sensors/light". 
-
-~~~~
-     EP                                                RD
-     |                                                 |
-     | --- PATCH /rd/4521?href="/sensors/light"  ---->  |
-     |                                                 |
-     |                                                 |
-     | <-- 2.04 Changed  ----------------------------  |
-     |                                                 |
-~~~~
-{: align="left"}
 
 ~~~~
 Req: PATCH /rd/4521?href="/sensors/light"
@@ -1036,7 +949,7 @@ a group MAY have a multicast address associated with it.
 
 ## Register a Group {#group-register}
 
-In order to create a group, a management entity used to configure groups,
+In order to create a group, a commissioning tool (CT) used to configure groups,
 makes a request to the RD indicating the name of the group to create (or
 update), optionally the domain the group belongs to, and optionally the multicast
 address of the group. The registration message includes the list of endpoints
@@ -1051,7 +964,7 @@ of an endpoint has been defined in {{RFC7390}}.
 The registration request interface is specified as follows:
 
 Interaction:
-: Manager -> RD
+: CT -> RD
 
 Method:
 : POST
@@ -1081,7 +994,7 @@ URI Template Variables:
     address at which this server is available in the form
     scheme://multicast-address:port.  Optional. In the absence of this parameter
     no multicast address is configured.  This parameter is compulsory when the
-    directory is filled by an installation tool.
+    directory is filled by a commissioning tool.
 
 Content-Format:
 : application/link-format
@@ -1110,18 +1023,6 @@ HTTP support:
 
 The following example shows an EP registering a group with the name “lights” which has two endpoints to an RD using this interface. The resulting location /rd-group/12
 is just an example of an RD generated group location.
-
-
-~~~~
-    EP                                                RD
-     |                                                 |
-     | - POST /rd-group?gp=lights "<>;ep=node1..." --> |
-     |                                                 |
-     |                                                 |
-     | <---- 2.01 Created Location: /rd-group/12 ----  |
-     |                                                 |
-~~~~
-{: align="left"}
 
 
 ~~~~
@@ -1157,7 +1058,7 @@ endpoints of the group from the RD.
 The removal request interface is specified as follows:
 
 Interaction:
-: Manager -> RD
+: CT -> RD
 
 Method:
 : DELETE
@@ -1190,18 +1091,6 @@ HTTP support:
 
 
 The following examples shows successful removal of the group from the RD.
-
-
-~~~~
-    EP                                                RD
-     |                                                 |
-     | --- DELETE /rd-group/412  ------------------->  |
-     |                                                 |
-     |                                                 |
-     | <-- 2.02 Deleted  ----------------------------  |
-     |                                                 |
-~~~~
-{: align="left"}
 
 
 ~~~~
@@ -1319,19 +1208,6 @@ The following example shows a client performing a resource lookup:
 
 
 ~~~~
-   Client                                                          RD
-     |                                                             |
-     | ----- GET /rd-lookup/res?rt=temperature ----------------->  |
-     |                                                             |
-     |                                                             |
-     | <-- 2.05 Content <coap://[FDFD::123]:61616/temp>;---------  |
-     |                                  rt="temperature" --------  |
-     |                                                             |
-~~~~
-{: align="left"}
-
-
-~~~~
 Req: GET /rd-lookup/res?rt=temperature
 
 Res: 2.05 Content
@@ -1340,18 +1216,6 @@ Res: 2.05 Content
 {: align="left"}
 
 The following example shows a client performing an endpoint type lookup:
-
-
-~~~~
-   Client                                                          RD
-     |                                                             |
-     | ----- GET /rd-lookup/ep?et=power-node --------------------> |
-     |                                                             |
-     |                                                             |
-     | <-- 2.05 Content <coap://[FDFD::123]:61616>;ep="node5" ---- |
-     |                                                             |
-~~~~
-{: align="left"}
 
 
 ~~~~
@@ -1416,18 +1280,6 @@ in a particular group:
 
 
 ~~~~
-   Client                                                          RD
-     |                                                             |
-     | ----- GET /rd-lookup/ep?gp=lights1----------------------->  |
-     |                                                             |
-     |                                                             |
-     | <-- 2.05 Content <coap://[FDFD::123]:61616>;ep="node1" ---- |
-     |                                                             |
-~~~~
-{: align="left"}
-
-
-~~~~
 Req: GET /rd-lookup/ep?gp=lights1
 
 Res: 2.05 Content
@@ -1439,18 +1291,6 @@ Res: 2.05 Content
 The following example shows a client performing a lookup for all groups an
 endpoint belongs to:
 
-
-~~~~
-   Client                                                         RD
-     |                                                            |
-     | ----- GET /rd-lookup/gp?ep=node1 ----------------------->  |
-     |                                                            |
-     |                                                            |
-     |< 2.05 Content <coap://[FDFD::123]:61616>;gp="lights1"; --  |
-     |                                          ep="node1" ------ |
-     |                                                            |
-~~~~
-{: align="left"}
 
 
 ~~~~
@@ -1651,20 +1491,6 @@ The following example shows an agent discovering a resource to be
 exported:
 
 ~~~~
-    Agent                                                          RD
-      |                                                             |
-      | --- GET /rd-lookup/res?exp ------------------------------>  |
-      |                                                             |
-      |                                                             |
-      | <-- 2.05 Content "<coap://[FDFD::1234]:5683/light/1>;exp;  |
-      |                   rt="dali.light";ins="Spot";               |
-      |                   d="office";ep="node1"                     |
-      |                                                             |
-~~~~
-{: align="left"}
-
-
-~~~~
    Req: GET /rd-lookup/res?exp
 
    Res: 2.05 Content
@@ -1813,8 +1639,8 @@ the Resource Directory (RD) with a CoAP interface to facilitate the installation
 the application code in the lights and sensors. In particular, the example
 leads to the definition of a group and the enabling of the corresponding
 multicast address. No conclusions must be drawn on the realization of actual
-installation procedures, because the example "emphasizes" some of the issues
-that may influence the use of the RD.
+installation or naming procedures, because the example only "emphasizes" some of the issues
+that may influence the use of the RD and does not pretend to be normative.
 
 ### Installation Characteristics {#lt-in-ch}
 
@@ -1840,21 +1666,7 @@ sensor notifies the presence of persons to a group of lamps. The group of
 lamps consists of: middle and left lamps of luminary1 and right lamp of luminary2.
 
 Before commissioning by the lighting manager, the network is installed and
-access to the interfaces is proven to work by the network manager. Following
-the lay-out of cables and routers the network manager has defined DNS domains.
-The presence sensor and luminary1 are part of DNS
-domain: rtr_5612_rrt.example.com and luminary2 is part of rtr_7899_pfa.example.com.
-The names of luminary1- luminary2-, and sensor- interfaces are respectively:
-lm_12-345-678, lm_12-456-378, and sn_12-345-781. These names are stored in
-DNS together with their IP addresses. The FQDN of the interfaces is shown
-in {{interface-F}} below:
-
-| Name | FQDN |
-| luminary1 | lm_12-345-678.rtr_5612_rrt.example.com  |
-| luminary2 | lm_12-456-378.rtr_7899_pfa.example.com |
-| Presence sensor | sn_12-345-781.rtr_5612_rrt.example.com |
-| Resource directory | pc_123456.rtr_5612_rrt.example.com |
-{: #interface-F title='interface FQDNs'}
+access to the interfaces is proven to work by the network manager.
 
 At the moment of installation, the network under installation is not necessarily
 connected to the DNS infra structure. Therefore, SLAAC IPv6 addresses are
@@ -1903,12 +1715,9 @@ using the Context parameter (con) to specify the interface address:
 Req: POST coap://[FDFD::ABCD:0]/rd
   ?ep=lm_R2-4-015_wndw&con=coap://[FDFD::ABCD:1]
 Payload:
-</light/left>;rt="light";
-  d="R2-4-015";ins="lamp4444";exp,
-</light/middle>;rt="light";
-  d="R2-4-015";ins="lamp5555";exp,
-</light/right>;rt="light";
-  d="R2-4-015";ins="lamp6666";exp
+</light/left>;rt="light"; d="R2-4-015",
+</light/middle>;rt="light"; d="R2-4-015",
+</light/right>;rt="light";d="R2-4-015"
 
 Res: 2.01 Created
 Location: /rd/4521
@@ -1920,12 +1729,9 @@ Location: /rd/4521
 Req: POST coap://[FDFD::ABCD:0]/rd
   ?ep=lm_R2-4-015_door&con=coap://[FDFD::ABCD:2]
 Payload:
-</light/left>;rt="light";
-  d="R2-4-015";ins="lamp1111";exp,
-</light/middle>;rt="light";
-  d="R2-4-015";ins="lamp2222";exp,
-</light/right>;rt="light";
-  d="R2-4-015";ins="lamp3333";exp
+</light/left>;rt="light"; d="R2-4-015",
+</light/middle>;rt="light"; d="R2-4-015",
+</light/right>;rt="light"; d="R2-4-015"
 
 Res: 2.01 Created
 Location: /rd/4522
@@ -1937,8 +1743,7 @@ Location: /rd/4522
 Req: POST coap://[FDFD::ABCD:0]/rd
   ?ep=ps_R2-4-015_door&con=coap://[FDFD::ABCD:3]
 Payload:
-</ps>;rt="p-sensor";
-  d="R2-4-015";ins="pres1234";exp
+</ps>;rt="p-sensor"; d="R2-4-015"
 
 Res: 2.01 Created
 Location: /rd/4523
@@ -1946,9 +1751,8 @@ Location: /rd/4523
 {: align="left"}
 
 The domain name d="R2-4-015" has been added for an efficient lookup because
-filtering on "ep" name is awkward. The same domain name is communicated to
-the two luminaries and the presence sensor by the CT. The "exp" attribute
-is set for the later administration in DNS of the instance name ins="lampxxxx".
+filtering on "ep" name is more awkward. The same domain name is communicated to
+the two luminaries and the presence sensor by the CT.
 
 Once the individual endpoints are registered, the group needs to be registered.
 Because the presence sensor sends one multicast message to the luminaries,
@@ -1977,11 +1781,6 @@ The group is specified in the RD. The Context parameter is set to the site-local
 multicast address allocated to the group.
 In the POST in the example below, these two end-points and the end-point
 of the presence sensor are registered as members of the group.
-
-It is expected that Standards Developing Organizations (SDOs) may develop other
-special purpose protocols to specify additional group links, group membership,
-group names and other parameters in the individual nodes.
-
 
 ~~~~
 Req: POST coap://[FDFD::ABCD:0]/rd-group
@@ -2036,13 +1835,11 @@ of the multicast group.
 Alternatively, the CT can communicate the multicast address directly to the
 luminaries by using the "coap-group" resource specified in {{RFC7390}}.
 
-<!-- XXX: the following isn't JSON -->
-
 ~~~~
 Req: POST //[FDFD::ABCD:1]/coap-group
           Content-Format: application/coap-group+json
-       { "a": "[FF05::1]" }
-       { "n": "grp_R2-4-015"}
+       { "a": "[FF05::1]",
+          "n": "grp_R2-4-015"}
 
 Res: 2.01 Created
 Location-Path: /coap-group/1
@@ -2050,98 +1847,14 @@ Location-Path: /coap-group/1
 {: align="left"}
 
 Dependent on the situation only the address ,"a", or the name, "n", is specified
-in the coap-group resource. Instead of the RD group name also the DNS group
-name can be used.
+in the coap-group resource.
 
 
 ### DNS entries {#dns-en}
 
-The network manager assigns the domain bc.example.com to the entries coming
-from the RD.
-The agent that looks up the resource directory uses the domain name bc.example.com
-as prescribed, to enter the services and hosts into the DNS.
 
-The agent does a lookup as specified in {{import}}. The RD returns all entries annotated with "exp". The agent subsequently
-registers the following DNS-SD RRs:
-
-
-~~~~
-lm_R2-4-015_wndw.bc.example.com.        IN AAAA      FDFD::ABCD:1
-lm_R2-4-015_door.bc.example.com.        IN AAAA      FDFD::ABCD:2
-ps_R2-4-015_door.bc.example.com.        IN AAAA      FDFD::ABCD:3
-_light._udp.bc.example.com              IN PTR
-                           lamp1111._light._udp.bc.example.com
-_light._udp.bc.example.com              IN PTR
-                           lamp2222._light._udp.bc.example.com
-_light._udp.bc.example.com              IN PTR
-                           lamp3333._light._udp.bc.example.com
-_light._udp.bc.example.com              IN PTR
-                           lamp4444._light._udp.bc.example.com
-_light._udp.bc.example.com              IN PTR
-                           lamp5555._light._udp.bc.example.com
-_light._udp.bc.example.com              IN PTR
-                           lamp6666._light._udp.bc.example.com
-_p-sensor._udp.bc.example.com           IN PTR
-                       pres12324._p-sensor._udp.bc.example.com
-lamp1111._light._udp.bc.example.com     IN SRV  0 0 5683
-                              lm_R2-4-015_door.bc.example.com.
-lamp1111._light._udp.bc.example.com     IN TXT
-                                     txtver=1;path=/light/left
-lamp2222._light._udp.bc.example.com     IN SRV  0 0 5683
-                              lm_R2-4-015_door.bc.example.com.
-lamp2222._light._udp.bc.example.com     IN TXT
-                                   txtver=1;path=/light/middle
-lamp3333._light._udp.bc.example.com     IN SRV  0 0 5683
-                              lm_R2-4-015_door.bc.example.com.
-lamp3333._light._udp.bc.example.com     IN TXT
-                                    txtver=1;path=/light/right
-lamp4444._light._udp.bc.example.com     IN SRV  0 0 5683
-                              lm_R2-4-015_wndw.bc.example.com.
-lamp4444._light._udp.bc.example.com     IN TXT
-                                     txtver=1;path=/light/left
-lamp5555._light._udp.bc.example.com     IN SRV  0 0 5683
-                              lm_R2-4-015_wndw.bc.example.com.
-lamp5555._light._udp.bc.example.com     IN TXT
-                                   txtver=1;path=/light/middle
-lamp6666._light._udp.bc.example.com     IN SRV  0 0 5683
-                              lm_R2-4-015_wndw.bc.example.com.
-lamp6666._light._udp.bc.example.com     IN TXT
-                                    txtver=1;path=/light/right
-pres1234._p-sensor._udp.bc.example.com  IN SRV  0 0 5683
-                              ps_R2-4-015_door.bc.example.com.
-pres1234._p-sensor._udp.bc.example.com  IN TXT
-                                             txtver=1;path=/ps
-~~~~
-{: align="left"}
-
-To ask for all lamps is equivalent to returning all PTR RR with label _light.udp.bc.example.com.
-from the DNS. When it is required to filter on the rd=R2-4-015 value in the
-DNS, additional PTR RRs have to be entered into the DNS.
-
-
-~~~~
-R2-4-015._light._udp.bc.example.com              IN PTR
-                           lamp1111._light._udp.bc.example.com
-R2-4-015._light._udp.bc.example.com              IN PTR
-                           lamp2222._light._udp.bc.example.com
-R2-4-015._light._udp.bc.example.com              IN PTR
-                           lamp3333._light._udp.bc.example.com
-R2-4-015._light._udp.bc.example.com              IN PTR
-                           lamp4444._light._udp.bc.example.com
-R2-4-015._light._udp.bc.example.com              IN PTR
-                           lamp5555._light._udp.bc.example.com
-R2-4-015._light._udp.bc.example.com              IN PTR
-                           lamp6666._light._udp.bc.example.com
-~~~~
-{: align="left"}
-
-Returning all PTR RRs with label R2-4-015._light._udp.bc.example.com provides
-all service instances within the domain R2-4-015. This filtering can be handy
-when there are many rooms. In the example there is only one room, making
-the filtering superfluous.
-
-The agent can also discover groups that need to be discovered. It queries
-RD to return all groups which are exported.
+It may be profitable to discover the light groups for applications, which are unaware ot the existence of the RD. An agent needs to query the
+RD to return all groups which are exported to be inserted into DNS.
 
 
 ~~~~
@@ -2172,28 +1885,7 @@ grp1234._group._udp.bc.example.com  IN TXT
 ~~~~
 {: align="left"}
 
-
-### RD Operation {#rd-op}
-
-The specification of the group can be used by devices other than the luminaries
-and the sensor to learn the multicast address of the group in a given room.
-For example a smart phone may be used to adjust the lamps in the room.
-
-After entry into the room, on request of the user, the smart phone queries
-the presence of RDs and may display all the domain names found on the RDs.
-The user can, for example, scroll all domains (room names in this case) and
-select the room that he entered. After selection the phone shows all groups
-in the selected room with their members. Selecting a group, the user can
-dim, switch on/off the group of lights, or possibly even create temporary
-new groups.
-
-In all examples the SLAAC IPv6 address can be exchanged with the FQDN, when
-a connection to DNS exists.
-Using the FQDN, a node learns the interface's IPv6 address, or the group's
-multicast address from DNS.
-In the same way the presence sensor can learn the multicast address to which
-it should send its presence messages.
-
+From then on applications, not familiar with the existence of the RD, can use DNS to access the lighting group.
 
 ## OMA Lightweight M2M (LWM2M) Example {#lwm2m-ex}
 
@@ -2361,6 +2053,13 @@ originally developed.
 
 
 # Changelog
+
+changes from -07 to -08
+
+* removed all superfluous client-server diagrams
+* simplified lighting example
+* introduced Commissioning Tool
+
 
 changes from -06 to -07
 
