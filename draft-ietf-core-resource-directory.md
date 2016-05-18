@@ -1754,29 +1754,6 @@ The domain name d="R2-4-015" has been added for an efficient lookup because
 filtering on "ep" name is more awkward. The same domain name is communicated to
 the two luminaries and the presence sensor by the CT.
 
-Once the individual endpoints are registered, the group needs to be registered.
-Because the presence sensor sends one multicast message to the luminaries,
-all lamps in the group need to have an identical path. This path is created
-on the two luminaries using the batch command defined in {{I-D.ietf-core-interfaces}}. The path to a batch of lamps is defined as: /light/grp1. In the example
-below, two endpoints are updated with an additional resource using the path
-/light/grp1 on the two luminaries.
-
-
-~~~~
-Req: POST
- coap://[FDFD::ABCD:1]/light/grp1
- (Content-Format:application/link-format)<light/middle>,<light/left>
-
-Res: 2.04 Changed
-
-Req: POST
- coap://[FDFD::ABCD:2]/light/grp1
-(Content-Format:application/link-format)<light/right>
-
-Res: 2.04 Changed
-~~~~
-{: align="left"}
-
 The group is specified in the RD. The Context parameter is set to the site-local
 multicast address allocated to the group.
 In the POST in the example below, these two end-points and the end-point
