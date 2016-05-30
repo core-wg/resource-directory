@@ -654,18 +654,29 @@ Location: /rd/4521
 The update interface is used by an endpoint to refresh or update its
 registration with an RD. To use the interface, the endpoint sends a POST
 request to the resource returned in the Location option in the response to
-the first registration.  An update MAY update the lifetime or context
-parameters if they have changed since the last registration or
-update. Parameters that have not changed SHOULD NOT be included in an
-update. Upon receiving an update request, the RD resets the timeout for that
-endpoint and updates the scheme, IP address and port of the endpoint (using
-the source address of the update, or the context parameter if present).
+the first registration.  
+
+An update MAY update the lifetime or context registration parameters 
+"lt", "con" as in {{registration}} ) if they have changed since the 
+last registration or update. Parameters that have not changed SHOULD NOT 
+be included in an update. Parameters MUST be included as query parameters 
+in an update operation as in {registration}.
+
+Upon receiving an update request, an RD MUST reset the timeout for that
+endpoint and update the scheme, IP address and port of the endpoint, using
+the source address of the update, or the context ("con") parameter if present. 
+If the lifetime parameter "lt" is included in the received update request, 
+the RD MUST update the lifetime of the registration and set the timeout equal 
+to the new lifetime.
 
 An update MAY optionally add or replace links for the endpoint by including
 those links in the payload of the update as a CoRE Link Format
 document. Including links in an update message greatly increases the load on
 an RD and SHOULD be done infrequently. A link is replaced only if both the
-target URI and relation type match (see {{endpoint_identification}})
+target URI and relation type match.
+
+Links may be added, modified, and deleted using Update Endpoint Links as 
+described in {{link-up}}.
 
 The update request interface is specified as follows:
 
@@ -728,9 +739,22 @@ HTTP support:
 The following example shows an endpoint updating its registration at
 an RD using this interface.
 
-
 ~~~~
 Req: POST /rd/4521
+
+Res: 2.04 Changed
+~~~~
+{: align="left"}
+
+
+The following example shows an endpoint updating its registration with a new lifetime and context, changing an existing link, and adding a new link using this interface.
+
+~~~~
+Req: POST /rd/4521?lt=600&con="coap://local-proxy.example.com:5683"
+Content-Format: 40
+Payload:
+</sensors/temp>;ct=41;rt="temperature-f";if="sensor",
+</sensors/door>;ct=41;rt="door";if="sensor"
 
 Res: 2.04 Changed
 ~~~~
