@@ -183,7 +183,7 @@ Endpoints are assumed to proactively register and maintain resource directory
 entries on the RD, which are soft state and need to be periodically refreshed.
 An endpoint is provided with interfaces to register, update and remove a
 resource directory entry. Furthermore, a mechanism to discover an RD using
-the CoRE Link Format is defined. It is also possible for an RD to proactively
+the CoRE Link Format {{RFC6690}} is defined. It is also possible for an RD to proactively
 discover Web Links from endpoints and add them as resource directory entries.
 A lookup interface for discovering any of the Web Links held in the RD is
 provided using the CoRE Link Format.
@@ -274,8 +274,8 @@ sleeping devices.
 The exporting of resource information to other discovery systems is also
 important in these automation applications. In home automation there is a
 need to interact with other consumer electronics, which may already support
-DNS-SD, and in building automation larger resource directories or DNS-SD
-covering multiple buildings.
+DNS-SD, and in building automation DNS-SD in combination with resource directories
+can cover multiple buildings.
 
 
 ## Use Case: Link Catalogues {#usecase-catalogues}
@@ -309,8 +309,7 @@ groups may defined to allow batched reads from multiple resources.
 # Simple Directory Discovery {#simple}
 
 Not all endpoints hosting resources are expected to know how to implement the
-Resource Directory Function Set (see {{rd}}) and thus explicitly register
-with a Resource Directory (or other such directory server). Instead, simple
+Resource Directory Function Set (see {{rd}}) hence cannot register with a Resource Directory. Instead, simple
 endpoints can implement the generic Simple Directory Discovery approach
 described in this section. An RD implementing this specification MUST
 implement Simple Directory Discovery. However, there may be security reasons
@@ -320,41 +319,15 @@ This approach requires that the endpoint makes available the hosted resources
 that it wants to be discovered, as links on its `/.well-known/core` interface as
 specified in {{RFC6690}}.
 
-The endpoint then finds one or more IP addresses of the directory server it
-wants to know about its resources as described in {{simple_finding}}.
+The endpoint then finds one or more IP addresses of the directory server as described in {{simple_finding}}.
 
-An endpoint that wants to make itself discoverable occasionally
-sends a POST request to the `/.well-known/core` URI of any candidate directory
-server that it finds. The body of the POST request is either
-
-* empty, in which case the directory server is encouraged by this POST
-  request to perform GET requests at the requesting server's default discovery
-  URI.
-
-or
-
-* a non-empty link-format document, which indicates the specific services
-  that the requesting server wants to make known to the directory server.
+An endpoint can send (a selection of) hosted resources to a directory server for publication as described in {{simple publishing}}.
 
 The directory server integrates the information it received this way into its
 resource directory.  It MAY make the information available to further
 directories, if it can ensure that a loop does not form.  The protocol used
 between directories to ensure loop-free operation is outside the scope of
 this document.
-
-The following example shows an endpoint using simple resource discovery,
-by simply sending a POST with its links in the body to a directory.
-
-~~~~
-     EP                                               RD
-     |                                                 |
-     | -- POST /.well-known/core "</sen/temp>..." ---> |
-     |                                                 |
-     |                                                 |
-     | <---- 2.01 Created   -------------------------  |
-     |                                                 |
-~~~~
-{: align="left"}
 
 ## Finding a Directory Server {#simple_finding}
 
@@ -384,6 +357,34 @@ message) may indicate the lack of a CoAP server on the candidate host, or a
 CoAP error response code such as 4.05 "Method Not Allowed" may indicate
 unwillingness of a CoAP server to act as a directory server.
 
+## Simple publishing to Directory Server {#simple_publishing}
+
+An endpoint that wants to make itself discoverable occasionally
+sends a POST request to the `/.well-known/core` URI of any candidate directory
+server that it finds. The body of the POST request is either
+
+* empty, in which case the directory server is encouraged by this POST
+  request to perform GET requests at the requesting server's default discovery
+  URI.
+
+or
+
+* a non-empty link-format document, which indicates the specific services
+  that the requesting server wants to make known to the directory server.
+
+The following example shows an endpoint using simple resource discovery,
+by simply sending a POST with its links in the body to a directory.
+
+~~~~
+Req: POST coap://rd.example.com/.well-known/core
+Content-Format: 40
+payload:
+</sen/temp>
+Res: 2.01 Created
+Location: /rd/4521
+~~~~
+{: align="left"}
+
 
 ## Third-party registration {#third-party-registration}
 
@@ -395,7 +396,7 @@ In a controlled environment (e.g. building control), the Resource Directory
 can be filled by a third device, called a commissioning tool. The commissioning
 tool can fill the Resource Directory from a database or other means. For
 that purpose the scheme, IP address and port of the registered device is
-indicated in the Context parameter of the registration as well.
+indicated in the Context parameter of the registration.
 
 
 # Resource Directory Function Set {#rd}
@@ -490,7 +491,7 @@ HTTP support :
 : YES (Unicast only)
 
 The following example shows an endpoint discovering an RD using this interface,
-thus learning that the base RD resource is, in this example, at /rd.  Note
+thus learning that the base RD resource is, in this example, at /rd and that the content_format delivered by the server hosting the resource is application.xml (ct=40).  Note
 that it is up to the RD to choose its base RD resource, although diagnostics
 and debugging is facilitated by using the base paths specified here where
 possible.
@@ -989,7 +990,7 @@ update), optionally the domain the group belongs to, and optionally the multicas
 address of the group. The registration message includes the list of endpoints
 that belong to that group. 
 
-All the endpoints in the group MUST be registered with the RD before regidstering a group. If an endpoint is not yet registered to the RD before registering the group, the registration message returns an error. The RD sends a blank target URI for every endpoint link when registering the group.
+All the endpoints in the group MUST be registered with the RD before registering a group. If an endpoint is not yet registered to the RD before registering the group, the registration message returns an error. The RD sends a blank target URI for every endpoint link when registering the group.
 
 Configuration of the endpoints themselves is out of
 scope of this specification. Such an interface for managing the group membership
@@ -1195,6 +1196,9 @@ URI Template Variables:
 
   d :=
   : Domain (optional). Used for domain, group, endpoint and resource lookups.
+
+  res :=
+  : resource (optional). Used for domain, group, endpoint and resource lookups.
 
   gp :=  Group name (optional).  Used for endpoint, group and resource lookups.
 
@@ -1637,7 +1641,7 @@ registered with the resource type registry defined by {{RFC6690}}.
 
 ## Link Extension {#iana-link-ext}
 
-The "exp" attribute needs to be registered when a future Web Linking link-extension
+The "exp" and "ins" attributes need to be registered when a future Web Linking link-extension
 registry is created (e.g. in RFC5988bis).
 
 
@@ -1655,12 +1659,12 @@ query parameter MUST be a valid URI query key {{RFC3986}}.
 Initial entries in this sub-registry are as follows:
 
 | Name          | Query | Validity      | Description                                                    |
-| Endpoint Name | ep    |               | Name of the endpoint                                           |
+| Endpoint Name | ep    |               | Name of the endpoint, max 63 bytes                                           |
 | Lifetime      | lt    | 60-4294967295 | Lifetime of the registration in seconds                        |
 | Domain        | d     |               | Domain to which this endpoint belongs                          |
 | Endpoint Type | et    |               | Semantic name of the endpoint                                  |
 | Context       | con   | URI           | The scheme, address and port at which this server is available |
-| Endpoint Name | ep    |               | Name of the endpoint, max 63 bytes                             |
+| Resource Name | res   |               | Name of the resource                             |
 | Group Name    | gp    |               | Name of a group in the RD                                      |
 | Page          | page  | Integer       | Used for pagination                                            |
 | Count         | count | Integer       | Used for pagination                                            |
@@ -2084,6 +2088,8 @@ changes from -07 to -08
 * simplified lighting example
 
 * introduced Commissioning Tool
+
+* RD-Look-up text is extended.
 
 
 changes from -06 to -07
