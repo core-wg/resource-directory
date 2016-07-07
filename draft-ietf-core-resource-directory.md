@@ -1,7 +1,7 @@
 ---
 title: CoRE Resource Directory
 docname: draft-ietf-core-resource-directory-08
-date: 2016-05-30
+date: 2016-07-07
 stand_alone: true
 ipr: trust200902
 cat: std
@@ -306,6 +306,82 @@ This provides isolation and protection of sensitive data when needed. Resource
 groups may defined to allow batched reads from multiple resources.
 
 
+# Finding a Directory Server {#simple_finding}
+
+Endpoints that want to contact a directory server can obtain candidate IP
+addresses for such servers in a number of ways.
+
+In a 6LoWPAN, good candidates can be taken from:
+
+* specific static configuration (e.g., anycast addresses), if any,
+
+* the ABRO option of 6LoWPAN-ND {{RFC6775}},
+
+* other ND options that happen to point to servers (such as RDNSS),
+
+* DHCPv6 options that might be defined later.
+
+* The IPv6 Neighbor Discovery Resource Directory Address Option {{rdao}}
+
+In networks with more inexpensive use of multicast, the candidate IP
+address may be a well-known multicast address, i.e. directory servers are
+found by simply sending GET requests to that well-known multicast address
+(see {{discovery}}).
+
+As some of these sources are just (more or less educated) guesses, endpoints
+MUST make use of any error messages to very strictly rate-limit requests to
+candidate IP addresses that don't work out.  For example, an ICMP Destination
+Unreachable message (and, in particular, the port unreachable code for this
+message) may indicate the lack of a CoAP server on the candidate host, or a
+CoAP error response code such as 4.05 "Method Not Allowed" may indicate
+unwillingness of a CoAP server to act as a directory server.
+
+## Resource Directory Address Option (RDAO) {#rdao}
+The Resource Directory Option (RDAO) carries information on the address of the Resource Directory (RD). This information is needed when 6LRs cannot discover the Resource Directory with link-local multicast address because the 6LR and the RD are separated by a border Router (6LBR). In many circumstances the availability of DHCP cannot be guaranteed either during commissioning of the network. The presence and the use of the RD is essential during commissioning.
+
+   The RDAO format is:
+   
+~~~~
+0                   1                   2                   3
+0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+|     Type      |  Length = 3   |       Valid Lifetime          |
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+|                           Reserved                            |
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+|                                                               |
++                                                               +
+|                                                               |
++                          RD Address                           +
+|                                                               |
++                                                               +
+|                                                               |
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+
+Fields:
+
+Type:                   38
+
+Length:                 8-bit unsigned integer.  The length of
+                        the option in units of 8 bytes.
+                        Always 3.
+
+Valid Lifetime:         16-bit unsigned integer.  The length of
+                        time in units of 60 seconds (relative to
+                        the time the packet is received) that
+                        this set of border router information is
+                        valid.  A value of all zero bits (0x0)
+                        assumes a default value of 10,000
+                        (~one week).
+
+Reserved:               This field is unused.  It MUST be
+                        initialized to zero by the sender and
+                        MUST be ignored by the receiver.
+
+RD Address:             IPv6 address of the RD.
+~~~~
+{: #fig-rdao title='Resource Directory Address Option' align="left"}
+
 # Simple Directory Discovery {#simple}
 
 Not all endpoints hosting resources are expected to know how to implement the
@@ -321,7 +397,7 @@ specified in {{RFC6690}}.
 
 The endpoint then finds one or more IP addresses of the directory server as described in {{simple_finding}}.
 
-An endpoint can send (a selection of) hosted resources to a directory server for publication as described in {{simple publishing}}.
+An endpoint can send (a selection of) hosted resources to a directory server for publication as described in {{simple_publishing}}.
 
 The directory server integrates the information it received this way into its
 resource directory.  It MAY make the information available to further
@@ -329,59 +405,42 @@ directories, if it can ensure that a loop does not form.  The protocol used
 between directories to ensure loop-free operation is outside the scope of
 this document.
 
-## Finding a Directory Server {#simple_finding}
-
-Endpoints that want to contact a directory server can obtain candidate IP
-addresses for such servers in a number of ways.
-
-In a 6LoWPAN, good candidates can be taken from:
-
-* specific static configuration (e.g., anycast addresses), if any,
-
-* the ABRO option of 6LoWPAN-ND {{RFC6775}},
-
-* other ND options that happen to point to servers (such as RDNSS),
-
-* DHCPv6 options that might be defined later.
-
-In networks with more inexpensive use of multicast, the candidate IP
-address may be a well-known multicast address, i.e. directory servers are
-found by simply sending GET requests to that well-known multicast address
-(see {{discovery}}).
-
-As some of these sources are just (more or less educated) guesses, endpoints
-MUST make use of any error messages to very strictly rate-limit requests to
-candidate IP addresses that don't work out.  For example, an ICMP Destination
-Unreachable message (and, in particular, the port unreachable code for this
-message) may indicate the lack of a CoAP server on the candidate host, or a
-CoAP error response code such as 4.05 "Method Not Allowed" may indicate
-unwillingness of a CoAP server to act as a directory server.
-
-## Simple publishing to Directory Server {#simple_publishing}
+## Simple publishing to Resource Directory Server {#simple_publishing}
 
 An endpoint that wants to make itself discoverable occasionally
 sends a POST request to the `/.well-known/core` URI of any candidate directory
-server that it finds. The body of the POST request is either
+server that it finds. The body of the POST request is empty, which triggers the resource directory server to perform GET requests at the requesting server's default discovery
+URI to obtain the link-format payload to register.
 
-* empty, in which case the directory server is encouraged by this POST
-  request to perform GET requests at the requesting server's default discovery
-  URI.
+The endpoint MAY include registration parameters in the POST request as per {{registration}}
 
-or
-
-* a non-empty link-format document, which indicates the specific services
-  that the requesting server wants to make known to the directory server.
-
-The following example shows an endpoint using simple resource discovery,
-by simply sending a POST with its links in the body to a directory.
+The following example shows an endpoint using simple publishing,
+by simply sending an empty POST to a resource directory.
 
 ~~~~
-Req: POST coap://rd.example.com/.well-known/core
+Req:(to RD server from [ff02::1]) 
+POST coap://rd.example.com/.well-known/core?lt=6000
+
 Content-Format: 40
+
 payload:
+
+(empty payload)
+
+Res: 2.04 Changed
+
+(later)
+
+Req: (from RD server to [ff02::1]) 
+GET coap://[ff02::1]/.well-known/core
+
+Accept: 40
+
+Res: 2.05 Content
+
+payload:
+
 </sen/temp>
-Res: 2.01 Created
-Location: /rd/4521
 ~~~~
 {: align="left"}
 
@@ -404,15 +463,25 @@ indicated in the Context parameter of the registration.
 This section defines the REST interfaces between an RD and endpoints, which
 is called the Resource Directory Function Set. Although the examples
 throughout this section assume the use of CoAP {{RFC7252}}, these REST
-interfaces can also be realized using HTTP {{RFC7230}}. In all definitions in this section, both CoAP response codes (with dot notation) and HTTP response codes (without dot notation) are shown. An RD implementing
-this specification MUST support the discovery, registration, update, lookup,
-and removal interfaces defined in this section.
+interfaces can also be realized using HTTP {{RFC7230}}. In all definitions in this section, both CoAP response codes (with dot notation) and HTTP response codes 
+(without dot notation) are shown. An RD implementing this specification MUST support 
+the discovery, registration, update, lookup, and removal interfaces defined in this section.
 
 Resource directory entries are designed to be easily exported to other
 discovery mechanisms such as DNS-SD. For that reason, parameters that would
 meaningfully be mapped to DNS SHOULD be limited to a maximum length of 63
 bytes.<!-- TODO: Is there maybe also a need to further restrict the set of
 characters available?  -->
+
+## Content Formats
+
+Resource Directory implementations using this specification MUST support the application/link-format content format (ct=40).
+
+Resource Directories implementing this specification MAY support additional content formats.
+
+Any additional content format supported by a Resource Directory implementing this
+specification MUST have an equivalent serialization in the application/link-format
+content format.
 
 ## Discovery {#discovery}
 
@@ -507,17 +576,19 @@ Res: 2.05 Content
 {: align="left"}
 
 The following example shows the way of indicating multiple values for
-Content-Format codes.  Content-Format code attribute MAY include a
-space-separated sequence of Content-Format codes as specify in
+Content-Format codes.  The Content-Format code attribute "ct" MAY include a
+space-separated sequence of Content-Format codes as specified in
 [RFC7252], indicating that multiple content-formats are available.
+The example below shows the required ct=40 (application/link-format) 
+as well as a vendor-specific content format.
 
 ~~~~
 Req: GET coap://[ff02::1]/.well-known/core?rt=core.rd*
 
 Res: 2.05 Content
-</rd>;rt="core.rd";ct="40 60",
-</rd-lookup>;rt="core.rd-lookup";ct="40 50",
-</rd-group>;rt="core.rd-group";ct="40 50"
+</rd>;rt="core.rd";ct="40 21225",
+</rd-lookup>;rt="core.rd-lookup";ct="40 21225",
+</rd-group>;rt="core.rd-group";ct="40 21225"
 ~~~~
 {: align="left"}
 
@@ -537,7 +608,7 @@ resources in the RD are kept active for the period indicated by the lifetime
 parameter. The endpoint is responsible for refreshing the entry within this
 period using either the registration or update interface. The registration
 interface MUST be implemented to be idempotent, so that registering twice
-with the same endpoint parameter does not create multiple RD entries.
+with the same endpoint parameter does not create multiple RD entries. A new registration may be created at any time to supercede an existing registration, replacing the registration parameters and links.
 
 The registration request interface is specified as follows:
 
@@ -566,14 +637,14 @@ URI Template Variables:
     parameter is 63 bytes.
 
   d :=
-  : Domain (optional). The domain to which this endpoint belongs. This parameter
-    SHOULD be less than 63 bytes. Optional. When this parameter is elided, the
+  : Domain (optional). The domain to which this endpoint belongs. The maximum 
+    length of this parameter is 63 bytes. When this parameter is elided, the
     RD MAY associate the endpoint with a configured default domain. The domain
     value is needed to export the endpoint to DNS-SD (see {{dns-sd}}).
 
   et :=
   : Endpoint Type (optional). The semantic type of the endpoint. This parameter
-    SHOULD be less than 63 bytes. Optional.
+    SHOULD be less than 63 bytes.
 
   lt :=
   : Lifetime (optional). Lifetime of the registration in seconds. Range of 60-4294967295.
@@ -582,7 +653,7 @@ URI Template Variables:
 
   con :=
   : Context (optional). This parameter sets the scheme, address and port at
-    which this server is available in the form scheme://host:port. Optional. In
+    which this server is available in the form scheme://host:port. In
     the absence of this parameter the scheme of the protocol, source IP address
     and source port of the register request are assumed. This parameter is
     mandatory when the directory is filled by a third party such as an
@@ -650,7 +721,7 @@ Location: /rd/4521
 {: align="left"}
 
 
-## Update {#update}
+## Registration Update {#update}
 
 The update interface is used by an endpoint to refresh or update its
 registration with an RD. To use the interface, the endpoint sends a POST
@@ -660,8 +731,10 @@ the first registration.
 An update MAY update the lifetime or context registration parameters 
 "lt", "con" as in {{registration}} ) if they have changed since the 
 last registration or update. Parameters that have not changed SHOULD NOT 
-be included in an update. Parameters MUST be included as query parameters 
-in an update operation as in {registration}.
+be included in an update. Adding parameters that have not changed increases 
+the size of the message but does not have any other implications. 
+Parameters MUST be included as query parameters in an update operation as
+in {registration}.
 
 Upon receiving an update request, an RD MUST reset the timeout for that
 endpoint and update the scheme, IP address and port of the endpoint, using
@@ -672,14 +745,13 @@ to the new lifetime.
 
 An update MAY optionally add or replace links for the endpoint by including
 those links in the payload of the update as a CoRE Link Format
-document. Including links in an update message greatly increases the load on
-an RD and SHOULD be done infrequently. A link is replaced only if both the
-target URI and relation type match.
+document. A link is replaced only if both the target URI and relation type match.
 
-Links may be added, modified, and deleted using Update Endpoint Links as 
-described in {{link-up}}.
+In addition to the use of POST, as described in this section, there is an
+alternate way to add, replace, and delete links using PATCH as described 
+in {{link-up}}.
 
-The update request interface is specified as follows:
+The update registration request interface is specified as follows:
 
 Interaction:
 : EP -> RD
@@ -711,7 +783,7 @@ URI Template Variables:
     third party such as a commissioning tool.
 
 Content-Format:
-: application/link-format (optional)
+: application/link-format (mandatory)
 
 Content-Format:
 : application/link-format+json (optional)
@@ -749,6 +821,11 @@ Res: 2.04 Changed
 
 
 The following example shows an endpoint updating its registration with a new lifetime and context, changing an existing link, and adding a new link using this interface.
+With the initial registration the client set the following values:
+
+* lifetime (lt)=500
+* context (con)=coap://local-proxy-old.example.com:5683
+* resource= </sensors/temp>;ct=41;rt="foobar";if="sensor"
 
 ~~~~
 Req: POST /rd/4521?lt=600&con="coap://local-proxy.example.com:5683"
@@ -762,7 +839,7 @@ Res: 2.04 Changed
 {: align="left"}
 
 
-## Removal {#removal}
+## Registration Removal {#removal}
 
 Although RD entries have soft state and will eventually timeout after their
 lifetime, an endpoint SHOULD explicitly remove its entry from the RD if it
@@ -1252,9 +1329,9 @@ Failure:
 HTTP support:
 : YES
 
-The examples in this section assume a CoAP host with IP address FDFD::123 and a default CoAP port 61616. HTTP hosts are possible and do not change the nature of the examples.
-The following example shows a client performing a resource lookup:
+The examples in this section assume a CoAP host with IP address FDFD::123 and a default CoAP port 61616. HTTP hosts are possible and do not change the nature of the examples.\
 
+The following example shows a client performing a resource lookup:
 
 ~~~~
 Req: GET /rd-lookup/res?rt=temperature
@@ -1265,7 +1342,6 @@ Res: 2.05 Content
 {: align="left"}
 
 The following example shows a client performing an endpoint type lookup:
-
 
 ~~~~
 Req: GET /rd-lookup/ep?et=power-node
@@ -1278,75 +1354,46 @@ Res: 2.05 Content
 
 The following example shows a client performing a domain lookup:
 
-
-~~~~
-   Client                                                          RD
-     |                                                             |
-     | ----- GET /rd-lookup/d ---------------------------------->  |
-     |                                                             |
-     |                                                             |
-     | <-- 2.05 Content </rd>;d=domain1,</rd>;d=domain2 ---------- |
-     |                                                             |
-~~~~
-{: align="left"}
-
-
 ~~~~
 Req: GET /rd-lookup/d
 
 Res: 2.05 Content
-</rd>;d="domain1",
-</rd>;d="domain2"
+<>;d="domain1",
+<>;d="domain2"
 ~~~~
 {: align="left"}
 
 The following example shows a client performing a group lookup for all groups:
 
-
-~~~~
-   Client                                                          RD
-     |                                                             |
-     | ----- GET /rd-lookup/gp --------------------------------->  |
-     |                                                             |
-     |                                                             |
-     | <-- 2.05 Content </rd-group/12>;gp="lights1"; ------------- |
-     |                               d="example.com" ------------- |
-     |                                                             |
-~~~~
-{: align="left"}
-
-
 ~~~~
 Req: GET /rd-lookup/gp
 
 Res: 2.05 Content
-</rd-group/12>;gp="lights1";d="example.com"
+<>;gp="lights1";d="example.com"
+<>;gp="lights2";d="ecample.com"
 ~~~~
 {: align="left"}
 
 The following example shows a client performing a lookup for all endpoints
 in a particular group:
 
-
 ~~~~
 Req: GET /rd-lookup/ep?gp=lights1
 
 Res: 2.05 Content
 <coap://[FDFD::123]:61616>;ep="node1",
-<coap://[FDFD::123]:61616>;ep="node2",
+<coap://[FDFD::123]:61616>;ep="node2"
 ~~~~
 {: align="left"}
 
 The following example shows a client performing a lookup for all groups an
 endpoint belongs to:
 
-
-
 ~~~~
 Req: GET /rd-lookup/gp?ep=node1
 
 Res: 2.05 Content
-</rd-group/12>;gp="lights1";ep="node1",
+<>;gp="lights1"
 ~~~~
 {: align="left"}
 
@@ -1644,6 +1691,11 @@ registered with the resource type registry defined by {{RFC6690}}.
 The "exp" and "ins" attributes need to be registered when a future Web Linking link-extension
 registry is created (e.g. in RFC5988bis).
 
+## IPv6 ND Resource Directory Address Option
+
+This document registers one new ND option type under the subregistry "IPv6 Neighbor Discovery Option Formats":
+
+* Resource Directory address Option (38)
 
 ## RD Parameter Registry {#iana-registry}
 
@@ -2081,6 +2133,14 @@ originally developed.
 
 changes from -07 to -08
 
+* removed link target value returned from domain and group lookup types
+
+* Maximum length of domain parameter 63 bytes for consistency with group 
+
+* removed option for simple POST of link data, don't require a .well-known/core resource to accept POST data and handle it in a special way; we already have /rd for that
+
+* add IPv6 ND Option for discovery of an RD 
+
 * clarify group configuration section 6.1 that endpoints must be registered before including them in a group
 
 * removed all superfluous client-server diagrams
@@ -2088,6 +2148,8 @@ changes from -07 to -08
 * simplified lighting example
 
 * introduced Commissioning Tool
+
+
 
 * RD-Look-up text is extended.
 
