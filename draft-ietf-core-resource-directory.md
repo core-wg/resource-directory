@@ -1,7 +1,7 @@
 ---
 title: CoRE Resource Directory
-docname: draft-ietf-core-resource-directory-08
-date: 2016-07-07
+docname: draft-ietf-core-resource-directory-09
+date: 2016-08-22
 stand_alone: true
 ipr: trust200902
 cat: std
@@ -586,7 +586,7 @@ alternate content-formats. The Content-Format code attribute "ct" MAY include a
 space-separated sequence of Content-Format codes as specified in
 [RFC7252], indicating that multiple content-formats are available.
 The example below shows the required ct=40 (application/link-format) 
-indicated as well as a vendor-specific content format (21225).
+indicated as well as a vendor-specific content format (21225). The base  RD resource values /rd, /rd-lookup, and /rd-group are example values.
 
 ~~~~
 Req: GET coap://[ff02::1]/.well-known/core?rt=core.rd*
@@ -634,8 +634,8 @@ URI Template Variables:
 : rd :=
   : RD Function Set
     path (mandatory). This is the path of
-    the RD Function Set, as obtained from discovery. An RD SHOULD use the value
-    "rd" for this variable whenever possible.
+    the RD Function Set, as obtained from discovery. The value
+    "rd" is recommended for this variable.
 
   ep :=
   : Endpoint name (mandatory). The endpoint name is an identifier
@@ -698,8 +698,8 @@ HTTP support:
 : YES
 
 The following example shows an endpoint with the name "node1" registering
-two resources to an RD using this interface. The resulting location /rd/4521
-is just an example of an RD generated location.
+two resources to an RD using this interface. The location "/rd"
+is an example value of an RD base location.
 
 ~~~~
 Req: POST coap://rd.example.com/rd?ep=node1
@@ -816,7 +816,7 @@ HTTP support:
 
 
 The following example shows an endpoint updating its registration at
-an RD using this interface.
+an RD using this interface with the example location value: /rd/4521.
 
 ~~~~
 Req: POST /rd/4521
@@ -826,7 +826,7 @@ Res: 2.04 Changed
 {: align="left"}
 
 
-The following example shows an endpoint updating its registration with a new lifetime and context, changing an existing link, and adding a new link using this interface.
+The following example shows an endpoint updating its registration with a new lifetime and context, changing an existing link, and adding a new link using this interface with the example location value /rd/4521.
 With the initial registration the client set the following values:
 
 * lifetime (lt)=500
@@ -885,7 +885,7 @@ Failure:
 
 HTTP support: YES
 
-The following examples shows successful removal of the endpoint from the RD.
+The following examples shows successful removal of the endpoint from the RD with example location value /rd/4521.
 
 
 ~~~~
@@ -936,7 +936,7 @@ Failure:
 
 HTTP support: YES
 
-The following examples show successful read of the endpoint links from the RD.
+The following examples show successful read of the endpoint links from the RD, with example location value /rd/4521.
 
 
 ~~~~
@@ -1002,7 +1002,7 @@ Failure:
 
 HTTP support: YES
 
-The following examples show an endpoint adding </sensors/humid>, modifying </sensors/temp>, and removing </sensors/light> links in RD using the Update Endpoint Links function.
+The following examples show an endpoint adding </sensors/humid>, modifying </sensors/temp>, and removing </sensors/light> links in RD using the Update Endpoint Links function with the example location value /rd/4521.
 
 
 The following example shows an EP adding the link </sensors/humid>;ct=41;rt="humid-s";if="sensor" to the collection of links at the location /rd/4521.
@@ -1022,7 +1022,7 @@ Res: 2.04 Changed
 {: align="left"}
 
 
-The following example shows an EP modifying all links at the location /rd/4521 which are  identified by href="/sensors/temp", from the initial link-value of </sensors/temp>;rt="temperature" to the new link-value </sensors/temp>;rt="temperature-c";if="sensor" by changing the value of the link attribute "rt" and adding the link attribute if="sensor" using the PATCH operation with the supplied merge-patch+json document payload.
+The following example shows an EP modifying all links at the example location /rd/4521 which are  identified by href="/sensors/temp", from the initial link-value of </sensors/temp>;rt="temperature" to the new link-value </sensors/temp>;rt="temperature-c";if="sensor" by changing the value of the link attribute "rt" and adding the link attribute if="sensor" using the PATCH operation with the supplied merge-patch+json document payload.
 
 
 ~~~~
@@ -1039,7 +1039,7 @@ Res: 2.04 Changed
 {: align="left"}
 
 
-This example shows an EP removing all links at the location /rd/4521 which are identified by href="/sensors/light". 
+This example shows an EP removing all links at the example location /rd/4521 which are identified by href="/sensors/light". 
 
 ~~~~
 Req: PATCH /rd/4521?href="/sensors/light"
@@ -1093,8 +1093,7 @@ URI Template:
 URI Template Variables:
 : rd-group :=
   : RD Group Function Set path (mandatory). This is the path of the RD Group
-    Function Set. An RD SHOULD use the value "rd-group" for this variable whenever
-    possible.
+    Function Set. The value "rd-group" is recommended for this variable.
 
   gp :=
   : Group Name (mandatory). The name of the group to be created or replaced,
@@ -1142,8 +1141,8 @@ Failure:
 HTTP support:
 : YES
 
-The following example shows an EP registering a group with the name “lights” which has two endpoints to an RD using this interface. The resulting location /rd-group/12
-is just an example of an RD generated group location.
+The following example shows an EP registering a group with the name “lights” which has two endpoints to an RD using this interface. The base location value /rd-group
+is an example of an RD base location.
 
 
 ~~~~
@@ -1212,7 +1211,7 @@ HTTP support:
 : YES
 
 
-The following examples shows successful removal of the group from the RD.
+The following examples shows successful removal of the group from the RD with the example location value /rd-group/12.
 
 
 ~~~~
@@ -1242,9 +1241,9 @@ Each endpoint and resource lookup result returns respectively the scheme (IP add
 
 The target of these links SHOULD be the actual location of the domain, endpoint or resource, but MAY be an intermediate proxy e.g. in the case of an HTTP lookup interface for CoAP endpoints.
 
-The domain lookup returns every lookup domain with a "/rd" value encapsulated within angle brackets. 
+The domain lookup returns every lookup domain with a base RD resource value (e.g. "/rd") encapsulated within angle brackets. 
 
-In case that a group does not implement any multicast address, the group lookup returns every group lookup with a "/rd-group" value encapsulated within angle brackets. Otherwise, the group lookup returns the multicast address of the group inside angle brackets.
+In case that a group does not implement any multicast address, the group lookup returns every group lookup with a group base resource value encapsulated within angle brackets (e.g. "/rd/look-up"). Otherwise, the group lookup returns the multicast address of the group inside angle brackets.
 
 Using the Accept Option, the requester can control whether this list is returned in CoRE Link Format (`application/link-format`, default) or its alternate content-formats (`application/link-format+json` or `application/link-format+cbor`).
 
@@ -1269,8 +1268,7 @@ URI Template:
 URI Template Variables:
 : rd-lookup-base :=
   : RD Lookup Function Set path (mandatory). This is the path of the RD Lookup
-    Function Set. An RD SHOULD use the value "rd-lookup" for this variable whenever
-    possible.
+    Function Set. The recommended value for this variable is: "rd-lookup".
 
   lookup-type :=
   : ("d", "ep", "res", "gp") (mandatory) This variable is used to select the
@@ -1342,7 +1340,7 @@ HTTP support:
 
 The examples in this section assume a CoAP host with IP address FDFD::123 and a default CoAP port 61616. HTTP hosts are possible and do not change the nature of the examples.\
 
-The following example shows a client performing a resource lookup:
+The following example shows a client performing a resource lookup with the example look-up location /rd-lookup/:
 
 ~~~~
 Req: GET /rd-lookup/res?rt=temperature
@@ -1439,7 +1437,7 @@ resources is useful. This specification defines the following new attributes
 for use in the CoRE Link Format {{RFC6690}}:
 
 ~~~~ ABNF
-   link-extension    = ( "ins" "=" quoted-string ) ; Max 63 bytes
+   link-extension    = ( "ins" "=" (ptoken | quoted-string) ) ; Max 63 bytes
    link-extension    = ( "exp" )
 ~~~~
 
@@ -1616,7 +1614,7 @@ basis for a unique service name, composed with the Resource Type as
 the &lt;ServiceType>, and registered in the correct &lt;Domain>.  The agent
 responsible for exporting records to the DNS
 zone file SHOULD be authenticated to the DNS server.
-The following example shows an agent discovering a resource to be
+The following example, using the example lookup location /rd-lookup, shows an agent discovering a resource to be
 exported:
 
 ~~~~
@@ -1774,7 +1772,7 @@ the application code in the lights and sensors. In particular, the example
 leads to the definition of a group and the enabling of the corresponding
 multicast address. No conclusions must be drawn on the realization of actual
 installation or naming procedures, because the example only "emphasizes" some of the issues
-that may influence the use of the RD and does not pretend to be normative.
+that may influence the use of the RD and does not pretend to be normative. The example uses the recommended values for the base resources: "/rd", "/rd-lookup", and "/rd-group". 
 
 ### Installation Characteristics {#lt-in-ch}
 
@@ -2163,6 +2161,12 @@ originally developed.
 
 
 # Changelog
+
+changes from -08 to -09
+
+* clarified the "example use" of the base RD resource values /rd, /rd-lookup, and /rd-group.
+
+* changed "ins" ABNF notation.
 
 changes from -07 to -08
 
