@@ -742,7 +742,7 @@ last registration or update. Parameters that have not changed SHOULD NOT
 be included in an update. Adding parameters that have not changed increases
 the size of the message but does not have any other implications.
 Parameters MUST be included as query parameters in an update operation as
-in {registration}.
+in {{registration}}.
 
 Upon receiving an update request, an RD MUST reset the timeout for that
 endpoint and update the scheme, IP address and port of the endpoint, using
