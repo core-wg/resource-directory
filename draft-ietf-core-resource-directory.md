@@ -1,7 +1,7 @@
 ---
 title: CoRE Resource Directory
-docname: draft-ietf-core-resource-directory-09
-date: 2016-08-22
+docname: draft-ietf-core-resource-directory-10
+date: 2016-10-24
 stand_alone: true
 ipr: trust200902
 cat: std
@@ -456,7 +456,6 @@ payload:
 
 </sen/temp>
 ~~~~
-{: align="left"}
 
 
 ## Third-party registration {#third-party-registration}
@@ -587,7 +586,6 @@ Res: 2.05 Content
 </rd-lookup>;rt="core.rd-lookup";ct=40,
 </rd-group>;rt="core.rd-group";ct=40
 ~~~~
-{: align="left"}
 
 The following example shows the way of indicating that a client may request
 alternate content-formats. The Content-Format code attribute "ct" MAY include a
@@ -606,7 +604,6 @@ Res: 2.05 Content
 </rd-lookup>;rt="core.rd-lookup";ct="40 21225",
 </rd-group>;rt="core.rd-group";ct="40 21225"
 ~~~~
-{: align="left"}
 
 ## Registration {#registration}
 
@@ -721,7 +718,6 @@ Payload:
 Res: 2.01 Created
 Location: /rd/4521
 ~~~~
-{: align="left"}
 
 ~~~~
 Req: POST /rd?ep=node1 HTTP/1.1
@@ -734,7 +730,6 @@ Payload:
 Res: 201 Created
 Location: /rd/4521
 ~~~~
-{: align="left"}
 
 
 ## Registration Update {#update}
@@ -833,7 +828,6 @@ Req: POST /rd/4521
 
 Res: 2.04 Changed
 ~~~~
-{: align="left"}
 
 
 The following example shows an endpoint updating its registration with a new lifetime and context, changing an existing link, and adding a new link using this interface with the example location value /rd/4521.
@@ -852,7 +846,6 @@ Payload:
 
 Res: 2.04 Changed
 ~~~~
-{: align="left"}
 
 
 ## Registration Removal {#removal}
@@ -903,7 +896,6 @@ Req: DELETE /rd/4521
 
 Res: 2.02 Deleted
 ~~~~
-{: align="left"}
 
 
 ## Read Endpoint Links {#read}
@@ -957,7 +949,6 @@ Payload:
 </sensors/temp>;ct=41;rt="temperature-c";if="sensor",
 </sensors/light>;ct=41;rt="light-lux";if="sensor"
 ~~~~
-{: align="left"}
 
 
 ## Update Endpoint Links {#link-up}
@@ -1029,7 +1020,6 @@ application/merge-patch+json
 
 Res: 2.04 Changed
 ~~~~
-{: align="left"}
 
 
 The following example shows an EP modifying all links at the example location /rd/4521 which are  identified by href="/sensors/temp", from the initial link-value of </sensors/temp>;rt="temperature" to the new link-value </sensors/temp>;rt="temperature-c";if="sensor" by changing the value of the link attribute "rt" and adding the link attribute if="sensor" using the PATCH operation with the supplied merge-patch+json document payload.
@@ -1046,7 +1036,6 @@ application/merge-patch+json
 
 Res: 2.04 Changed
 ~~~~
-{: align="left"}
 
 
 This example shows an EP removing all links at the example location /rd/4521 which are identified by href="/sensors/light".
@@ -1062,7 +1051,6 @@ application/merge-patch+json
 
 Res: 2.04 Changed
 ~~~~
-{: align="left"}
 
 
 # Group Function Set {#group}
@@ -1165,7 +1153,6 @@ Payload:
 Res: 2.01 Created
 Location: /rd-group/12
 ~~~~
-{: align="left"}
 
 ~~~~
 Req: POST /rd-group?gp=lights HTTP/1.1
@@ -1178,7 +1165,6 @@ Payload:
 Res: 201 Created
 Location: /rd-group/12
 ~~~~
-{: align="left"}
 
 ## Group Removal {#group-removal}
 
@@ -1229,7 +1215,6 @@ Req: DELETE /rd-group/12
 
 Res: 2.02 Deleted
 ~~~~
-{: align="left"}
 
 
 
@@ -1358,7 +1343,6 @@ Req: GET /rd-lookup/res?rt=temperature
 Res: 2.05 Content
 <coap://[FDFD::123]:61616/temp>;rt="temperature"
 ~~~~
-{: align="left"}
 
 The following example shows a client performing an endpoint type lookup:
 
@@ -1369,7 +1353,6 @@ Res: 2.05 Content
 <coap://[FDFD::123]:61616>;ep="node5",
 <coap://[FDFD::123]:61616>;ep="node7"
 ~~~~
-{: align="left"}
 
 The following example shows a client performing a domain lookup:
 
@@ -1380,7 +1363,6 @@ Res: 2.05 Content
 <>;d="domain1",
 <>;d="domain2"
 ~~~~
-{: align="left"}
 
 The following example shows a client performing a group lookup for all groups:
 
@@ -1391,7 +1373,6 @@ Res: 2.05 Content
 <>;gp="lights1";d="example.com"
 <>;gp="lights2";d="ecample.com"
 ~~~~
-{: align="left"}
 
 The following example shows a client performing a lookup for all endpoints
 in a particular group:
@@ -1403,7 +1384,6 @@ Res: 2.05 Content
 <coap://[FDFD::123]:61616>;ep="node1",
 <coap://[FDFD::123]:61616>;ep="node2"
 ~~~~
-{: align="left"}
 
 The following example shows a client performing a lookup for all groups an
 endpoint belongs to:
@@ -1414,7 +1394,6 @@ Req: GET /rd-lookup/gp?ep=node1
 Res: 2.05 Content
 <>;gp="lights1"
 ~~~~
-{: align="left"}
 
 The following example shows a client performing a paginated lookup
 
@@ -1437,7 +1416,6 @@ Res: 2.05 Content
 <coap://[FDFD::123]:61616/res/8>;rt=sensor;ct=60
 <coap://[FDFD::123]:61616/res/9>;rt=sensor;ct=60
 ~~~~
-{: align="left"}
 
 # New Link-Format Attributes {#attributes}
 
@@ -1636,7 +1614,6 @@ exported:
                d="office";ep="node1"
 
 ~~~~
-{: align="left"}
 
 The agent subsequently registers the following DNS-SD RRs, assuming a zone
 name "example.com" prefixed with "office":
@@ -1653,7 +1630,6 @@ Spot._dali._udp.office.example.com IN SRV  0 0 5683
 Spot._dali._udp.office.example.com IN TXT
                           txtver=1;path=/light/1
 ~~~~
-{: align="left"}
 
 In the above figure the Service Name is chosen as Spot._dali._udp.office.example.com
 without the light._sub service prefix. An alternative Service Name would
@@ -1864,7 +1840,6 @@ Payload:
 Res: 2.01 Created
 Location: /rd/4521
 ~~~~
-{: align="left"}
 
 
 ~~~~
@@ -1878,7 +1853,6 @@ Payload:
 Res: 2.01 Created
 Location: /rd/4522
 ~~~~
-{: align="left"}
 
 
 ~~~~
@@ -1890,7 +1864,6 @@ Payload:
 Res: 2.01 Created
 Location: /rd/4523
 ~~~~
-{: align="left"}
 
 The domain name d="R2-4-015" has been added for an efficient lookup because
 filtering on "ep" name is more awkward. The same domain name is communicated to
@@ -1912,7 +1885,6 @@ Payload:
 Res: 2.01 Created
 Location: /rd-group/501
 ~~~~
-{: align="left"}
 
 After the filling of the RD by the CT, the application in the luminaries
 can learn to which groups they belong, and enable their interface for the
@@ -1932,7 +1904,6 @@ Res: 2.05 Content
 <coap://[FDFD::ABCD:2]>;
    ep="lm_R2-4-015_door"
 ~~~~
-{: align="left"}
 
 Knowing its own IPv6 address, the luminary discovers its endpoint name. With
 the endpoint name the luminary queries the RD for all groups to which the
@@ -1946,7 +1917,6 @@ Req: GET coap://[FDFD::ABCD:0]/rd-lookup/gp
 Res: 2.05 Content
 <coap://[FF05::1]>;gp="grp_R2-4-015"
 ~~~~
-{: align="left"}
 
 From the context parameter value, the luminary learns the multicast address
 of the multicast group.
@@ -1963,7 +1933,6 @@ Req: POST //[FDFD::ABCD:1]/coap-group
 Res: 2.01 Created
 Location-Path: /coap-group/1
 ~~~~
-{: align="left"}
 
 Dependent on the situation, only the address, "a", or the name, "n", is specified
 in the coap-group resource.
@@ -1985,7 +1954,6 @@ ep="lm_R2-4-015_wndw";
 ep="lm_R2-4-015_door
 
 ~~~~
-{: align="left"}
 
 The group with FQDN grp_R2-4-015.bc.example.com can be entered into the DNS
 by the agent. The accompanying instance name is grp1234. The &lt;ServiceType>
@@ -2002,7 +1970,6 @@ grp1234._group._udp.bc.example.com  IN SRV  0 0 5683
 grp1234._group._udp.bc.example.com  IN TXT
                                      txtver=1;path=/light/grp1
 ~~~~
-{: align="left"}
 
 From then on applications, not familiar with the existence of the RD, can use DNS to access the lighting group.
 
@@ -2065,7 +2032,6 @@ example, a LWM2M URI might be:
 ~~~~
 /1/0/1
 ~~~~
-{: align="left"}
 
 The base uri is empty, the Object ID is 1, the instance ID is 0, the
 resource ID is 1, and the resource instance is "undefined". This
@@ -2090,7 +2056,6 @@ LWM2M endpoints may use the following RD registration parameters as defined in {
 ep - Endpoint Name
 lt - registration lifetime
 ~~~~
-{: align="left"}
 
 Endpoint Name is mandatory, all other registration parameters are optional.
 
@@ -2113,7 +2078,6 @@ The following RD registration parameters are not currently specified for use in 
 et - Endpoint Type
 con - Context
 ~~~~
-{: align="left"}
 
 The endpoint registration must include a payload containing links to all supported objects and existing object instances, optionally including the appropriate link-format relations.
 
@@ -2123,7 +2087,6 @@ Here is an example LWM2M registration payload:
 ~~~~ linkformat
 </1>,</1/0>,</3/0>,</5>
 ~~~~
-{: align="left"}
 
 This link format payload indicates that object ID 1 (LWM2M Server Object) is supported, with a single instance 0 existing, object ID 3 (LWM2M Device object) is supported, with a single instance 0 existing, and object 5 (LWM2M Firmware Object) is supported, with no existing instances.
 
@@ -2135,7 +2098,6 @@ If the LWM2M endpoint exposes objects at a base URI other than the default empty
 ~~~~ linkformat
 </my_lwm2m>;rt="oma.lwm2m",</my_lwm2m/1>,<my_lwm2m/1/0>,<my_lwm2m/5>
 ~~~~
-{: align="left"}
 
 This link payload indicates that the lwm2m objects will be placed under the base URI "/my_lwm2m" and that object ID 1 (server) is supported, with a single instance 0 existing, and object 5 (firmware update) is supported.
 
@@ -2150,7 +2112,6 @@ b - Protocol Binding
 sms - MSISDN
 link payload - new or modified links
 ~~~~
-{: align="left"}
 
 A Registration update is also specified to be used to update the LWM2M server whenever the endpoint's UDP port or IP address are changed.
 
