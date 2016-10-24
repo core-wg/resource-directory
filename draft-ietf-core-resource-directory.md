@@ -163,6 +163,9 @@ and is unique within the associated domain of the registration.
 Commissioning Tool
 : Commissioning Tool (CT) is a device that assists during the installation of the network by assigning values to parameters, naming endpoints and groups, or adapting the installation to the needs of the applications.
 
+RDAO
+: Resource Directory Address Option.
+
 
 # Architecture and Use Cases {#arch}
 
@@ -344,6 +347,11 @@ multicast address because the endpoint and the RD are separated by a border Rout
 (6LBR). In many circumstances the availability of DHCP cannot be guaranteed either
 during commissioning of the network. The presence and the use of the RD is
 essential during commissioning.
+
+It is possible to send multiple RDAO options in one message,
+indicating as many resource directory addresses.
+
+The lifetime 0x0 means that the RD address is invalid and to be removed.
 
 The RDAO format is:
 
@@ -1957,7 +1965,7 @@ Location-Path: /coap-group/1
 ~~~~
 {: align="left"}
 
-Dependent on the situation only the address, "a", or the name, "n", is specified
+Dependent on the situation, only the address, "a", or the name, "n", is specified
 in the coap-group resource.
 
 
