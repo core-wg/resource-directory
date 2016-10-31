@@ -1,7 +1,7 @@
 ---
 title: CoRE Resource Directory
-docname: draft-ietf-core-resource-directory-10
-date: 2016-10-24
+docname: draft-ietf-core-resource-directory-09
+date: 2016-10-31
 stand_alone: true
 ipr: trust200902
 cat: std
@@ -593,16 +593,16 @@ space-separated sequence of Content-Format codes as specified in
 Section 7.2.1 of {{RFC7252}}, indicating that multiple content-formats are available.
 The example below shows the required Content-Format 40 (application/link-format)
 indicated as well as a more application-specific content format
-(picked as 21225 in this example; this is not an assigned value).
+(picked as 65225 in this example; this is in the experimental space, not an assigned value).
 The base RD resource values /rd, /rd-lookup, and /rd-group are example values.
 
 ~~~~
 Req: GET coap://[ff02::1]/.well-known/core?rt=core.rd*
 
 Res: 2.05 Content
-</rd>;rt="core.rd";ct="40 21225",
-</rd-lookup>;rt="core.rd-lookup";ct="40 21225",
-</rd-group>;rt="core.rd-group";ct="40 21225"
+</rd>;rt="core.rd";ct="40 65225",
+</rd-lookup>;rt="core.rd-lookup";ct="40 65225",
+</rd-group>;rt="core.rd-group";ct="40 65225"
 ~~~~
 
 ## Registration {#registration}
@@ -1425,7 +1425,8 @@ resources is useful. This specification defines the following new attributes
 for use in the CoRE Link Format {{RFC6690}}:
 
 ~~~~ ABNF
-   link-extension    = ( "ins" "=" (ptoken | quoted-string) ) ; Max 63 bytes
+   link-extension    = ( "ins" "=" (ptoken | quoted-string) )
+                       ; The token or string is max 63 bytes
    link-extension    = ( "exp" )
 ~~~~
 
@@ -1748,7 +1749,7 @@ as described in {{RFC5226}}.
 
 # Examples {#examples}
 
-Examples are added here.
+<!-- ??? Examples are added here. -->
 
 ## Lighting Installation {#lt-ex}
 
@@ -2138,6 +2139,10 @@ changes from -08 to -09
 * clarified the "example use" of the base RD resource values /rd, /rd-lookup, and /rd-group.
 
 * changed "ins" ABNF notation.
+
+* various editorial improvements, including in examples
+
+* clarifications for RDAO
 
 changes from -07 to -08
 
