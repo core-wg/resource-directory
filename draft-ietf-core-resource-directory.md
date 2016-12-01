@@ -383,10 +383,10 @@ Length:                 8-bit unsigned integer.  The length of
 Valid Lifetime:         16-bit unsigned integer.  The length of
                         time in units of 60 seconds (relative to
                         the time the packet is received) that
-                        this set of border router information is
-                        valid.  A value of all zero bits (0x0)
-                        assumes a default value of 10,000
-                        (~one week).
+                        this Resource Directory address is valid.
+                        A value of all zero bits (0x0) indicates
+                        that this Resource Directory address
+                        is not valid anymore.
 
 Reserved:               This field is unused.  It MUST be
                         initialized to zero by the sender and
