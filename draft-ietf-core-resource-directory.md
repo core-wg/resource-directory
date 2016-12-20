@@ -74,6 +74,9 @@ informative:
   RFC5198:
   RFC1123:
   RFC1034:
+  dns-sd:
+    title: "DNS-SD extracted part to be submitted separately"
+    org:
 
 --- abstract
 
