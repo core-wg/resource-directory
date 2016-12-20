@@ -60,9 +60,9 @@ normative:
   RFC3986:
   RFC5226:
   RFC5988:
-  RFC6335:
+#  RFC6335: portreg
   RFC6570:
-  RFC6763:
+#  RFC6763: dnssd
   RFC7396:
   I-D.ietf-core-links-json:
 informative:
@@ -70,10 +70,10 @@ informative:
   RFC7390:
   RFC6775:
   RFC7230:
-  RFC3629:
-  RFC5198:
-  RFC1123:
-  RFC1034:
+#  RFC3629: utf8
+#  RFC5198: nvt-utf8
+#  RFC1123: hostreq
+#  RFC1034: dns1
   dns-sd:
     title: "DNS-SD extracted part to be submitted separately"
     org:
