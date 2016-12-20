@@ -1,7 +1,7 @@
 ---
 title: CoRE Resource Directory
-docname: draft-ietf-core-resource-directory-09
-date: 2016-10-31
+docname: draft-ietf-core-resource-directory-10pre
+date: 2016-12-20
 stand_alone: true
 ipr: trust200902
 cat: std
@@ -429,14 +429,14 @@ it finds. The body of the POST request is empty, which triggers the resource
 directory server to perform GET requests at the requesting server's default
 discovery URI to obtain the link-format payload to register.
 
-The endpoint MAY include registration parameters in the POST request as per {{registration}}.
+The endpoint MUST include the endpoint name and MAY include other registration parameters in the POST request as per {{registration}}.
 
 The following example shows an endpoint using simple publishing,
 by simply sending an empty POST to a resource directory.
 
 ~~~~
 Req:(to RD server from [ff02::1])
-POST coap://rd.example.com/.well-known/core?lt=6000
+POST coap://rd.example.com/.well-known/core?lt=6000;ep=node1
 
 Content-Format: 40
 
@@ -543,7 +543,7 @@ URI Template:
 
 URI Template Variables:
 : rt :=
-  : Resource Type (optional). MAY contain one or more of the values "core.rd", "core.rd-lookup",
+  : Resource Type (optional). MAY contain one of the values "core.rd", "core.rd-lookup",
   "core.rd-group" or "core.rd\*"
 
 Content-Format:
@@ -576,7 +576,7 @@ HTTP support :
 : YES (Unicast only)
 
 The following example shows an endpoint discovering an RD using this interface,
-thus learning that the base RD resource is, in this example, at /rd and that the content_format delivered by the server hosting the resource is application.xml (ct=40).  Note
+thus learning that the base RD resource is, in this example, at /rd and that the content_format delivered by the server hosting the resource is application/link-format (ct=40).  Note
 that it is up to the RD to choose its base RD resource, although diagnostics
 and debugging is facilitated by using the base paths specified here where
 possible.
@@ -784,15 +784,16 @@ URI Template Variables:
 
   lt :=
   : Lifetime (optional). Lifetime of the registration in seconds. Range of 60-4294967295.
-    If no lifetime is included, a default value of 86400 (24 hours) SHOULD be
-    assumed.
+    If no lifetime is included, the previous last
+  lifetime set on a previous update or the original registration
+  (falling back to 86400) SHOULD be used.
 
 
   con :=
   : Context (optional). This parameter sets the scheme, address and port at
     which this server is available in the form
     scheme://host:port. Optional. In the absence of this parameter the scheme
-    of the protocol, source IP address and source port used to register are
+    of the protocol, source IP address and source port set on the previous update or registration are
     assumed. This parameter is compulsory when the directory is filled by a
     third party such as a commissioning tool.
 
@@ -1029,7 +1030,7 @@ The following example shows an EP modifying all links at the example location /r
 
 
 ~~~~
-Req: PATCH /rd/4521?href="/sensors/temp"
+Req: PATCH /rd/4521?href=/sensors/temp
 
 Payload:
 {"rt": "temperature-c", "if": "sensor"},
@@ -1044,7 +1045,7 @@ Res: 2.04 Changed
 This example shows an EP removing all links at the example location /rd/4521 which are identified by href="/sensors/light".
 
 ~~~~
-Req: PATCH /rd/4521?href="/sensors/light"
+Req: PATCH /rd/4521?href=/sensors/light
 
 Payload:
 {null}
@@ -1260,7 +1261,7 @@ Method:
 : GET
 
 URI Template:
-: /{+rd-lookup-base}/{lookup-type}{?d,ep,gp,et,rt,page,count,resource-param}
+: /{+rd-lookup-base}/{lookup-type}{?d,res,ep,gp,et,rt,page,count,resource-param}
 
 
 URI Template Variables:
@@ -1574,7 +1575,9 @@ assigned to CT, RD, luminaries and sensor shown in {{interface-S}} below:
 | Resource directory | FDFD::ABCD:0 |
 {: #interface-S title='interface SLAAC addresses'}
 
-In {{rd-en}} the use of resource directory during installation is presented. In {{dns-en}} the connection to DNS is discussed.
+In {{rd-en}} the use of resource directory during installation is
+presented.
+In Section FIXME of {{dns-sd}}, the connection to DNS is discussed.
 
 
 ### RD entries {#rd-en}
@@ -1865,8 +1868,8 @@ LWM2M allows for de-registration using the delete method on the returned locatio
 # Acknowledgments
 
 Oscar Novo, Srdjan Krco, Szymon Sasin, Kerry Lynn, Esko Dijk, Anders
-Brandt, Matthieu Vial, Mohit Sethi, Sampo Ukkola and Linyi
-Tian have provided helpful comments, discussions and ideas to improve and
+Brandt, Matthieu Vial, Mohit Sethi, Sampo Ukkola, Linyi
+Tian, Chistian Amsuss, and Jan Newmarch have provided helpful comments, discussions and ideas to improve and
 shape this document. Zach would also like to thank his colleagues from the
 EU FP7 SENSEI project, where many of the resource directory concepts were
 originally developed.
@@ -1879,6 +1882,7 @@ changes from -09 to -10
 * removed "ins" and "exp" link-format extensions.
 * removed all text concerning DNS-SD.
 * removed inconsistency in RDAO text.
+* suggestions taken over from various sources
 
 changes from -08 to -09
 
