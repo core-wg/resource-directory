@@ -1,7 +1,7 @@
 ---
 title: CoRE Resource Directory
 docname: draft-ietf-core-resource-directory-10pre
-date: 2016-12-20
+date: 2017-3-13
 stand_alone: true
 ipr: trust200902
 cat: std
@@ -74,9 +74,6 @@ informative:
 #  RFC5198: nvt-utf8
 #  RFC1123: hostreq
 #  RFC1034: dns1
-  dns-sd:
-    title: "DNS-SD extracted part to be submitted separately"
-    org:
 
 --- abstract
 
@@ -655,6 +652,8 @@ Success:
 Failure:
 : 4.00 "Bad Request" or 400 "Bad Request". Malformed request.
 
+Failure:
+: 4.09 "Conflict" or 409 "Conflict". Attempt to update the registration content with links resulting in plurality of references; see {{link-plurality}}.
 
 Failure:
 : 5.03 "Service Unavailable" or 503 "Service Unavailable". Service could not perform the operation.
@@ -762,6 +761,15 @@ tool can fill the Resource Directory from a database or other means. For
 that purpose the scheme, IP address and port of the registered device is
 indicated in the Context parameter of the registration described in {{registration}}.
 
+### Plurality of link references in a Registration {#link-plurality}
+Plurality of link references within a Registration (registration resource) is an indication of some error condition and should not be allowed.
+
+Plurality of link references exists if, and only if, two or more links in a Registration 
+contain identical context, target, and relation values. This condition would be likely to arise if there were multiple co-ordinators or configuration tools, each with a different
+set of configuration values for the same resource.
+
+A Resource Directory SHOULD reject a registration, or an operation on a registration, which would result in a plurality of link references within the the context of the registration. There is no requirement in this document for a resource directory to check for plurality of reference between different registrations. Resource Directory operations which are rejected due to reference plurality SHOULD be returned the "Conflict" code, indicating that there is someting wrong with the request.
+
 ## Operations on the Registration Resource
 
 After the initial registration, an endpoint should retain the returned location of the Registration Resource for further operations, including refreshing the registration in order to extend the lifetie and "keep-alive" the registration. If the lifetime of the registration expires, the RD SHOULD NOT respond to discovery queries with information from the endpoint. The RD SHOULD continue to provide access to the Registration Resource after a registration time-out occurs in order to enable the registering endpoint to eventually refresh the registration. The RD MAY eventually remove the registration resource for the purpose of resource recovery and garbage collection. If the Registration Resource is removed, the endpoint will need to re-register.
@@ -769,6 +777,8 @@ After the initial registration, an endpoint should retain the returned location 
 The Registration Resource may also be used to inspect the registration resource using GET, update the registration link contents using PATCH, or cancel the registration using DELETE. 
 
 These operations are described in this section.
+
+In accordance with {{link-plurality}}, operations which would result in plural link references within the context of a registration resource SHOULD be rejected using the "Conflict" result code.
 
 ### Registration Update {#update}
 
@@ -792,7 +802,9 @@ update, the most recent setting is re-used for the next registration time-out pe
 
 An update MAY optionally add or replace links for the endpoint by including
 those links in the payload of the update as a CoRE Link Format
-document. A link is replaced only if both the target URI and relation type match.
+document. A link is replaced only if all of the target URI and relation type (if present) and anchor value (if present) match.
+
+If the link payload is included, it SHOULD be checked for reference plurality as described in {{link-plurality}} and rejected with a "Conflict" result if there are plural link references detected.
 
 In addition to the use of POST, as described in this section, there is an
 alternate way to add, replace, and delete links using PATCH as described
@@ -850,6 +862,9 @@ Failure:
 
 Failure:
 : 4.04 "Not Found" or 404 "Not Found". Registration does not exist (e.g. may have expired).
+
+Failure:
+: 4.09 "Conflict" or 409 "Conflict". Attempt to update the registration content with links resulting in plurality of references; see {{link-plurality}}.
 
 Failure:
 : 5.03 "Service Unavailable" or 503 "Service Unavailable". Service could not perform the operation.
@@ -942,6 +957,8 @@ Some endpoints may wish to manage their links as a collection, and may need to r
 
 One or more links MAY be selected by using query filtering as specified in {{RFC6690}} Section 4.1
 
+If no links are selected, the Resource Directory SHOULD return an empty payload.
+
 The read request interface is specified as follows:
 
 Interaction:
@@ -991,8 +1008,6 @@ Payload:
 
 ### Update Endpoint Links {#link-up}
 
-\[This section will be removed before or as a result of a working-group last-call if the PATCH methods do not achieve the same level of consensus as the present document.]
-
 A PATCH update adds, removes or changes links for the endpoint by including link update information in the payload of the update as a merge-patch+json format {{RFC7396}}
 document.
 
@@ -1004,7 +1019,13 @@ The query filter selects the links to be modified or deleted, by matching the qu
 
 When the query parameters are not present in the request, the payload specifies links to be added to the target document. When the query parameters are present, the attribute names and values in the query parameters select one or more links on which to apply the PATCH operation.
 
+If no links are selected by the query parameters, the PATCH operation SHOULD not update the state of any resource, and SHOULD return a reply of "Changed".
+
 If an attribute name specified in the PATCH document exists in any the set of selected links, all occurrences of the attribute value in the target document MUST be updated using the value from the PATCH payload. If the attribute name is not present in any selected links, the attribute MUST be added to the links.
+
+If the PATCH payload contains plural link references, or processing the PATCH payload would result in plural link references, the request SHOULD be rejected with a "Conflict" result.
+
+If the PATCH payload results in the modification of link target, context, or relation values, that is "href", "rel", or "anchor", the request SHOULD be rejected with a "Conflict" result code.
 
 The update request interface is specified as follows:
 
@@ -1037,6 +1058,9 @@ Failure:
 
 Failure:
 : 4.04 "Not Found" or 404 "Not Found". Registration resource does not exist (e.g. may have expired).
+
+Failure:
+: 4.09 "Conflict" or 409 "Conflict". Attempt to update the registration content with links resulting in plurality of references; see {{link-plurality}}.
 
 Failure:
 : 5.03 "Service Unavailable" or 503 "Service Unavailable". Service could not perform the operation.
