@@ -158,13 +158,24 @@ endpoints for the purpose of group communications. All groups within a domain
 are unique.
 
 Endpoint
-:   Endpoint (EP) is a term used to describe a web server or client in {{RFC7252}}. In the context of this specification an endpoint is used to describe a
+:   Endpoint (EP) is a term used to describe a web server or client in {{RFC7252}}.
+In the context of this specification an endpoint is used to describe a
 web server that registers resources to the Resource Directory. An endpoint
 is identified by its endpoint name, which is included during registration,
 and is unique within the associated domain of the registration.
 
+Context
+:   When registering links to a Resource Directory, the Context refers to the
+scheme, address, port, and base path for all the links registered on behalf of
+an endpoint, of the general form scheme://host:port/path/ where the client may
+explicitly set the scheme and host, and may supply the port and path as optional
+parameters. When the context of a registration is explicitly set, the
+URI resolution rules in {{RFC3986}} MUST be applied.
+
 Commissioning Tool
-: Commissioning Tool (CT) is a device that assists during the installation of the network by assigning values to parameters, naming endpoints and groups, or adapting the installation to the needs of the applications.
+: Commissioning Tool (CT) is a device that assists during the installation of the
+network by assigning values to parameters, naming endpoints and groups, or adapting
+the installation to the needs of the applications.
 
 RDAO
 : Resource Directory Address Option.
@@ -179,18 +190,25 @@ about resources hosted on other web servers, which are called endpoints
 An endpoint is a web server associated with a scheme, IP address and port
 (called Context), thus a physical node may host one or more endpoints. The
 RD implements a set of REST interfaces for endpoints to register and maintain
-sets of Web Links (called resource directory entries), and for clients to
+sets of Web Links (called resource directory registration entries), and for clients to
 lookup resources from the RD or maintain groups. Endpoints themselves can
 also act as clients. An RD can be logically segmented by the use of Domains.
 The domain an endpoint is associated with can be defined by the RD or configured
 by an outside entity. This information hierarchy is shown in {{fig-hierarchy}}.
 
-Endpoints are assumed to proactively register and maintain resource directory
-entries on the RD, which are soft state and need to be periodically refreshed.
-An endpoint is provided with interfaces to register, update and remove a
-resource directory entry. Furthermore, a mechanism to discover an RD using
-the CoRE Link Format {{RFC6690}} is defined. It is also possible for an RD to proactively
-discover Web Links from endpoints and add them as resource directory entries.
+A mechanism to discover an RD using CoRE Link Format {{RFC6690}} is defined.
+
+Endpoints proactively register and maintain resource directory registration entries
+on the RD, which are soft state and need to be periodically refreshed.
+
+An endpoint is provided with interfaces to register, update and remove a resource
+directory registration entry. It is also possible for an RD to fetch Web Links
+from endpoints and add them as resource directory entries.
+
+At the first registration of a set of entries, a "registration resource" is created,
+the location of which is returned to the registering endpoint. The registering
+endpoint uses this registration resource to manage the contents of the registration entry.
+
 A lookup interface for discovering any of the Web Links held in the RD is
 provided using the CoRE Link Format.
 
@@ -277,12 +295,6 @@ commissioning and run-time discovery is used. Both home and building automation
 involve peer-to-peer interactions between endpoints, and involve battery-powered
 sleeping devices.
 
-The exporting of resource information to other discovery systems is also
-important in these automation applications. In home automation there is a
-need to interact with other consumer electronics, which may already support
-DNS-SD, and in building automation DNS-SD in combination with resource directories
-can cover multiple buildings.
-
 
 ## Use Case: Link Catalogues {#usecase-catalogues}
 
@@ -296,14 +308,17 @@ consumption may provide the data to an intermediary server, or broker. Sensor
 data are published to the intermediary upon changes or at regular intervals.
 Descriptions of the sensors that resolve to links to sensor data may be published
 to a Resource Directory. Applications wishing to consume the data can use
-the Resource Directory lookup function set to discover and resolve links
+RD Lookup to discover and resolve links
 to the desired resources and endpoints. The Resource Directory service need
 not be coupled with the data intermediary service. Mapping of Resource Directories
 to data intermediaries may be many-to-many.
 
-Metadata in web-link compatible representations are supplied by Resource Directories, which may be internally stored as  triples, or relation/attribute
+Metadata in web link formats like {{RFC6690}} are supplied by Resource Directories,
+which may be internally stored as  triples, or relation/attribute
 pairs providing metadata about resource links. External catalogs that are
-represented in other formats may be converted to common web linking formats for storage and access by Resource Directories. Since it is common practice for these to be URN encoded, simple and lossless structural transforms should
+represented in other formats may be converted to common web linking formats for
+storage and access by Resource Directories. Since it is common practice for these
+to be URN encoded, simple and lossless structural transforms should
 generally be sufficient to store external metadata in Resource Directories.
 
 The additional features of Resource Directory allow domains to be defined
@@ -312,9 +327,13 @@ This provides isolation and protection of sensitive data when needed. Resource
 groups may defined to allow batched reads from multiple resources.
 
 
-# Finding a Directory Server {#simple_finding}
+# Finding a Resource Directory {#simple_finding}
 
-Endpoints that want to contact a directory server can obtain candidate IP
+Several mechanisms can be employed for discovering the RD, including assuming a
+default location (e.g. on an Edge Router in a LoWPAN), assigning an anycast address to the
+RD, using DHCP, or discovering the RD using .well-known/core and hyperlinks as
+specified in CoRE Link Format {{RFC6690}}.
+Endpoints that want to contact a Resource Directory can obtain candidate IP
 addresses for such servers in a number of ways.
 
 In a 6LoWPAN, good candidates can be taken from:
@@ -333,6 +352,12 @@ In networks with more inexpensive use of multicast, the candidate IP
 address may be a well-known multicast address, i.e. directory servers are
 found by simply sending GET requests to that well-known multicast address
 (see {{discovery}}).
+
+Constrained nodes configured in large batches may be configured for an
+anycast address for the RD.  Each target network environment in which
+some of these preconfigured nodes are to be brought up is then
+configured with a route for this anycast address that leads to an RD
+that is appropriate for the environment.
 
 As some of these sources are just (more or less educated) guesses, endpoints
 MUST make use of any error messages to very strictly rate-limit requests to
@@ -399,99 +424,20 @@ RD Address:             IPv6 address of the RD.
 ~~~~
 {: #fig-rdao title='Resource Directory Address Option' align="left"}
 
-# Simple Registration {#simple}
 
-Not all endpoints hosting resources are expected to know how to implement the
-Resource Directory Function Set (see {{rd}}) hence cannot register with a Resource Directory. Instead, simple endpoints can implement the generic Simple Directory
-Discovery approach described in this section. An RD implementing this
-specification MUST implement Simple Directory Discovery. However, there may
-be security reasons why this form of directory discovery would be disabled.
+# Resource Directory {#rd}
 
-This approach requires that the endpoint makes available the hosted resources
-that it wants to be discovered, as links on its `/.well-known/core` interface as
-specified in {{RFC6690}}.
-
-The endpoint then finds one or more addresses of the directory server as described in {{simple_finding}}.
-
-An endpoint can send (a selection of) hosted resources to a directory server for publication as described in {{simple_publishing}}.
-
-The directory server integrates the information it received this way into its
-resource directory.  It MAY make the information available to further
-directories, if it can ensure that a loop does not form.  The protocol used
-between directories to ensure loop-free operation is outside the scope of
-this document.
-
-## Simple publishing to Resource Directory Server {#simple_publishing}
-
-An endpoint that wants to make itself discoverable occasionally sends a POST
-request to the `/.well-known/core` URI of any candidate directory server that
-it finds. The body of the POST request is empty, which triggers the resource
-directory server to perform GET requests at the requesting server's default
-discovery URI to obtain the link-format payload to register.
-
-The endpoint MUST include the endpoint name and MAY include other registration parameters in the POST request as per {{registration}}.
-
-The following example shows an endpoint using simple publishing,
-by simply sending an empty POST to a resource directory.
-
-~~~~
-Req:(to RD server from [ff02::1])
-POST coap://rd.example.com/.well-known/core?lt=6000;ep=node1
-
-Content-Format: 40
-
-payload:
-
-(empty payload)
-
-Res: 2.04 Changed
-
-(later)
-
-Req: (from RD server to [ff02::1])
-GET coap://[ff02::1]/.well-known/core
-
-Accept: 40
-
-Res: 2.05 Content
-
-payload:
-
-</sen/temp>
-~~~~
-
-
-## Third-party registration {#third-party-registration}
-
-For some applications, even Simple Directory Discovery may be too taxing
-for certain very constrained devices, in particular if the security requirements
-become too onerous.
-
-In a controlled environment (e.g. building control), the Resource Directory
-can be filled by a third device, called a commissioning tool. The commissioning
-tool can fill the Resource Directory from a database or other means. For
-that purpose the scheme, IP address and port of the registered device is
-indicated in the Context parameter of the registration described in {{registration}}.
-
-
-# Resource Directory Function Set {#rd}
-
-This section defines the REST interfaces between an RD and endpoints, which
-is called the Resource Directory Function Set. Although the examples
-throughout this section assume the use of CoAP {{RFC7252}}, these REST
-interfaces can also be realized using HTTP {{RFC7230}}. In all definitions in this section, both CoAP response codes (with dot notation) and HTTP response codes
+This section defines the required set of REST interfaces between a Resource Directory
+(RD) and endpoints. Although the examples throughout this section assume the use of
+CoAP {{RFC7252}}, these REST interfaces can also be realized using HTTP {{RFC7230}}.
+In all definitions in this section, both CoAP response codes (with dot notation) and HTTP response codes
 (without dot notation) are shown. An RD implementing this specification MUST support
 the discovery, registration, update, lookup, and removal interfaces defined in this section.
 
-Resource directory entries are designed to be easily exported to other
-discovery mechanisms such as DNS-SD. For that reason, parameters that would
-meaningfully be mapped to DNS SHOULD be limited to a maximum length of 63
-bytes.<!-- TODO: Is there maybe also a need to further restrict the set of
-characters available?  -->
-
 ## Content Formats
 
-Resource Directory implementations using this specification MUST support the application/link-format content format (ct=40).
+Resource Directory implementations using this specification MUST support the
+application/link-format content format (ct=40).
 
 Resource Directories implementing this specification MAY support additional content formats.
 
@@ -499,27 +445,24 @@ Any additional content format supported by a Resource Directory implementing thi
 specification MUST have an equivalent serialization in the application/link-format
 content format.
 
-## Discovery {#discovery}
+## Base URI Discovery {#discovery}
 
-Before an endpoint can make use of an RD, it must first know the RD's
-address and port, and the path of its RD Function Set. There can be several
-mechanisms for discovering the RD including assuming a default location
-(e.g. on an Edge Router in a LoWPAN), by assigning an anycast address to the
-RD, using DHCP, or by discovering the RD using the CoRE Link Format (see also
-{{simple_finding}}). This section defines discovery of the RD using the
-well-known interface of the CoRE Link Format {{RFC6690}} as the required
-mechanism. It is however expected that RDs will also be discoverable via
-other methods depending on the deployment.
+Before an endpoint can make use of an RD, it must first know the RD's address
+and port, and the base URI information for its REST API. This section defines
+discovery of the RD and its base URI using the well-known interface of the
+CoRE Link Format {{RFC6690}}. It is however expected that RDs will also be
+discoverable via other methods depending on the deployment.
 
-Discovery of the RD function set is performed by sending either a multicast or
+Discovery of the RD base URI is performed by sending either a multicast or
 unicast GET request to `/.well-known/core` and including a Resource Type (rt)
 parameter {{RFC6690}} with the value "core.rd" in the query string. Likewise, a
-Resource Type parameter value of "core.rd-lookup" is used to discover the RD
-Lookup Function Set.  Upon success, the response will contain a payload with
-a link format entry for each RD discovered, with the URL indicating the root
-resource of the RD. When performing multicast discovery, the multicast IP
-address used will depend on the scope required and the multicast capabilities
-of the network.
+Resource Type parameter value of "core.rd-lookup\*" is used to discover the base 
+URI for RD Lookup operations, and "core.gp" is used to discover the base URI for RD
+Group operations. Upon success, the response will contain a payload with
+a link format entry for each RD function discovered, indicating the base URI
+of the RD function returned and the corresponding Resource Type. When performing 
+multicast discovery, the multicast IP address used will depend on the scope required
+and the multicast capabilities of the network.
 
 A Resource Directory MAY provide hints about the content-formats it supports in the links it exposes or registers, using the "ct" link attribute, as shown in the example below. Clients MAY use these hints to select alternate content-formats for interaction with the Resource Directory.
 
@@ -543,7 +486,8 @@ URI Template:
 
 URI Template Variables:
 : rt :=
-  : Resource Type (optional). MAY contain one of the values "core.rd", "core.rd-lookup",
+  : Resource Type (optional). MAY contain one of the values "core.rd", "core.rd-lookup\*",
+  "core.rd-lookup-d", "core.rd-lookup-res", "core.rd-lookup-ep", "core.rd-lookup-gp",
   "core.rd-group" or "core.rd\*"
 
 Content-Format:
@@ -576,9 +520,10 @@ HTTP support :
 : YES (Unicast only)
 
 The following example shows an endpoint discovering an RD using this interface,
-thus learning that the base RD resource is, in this example, at /rd and that the content_format delivered by the server hosting the resource is application/link-format (ct=40).  Note
-that it is up to the RD to choose its base RD resource, although diagnostics
-and debugging is facilitated by using the base paths specified here where
+thus learning that the base RD resource is, in this example, at /rd and that the
+content-format delivered by the server hosting the resource is application/link-format
+(ct=40).  Note that it is up to the RD to choose its base RD resource, although
+diagnostics and debugging is facilitated by using the base paths specified here where
 possible.
 
 ~~~~
@@ -586,7 +531,8 @@ Req: GET coap://[ff02::1]/.well-known/core?rt=core.rd*
 
 Res: 2.05 Content
 </rd>;rt="core.rd";ct=40,
-</rd-lookup>;rt="core.rd-lookup";ct=40,
+</rd-lookup/ep>;rt="core.rd-lookup-ep";ct=40,
+</rd-lookup/res>;rt="core.rd-lookup-res";ct="40",
 </rd-group>;rt="core.rd-group";ct=40
 ~~~~
 
@@ -604,27 +550,29 @@ Req: GET coap://[ff02::1]/.well-known/core?rt=core.rd*
 
 Res: 2.05 Content
 </rd>;rt="core.rd";ct="40 65225",
-</rd-lookup>;rt="core.rd-lookup";ct="40 65225",
+</rd-lookup/res>;rt="core.rd-lookup-res";ct="40 65225",
+</rd-lookup/ep>;rt="core.rd-lookup-ep";ct="40 65225",
 </rd-group>;rt="core.rd-group";ct="40 65225"
 ~~~~
 
 ## Registration {#registration}
 
-After discovering the location of an RD Function Set, an endpoint MAY
+After discovering the location of an RD, an endpoint MAY
 register its resources using the registration interface. This interface
 accepts a POST from an endpoint containing the list of resources to be added
-to the directory as the message payload in the CoRE Link Format {{RFC6690}}, JSON CoRE Link Format (application/link-format+json), or CBOR CoRE Link Format (application/link-format+cbor)  {{I-D.ietf-core-links-json}}, along with query string
-parameters indicating the name of the endpoint, its domain and the lifetime
-of the registration. All parameters except the endpoint name are optional. It
-is expected that other specifications will define further parameters (see
-{{iana-registry}}). The RD then creates a new resource or updates an existing
-resource in the RD and returns its location. An endpoint MUST use that
+to the directory as the message payload in the CoRE Link Format {{RFC6690}}, JSON CoRE Link Format (application/link-format+json), or CBOR CoRE Link Format (application/link-format+cbor)  {{I-D.ietf-core-links-json}}, along with query
+parameters indicating the name of the endpoint, and optionally its domain
+and the lifetime of the registration.
+It is expected that other specifications will define further parameters (see
+{{iana-registry}}). The RD then creates a new registration resource in the RD and returns its location. An endpoint MUST use that
 location when refreshing registrations using this interface. Endpoint
 resources in the RD are kept active for the period indicated by the lifetime
 parameter. The endpoint is responsible for refreshing the entry within this
 period using either the registration or update interface. The registration
 interface MUST be implemented to be idempotent, so that registering twice
-with the same endpoint parameter does not create multiple RD entries. A new registration may be created at any time to supersede an existing registration, replacing the registration parameters and links.
+with the same endpoint parameters ep and d does not create multiple RD entries.
+A new registration may be created at any time to supersede an existing registration,
+replacing the registration parameters and links.
 
 The registration request interface is specified as follows:
 
@@ -642,9 +590,9 @@ URI Template:
 
 URI Template Variables:
 : rd :=
-  : RD Function Set
+  : RD Base URI
     path (mandatory). This is the path of
-    the RD Function Set, as obtained from discovery. The value
+    the RD, as obtained from discovery. The value
     "rd" is recommended for this variable.
 
   ep :=
@@ -655,8 +603,7 @@ URI Template Variables:
   d :=
   : Domain (optional). The domain to which this endpoint belongs. The maximum
     length of this parameter is 63 bytes. When this parameter is elided, the
-    RD MAY associate the endpoint with a configured default domain. The domain
-    value is needed to export the endpoint to DNS-SD (see {{dns-sd}}).
+    RD MAY associate the endpoint with a configured default domain.
 
   et :=
   : Endpoint Type (optional). The semantic type of the endpoint. This parameter
@@ -664,16 +611,27 @@ URI Template Variables:
 
   lt :=
   : Lifetime (optional). Lifetime of the registration in seconds. Range of 60-4294967295.
-    If no lifetime is included, a default value of 86400 (24 hours) SHOULD be
-    assumed.
+    If no lifetime is included in the initial registration, a default value of
+    86400 (24 hours) SHOULD be assumed. If the lt parameter is not included in a
+    registration refresh  or update operation, the most recently supplied value SHALL be
+    re-used.
 
   con :=
   : Context (optional). This parameter sets the scheme, address and port at
-    which this server is available in the form scheme://host:port. In
-    the absence of this parameter the scheme of the protocol, source IP address
+    which this server is available in the form scheme://host:port/path. In
+    the absence of this parameter the scheme of the protocol, source address
     and source port of the register request are assumed. This parameter is
     mandatory when the directory is filled by a third party such as an
-    commissioning tool.
+    commissioning tool. When con is used, scheme and host are mandatory and
+    port and path parameters are optional.
+    
+    If the endpoint uses an ephemeral port to register with, it MUST include the con:
+    parameter in the registration to provide a valid network path. 
+    
+    If the endpoint which is located behind a NAT gateway is registering with a Resource
+    Directory which is on the network service side of the NAT gateway, the endpoint MUST
+    use a persistent port for the outgoing registration in order to provide the NAT
+    gateway with a valid network address for replies and incoming requests.
 
 Content-Format:
 : application/link-format
@@ -687,15 +645,12 @@ Content-Format:
 The following response codes are defined for this interface:
 
 Success:
-: 2.01 "Created" or 201 "Created". The Location header
-  MUST be included with the new resource entry for the
-  endpoint. This Location MUST be a stable identifier
+: 2.01 "Created" or 201 "Created". The Location header option
+  MUST be included in the response when a new registration resource is created. This Location MUST be a stable identifier
   generated by the RD as it is used for all subsequent
-  operations on this registration. The resource returned
-  in the Location is for the purpose of updating the lifetime
+  operations on this registration resource. The registration resource location thus returned is for the purpose of updating the lifetime
   of the registration and for maintaining the content of the
   registered links, including updating and deleting links.
-
 
 Failure:
 : 4.00 "Bad Request" or 400 "Bad Request". Malformed request.
@@ -722,6 +677,8 @@ Res: 2.01 Created
 Location: /rd/4521
 ~~~~
 
+A Resource Directory may optionally support HTTP. Here is an example of the same registration operation above, when done using HTTP.
+
 ~~~~
 Req: POST /rd?ep=node1 HTTP/1.1
 Host : example.com
@@ -734,17 +691,92 @@ Res: 201 Created
 Location: /rd/4521
 ~~~~
 
+### Simple Registration {#simple}
 
-## Registration Update {#update}
+Not all endpoints hosting resources are expected to know how to upload links to a RD as described in {{registration}}. Instead, simple endpoints can implement the Simple Registration approach described in this section. An RD implementing this specification MUST implement Simple Registration. However, there may
+be security reasons why this form of directory discovery would be disabled.
+
+This approach requires that the endpoint makes available the hosted resources
+that it wants to be discovered, as links on its `/.well-known/core` interface as
+specified in {{RFC6690}}.
+
+The endpoint then finds one or more addresses of the directory server as described in {{simple_finding}}.
+
+An endpoint can send (a selection of) hosted resources to a directory server for publication as described in {{simple_publishing}}.
+
+The directory server integrates the information it received this way into its
+resource directory.  It MAY make the information available to further
+directories, if it can ensure that a loop does not form.  The protocol used
+between directories to ensure loop-free operation is outside the scope of
+this document.
+
+### Simple publishing to Resource Directory Server {#simple_publishing}
+
+An endpoint that wants to make itself discoverable occasionally sends a POST
+request to the `/.well-known/core` URI of any candidate directory server that
+it finds. The body of the POST request is empty, which triggers the resource
+directory server to perform GET requests at the requesting server's default
+discovery URI to obtain the link-format payload to register.
+
+The endpoint MUST include the endpoint name and MAY include the registration parameters d, lt, and et, in the POST request as per {{registration}}.
+
+The following example shows an endpoint using simple publishing,
+by simply sending an empty POST to a resource directory.
+
+~~~~
+Req:(to RD server from [ff02::1])
+POST coap://rd.example.com/.well-known/core?lt=6000;ep=node1
+
+Content-Format: 40
+
+payload:
+
+(empty payload)
+
+Res: 2.04 Changed
+
+(later)
+
+Req: (from RD server to [ff02::1])
+GET coap://[ff02::1]/.well-known/core
+
+Accept: 40
+
+Res: 2.05 Content
+
+payload:
+
+</sen/temp>
+~~~~
+
+
+### Third-party registration {#third-party-registration}
+
+For some applications, even Simple Directory Discovery may be too taxing
+for certain very constrained devices, in particular if the security requirements
+become too onerous.
+
+In a controlled environment (e.g. building control), the Resource Directory
+can be filled by a third device, called a commissioning tool. The commissioning
+tool can fill the Resource Directory from a database or other means. For
+that purpose the scheme, IP address and port of the registered device is
+indicated in the Context parameter of the registration described in {{registration}}.
+
+## Operations on the Registration Resource
+
+After the initial registration, an endpoint should retain the returned location of the Registration Resource for further operations, including refreshing the registration in order to extend the lifetie and "keep-alive" the registration. If the lifetime of the registration expires, the RD SHOULD NOT respond to discovery queries with information from the endpoint. The RD SHOULD continue to provide access to the Registration Resource after a registration time-out occurs in order to enable the registering endpoint to eventually refresh the registration. The RD MAY eventually remove the registration resource for the purpose of resource recovery and garbage collection. If the Registration Resource is removed, the endpoint will need to re-register.
+
+The Registration Resource may also be used to inspect the registration resource using GET, update the registration link contents using PATCH, or cancel the registration using DELETE. 
+
+These operations are described in this section.
+
+### Registration Update {#update}
 
 The update interface is used by an endpoint to refresh or update its
-registration with an RD. To use the interface, the endpoint sends a POST
-request to the resource returned in the Location option in the response to
-the first registration.
+registration with an RD. To use the interface, the endpoint sends a POST request to the registration resource returned in the Location header option in the response returned from the intial registration operation.
 
 An update MAY update the lifetime or context registration parameters
-"lt", "con" as in {{registration}} ) if they have changed since the
-last registration or update. Parameters that have not changed SHOULD NOT
+"lt", "con" as in {{registration}} ) if the previous settings are to be retained. Parameters that are not being changed changed SHOULD NOT
 be included in an update. Adding parameters that have not changed increases
 the size of the message but does not have any other implications.
 Parameters MUST be included as query parameters in an update operation as
@@ -755,7 +787,8 @@ endpoint and update the scheme, IP address and port of the endpoint, using
 the source address of the update, or the context ("con") parameter if present.
 If the lifetime parameter "lt" is included in the received update request,
 the RD MUST update the lifetime of the registration and set the timeout equal
-to the new lifetime.
+to the new lifetime. If the lifetime parameter is not included in the registration 
+update, the most recent setting is re-used for the next registration time-out period.
 
 An update MAY optionally add or replace links for the endpoint by including
 those links in the payload of the update as a CoRE Link Format
@@ -791,11 +824,12 @@ URI Template Variables:
 
   con :=
   : Context (optional). This parameter sets the scheme, address and port at
-    which this server is available in the form
-    scheme://host:port. Optional. In the absence of this parameter the scheme
-    of the protocol, source IP address and source port set on the previous update or registration are
-    assumed. This parameter is compulsory when the directory is filled by a
-    third party such as a commissioning tool.
+  which this server is available in the form scheme://host:port/path. In
+  the absence of this parameter the scheme of the protocol, source address
+  and source port of the register request are assumed. This parameter is
+  mandatory when the directory is filled by a third party such as an
+  commissioning tool. When con is used, scheme and host are mandatory and
+  port and path parameters are optional.
 
 Content-Format:
 : application/link-format (mandatory)
@@ -852,7 +886,7 @@ Res: 2.04 Changed
 ~~~~
 
 
-## Registration Removal {#removal}
+### Registration Removal {#removal}
 
 Although RD entries have soft state and will eventually timeout after their
 lifetime, an endpoint SHOULD explicitly remove its entry from the RD if it
@@ -902,9 +936,9 @@ Res: 2.02 Deleted
 ~~~~
 
 
-## Read Endpoint Links {#read}
+### Read Endpoint Links {#read}
 
-Some endpoints may wish to manage their links as a collection, and may need to read the current set of links in order to determine link maintenance operations.
+Some endpoints may wish to manage their links as a collection, and may need to read the current set of links stored in the registration resource, in order to determine link maintenance operations.
 
 One or more links MAY be selected by using query filtering as specified in {{RFC6690}} Section 4.1
 
@@ -955,12 +989,14 @@ Payload:
 ~~~~
 
 
-## Update Endpoint Links {#link-up}
+### Update Endpoint Links {#link-up}
 
 \[This section will be removed before or as a result of a working-group last-call if the PATCH methods do not achieve the same level of consensus as the present document.]
 
 A PATCH update adds, removes or changes links for the endpoint by including link update information in the payload of the update as a merge-patch+json format {{RFC7396}}
 document.
+
+Other PATCH document formats may be used as appropriate for patching the array of objects format of a Registration Resource. In particular, a select-merge patch document format could combine the function of link selection query and link attribute replacement values.
 
 One or more links are selected for update by using query filtering as specified in {{RFC6690}} Section 4.1
 
@@ -1009,6 +1045,16 @@ HTTP support: YES
 
 The following examples show an endpoint adding </sensors/humid>, modifying </sensors/temp>, and removing </sensors/light> links in RD using the Update Endpoint Links function with the example location value /rd/4521.
 
+The Registration Resource initial state is:
+
+~~~~
+Req: GET /rd/4521
+
+Res: 2.01 Content
+Payload:
+</sensors/temp>;ct=41;rt="temperature",
+</sensors/light>;ct=41;rt="light-lux";if="sensor"
+~~~~
 
 The following example shows an EP adding the link </sensors/humid>;ct=41;rt="humid-s";if="sensor" to the collection of links at the location /rd/4521.
 
@@ -1023,6 +1069,16 @@ Content-Format:
 application/merge-patch+json
 
 Res: 2.04 Changed
+~~~~
+
+~~~~
+Req: GET /rd/4521
+
+Res: 2.01 Content
+Payload:
+</sensors/temp>;ct=41;rt="temperature",
+</sensors/light>;ct=41;rt="light-lux";if="sensor",
+</sensors/humid>;ct=41;rt="humid-s";if="sensor"
 ~~~~
 
 
@@ -1041,6 +1097,15 @@ application/merge-patch+json
 Res: 2.04 Changed
 ~~~~
 
+~~~~
+Req: GET /rd/4521
+
+Res: 2.01 Content
+Payload:
+</sensors/temp>;ct=41;rt="temperature-c";if="sensor",
+</sensors/light>;ct=41;rt="light-lux";if="sensor",
+</sensors/humid>;ct=41;rt="humid-s";if="sensor"
+~~~~
 
 This example shows an EP removing all links at the example location /rd/4521 which are identified by href="/sensors/light".
 
@@ -1048,7 +1113,7 @@ This example shows an EP removing all links at the example location /rd/4521 whi
 Req: PATCH /rd/4521?href=/sensors/light
 
 Payload:
-{null}
+{}
 
 Content-Format:
 application/merge-patch+json
@@ -1056,16 +1121,22 @@ application/merge-patch+json
 Res: 2.04 Changed
 ~~~~
 
+~~~~
+Req: GET /rd/4521
 
-# Group Function Set {#group}
+Res: 2.01 Content
+Payload:
+</sensors/temp>;ct=41;rt="temperature-c";if="sensor",
+</sensors/humid>;ct=41;rt="humid-s";if="sensor"
+~~~~
 
-This section defines a function set for the creation of groups of endpoints
-for the purpose of managing and looking up endpoints for group operations.
-The group function set is similar to the resource directory function set,
-in that a group may be created or removed. However unlike an endpoint entry,
-a group entry consists of a list of endpoints and does not have a lifetime
-associated with it. In order to make use of multicast requests with CoAP,
-a group MAY have a multicast address associated with it.
+
+# RD Groups {#group}
+
+This section defines the REST API for the creation, management, and lookup of endpoints for group operations.
+Similar to endpoint registration entries in the RD, groups may be created or removed. However unlike an endpoint entry, a group entry consists of a list of endpoints and does
+not have a lifetime associated with it. In order to make use of multicast requests with
+CoAP, a group MAY have a multicast address associated with it.
 
 ## Register a Group {#group-register}
 
@@ -1094,8 +1165,8 @@ URI Template:
 
 URI Template Variables:
 : rd-group :=
-  : RD Group Function Set path (mandatory). This is the path of the RD Group
-    Function Set. The value "rd-group" is recommended for this variable.
+  : RD Group Base URI path (mandatory). This is the path of the RD Group
+    REST API. The value "rd-group" is recommended for this variable.
 
   gp :=
   : Group Name (mandatory). The name of the group to be created or replaced,
@@ -1105,15 +1176,16 @@ URI Template Variables:
   : Domain (optional). The domain to which this group belongs. The maximum
     length of this parameter is 63 bytes. Optional. When this parameter is
     elided, the RD MAY associate the endpoint with a configured default
-    domain. The domain value is needed to export the endpoint to DNS-SD (see
-    {{dns-sd}})
+    domain.
 
   con :=
-  : Context (optional). This parameter is used to set the IP multicast
-    address at which this server is available in the form
-    scheme://multicast-address:port.  Optional. In the absence of this parameter
-    no multicast address is configured.  This parameter is compulsory when the
-    directory is filled by a commissioning tool.
+  : Context (optional). This parameter sets the scheme, address and port at
+    which this server is available in the form scheme://host:port/path. In
+    the absence of this parameter the scheme of the protocol, source address
+    and source port of the register request are assumed. This parameter is
+    mandatory when the directory is filled by a third party such as an
+    commissioning tool. When con is used, scheme and host are mandatory and
+    port and path parameters are optional.
 
 Content-Format:
 : application/link-format
@@ -1127,9 +1199,7 @@ Content-Format:
 The following response codes are defined for this interface:
 
 Success:
-: 2.01 "Created" or 201 "Created". The Location header MUST be included with the new group
-  entry.  This Location MUST be a stable identifier generated by the RD as it
-  is used for delete operations on this registration.
+: 2.01 "Created" or 201 "Created". The Location header option MUST be returned in response to a successful group CREATE operation.  This Location MUST be a stable identifier generated by the RD as it is used for delete operations of the group registration resource.
 
 Failure:
 : 4.00 "Bad Request" or 400 "Bad Request". Malformed request.
@@ -1158,23 +1228,10 @@ Res: 2.01 Created
 Location: /rd-group/12
 ~~~~
 
-~~~~
-Req: POST /rd-group?gp=lights HTTP/1.1
-Host: example.com
-Content-Type: application/link-format
-Payload:
-<>;ep="node1",
-<>;ep="node2"
-
-Res: 201 Created
-Location: /rd-group/12
-~~~~
-
 ## Group Removal {#group-removal}
 
-A group can be removed simply by sending a removal message to the location
-returned when registering the group. Removing a group MUST NOT remove the
-endpoints of the group from the RD.
+A group can be removed simply by sending a removal message to the location of the group registration resource which was
+returned when intially registering the group. Removing a group MUST NOT remove the endpoints of the group from the RD.
 
 The removal request interface is specified as follows:
 
@@ -1221,20 +1278,30 @@ Res: 2.02 Deleted
 ~~~~
 
 
-
-# RD Lookup Function Set {#lookup}
+# RD Lookup {#lookup}
 
 In order for an RD to be used for discovering resources registered with it,
-a lookup interface can be provided using this function set. This lookup interface
+an optional lookup interface may be provided. This lookup interface
 is defined as a default, and it is assumed that RDs may also support lookups
 to return resource descriptions in alternative formats (e.g. Atom or HTML
 Link) or using more advanced interfaces (e.g. supporting context or semantic
 based lookup).
 
-This function set allows lookups for domains, groups, endpoints and resources
-using attributes defined in the RD Function Set and for use with the CoRE
+RD Lookup allows lookups for domains, groups, endpoints and resources
+using attributes defined in this document and for use with the CoRE
 Link Format. The result of a lookup request is the list of links (if any)
 corresponding to the type of lookup.  Thus, a domain lookup MUST return a list of domains, a group lookup MUST return a list of groups, an endpoint lookup MUST return a list of endpoints and a resource lookup MUST return a list of links to resources.
+
+RD Lookup does not expose registration resources directly, but returns link content from registration resource entries which satisfy RD Lookup queries.
+
+The lookup type is selected by a URI endpoint, which is indicated by a Resource Type as per {{lookup-types}} below:
+
+| Lookup Type | Resource Type | Mandatory |
+| Resource | core.rd-lookup-res | Mandatory |
+| Endpoint | core.rd-lookup-ep | Mandatory |
+| Domain | core.rd-lookup-d | Optional |
+| Group | core.rd-lookup-gp | Optional |
+{: #lookup-types title='Lookup Types'}
 
 Each endpoint and resource lookup result returns respectively the scheme (IP address and port) followed by the path part of the URI of every endpoint and resource inside angle brackets ("<>") and followed by the other parameters.
 
@@ -1250,7 +1317,7 @@ The page and count parameters are used to obtain lookup results in specified inc
 
 Multiple query parameters MAY be included in a lookup, all included parameters MUST match for a resource to be returned.  The character'\*' MAY be included at the end of a parameter value as a wildcard operator.
 
-The rd-lookup interface MAY use any set of query parameters to match the registered attributes and relations.  In addition, this interface MAY be used with queries that specify domains, endpoints, and groups.  For example, a domain lookup filtering on groups would return a list of domains that contain the specified groups.  An endpoint lookup filtering on groups would return a list of endpoints that are in the specified groups.
+RD Lookup requests MAY use any set of query parameters to match the registered attributes and relations.  In addition, this interface MAY be used with queries that specify domains, endpoints, and groups.  For example, a domain lookup filtering on groups would return a list of domains that contain the specified groups.  An endpoint lookup filtering on groups would return a list of endpoints that are in the specified groups.
 
 The lookup interface is specified as follows:
 
@@ -1266,12 +1333,14 @@ URI Template:
 
 URI Template Variables:
 : rd-lookup-base :=
-  : RD Lookup Function Set path (mandatory). This is the path of the RD Lookup
-    Function Set. The recommended value for this variable is: "rd-lookup".
+  : RD Lookup Base URI path (mandatory). This is the base path for RD Lookup requests. The recommended value for this variable is: "rd-lookup".
 
   lookup-type :=
-  : ("d", "ep", "res", "gp") (mandatory) This variable is used to select the
-    kind of lookup to perform (domain, endpoint, resource, or group).
+  : ("ep", "res") (mandatory), ("d","gp") (optional) This variable is used to select the
+    type of lookup to perform (endpoint, resource, domain, or group). The values are
+    recommended defaults and MAY use other values as needed.
+    The supported lookup-types SHOULD be listed in .well-known/core
+    using the specified resource types.
 
   ep :=
   : Endpoint name (optional). Used for endpoint, group and resource lookups.
@@ -1304,8 +1373,8 @@ URI Template Variables:
   : Endpoint type (optional). Used for group, endpoint and resource lookups.
 
   resource-param :=
-  : Link attribute parameters (optional). Any link attribute as defined in Section
-    4.1 of {{RFC6690}}, used for resource lookups.
+  : Link attribute parameters (optional). Any link target attribute as defined in
+  Section 4.1 of {{RFC6690}}, used for resource lookups.
 
   Content-Format:
   : application/link-format (optional)
@@ -1337,7 +1406,7 @@ Failure:
 HTTP support:
 : YES
 
-The examples in this section assume a CoAP host with IP address FDFD::123 and a default CoAP port 61616. HTTP hosts are possible and do not change the nature of the examples.\
+The examples in this section assume CoAP hosts with a default CoAP port 61616. HTTP hosts are possible and do not change the nature of the examples.
 
 The following example shows a client performing a resource lookup with the example look-up location /rd-lookup/:
 
@@ -1354,8 +1423,8 @@ The following example shows a client performing an endpoint type lookup:
 Req: GET /rd-lookup/ep?et=power-node
 
 Res: 2.05 Content
-<coap://[FDFD::123]:61616>;ep="node5",
-<coap://[FDFD::123]:61616>;ep="node7"
+<coap://[FDFD::127]:61616>;ep="node5",
+<coap://[FDFD::129]:61616>;ep="node7"
 ~~~~
 
 The following example shows a client performing a domain lookup:
@@ -1386,7 +1455,7 @@ Req: GET /rd-lookup/ep?gp=lights1
 
 Res: 2.05 Content
 <coap://[FDFD::123]:61616>;ep="node1",
-<coap://[FDFD::123]:61616>;ep="node2"
+<coap://[FDFD::124]:61616>;ep="node2"
 ~~~~
 
 The following example shows a client performing a lookup for all groups an
@@ -1448,8 +1517,8 @@ included in the Registration message.
 
 ## Access Control
 
-Access control SHOULD be performed separately for the RD Function Set and
-the RD Lookup Function Set, as different endpoints may be authorized to register
+Access control SHOULD be performed separately for the RD registration, Lookup, and
+group API base paths, as different endpoints may be authorized to register
 with an RD from those authorized to lookup endpoints from the RD. Such access
 control SHOULD be performed in as fine-grained a level as possible. For example
 access control for lookups could be performed either at the domain, endpoint
@@ -1474,17 +1543,15 @@ The responses from the NTP server were found to be
 to wild-card lookups is potentially vulnerable if run with CoAP over UDP.
 Since there is no return routability check and the responses can be significantly
 larger than requests, RDs can unknowingly become part of a DDoS amplification
-attack. Therefore, it is RECOMMENDED that implementations ensure return routability.
-This can be done, for example by responding to wild card lookups only over
-DTLS or TLS or TCP.
-
+attack.
 
 
 # IANA Considerations
 
 ## Resource Types {#iana-rt}
 
-"core.rd", "core.rd-group" and "core.rd-lookup" resource types need to be
+"core.rd", "core.rd-group", "core.rd-lookup-ep", "core.rd-lookup-res",
+"core.rd-lookup-d", and "core.rd-lookup-gp" resource types need to be
 registered with the resource type registry defined by {{RFC6690}}.
 
 
@@ -1526,7 +1593,7 @@ as described in {{RFC5226}}.
 
 # Examples {#examples}
 
-<!-- ??? Examples are added here. -->
+Two examples are presented: a Lighting Installation example in {{lt-ex}} and a LWM2M example in {{lwm2m-ex}}.
 
 ## Lighting Installation {#lt-ex}
 
@@ -1577,7 +1644,6 @@ assigned to CT, RD, luminaries and sensor shown in {{interface-S}} below:
 
 In {{rd-en}} the use of resource directory during installation is
 presented.
-In Section FIXME of {{dns-sd}}, the connection to DNS is discussed.
 
 
 ### RD entries {#rd-en}
@@ -1731,9 +1797,9 @@ CoRE Resource Directory (RD) is used to provide the LWM2M Registration interface
 LWM2M does not provide for registration domains and does not currently
 use the rd-group or rd-lookup interfaces.
 
-The LWM2M specification describes a set of interfaces and a resource model used between a LWM2M device and an LWM2M server. Other interfaces, proxies, applications, and function sets are currently out of scope for LWM2M.
+The LWM2M specification describes a set of interfaces and a resource model used between a LWM2M device and an LWM2M server. Other interfaces, proxies, and applications are currently out of scope for LWM2M.
 
-The location of the LWM2M Server and RD Function Set is provided by the LWM2M Bootstrap process, so no dynamic discovery of the RD function set is used. LWM2M Servers and endpoints are not required to implement the ./well-known/core resource.
+The location of the LWM2M Server and RD base URI path is provided by the LWM2M Bootstrap process, so no dynamic discovery of the RD is used. LWM2M Servers and endpoints are not required to implement the ./well-known/core resource.
 
 ### The LWM2M Object Model {#lwm2m-obj}
 
@@ -1786,7 +1852,8 @@ registration lifetime configured, in instance 0 of a type 1 object
 
 ### LWM2M Register Endpoint {#lwm2m-reg}
 
-LWM2M defines a registration interface based on the Resource Directory Function Set, described in {{rd}}. The URI of the LWM2M Resource Directory function set is specified to be "/rd" as recommended in {{registration}}.
+LWM2M defines a registration interface based on the REST API, described in {{rd}}. The
+base URI path of the LWM2M Resource Directory is specified to be "/rd" as recommended in {{registration}}.
 
 LWM2M endpoints register object IDs, for example </1>, to indicate that a particular object type is supported, and register object instances, for example </1/0>, to indicate that a particular instance of that object type exists.
 
@@ -1835,17 +1902,6 @@ Here is an example LWM2M registration payload:
 
 This link format payload indicates that object ID 1 (LWM2M Server Object) is supported, with a single instance 0 existing, object ID 3 (LWM2M Device object) is supported, with a single instance 0 existing, and object 5 (LWM2M Firmware Object) is supported, with no existing instances.
 
-### Alternate Base URI {#lwm2m-altbase}
-
-If the LWM2M endpoint exposes objects at a base URI other than the default empty base path, the endpoint must register the base URI using rt="oma.lwm2m". An example link payload using alternate base URI would be:
-
-
-~~~~ linkformat
-</my_lwm2m>;rt="oma.lwm2m",</my_lwm2m/1>,<my_lwm2m/1/0>,<my_lwm2m/5>
-~~~~
-
-This link payload indicates that the lwm2m objects will be placed under the base URI "/my_lwm2m" and that object ID 1 (server) is supported, with a single instance 0 existing, and object 5 (firmware update) is supported.
-
 ### LWM2M Update Endpoint Registration {#lwm2m-regupdate}
 
 An LWM2M Registration update proceeds as described in {{update}}, and adds some optional parameter updates:
@@ -1883,6 +1939,8 @@ changes from -09 to -10
 * removed all text concerning DNS-SD.
 * removed inconsistency in RDAO text.
 * suggestions taken over from various sources
+* replaced "Function Set" with "REST API", "base URI", "base path"
+* moved simple registration to registration section
 
 changes from -08 to -09
 
