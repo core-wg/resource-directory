@@ -1019,7 +1019,7 @@ The query filter selects the links to be modified or deleted, by matching the qu
 
 When the query parameters are not present in the request, the payload specifies links to be added to the target document. When the query parameters are present, the attribute names and values in the query parameters select one or more links on which to apply the PATCH operation.
 
-If no links are selected by the query parameters, the PATCH operation SHOULD not update the state of any resource, and SHOULD return a reply of "Changed".
+If no links are selected by the query parameters, the PATCH operation SHOULD NOT update the state of any resource, and SHOULD return a reply of "Changed".
 
 If an attribute name specified in the PATCH document exists in any the set of selected links, all occurrences of the attribute value in the target document MUST be updated using the value from the PATCH payload. If the attribute name is not present in any selected links, the attribute MUST be added to the links.
 
@@ -1845,10 +1845,14 @@ Each of the variables object-instance, resource-id, and
 resource-instance can be the special value "undefined" only if the
 values behind it in this sequence also are "undefined".  As a special
 case, object-instance can be "empty" (which is different from
-"undefined") if resource-id is not "undefined".  [^_TEMPLATE_TODO]
+"undefined") if resource-id is not "undefined".
+
+<!-- 
+[^_TEMPLATE_TODO]
 
 [^_TEMPLATE_TODO]: This text needs some help from an RFC 6570 expert.
-
+ -->
+ 
 base-uri := Base URI for LWM2M resources or "undefined" for default (empty) base URI
 
 object-id := OMNA (OMA Name Authority) registered object ID (0-65535)
