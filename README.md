@@ -2,7 +2,7 @@
 
 This is the working area for the Working Group internet-draft, "CoRE Resource Directory".
 
-* [Editor's copy](https://core-wg.github.io/resource-directory/)
+* [Editor's copy](https://core-wg.github.io/resource-directory/)  [![Build Status](https://travis-ci.org/core-wg/resource-directory.svg?branch=master)](https://travis-ci.org/core-wg/resource-directory)
 * [Working Group Draft](https://tools.ietf.org/html/draft-ietf-core-resource-directory)
 * [Compare Working Group Draft and Editor's copy](https://tools.ietf.org/rfcdiff?url1=https://tools.ietf.org/id/draft-ietf-core-resource-directory.txt&url2=https://core-wg.github.io/resource-directory/draft-ietf-core-resource-directory.txt)
 
