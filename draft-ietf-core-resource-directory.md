@@ -1701,11 +1701,11 @@ using the Context parameter (con) to specify the interface address:
 
 ~~~~
 Req: POST coap://[FDFD::ABCD:0]/rd
-  ?ep=lm_R2-4-015_wndw&con=coap://[FDFD::ABCD:1]
+  ?ep=lm_R2-4-015_wndw&con=coap://[FDFD::ABCD:1]&d=R2-4-015
 Payload:
-</light/left>;rt="light"; d="R2-4-015",
-</light/middle>;rt="light"; d="R2-4-015",
-</light/right>;rt="light";d="R2-4-015"
+</light/left>;rt="light",
+</light/middle>;rt="light",
+</light/right>;rt="light"
 
 Res: 2.01 Created
 Location: /rd/4521
@@ -1714,11 +1714,11 @@ Location: /rd/4521
 
 ~~~~
 Req: POST coap://[FDFD::ABCD:0]/rd
-  ?ep=lm_R2-4-015_door&con=coap://[FDFD::ABCD:2]
+  ?ep=lm_R2-4-015_door&con=coap://[FDFD::ABCD:2]&d=R2-4-015
 Payload:
-</light/left>;rt="light"; d="R2-4-015",
-</light/middle>;rt="light"; d="R2-4-015",
-</light/right>;rt="light"; d="R2-4-015"
+</light/left>;rt="light",
+</light/middle>;rt="light",
+</light/right>;rt="light"
 
 Res: 2.01 Created
 Location: /rd/4522
@@ -1727,15 +1727,15 @@ Location: /rd/4522
 
 ~~~~
 Req: POST coap://[FDFD::ABCD:0]/rd
-  ?ep=ps_R2-4-015_door&con=coap://[FDFD::ABCD:3]
+  ?ep=ps_R2-4-015_door&con=coap://[FDFD::ABCD:3]d&d=R2-4-015
 Payload:
-</ps>;rt="p-sensor"; d="R2-4-015"
+</ps>;rt="p-sensor"
 
 Res: 2.01 Created
 Location: /rd/4523
 ~~~~
 
-The domain name d="R2-4-015" has been added for an efficient lookup because
+The domain name d=R2-4-015 has been added for an efficient lookup because
 filtering on "ep" name is more awkward. The same domain name is communicated to
 the two luminaries and the presence sensor by the CT.
 
