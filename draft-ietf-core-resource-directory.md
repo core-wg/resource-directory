@@ -751,7 +751,7 @@ payload:
 
 ### Third-party registration {#third-party-registration}
 
-For some applications, even Simple Directory Discovery may be too taxing
+For some applications, even Simple Registration may be too taxing
 for certain very constrained devices, in particular if the security requirements
 become too onerous.
 
