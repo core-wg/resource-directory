@@ -1746,11 +1746,11 @@ of the presence sensor are registered as members of the group.
 
 ~~~~
 Req: POST coap://[FDFD::ABCD:0]/rd-group
-?gp=grp_R2-4-015;con="coap//[FF05::1]"
+?gp=grp_R2-4-015&con=coap://[FF05::1]
 Payload:
-<>ep=lm_R2-4-015_wndw,
-<>ep=lm_R2-4-015_door,
-<>ep=ps_R2-4-015_door
+<>;ep=lm_R2-4-015_wndw,
+<>;ep=lm_R2-4-015_door,
+<>;ep=ps_R2-4-015_door
 
 Res: 2.01 Created
 Location: /rd-group/501
