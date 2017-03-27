@@ -679,7 +679,7 @@ Location: /rd/4521
 A Resource Directory may optionally support HTTP. Here is an example of the same registration operation above, when done using HTTP.
 
 ~~~~
-Req: POST /rd?ep=node1 HTTP/1.1
+Req: POST /rd?ep=node1&con=http://[2001:db8::1:1] HTTP/1.1
 Host : example.com
 Content-Type: application/link-format
 Payload:
