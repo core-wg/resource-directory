@@ -499,15 +499,15 @@ Content-Format:
 The following response codes are defined for this interface:
 
 Success:
-: 2.05 "Content" with an
+: 2.05 "Content" or 200 "OK" with an
   application/link-format, application/link-format+json, or application/link-format+cbor payload containing one or more matching entries for the RD resource.
 
 Failure:
-: 4.04 "Not Found" is returned in case no matching entry is found for a unicast
+: 4.04 "Not Found" or 404 "Not Found" is returned in case no matching entry is found for a unicast
   request.
 
 Failure:
-: 4.00 "Bad Request" is returned in case of a malformed request for a unicast
+: 4.00 "Bad Request" or 400 "Bad Request" is returned in case of a malformed request for a unicast
   request.
 
 Failure:
