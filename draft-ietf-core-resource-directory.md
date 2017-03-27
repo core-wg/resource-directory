@@ -529,7 +529,7 @@ Req: GET coap://[ff02::1]/.well-known/core?rt=core.rd*
 Res: 2.05 Content
 </rd>;rt="core.rd";ct=40,
 </rd-lookup/ep>;rt="core.rd-lookup-ep";ct=40,
-</rd-lookup/res>;rt="core.rd-lookup-res";ct="40",
+</rd-lookup/res>;rt="core.rd-lookup-res";ct=40,
 </rd-group>;rt="core.rd-group";ct=40
 ~~~~
 
