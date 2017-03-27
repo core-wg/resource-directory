@@ -614,7 +614,7 @@ URI Template Variables:
     re-used.
 
   con :=
-  : Context (optional). This parameter sets the scheme, address and port at
+  : Context (optional). This parameter sets the scheme, address, port and path at
     which this server is available in the form scheme://host:port/path. In
     the absence of this parameter the scheme of the protocol, source address
     and source port of the register request are assumed. This parameter is
@@ -1603,7 +1603,7 @@ Initial entries in this sub-registry are as follows:
 | Lifetime      | lt    | 60-4294967295 | Lifetime of the registration in seconds                        |
 | Domain        | d     |               | Domain to which this endpoint belongs                          |
 | Endpoint Type | et    |               | Semantic name of the endpoint                                  |
-| Context       | con   | URI           | The scheme, address and port at which this server is available |
+| Context       | con   | URI           | The scheme, address and port and path at which this server is available |
 | Resource Name | res   |               | Name of the resource                             |
 | Group Name    | gp    |               | Name of a group in the RD                                      |
 | Page          | page  | Integer       | Used for pagination                                            |
