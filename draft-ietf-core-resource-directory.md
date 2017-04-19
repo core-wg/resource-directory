@@ -70,6 +70,19 @@ informative:
   RFC7390:
   RFC6775:
   RFC7230:
+  ietf-core-rd-dns-sd:
+    title: "CoRE Resource Directory: DNS-SD mapping" # rename to I-D.ietf-core-rd-dns-sd when a draft was published
+    author:
+      - ins: K. E. Lynn
+        name: Kerry Lynn
+        org: Verizon Labs
+      - ins: M. Koster
+        name: Michael Koster
+        org: SmartThings
+      - ins: P. van der Stok
+        name: Peter van der Stok
+        org: consultant
+    date: 2017-04-03
 #  RFC3629: utf8
 #  RFC5198: nvt-utf8
 #  RFC1123: hostreq
@@ -1527,6 +1540,8 @@ for use in the CoRE Link Format {{RFC6690}}:
    link-extension    = ( "exp" )
 ~~~~
 
+One possible use of these attributes is further explored in {{ietf-core-rd-dns-sd}}.
+
 ## Resource Instance attribute 'ins'
 
 The Resource Instance "ins" attribute is an
@@ -1887,6 +1902,8 @@ grp1234._group._udp.bc.example.com  IN SRV  0 0 5683
 grp1234._group._udp.bc.example.com  IN TXT
                                      txtver=1;path=/light/grp1
 ~~~~
+
+The details of the mapping are described in {{ietf-core-rd-dns-sd}}.
 
 From then on applications, not familiar with the existence of the RD, can use DNS to access the lighting group.
 
