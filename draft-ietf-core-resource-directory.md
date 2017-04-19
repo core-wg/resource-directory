@@ -499,15 +499,15 @@ Content-Format:
 The following response codes are defined for this interface:
 
 Success:
-: 2.05 "Content" with an
+: 2.05 "Content" or 200 "OK" with an
   application/link-format, application/link-format+json, or application/link-format+cbor payload containing one or more matching entries for the RD resource.
 
 Failure:
-: 4.04 "Not Found" is returned in case no matching entry is found for a unicast
+: 4.04 "Not Found" or 404 "Not Found" is returned in case no matching entry is found for a unicast
   request.
 
 Failure:
-: 4.00 "Bad Request" is returned in case of a malformed request for a unicast
+: 4.00 "Bad Request" or 400 "Bad Request" is returned in case of a malformed request for a unicast
   request.
 
 Failure:
@@ -529,7 +529,7 @@ Req: GET coap://[ff02::1]/.well-known/core?rt=core.rd*
 Res: 2.05 Content
 </rd>;rt="core.rd";ct=40,
 </rd-lookup/ep>;rt="core.rd-lookup-ep";ct=40,
-</rd-lookup/res>;rt="core.rd-lookup-res";ct="40",
+</rd-lookup/res>;rt="core.rd-lookup-res";ct=40,
 </rd-group>;rt="core.rd-group";ct=40
 ~~~~
 
@@ -614,7 +614,7 @@ URI Template Variables:
     re-used.
 
   con :=
-  : Context (optional). This parameter sets the scheme, address and port at
+  : Context (optional). This parameter sets the scheme, address, port and path at
     which this server is available in the form scheme://host:port/path. In
     the absence of this parameter the scheme of the protocol, source address
     and source port of the register request are assumed. This parameter is
@@ -679,7 +679,7 @@ Location: /rd/4521
 A Resource Directory may optionally support HTTP. Here is an example of the same registration operation above, when done using HTTP.
 
 ~~~~
-Req: POST /rd?ep=node1 HTTP/1.1
+Req: POST /rd?ep=node1&con=http://[2001:db8::1:1] HTTP/1.1
 Host : example.com
 Content-Type: application/link-format
 Payload:
@@ -751,7 +751,7 @@ payload:
 
 ### Third-party registration {#third-party-registration}
 
-For some applications, even Simple Directory Discovery may be too taxing
+For some applications, even Simple Registration may be too taxing
 for certain very constrained devices, in particular if the security requirements
 become too onerous.
 
@@ -1603,7 +1603,7 @@ Initial entries in this sub-registry are as follows:
 | Lifetime      | lt    | 60-4294967295 | Lifetime of the registration in seconds                        |
 | Domain        | d     |               | Domain to which this endpoint belongs                          |
 | Endpoint Type | et    |               | Semantic name of the endpoint                                  |
-| Context       | con   | URI           | The scheme, address and port at which this server is available |
+| Context       | con   | URI           | The scheme, address and port and path at which this server is available |
 | Resource Name | res   |               | Name of the resource                             |
 | Group Name    | gp    |               | Name of a group in the RD                                      |
 | Page          | page  | Integer       | Used for pagination                                            |
@@ -1701,11 +1701,11 @@ using the Context parameter (con) to specify the interface address:
 
 ~~~~
 Req: POST coap://[FDFD::ABCD:0]/rd
-  ?ep=lm_R2-4-015_wndw&con=coap://[FDFD::ABCD:1]
+  ?ep=lm_R2-4-015_wndw&con=coap://[FDFD::ABCD:1]&d=R2-4-015
 Payload:
-</light/left>;rt="light"; d="R2-4-015",
-</light/middle>;rt="light"; d="R2-4-015",
-</light/right>;rt="light";d="R2-4-015"
+</light/left>;rt="light",
+</light/middle>;rt="light",
+</light/right>;rt="light"
 
 Res: 2.01 Created
 Location: /rd/4521
@@ -1714,11 +1714,11 @@ Location: /rd/4521
 
 ~~~~
 Req: POST coap://[FDFD::ABCD:0]/rd
-  ?ep=lm_R2-4-015_door&con=coap://[FDFD::ABCD:2]
+  ?ep=lm_R2-4-015_door&con=coap://[FDFD::ABCD:2]&d=R2-4-015
 Payload:
-</light/left>;rt="light"; d="R2-4-015",
-</light/middle>;rt="light"; d="R2-4-015",
-</light/right>;rt="light"; d="R2-4-015"
+</light/left>;rt="light",
+</light/middle>;rt="light",
+</light/right>;rt="light"
 
 Res: 2.01 Created
 Location: /rd/4522
@@ -1727,15 +1727,15 @@ Location: /rd/4522
 
 ~~~~
 Req: POST coap://[FDFD::ABCD:0]/rd
-  ?ep=ps_R2-4-015_door&con=coap://[FDFD::ABCD:3]
+  ?ep=ps_R2-4-015_door&con=coap://[FDFD::ABCD:3]d&d=R2-4-015
 Payload:
-</ps>;rt="p-sensor"; d="R2-4-015"
+</ps>;rt="p-sensor"
 
 Res: 2.01 Created
 Location: /rd/4523
 ~~~~
 
-The domain name d="R2-4-015" has been added for an efficient lookup because
+The domain name d=R2-4-015 has been added for an efficient lookup because
 filtering on "ep" name is more awkward. The same domain name is communicated to
 the two luminaries and the presence sensor by the CT.
 
@@ -1746,11 +1746,11 @@ of the presence sensor are registered as members of the group.
 
 ~~~~
 Req: POST coap://[FDFD::ABCD:0]/rd-group
-?gp=grp_R2-4-015;con="coap//[FF05::1]"
+?gp=grp_R2-4-015&con=coap://[FF05::1]
 Payload:
-<>ep=lm_R2-4-015_wndw,
-<>ep=lm_R2-4-015_door,
-<>ep=ps_R2-4-015_door
+<>;ep=lm_R2-4-015_wndw,
+<>;ep=lm_R2-4-015_door,
+<>;ep=ps_R2-4-015_door
 
 Res: 2.01 Created
 Location: /rd-group/501
@@ -1823,7 +1823,7 @@ use the rd-group or rd-lookup interfaces.
 
 The LWM2M specification describes a set of interfaces and a resource model used between a LWM2M device and an LWM2M server. Other interfaces, proxies, and applications are currently out of scope for LWM2M.
 
-The location of the LWM2M Server and RD base URI path is provided by the LWM2M Bootstrap process, so no dynamic discovery of the RD is used. LWM2M Servers and endpoints are not required to implement the ./well-known/core resource.
+The location of the LWM2M Server and RD base URI path is provided by the LWM2M Bootstrap process, so no dynamic discovery of the RD is used. LWM2M Servers and endpoints are not required to implement the /.well-known/core resource.
 
 ### The LWM2M Object Model {#lwm2m-obj}
 
