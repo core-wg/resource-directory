@@ -1514,6 +1514,46 @@ Res: 2.05 Content
 <coap://[FDFD::123]:61616/res/9>;rt=sensor;ct=60
 ~~~~
 
+# New Link-Format Attributes {#attributes}
+
+When using the CoRE Link Format to describe resources being discovered by
+or posted to a resource directory service, additional information about those
+resources is useful. This specification defines the following new attributes
+for use in the CoRE Link Format {{RFC6690}}:
+
+~~~~ ABNF
+   link-extension    = ( "ins" "=" (ptoken | quoted-string) )
+                       ; The token or string is max 63 bytes
+   link-extension    = ( "exp" )
+~~~~
+
+## Resource Instance attribute 'ins'
+
+The Resource Instance "ins" attribute is an
+identifier for this resource, which makes it possible
+to distinguish it from other similar resources. This attribute is similar
+in use to the &lt;Instance> portion of a DNS-SD record and SHOULD be unique across resources with the same Resource Type attribute
+in the domain it is used. A Resource Instance might be a descriptive string
+like "Ceiling Light, Room 3", a short ID like "AF39" or a unique UUID or
+iNumber. This attribute is used by a Resource Directory to distinguish between
+multiple instances of the same resource type within the directory.
+
+This attribute MUST be no more than 63 bytes in length. The resource identifier
+attribute MUST NOT appear more than once in a link description.  This attribute MAY be used as a query parameter in the RD Lookup Function Set defined in Section 7.
+
+
+## Export attribute 'exp'
+
+The Export "exp" attribute is used as a flag to indicate that a link description
+MAY be exported by a resource directory to external directories.
+
+The CoRE Link Format is used for many purposes between CoAP endpoints. Some
+are useful mainly locally, for example checking the observability of a resource
+before accessing it, determining the size of a resource, or traversing dynamic
+resource structures. However, other links are very useful to be exported
+to other directories, for example the entry point resource to a functional
+service.  This attribute MAY be used as a query parameter in the RD Lookup Function Set defined in Section 7.
+
 
 # Security Considerations
 
@@ -1579,6 +1619,11 @@ attack.
 registered with the resource type registry defined by {{RFC6690}}.
 
 
+## Link Extension {#iana-link-ext}
+
+The "exp" and "ins" attributes need to be registered when a future Web Linking link-extension
+registry is created (e.g. in RFC5988bis).
+
 ## IPv6 ND Resource Directory Address Option
 
 This document registers one new ND option type under the subregistry "IPv6 Neighbor Discovery Option Formats":
@@ -1607,7 +1652,9 @@ Initial entries in this sub-registry are as follows:
 | Resource Name | res   |               | Name of the resource                             |
 | Group Name    | gp    |               | Name of a group in the RD                                      |
 | Page          | page  | Integer       | Used for pagination                                            |
-| Count         | count | Integer       | Used for pagination                                            
+| Count         | count | Integer       | Used for pagination                                            |
+| Resource Instance | ins |             | Instance Identifier
+| Export        | exp |                 | A link MAY be exported to another Resource Directory
 {: #tab-registry title='RD Parameters'}
 
 The IANA policy for future additions to the sub-registry is "Expert Review"
@@ -1746,7 +1793,7 @@ of the presence sensor are registered as members of the group.
 
 ~~~~
 Req: POST coap://[FDFD::ABCD:0]/rd-group
-?gp=grp_R2-4-015&con=coap://[FF05::1]
+?gp=grp_R2-4-015&con=coap://[FF05::1]&exp&ins=grp1234
 Payload:
 <>;ep=lm_R2-4-015_wndw,
 <>;ep=lm_R2-4-015_door,
@@ -1807,6 +1854,41 @@ Location-Path: /coap-group/1
 Dependent on the situation, only the address, "a", or the name, "n", is specified
 in the coap-group resource.
 
+
+### DNS entries {#dns-en}
+
+
+It may be profitable to discover the light groups for applications, which are unaware ot the existence of the RD. An agent needs to query the
+RD to return all groups which are exported to be inserted into DNS.
+
+
+~~~~
+   Req: GET /rd-lookup/gp?exp
+
+   Res: 2.05 Content
+   <coap://[FF05::1]/>;exp;gp="grp_R2-4-015;ins="grp1234";
+ep="lm_R2-4-015_wndw";
+ep="lm_R2-4-015_door
+
+~~~~
+
+The group with FQDN grp_R2-4-015.bc.example.com can be entered into the DNS
+by the agent. The accompanying instance name is grp1234. The &lt;ServiceType>
+is chosen to be _group._udp. The agent enters the following RRs into the
+DNS.
+
+
+~~~~
+grp_R2-4-015.bc.example.com.        IN AAAA            FF05::1
+_group._udp.bc.example.com          IN PTR
+                            grp1234._group._udp.bc.example.com
+grp1234._group._udp.bc.example.com  IN SRV  0 0 5683
+                             grp_R2-4-015_door.bc.example.com.
+grp1234._group._udp.bc.example.com  IN TXT
+                                     txtver=1;path=/light/grp1
+~~~~
+
+From then on applications, not familiar with the existence of the RD, can use DNS to access the lighting group.
 
 ## OMA Lightweight M2M (LWM2M) Example {#lwm2m-ex}
 
