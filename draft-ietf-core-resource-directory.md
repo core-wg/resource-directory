@@ -1352,19 +1352,19 @@ Method:
 : GET
 
 URI Template:
-: /{+rd-lookup-base}/{lookup-type}{?d,res,ep,gp,et,rt,page,count,resource-param}
+: /{+type-lookup-location}{?d,res,ep,gp,et,rt,page,count,resource-param}
 
 
 URI Template Variables:
-: rd-lookup-base :=
-  : RD Lookup Base URI path (mandatory). This is the base path for RD Lookup requests. The recommended value for this variable is: "rd-lookup".
-
-  lookup-type :=
-  : ("ep", "res") (mandatory), ("d","gp") (optional) This variable is used to select the
-    type of lookup to perform (endpoint, resource, domain, or group). The values are
-    recommended defaults and MAY use other values as needed.
-    The supported lookup-types SHOULD be listed in .well-known/core
-    using the specified resource types.
+: type-lookup-location :=
+  : RD Lookup URI path for a given lookup type (mandatory). The path is
+    discovered as described in {{discovery}}, and SHOULD therefore be listed by
+    the server in .well-known/core.
+    
+    The recommended values for this variable are "rd-lookup/res",
+    "rd-lookup/ep", "rd-lookup/d" and "rd/lookup/gp" for the Resource,
+    Endpoint, Domain and Group lookup types, respectively; other values MAY be
+    used.
 
   ep :=
   : Endpoint name (optional). Used for endpoint, group and resource lookups.
