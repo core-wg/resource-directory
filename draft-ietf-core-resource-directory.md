@@ -442,21 +442,21 @@ Any additional content format supported by a Resource Directory implementing thi
 specification MUST have an equivalent serialization in the application/link-format
 content format.
 
-## Base URI Discovery {#discovery}
+## URI Discovery {#discovery}
 
 Before an endpoint can make use of an RD, it must first know the RD's address
-and port, and the base URI information for its REST API. This section defines
-discovery of the RD and its base URI using the well-known interface of the
+and port, and the URI path information for its REST APIs. This section defines
+discovery of the RD and its URIs using the well-known interface of the
 CoRE Link Format {{RFC6690}}. It is however expected that RDs will also be
 discoverable via other methods depending on the deployment.
 
-Discovery of the RD base URI is performed by sending either a multicast or
+Discovery of the RD URI paths is performed by sending either a multicast or
 unicast GET request to `/.well-known/core` and including a Resource Type (rt)
 parameter {{RFC6690}} with the value "core.rd" in the query string. Likewise, a
 Resource Type parameter value of "core.rd-lookup\*" is used to discover the base 
-URI for RD Lookup operations, and "core.gp" is used to discover the base URI for RD
+URI for RD Lookup operations, and "core.gp" is used to discover the URI path for RD
 Group operations. Upon success, the response will contain a payload with
-a link format entry for each RD function discovered, indicating the base URI
+a link format entry for each RD function discovered, indicating the URI path
 of the RD function returned and the corresponding Resource Type. When performing 
 multicast discovery, the multicast IP address used will depend on the scope required
 and the multicast capabilities of the network.
@@ -587,7 +587,7 @@ URI Template:
 
 URI Template Variables:
 : rd :=
-  : RD Base URI
+  : RD URI
     path (mandatory). This is the path of
     the RD, as obtained from discovery. The value
     "rd" is recommended for this variable.
@@ -1189,7 +1189,7 @@ URI Template:
 
 URI Template Variables:
 : rd-group :=
-  : RD Group Base URI path (mandatory). This is the path of the RD Group
+  : RD Group URI path (mandatory). This is the path of the RD Group
     REST API. The value "rd-group" is recommended for this variable.
 
   gp :=
@@ -1823,7 +1823,7 @@ use the rd-group or rd-lookup interfaces.
 
 The LWM2M specification describes a set of interfaces and a resource model used between a LWM2M device and an LWM2M server. Other interfaces, proxies, and applications are currently out of scope for LWM2M.
 
-The location of the LWM2M Server and RD base URI path is provided by the LWM2M Bootstrap process, so no dynamic discovery of the RD is used. LWM2M Servers and endpoints are not required to implement the /.well-known/core resource.
+The location of the LWM2M Server and RD URI path is provided by the LWM2M Bootstrap process, so no dynamic discovery of the RD is used. LWM2M Servers and endpoints are not required to implement the /.well-known/core resource.
 
 ### The LWM2M Object Model {#lwm2m-obj}
 
