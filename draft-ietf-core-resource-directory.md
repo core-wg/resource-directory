@@ -450,11 +450,11 @@ discovery of the RD and its URIs using the well-known interface of the
 CoRE Link Format {{RFC6690}}. It is however expected that RDs will also be
 discoverable via other methods depending on the deployment.
 
-Discovery of the RD URI paths is performed by sending either a multicast or
+Discovery of the RD registration URI path is performed by sending either a multicast or
 unicast GET request to `/.well-known/core` and including a Resource Type (rt)
 parameter {{RFC6690}} with the value "core.rd" in the query string. Likewise, a
-Resource Type parameter value of "core.rd-lookup\*" is used to discover the base 
-URI for RD Lookup operations, and "core.gp" is used to discover the URI path for RD
+Resource Type parameter value of "core.rd-lookup\*" is used to discover the
+URIs for RD Lookup operations, and "core.gp" is used to discover the URI path for RD
 Group operations. Upon success, the response will contain a payload with
 a link format entry for each RD function discovered, indicating the URI path
 of the RD function returned and the corresponding Resource Type. When performing 
@@ -517,7 +517,7 @@ HTTP support :
 : YES (Unicast only)
 
 The following example shows an endpoint discovering an RD using this interface,
-thus learning that the base RD resource is, in this example, at /rd and that the
+thus learning that the RD registration resource is, in this example, at /rd, and that the
 content-format delivered by the server hosting the resource is application/link-format
 (ct=40).  Note that it is up to the RD to choose its RD resource paths.
 
@@ -541,7 +541,7 @@ Section 7.2.1 of {{RFC7252}}, indicating that multiple content-formats are avail
 The example below shows the required Content-Format 40 (application/link-format)
 indicated as well as a more application-specific content format
 (picked as 65225 in this example; this is in the experimental space, not an assigned value).
-The base RD resource values /rd, /rd-lookup, and /rd-group are example values.
+The RD resource paths /rd, /rd-lookup, and /rd-group are example values.
 This server only implements some of the interfaces described in this document.
 
 ~~~~
@@ -589,7 +589,7 @@ URI Template:
 
 URI Template Variables:
 : rd :=
-  : RD URI
+  : RD registration URI
     (mandatory). This is the location of
     the RD, as obtained from discovery.
 
@@ -1238,7 +1238,7 @@ Failure:
 HTTP support:
 : YES
 
-The following example shows an EP registering a group with the name “lights” which has two endpoints to an RD using this interface. The base location value /rd-group
+The following example shows an EP registering a group with the name “lights” which has two endpoints to an RD using this interface. The RD group path /rd-group
 is an example RD location discovered in a request similar to {{example-discovery}}.
 
 
@@ -1537,7 +1537,7 @@ included in the Registration message.
 ## Access Control
 
 Access control SHOULD be performed separately for the RD registration, Lookup, and
-group API base paths, as different endpoints may be authorized to register
+group API paths, as different endpoints may be authorized to register
 with an RD from those authorized to lookup endpoints from the RD. Such access
 control SHOULD be performed in as fine-grained a level as possible. For example
 access control for lookups could be performed either at the domain, endpoint
@@ -1879,7 +1879,7 @@ registration lifetime configured, in instance 0 of a type 1 object
 ### LWM2M Register Endpoint {#lwm2m-reg}
 
 LWM2M defines a registration interface based on the REST API, described in {{rd}}. The
-base URI path of the LWM2M Resource Directory is specified to be "/rd".
+RD registration URI path of the LWM2M Resource Directory is specified to be "/rd".
 
 LWM2M endpoints register object IDs, for example </1>, to indicate that a particular object type is supported, and register object instances, for example </1/0>, to indicate that a particular instance of that object type exists.
 
