@@ -519,9 +519,7 @@ HTTP support :
 The following example shows an endpoint discovering an RD using this interface,
 thus learning that the base RD resource is, in this example, at /rd and that the
 content-format delivered by the server hosting the resource is application/link-format
-(ct=40).  Note that it is up to the RD to choose its base RD resource, although
-diagnostics and debugging is facilitated by using the base paths specified here where
-possible.
+(ct=40).  Note that it is up to the RD to choose its RD resource paths.
 
 ~~~~
 Req: GET coap://[ff02::1]/.well-known/core?rt=core.rd*
@@ -530,8 +528,11 @@ Res: 2.05 Content
 </rd>;rt="core.rd";ct=40,
 </rd-lookup/ep>;rt="core.rd-lookup-ep";ct=40,
 </rd-lookup/res>;rt="core.rd-lookup-res";ct=40,
+</rd-lookup/gp>;rt="core.rd-lookup-gp";ct=40,
+</rd-lookup/d>;rt="core.rd-lookup-d";ct=40,
 </rd-group>;rt="core.rd-group";ct=40
 ~~~~
+{: #example-discovery title="Example discovery exchange" }
 
 The following example shows the way of indicating that a client may request
 alternate content-formats. The Content-Format code attribute "ct" MAY include a
@@ -541,6 +542,7 @@ The example below shows the required Content-Format 40 (application/link-format)
 indicated as well as a more application-specific content format
 (picked as 65225 in this example; this is in the experimental space, not an assigned value).
 The base RD resource values /rd, /rd-lookup, and /rd-group are example values.
+This server only implements some of the interfaces described in this document.
 
 ~~~~
 Req: GET coap://[ff02::1]/.well-known/core?rt=core.rd*
@@ -589,8 +591,7 @@ URI Template Variables:
 : rd :=
   : RD URI
     (mandatory). This is the location of
-    the RD, as obtained from discovery. The value
-    "rd" is recommended for this variable.
+    the RD, as obtained from discovery.
 
   ep :=
   : Endpoint name (mandatory). The endpoint name is an identifier
@@ -663,7 +664,7 @@ HTTP support:
 
 The following example shows an endpoint with the name "node1" registering
 two resources to an RD using this interface. The location "/rd"
-is an example value of an RD base location.
+is an example RD location discovered in a request similar to {{example-discovery}}.
 
 ~~~~
 Req: POST coap://rd.example.com/rd?ep=node1
@@ -1190,7 +1191,7 @@ URI Template:
 URI Template Variables:
 : rd-group :=
   : RD Group URI (mandatory). This is the location of the RD Group
-    REST API. The value "rd-group" is recommended for this variable.
+    REST API.
 
   gp :=
   : Group Name (mandatory). The name of the group to be created or replaced,
@@ -1238,7 +1239,7 @@ HTTP support:
 : YES
 
 The following example shows an EP registering a group with the name “lights” which has two endpoints to an RD using this interface. The base location value /rd-group
-is an example of an RD base location.
+is an example RD location discovered in a request similar to {{example-discovery}}.
 
 
 ~~~~
@@ -1358,13 +1359,7 @@ URI Template:
 URI Template Variables:
 : type-lookup-location :=
   : RD Lookup URI for a given lookup type (mandatory). The address is
-    discovered as described in {{discovery}}, and SHOULD therefore be listed by
-    the server in .well-known/core.
-    
-    The recommended values for this variable are "rd-lookup/res",
-    "rd-lookup/ep", "rd-lookup/d" and "rd/lookup/gp" for the Resource,
-    Endpoint, Domain and Group lookup types, respectively; other values MAY be
-    used.
+    discovered as described in {{discovery}}.
 
   ep :=
   : Endpoint name (optional). Used for endpoint, group and resource lookups.
@@ -1432,7 +1427,7 @@ HTTP support:
 
 The examples in this section assume CoAP hosts with a default CoAP port 61616. HTTP hosts are possible and do not change the nature of the examples.
 
-The following example shows a client performing a resource lookup with the example look-up location /rd-lookup/:
+The following example shows a client performing a resource lookup with the example resource look-up locations discovered in {{example-discovery}}:
 
 ~~~~
 Req: GET /rd-lookup/res?rt=temperature
@@ -1627,7 +1622,7 @@ the application code in the lights and sensors. In particular, the example
 leads to the definition of a group and the enabling of the corresponding
 multicast address. No conclusions must be drawn on the realization of actual
 installation or naming procedures, because the example only "emphasizes" some of the issues
-that may influence the use of the RD and does not pretend to be normative. The example uses the recommended values for the base resources: "/rd", "/rd-lookup", and "/rd-group".
+that may influence the use of the RD and does not pretend to be normative.
 
 ### Installation Characteristics {#lt-in-ch}
 
@@ -1694,6 +1689,9 @@ relevant to the Resource Directory are shown in {{endpoint}} below:
 | luminary2 | lm_R2-4-015_door  | /light/right  |  light  |
 | Presence sensor | ps_R2-4-015_door  | /ps  |  p-sensor  |
 {: #endpoint title='Resource Directory identifiers'}
+
+It is assumed that the CT knows of the RD's address, and has performed URI
+discovery on it that gave a response like the one in the {{discovery}} example.
 
 The CT inserts the endpoints of the luminaries and the sensor in the RD
 using the Context parameter (con) to specify the interface address:
@@ -1881,7 +1879,7 @@ registration lifetime configured, in instance 0 of a type 1 object
 ### LWM2M Register Endpoint {#lwm2m-reg}
 
 LWM2M defines a registration interface based on the REST API, described in {{rd}}. The
-base URI path of the LWM2M Resource Directory is specified to be "/rd" as recommended in {{registration}}.
+base URI path of the LWM2M Resource Directory is specified to be "/rd".
 
 LWM2M endpoints register object IDs, for example </1>, to indicate that a particular object type is supported, and register object instances, for example </1/0>, to indicate that a particular instance of that object type exists.
 
