@@ -582,13 +582,13 @@ Method:
 
 
 URI Template:
-: /{+rd}{?ep,d,et,lt,con}
+: {+rd}{?ep,d,et,lt,con}
 
 
 URI Template Variables:
 : rd :=
   : RD URI
-    path (mandatory). This is the path of
+    (mandatory). This is the location of
     the RD, as obtained from discovery. The value
     "rd" is recommended for this variable.
 
@@ -819,12 +819,12 @@ Method:
 : POST
 
 URI Template:
-: /{+location}{?lt,con}
+: {+location}{?lt,con}
 
 
 URI Template Variables:
 : location :=
-  : This is the Location path returned by the RD as a result of a successful
+  : This is the Location returned by the RD as a result of a successful
     earlier registration.
 
   lt :=
@@ -918,11 +918,11 @@ Method:
 : DELETE
 
 URI Template:
-: /{+location}
+: {+location}
 
 URI Template Variables:
 : location :=
-  : This is the Location path returned by the RD as a result of a successful
+  : This is the Location returned by the RD as a result of a successful
     earlier registration.
 
 The following responses codes are defined for this interface:
@@ -968,11 +968,11 @@ Method:
 : GET
 
 URI Template:
-: /{+location}{?href,rel,rt,if,ct}
+: {+location}{?href,rel,rt,if,ct}
 
 URI Template Variables:
 : location :=
-  : This is the Location path returned by the RD as a result of a successful
+  : This is the Location returned by the RD as a result of a successful
     earlier registration.
 
 : href,rel,rt,if,ct := link relations and attributes specified in the query in order to select particular links based on their relations and attributes. "href" denotes the URI target of the link. See {{RFC6690}} Sec. 4.1
@@ -1036,11 +1036,11 @@ Method:
 : PATCH
 
 URI Template:
-: /{+location}{?href,rel,rt,if,ct}
+: {+location}{?href,rel,rt,if,ct}
 
 URI Template Variables:
 : location :=
-  : This is the Location path returned by the RD as a result of a successful
+  : This is the Location returned by the RD as a result of a successful
     earlier registration.
 
 : href,rel,rt,if,ct := link relations and attributes specified in the query in order to select particular links based on their relations and attributes. "href" denotes the URI target of the link. See {{RFC6690}} Sec. 4.1
@@ -1185,11 +1185,11 @@ Method:
 : POST
 
 URI Template:
-: /{+rd-group}{?gp,d,con}
+: {+rd-group}{?gp,d,con}
 
 URI Template Variables:
 : rd-group :=
-  : RD Group URI path (mandatory). This is the path of the RD Group
+  : RD Group URI (mandatory). This is the location of the RD Group
     REST API. The value "rd-group" is recommended for this variable.
 
   gp :=
@@ -1266,12 +1266,12 @@ Method:
 : DELETE
 
 URI Template:
-: /{+location}
+: {+location}
 
 
 URI Template Variables:
 : location :=
-  : This is the Location path returned by the RD as a result of a successful
+  : This is the Location returned by the RD as a result of a successful
     group registration.
 
 The following responses codes are defined for this interface:
@@ -1352,12 +1352,12 @@ Method:
 : GET
 
 URI Template:
-: /{+type-lookup-location}{?d,res,ep,gp,et,rt,page,count,resource-param}
+: {+type-lookup-location}{?d,res,ep,gp,et,rt,page,count,resource-param}
 
 
 URI Template Variables:
 : type-lookup-location :=
-  : RD Lookup URI path for a given lookup type (mandatory). The path is
+  : RD Lookup URI for a given lookup type (mandatory). The address is
     discovered as described in {{discovery}}, and SHOULD therefore be listed by
     the server in .well-known/core.
     
