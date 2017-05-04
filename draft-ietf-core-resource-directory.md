@@ -54,6 +54,15 @@ author:
   phone: "+31-492474673 (Netherlands), +33-966015248 (France)"
   email: consultancy@vanderstok.org
   uri: www.vanderstok.org
+- ins: C. Amsüss
+  name: Christian Amsüss
+  organization: Energy Harvesting Solutions
+  street: Hollandstr. 12/4
+  code: '1020'
+  country: Austria
+  phone: "+43-664-9790639"
+  email: c.amsuess@energyharvesting.at
+  role: editor
 normative:
   RFC6690:
   RFC2119:
