@@ -83,6 +83,7 @@ informative:
 #  RFC5198: nvt-utf8
 #  RFC1123: hostreq
 #  RFC1034: dns1
+  RFC7641:
 
 --- abstract
 
@@ -1351,6 +1352,12 @@ The page and count parameters are used to obtain lookup results in specified inc
 Multiple query parameters MAY be included in a lookup, all included parameters MUST match for a resource to be returned.  The character'\*' MAY be included at the end of a parameter value as a wildcard operator.
 
 RD Lookup requests MAY use any set of query parameters to match the registered attributes and relations.  In addition, this interface MAY be used with queries that specify domains, endpoints, and groups.  For example, a domain lookup filtering on groups would return a list of domains that contain the specified groups.  An endpoint lookup filtering on groups would return a list of endpoints that are in the specified groups.
+
+Clients that are interested in a lookup result repeatedly or continuously can use
+mechanisms like ETag caching, resource observation ({{RFC7641}}),
+or any future mechanism that might allow more efficient observations of collections.
+These are advertised, detected and used according to their own specifications
+and can be used with the lookup interface as with any other resource.
 
 The lookup interface is specified as follows:
 
