@@ -38,9 +38,9 @@
 
     ],
     "milestone": null,
-    "comments": 1,
+    "comments": 3,
     "created_at": "2017-05-05T14:01:18Z",
-    "updated_at": "2017-05-08T07:10:57Z",
+    "updated_at": "2017-05-10T07:18:49Z",
     "closed_at": null,
     "body": "We are not clear on how to use \"res\"in a lookup query.\r\n\r\nFor example, what does xx represent in this query? \r\n\r\n    GET /example/rd-lookup-gp?res=xx\r\n\r\nI couldn't find text to explain. Is it expected to be the address of a resource, like href or anchor+href ? "
   },
@@ -83,9 +83,9 @@
 
     ],
     "milestone": null,
-    "comments": 1,
+    "comments": 4,
     "created_at": "2017-05-05T13:53:19Z",
-    "updated_at": "2017-05-08T07:36:55Z",
+    "updated_at": "2017-05-09T10:35:20Z",
     "closed_at": null,
     "body": "The text in section 7 says lookup is optional but the table in section 7 lists two mandatory lookup resource types. I can't find text to explain the difference."
   },
@@ -121,17 +121,17 @@
     "labels": [
 
     ],
-    "state": "open",
+    "state": "closed",
     "locked": false,
     "assignee": null,
     "assignees": [
 
     ],
     "milestone": null,
-    "comments": 0,
+    "comments": 1,
     "created_at": "2017-04-20T13:51:16Z",
-    "updated_at": "2017-04-20T13:51:16Z",
-    "closed_at": null,
+    "updated_at": "2017-05-09T10:53:41Z",
+    "closed_at": "2017-05-09T10:52:35Z",
     "pull_request": {
       "url": "https://api.github.com/repos/core-wg/resource-directory/pulls/14",
       "html_url": "https://github.com/core-wg/resource-directory/pull/14",
@@ -259,7 +259,7 @@
     "labels": [
 
     ],
-    "state": "open",
+    "state": "closed",
     "locked": false,
     "assignee": {
       "login": "chrysn",
@@ -302,10 +302,10 @@
       }
     ],
     "milestone": null,
-    "comments": 4,
+    "comments": 5,
     "created_at": "2017-04-19T13:52:05Z",
-    "updated_at": "2017-04-20T18:51:52Z",
-    "closed_at": null,
+    "updated_at": "2017-05-09T10:59:53Z",
+    "closed_at": "2017-05-09T10:59:07Z",
     "pull_request": {
       "url": "https://api.github.com/repos/core-wg/resource-directory/pulls/12",
       "html_url": "https://github.com/core-wg/resource-directory/pull/12",
@@ -599,7 +599,7 @@
         "default": false
       }
     ],
-    "state": "open",
+    "state": "closed",
     "locked": false,
     "assignee": null,
     "assignees": [
@@ -608,8 +608,8 @@
     "milestone": null,
     "comments": 2,
     "created_at": "2017-03-30T13:05:15Z",
-    "updated_at": "2017-05-03T13:46:05Z",
-    "closed_at": null,
+    "updated_at": "2017-05-09T10:52:35Z",
+    "closed_at": "2017-05-09T10:52:35Z",
     "body": "It would be good to provide a way for clients to receive notifications upon updates of an RD. "
   },
   {
@@ -920,7 +920,7 @@
         "default": false
       }
     ],
-    "state": "open",
+    "state": "closed",
     "locked": false,
     "assignee": {
       "login": "chrysn",
@@ -965,8 +965,8 @@
     "milestone": null,
     "comments": 2,
     "created_at": "2017-03-27T15:25:34Z",
-    "updated_at": "2017-05-03T13:57:48Z",
-    "closed_at": null,
+    "updated_at": "2017-05-09T10:36:39Z",
+    "closed_at": "2017-05-09T10:36:39Z",
     "body": "There has been confusion about the semantics of an absent `con=` in the presence of transient ports ([1](https://mailarchive.ietf.org/arch/msg/core/YmfB5VB1uZBrQlZhupgSuw4DXAg) first paragraphs, 5.3 HTTP example).\r\n\r\nProposed solution: more explicit wording about con= being practically required when transient ports are used."
   },
   {
