@@ -73,6 +73,7 @@ normative:
   RFC6570:
 #  RFC6763: dnssd
   RFC7396:
+  RFC8132:
   I-D.ietf-core-links-json:
 informative:
   RFC7252:
@@ -785,7 +786,7 @@ A Resource Directory SHOULD reject a registration, or an operation on a registra
 
 After the initial registration, an endpoint should retain the returned location of the Registration Resource for further operations, including refreshing the registration in order to extend the lifetime and "keep-alive" the registration. If the lifetime of the registration expires, the RD SHOULD NOT respond to discovery queries with information from the endpoint. The RD SHOULD continue to provide access to the Registration Resource after a registration time-out occurs in order to enable the registering endpoint to eventually refresh the registration. The RD MAY eventually remove the registration resource for the purpose of resource recovery and garbage collection. If the Registration Resource is removed, the endpoint will need to re-register.
 
-The Registration Resource may also be used to inspect the registration resource using GET, update the registration link contents using PATCH, or cancel the registration using DELETE. 
+The Registration Resource may also be used to inspect the registration resource using GET, update the registration link contents using PATCH (as introduced in {{RFC8132}}), or cancel the registration using DELETE. 
 
 These operations are described in this section.
 
