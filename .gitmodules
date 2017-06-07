@@ -1,3 +1,4 @@
 [submodule "lib"]
 	path = lib
+	branch = new_index
 	url = https://github.com/martinthomson/i-d-template
