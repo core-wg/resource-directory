@@ -735,7 +735,7 @@ The following example shows an endpoint using simple publishing,
 by simply sending an empty POST to a resource directory.
 
 ~~~~
-Req:(to RD server from [ff02::1])
+Req:(to RD server from [2001:db8::2:1])
 POST coap://rd.example.com/.well-known/core?lt=6000;ep=node1
 
 Content-Format: 40
@@ -748,8 +748,8 @@ Res: 2.04 Changed
 
 (later)
 
-Req: (from RD server to [ff02::1])
-GET coap://[ff02::1]/.well-known/core
+Req: (from RD server to [2001:db8::2:1])
+GET coap://[2001:db8::2:1]/.well-known/core
 
 Accept: 40
 
@@ -1450,7 +1450,7 @@ The following example shows a client performing a resource lookup with the examp
 Req: GET /rd-lookup/res?rt=temperature
 
 Res: 2.05 Content
-<coap://[FDFD::123]:61616/temp>;rt="temperature"
+<coap://[2001:db8::3:123]:61616/temp>;rt="temperature"
 ~~~~
 
 The following example shows a client performing an endpoint type lookup:
@@ -1459,8 +1459,8 @@ The following example shows a client performing an endpoint type lookup:
 Req: GET /rd-lookup/ep?et=power-node
 
 Res: 2.05 Content
-<coap://[FDFD::127]:61616>;ep="node5",
-<coap://[FDFD::129]:61616>;ep="node7"
+<coap://[2001:db8::3:127]:61616>;ep="node5",
+<coap://[2001:db8::3:129]:61616>;ep="node7"
 ~~~~
 
 The following example shows a client performing a domain lookup:
@@ -1490,8 +1490,8 @@ in a particular group:
 Req: GET /rd-lookup/ep?gp=lights1
 
 Res: 2.05 Content
-<coap://[FDFD::123]:61616>;ep="node1",
-<coap://[FDFD::124]:61616>;ep="node2"
+<coap://[2001:db8::3:123]:61616>;ep="node1",
+<coap://[2001:db8::3:124]:61616>;ep="node2"
 ~~~~
 
 The following example shows a client performing a lookup for all groups an
@@ -1510,20 +1510,20 @@ The following example shows a client performing a paginated lookup
 Req: GET /rd-lookup/res?page=0&count=5
 
 Res: 2.05 Content
-<coap://[FDFD::123]:61616/res/0>;rt=sensor;ct=60
-<coap://[FDFD::123]:61616/res/1>;rt=sensor;ct=60
-<coap://[FDFD::123]:61616/res/2>;rt=sensor;ct=60
-<coap://[FDFD::123]:61616/res/3>;rt=sensor;ct=60
-<coap://[FDFD::123]:61616/res/4>;rt=sensor;ct=60
+<coap://[2001:db8::3:123]:61616/res/0>;rt=sensor;ct=60
+<coap://[2001:db8::3:123]:61616/res/1>;rt=sensor;ct=60
+<coap://[2001:db8::3:123]:61616/res/2>;rt=sensor;ct=60
+<coap://[2001:db8::3:123]:61616/res/3>;rt=sensor;ct=60
+<coap://[2001:db8::3:123]:61616/res/4>;rt=sensor;ct=60
 
 Req: GET /rd-lookup/res?page=1&count=5
 
 Res: 2.05 Content
-<coap://[FDFD::123]:61616/res/5>;rt=sensor;ct=60
-<coap://[FDFD::123]:61616/res/6>;rt=sensor;ct=60
-<coap://[FDFD::123]:61616/res/7>;rt=sensor;ct=60
-<coap://[FDFD::123]:61616/res/8>;rt=sensor;ct=60
-<coap://[FDFD::123]:61616/res/9>;rt=sensor;ct=60
+<coap://[2001:db8::3:123]:61616/res/5>;rt=sensor;ct=60
+<coap://[2001:db8::3:123]:61616/res/6>;rt=sensor;ct=60
+<coap://[2001:db8::3:123]:61616/res/7>;rt=sensor;ct=60
+<coap://[2001:db8::3:123]:61616/res/8>;rt=sensor;ct=60
+<coap://[2001:db8::3:123]:61616/res/9>;rt=sensor;ct=60
 ~~~~
 
 
@@ -1672,10 +1672,10 @@ connected to the DNS infra structure. Therefore, SLAAC IPv6 addresses are
 assigned to CT, RD, luminaries and sensor shown in {{interface-S}} below:
 
 | Name | IPv6 address |
-| luminary1 | FDFD::ABCD:1 |
-| luminary2 | FDFD::ABCD:2 |
-| Presence sensor | FDFD::ABCD:3 |
-| Resource directory | FDFD::ABCD:0 |
+| luminary1 | 2001:db8::4:1 |
+| luminary2 | 2001:db8::4:2 |
+| Presence sensor | 2001:db8::4:3 |
+| Resource directory | 2001:db8::4:0 |
 {: #interface-S title='interface SLAAC addresses'}
 
 In {{rd-en}} the use of resource directory during installation is
@@ -1715,8 +1715,8 @@ using the Context parameter (con) to specify the interface address:
 
 
 ~~~~
-Req: POST coap://[FDFD::ABCD:0]/rd
-  ?ep=lm_R2-4-015_wndw&con=coap://[FDFD::ABCD:1]&d=R2-4-015
+Req: POST coap://[2001:db8::4:0]/rd
+  ?ep=lm_R2-4-015_wndw&con=coap://[2001:db8::4:1]&d=R2-4-015
 Payload:
 </light/left>;rt="light",
 </light/middle>;rt="light",
@@ -1728,8 +1728,8 @@ Location: /rd/4521
 
 
 ~~~~
-Req: POST coap://[FDFD::ABCD:0]/rd
-  ?ep=lm_R2-4-015_door&con=coap://[FDFD::ABCD:2]&d=R2-4-015
+Req: POST coap://[2001:db8::4:0]/rd
+  ?ep=lm_R2-4-015_door&con=coap://[2001:db8::4:2]&d=R2-4-015
 Payload:
 </light/left>;rt="light",
 </light/middle>;rt="light",
@@ -1741,8 +1741,8 @@ Location: /rd/4522
 
 
 ~~~~
-Req: POST coap://[FDFD::ABCD:0]/rd
-  ?ep=ps_R2-4-015_door&con=coap://[FDFD::ABCD:3]d&d=R2-4-015
+Req: POST coap://[2001:db8::4:0]/rd
+  ?ep=ps_R2-4-015_door&con=coap://[2001:db8::4:3]d&d=R2-4-015
 Payload:
 </ps>;rt="p-sensor"
 
@@ -1760,8 +1760,8 @@ In the POST in the example below, these two endpoints and the endpoint
 of the presence sensor are registered as members of the group.
 
 ~~~~
-Req: POST coap://[FDFD::ABCD:0]/rd-group
-?gp=grp_R2-4-015&con=coap://[FF05::1]
+Req: POST coap://[2001:db8::4:0]/rd-group
+?gp=grp_R2-4-015&con=coap://[ff05::1]
 Payload:
 <>;ep=lm_R2-4-015_wndw,
 <>;ep=lm_R2-4-015_door,
@@ -1780,13 +1780,13 @@ and d=R2-4-015. The RD returns all endpoints in the domain.
 
 
 ~~~~
-Req: GET coap://[FDFD::ABCD:0]/rd-lookup/ep
+Req: GET coap://[2001:db8::4:0]/rd-lookup/ep
   ?d=R2-4-015;rt=light
 
 Res: 2.05 Content
-<coap://[FDFD::ABCD:1]>;
+<coap://[2001:db8::4:1]>;
   ep="lm_R2-4-015_wndw",
-<coap://[FDFD::ABCD:2]>;
+<coap://[2001:db8::4:2]>;
    ep="lm_R2-4-015_door"
 ~~~~
 
@@ -1796,11 +1796,11 @@ endpoint belongs.
 
 
 ~~~~
-Req: GET coap://[FDFD::ABCD:0]/rd-lookup/gp
+Req: GET coap://[2001:db8::4:0]/rd-lookup/gp
   ?ep=lm_R2-4-015_wndw
 
 Res: 2.05 Content
-<coap://[FF05::1]>;gp="grp_R2-4-015"
+<coap://[ff05::1]>;gp="grp_R2-4-015"
 ~~~~
 
 From the context parameter value, the luminary learns the multicast address
@@ -1810,9 +1810,9 @@ Alternatively, the CT can communicate the multicast address directly to the
 luminaries by using the "coap-group" resource specified in {{RFC7390}}.
 
 ~~~~
-Req: POST //[FDFD::ABCD:1]/coap-group
+Req: POST //[2001:db8::4:1]/coap-group
           Content-Format: application/coap-group+json
-       { "a": "[FF05::1]",
+       { "a": "[ff05::1]",
           "n": "grp_R2-4-015"}
 
 Res: 2.01 Created
