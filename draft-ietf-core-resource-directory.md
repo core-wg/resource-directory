@@ -191,6 +191,30 @@ RDAO
 
 # Architecture and Use Cases {#arch}
 
+## Principles
+
+The Resource Directory is primarily a tool that enables discovery operations
+that are already present for CoRE devices to happen more efficiently, or across
+boundaries that would be limiting those operations.
+
+It provides a cache (in the high-level sense, not as defined in
+{{RFC7252}}/{{?RFC2616}}) of data that could otherwise only be obtained by
+directly querying the link-format resources on the target device, or by
+accessing those resources with a multicast request.
+
+From that, it follows that no information should be stored in the resource
+directory that can not be discovered from querying the described device's
+link-format resources directly.
+
+It also follows that data in the resource directory can only be provided by the
+device whose descriptions are cached. (Commissioning tools are an exception
+here because they are thought to act on behalf agents too constrained to
+present that information themselves). No other client can modify data in the
+resource directory or even expect those changes to propagate back to its
+source.
+
+## Architecture
+
 The resource directory architecture is illustrated in {{fig-arch}}. A
 Resource Directory (RD) is used as a repository for Web Links {{RFC5988}}
 about resources hosted on other web servers, which are called endpoints
