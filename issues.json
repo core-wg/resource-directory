@@ -1,5 +1,593 @@
 [
   {
+    "url": "https://api.github.com/repos/core-wg/resource-directory/issues/26",
+    "repository_url": "https://api.github.com/repos/core-wg/resource-directory",
+    "labels_url": "https://api.github.com/repos/core-wg/resource-directory/issues/26/labels{/name}",
+    "comments_url": "https://api.github.com/repos/core-wg/resource-directory/issues/26/comments",
+    "events_url": "https://api.github.com/repos/core-wg/resource-directory/issues/26/events",
+    "html_url": "https://github.com/core-wg/resource-directory/pull/26",
+    "id": 240027189,
+    "number": 26,
+    "title": "Add a \"Principles\" section",
+    "user": {
+      "login": "chrysn",
+      "id": 442326,
+      "avatar_url": "https://avatars1.githubusercontent.com/u/442326?v=3",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/chrysn",
+      "html_url": "https://github.com/chrysn",
+      "followers_url": "https://api.github.com/users/chrysn/followers",
+      "following_url": "https://api.github.com/users/chrysn/following{/other_user}",
+      "gists_url": "https://api.github.com/users/chrysn/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/chrysn/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/chrysn/subscriptions",
+      "organizations_url": "https://api.github.com/users/chrysn/orgs",
+      "repos_url": "https://api.github.com/users/chrysn/repos",
+      "events_url": "https://api.github.com/users/chrysn/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/chrysn/received_events",
+      "type": "User",
+      "site_admin": false
+    },
+    "labels": [
+
+    ],
+    "state": "open",
+    "locked": false,
+    "assignee": null,
+    "assignees": [
+
+    ],
+    "milestone": null,
+    "comments": 2,
+    "created_at": "2017-07-02T18:43:22Z",
+    "updated_at": "2017-07-03T10:39:27Z",
+    "closed_at": null,
+    "pull_request": {
+      "url": "https://api.github.com/repos/core-wg/resource-directory/pulls/26",
+      "html_url": "https://github.com/core-wg/resource-directory/pull/26",
+      "diff_url": "https://github.com/core-wg/resource-directory/pull/26.diff",
+      "patch_url": "https://github.com/core-wg/resource-directory/pull/26.patch"
+    },
+    "body": "Contributes-To: https://github.com/core-wg/resource-directory/issues/24"
+  },
+  {
+    "url": "https://api.github.com/repos/core-wg/resource-directory/issues/25",
+    "repository_url": "https://api.github.com/repos/core-wg/resource-directory",
+    "labels_url": "https://api.github.com/repos/core-wg/resource-directory/issues/25/labels{/name}",
+    "comments_url": "https://api.github.com/repos/core-wg/resource-directory/issues/25/comments",
+    "events_url": "https://api.github.com/repos/core-wg/resource-directory/issues/25/events",
+    "html_url": "https://github.com/core-wg/resource-directory/issues/25",
+    "id": 234378074,
+    "number": 25,
+    "title": "Types of statements in the RD",
+    "user": {
+      "login": "chrysn",
+      "id": 442326,
+      "avatar_url": "https://avatars1.githubusercontent.com/u/442326?v=3",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/chrysn",
+      "html_url": "https://github.com/chrysn",
+      "followers_url": "https://api.github.com/users/chrysn/followers",
+      "following_url": "https://api.github.com/users/chrysn/following{/other_user}",
+      "gists_url": "https://api.github.com/users/chrysn/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/chrysn/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/chrysn/subscriptions",
+      "organizations_url": "https://api.github.com/users/chrysn/orgs",
+      "repos_url": "https://api.github.com/users/chrysn/repos",
+      "events_url": "https://api.github.com/users/chrysn/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/chrysn/received_events",
+      "type": "User",
+      "site_admin": false
+    },
+    "labels": [
+
+    ],
+    "state": "open",
+    "locked": false,
+    "assignee": null,
+    "assignees": [
+
+    ],
+    "milestone": {
+      "url": "https://api.github.com/repos/core-wg/resource-directory/milestones/1",
+      "html_url": "https://github.com/core-wg/resource-directory/milestone/1",
+      "labels_url": "https://api.github.com/repos/core-wg/resource-directory/milestones/1/labels",
+      "id": 2556507,
+      "number": 1,
+      "title": "-11",
+      "description": "Draft version to be submitted before IETF99",
+      "creator": {
+        "login": "chrysn",
+        "id": 442326,
+        "avatar_url": "https://avatars1.githubusercontent.com/u/442326?v=3",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/chrysn",
+        "html_url": "https://github.com/chrysn",
+        "followers_url": "https://api.github.com/users/chrysn/followers",
+        "following_url": "https://api.github.com/users/chrysn/following{/other_user}",
+        "gists_url": "https://api.github.com/users/chrysn/gists{/gist_id}",
+        "starred_url": "https://api.github.com/users/chrysn/starred{/owner}{/repo}",
+        "subscriptions_url": "https://api.github.com/users/chrysn/subscriptions",
+        "organizations_url": "https://api.github.com/users/chrysn/orgs",
+        "repos_url": "https://api.github.com/users/chrysn/repos",
+        "events_url": "https://api.github.com/users/chrysn/events{/privacy}",
+        "received_events_url": "https://api.github.com/users/chrysn/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "open_issues": 2,
+      "closed_issues": 1,
+      "state": "open",
+      "created_at": "2017-06-01T15:54:53Z",
+      "updated_at": "2017-07-03T10:04:47Z",
+      "due_on": "2017-07-03T07:00:00Z",
+      "closed_at": null
+    },
+    "comments": 1,
+    "created_at": "2017-06-08T00:19:24Z",
+    "updated_at": "2017-07-02T18:47:10Z",
+    "closed_at": null,
+    "body": "The lookup interfaces imply that there are four kinds of statements that can be queried from an RD:\r\n\r\n* res lookup `</X>;ep=y;attr=z[;rel=a][;anchor=</B>]`: There exists a resource /X relative to each address of endpoint y, which as attributes z. It is related to the endpoint or (if given) /B with a relationship a (defaulting to \"hosts\").\r\n* ep lookup: There exists a host with some attributes (endpoint name, endpoint type) that is registered to the RD. It is a member of domains and groups as specified in arguments.\r\n* domain lookup: There exists a domain of a given name in the RD.\r\n* group lookup: There exists a group of a given name in the RD inside a particular domain.\r\n\r\nAre those the types of information obtainable from an RD? The text should be explicit about the semantics of what can be put in and learned from the RD, and not imply it by the way the lookup interfaces are described."
+  },
+  {
+    "url": "https://api.github.com/repos/core-wg/resource-directory/issues/24",
+    "repository_url": "https://api.github.com/repos/core-wg/resource-directory",
+    "labels_url": "https://api.github.com/repos/core-wg/resource-directory/issues/24/labels{/name}",
+    "comments_url": "https://api.github.com/repos/core-wg/resource-directory/issues/24/comments",
+    "events_url": "https://api.github.com/repos/core-wg/resource-directory/issues/24/events",
+    "html_url": "https://github.com/core-wg/resource-directory/issues/24",
+    "id": 234375808,
+    "number": 24,
+    "title": "Principles",
+    "user": {
+      "login": "chrysn",
+      "id": 442326,
+      "avatar_url": "https://avatars1.githubusercontent.com/u/442326?v=3",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/chrysn",
+      "html_url": "https://github.com/chrysn",
+      "followers_url": "https://api.github.com/users/chrysn/followers",
+      "following_url": "https://api.github.com/users/chrysn/following{/other_user}",
+      "gists_url": "https://api.github.com/users/chrysn/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/chrysn/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/chrysn/subscriptions",
+      "organizations_url": "https://api.github.com/users/chrysn/orgs",
+      "repos_url": "https://api.github.com/users/chrysn/repos",
+      "events_url": "https://api.github.com/users/chrysn/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/chrysn/received_events",
+      "type": "User",
+      "site_admin": false
+    },
+    "labels": [
+
+    ],
+    "state": "closed",
+    "locked": false,
+    "assignee": null,
+    "assignees": [
+
+    ],
+    "milestone": {
+      "url": "https://api.github.com/repos/core-wg/resource-directory/milestones/1",
+      "html_url": "https://github.com/core-wg/resource-directory/milestone/1",
+      "labels_url": "https://api.github.com/repos/core-wg/resource-directory/milestones/1/labels",
+      "id": 2556507,
+      "number": 1,
+      "title": "-11",
+      "description": "Draft version to be submitted before IETF99",
+      "creator": {
+        "login": "chrysn",
+        "id": 442326,
+        "avatar_url": "https://avatars1.githubusercontent.com/u/442326?v=3",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/chrysn",
+        "html_url": "https://github.com/chrysn",
+        "followers_url": "https://api.github.com/users/chrysn/followers",
+        "following_url": "https://api.github.com/users/chrysn/following{/other_user}",
+        "gists_url": "https://api.github.com/users/chrysn/gists{/gist_id}",
+        "starred_url": "https://api.github.com/users/chrysn/starred{/owner}{/repo}",
+        "subscriptions_url": "https://api.github.com/users/chrysn/subscriptions",
+        "organizations_url": "https://api.github.com/users/chrysn/orgs",
+        "repos_url": "https://api.github.com/users/chrysn/repos",
+        "events_url": "https://api.github.com/users/chrysn/events{/privacy}",
+        "received_events_url": "https://api.github.com/users/chrysn/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "open_issues": 2,
+      "closed_issues": 1,
+      "state": "open",
+      "created_at": "2017-06-01T15:54:53Z",
+      "updated_at": "2017-07-03T10:04:47Z",
+      "due_on": "2017-07-03T07:00:00Z",
+      "closed_at": null
+    },
+    "comments": 2,
+    "created_at": "2017-06-08T00:02:30Z",
+    "updated_at": "2017-07-03T10:04:47Z",
+    "closed_at": "2017-07-03T10:04:47Z",
+    "body": "If we agree on some basic principles RD should follow, we can phrase them into a text that both guides other decisions in the RD design and can help implementers understand the basic ideas.\r\n\r\nAs I understand, those can be\r\n\r\n* Statements obtained from the RD should stem from statements that can be found on the origin device (on .well-known/core or other ct=40 resources linked by it).\r\n\r\n  As of -10, this is compatible but not enforced in resource links, and absent in statements about the whole device (where registration query parameters ep, et and d are exposed as resource attributes in the endpoint lookup)\r\n\r\n  I'd treat commissioning tools that store information on behalf of the too-constrained origin node as an exception here. Another possible exception is the RD (or something interacting with it) making more statements true, eg. by registering the nodes's address in the DNS and thus making a resolvable (and possibly more stable) name available for use in con.\r\n\r\n* An RD registration can only be updated using the registration resource (which typically only the origin device knows).\r\n\r\n  If some entity (eg. a DNS-SD bridge) wants to update a resource's description (eg. change an instance name or rename an endpoint), they have to find (possibly through the RD) if and where the origin server allows such modification, and put the changes there.\r\n\r\nAre those agreeable principles, and what else belongs in that category?"
+  },
+  {
+    "url": "https://api.github.com/repos/core-wg/resource-directory/issues/23",
+    "repository_url": "https://api.github.com/repos/core-wg/resource-directory",
+    "labels_url": "https://api.github.com/repos/core-wg/resource-directory/issues/23/labels{/name}",
+    "comments_url": "https://api.github.com/repos/core-wg/resource-directory/issues/23/comments",
+    "events_url": "https://api.github.com/repos/core-wg/resource-directory/issues/23/events",
+    "html_url": "https://github.com/core-wg/resource-directory/pull/23",
+    "id": 234357022,
+    "number": 23,
+    "title": "Example addresses",
+    "user": {
+      "login": "chrysn",
+      "id": 442326,
+      "avatar_url": "https://avatars1.githubusercontent.com/u/442326?v=3",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/chrysn",
+      "html_url": "https://github.com/chrysn",
+      "followers_url": "https://api.github.com/users/chrysn/followers",
+      "following_url": "https://api.github.com/users/chrysn/following{/other_user}",
+      "gists_url": "https://api.github.com/users/chrysn/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/chrysn/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/chrysn/subscriptions",
+      "organizations_url": "https://api.github.com/users/chrysn/orgs",
+      "repos_url": "https://api.github.com/users/chrysn/repos",
+      "events_url": "https://api.github.com/users/chrysn/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/chrysn/received_events",
+      "type": "User",
+      "site_admin": false
+    },
+    "labels": [
+
+    ],
+    "state": "open",
+    "locked": false,
+    "assignee": null,
+    "assignees": [
+
+    ],
+    "milestone": null,
+    "comments": 0,
+    "created_at": "2017-06-07T22:06:34Z",
+    "updated_at": "2017-06-07T22:30:33Z",
+    "closed_at": null,
+    "pull_request": {
+      "url": "https://api.github.com/repos/core-wg/resource-directory/pulls/23",
+      "html_url": "https://github.com/core-wg/resource-directory/pull/23",
+      "diff_url": "https://github.com/core-wg/resource-directory/pull/23.diff",
+      "patch_url": "https://github.com/core-wg/resource-directory/pull/23.patch"
+    },
+    "body": "Proposed fix for #5"
+  },
+  {
+    "url": "https://api.github.com/repos/core-wg/resource-directory/issues/22",
+    "repository_url": "https://api.github.com/repos/core-wg/resource-directory",
+    "labels_url": "https://api.github.com/repos/core-wg/resource-directory/issues/22/labels{/name}",
+    "comments_url": "https://api.github.com/repos/core-wg/resource-directory/issues/22/comments",
+    "events_url": "https://api.github.com/repos/core-wg/resource-directory/issues/22/events",
+    "html_url": "https://github.com/core-wg/resource-directory/issues/22",
+    "id": 229682449,
+    "number": 22,
+    "title": "Domains as separate entities",
+    "user": {
+      "login": "chrysn",
+      "id": 442326,
+      "avatar_url": "https://avatars1.githubusercontent.com/u/442326?v=3",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/chrysn",
+      "html_url": "https://github.com/chrysn",
+      "followers_url": "https://api.github.com/users/chrysn/followers",
+      "following_url": "https://api.github.com/users/chrysn/following{/other_user}",
+      "gists_url": "https://api.github.com/users/chrysn/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/chrysn/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/chrysn/subscriptions",
+      "organizations_url": "https://api.github.com/users/chrysn/orgs",
+      "repos_url": "https://api.github.com/users/chrysn/repos",
+      "events_url": "https://api.github.com/users/chrysn/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/chrysn/received_events",
+      "type": "User",
+      "site_admin": false
+    },
+    "labels": [
+
+    ],
+    "state": "open",
+    "locked": false,
+    "assignee": null,
+    "assignees": [
+
+    ],
+    "milestone": {
+      "url": "https://api.github.com/repos/core-wg/resource-directory/milestones/1",
+      "html_url": "https://github.com/core-wg/resource-directory/milestone/1",
+      "labels_url": "https://api.github.com/repos/core-wg/resource-directory/milestones/1/labels",
+      "id": 2556507,
+      "number": 1,
+      "title": "-11",
+      "description": "Draft version to be submitted before IETF99",
+      "creator": {
+        "login": "chrysn",
+        "id": 442326,
+        "avatar_url": "https://avatars1.githubusercontent.com/u/442326?v=3",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/chrysn",
+        "html_url": "https://github.com/chrysn",
+        "followers_url": "https://api.github.com/users/chrysn/followers",
+        "following_url": "https://api.github.com/users/chrysn/following{/other_user}",
+        "gists_url": "https://api.github.com/users/chrysn/gists{/gist_id}",
+        "starred_url": "https://api.github.com/users/chrysn/starred{/owner}{/repo}",
+        "subscriptions_url": "https://api.github.com/users/chrysn/subscriptions",
+        "organizations_url": "https://api.github.com/users/chrysn/orgs",
+        "repos_url": "https://api.github.com/users/chrysn/repos",
+        "events_url": "https://api.github.com/users/chrysn/events{/privacy}",
+        "received_events_url": "https://api.github.com/users/chrysn/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "open_issues": 2,
+      "closed_issues": 1,
+      "state": "open",
+      "created_at": "2017-06-01T15:54:53Z",
+      "updated_at": "2017-07-03T10:04:47Z",
+      "due_on": "2017-07-03T07:00:00Z",
+      "closed_at": null
+    },
+    "comments": 3,
+    "created_at": "2017-05-18T14:03:05Z",
+    "updated_at": "2017-06-01T15:55:10Z",
+    "closed_at": null,
+    "body": "(Summarizing a topic that came up in meetings and [on the list](https://mailarchive.ietf.org/arch/msg/core/jFjEaM0PYK72dq-i1lOLwuc9To4))\r\n\r\nBased on the notion of the domains managed in an RD being fully independent of each other \"like ships that pass in the night\", the idea has been brought up to do away with the domain functionality at all and have the domains exposed as different RDs by the server that would otherwise host a single RD.\r\n\r\nPro:\r\n\r\n* This would align better with the general web design\r\n* Issues with the domain lookup interface would go away (#21)\r\n* This would be consistent with the use of RD by OCF and LWM2M, where the domains are used to separate \r\n\r\nCon:\r\n\r\n* This enforces the independence of domains; setups where endpoints know their ep= but not their d= could not rely on the RD to assign them to a domain (the default domain for the given endpoint) any more.\r\n* RD discovery would become more complicated (What would it look like at all?)\r\n* Domains could not spring into existence any more by virtue of a device or CT registering at it\r\n* Lookups could not span multiple domains any more"
+  },
+  {
+    "url": "https://api.github.com/repos/core-wg/resource-directory/issues/21",
+    "repository_url": "https://api.github.com/repos/core-wg/resource-directory",
+    "labels_url": "https://api.github.com/repos/core-wg/resource-directory/issues/21/labels{/name}",
+    "comments_url": "https://api.github.com/repos/core-wg/resource-directory/issues/21/comments",
+    "events_url": "https://api.github.com/repos/core-wg/resource-directory/issues/21/events",
+    "html_url": "https://github.com/core-wg/resource-directory/issues/21",
+    "id": 229678347,
+    "number": 21,
+    "title": "Semantics of the <>;x=... syntax in group and domain lookup",
+    "user": {
+      "login": "chrysn",
+      "id": 442326,
+      "avatar_url": "https://avatars1.githubusercontent.com/u/442326?v=3",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/chrysn",
+      "html_url": "https://github.com/chrysn",
+      "followers_url": "https://api.github.com/users/chrysn/followers",
+      "following_url": "https://api.github.com/users/chrysn/following{/other_user}",
+      "gists_url": "https://api.github.com/users/chrysn/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/chrysn/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/chrysn/subscriptions",
+      "organizations_url": "https://api.github.com/users/chrysn/orgs",
+      "repos_url": "https://api.github.com/users/chrysn/repos",
+      "events_url": "https://api.github.com/users/chrysn/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/chrysn/received_events",
+      "type": "User",
+      "site_admin": false
+    },
+    "labels": [
+
+    ],
+    "state": "open",
+    "locked": false,
+    "assignee": null,
+    "assignees": [
+
+    ],
+    "milestone": null,
+    "comments": 0,
+    "created_at": "2017-05-18T13:52:11Z",
+    "updated_at": "2017-05-18T13:52:31Z",
+    "closed_at": null,
+    "body": "RFC5988 (web linking) describes that a statement of `<B>;C=D` in the context of A means that \"A has a hosted resource at B, which has the attribute C=D\" (with the implied \"hosts\" relationship from RFC6690).\r\n\r\nThe repeated entries of the pattern `<>;d=\"domain-name\"` currently drafted for the domain lookup interface (and the analogous group lookups) are bear no such meaning, and all provide statements about the same resource.\r\n\r\nIn a way, they could be collapsed into `<>;d=\"domain1\";d=\"domain2\"` (or `d=\"domain1 domain2\"`).\r\n\r\nGiven it then talks about the currently used resource-directory (that is `<>`), isn't that a more straightforward to express the desired information anyway?"
+  },
+  {
+    "url": "https://api.github.com/repos/core-wg/resource-directory/issues/20",
+    "repository_url": "https://api.github.com/repos/core-wg/resource-directory",
+    "labels_url": "https://api.github.com/repos/core-wg/resource-directory/issues/20/labels{/name}",
+    "comments_url": "https://api.github.com/repos/core-wg/resource-directory/issues/20/comments",
+    "events_url": "https://api.github.com/repos/core-wg/resource-directory/issues/20/events",
+    "html_url": "https://github.com/core-wg/resource-directory/issues/20",
+    "id": 229665506,
+    "number": 20,
+    "title": "Discovery through proxies",
+    "user": {
+      "login": "chrysn",
+      "id": 442326,
+      "avatar_url": "https://avatars1.githubusercontent.com/u/442326?v=3",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/chrysn",
+      "html_url": "https://github.com/chrysn",
+      "followers_url": "https://api.github.com/users/chrysn/followers",
+      "following_url": "https://api.github.com/users/chrysn/following{/other_user}",
+      "gists_url": "https://api.github.com/users/chrysn/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/chrysn/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/chrysn/subscriptions",
+      "organizations_url": "https://api.github.com/users/chrysn/orgs",
+      "repos_url": "https://api.github.com/users/chrysn/repos",
+      "events_url": "https://api.github.com/users/chrysn/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/chrysn/received_events",
+      "type": "User",
+      "site_admin": false
+    },
+    "labels": [
+      {
+        "id": 607992297,
+        "url": "https://api.github.com/repos/core-wg/resource-directory/labels/discovery",
+        "name": "discovery",
+        "color": "f6b276",
+        "default": false
+      }
+    ],
+    "state": "open",
+    "locked": false,
+    "assignee": null,
+    "assignees": [
+
+    ],
+    "milestone": null,
+    "comments": 0,
+    "created_at": "2017-05-18T13:09:14Z",
+    "updated_at": "2017-05-18T13:12:36Z",
+    "closed_at": null,
+    "body": "Writing up #19, it occurred to me that short of static configuration, none of the discovery options are available to endpoints that are only connected through a forward proxy. (I'm currently thinking of endpoints running in browsers connected through coap+ws, or coap/ws, as I've recently taken to calling it).\r\n\r\nIs there anything we can do to make the RD available to such clients? My first idea would be giving \"the RD\" an anycast name like draft-ietf-6tisch-minimal-security-02's `6tisch.arpa` hostname."
+  },
+  {
+    "url": "https://api.github.com/repos/core-wg/resource-directory/issues/19",
+    "repository_url": "https://api.github.com/repos/core-wg/resource-directory",
+    "labels_url": "https://api.github.com/repos/core-wg/resource-directory/issues/19/labels{/name}",
+    "comments_url": "https://api.github.com/repos/core-wg/resource-directory/issues/19/comments",
+    "events_url": "https://api.github.com/repos/core-wg/resource-directory/issues/19/events",
+    "html_url": "https://github.com/core-wg/resource-directory/issues/19",
+    "id": 229646788,
+    "number": 19,
+    "title": "Discovery of the RD: Make sure we want all methods, and argue which should be used",
+    "user": {
+      "login": "chrysn",
+      "id": 442326,
+      "avatar_url": "https://avatars1.githubusercontent.com/u/442326?v=3",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/chrysn",
+      "html_url": "https://github.com/chrysn",
+      "followers_url": "https://api.github.com/users/chrysn/followers",
+      "following_url": "https://api.github.com/users/chrysn/following{/other_user}",
+      "gists_url": "https://api.github.com/users/chrysn/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/chrysn/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/chrysn/subscriptions",
+      "organizations_url": "https://api.github.com/users/chrysn/orgs",
+      "repos_url": "https://api.github.com/users/chrysn/repos",
+      "events_url": "https://api.github.com/users/chrysn/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/chrysn/received_events",
+      "type": "User",
+      "site_admin": false
+    },
+    "labels": [
+      {
+        "id": 607992297,
+        "url": "https://api.github.com/repos/core-wg/resource-directory/labels/discovery",
+        "name": "discovery",
+        "color": "f6b276",
+        "default": false
+      }
+    ],
+    "state": "open",
+    "locked": false,
+    "assignee": null,
+    "assignees": [
+
+    ],
+    "milestone": null,
+    "comments": 0,
+    "created_at": "2017-05-18T12:06:01Z",
+    "updated_at": "2017-05-18T13:12:45Z",
+    "closed_at": null,
+    "body": "There are several ways specified for finding a host serving an RD:\r\n\r\n* static (unicast or anycast, addresses or DNS? could contain full RD path (as in LWM2M)?)\r\n* various neighbor discovery derived\r\n  * RDAO\r\n  * the border router (ABRO)\r\n  * \"other ND options that happen to point to servers (such as RDNSS)\"\r\n* might-be-defined DHCPv6 options\r\n* multicast (all-coap-nodes + .well-known/core; serves the path by design)\r\n\r\nThere is an open issue to describe how this can be used with DNS-SD (#8), and it came up 2017-04-07 that discovery via mDNS by those mechanisms might be possible but is not advisable.\r\n\r\nCan we give a set of discovery options that should be supported by all general-purpose clients and servers to avoid fragmentation where one vendor's clients expect an RDAO while the other vendor's server relies on clients doing a multicast?\r\n\r\nCan we say anything about which options are recommended to use, and which are rather to be viewed as shortcuts in extremely constrained cases? Using RDNSS would be a candidate for such a statement. Maybe those cases are better described as \"explicitly configured to use whichever RDNSS is announced\", so this is something that's better than static configuration but still not to be expected from a generic client."
+  },
+  {
+    "url": "https://api.github.com/repos/core-wg/resource-directory/issues/18",
+    "repository_url": "https://api.github.com/repos/core-wg/resource-directory",
+    "labels_url": "https://api.github.com/repos/core-wg/resource-directory/issues/18/labels{/name}",
+    "comments_url": "https://api.github.com/repos/core-wg/resource-directory/issues/18/comments",
+    "events_url": "https://api.github.com/repos/core-wg/resource-directory/issues/18/events",
+    "html_url": "https://github.com/core-wg/resource-directory/pull/18",
+    "id": 229628605,
+    "number": 18,
+    "title": "Add normative reference to RFC8132 (formerly core-etch)",
+    "user": {
+      "login": "chrysn",
+      "id": 442326,
+      "avatar_url": "https://avatars1.githubusercontent.com/u/442326?v=3",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/chrysn",
+      "html_url": "https://github.com/chrysn",
+      "followers_url": "https://api.github.com/users/chrysn/followers",
+      "following_url": "https://api.github.com/users/chrysn/following{/other_user}",
+      "gists_url": "https://api.github.com/users/chrysn/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/chrysn/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/chrysn/subscriptions",
+      "organizations_url": "https://api.github.com/users/chrysn/orgs",
+      "repos_url": "https://api.github.com/users/chrysn/repos",
+      "events_url": "https://api.github.com/users/chrysn/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/chrysn/received_events",
+      "type": "User",
+      "site_admin": false
+    },
+    "labels": [
+
+    ],
+    "state": "closed",
+    "locked": false,
+    "assignee": null,
+    "assignees": [
+
+    ],
+    "milestone": null,
+    "comments": 0,
+    "created_at": "2017-05-18T10:47:04Z",
+    "updated_at": "2017-06-07T22:15:07Z",
+    "closed_at": "2017-06-01T15:52:43Z",
+    "pull_request": {
+      "url": "https://api.github.com/repos/core-wg/resource-directory/pulls/18",
+      "html_url": "https://github.com/core-wg/resource-directory/pull/18",
+      "diff_url": "https://github.com/core-wg/resource-directory/pull/18.diff",
+      "patch_url": "https://github.com/core-wg/resource-directory/pull/18.patch"
+    },
+    "body": "The document uses the PATCH request method and the 4.09 response codes\r\ndefined there.\r\n\r\nCloses: https://github.com/core-wg/resource-directory/issues/3"
+  },
+  {
+    "url": "https://api.github.com/repos/core-wg/resource-directory/issues/17",
+    "repository_url": "https://api.github.com/repos/core-wg/resource-directory",
+    "labels_url": "https://api.github.com/repos/core-wg/resource-directory/issues/17/labels{/name}",
+    "comments_url": "https://api.github.com/repos/core-wg/resource-directory/issues/17/comments",
+    "events_url": "https://api.github.com/repos/core-wg/resource-directory/issues/17/events",
+    "html_url": "https://github.com/core-wg/resource-directory/pull/17",
+    "id": 229626594,
+    "number": 17,
+    "title": "Drop the `res` lookup parameter",
+    "user": {
+      "login": "chrysn",
+      "id": 442326,
+      "avatar_url": "https://avatars1.githubusercontent.com/u/442326?v=3",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/chrysn",
+      "html_url": "https://github.com/chrysn",
+      "followers_url": "https://api.github.com/users/chrysn/followers",
+      "following_url": "https://api.github.com/users/chrysn/following{/other_user}",
+      "gists_url": "https://api.github.com/users/chrysn/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/chrysn/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/chrysn/subscriptions",
+      "organizations_url": "https://api.github.com/users/chrysn/orgs",
+      "repos_url": "https://api.github.com/users/chrysn/repos",
+      "events_url": "https://api.github.com/users/chrysn/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/chrysn/received_events",
+      "type": "User",
+      "site_admin": false
+    },
+    "labels": [
+
+    ],
+    "state": "open",
+    "locked": false,
+    "assignee": null,
+    "assignees": [
+
+    ],
+    "milestone": null,
+    "comments": 0,
+    "created_at": "2017-05-18T10:38:42Z",
+    "updated_at": "2017-05-18T10:38:42Z",
+    "closed_at": null,
+    "pull_request": {
+      "url": "https://api.github.com/repos/core-wg/resource-directory/pulls/17",
+      "html_url": "https://github.com/core-wg/resource-directory/pull/17",
+      "diff_url": "https://github.com/core-wg/resource-directory/pull/17.diff",
+      "patch_url": "https://github.com/core-wg/resource-directory/pull/17.patch"
+    },
+    "body": "This solves issue #16 (\"nobody really knows what the parameter is for\") by removing the parameter altogether."
+  },
+  {
     "url": "https://api.github.com/repos/core-wg/resource-directory/issues/16",
     "repository_url": "https://api.github.com/repos/core-wg/resource-directory",
     "labels_url": "https://api.github.com/repos/core-wg/resource-directory/issues/16/labels{/name}",
@@ -29,7 +617,13 @@
       "site_admin": false
     },
     "labels": [
-
+      {
+        "id": 597138288,
+        "url": "https://api.github.com/repos/core-wg/resource-directory/labels/patch%20available",
+        "name": "patch available",
+        "color": "0052cc",
+        "default": false
+      }
     ],
     "state": "open",
     "locked": false,
@@ -38,9 +632,9 @@
 
     ],
     "milestone": null,
-    "comments": 3,
+    "comments": 4,
     "created_at": "2017-05-05T14:01:18Z",
-    "updated_at": "2017-05-10T07:18:49Z",
+    "updated_at": "2017-05-18T10:48:11Z",
     "closed_at": null,
     "body": "We are not clear on how to use \"res\"in a lookup query.\r\n\r\nFor example, what does xx represent in this query? \r\n\r\n    GET /example/rd-lookup-gp?res=xx\r\n\r\nI couldn't find text to explain. Is it expected to be the address of a resource, like href or anchor+href ? "
   },
@@ -74,7 +668,13 @@
       "site_admin": false
     },
     "labels": [
-
+      {
+        "id": 622638420,
+        "url": "https://api.github.com/repos/core-wg/resource-directory/labels/await%20core%20responses",
+        "name": "await core responses",
+        "color": "0e8a16",
+        "default": false
+      }
     ],
     "state": "open",
     "locked": false,
@@ -83,9 +683,9 @@
 
     ],
     "milestone": null,
-    "comments": 4,
+    "comments": 5,
     "created_at": "2017-05-05T13:53:19Z",
-    "updated_at": "2017-05-09T10:35:20Z",
+    "updated_at": "2017-06-08T17:22:03Z",
     "closed_at": null,
     "body": "The text in section 7 says lookup is optional but the table in section 7 lists two mandatory lookup resource types. I can't find text to explain the difference."
   },
@@ -546,7 +1146,13 @@
       "site_admin": false
     },
     "labels": [
-
+      {
+        "id": 607992297,
+        "url": "https://api.github.com/repos/core-wg/resource-directory/labels/discovery",
+        "name": "discovery",
+        "color": "f6b276",
+        "default": false
+      }
     ],
     "state": "open",
     "locked": false,
@@ -557,7 +1163,7 @@
     "milestone": null,
     "comments": 0,
     "created_at": "2017-03-30T13:12:08Z",
-    "updated_at": "2017-03-30T13:12:08Z",
+    "updated_at": "2017-05-18T13:12:56Z",
     "closed_at": null,
     "body": "There should be a well defined way to find an RD using DNS-SD to find an RD. Needs assignment of a well-known record type/value and some text in RD to describe the use of DNS-SD."
   },
@@ -693,6 +1299,20 @@
         "name": "editorial",
         "color": "bfdadc",
         "default": false
+      },
+      {
+        "id": 597138288,
+        "url": "https://api.github.com/repos/core-wg/resource-directory/labels/patch%20available",
+        "name": "patch available",
+        "color": "0052cc",
+        "default": false
+      },
+      {
+        "id": 621742313,
+        "url": "https://api.github.com/repos/core-wg/resource-directory/labels/revisit%20before%20submission",
+        "name": "revisit before submission",
+        "color": "ffffff",
+        "default": false
       }
     ],
     "state": "open",
@@ -740,7 +1360,7 @@
     "milestone": null,
     "comments": 1,
     "created_at": "2017-03-27T17:01:26Z",
-    "updated_at": "2017-05-03T13:54:02Z",
+    "updated_at": "2017-06-08T17:17:43Z",
     "closed_at": null,
     "body": "Addresses should probably be formatted according to [RFC5952](https://tools.ietf.org/html/rfc5952), and I'll need to look into the applicability of the 2001:db8: prefix reserved for documentation on whether addresses should be used from that area."
   },
@@ -831,9 +1451,16 @@
         "name": "editorial",
         "color": "bfdadc",
         "default": false
+      },
+      {
+        "id": 597138288,
+        "url": "https://api.github.com/repos/core-wg/resource-directory/labels/patch%20available",
+        "name": "patch available",
+        "color": "0052cc",
+        "default": false
       }
     ],
-    "state": "open",
+    "state": "closed",
     "locked": false,
     "assignee": {
       "login": "chrysn",
@@ -878,8 +1505,8 @@
     "milestone": null,
     "comments": 1,
     "created_at": "2017-03-27T16:21:49Z",
-    "updated_at": "2017-05-03T13:55:47Z",
-    "closed_at": null,
+    "updated_at": "2017-06-01T15:52:43Z",
+    "closed_at": "2017-06-01T15:52:43Z",
     "body": "This is needed for the 4.09 error code referenced."
   },
   {
@@ -999,9 +1626,15 @@
       "site_admin": false
     },
     "labels": [
-
+      {
+        "id": 621742313,
+        "url": "https://api.github.com/repos/core-wg/resource-directory/labels/revisit%20before%20submission",
+        "name": "revisit before submission",
+        "color": "ffffff",
+        "default": false
+      }
     ],
-    "state": "open",
+    "state": "closed",
     "locked": false,
     "assignee": {
       "login": "chrysn",
@@ -1044,10 +1677,10 @@
       }
     ],
     "milestone": null,
-    "comments": 0,
+    "comments": 1,
     "created_at": "2017-03-27T14:17:54Z",
-    "updated_at": "2017-04-19T11:02:48Z",
-    "closed_at": null,
-    "body": "I'd like to check whether there are open issues in compatibility with documents that want to cite resource-directory:\r\n\r\n* [ ] [pubsub](https://datatracker.ietf.org/doc/draft-ietf-core-coap-pubsub/)\r\n* [x] [lwig-cellular](https://datatracker.ietf.org/doc/draft-ietf-lwig-cellular/): just recommends the mechanism\r\n* [x] [t2trg-rest-iot](https://datatracker.ietf.org/doc/draft-keranen-t2trg-rest-iot/): just example use in 04; further use expected but nothing written down yet.\r\n* [ ] [alternative-transports](https://datatracker.ietf.org/doc/draft-silverajan-core-coap-protocol-negotiation/): initial issues addressed (eg. allowing full URIs in con=), check for latest status in progress\r\n* [x] enumerate other users: done using https://datatracker.ietf.org/doc/draft-ietf-core-resource-directory/referencedby/ (informative references ignored)"
+    "updated_at": "2017-06-08T17:20:37Z",
+    "closed_at": "2017-06-08T17:20:37Z",
+    "body": "I'd like to check whether there are open issues in compatibility with documents that want to cite resource-directory:\r\n\r\n* [x] [pubsub](https://datatracker.ietf.org/doc/draft-ietf-core-coap-pubsub/)\r\n* [x] [lwig-cellular](https://datatracker.ietf.org/doc/draft-ietf-lwig-cellular/): just recommends the mechanism\r\n* [x] [t2trg-rest-iot](https://datatracker.ietf.org/doc/draft-keranen-t2trg-rest-iot/): just example use in 04; further use expected but nothing written down yet.\r\n* [ ] [alternative-transports](https://datatracker.ietf.org/doc/draft-silverajan-core-coap-protocol-negotiation/): initial issues addressed (eg. allowing full URIs in con=), check for latest status in progress\r\n* [x] enumerate other users: done using https://datatracker.ietf.org/doc/draft-ietf-core-resource-directory/referencedby/ (informative references ignored)"
   }
 ]

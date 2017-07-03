@@ -54,23 +54,29 @@ async function getAll(url) {
 }
 
 var issues;
-var pulls;
 
 async function get(wg, repo) {
   issues = null;
-  pulls = null;
+  var pulls = null;
   [issues, pulls] = await Promise.all(
     ['issues', 'pulls'].map(type => getAll(buildUrl(wg, repo, type))));
   issues.forEach(issue => {
     if (issue.pull_request) {
-      let pull = window.pulls.find(x => x.url == issue.pull_request.url);
+      let pull = pulls.find(x => x.url == issue.pull_request.url);
       if (pull) {
         issue.pull_request = pull;
       }
     }
   });
   sort();
-  console.log('loaded all issues and pulls');
+  let m = issues[0].html_url.match(/^https:\/\/github\.com\/([^\/]+)\/([^\/]+)\//);
+  if (m) {
+    document.title = m[1] + '/' + m[2] + ' Issues';
+  }
+  console.log('loaded all issues');
+  console.log('Raw data for issues can be found in:');
+  console.log('  window.issues = all issues');
+  console.log('  window.subset = just the subset of issues that are shown');
 }
 
 var issueFilters = {
