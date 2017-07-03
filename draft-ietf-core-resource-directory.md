@@ -193,24 +193,24 @@ RDAO
 
 ## Principles
 
-The Resource Directory is primarily a tool that enables discovery operations
-that are already present for CoRE devices to happen more efficiently, or across
+The Resource Directory is primarily a tool to make discovery operations more
+efficient than querying /.well-known/core on all connected device, or across
 boundaries that would be limiting those operations.
 
 It provides a cache (in the high-level sense, not as defined in
 {{RFC7252}}/{{?RFC2616}}) of data that could otherwise only be obtained by
-directly querying the link-format resources on the target device, or by
+directly querying the /.well-known/core resource on the target device, or by
 accessing those resources with a multicast request.
 
 From that, it follows that no information should be stored in the resource
-directory that can not be discovered from querying the described device's
-link-format resources directly.
+directory that cannot be discovered from querying the described device's
+/.well-known/core resource directly.
 
 It also follows that data in the resource directory can only be provided by the
-device whose descriptions are cached. (Commissioning tools are an exception
-here because they are thought to act on behalf agents too constrained to
-present that information themselves). No other client can modify data in the
-resource directory or even expect those changes to propagate back to its
+device whose descriptions are cached or a dedicated Commissioning Tool (CT).
+These CTs are thought to act on behalf agents too constrained, or generally
+unable, to present that information themselves. No other client can modify data
+in the resource directory or even expect those changes to propagate back to its
 source.
 
 ## Architecture
