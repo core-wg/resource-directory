@@ -492,7 +492,7 @@ Resource Type parameter value of "core.rd-lookup\*" is used to discover the
 URIs for RD Lookup operations, and "core.gp" is used to discover the URI path for RD
 Group operations. Upon success, the response will contain a payload with
 a link format entry for each RD function discovered, indicating the URI path
-of the RD function returned and the corresponding Resource Type. When performing 
+of the RD function returned and the corresponding Resource Type. When performing
 multicast discovery, the multicast IP address used will depend on the scope required
 and the multicast capabilities of the network.
 
@@ -657,10 +657,10 @@ URI Template Variables:
     mandatory when the directory is filled by a third party such as an
     commissioning tool. When con is used, scheme and host are mandatory and
     port and path parameters are optional.
-    
+
     If the endpoint uses an ephemeral port to register with, it MUST include the con:
-    parameter in the registration to provide a valid network path. 
-    
+    parameter in the registration to provide a valid network path.
+
     If the endpoint which is located behind a NAT gateway is registering with a Resource
     Directory which is on the network service side of the NAT gateway, the endpoint MUST
     use a persistent port for the outgoing registration in order to provide the NAT
@@ -800,7 +800,7 @@ indicated in the Context parameter of the registration described in {{registrati
 ### Plurality of link references in a Registration {#link-plurality}
 Plurality of link references within a Registration (registration resource) is an indication of some error condition and should not be allowed.
 
-Plurality of link references exists if, and only if, two or more links in a Registration 
+Plurality of link references exists if, and only if, two or more links in a Registration
 contain identical context, target, and relation values. This condition would be likely to arise if there were multiple co-ordinators or configuration tools, each with a different
 set of configuration values for the same resource.
 
@@ -810,7 +810,7 @@ A Resource Directory SHOULD reject a registration, or an operation on a registra
 
 After the initial registration, an endpoint should retain the returned location of the Registration Resource for further operations, including refreshing the registration in order to extend the lifetime and "keep-alive" the registration. If the lifetime of the registration expires, the RD SHOULD NOT respond to discovery queries with information from the endpoint. The RD SHOULD continue to provide access to the Registration Resource after a registration time-out occurs in order to enable the registering endpoint to eventually refresh the registration. The RD MAY eventually remove the registration resource for the purpose of resource recovery and garbage collection. If the Registration Resource is removed, the endpoint will need to re-register.
 
-The Registration Resource may also be used to inspect the registration resource using GET, update the registration link contents using PATCH (as introduced in {{RFC8132}}), or cancel the registration using DELETE. 
+The Registration Resource may also be used to inspect the registration resource using GET, update the registration link contents using PATCH (as introduced in {{RFC8132}}), or cancel the registration using DELETE.
 
 These operations are described in this section.
 
@@ -833,7 +833,7 @@ endpoint and update the scheme, IP address and port of the endpoint, using
 the source address of the update, or the context ("con") parameter if present.
 If the lifetime parameter "lt" is included in the received update request,
 the RD MUST update the lifetime of the registration and set the timeout equal
-to the new lifetime. If the lifetime parameter is not included in the registration 
+to the new lifetime. If the lifetime parameter is not included in the registration
 update, the most recent setting is re-used for the next registration time-out period.
 
 An update MAY optionally add or replace links for the endpoint by including
@@ -1634,16 +1634,16 @@ query parameter MUST be a valid URI query key {{RFC3986}}.
 
 Initial entries in this sub-registry are as follows:
 
-| Name          | Query | Validity      | Description                                                    |
-| Endpoint Name | ep    |               | Name of the endpoint, max 63 bytes                                           |
-| Lifetime      | lt    | 60-4294967295 | Lifetime of the registration in seconds                        |
-| Domain        | d     |               | Domain to which this endpoint belongs                          |
-| Endpoint Type | et    |               | Semantic name of the endpoint                                  |
+| Name          | Query | Validity      | Description                                                             |
+| Endpoint Name | ep    |               | Name of the endpoint, max 63 bytes                                      |
+| Lifetime      | lt    | 60-4294967295 | Lifetime of the registration in seconds                                 |
+| Domain        | d     |               | Domain to which this endpoint belongs                                   |
+| Endpoint Type | et    |               | Semantic name of the endpoint                                           |
 | Context       | con   | URI           | The scheme, address and port and path at which this server is available |
-| Resource Name | res   |               | Name of the resource                             |
-| Group Name    | gp    |               | Name of a group in the RD                                      |
-| Page          | page  | Integer       | Used for pagination                                            |
-| Count         | count | Integer       | Used for pagination                                            
+| Resource Name | res   |               | Name of the resource                                                    |
+| Group Name    | gp    |               | Name of a group in the RD                                               |
+| Page          | page  | Integer       | Used for pagination                                                     |
+| Count         | count | Integer       | Used for pagination                                                     |
 {: #tab-registry title='RD Parameters'}
 
 The IANA policy for future additions to the sub-registry is "Expert Review"
@@ -1886,12 +1886,12 @@ values behind it in this sequence also are "undefined".  As a special
 case, object-instance can be "empty" (which is different from
 "undefined") if resource-id is not "undefined".
 
-<!-- 
+<!--
 [^_TEMPLATE_TODO]
 
 [^_TEMPLATE_TODO]: This text needs some help from an RFC 6570 expert.
  -->
- 
+
 base-uri := Base URI for LWM2M resources or "undefined" for default (empty) base URI
 
 object-id := OMNA (OMA Name Authority) registered object ID (0-65535)

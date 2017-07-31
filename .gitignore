@@ -2,6 +2,7 @@
 *.txt
 *.html
 *.pdf
+*.xml
 *~
 *.swp
 /*-[0-9][0-9].xml
