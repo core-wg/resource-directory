@@ -822,7 +822,7 @@ The update interface is used by an endpoint to refresh or update its
 registration with an RD. To use the interface, the endpoint sends a POST request to the registration resource returned in the Location header option in the response returned from the intial registration operation.
 
 An update MAY update the lifetime or context registration parameters
-"lt", "con" as in {{registration}} ) if the previous settings are to be retained. Parameters that are not being changed changed SHOULD NOT
+"lt", "con" as in {{registration}} ) if the previous settings are to be retained. Parameters that are not being changed SHOULD NOT
 be included in an update. Adding parameters that have not changed increases
 the size of the message but does not have any other implications.
 Parameters MUST be included as query parameters in an update operation as
