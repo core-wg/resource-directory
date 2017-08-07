@@ -283,6 +283,60 @@ provided using the CoRE Link Format.
 ~~~~
 {: #fig-hierarchy title='The resource directory information hierarchy.' align="left"}
 
+
+## Content model {#ER-model}
+
+The Entity-Relationship (ER) models shown in {{fig-ER-WKC}} and {{fig-ER-RD}}model the contents of /.well-known/core and the resource directory respectively, with entity-relationship diagrams [ER][]. Entities (rectangles) are used for concepts that exist independently. Attributes (ovals) are used for concepts that exist only in connection with related entity. Relations (diamonds) give a semantic meaning to the relation between entities. Numbers specify the cardinality of the relations. The relations of the values of the attributes are explained in the interface sections.
+
+[ER]: Ppins Chen - ‎entity-relationship model, Transactions on Database. Systems, Vol. 1, No. 1. March. 1976, Pages 9-36.
+
+~~~~
+               +----------------------+
+               |   /.well-known/core  | 
+               +----------------------+
+ 
+~~~~
+{: #fig-ER-WKC title='E-R Model of the content of /.well-known/core' align="left"}
+
+The model shown in {{fig-ER-WKC}} models the contents of /.well-known/core which contains:
+
+* a set of links belonging to the host
+* a set of strings describing the scheme://authority part 
+ 
+The scheme://authority string represents the base URI of the links. The current cardinality is 1 (n2 = 1). In the future, links can have multiple base URIs (n2 > 1) when transport negotiation is used. The names of the attributes of the links correspond with the link-format attributes that can be set. A link has the following attributes:
+
+* Unique rt (resource type)
+* Unique href (path of this link)
+* One or more ct (content-types for transport format)
+* Optional one anchor 
+* and associated rel (relation)
+* Optional one if (interface description reference)
+
+
+~~~~
+               +-----------------------+
+               |   resource-directory  | 
+               +-----------------------+
+ 
+~~~~
+{: #fig-ER-RD title='E-R Model of the content of the Resource Directory' align="left"}
+
+The model shown in {{fig-ER-RD}} models the contents of the resource directory which contains in addition to /.well-known/core:
+
+* 0 to n Registration (entries),
+* 0 to k Groups
+
+A Group has one Multicast address and is composed of 0 to n1 endpoints. A registration is associated with one endpoint (ep). An endpoint can be part of 0 to k1 Groups . An endpoint is contained in 1 to m RDs. A registration defines a set of links as defined for /.well-known/core. A Registration has six attributes:
+
+* one ep (endpoint with a unique  name)
+* a set of strings describing the scheme://authority part 
+* one lt (lifetime),
+* optional one et (endpoint type to add semantic information),
+* one loc (location in the RD)
+* optional one d (domain for query filtering)
+
+The cardinality of the scheme://authority string is currently 1 (n2 = 1).
+
 ## Use Case: Cellular M2M {#cellular}
 
 Over the last few years, mobile operators around the world
@@ -361,43 +415,41 @@ groups may defined to allow batched reads from multiple resources.
 
 # Finding a Resource Directory {#simple_finding}
 
-Several mechanisms can be employed for discovering the RD, including assuming a
-default location (e.g. on an Edge Router in a LoWPAN), assigning an anycast address to the
-RD, using DHCP, or discovering the RD using .well-known/core and hyperlinks as
-specified in CoRE Link Format {{RFC6690}}.
-Endpoints that want to contact a Resource Directory can obtain candidate IP
-addresses for such servers in a number of ways.
+Several mechanisms can be employed for discovering the RD, including assuming a default location (e.g. on an Edge Router in a LoWPAN), assigning an anycast address to the RD, using DHCP, or discovering the RD using .well-known/core and hyperlinks as specified in CoRE Link Format {{RFC6690}}.  Endpoints that want to contact a Resource Directory (RD) can obtain candidate IP addresses of RD servers dependent on the operational conditions. It is assumed that the nodes looking for a Resource Directory are connected to a Border Router (6LBR). Given the various existing network installation procedures, the 6LBR is either connected or disconnected from the Internet and its services like DHCP and DNS. Two conditions are separately considered: (1) Internet services present, and (2) no Internet services present.
 
-In a 6LoWPAN, good candidates can be taken from:
+When no Internet services are present the following techniques are used (in random order):
 
-* specific static configuration (e.g., anycast addresses), if any,
+1. Sending a Multicast to [ff02::1}/.well-known/core with ?rt=core.rd*. The receiving RDs will answer the query.
+2. The Authoritative Border Router Option (ABRO) present in the Router Advertisements (RA), contains the address of the border router.
+3. Assuming that an RD is located at the 6LBR. Confirmation can be obtained by sending a Unicast to [6LBR]/.well-known/core with ?rt=core.rd*. Address of 6LBR is obtained from ABRO.
+4. The 6LBR can send the Resource Directory Address Option (RDAO) during neighbour Discovery containing one or more RD addresses, as explained in {{rdao}}
+5. The installation manager can decide to preconfigure an ANYCAST address with as destination the interface of the RDs. Clients send a discovery message to the predefined RD anycast address. Each target network environment in which some of these preconfigured nodes are to be brought up is then configured with a route for this anycast address that leads to an appropriate RD.
+6. Instead of using an ANYCAST address, a multicast address can be preconfigured. All RD directory servers need to configure one of their interfaces with this multicast address.
+7. After installation of mDNS on all node, mDNS can be queried for the IP-address of RD.
 
-* the ABRO option of 6LoWPAN-ND {{RFC6775}},
+When Internet services are present, the techniques cited above are still valid. Using standard techniques to obtain the addresses of DNS or DHCP servers, the RD can be discovered in the following way:
 
-* other ND options that happen to point to servers (such as RDNSS),
+8.	Using a DNSSD query to return the Resource Records (RR) describing the service with name rd._sub._coap._udp, preferably within the domain of the querying nodes.
+9.	Using DHCPv6 with options to be defined.
 
-* DHCPv6 options that might be defined later.
+Assisting the 9 techniques above, requires manual intervention or may be done automatically.
 
-* The IPv6 Neighbor Discovery Resource Directory Address Option described in {{rdao}}
+Manual management:
 
-In networks with more inexpensive use of multicast, the candidate IP
-address may be a well-known multicast address, i.e. directory servers are
-found by simply sending GET requests to that well-known multicast address
-(see {{discovery}}).
+- IP address of RD is present in each node.
+- ANYCAST address or Multicast address of RD is present in each node [see 5,6].
+- 6LBR receives IP address of RD for distribution via RDAO [see 4].
+- RD address is configured in DHCP [see 9].
+- DNS is configured with Resource Record specifying address of RD service [see 8].
 
-Constrained nodes configured in large batches may be configured for an
-anycast address for the RD.  Each target network environment in which
-some of these preconfigured nodes are to be brought up is then
-configured with a route for this anycast address that leads to an RD
-that is appropriate for the environment.
+Automatic management
 
-As some of these sources are just (more or less educated) guesses, endpoints
-MUST make use of any error messages to very strictly rate-limit requests to
-candidate IP addresses that don't work out.  For example, an ICMP Destination
-Unreachable message (and, in particular, the port unreachable code for this
-message) may indicate the lack of a CoAP server on the candidate host, or a
-CoAP error response code such as 4.05 "Method Not Allowed" may indicate
-unwillingness of a CoAP server to act as a directory server.
+* Multicasting to all nodes to return IP address [see 1].
+* Querying mDNS to receive IP address [see 7].
+* 6LBR contains RD service [see 2, 3].
+
+As some of these RD addresses are just (more or less educated) guesses, endpoints MUST make use of any error messages to very strictly rate-limit requests to candidate IP addresses that don't work out.  For example, an ICMP Destination Unreachable message (and, in particular, the port unreachable code for this message) may indicate the lack of a CoAP server on the candidate host, or a CoAP error response code such as 4.05 "Method Not Allowed" may indicate unwillingness of a CoAP server to act as a directory server.
+
 
 ## Resource Directory Address Option (RDAO) {#rdao}
 The Resource Directory Option (RDAO) using IPv6 neighbor Discovery (ND) carries
