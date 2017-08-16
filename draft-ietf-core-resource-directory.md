@@ -516,7 +516,11 @@ This section defines the required set of REST interfaces between a Resource Dire
 CoAP {{RFC7252}}, these REST interfaces can also be realized using HTTP {{RFC7230}}.
 In all definitions in this section, both CoAP response codes (with dot notation) and HTTP response codes
 (without dot notation) are shown. An RD implementing this specification MUST support
-the discovery, registration, update, lookup, and removal interfaces defined in this section.
+the discovery, registration, update, lookup, and removal interfaces defined in this section. 
+
+All operations on the contents of the Resource Directory MUST be atomic and idempotent.
+
+A Resource Directory MUST accept query filtering with multiple query parameters in the URI.
 
 ## Content Formats
 
@@ -541,7 +545,7 @@ Discovery of the RD registration URI path is performed by sending either a multi
 unicast GET request to `/.well-known/core` and including a Resource Type (rt)
 parameter {{RFC6690}} with the value "core.rd" in the query string. Likewise, a
 Resource Type parameter value of "core.rd-lookup\*" is used to discover the
-URIs for RD Lookup operations, and "core.gp" is used to discover the URI path for RD
+URIs for RD Lookup operations, and "core.rd-group" is used to discover the URI path for RD
 Group operations. Upon success, the response will contain a payload with
 a link format entry for each RD function discovered, indicating the URI path
 of the RD function returned and the corresponding Resource Type. When performing
@@ -659,6 +663,8 @@ interface MUST be implemented to be idempotent, so that registering twice
 with the same endpoint parameters ep and d does not create multiple RD entries.
 A new registration may be created at any time to supersede an existing registration,
 replacing the registration parameters and links.
+
+An empty payload is considered a malformed request.
 
 The registration request interface is specified as follows:
 
@@ -799,13 +805,15 @@ this document.
 
 ### Simple publishing to Resource Directory Server {#simple_publishing}
 
-An endpoint that wants to make itself discoverable occasionally sends a POST
+An endpoint that wants to make itself discoverable sends (and regularly refreshes with) a POST
 request to the `/.well-known/core` URI of any candidate directory server that
 it finds. The body of the POST request is empty, which triggers the resource
 directory server to perform GET requests at the requesting server's default
 discovery URI to obtain the link-format payload to register.
 
 The endpoint MUST include the endpoint name and MAY include the registration parameters d, lt, and et, in the POST request as per {{registration}}.
+
+The endpoints MUST be deleted after the expiration of their lifetime. Additional operations cannot be executed because no registration location is returned.
 
 The following example shows an endpoint using simple publishing,
 by simply sending an empty POST to a resource directory.
@@ -871,7 +879,7 @@ In accordance with {{link-plurality}}, operations which would result in plural l
 ### Registration Update {#update}
 
 The update interface is used by an endpoint to refresh or update its
-registration with an RD. To use the interface, the endpoint sends a POST request to the registration resource returned in the Location header option in the response returned from the intial registration operation.
+registration with an RD. To use the interface, the endpoint sends a POST request to the registration resource returned in the Location header option in the response returned from the intial registration operation. The POST request (in contrats to PUT) allows replacing selection of a resource.
 
 An update MAY update the lifetime or context registration parameters
 "lt", "con" as in {{registration}} ) if the previous settings are to be retained. Parameters that are not being changed SHOULD NOT
@@ -996,6 +1004,8 @@ lifetime, an endpoint SHOULD explicitly remove its entry from the RD if it
 knows it will no longer be available (for example on shut-down). This is
 accomplished using a removal interface on the RD by performing a DELETE on
 the endpoint resource.
+
+Removed endpoints are implicitly removed from the groups to which they belong.
 
 The removal request interface is specified as follows:
 
@@ -1556,7 +1566,7 @@ Req: GET /rd-lookup/gp
 
 Res: 2.05 Content
 <>;gp="lights1";d="example.com"
-<>;gp="lights2";d="ecample.com"
+<>;gp="lights2";d="example.com"
 ~~~~
 
 The following example shows a client performing a lookup for all endpoints
@@ -2043,14 +2053,20 @@ LWM2M allows for de-registration using the delete method on the returned locatio
 # Acknowledgments
 
 Oscar Novo, Srdjan Krco, Szymon Sasin, Kerry Lynn, Esko Dijk, Anders
-Brandt, Matthieu Vial, Mohit Sethi, Sampo Ukkola, Linyi
-Tian, Chistian Amsuss, and Jan Newmarch have provided helpful comments, discussions and ideas to improve and
+Brandt, Matthieu Vial, Jim Schaad, Mohit Sethi, Hauke Petersen, Sampo Ukkola, Linyi
+Tian, and Jan Newmarch have provided helpful comments, discussions and ideas to improve and
 shape this document. Zach would also like to thank his colleagues from the
 EU FP7 SENSEI project, where many of the resource directory concepts were
 originally developed.
 
 
 # Changelog
+
+changes from -11 to -12
+
+* added ER diagram
+* updated discovery text
+* improved text on: atomicity, idempotency, multiple query, ep removal, simple registration
 
 changes from -09 to -10
 
