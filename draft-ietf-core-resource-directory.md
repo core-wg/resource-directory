@@ -115,7 +115,7 @@ an HTTP Web Server is typically called Web Linking {{RFC5988}}. The use of
 Web Linking for the description and discovery of resources hosted by
 constrained web servers is specified by the CoRE Link Format
 {{RFC6690}}. However, {{RFC6690}} only describes how to discover
-resources from the web server that hosts them by requesting
+resources from the web server that hosts them by querying
 `/.well-known/core`. In many M2M scenarios, direct discovery of resources is
 not practical due to sleeping nodes, disperse networks, or networks where
 multicast traffic is inefficient. These problems can be solved by employing
@@ -155,10 +155,7 @@ of those resources.
 
 Domain
 :   In the context of a Resource Directory, a domain is a
-logical grouping of endpoints. This specification assumes
-that the list of Domains supported by an RD is
-pre-configured by that RD. When a domain is exported to DNS,
-the domain value equates to the DNS domain name.
+logical grouping of endpoints.
 
 Group
 :   In the context of a Resource Directory, a group is a logical grouping of
@@ -286,7 +283,7 @@ provided using the CoRE Link Format.
 
 ## Content model {#ER-model}
 
-The Entity-Relationship (ER) models shown in {{fig-ER-WKC}} and {{fig-ER-RD}}model the contents of /.well-known/core and the resource directory respectively, with entity-relationship diagrams [ER][]. Entities (rectangles) are used for concepts that exist independently. Attributes (ovals) are used for concepts that exist only in connection with related entity. Relations (diamonds) give a semantic meaning to the relation between entities. Numbers specify the cardinality of the relations. The relations of the values of the attributes are explained in the interface sections.
+The Entity-Relationship (ER) models shown in {{fig-ER-WKC}} and {{fig-ER-RD}}model the contents of /.well-known/core and the resource directory respectively, with entity-relationship diagrams [ER][]. Entities (rectangles) are used for concepts that exist independently. Attributes (ovals) are used for concepts that exist only in connection with related entity. Relations (diamonds) give a semantic meaning to the relation between entities. Numbers specify the cardinality of the relations. The relations between the values of the attributes are explained in the interface sections.
 
 [ER]: Ppins Chen - ‎entity-relationship model, Transactions on Database. Systems, Vol. 1, No. 1. March. 1976, Pages 9-36.
 
@@ -343,7 +340,7 @@ Over the last few years, mobile operators around the world
 have focused on development of M2M solutions in order to
 expand the business to the new type of users: machines. The
 machines are connected directly to a mobile network using an appropriate
-embedded air interface (GSM/GPRS, WCDMA, LTE) or via a gateway providing
+embedded wireless interface (GSM/GPRS, WCDMA, LTE) or via a gateway providing
 short and wide range wireless interfaces. From the system design point of
 view, the ambition is to design horizontal solutions that can enable utilization
 of machines in different applications depending on their current availability
@@ -417,15 +414,15 @@ groups may defined to allow batched reads from multiple resources.
 
 Several mechanisms can be employed for discovering the RD, including assuming a default location (e.g. on an Edge Router in a LoWPAN), assigning an anycast address to the RD, using DHCP, or discovering the RD using .well-known/core and hyperlinks as specified in CoRE Link Format {{RFC6690}}.  Endpoints that want to contact a Resource Directory (RD) can obtain candidate IP addresses of RD servers dependent on the operational conditions. It is assumed that the nodes looking for a Resource Directory are connected to a Border Router (6LBR). Given the various existing network installation procedures, the 6LBR is either connected or disconnected from the Internet and its services like DHCP and DNS. Two conditions are separately considered: (1) Internet services present, and (2) no Internet services present.
 
-When no Internet services are present the following techniques are used (in random order):
+When no Internet services are present, the following techniques are used (in random order):
 
-1. Sending a Multicast to [ff02::1}/.well-known/core with ?rt=core.rd*. The receiving RDs will answer the query.
+1. Sending a Multicast to [ff02::1]/.well-known/core with ?rt=core.rd*. The receiving RDs will answer the query.
 2. The Authoritative Border Router Option (ABRO) present in the Router Advertisements (RA), contains the address of the border router.
 3. Assuming that an RD is located at the 6LBR. Confirmation can be obtained by sending a Unicast to [6LBR]/.well-known/core with ?rt=core.rd*. Address of 6LBR is obtained from ABRO.
 4. The 6LBR can send the Resource Directory Address Option (RDAO) during neighbour Discovery containing one or more RD addresses, as explained in {{rdao}}
 5. The installation manager can decide to preconfigure an ANYCAST address with as destination the interface of the RDs. Clients send a discovery message to the predefined RD anycast address. Each target network environment in which some of these preconfigured nodes are to be brought up is then configured with a route for this anycast address that leads to an appropriate RD.
 6. Instead of using an ANYCAST address, a multicast address can be preconfigured. All RD directory servers need to configure one of their interfaces with this multicast address.
-7. After installation of mDNS on all node, mDNS can be queried for the IP-address of RD.
+7. After installation of mDNS on all nodes, mDNS can be queried for the IP-address of RD.
 
 When Internet services are present, the techniques cited above are still valid. Using standard techniques to obtain the addresses of DNS or DHCP servers, the RD can be discovered in the following way:
 
@@ -538,8 +535,7 @@ content format.
 Before an endpoint can make use of an RD, it must first know the RD's address
 and port, and the URI path information for its REST APIs. This section defines
 discovery of the RD and its URIs using the well-known interface of the
-CoRE Link Format {{RFC6690}}. It is however expected that RDs will also be
-discoverable via other methods depending on the deployment.
+CoRE Link Format {{RFC6690}}. A complete set of RD discovery methods is described in {{simple_finding}}.
 
 Discovery of the RD registration URI path is performed by sending either a multicast or
 unicast GET request to `/.well-known/core` and including a Resource Type (rt)
@@ -868,9 +864,9 @@ A Resource Directory SHOULD reject a registration, or an operation on a registra
 
 ## Operations on the Registration Resource
 
-After the initial registration, an endpoint should retain the returned location of the Registration Resource for further operations, including refreshing the registration in order to extend the lifetime and "keep-alive" the registration. If the lifetime of the registration expires, the RD SHOULD NOT respond to discovery queries with information from the endpoint. The RD SHOULD continue to provide access to the Registration Resource after a registration time-out occurs in order to enable the registering endpoint to eventually refresh the registration. The RD MAY eventually remove the registration resource for the purpose of resource recovery and garbage collection. If the Registration Resource is removed, the endpoint will need to re-register.
+After the initial registration, an endpoint should retain the returned location of the Registration Resource for further operations, including refreshing the registration in order to extend the lifetime and "keep-alive" the registration. When the lifetime of the registration has expired, the RD SHOULD NOT respond to discovery queries with information from the endpoint. The RD SHOULD continue to provide access to the Registration Resource after a registration time-out occurs in order to enable the registering endpoint to eventually refresh the registration. The RD MAY eventually remove the registration resource for the purpose of resource recovery and garbage collection. If the Registration Resource is removed, the endpoint will need to re-register.
 
-The Registration Resource may also be used to inspect the registration resource using GET, update the registration link contents using PATCH (as introduced in {{RFC8132}}), or cancel the registration using DELETE.
+The Registration Resource may also be used to inspect the registration resource using GET, update the registration link contents using iPATCH or PATCH (as introduced in {{RFC8132}}), or cancel the registration using DELETE.
 
 These operations are described in this section.
 
@@ -879,7 +875,7 @@ In accordance with {{link-plurality}}, operations which would result in plural l
 ### Registration Update {#update}
 
 The update interface is used by an endpoint to refresh or update its
-registration with an RD. To use the interface, the endpoint sends a POST request to the registration resource returned in the Location header option in the response returned from the intial registration operation. The POST request (in contrats to PUT) allows replacing selection of a resource.
+registration with an RD. To use the interface, the endpoint sends a POST request to the registration resource returned in the Location header option in the response returned from the intial registration operation. The POST request (in contrast to PUT) allows replacing a selection of a resource.
 
 An update MAY update the lifetime or context registration parameters
 "lt", "con" as in {{registration}} ) if the previous settings are to be retained. Parameters that are not being changed SHOULD NOT
@@ -903,7 +899,7 @@ document. A link is replaced only if all of the target URI and relation type (if
 If the link payload is included, it SHOULD be checked for reference plurality as described in {{link-plurality}} and rejected with a "Conflict" result if there are plural link references detected.
 
 In addition to the use of POST, as described in this section, there is an
-alternate way to add, replace, and delete links using PATCH as described
+alternate way to add, replace, and delete links using iPATCH or PATCH as described
 in {{link-up}}.
 
 The update registration request interface is specified as follows:
@@ -1131,7 +1127,7 @@ Interaction:
 : EP -> RD
 
 Method:
-: PATCH
+: PATCH, iPATCH
 
 URI Template:
 : {+location}{?href,rel,rt,if,ct}
@@ -1185,7 +1181,7 @@ The following example shows an EP adding the link </sensors/humid>;ct=41;rt="hum
 Req: PATCH /rd/4521
 
 Payload:
-[{"href":"/sensors/humid","ct": 41, "rt": "humid-s", "if": "sensor"}]
+{"href":"/sensors/humid","ct": 41, "rt": "humid-s", "if": "sensor"}
 
 Content-Format:
 application/merge-patch+json
