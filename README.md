@@ -4,7 +4,7 @@ This is the working area for the IETF CORE Working Group Internet-Draft, "CoRE R
 
 * [Editor's Copy](https://core-wg.github.io/resource-directory/) [![Build Status](https://travis-ci.org/core-wg/resource-directory.svg?branch=master)](https://travis-ci.org/core-wg/resource-directory)
 * [Working Group Draft](https://tools.ietf.org/html/draft-ietf-core-resource-directory)
-* [Compare Editor's Copy to Working Group Draft](https://tools.ietf.org/rfcdiff?url1=https://tools.ietf.org/id/draft-ietf-core-resource-directory.txt&url2=https://core-wg.github.io/resource-directory/draft-ietf-core-resource-directory.txt)]
+* [Compare Editor's Copy to Working Group Draft](https://tools.ietf.org/rfcdiff?url1=https://tools.ietf.org/id/draft-ietf-core-resource-directory.txt&url2=https://core-wg.github.io/resource-directory/draft-ietf-core-resource-directory.txt)
 
 ## Building the Draft
 
