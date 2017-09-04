@@ -349,21 +349,16 @@ like solutions. One of the crucial enablers of such design is the ability
 to discover resources (machines --- endpoints) capable of providing required
 information at a given time or acting on instructions from the end users.
 
-In a typical scenario, during a boot-up procedure (and periodically afterwards),
-the machines (endpoints) register with a Resource Directory (for example
-EPs installed on vehicles enabling tracking of their position for fleet management
-purposes and monitoring environment parameters) hosted by the mobile operator
-or somewhere else in the network, periodically a description of its own capabilities.
-Due to the usual network configuration of mobile networks, the EPs attached
-to the mobile network may not always be efficiently reachable. Therefore, a remote
-server is usually used to provide proxy access to the EPs. The address of
-each (proxy) endpoint on this server is included in the resource description
-stored in the RD. The users, for example mobile applications for environment
-monitoring, contact the RD, look up the endpoints capable of providing information
-about the environment using appropriate set of link parameters, obtain information
-on how to contact them (URLs of the proxy server) and then initiate interaction
-to obtain information that is finally processed, displayed on the screen
-and usually stored in a database. Similarly, fleet management systems provide
+Imagine a scenario where endpoints installed on vehicles enable
+tracking of the position of these vehicles for fleet management purposes and allow
+monitoring of environment parameters. During the boot-up process
+endpoints register with a Resource Directory, which is hosted by the
+mobile operator or somewhere in the cloud. Periodically, these endpoints
+update their registration and may modify resources they offer.
+
+When endpoints are not always connected, for example because they enter
+a sleep mode, a remote server is usually used to provide proxy access to
+the endpoints. Mobile apps or web applications for environment monitoring contact the RD, look up the endpoints capable of providing information about the environment using appropriate set of link parameters, obtain information on how to contact them (URLs of the proxy server) and then initiate interaction to obtain information that is finally processed, displayed on the screen and usually stored in a database. Similarly, fleet management systems provide
 the appropriate link parameters to the RD to look up for EPs deployed on
 the vehicles the application is responsible for.
 
@@ -549,6 +544,8 @@ multicast discovery, the multicast IP address used will depend on the scope requ
 and the multicast capabilities of the network.
 
 A Resource Directory MAY provide hints about the content-formats it supports in the links it exposes or registers, using the "ct" link attribute, as shown in the example below. Clients MAY use these hints to select alternate content-formats for interaction with the Resource Directory.
+
+TODO: Suggestion to add a version, ver, parameter.
 
 HTTP does not support multicast and consequently only unicast discovery can be supported
 using HTTP. Links to Resource Directories MAY be registered in other Resource Directories,
@@ -802,8 +799,7 @@ this document.
 ### Simple publishing to Resource Directory Server {#simple_publishing}
 
 An endpoint that wants to make itself discoverable sends (and regularly refreshes with) a POST
-request to the `/.well-known/core` URI of any candidate directory server that
-it finds. The body of the POST request is empty, which triggers the resource
+request to the `/.well-known/core` URI of the directory server of choice. The body of the POST request is empty, which triggers the resource
 directory server to perform GET requests at the requesting server's default
 discovery URI to obtain the link-format payload to register.
 
@@ -854,13 +850,13 @@ that purpose the scheme, IP address and port of the registered device is
 indicated in the Context parameter of the registration described in {{registration}}.
 
 ### Plurality of link references in a Registration {#link-plurality}
-Plurality of link references within a Registration (registration resource) is an indication of some error condition and should not be allowed.
+Plurality of link references within a Resource Directory is an indication of some error condition and should not be allowed.
 
-Plurality of link references exists if, and only if, two or more links in a Registration
+Plurality of link references exists if, and only if, two or more links in a Resource Directory
 contain identical context, target, and relation values. This condition would be likely to arise if there were multiple co-ordinators or configuration tools, each with a different
 set of configuration values for the same resource.
 
-A Resource Directory SHOULD reject a registration, or an operation on a registration, which would result in a plurality of link references within the the context of the registration. There is no requirement in this document for a resource directory to check for plurality of reference between different registrations. Resource Directory operations which are rejected due to reference plurality SHOULD be returned the "Conflict" code, indicating that there is someting wrong with the request.
+A Resource Directory SHOULD reject a registration, or an operation on a registration, which would result in a plurality of link references within the the context of the Resource Directory. There is no requirement in this document for a resource directory to check for plurality of reference. Resource Directory operations which are rejected due to reference plurality SHOULD be returned the "Conflict" code, indicating that there is someting wrong with the request.
 
 ## Operations on the Registration Resource
 
@@ -871,6 +867,8 @@ The Registration Resource may also be used to inspect the registration resource 
 These operations are described in this section.
 
 In accordance with {{link-plurality}}, operations which would result in plural link references within the context of a registration resource SHOULD be rejected using the "Conflict" result code.
+
+TODO: suggestion to do a GET /rd to obtain a list of registrations loc, ep,...
 
 ### Registration Update {#update}
 
@@ -1102,7 +1100,7 @@ Payload:
 
 ### Update Endpoint Links {#link-up}
 
-A PATCH update adds, removes or changes links for the endpoint by including link update information in the payload of the update as a merge-patch+json format {{RFC7396}}
+A iPATCH (PATCH) update adds, removes or changes links for the endpoint by including link update information in the payload of the update as a merge-patch+json format {{RFC7396}}
 document.
 
 Other PATCH document formats may be used as appropriate for patching the array of objects format of a Registration Resource. In particular, a select-merge patch document format could combine the function of link selection query and link attribute replacement values.
@@ -1111,9 +1109,9 @@ One or more links are selected for update by using query filtering as specified 
 
 The query filter selects the links to be modified or deleted, by matching the query parameter values to the values of the link attributes.
 
-When the query parameters are not present in the request, the payload specifies links to be added to the target document. When the query parameters are present, the attribute names and values in the query parameters select one or more links on which to apply the PATCH operation.
+When the query parameters are not present in the request, the payload specifies links to be added to the target document. When the query parameters are present, the attribute names and values in the query parameters select one or more links on which to apply the iPATCH (PATCH) operation.
 
-If no links are selected by the query parameters, the PATCH operation SHOULD NOT update the state of any resource, and SHOULD return a reply of "Changed".
+If no links are selected by the query parameters, the iPATCH (PATCH) operation MUST NOT update the state of any resource, and MUST return a reply of "Changed".
 
 If an attribute name specified in the PATCH document exists in any the set of selected links, all occurrences of the attribute value in the target document MUST be updated using the value from the PATCH payload. If the attribute name is not present in any selected links, the attribute MUST be added to the links.
 
@@ -1627,8 +1625,18 @@ address as these may change over the lifetime of an Endpoint.
 
 Every operation performed by an Endpoint or Client on a resource directory
 SHOULD be mutually authenticated using Pre-Shared Key, Raw Public Key or
-Certificate based security. Endpoints using a Certificate MUST include the
-Endpoint identifier as the Subject of the Certificate, and this identifier
+Certificate based security. 
+
+Consider te following threat: two devices A and B are managed by a single server. Both devices have unique, per-device credentials for use with DTLS to make sure that only parties with authorization to access A or B can do so.
+
+Now, imagine that a malicious device A wants to sabotage the device B. It uses its credentials during the TLS exchange. Then, it puts the
+endpoint name of device B. If the server does not check
+whether the identifier provided in the DTLS handshake matches the
+identifier used at the CoAP layer then it may be inclined to use the
+endpoint name for looking up what information to provision to the malicious device.
+
+Therfore, Endpoints MUST include the
+Endpoint identifier in the message, and this identifier
 MUST be checked by a resource directory to match the Endpoint identifier
 included in the Registration message.
 
@@ -1994,13 +2002,13 @@ ep - Endpoint Name
 lt - registration lifetime
 ~~~~
 
-Endpoint Name is mandatory, all other registration parameters are optional.
+Endpoint Name, Lifetime, and LWM2M Version are mandatory parameters for the register operation, all other registration parameters are optional.
 
 Additional optional LWM2M registration parameters are defined:
 
 
 |       Name       | Query |           Validity           | Description                                                    |
-| Protocol Binding | b     | {"U",UQ","S","SQ","US","UQS"}| Available Protocols                                            |
+| Binding Mode     | b     | {"U",UQ","S","SQ","US","UQS"}| Available Protocols                                            |
 |
 | LWM2M Version    | ver   | 1.0                          | Spec Version
 |
@@ -2029,7 +2037,10 @@ This link format payload indicates that object ID 1 (LWM2M Server Object) is sup
 
 ### LWM2M Update Endpoint Registration {#lwm2m-regupdate}
 
-An LWM2M Registration update proceeds as described in {{update}}, and adds some optional parameter updates:
+The LwM2M update is really very similar to the registration update as described in {{update}}, with
+the only difference that there are more parameters defined and
+available. All the parameters listed in that section are also available
+with the initial registration but are all optional:
 
 
 ~~~~
@@ -2049,7 +2060,7 @@ LWM2M allows for de-registration using the delete method on the returned locatio
 # Acknowledgments
 
 Oscar Novo, Srdjan Krco, Szymon Sasin, Kerry Lynn, Esko Dijk, Anders
-Brandt, Matthieu Vial, Jim Schaad, Mohit Sethi, Hauke Petersen, Sampo Ukkola, Linyi
+Brandt, Matthieu Vial, Jim Schaad, Mohit Sethi, Hauke Petersen, Hannes Tschofenig, Sampo Ukkola, Linyi
 Tian, and Jan Newmarch have provided helpful comments, discussions and ideas to improve and
 shape this document. Zach would also like to thank his colleagues from the
 EU FP7 SENSEI project, where many of the resource directory concepts were
@@ -2063,6 +2074,8 @@ changes from -11 to -12
 * added ER diagram
 * updated discovery text
 * improved text on: atomicity, idempotency, multiple query, ep removal, simple registration
+* section 5.3.4 extended uniqueness from single registration to RD
+* updated LWM2M description
 
 changes from -09 to -10
 
