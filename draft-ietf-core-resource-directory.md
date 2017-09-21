@@ -1450,7 +1450,7 @@ Method:
 : GET
 
 URI Template:
-: {+type-lookup-location}{?d,res,ep,gp,et,rt,page,count,resource-param}
+: {+type-lookup-location}{?d,ep,gp,et,rt,page,count,resource-param}
 
 
 URI Template Variables:
@@ -1463,9 +1463,6 @@ URI Template Variables:
 
   d :=
   : Domain (optional). Used for domain, group, endpoint and resource lookups.
-
-  res :=
-  : resource (optional). Used for domain, group, endpoint and resource lookups.
 
   gp :=  Group name (optional).  Used for endpoint, group and resource lookups.
 
@@ -1706,7 +1703,6 @@ Initial entries in this sub-registry are as follows:
 | Domain        | d     |               | Domain to which this endpoint belongs                                   |
 | Endpoint Type | et    |               | Semantic name of the endpoint                                           |
 | Context       | con   | URI           | The scheme, address and port and path at which this server is available |
-| Resource Name | res   |               | Name of the resource                                                    |
 | Group Name    | gp    |               | Name of a group in the RD                                               |
 | Page          | page  | Integer       | Used for pagination                                                     |
 | Count         | count | Integer       | Used for pagination                                                     |
