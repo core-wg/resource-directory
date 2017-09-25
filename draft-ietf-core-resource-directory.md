@@ -288,10 +288,35 @@ The Entity-Relationship (ER) models shown in {{fig-ER-WKC}} and {{fig-ER-RD}}mod
 [ER]: Ppins Chen - ‎entity-relationship model, Transactions on Database. Systems, Vol. 1, No. 1. March. 1976, Pages 9-36.
 
 ~~~~
-               +----------------------+
-               |   /.well-known/core  | 
-               +----------------------+
- 
+          /////\\\\\\                   +----------------------+
+         <     has   > -----------------|   /.well-known/core  | 
+          \\\\\//////                   +----------------------+
+               |                                     |
+               | 1-n2                                | 1
+      ooooooooooooooooooooo                  ////////\\\\\\\
+     o scheme://authority: o                <    contains   >
+     o     port            o                 \\\\\\\\///////
+      ooooooooooooooooooooo                          |
+                                                     | 1+
+                                          +--------------------+
+                                          |      link          |
+                                          +--------------------+
+                                                     |
+                                                     |  1   oooooooo
+                                                     +-----o  href  o
+                                                  0+ |      oooooooo
+                                oooooooooooo         |
+                               o    target  o--------+
+                               o  attribute o        | 0+   oooooo
+                                oooooooooooo         +-----o rel  o
+                                                     |      oooooo
+                                                     |
+                                                     | 0-1   oooooooo
+                                                     +------o anchor o
+                                                             oooooooo
+
+
+
 ~~~~
 {: #fig-ER-WKC title='E-R Model of the content of /.well-known/core' align="left"}
 
@@ -311,10 +336,46 @@ The scheme://authority string represents the base URI of the links. The current 
 
 
 ~~~~
-               +-----------------------+
-               |   resource-directory  | 
-               +-----------------------+
- 
+                            +----------------------+          +-------------+
+                            |   resource-diretory  |          |  MC address |
+                            +----------------------+          +-------------+
+                                       |                              |
+                                       |                           ////\\\\
+                                       |                          <  has   >
+                                       |                           \\\\////
+                                       |                              |
+                                  //////\\\\                  0+  +--------+
+                                 < contains >---------------------| group  |
+                                  \\\\\/////                      +--------+
+                                       |                              |
+                                   0-n |                              | 1+
+ oooooooooooooooooooooo     1  +---------------+               ///////\\\\\\
+o  scheme://authority: o-------|  registration |--------------< composed of >    
+o      port            o       +---------------+               \\\\\\\//////
+ oooooooooooooooooooooo            |       |
+                                   |       +-------------------+  
+                      oooooooo   1 |                           |
+                     o  loc   o----+                       /////\\\\
+                      oooooooo     |                      < contains>
+                                   |                       \\\\\////
+                      oooooooo   1 |                            |
+                     o   ep   o----+                            | 1+
+                      oooooooo     |                     +--------------------+
+                                   |                     |      link          |
+                      oooooooo 0-1 |                     +--------------------+
+                     o    d   o----+                            |
+                      oooooooo     |                            |  1   ooooooo
+                                   |                            +-----o href  o
+                      oooooooo 0-1 |                            |      ooooooo
+                     o   et   o----+          oooooooooooo  0+  |
+                      oooooooo     |         o    target  o-----+
+                                   |         o  attribute o     | 0+   oooooo
+                      oooooooo 0-1 |          oooooooooooo      +-----o rel  o
+                     o   lt   o----+                            |      oooooo
+                      oooooooo                                  |
+                                                                | 0-1 ooooooo
+                                                                +----o anchoro
+                                                                      ooooooo
 ~~~~
 {: #fig-ER-RD title='E-R Model of the content of the Resource Directory' align="left"}
 
