@@ -85,6 +85,7 @@ informative:
 #  RFC1123: hostreq
 #  RFC1034: dns1
   RFC7641:
+  ER: DOI.10.1145/320434.320440
 
 --- abstract
 
@@ -283,9 +284,7 @@ provided using the CoRE Link Format.
 
 ## Content model {#ER-model}
 
-The Entity-Relationship (ER) models shown in {{fig-ER-WKC}} and {{fig-ER-RD}}model the contents of /.well-known/core and the resource directory respectively, with entity-relationship diagrams [ER][]. Entities (rectangles) are used for concepts that exist independently. Attributes (ovals) are used for concepts that exist only in connection with related entity. Relations (diamonds) give a semantic meaning to the relation between entities. Numbers specify the cardinality of the relations. The relations between the values of the attributes are explained in the interface sections.
-
-[ER]: Ppins Chen - ‎entity-relationship model, Transactions on Database. Systems, Vol. 1, No. 1. March. 1976, Pages 9-36.
+The Entity-Relationship (ER) models shown in {{fig-ER-WKC}} and {{fig-ER-RD}} model the contents of /.well-known/core and the resource directory respectively, with entity-relationship diagrams [ER][]. Entities (rectangles) are used for concepts that exist independently. Attributes (ovals) are used for concepts that exist only in connection with a related entity. Relations (diamonds) give a semantic meaning to the relation between entities. Numbers specify the cardinality of the relations. The relations between the values of the attributes are explained in the interface sections.
 
 ~~~~
           /////\\\\\\                   +----------------------+
@@ -337,7 +336,7 @@ The scheme://authority string represents the base URI of the links. The current 
 
 ~~~~
                             +----------------------+          +-------------+
-                            |   resource-diretory  |          |  MC address |
+                            |  resource-directory  |          |  MC address |
                             +----------------------+          +-------------+
                                        |                              |
                                        |                           ////\\\\
