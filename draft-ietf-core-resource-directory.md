@@ -1664,6 +1664,29 @@ Res: 2.05 Content
 </res/9>;rt=sensor;ct=60;anchor="coap://[2001:db8:3::123]:61616"
 ~~~~
 
+The following example shows a client performing a lookup of all resources from
+endpoints of a given endpoint type. It assumes that endpoints with endpoint
+names `sensor1` and `sensor2` have previously registered with their respective
+addresses `coap://sensor1.example.com` and `coap://sensor2.example.com`, and
+posted the very payload of the 6th request of section 5 of {{RFC6690}}.
+
+It demonstrates how the link targets stay unmodified, but the anchors get
+constructed by the resource directory:
+
+~~~~
+Req: POST /rd?ep=mynode
+
+</sensors>;ct=40;title="Sensor Index";anchor="coap://sensor1.example.com",
+</sensors/temp>;rt="temperature-c";if="sensor";anchor="coap://sensor1.example.com",
+</sensors/light>;rt="light-lux";if="sensor";anchor="coap://sensor1.example.com",
+<http://www.example.com/sensors/t123>;anchor="coap://sensor1.example.com/sensors/temp";rel="describedby",
+</t>;anchor="coap://sensor1.example.com/sensors/temp";rel="alternate",
+</sensors>;ct=40;title="Sensor Index";anchor="coap://sensor2.example.com",
+</sensors/temp>;rt="temperature-c";if="sensor";anchor="coap://sensor2.example.com",
+</sensors/light>;rt="light-lux";if="sensor";anchor="coap://sensor2.example.com",
+<http://www.example.com/sensors/t123>;anchor="coap://sensor2.example.com/sensors/temp";rel="describedby",
+</t>;anchor="coap://sensor2.example.com/sensors/temp";rel="alternate"
+~~~~
 
 # Security Considerations
 
