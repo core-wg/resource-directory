@@ -934,7 +934,7 @@ TODO: suggestion to do a GET /rd to obtain a list of registrations loc, ep,...
 ### Registration Update {#update}
 
 The update interface is used by an endpoint to refresh or update its
-registration with an RD. To use the interface, the endpoint sends a POST request to the registration resource returned in the Location header option in the response returned from the intial registration operation. The POST request (in contrast to PUT) allows replacing a selection of a resource.
+registration with an RD. To use the interface, the endpoint sends a POST request to the registration resource returned in the Location header option in the response returned from the initial registration operation. The POST request (in contrast to PUT) allows replacing a selection of a resource.
 
 An update MAY update the lifetime or context registration parameters
 "lt", "con" as in {{registration}} ) if the previous settings are to be retained. Parameters that are not being changed SHOULD NOT
@@ -1408,7 +1408,7 @@ Location: /rd-group/12
 ## Group Removal {#group-removal}
 
 A group can be removed simply by sending a removal message to the location of the group registration resource which was
-returned when intially registering the group. Removing a group MUST NOT remove the endpoints of the group from the RD.
+returned when initially registering the group. Removing a group MUST NOT remove the endpoints of the group from the RD.
 
 The removal request interface is specified as follows:
 
