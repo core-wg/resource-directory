@@ -1588,7 +1588,7 @@ The following example shows a client performing a resource lookup with the examp
 Req: GET /rd-lookup/res?rt=temperature
 
 Res: 2.05 Content
-<coap://[2001:db8:3::123]:61616/temp>;rt="temperature"
+</temp>;rt="temperature";anchor="coap://[2001:db8:3::123]:61616"
 ~~~~
 
 The following example shows a client performing an endpoint type lookup:
@@ -1648,20 +1648,20 @@ The following example shows a client performing a paginated lookup
 Req: GET /rd-lookup/res?page=0&count=5
 
 Res: 2.05 Content
-<coap://[2001:db8:3::123]:61616/res/0>;rt=sensor;ct=60
-<coap://[2001:db8:3::123]:61616/res/1>;rt=sensor;ct=60
-<coap://[2001:db8:3::123]:61616/res/2>;rt=sensor;ct=60
-<coap://[2001:db8:3::123]:61616/res/3>;rt=sensor;ct=60
-<coap://[2001:db8:3::123]:61616/res/4>;rt=sensor;ct=60
+</res/0>;rt=sensor;ct=60;anchor="coap://[2001:db8:3::123]:61616",
+</res/1>;rt=sensor;ct=60;anchor="coap://[2001:db8:3::123]:61616",
+</res/2>;rt=sensor;ct=60;anchor="coap://[2001:db8:3::123]:61616",
+</res/3>;rt=sensor;ct=60;anchor="coap://[2001:db8:3::123]:61616",
+</res/4>;rt=sensor;ct=60;anchor="coap://[2001:db8:3::123]:61616"
 
 Req: GET /rd-lookup/res?page=1&count=5
 
 Res: 2.05 Content
-<coap://[2001:db8:3::123]:61616/res/5>;rt=sensor;ct=60
-<coap://[2001:db8:3::123]:61616/res/6>;rt=sensor;ct=60
-<coap://[2001:db8:3::123]:61616/res/7>;rt=sensor;ct=60
-<coap://[2001:db8:3::123]:61616/res/8>;rt=sensor;ct=60
-<coap://[2001:db8:3::123]:61616/res/9>;rt=sensor;ct=60
+</res/5>;rt=sensor;ct=60;anchor="coap://[2001:db8:3::123]:61616",
+</res/6>;rt=sensor;ct=60;anchor="coap://[2001:db8:3::123]:61616",
+</res/7>;rt=sensor;ct=60;anchor="coap://[2001:db8:3::123]:61616",
+</res/8>;rt=sensor;ct=60;anchor="coap://[2001:db8:3::123]:61616",
+</res/9>;rt=sensor;ct=60;anchor="coap://[2001:db8:3::123]:61616"
 ~~~~
 
 
