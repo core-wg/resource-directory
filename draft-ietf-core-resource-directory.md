@@ -1580,7 +1580,7 @@ The following example shows a client performing a resource lookup with the examp
 Req: GET /rd-lookup/res?rt=temperature
 
 Res: 2.05 Content
-<coap://[2001:db8:3::123]:61616/temp>;rt="temperature"
+</temp>;rt="temperature";anchor="coap://[2001:db8:3::123]:61616"
 ~~~~
 
 The following example shows a client performing an endpoint type lookup:
@@ -1589,8 +1589,8 @@ The following example shows a client performing an endpoint type lookup:
 Req: GET /rd-lookup/ep?et=power-node
 
 Res: 2.05 Content
-<coap://[2001:db8:3::127]:61616>;ep="node5",
-<coap://[2001:db8:3::129]:61616>;ep="node7"
+</reg/1234>;con="coap://[2001:db8:3::127]:61616";ep="node5",
+</reg/5678>;con="coap://[2001:db8:3::129]:61616";ep="node7"
 ~~~~
 
 The following example shows a client performing a group lookup for all groups:
@@ -1599,8 +1599,8 @@ The following example shows a client performing a group lookup for all groups:
 Req: GET /rd-lookup/gp
 
 Res: 2.05 Content
-<>;gp="lights1";d="example.com"
-<>;gp="lights2";d="example.com"
+</rd-group/1>;gp="lights1";d="example.com"
+</rd-group/2>;gp="lights2";d="example.com"
 ~~~~
 
 The following example shows a client performing a lookup for all endpoints
@@ -1610,8 +1610,8 @@ in a particular group:
 Req: GET /rd-lookup/ep?gp=lights1
 
 Res: 2.05 Content
-<coap://[2001:db8:3::123]:61616>;ep="node1",
-<coap://[2001:db8:3::124]:61616>;ep="node2"
+</reg/abcd>;con="coap://[2001:db8:3::123]:61616";ep="node1",
+</reg/efgh>;con="coap://[2001:db8:3::124]:61616";ep="node2"
 ~~~~
 
 The following example shows a client performing a lookup for all groups an
@@ -1621,7 +1621,7 @@ endpoint belongs to:
 Req: GET /rd-lookup/gp?ep=node1
 
 Res: 2.05 Content
-<>;gp="lights1"
+</rd-group/1>;gp="lights1"
 ~~~~
 
 The following example shows a client performing a paginated lookup
@@ -1630,22 +1630,45 @@ The following example shows a client performing a paginated lookup
 Req: GET /rd-lookup/res?page=0&count=5
 
 Res: 2.05 Content
-<coap://[2001:db8:3::123]:61616/res/0>;rt=sensor;ct=60
-<coap://[2001:db8:3::123]:61616/res/1>;rt=sensor;ct=60
-<coap://[2001:db8:3::123]:61616/res/2>;rt=sensor;ct=60
-<coap://[2001:db8:3::123]:61616/res/3>;rt=sensor;ct=60
-<coap://[2001:db8:3::123]:61616/res/4>;rt=sensor;ct=60
+</res/0>;rt=sensor;ct=60;anchor="coap://[2001:db8:3::123]:61616",
+</res/1>;rt=sensor;ct=60;anchor="coap://[2001:db8:3::123]:61616",
+</res/2>;rt=sensor;ct=60;anchor="coap://[2001:db8:3::123]:61616",
+</res/3>;rt=sensor;ct=60;anchor="coap://[2001:db8:3::123]:61616",
+</res/4>;rt=sensor;ct=60;anchor="coap://[2001:db8:3::123]:61616"
 
 Req: GET /rd-lookup/res?page=1&count=5
 
 Res: 2.05 Content
-<coap://[2001:db8:3::123]:61616/res/5>;rt=sensor;ct=60
-<coap://[2001:db8:3::123]:61616/res/6>;rt=sensor;ct=60
-<coap://[2001:db8:3::123]:61616/res/7>;rt=sensor;ct=60
-<coap://[2001:db8:3::123]:61616/res/8>;rt=sensor;ct=60
-<coap://[2001:db8:3::123]:61616/res/9>;rt=sensor;ct=60
+</res/5>;rt=sensor;ct=60;anchor="coap://[2001:db8:3::123]:61616",
+</res/6>;rt=sensor;ct=60;anchor="coap://[2001:db8:3::123]:61616",
+</res/7>;rt=sensor;ct=60;anchor="coap://[2001:db8:3::123]:61616",
+</res/8>;rt=sensor;ct=60;anchor="coap://[2001:db8:3::123]:61616",
+</res/9>;rt=sensor;ct=60;anchor="coap://[2001:db8:3::123]:61616"
 ~~~~
 
+The following example shows a client performing a lookup of all resources from
+endpoints of a given endpoint type. It assumes that endpoints with endpoint
+names `sensor1` and `sensor2` have previously registered with their respective
+addresses `coap://sensor1.example.com` and `coap://sensor2.example.com`, and
+posted the very payload of the 6th request of section 5 of {{RFC6690}}.
+
+It demonstrates how the link targets stay unmodified, but the anchors get
+constructed by the resource directory:
+
+~~~~
+Req: POST /rd?ep=mynode
+
+</sensors>;ct=40;title="Sensor Index";anchor="coap://sensor1.example.com",
+</sensors/temp>;rt="temperature-c";if="sensor";anchor="coap://sensor1.example.com",
+</sensors/light>;rt="light-lux";if="sensor";anchor="coap://sensor1.example.com",
+<http://www.example.com/sensors/t123>;anchor="coap://sensor1.example.com/sensors/temp";rel="describedby",
+</t>;anchor="coap://sensor1.example.com/sensors/temp";rel="alternate",
+</sensors>;ct=40;title="Sensor Index";anchor="coap://sensor2.example.com",
+</sensors/temp>;rt="temperature-c";if="sensor";anchor="coap://sensor2.example.com",
+</sensors/light>;rt="light-lux";if="sensor";anchor="coap://sensor2.example.com",
+<http://www.example.com/sensors/t123>;anchor="coap://sensor2.example.com/sensors/temp";rel="describedby",
+</t>;anchor="coap://sensor2.example.com/sensors/temp";rel="alternate"
+~~~~
 
 # Security Considerations
 
@@ -1892,6 +1915,7 @@ of the presence sensor are registered as members of the group.
 Req: POST coap://[2001:db8:4::ff]/rd-group
 ?gp=grp_R2-4-015&con=coap://[ff05::1]
 Payload:
+[ request still unclear -- can we require group manager to just look up the endpoint registrations first? ]
 <>;ep=lm_R2-4-015_wndw,
 <>;ep=lm_R2-4-015_door,
 <>;ep=ps_R2-4-015_door
@@ -1913,9 +1937,9 @@ Req: GET coap://[2001:db8:4::ff]/rd-lookup/ep
   ?d=R2-4-015;rt=light
 
 Res: 2.05 Content
-<coap://[2001:db8:4::1]>;
+</rd/4521>;con="coap://[2001:db8:4::1]",
   ep="lm_R2-4-015_wndw",
-<coap://[2001:db8:4::2]>;
+</rd/4522>;con="coap://[2001:db8:4::2]",
    ep="lm_R2-4-015_door"
 ~~~~
 
@@ -1929,7 +1953,7 @@ Req: GET coap://[2001:db8:4::ff]/rd-lookup/gp
   ?ep=lm_R2-4-015_wndw
 
 Res: 2.05 Content
-<coap://[ff05::1]>;gp="grp_R2-4-015"
+</rd-group/501>;gp="grp_R2-4-015";con="coap://[ff05::1]"
 ~~~~
 
 From the context parameter value, the luminary learns the multicast address
