@@ -1454,7 +1454,7 @@ Res: 2.02 Deleted
 # RD Lookup {#lookup}
 
 In order for an RD to be used for discovering resources registered with it,
-an optional lookup interface may be provided. This lookup interface
+a lookup interface must be provided. This lookup interface
 is defined as a default, and it is assumed that RDs may also support lookups
 to return resource descriptions in alternative formats (e.g. Atom or HTML
 Link) or using more advanced interfaces (e.g. supporting context or semantic
