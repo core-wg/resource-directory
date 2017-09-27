@@ -755,9 +755,7 @@ URI Template Variables:
   lt :=
   : Lifetime (optional). Lifetime of the registration in seconds. Range of 60-4294967295.
     If no lifetime is included in the initial registration, a default value of
-    86400 (24 hours) SHOULD be assumed. If the lt parameter is not included in a
-    registration refresh  or update operation, the most recently supplied value SHALL be
-    re-used.
+    86400 (24 hours) SHOULD be assumed.
 
   con :=
   : Context (optional). This parameter sets the scheme, address, port and path at
