@@ -287,32 +287,32 @@ provided using the CoRE Link Format.
 The Entity-Relationship (ER) models shown in {{fig-ER-WKC}} and {{fig-ER-RD}} model the contents of /.well-known/core and the resource directory respectively, with entity-relationship diagrams [ER][]. Entities (rectangles) are used for concepts that exist independently. Attributes (ovals) are used for concepts that exist only in connection with a related entity. Relations (diamonds) give a semantic meaning to the relation between entities. Numbers specify the cardinality of the relations. The relations between the values of the attributes are explained in the interface sections.
 
 ~~~~
-          /////\\\\\\                   +----------------------+
-         <     has   > -----------------|   /.well-known/core  | 
-          \\\\\//////                   +----------------------+
-               |                                     |
-               | 1-n2                                | 1
-      ooooooooooooooooooooo                  ////////\\\\\\\
-     o scheme://authority: o                <    contains   >
-     o     port            o                 \\\\\\\\///////
-      ooooooooooooooooooooo                          |
-                                                     | 1+
-                                          +--------------------+
-                                          |      link          |
-                                          +--------------------+
-                                                     |
-                                                     |  1   oooooooo
-                                                     +-----o  href  o
-                                                  0+ |      oooooooo
-                                oooooooooooo         |
-                               o    target  o--------+
-                               o  attribute o        | 0+   oooooo
-                                oooooooooooo         +-----o rel  o
-                                                     |      oooooo
-                                                     |
-                                                     | 0-1   oooooooo
-                                                     +------o anchor o
-                                                             oooooooo
+                    +----------------------+
+                    |   /.well-known/core  | 
+                    +----------------------+
+                               |
+                               | 1
+                       ////////\\\\\\\
+                      <    contains   >
+                       \\\\\\\\///////
+                               |
+                               | 1+
+                     +--------------------+
+                     |      link          |
+                     +--------------------+
+                               |
+                               |  1   oooooooo
+                               +-----o  href  o
+                            0+ |      oooooooo
+          oooooooooooo         |
+         o    target  o--------+
+         o  attribute o        | 0+   oooooo
+          oooooooooooo         +-----o rel  o
+                               |      oooooo
+                               |
+                               | 0-1   oooooooo
+                               +------o anchor o
+                                       oooooooo
 
 
 
@@ -322,26 +322,25 @@ The Entity-Relationship (ER) models shown in {{fig-ER-WKC}} and {{fig-ER-RD}} mo
 The model shown in {{fig-ER-WKC}} models the contents of /.well-known/core which contains:
 
 * a set of links belonging to the host
-* a set of strings describing the scheme://authority part 
  
-The scheme://authority string represents the base URI of the links. The current cardinality is 1 (n2 = 1). In the future, links can have multiple base URIs (n2 > 1) when transport negotiation is used. The names of the attributes of the links correspond with the link-format attributes that can be set. A link has the following attributes:
+The names of the attributes of the links correspond with the link-format attributes that can be set. A link has the following attributes:
 
 * Unique rt (resource type)
-* Unique href (path of this link)
+* Unique href (URI this link points to)
 * One or more ct (content-types for transport format)
-* Optional one anchor 
+* Optional anchor (URI this link points from; default is the scheme/authority of the /.well-known/core)
 * and associated rel (relation)
 * Optional one if (interface description reference)
 
 
 ~~~~
-                            +----------------------+          +-------------+
-                            |  resource-directory  |          |  MC address |
-                            +----------------------+          +-------------+
-                                       |                              |
-                                       |                           ////\\\\
-                                       |                          <  has   >
-                                       |                           \\\\////
+                            +----------------------+ 
+                            |  resource-directory  |  
+                            +----------------------+  
+                                       | 
+                                       |              oooooooooooo
+                                       |             o MC address o---+
+                                       |              oooooooooooo    |
                                        |                              |
                                   //////\\\\                  0+  +--------+
                                  < contains >---------------------| group  |
@@ -350,8 +349,8 @@ The scheme://authority string represents the base URI of the links. The current 
                                    0-n |                              | 1+
  oooooooooooooooooooooo     1  +---------------+               ///////\\\\\\
 o  scheme://authority: o-------|  registration |--------------< composed of >    
-o      port            o       +---------------+               \\\\\\\//////
- oooooooooooooooooooooo            |       |
+ oooooooooooooooooooooo        +---------------+               \\\\\\\//////
+                                   |       |
                                    |       +-------------------+  
                       oooooooo   1 |                           |
                      o  loc   o----+                       /////\\\\
@@ -383,10 +382,10 @@ The model shown in {{fig-ER-RD}} models the contents of the resource directory w
 * 0 to n Registration (entries),
 * 0 to k Groups
 
-A Group has one Multicast address and is composed of 0 to n1 endpoints. A registration is associated with one endpoint (ep). An endpoint can be part of 0 to k1 Groups . An endpoint is contained in 1 to m RDs. A registration defines a set of links as defined for /.well-known/core. A Registration has six attributes:
+A Group has one Multicast address attribute and is composed of 0 to n1 endpoints. A registration is associated with one endpoint (ep). An endpoint can be part of 0 to k1 Groups . An endpoint is contained in 1 to m RDs. A registration defines a set of links as defined for /.well-known/core. A Registration has six attributes:
 
 * one ep (endpoint with a unique  name)
-* a set of strings describing the scheme://authority part 
+* string describing the scheme://authority part 
 * one lt (lifetime),
 * optional one et (endpoint type to add semantic information),
 * one loc (location in the RD)
