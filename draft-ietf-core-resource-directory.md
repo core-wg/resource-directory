@@ -338,42 +338,42 @@ The names of the attributes of the links correspond with the link-format attribu
                             |  resource-directory  |  
                             +----------------------+  
                                        | 
-                                       |              oooooooooooo
-                                       |             o MC address o---+
-                                       |              oooooooooooo    |
-                                       |                              |
-                                  //////\\\\                  0+  +--------+
-                                 < contains >---------------------| group  |
-                                  \\\\\/////                      +--------+
-                                       |                              |
-                                   0-n |                              | 1+
- oooooooooooooooooooooo     1  +---------------+               ///////\\\\\\
-o  scheme://authority: o-------|  registration |--------------< composed of >    
- oooooooooooooooooooooo        +---------------+               \\\\\\\//////
+                                       |         oooooooooooo  0-1
+                                       |        o MC address o---+
+                                       |         oooooooooooo    |
+                                       |                         |
+                                  //////\\\\             0+  +--------+
+                                 < contains >----------------| group  |
+                                  \\\\\/////                 +--------+
+                                       |                         |
+                                   0-n |                         | 1+
+ oooooooooooooooooooooo     1  +---------------+          ///////\\\\\\
+o  scheme://authority: o-------|  registration |---------< composed of >    
+ oooooooooooooooooooooo        +---------------+          \\\\\\\//////
                                    |       |
-                                   |       +-------------------+  
-                      oooooooo   1 |                           |
-                     o  loc   o----+                       /////\\\\
-                      oooooooo     |                      < contains>
-                                   |                       \\\\\////
-                      oooooooo   1 |                            |
-                     o   ep   o----+                            | 1+
-                      oooooooo     |                     +--------------------+
-                                   |                     |      link          |
-                      oooooooo 0-1 |                     +--------------------+
-                     o    d   o----+                            |
-                      oooooooo     |                            |  1   ooooooo
-                                   |                            +-----o href  o
-                      oooooooo 0-1 |                            |      ooooooo
-                     o   et   o----+          oooooooooooo  0+  |
-                      oooooooo     |         o    target  o-----+
-                                   |         o  attribute o     | 0+   oooooo
-                      oooooooo 0-1 |          oooooooooooo      +-----o rel  o
-                     o   lt   o----+                            |      oooooo
-                      oooooooo                                  |
-                                                                | 0-1 ooooooo
-                                                                +----o anchoro
-                                                                      ooooooo
+                                   |       +--------------+  
+                      oooooooo   1 |                      |
+                     o  loc   o----+                 /////\\\\
+                      oooooooo     |                < contains >
+                                   |                 \\\\\/////
+                      oooooooo   1 |                      |
+                     o   ep   o----+                      | 1+
+                      oooooooo     |             +------------------+
+                                   |             |      link        |
+                      oooooooo 0-1 |             +------------------+
+                     o    d   o----+                      |
+                      oooooooo     |                      |  1   ooooooo
+                                   |                      +-----o href  o
+                      oooooooo 0-1 |                      |      ooooooo
+                     o   et   o----+     ooooooooooo   0+ |
+                      oooooooo     |    o  target   o-----+
+                                   |    o attribute o     | 0+   oooooo
+                      oooooooo 0-1 |     ooooooooooo      +-----o rel  o
+                     o   lt   o----+                      |      oooooo
+                      oooooooo                            |
+                                                          | 0-1 oooooooo
+                                                          +----o anchor o
+                                                                oooooooo
 ~~~~
 {: #fig-ER-RD title='E-R Model of the content of the Resource Directory' align="left"}
 
