@@ -627,7 +627,7 @@ URI Template:
 URI Template Variables:
 : rt :=
   : Resource Type (optional). MAY contain one of the values "core.rd", "core.rd-lookup\*",
-  "core.rd-lookup-d", "core.rd-lookup-res", "core.rd-lookup-ep", "core.rd-lookup-gp",
+  "core.rd-lookup-res", "core.rd-lookup-ep", "core.rd-lookup-gp",
   "core.rd-group" or "core.rd\*"
 
 Content-Format:
@@ -672,7 +672,6 @@ Res: 2.05 Content
 </rd-lookup/ep>;rt="core.rd-lookup-ep";ct=40,
 </rd-lookup/res>;rt="core.rd-lookup-res";ct=40,
 </rd-lookup/gp>;rt="core.rd-lookup-gp";ct=40,
-</rd-lookup/d>;rt="core.rd-lookup-d";ct=40,
 </rd-group>;rt="core.rd-group";ct=40
 ~~~~
 {: #example-discovery title="Example discovery exchange" }
@@ -1460,10 +1459,10 @@ to return resource descriptions in alternative formats (e.g. Atom or HTML
 Link) or using more advanced interfaces (e.g. supporting context or semantic
 based lookup).
 
-RD Lookup allows lookups for domains, groups, endpoints and resources
+RD Lookup allows lookups for groups, endpoints and resources
 using attributes defined in this document and for use with the CoRE
 Link Format. The result of a lookup request is the list of links (if any)
-corresponding to the type of lookup.  Thus, a domain lookup MUST return a list of domains, a group lookup MUST return a list of groups, an endpoint lookup MUST return a list of endpoints and a resource lookup MUST return a list of links to resources.
+corresponding to the type of lookup.  Thus, a group lookup MUST return a list of groups, an endpoint lookup MUST return a list of endpoints and a resource lookup MUST return a list of links to resources.
 
 RD Lookup does not expose registration resources directly, but returns link content from registration resource entries which satisfy RD Lookup queries.
 
@@ -1472,15 +1471,12 @@ The lookup type is selected by a URI endpoint, which is indicated by a Resource 
 | Lookup Type | Resource Type | Mandatory |
 | Resource | core.rd-lookup-res | Mandatory |
 | Endpoint | core.rd-lookup-ep | Mandatory |
-| Domain | core.rd-lookup-d | Optional |
 | Group | core.rd-lookup-gp | Optional |
 {: #lookup-types title='Lookup Types'}
 
 Each endpoint and resource lookup result returns respectively the scheme (IP address and port) followed by the path part of the URI of every endpoint and resource inside angle brackets ("<>") and followed by the other parameters.
 
-The target of these links SHOULD be the actual location of the domain, endpoint or resource, but MAY be an intermediate proxy e.g. in the case of an HTTP lookup interface for CoAP endpoints.
-
-The domain lookup returns every lookup domain with a base RD resource value (e.g. "/rd") encapsulated within angle brackets.
+The target of these links SHOULD be the actual location of the endpoint or resource, but MAY be an intermediate proxy e.g. in the case of an HTTP lookup interface for CoAP endpoints.
 
 In case that a group does not implement any multicast address, the group lookup returns every group lookup with a group base resource value encapsulated within angle brackets (e.g. "/rd/look-up"). Otherwise, the group lookup returns the multicast address of the group inside angle brackets.
 
@@ -1490,7 +1486,7 @@ The page and count parameters are used to obtain lookup results in specified inc
 
 Multiple query parameters MAY be included in a lookup, all included parameters MUST match for a resource to be returned.  The character'\*' MAY be included at the end of a parameter value as a wildcard operator.
 
-RD Lookup requests MAY use any set of query parameters to match the registered attributes and relations.  In addition, this interface MAY be used with queries that specify domains, endpoints, and groups.  For example, a domain lookup filtering on groups would return a list of domains that contain the specified groups.  An endpoint lookup filtering on groups would return a list of endpoints that are in the specified groups.
+RD Lookup requests MAY use any set of query parameters to match the registered attributes and relations.  In addition, this interface MAY be used with queries that specify endpoints and groups.  For example, an endpoint lookup filtering on groups would return a list of endpoints that are in the specified groups.
 
 Clients that are interested in a lookup result repeatedly or continuously can use
 mechanisms like ETag caching, resource observation ({{RFC7641}}),
@@ -1595,16 +1591,6 @@ Req: GET /rd-lookup/ep?et=power-node
 Res: 2.05 Content
 <coap://[2001:db8:3::127]:61616>;ep="node5",
 <coap://[2001:db8:3::129]:61616>;ep="node7"
-~~~~
-
-The following example shows a client performing a domain lookup:
-
-~~~~
-Req: GET /rd-lookup/d
-
-Res: 2.05 Content
-<>;d="domain1",
-<>;d="domain2"
 ~~~~
 
 The following example shows a client performing a group lookup for all groups:
@@ -1731,7 +1717,7 @@ attack.
 ## Resource Types {#iana-rt}
 
 "core.rd", "core.rd-group", "core.rd-lookup-ep", "core.rd-lookup-res",
-"core.rd-lookup-d", and "core.rd-lookup-gp" resource types need to be
+and "core.rd-lookup-gp" resource types need to be
 registered with the resource type registry defined by {{RFC6690}}.
 
 
