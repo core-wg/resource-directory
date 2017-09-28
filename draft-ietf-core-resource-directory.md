@@ -391,7 +391,7 @@ A Group has one Multicast address attribute and is composed of 0 to n1 endpoints
 * one loc (location in the RD)
 * optional one d (domain for query filtering)
 
-The cardinality of the scheme://authority string is currently 1 (n2 = 1).
+The cardinality of the scheme://authority string is currently 1 (n2 = 1). The value of the scheme://authority string is copied from the value of the "hosts" relation and overwritten by the value of the con query parameter.
 
 ## Use Case: Cellular M2M {#cellular}
 
@@ -859,7 +859,7 @@ request to the `/.well-known/core` URI of the directory server of choice. The bo
 directory server to perform GET requests at the requesting server's default
 discovery URI to obtain the link-format payload to register.
 
-The endpoint MUST include the endpoint name and MAY include the registration parameters d, lt, and et, in the POST request as per {{registration}}.
+The endpoint MUST include the endpoint name and MAY include the registration parameters d, lt, and et, in the POST request as per {{registration}}. The scheme://authority value of the registration is taken from the requesting server's URI.
 
 The endpoints MUST be deleted after the expiration of their lifetime. Additional operations cannot be executed because no registration location is returned.
 
