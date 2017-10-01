@@ -67,7 +67,7 @@ normative:
   RFC6690:
   RFC2119:
   RFC3986:
-  RFC5226:
+  RFC8126:
   RFC5988:
 #  RFC6335: portreg
   RFC6570:
@@ -1775,7 +1775,7 @@ Initial entries in this sub-registry are as follows:
 {: #tab-registry title='RD Parameters'}
 
 The IANA policy for future additions to the sub-registry is "Expert Review"
-as described in {{RFC5226}}.
+as described in {{RFC8126}}.
 
 
 
