@@ -1658,16 +1658,24 @@ constructed by the resource directory:
 ~~~~
 Req: POST /rd?ep=mynode
 
-</sensors>;ct=40;title="Sensor Index";anchor="coap://sensor1.example.com",
-</sensors/temp>;rt="temperature-c";if="sensor";anchor="coap://sensor1.example.com",
-</sensors/light>;rt="light-lux";if="sensor";anchor="coap://sensor1.example.com",
-<http://www.example.com/sensors/t123>;anchor="coap://sensor1.example.com/sensors/temp";rel="describedby",
-</t>;anchor="coap://sensor1.example.com/sensors/temp";rel="alternate",
-</sensors>;ct=40;title="Sensor Index";anchor="coap://sensor2.example.com",
-</sensors/temp>;rt="temperature-c";if="sensor";anchor="coap://sensor2.example.com",
-</sensors/light>;rt="light-lux";if="sensor";anchor="coap://sensor2.example.com",
-<http://www.example.com/sensors/t123>;anchor="coap://sensor2.example.com/sensors/temp";rel="describedby",
-</t>;anchor="coap://sensor2.example.com/sensors/temp";rel="alternate"
+</sensors>;ct=40;title="Sensor Index";
+    anchor="coap://sensor1.example.com",
+</sensors/temp>;rt="temperature-c";if="sensor";
+    anchor="coap://sensor1.example.com",
+</sensors/light>;rt="light-lux";if="sensor";
+    anchor="coap://sensor1.example.com",
+<http://www.example.com/sensors/t123>;rel="describedby";
+    anchor="coap://sensor1.example.com/sensors/temp",
+</t>;rel="alternate";anchor="coap://sensor1.example.com/sensors/temp",
+</sensors>;ct=40;title="Sensor Index";
+    anchor="coap://sensor2.example.com",
+</sensors/temp>;rt="temperature-c";if="sensor";
+    anchor="coap://sensor2.example.com",
+</sensors/light>;rt="light-lux";if="sensor";
+    anchor="coap://sensor2.example.com",
+<http://www.example.com/sensors/t123>;rel="describedby";
+    ;anchor="coap://sensor2.example.com/sensors/temp",
+</t>;rel="alternate";anchor="coap://sensor2.example.com/sensors/temp"
 ~~~~
 
 # Security Considerations
@@ -1915,7 +1923,7 @@ of the presence sensor are registered as members of the group.
 Req: POST coap://[2001:db8:4::ff]/rd-group
 ?gp=grp_R2-4-015&con=coap://[ff05::1]
 Payload:
-[ request still unclear -- can we require group manager to just look up the endpoint registrations first? ]
+[ request still unclear -- see https://github.com/core-wg/resource-directory/issues/48 ]
 <>;ep=lm_R2-4-015_wndw,
 <>;ep=lm_R2-4-015_door,
 <>;ep=ps_R2-4-015_door
