@@ -288,7 +288,7 @@ The Entity-Relationship (ER) models shown in {{fig-ER-WKC}} and {{fig-ER-RD}} mo
 
 ~~~~
                     +----------------------+
-                    |   /.well-known/core  | 
+                    |   /.well-known/core  |
                     +----------------------+
                                |
                                | 1
@@ -322,7 +322,7 @@ The Entity-Relationship (ER) models shown in {{fig-ER-WKC}} and {{fig-ER-RD}} mo
 The model shown in {{fig-ER-WKC}} models the contents of /.well-known/core which contains:
 
 * a set of links belonging to the host
- 
+
 The names of the attributes of the links correspond with the link-format attributes that can be set. A link has the following attributes:
 
 * Unique rt (resource type)
@@ -334,10 +334,10 @@ The names of the attributes of the links correspond with the link-format attribu
 
 
 ~~~~
-             +----------------------+ 
-             |  resource-directory  |  
-             +----------------------+  
-                        | 
+             +----------------------+
+             |  resource-directory  |
+             +----------------------+
+                        |
                         |         oooooooooooo  0-1
                         |        o MC address o---+
                         |         oooooooooooo    |
@@ -348,10 +348,10 @@ The names of the attributes of the links correspond with the link-format attribu
                         |                         |
                     0-n |                         | 1+
  ooooooo     1  +---------------+          ///////\\\\\\
-o  con  o-------|  registration |---------< composed of >    
+o  con  o-------|  registration |---------< composed of >
  ooooooo        +---------------+          \\\\\\\//////
                     |       |
-                    |       +--------------+  
+                    |       +--------------+
        oooooooo   1 |                      |
       o  loc   o----+                 /////\\\\
        oooooooo     |                < contains >
@@ -567,7 +567,7 @@ This section defines the required set of REST interfaces between a Resource Dire
 CoAP {{RFC7252}}, these REST interfaces can also be realized using HTTP {{RFC7230}}.
 In all definitions in this section, both CoAP response codes (with dot notation) and HTTP response codes
 (without dot notation) are shown. An RD implementing this specification MUST support
-the discovery, registration, update, lookup, and removal interfaces defined in this section. 
+the discovery, registration, update, lookup, and removal interfaces defined in this section.
 
 All operations on the contents of the Resource Directory MUST be atomic and idempotent.
 
@@ -1696,7 +1696,7 @@ address as these may change over the lifetime of an Endpoint.
 
 Every operation performed by an Endpoint or Client on a resource directory
 SHOULD be mutually authenticated using Pre-Shared Key, Raw Public Key or
-Certificate based security. 
+Certificate based security.
 
 Consider te following threat: two devices A and B are managed by a single server. Both devices have unique, per-device credentials for use with DTLS to make sure that only parties with authorization to access A or B can do so.
 
