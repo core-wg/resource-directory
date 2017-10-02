@@ -334,46 +334,46 @@ The names of the attributes of the links correspond with the link-format attribu
 
 
 ~~~~
-                            +----------------------+ 
-                            |  resource-directory  |  
-                            +----------------------+  
-                                       | 
-                                       |         oooooooooooo  0-1
-                                       |        o MC address o---+
-                                       |         oooooooooooo    |
-                                       |                         |
-                                  //////\\\\             0+  +--------+
-                                 < contains >----------------| group  |
-                                  \\\\\/////                 +--------+
-                                       |                         |
-                                   0-n |                         | 1+
- oooooooooooooooooooooo     1  +---------------+          ///////\\\\\\
-o  scheme://authority: o-------|  registration |---------< composed of >    
- oooooooooooooooooooooo        +---------------+          \\\\\\\//////
-                                   |       |
-                                   |       +--------------+  
-                      oooooooo   1 |                      |
-                     o  loc   o----+                 /////\\\\
-                      oooooooo     |                < contains >
-                                   |                 \\\\\/////
-                      oooooooo   1 |                      |
-                     o   ep   o----+                      | 1+
-                      oooooooo     |             +------------------+
-                                   |             |      link        |
-                      oooooooo 0-1 |             +------------------+
-                     o    d   o----+                      |
-                      oooooooo     |                      |  1   ooooooo
-                                   |                      +-----o href  o
-                      oooooooo 0-1 |                      |      ooooooo
-                     o   et   o----+     ooooooooooo   0+ |
-                      oooooooo     |    o  target   o-----+
-                                   |    o attribute o     | 0+   oooooo
-                      oooooooo 0-1 |     ooooooooooo      +-----o rel  o
-                     o   lt   o----+                      |      oooooo
-                      oooooooo                            |
-                                                          | 0-1 oooooooo
-                                                          +----o anchor o
-                                                                oooooooo
+             +----------------------+ 
+             |  resource-directory  |  
+             +----------------------+  
+                        | 
+                        |         oooooooooooo  0-1
+                        |        o MC address o---+
+                        |         oooooooooooo    |
+                        |                         |
+                   //////\\\\             0+  +--------+
+                  < contains >----------------| group  |
+                   \\\\\/////                 +--------+
+                        |                         |
+                    0-n |                         | 1+
+ ooooooo     1  +---------------+          ///////\\\\\\
+o  con  o-------|  registration |---------< composed of >    
+ ooooooo        +---------------+          \\\\\\\//////
+                    |       |
+                    |       +--------------+  
+       oooooooo   1 |                      |
+      o  loc   o----+                 /////\\\\
+       oooooooo     |                < contains >
+                    |                 \\\\\/////
+       oooooooo   1 |                      |
+      o   ep   o----+                      | 1+
+       oooooooo     |             +------------------+
+                    |             |      link        |
+       oooooooo 0-1 |             +------------------+
+      o    d   o----+                      |
+       oooooooo     |                      |  1   ooooooo
+                    |                      +-----o href  o
+       oooooooo 0-1 |                      |      ooooooo
+      o   et   o----+     ooooooooooo   0+ |
+       oooooooo     |    o  target   o-----+
+                    |    o attribute o     | 0+   oooooo
+       oooooooo 0-1 |     ooooooooooo      +-----o rel  o
+      o   lt   o----+                      |      oooooo
+       oooooooo                            |
+                                           | 0-1 oooooooo
+                                           +----o anchor o
+                                                 oooooooo
 ~~~~
 {: #fig-ER-RD title='E-R Model of the content of the Resource Directory' align="left"}
 
@@ -385,13 +385,13 @@ The model shown in {{fig-ER-RD}} models the contents of the resource directory w
 A Group has one Multicast address attribute and is composed of 0 to n1 endpoints. A registration is associated with one endpoint (ep). An endpoint can be part of 0 to k1 Groups . An endpoint is contained in 1 to m RDs. A registration defines a set of links as defined for /.well-known/core. A Registration has six attributes:
 
 * one ep (endpoint with a unique  name)
-* string describing the scheme://authority part 
+* one con (a string describing the scheme://authority part)
 * one lt (lifetime),
 * optional one et (endpoint type to add semantic information),
 * one loc (location in the RD)
 * optional one d (domain for query filtering)
 
-The cardinality of the scheme://authority string is currently 1 (n2 = 1). The value of the scheme://authority string is copied from the value of the "hosts" relation and overwritten by the value of the con query parameter.
+The cardinality of con is currently 1 (n2 = 1). The value of con is copied from the value of the "hosts" relation and overwritten by the value of the con query parameter.
 
 ## Use Case: Cellular M2M {#cellular}
 
