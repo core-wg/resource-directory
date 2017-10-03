@@ -1513,7 +1513,7 @@ URI Template Variables:
   : Endpoint name (optional). Used for endpoint, group and resource lookups.
 
   d :=
-  : Domain (optional). Used for domain, group, endpoint and resource lookups.
+  : Domain (optional). Used for group, endpoint and resource lookups.
 
   gp :=  Group name (optional).  Used for endpoint, group and resource lookups.
 
