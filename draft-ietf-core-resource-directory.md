@@ -321,14 +321,22 @@ The model shown in {{fig-ER-WKC}} models the contents of /.well-known/core which
 
 * a set of links belonging to the host
 
-The names of the attributes of the links correspond with the link-format attributes that can be set. A link has the following attributes:
+The host is free to choose links it deems appropriate to be exposed in its `.well-known/core`.
+Typically, the links describe resources that are served by the host, but the set can also contain links to resources on other servers (see examples in [[RFC6690]] page 14).
+The set does not necessarily contain links to all resources served by the host.
 
-* Unique rt (resource type)
-* Unique href (URI this link points to)
-* One or more ct (content-types for transport format)
-* Optional anchor (URI this link points from; default is the scheme/authority of the /.well-known/core)
-* and associated rel (relation)
-* Optional one if (interface description reference)
+A link has the following attributes:
+
+* One or more link relations (expressed as space-separated values in the "rel" attribute, defaulting to "hosts").
+  They describe a relations between the link context and the link target.
+* A link context URI ("anchor").
+  The link context defines the source of the relation, and serves as the Base URI for resolving the target.
+  It can be relative, in which case it gets resolved against the Base URI of the `.well-known/core` document it was obtained from <!-- or the / resource of said server: RFC6690bis anyone? -->. It can be absent, in which the Base URI of the document is used as the context.
+* A link target URI ("href", expressed between the angular brackets in link-format).
+  The link target defines the destination of the relation, and is the topic of all other target attributes.
+  If it is a relative URI, it gets resolved against the link context URI.
+* Other target attributes (eg. resource type (rt), interface (if), cor content-type (ct)).
+  These provide additional information about the target URI.
 
 
 ~~~~
@@ -390,6 +398,10 @@ A Group has one Multicast address attribute and is composed of 0 to n1 endpoints
 * optional one d (domain for query filtering)
 
 The cardinality of con is currently 1 (n2 = 1). The value of con is copied from the value of the "hosts" relation and overwritten by the value of the con query parameter.
+
+Links are modelled as they are in {{fig-ER-WKC}}.
+As they do not have their `.well-known/core` document associated with them any more which would originally provide its Base URI,
+the "con" attribute of the registration fills that gap and is used as a Base URI.
 
 ## Use Case: Cellular M2M {#cellular}
 
@@ -755,15 +767,18 @@ URI Template Variables:
     86400 (24 hours) SHOULD be assumed.
 
   con :=
-  : Context (optional). This parameter sets the scheme, address, port and path at
-    which this server is available in the form scheme://host:port/path. In
-    the absence of this parameter the scheme of the protocol, source address
+  : Context (optional). This parameter sets the Default Base URI under which
+    the request's body are be interpreted. The URI scheme provided MUST allow a
+    path component, but the path component of the Context parameter MUST be
+    empty. The parameter is therefore of the shape "scheme://authority" for
+    HTTP and CoAP URIs.
+
+    In the absence of this parameter the scheme of the protocol, source address
     and source port of the register request are assumed. This parameter is
     mandatory when the directory is filled by a third party such as an
-    commissioning tool. When con is used, scheme and host are mandatory and
-    port and path parameters are optional.
+    commissioning tool.
 
-    If the endpoint uses an ephemeral port to register with, it MUST include the con:
+    If the endpoint uses an ephemeral port to register with, it MUST include the con
     parameter in the registration to provide a valid network path.
 
     If the endpoint which is located behind a NAT gateway is registering with a Resource
@@ -857,7 +872,7 @@ request to the `/.well-known/core` URI of the directory server of choice. The bo
 directory server to perform GET requests at the requesting server's default
 discovery URI to obtain the link-format payload to register.
 
-The endpoint MUST include the endpoint name and MAY include the registration parameters d, lt, and et, in the POST request as per {{registration}}. The scheme://authority value of the registration is taken from the requesting server's URI.
+The endpoint MUST include the endpoint name and MAY include the registration parameters d, lt, and et, in the POST request as per {{registration}}. The context of the registration is taken from the requesting server's URI.
 
 The endpoints MUST be deleted after the expiration of their lifetime. Additional operations cannot be executed because no registration location is returned.
 
@@ -979,13 +994,19 @@ URI Template Variables:
 
 
   con :=
-  : Context (optional). This parameter sets the scheme, address and port at
-  which this server is available in the form scheme://host:port/path. In
-  the absence of this parameter the scheme of the protocol, source address
-  and source port of the register request are assumed. This parameter is
-  mandatory when the directory is filled by a third party such as an
-  commissioning tool. When con is used, scheme and host are mandatory and
-  port and path parameters are optional.
+  : Context (optional). This parameter updates the context established in the
+    original registration to a new value.
+
+    If the parameter is set in an update, it is stored by the RD as the new
+    Base URI under which to interpret the links of the registration, following
+    the same restrictions as in the registration.
+
+    If the parameter is not set and was set explicitly before, the previous
+    context value is kept unmodified.
+
+    If the parameter is not set and was not set explicitly before either, the
+    source address and source port of the update request are stored as the
+    context.
 
 Content-Format:
 : application/link-format (mandatory)
@@ -1462,7 +1483,9 @@ using attributes defined in this document and for use with the CoRE
 Link Format. The result of a lookup request is the list of links (if any)
 corresponding to the type of lookup.  Thus, a group lookup MUST return a list of groups, an endpoint lookup MUST return a list of endpoints and a resource lookup MUST return a list of links to resources.
 
-RD Lookup does not expose registration resources directly, but returns link content from registration resource entries which satisfy RD Lookup queries.
+While Endpoint Lookup does expose the registration resources,
+the RD does not need to make them accessible to clients.
+Clients SHOULD NOT attempt to dereference or manipulate them.
 
 The lookup type is selected by a URI endpoint, which is indicated by a Resource Type as per {{lookup-types}} below:
 
@@ -1472,11 +1495,15 @@ The lookup type is selected by a URI endpoint, which is indicated by a Resource 
 | Group | core.rd-lookup-gp | Optional |
 {: #lookup-types title='Lookup Types'}
 
-Each endpoint and resource lookup result returns respectively the scheme (IP address and port) followed by the path part of the URI of every endpoint and resource inside angle brackets ("<>") and followed by the other parameters.
+Resource lookup results in links that are semantically equivalent to the links submitted to the RD if they were accessed on the endpoint itself.
+The links and link parameters returned are equal to the submitted ones except for anchor,
+which gets resolved according to the endpoint's context.
+That allows the client to interpret the response as links without any further knowledge of what the RD does.
+The Resource Directory MAY replace the contexts with a configured intermediate proxy, e.g. in the case of an HTTP lookup interface for CoAP endpoints.
 
-The target of these links SHOULD be the actual location of the endpoint or resource, but MAY be an intermediate proxy e.g. in the case of an HTTP lookup interface for CoAP endpoints.
-
-In case that a group does not implement any multicast address, the group lookup returns every group lookup with a group base resource value encapsulated within angle brackets (e.g. "/rd/look-up"). Otherwise, the group lookup returns the multicast address of the group inside angle brackets.
+Endpoint and group lookups result in links to the selected registration and group resources.
+Endpoint registration resources are annotated with their endpoint names (ep), domains (d, if present) and context (con).
+Group resources are annotated with their group names (gp), domain (d, if present) and multicast address (con, if present).
 
 Using the Accept Option, the requester can control whether this list is returned in CoRE Link Format (`application/link-format`, default) or its alternate content-formats (`application/link-format+json` or `application/link-format+cbor`).
 
