@@ -866,7 +866,7 @@ by simply sending an empty POST to a resource directory.
 
 ~~~~
 Req:(to RD server from [2001:db8:2::1])
-POST coap://rd.example.com/.well-known/core?lt=6000;ep=node1
+POST coap://rd.example.com/.well-known/core?lt=6000&ep=node1
 
 Content-Format: 40
 
@@ -1035,7 +1035,7 @@ With the initial registration the client set the following values:
 * resource= </sensors/temp>;ct=41;rt="foobar";if="sensor"
 
 ~~~~
-Req: POST /rd/4521?lt=600&con="coap://local-proxy.example.com:5683"
+Req: POST /rd/4521?lt=600&con=coap://local-proxy.example.com:5683
 Content-Format: 40
 Payload:
 </sensors/temp>;ct=41;rt="temperature-f";if="sensor",
