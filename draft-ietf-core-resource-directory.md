@@ -171,12 +171,10 @@ is identified by its endpoint name, which is included during registration,
 and is unique within the associated domain of the registration.
 
 Context
-:   When registering links to a Resource Directory, the Context refers to the
-scheme, address, port, and base path for all the links registered on behalf of
-an endpoint, of the general form scheme://host:port/path/ where the client may
-explicitly set the scheme and host, and may supply the port and path as optional
-parameters. When the context of a registration is explicitly set, the
-URI resolution rules in {{RFC3986}} MUST be applied.
+:   A Context is a base URL that gives scheme and (typically) authority
+information about an Endpoint. The Context of an Endpoint is provided at
+registration time, and is used by the Resource Directory to resolve relative
+references inside the registration into absolute URIs.
 
 Commissioning Tool
 : Commissioning Tool (CT) is a device that assists during the installation of the
