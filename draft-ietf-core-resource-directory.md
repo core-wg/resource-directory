@@ -171,12 +171,10 @@ is identified by its endpoint name, which is included during registration,
 and is unique within the associated domain of the registration.
 
 Context
-:   When registering links to a Resource Directory, the Context refers to the
-scheme, address, port, and base path for all the links registered on behalf of
-an endpoint, of the general form scheme://host:port/path/ where the client may
-explicitly set the scheme and host, and may supply the port and path as optional
-parameters. When the context of a registration is explicitly set, the
-URI resolution rules in {{RFC3986}} MUST be applied.
+:   A Context is a base URL that gives scheme and (typically) authority
+information about an Endpoint. The Context of an Endpoint is provided at
+registration time, and is used by the Resource Directory to resolve relative
+references inside the registration into absolute URIs.
 
 Commissioning Tool
 : Commissioning Tool (CT) is a device that assists during the installation of the
@@ -323,14 +321,22 @@ The model shown in {{fig-ER-WKC}} models the contents of /.well-known/core which
 
 * a set of links belonging to the host
 
-The names of the attributes of the links correspond with the link-format attributes that can be set. A link has the following attributes:
+The host is free to choose links it deems appropriate to be exposed in its `.well-known/core`.
+Typically, the links describe resources that are served by the host, but the set can also contain links to resources on other servers (see examples in [[RFC6690]] page 14).
+The set does not necessarily contain links to all resources served by the host.
 
-* Unique rt (resource type)
-* Unique href (URI this link points to)
-* One or more ct (content-types for transport format)
-* Optional anchor (URI this link points from; default is the scheme/authority of the /.well-known/core)
-* and associated rel (relation)
-* Optional one if (interface description reference)
+A link has the following attributes:
+
+* One or more link relations (expressed as space-separated values in the "rel" attribute, defaulting to "hosts").
+  They describe a relations between the link context and the link target.
+* A link context URI ("anchor").
+  The link context defines the source of the relation, and serves as the Base URI for resolving the target.
+  It can be relative, in which case it gets resolved against the Base URI of the `.well-known/core` document it was obtained from <!-- or the / resource of said server: RFC6690bis anyone? -->. It can be absent, in which the Base URI of the document is used as the context.
+* A link target URI ("href", expressed between the angular brackets in link-format).
+  The link target defines the destination of the relation, and is the topic of all other target attributes.
+  If it is a relative URI, it gets resolved against the link context URI.
+* Other target attributes (eg. resource type (rt), interface (if), cor content-type (ct)).
+  These provide additional information about the target URI.
 
 
 ~~~~
@@ -392,6 +398,10 @@ A Group has one Multicast address attribute and is composed of 0 to n1 endpoints
 * optional one d (domain for query filtering)
 
 The cardinality of con is currently 1 (n2 = 1). The value of con is copied from the value of the "hosts" relation and overwritten by the value of the con query parameter.
+
+Links are modelled as they are in {{fig-ER-WKC}}.
+As they do not have their `.well-known/core` document associated with them any more which would originally provide its Base URI,
+the "con" attribute of the registration fills that gap and is used as a Base URI.
 
 ## Use Case: Cellular M2M {#cellular}
 
@@ -757,15 +767,18 @@ URI Template Variables:
     86400 (24 hours) SHOULD be assumed.
 
   con :=
-  : Context (optional). This parameter sets the scheme, address, port and path at
-    which this server is available in the form scheme://host:port/path. In
-    the absence of this parameter the scheme of the protocol, source address
+  : Context (optional). This parameter sets the Default Base URI under which
+    the request's body are be interpreted. The URI scheme provided MUST allow a
+    path component, but the path component of the Context parameter MUST be
+    empty. The parameter is therefore of the shape "scheme://authority" for
+    HTTP and CoAP URIs.
+
+    In the absence of this parameter the scheme of the protocol, source address
     and source port of the register request are assumed. This parameter is
     mandatory when the directory is filled by a third party such as an
-    commissioning tool. When con is used, scheme and host are mandatory and
-    port and path parameters are optional.
+    commissioning tool.
 
-    If the endpoint uses an ephemeral port to register with, it MUST include the con:
+    If the endpoint uses an ephemeral port to register with, it MUST include the con
     parameter in the registration to provide a valid network path.
 
     If the endpoint which is located behind a NAT gateway is registering with a Resource
@@ -859,7 +872,7 @@ request to the `/.well-known/core` URI of the directory server of choice. The bo
 directory server to perform GET requests at the requesting server's default
 discovery URI to obtain the link-format payload to register.
 
-The endpoint MUST include the endpoint name and MAY include the registration parameters d, lt, and et, in the POST request as per {{registration}}. The scheme://authority value of the registration is taken from the requesting server's URI.
+The endpoint MUST include the endpoint name and MAY include the registration parameters d, lt, and et, in the POST request as per {{registration}}. The context of the registration is taken from the requesting server's URI.
 
 The endpoints MUST be deleted after the expiration of their lifetime. Additional operations cannot be executed because no registration location is returned.
 
@@ -868,7 +881,7 @@ by simply sending an empty POST to a resource directory.
 
 ~~~~
 Req:(to RD server from [2001:db8:2::1])
-POST coap://rd.example.com/.well-known/core?lt=6000;ep=node1
+POST coap://rd.example.com/.well-known/core?lt=6000&ep=node1
 
 Content-Format: 40
 
@@ -981,13 +994,19 @@ URI Template Variables:
 
 
   con :=
-  : Context (optional). This parameter sets the scheme, address and port at
-  which this server is available in the form scheme://host:port/path. In
-  the absence of this parameter the scheme of the protocol, source address
-  and source port of the register request are assumed. This parameter is
-  mandatory when the directory is filled by a third party such as an
-  commissioning tool. When con is used, scheme and host are mandatory and
-  port and path parameters are optional.
+  : Context (optional). This parameter updates the context established in the
+    original registration to a new value.
+
+    If the parameter is set in an update, it is stored by the RD as the new
+    Base URI under which to interpret the links of the registration, following
+    the same restrictions as in the registration.
+
+    If the parameter is not set and was set explicitly before, the previous
+    context value is kept unmodified.
+
+    If the parameter is not set and was not set explicitly before either, the
+    source address and source port of the update request are stored as the
+    context.
 
 Content-Format:
 : application/link-format (mandatory)
@@ -1037,7 +1056,7 @@ With the initial registration the client set the following values:
 * resource= </sensors/temp>;ct=41;rt="foobar";if="sensor"
 
 ~~~~
-Req: POST /rd/4521?lt=600&con="coap://local-proxy.example.com:5683"
+Req: POST /rd/4521?lt=600&con=coap://local-proxy.example.com:5683
 Content-Format: 40
 Payload:
 </sensors/temp>;ct=41;rt="temperature-f";if="sensor",
@@ -1464,7 +1483,9 @@ using attributes defined in this document and for use with the CoRE
 Link Format. The result of a lookup request is the list of links (if any)
 corresponding to the type of lookup.  Thus, a group lookup MUST return a list of groups, an endpoint lookup MUST return a list of endpoints and a resource lookup MUST return a list of links to resources.
 
-RD Lookup does not expose registration resources directly, but returns link content from registration resource entries which satisfy RD Lookup queries.
+While Endpoint Lookup does expose the registration resources,
+the RD does not need to make them accessible to clients.
+Clients SHOULD NOT attempt to dereference or manipulate them.
 
 The lookup type is selected by a URI endpoint, which is indicated by a Resource Type as per {{lookup-types}} below:
 
@@ -1474,11 +1495,15 @@ The lookup type is selected by a URI endpoint, which is indicated by a Resource 
 | Group | core.rd-lookup-gp | Optional |
 {: #lookup-types title='Lookup Types'}
 
-Each endpoint and resource lookup result returns respectively the scheme (IP address and port) followed by the path part of the URI of every endpoint and resource inside angle brackets ("<>") and followed by the other parameters.
+Resource lookup results in links that are semantically equivalent to the links submitted to the RD if they were accessed on the endpoint itself.
+The links and link parameters returned are equal to the submitted ones except for anchor,
+which gets resolved according to the endpoint's context.
+That allows the client to interpret the response as links without any further knowledge of what the RD does.
+The Resource Directory MAY replace the contexts with a configured intermediate proxy, e.g. in the case of an HTTP lookup interface for CoAP endpoints.
 
-The target of these links SHOULD be the actual location of the endpoint or resource, but MAY be an intermediate proxy e.g. in the case of an HTTP lookup interface for CoAP endpoints.
-
-In case that a group does not implement any multicast address, the group lookup returns every group lookup with a group base resource value encapsulated within angle brackets (e.g. "/rd/look-up"). Otherwise, the group lookup returns the multicast address of the group inside angle brackets.
+Endpoint and group lookups result in links to the selected registration and group resources.
+Endpoint registration resources are annotated with their endpoint names (ep), domains (d, if present) and context (con).
+Group resources are annotated with their group names (gp), domain (d, if present) and multicast address (con, if present).
 
 Using the Accept Option, the requester can control whether this list is returned in CoRE Link Format (`application/link-format`, default) or its alternate content-formats (`application/link-format+json` or `application/link-format+cbor`).
 
@@ -1515,7 +1540,7 @@ URI Template Variables:
   : Endpoint name (optional). Used for endpoint, group and resource lookups.
 
   d :=
-  : Domain (optional). Used for domain, group, endpoint and resource lookups.
+  : Domain (optional). Used for group, endpoint and resource lookups.
 
   gp :=  Group name (optional).  Used for endpoint, group and resource lookups.
 
@@ -2324,6 +2349,174 @@ Changes from -01 to -02:
 *  Changed the lookup interface to accept endpoint and Domain as query string parameters to control the scope of a lookup.
 
 --- back
+
+# Web links and the Resource Directory
+
+Understanding the semantics of a link-format document and its URI references is
+a journey through different documents ({{RFC3986}} defining URIs, {{RFC5988}}
+defining link headers, {{RFC6690}} serializing them into a link-format
+document, and {{RFC7252}} providing the transport). This appendix summarizes
+the mechanisms and semantics at play from an entry in `.well-known/core` to a
+resource lookup. (This section will not elaborate on the differences between
+URIs and IRIs and use the former term for simplicity.)
+
+Much of this text will be obvious to people accustomed to link mechanisms on
+the web; it is primarily aimed at people entering the field of Constrained
+Restful Environments from applications that previously did not use web
+mechanisms.
+
+## A simple example
+
+Let's start this example with a very simple host, `2001:db8:f0::1`. A client
+could follow classical CoAP Discovery ({{RFC7252}} Section 7) and do a
+multicast request. The client would send the following multicast request:
+
+    Sender: [2001:db8:f0::1234]:65530
+    Recipient: [ff02::fd]:5683 ("All CoAP Nodes in link-local scope")
+    Code: GET
+    Uri-Path: .well-known
+    Uri-Path: core
+    Uri-Query: rt=temperature
+
+and the simple host would respond
+
+    Sender: [2001:db8:f0::1]:5683
+    Recipient: [2001:db8:f0::1234]:65530
+    Code: 2.05 Content
+    Payload:
+        </temp>;rt=temperature;ct=0
+
+While the client -- on the practical or implementation side -- can just go
+ahead and create a new request to `[2001:db8:f0::1]:5683` with Uri-Path:
+`temp`, the full resolution steps without any shortcuts are:
+
+### Resolving the URIs
+
+The client parses the single returned record. The link's target (sometimes
+called "href") is "/temp", which is a relative URI that needs resolving. The
+Base URI to resolve that against is, in absence of an "anchor" parameter (as
+per {{RFC5988}} section 5.2), the URI of the requested resource.
+
+The URI of the requested resource can be composed from following the steps of
+{{RFC7252}} section 6.5 (with an addition at the end of 8.2) into
+"coap://[2001:db8:f0::1]/.well-known/core".
+
+The record's target can thus be resolved by following {{RFC3986}} section 5.2
+by composing the Base URI "coap://[2001:db8:f0::1]/.well-known/core" with the
+relative URI reference "/temp" into "coap://[2001:db8:f0::1]/temp".
+
+### Interpreting attributes and relations
+
+Some more information but the record's target can be obtained from the line: It
+says that the resource type of the target is "temperature", and its content
+type is text/plain (encoded as 0). Furthermore, as this is an {{RFC6690}}
+document, there is an implicit default parameter of rel="hosts".
+
+A relation in a web link is a three-part statement that the context resource
+has a named relation to the target resource, like "*This page* has *its table
+of contents* at */toc.html*".
+
+In our example, the context of the link is the requested document itself. A
+full English expression of the complete response is:
+
+'<coap://[2001:db8:f0::1]/.well-known/core> is hosting the resource
+<coap://[2001:db8:f0::1]/temp>, which is of the resource type "temperature" and
+can be accessed using the text/plain content format.'
+
+## A slightly more complex example
+
+Were the simple host not queried with the `rt=temperature` filter, it would
+have given some more statements:
+
+    </temp>;rt=temperature;ct=0,
+    </light>;rt=light-lux;ct=0,
+    </t>;anchor="/sensors/temp";rel=alternate,
+    <http://www.example.com/sensors/t123>;anchor="/sensors/temp";
+        rel=describedby,
+    <t123.pdf>;rel=alternate;ct=65001;
+        anchor="http://www.example.com/sensors/t123"
+
+Parsing the third record, the client encounters the "anchor" parameter. It is
+a URI, and can be relative to the document's Base URI and is thus resolved to
+"coap://[2001:db8:f0::1]/sensors/temp". That is the context resource of the
+link (so it only affects a single record), with two effects:
+
+* The "rel" statement is not about the target and the document Base URI any
+  more, but about the target and this URI.
+
+  Thus, the third record could be read as "<coap://[...]/sensors/temp> has an
+  alternate representation at <coap://[...]/t>".
+
+* When resolving the target URI, it is resolved relative to the context URI.
+
+  This only makes a difference in the last example, where a "t123.pdf" is resolved
+  relative to "http://www.example.com/sensors/t123", which gives a statement
+  that "<http://www.example.com/sensors/t123> has an alternate representation at
+  <http://www2.example.com/sensors/t123.pdf>, whose content type is PDF".
+
+## Enter the Resource Directory
+
+The resource directory tries to carry the semantics obtainable by classical
+CoAP discovery over to the resource lookup interface as faithfully as possible.
+
+For the following queries, we will assume that the simple host has used Simple
+Registration to register at the resource directory that was announced to it:
+
+    Sender: [2001:db8:f0::1]:6553
+    Recipient: [2001:db8:f01::ff]:5683
+    Code: POST
+    Uri-Path: .well-known
+    Uri-Path: core
+    Uri-Query: ep=simple-host1
+
+The resource directory would have accepted the registration, and queried the
+simple host's `.well-known/core` by itself. As a result, the host is registered
+as an endpoint in the RD with the name "simple-host1". The registration is
+active for 86400 seconds, and the endpoint registration Context is
+"coap://[2001:db8:f0::1]/" because that is the address the registration was
+sent from (and no explicit `con=` was given).
+
+If the client now queries the RD as it would previously have issued a multicast
+request, it would go through the RD discovery steps by fetching
+<coap://[2001:db8:f0::ff]/.well-known/core?rt=core.rd-lookup-res>, obtain
+<coap://[2001:db8:f0::ff]/rd-lookup/res> as the resource lookup endpoint, and
+issue a request to <coap://[2001:db8:f0::ff]/rd-lookup/res?rt=temperature> to
+receive the following data:
+
+        </temp>;rt=temperature;ct=0;anchor="coap://[2001:db8:f0::1]"
+
+This is not *literally* the same response that it would have received from a
+multicast request, but it would contain the (almost) same statement:
+
+'<coap://[2001:db8:f0::1]> is hosting the resource
+<coap://[2001:db8:f0::1]/temp>, which is of the resource type "temperature" and
+can be accessed using the text/plain content format.'
+
+(The difference is whether `/` or `/.well-known/core` hosts the resources,
+which is subject of ongoing discussion about RFC6690).
+
+To complete the examples, the client could also query all resources hosted at
+the endpoint with the known endpoint name "simple-host1". A request to
+<coap://[2001:db8:f0::ff]/rd-lookup/res?ep=simple-host1> would return
+
+    </temp>;rt=temperature;ct=0;anchor="coap://[2001:db8:f0::1]",
+    </light>;rt=light-lux;ct=0;anchor="coap://[2001:db8:f0::1]",
+    </t>;anchor="coap://[2001:db8:f0::1]/sensors/temp";rel=alternate,
+    <http://www.example.com/sensors/t123>;
+        anchor="coap://[2001:db8:f0::1]/sensors/temp";rel=describedby,
+    <t123.pdf>;rel=alternate;ct=65001;
+        anchor="http://www.example.com/sensors/t123"
+
+Note that the last link was not modifed at all because its anchor was already
+an absolute reference.
+
+Had the simple host registered with an explicit context (eg.
+`?ep=simple-host1&con=coap+tcp://simple-host1.example.com`), that context would
+have been used to resolve the anchor values instead, giving
+
+    </temp>;rt=temperature;ct=0;anchor="coap+tcp://simple-host1.example.com"
+
+and analogous records.
 
 <!--  LocalWords:  lookups multicast lookup RESTful CoRE LoWPAN CoAP
  -->
