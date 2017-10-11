@@ -330,13 +330,18 @@ A link has the following attributes:
 * One or more link relations (expressed as space-separated values in the "rel" attribute, defaulting to "hosts").
   They describe a relations between the link context and the link target.
 * A link context URI ("anchor").
-  The link context defines the source of the relation, and serves as the Base URI for resolving the target.
+  The link context defines the source of the relation.
   It can be relative, in which case it gets resolved against the Base URI of the `.well-known/core` document it was obtained from <!-- or the / resource of said server: RFC6690bis anyone? -->. It can be absent, in which the Base URI of the document is used as the context.
 * A link target URI ("href", expressed between the angular brackets in link-format).
   The link target defines the destination of the relation, and is the topic of all other target attributes.
-  If it is a relative URI, it gets resolved against the link context URI.
+  If it is a relative URI, it gets resolved against the Base URI of the document it was obtained from.
 * Other target attributes (eg. resource type (rt), interface (if), cor content-type (ct)).
   These provide additional information about the target URI.
+
+This description diverges from {{RFC6690}}
+(where it says that a relative target URI is resolved against the anchor URI)
+due to the clarifications in the upcoming {{I.D.-draft-nottingham-rfc5988bis-08}} document.
+It is expected that an upcoming 6690bis document will clarify that for link-format too.
 
 
 ~~~~
@@ -1496,7 +1501,7 @@ The lookup type is selected by a URI endpoint, which is indicated by a Resource 
 {: #lookup-types title='Lookup Types'}
 
 Resource lookup results in links that are semantically equivalent to the links submitted to the RD if they were accessed on the endpoint itself.
-The links and link parameters returned are equal to the submitted ones except for anchor,
+The links and link parameters returned are equal to the submitted ones except for href and anchor,
 which gets resolved according to the endpoint's context.
 That allows the client to interpret the response as links without any further knowledge of what the RD does.
 The Resource Directory MAY replace the contexts with a configured intermediate proxy, e.g. in the case of an HTTP lookup interface for CoAP endpoints.
@@ -2387,8 +2392,7 @@ ahead and create a new request to `[2001:db8:f0::1]:5683` with Uri-Path:
 
 The client parses the single returned record. The link's target (sometimes
 called "href") is "/temp", which is a relative URI that needs resolving. The
-Base URI to resolve that against is, in absence of an "anchor" parameter (as
-per {{RFC5988}} section 5.2), the URI of the requested resource.
+Base URI to resolve that against is the URI of the requested resource.
 
 The URI of the requested resource can be composed by following the steps of
 {{RFC7252}} section 6.5 (with an addition at the end of 8.2) into
@@ -2404,12 +2408,12 @@ Some more information but the record's target can be obtained from the payload:
 the resource type of the target is "temperature", and its content type is
 text/plain (ct=0).
 
-A relation in a web link is a three-part statement that the Base resource
+A relation in a web link is a three-part statement that the context resource
 has a named relation to the target resource, like "*This page* has *its table
 of contents* at */toc.html*". In {{RFC6690}} link-format documents,
 there is an implicit "host relation" specified with default parameter: rel="hosts".
 
-In our example, the  Base URI of the link is the URI of the requested document
+In our example, the context of the link is the URI of the requested document
 itself. A full English expression of the "host relation" is:
 
 '<coap://[2001:db8:f0::1]/.well-known/core> is hosting the resource
@@ -2426,8 +2430,8 @@ have given some more records in the payload:
     </t>;anchor="/sensors/temp";rel=alternate,
     <http://www.example.com/sensors/t123>;anchor="/sensors/temp";
         rel=describedby,
-    <t123.pdf>;rel=alternate;ct=65001;
-        anchor="http://www.example.com/sensors/t123"
+    </temp>;rel="instance";
+        anchor="http://www.example.com/temp-probes/pt100"
 
 Parsing the third record, the client encounters the "anchor" parameter. It is
 a URI relative to the document's Base URI and is thus resolved to
@@ -2443,11 +2447,10 @@ Thus, the third record could be read as
 The fourth record can be read as "<coap://[2001:db8:f0::1]/sensors/temp> is
 described by <http://www.example.com/sensors/t123>"
 
-<!-- FIXME this example does not align wiht 5988 -->
-In the last example the anchor is absolute, where a "t123.pdf" is resolved
-relative to "http://www.example.com/sensors/t123", which gives a statement that
-"<http://www.example.com/sensors/t123/t123.pdf> is an alternate representation
-to "<http://www.example.com/sensors/t123> of which the content type is PDF".
+The last record uses an off-site address as anchor but an address on the device
+as target, and can be read as "<http://www.example.com/temp-probes/pt100> has
+an instance at <coap://[2001:db8:f0::1]/temp>". (The rules applied here do not
+follow {{RFC6690}} as explained in {{ER-model}}).
 
 ## Enter the Resource Directory
 
@@ -2474,7 +2477,7 @@ request, it would go through the RD discovery steps by fetching
 issue a request to <coap://[2001:db8:f0::ff]/rd-lookup/res?rt=temperature> to
 receive the following data:
 
-        </temp>;rt=temperature;ct=0;anchor="coap://[2001:db8:f0::1]"
+        <coap://[2001:db8:f0::1]/temp>;rt=temperature;ct=0;anchor="coap://[2001:db8:f0::1]"
 
 This is not *literally* the same response that it would have received from a
 multicast request, but it would contain the (almost) same statement:
@@ -2490,22 +2493,19 @@ To complete the examples, the client could also query all resources hosted at
 the endpoint with the known endpoint name "simple-host1". A request to
 <coap://[2001:db8:f0::ff]/rd-lookup/res?ep=simple-host1> would return
 
-    </temp>;rt=temperature;ct=0;anchor="coap://[2001:db8:f0::1]",
-    </light>;rt=light-lux;ct=0;anchor="coap://[2001:db8:f0::1]",
-    </t>;anchor="coap://[2001:db8:f0::1]/sensors/temp";rel=alternate,
+    <coap://[2001:db8:f0::1]/temp>;rt=temperature;ct=0;anchor="coap://[2001:db8:f0::1]",
+    <coap://[2001:db8:f0::1]/light>;rt=light-lux;ct=0;anchor="coap://[2001:db8:f0::1]",
+    <coap://[2001:db8:f0::1]/t>;anchor="coap://[2001:db8:f0::1]/sensors/temp";rel=alternate,
     <http://www.example.com/sensors/t123>;
         anchor="coap://[2001:db8:f0::1]/sensors/temp";rel=describedby,
-    <t123.pdf>;rel=alternate;ct=65001;
+    <coap://[2001:db8:f0::1]/temp>;rel="instance";
         anchor="http://www.example.com/sensors/t123"
-
-Note that the last link was not modified at all because its anchor was already
-an absolute reference.
 
 Had the simple host registered with an explicit context (eg.
 `?ep=simple-host1&con=coap+tcp://simple-host1.example.com`), that context would
 have been used to resolve the relative anchor values instead, giving
 
-    </temp>;rt=temperature;ct=0;anchor="coap+tcp://simple-host1.example.com"
+    <coap+tcp://simple-host1.example.com/temp>;rt=temperature;ct=0;anchor="coap+tcp://simple-host1.example.com"
 
 and analogous records.
 
