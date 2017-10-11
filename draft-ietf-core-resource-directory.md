@@ -161,7 +161,7 @@ logical grouping of endpoints.
 Group
 :   In the context of a Resource Directory, a group is a logical grouping of
 endpoints for the purpose of group communications. All groups within a domain
-have unique names.
+are unique.
 
 Endpoint
 :   Endpoint (EP) is a term used to describe a web server or client in {{RFC7252}}.
@@ -490,7 +490,7 @@ When no Internet services are present, the following techniques are used (in ran
 
 When Internet services are present, the techniques cited above are still valid. Using standard techniques to obtain the addresses of DNS or DHCP servers, the RD can be discovered in the following way:
 
-8.	Using a DNSSD query to return the Resource Records (RR) describing the service with name rd.\_sub.\_coap.\_udp, preferably within the domain of the querying nodes.
+8.	Using a DNSSD query to return the Resource Records (RR) describing the service with name rd._sub._coap._udp, preferably within the domain of the querying nodes.
 9.	Using DHCPv6 with options to be defined.
 
 Assisting the 9 techniques above, requires manual intervention or may be done automatically.
@@ -580,6 +580,8 @@ In all definitions in this section, both CoAP response codes (with dot notation)
 the discovery, registration, update, lookup, and removal interfaces defined in this section.
 
 All operations on the contents of the Resource Directory MUST be atomic and idempotent.
+
+A Resource Directory MUST accept query filtering with multiple query parameters in the URI.
 
 ## Content Formats
 
@@ -855,7 +857,7 @@ specified in {{RFC6690}}.
 
 The endpoint then finds one or more addresses of the directory server as described in {{simple_finding}}.
 
-An endpoint finally asks the directory server to probe it for resources and publish them as described in {{simple_publishing}}.
+An endpoint can send (a selection of) hosted resources to a directory server for publication as described in {{simple_publishing}}.
 
 The directory server integrates the information it received this way into its
 resource directory.  It MAY make the information available to further
