@@ -2404,12 +2404,12 @@ Some more information but the record's target can be obtained from the payload:
 the resource type of the target is "temperature", and its content type is
 text/plain (ct=0).
 
-A relation in a web link is a three-part statement that the Base resource
+A relation in a web link is a three-part statement that the context resource
 has a named relation to the target resource, like "*This page* has *its table
 of contents* at */toc.html*". In {{RFC6690}} link-format documents,
 there is an implicit "host relation" specified with default parameter: rel="hosts".
 
-In our example, the  Base URI of the link is the URI of the requested document
+In our example, the context of the link is the URI of the requested document
 itself. A full English expression of the "host relation" is:
 
 '<coap://[2001:db8:f0::1]/.well-known/core> is hosting the resource
