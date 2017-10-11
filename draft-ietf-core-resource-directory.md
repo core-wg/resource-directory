@@ -2357,34 +2357,27 @@ a journey through different documents ({{RFC3986}} defining URIs, {{RFC5988}}
 defining link headers, {{RFC6690}} serializing them into a link-format
 document, and {{RFC7252}} providing the transport). This appendix summarizes
 the mechanisms and semantics at play from an entry in `.well-known/core` to a
-resource lookup. (This section will not elaborate on the differences between
-URIs and IRIs and use the former term for simplicity.)
+resource lookup.
 
-Much of this text will be obvious to people accustomed to link mechanisms on
-the web; it is primarily aimed at people entering the field of Constrained
+This text is primarily aimed at people entering the field of Constrained
 Restful Environments from applications that previously did not use web
 mechanisms.
 
 ## A simple example
 
 Let's start this example with a very simple host, `2001:db8:f0::1`. A client
-could follow classical CoAP Discovery ({{RFC7252}} Section 7) and do a
-multicast request. The client would send the following multicast request:
+that follows classical CoAP Discovery ({{RFC7252}} Section 7), sends the
+following multicast request to learn about neighbours supporting resources with
+resource-type "temperature".
 
-    Sender: [2001:db8:f0::1234]:65530
-    Recipient: [ff02::fd]:5683 ("All CoAP Nodes in link-local scope")
-    Code: GET
-    Uri-Path: .well-known
-    Uri-Path: core
-    Uri-Query: rt=temperature
+The client sends a link-local multicast:
 
-and the simple host would respond
+    GET coap://[ff02::fd]:5683/.well-known/core?rt=temperature
 
-    Sender: [2001:db8:f0::1]:5683
-    Recipient: [2001:db8:f0::1234]:65530
-    Code: 2.05 Content
-    Payload:
-        </temp>;rt=temperature;ct=0
+    RES 2.05 Content
+    </temp>;rt=temperature;ct=0
+
+where the response is sent by the server, `[2001:db8:f0::1]:5683`.
 
 While the client -- on the practical or implementation side -- can just go
 ahead and create a new request to `[2001:db8:f0::1]:5683` with Uri-Path:
@@ -2397,27 +2390,28 @@ called "href") is "/temp", which is a relative URI that needs resolving. The
 Base URI to resolve that against is, in absence of an "anchor" parameter (as
 per {{RFC5988}} section 5.2), the URI of the requested resource.
 
-The URI of the requested resource can be composed from following the steps of
+The URI of the requested resource can be composed by following the steps of
 {{RFC7252}} section 6.5 (with an addition at the end of 8.2) into
 "coap://[2001:db8:f0::1]/.well-known/core".
 
-The record's target can thus be resolved by following {{RFC3986}} section 5.2
-by composing the Base URI "coap://[2001:db8:f0::1]/.well-known/core" with the
-relative URI reference "/temp" into "coap://[2001:db8:f0::1]/temp".
+The record's target is resolved by removing the dotted path /.well-known/core
+from the Base URI (section 5.2 {{RFC3986}}) and prefixing the remainig scheme
+and authority of the Base URI to the relative target URI "/temp" into
+"coap://[2001:db8:f0::1]/temp".
 
 ### Interpreting attributes and relations
 
-Some more information but the record's target can be obtained from the line: It
-says that the resource type of the target is "temperature", and its content
-type is text/plain (encoded as 0). Furthermore, as this is an {{RFC6690}}
-document, there is an implicit default parameter of rel="hosts".
+Some more information but the record's target can be obtained from the payload:
+the resource type of the target is "temperature", and its content type is
+text/plain (ct= 0).
 
-A relation in a web link is a three-part statement that the context resource
+A relation in a web link is a three-part statement that the Base resource
 has a named relation to the target resource, like "*This page* has *its table
-of contents* at */toc.html*".
+of contents* at */toc.html*". Furthermore, as {{RFC6690}} describes the
+document's format, there is an implicit "host relation" specified with default parameter: rel="hosts".
 
-In our example, the context of the link is the requested document itself. A
-full English expression of the complete response is:
+In our example, the  Base URI of the link is the URI of the requested document
+itself. A full English expression of the "host relation" is:
 
 '<coap://[2001:db8:f0::1]/.well-known/core> is hosting the resource
 <coap://[2001:db8:f0::1]/temp>, which is of the resource type "temperature" and
@@ -2425,8 +2419,8 @@ can be accessed using the text/plain content format.'
 
 ## A slightly more complex example
 
-Were the simple host not queried with the `rt=temperature` filter, it would
-have given some more statements:
+Omitting the `rt=temperature` filter, the discovery query would
+have given some more records in the payload:
 
     </temp>;rt=temperature;ct=0,
     </light>;rt=light-lux;ct=0,
@@ -2437,42 +2431,40 @@ have given some more statements:
         anchor="http://www.example.com/sensors/t123"
 
 Parsing the third record, the client encounters the "anchor" parameter. It is
-a URI, and can be relative to the document's Base URI and is thus resolved to
-"coap://[2001:db8:f0::1]/sensors/temp". That is the context resource of the
+a URI relative to the document's Base URI and is thus resolved to
+"coap://[2001:db8:f0::1]/sensors/temp".
+That is the Base resource of the
 link (so it only affects a single record), with two effects:
 
 * The "rel" statement is not about the target and the document Base URI any
-  more, but about the target and this URI.
+  more, but about the target and this anchor URI.
 
-  Thus, the third record could be read as "<coap://[...]/sensors/temp> has an
-  alternate representation at <coap://[...]/t>".
+  Thus, the third record could be read as
+  "<coap://[2001:db8:f0::1]/sensors/temp> has an alternate representation at
+  <coap://[2001:db8:f0::1]/t>".
 
-* When resolving the target URI, it is resolved relative to the context URI.
+The fourth record can be read as "<coap://[2001:db8:f0::1]/sensors/temp> is
+described by <http://www.example.com/sensors/t123>"
 
-  This only makes a difference in the last example, where a "t123.pdf" is resolved
-  relative to "http://www.example.com/sensors/t123", which gives a statement
-  that "<http://www.example.com/sensors/t123> has an alternate representation at
-  <http://www2.example.com/sensors/t123.pdf>, whose content type is PDF".
+In the last example the anchor is absolute, where a "t123.pdf" is resolved
+relative to "http://www.example.com/sensors/t123", which gives a statement that
+"<http://www.example.com/sensors/t123/t123.pdf> is an alternate representation
+to "<http://www.example.com/sensors/t123> of which the content type is PDF".
 
 ## Enter the Resource Directory
 
 The resource directory tries to carry the semantics obtainable by classical
 CoAP discovery over to the resource lookup interface as faithfully as possible.
 
-For the following queries, we will assume that the simple host has used Simple
-Registration to register at the resource directory that was announced to it:
+For the following queries, we will assume that the simple host, `[2001:db8:f0::1]:6553` has used Simple
+Registration to register at the resource directory `[2001:db8:f0::ff]:5683`that was announced to it:
 
-    Sender: [2001:db8:f0::1]:6553
-    Recipient: [2001:db8:f01::ff]:5683
-    Code: POST
-    Uri-Path: .well-known
-    Uri-Path: core
-    Uri-Query: ep=simple-host1
+    POST coap://[2001:db8:f01::ff]:5683//well-known/core?ep-simple-host1
 
 The resource directory would have accepted the registration, and queried the
 simple host's `.well-known/core` by itself. As a result, the host is registered
 as an endpoint in the RD with the name "simple-host1". The registration is
-active for 86400 seconds, and the endpoint registration Context is
+active for 86400 seconds, and the endpoint registration Base URI is
 "coap://[2001:db8:f0::1]/" because that is the address the registration was
 sent from (and no explicit `con=` was given).
 
@@ -2483,12 +2475,12 @@ request, it would go through the RD discovery steps by fetching
 issue a request to <coap://[2001:db8:f0::ff]/rd-lookup/res?rt=temperature> to
 receive the following data:
 
-        </temp>;rt=temperature;ct=0;anchor="coap://[2001:db8:f0::1]"
+        </temp>;rt=temperature;ct=0;anchor="coap://[2001:db8:f0::1]:6553"
 
 This is not *literally* the same response that it would have received from a
 multicast request, but it would contain the (almost) same statement:
 
-'<coap://[2001:db8:f0::1]> is hosting the resource
+'<coap://[2001:db8:f0::1]>:6553 is hosting the resource
 <coap://[2001:db8:f0::1]/temp>, which is of the resource type "temperature" and
 can be accessed using the text/plain content format.'
 
@@ -2507,12 +2499,12 @@ the endpoint with the known endpoint name "simple-host1". A request to
     <t123.pdf>;rel=alternate;ct=65001;
         anchor="http://www.example.com/sensors/t123"
 
-Note that the last link was not modifed at all because its anchor was already
+Note that the last link was not modified at all because its anchor was already
 an absolute reference.
 
 Had the simple host registered with an explicit context (eg.
 `?ep=simple-host1&con=coap+tcp://simple-host1.example.com`), that context would
-have been used to resolve the anchor values instead, giving
+have been used to resolve the relative anchor values instead, giving
 
     </temp>;rt=temperature;ct=0;anchor="coap+tcp://simple-host1.example.com"
 
