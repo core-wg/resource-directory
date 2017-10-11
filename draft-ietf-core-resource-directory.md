@@ -161,7 +161,7 @@ logical grouping of endpoints.
 Group
 :   In the context of a Resource Directory, a group is a logical grouping of
 endpoints for the purpose of group communications. All groups within a domain
-are unique.
+have unique names.
 
 Endpoint
 :   Endpoint (EP) is a term used to describe a web server or client in {{RFC7252}}.
@@ -490,7 +490,7 @@ When no Internet services are present, the following techniques are used (in ran
 
 When Internet services are present, the techniques cited above are still valid. Using standard techniques to obtain the addresses of DNS or DHCP servers, the RD can be discovered in the following way:
 
-8.	Using a DNSSD query to return the Resource Records (RR) describing the service with name rd._sub._coap._udp, preferably within the domain of the querying nodes.
+8.	Using a DNSSD query to return the Resource Records (RR) describing the service with name rd.\_sub.\_coap.\_udp, preferably within the domain of the querying nodes.
 9.	Using DHCPv6 with options to be defined.
 
 Assisting the 9 techniques above, requires manual intervention or may be done automatically.
@@ -580,8 +580,6 @@ In all definitions in this section, both CoAP response codes (with dot notation)
 the discovery, registration, update, lookup, and removal interfaces defined in this section.
 
 All operations on the contents of the Resource Directory MUST be atomic and idempotent.
-
-A Resource Directory MUST accept query filtering with multiple query parameters in the URI.
 
 ## Content Formats
 
@@ -857,7 +855,7 @@ specified in {{RFC6690}}.
 
 The endpoint then finds one or more addresses of the directory server as described in {{simple_finding}}.
 
-An endpoint can send (a selection of) hosted resources to a directory server for publication as described in {{simple_publishing}}.
+An endpoint finally asks the directory server to probe it for resources and publish them as described in {{simple_publishing}}.
 
 The directory server integrates the information it received this way into its
 resource directory.  It MAY make the information available to further
@@ -2394,21 +2392,20 @@ The URI of the requested resource can be composed by following the steps of
 {{RFC7252}} section 6.5 (with an addition at the end of 8.2) into
 "coap://[2001:db8:f0::1]/.well-known/core".
 
-The record's target is resolved by removing the dotted path /.well-known/core
-from the Base URI (section 5.2 {{RFC3986}}) and prefixing the remainig scheme
-and authority of the Base URI to the relative target URI "/temp" into
+The record's target is resolved by replacing the path /.well-known/core
+from the Base URI (section 5.2 {{RFC3986}}) with the relative target URI "/temp" into
 "coap://[2001:db8:f0::1]/temp".
 
 ### Interpreting attributes and relations
 
 Some more information but the record's target can be obtained from the payload:
 the resource type of the target is "temperature", and its content type is
-text/plain (ct= 0).
+text/plain (ct=0).
 
 A relation in a web link is a three-part statement that the Base resource
 has a named relation to the target resource, like "*This page* has *its table
-of contents* at */toc.html*". Furthermore, as {{RFC6690}} describes the
-document's format, there is an implicit "host relation" specified with default parameter: rel="hosts".
+of contents* at */toc.html*". In {{RFC6690}} link-format documents,
+there is an implicit "host relation" specified with default parameter: rel="hosts".
 
 In our example, the  Base URI of the link is the URI of the requested document
 itself. A full English expression of the "host relation" is:
@@ -2433,19 +2430,18 @@ have given some more records in the payload:
 Parsing the third record, the client encounters the "anchor" parameter. It is
 a URI relative to the document's Base URI and is thus resolved to
 "coap://[2001:db8:f0::1]/sensors/temp".
-That is the Base resource of the
-link (so it only affects a single record), with two effects:
+That is the context resource of the link, so the "rel" statement is not about
+the target and the document Base URI any more, but about the target and that
+address.
 
-* The "rel" statement is not about the target and the document Base URI any
-  more, but about the target and this anchor URI.
-
-  Thus, the third record could be read as
-  "<coap://[2001:db8:f0::1]/sensors/temp> has an alternate representation at
-  <coap://[2001:db8:f0::1]/t>".
+Thus, the third record could be read as
+"<coap://[2001:db8:f0::1]/sensors/temp> has an alternate representation at
+<coap://[2001:db8:f0::1]/t>".
 
 The fourth record can be read as "<coap://[2001:db8:f0::1]/sensors/temp> is
 described by <http://www.example.com/sensors/t123>"
 
+<!-- FIXME this example does not align wiht 5988 -->
 In the last example the anchor is absolute, where a "t123.pdf" is resolved
 relative to "http://www.example.com/sensors/t123", which gives a statement that
 "<http://www.example.com/sensors/t123/t123.pdf> is an alternate representation
@@ -2456,10 +2452,11 @@ to "<http://www.example.com/sensors/t123> of which the content type is PDF".
 The resource directory tries to carry the semantics obtainable by classical
 CoAP discovery over to the resource lookup interface as faithfully as possible.
 
-For the following queries, we will assume that the simple host, `[2001:db8:f0::1]:6553` has used Simple
-Registration to register at the resource directory `[2001:db8:f0::ff]:5683`that was announced to it:
+For the following queries, we will assume that the simple host has used Simple
+Registration to register at the resource directory that was announced to it,
+sending this request from its UDP port `[2001:db8:f0::1]:6553`:
 
-    POST coap://[2001:db8:f01::ff]:5683//well-known/core?ep-simple-host1
+    POST coap://[2001:db8:f01::ff]/.well-known/core?ep-simple-host1
 
 The resource directory would have accepted the registration, and queried the
 simple host's `.well-known/core` by itself. As a result, the host is registered
@@ -2475,12 +2472,12 @@ request, it would go through the RD discovery steps by fetching
 issue a request to <coap://[2001:db8:f0::ff]/rd-lookup/res?rt=temperature> to
 receive the following data:
 
-        </temp>;rt=temperature;ct=0;anchor="coap://[2001:db8:f0::1]:6553"
+        </temp>;rt=temperature;ct=0;anchor="coap://[2001:db8:f0::1]"
 
 This is not *literally* the same response that it would have received from a
 multicast request, but it would contain the (almost) same statement:
 
-'<coap://[2001:db8:f0::1]>:6553 is hosting the resource
+'<coap://[2001:db8:f0::1]> is hosting the resource
 <coap://[2001:db8:f0::1]/temp>, which is of the resource type "temperature" and
 can be accessed using the text/plain content format.'
 
