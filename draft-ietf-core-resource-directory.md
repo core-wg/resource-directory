@@ -857,7 +857,7 @@ specified in {{RFC6690}}.
 
 The endpoint then finds one or more addresses of the directory server as described in {{simple_finding}}.
 
-An endpoint can send (a selection of) hosted resources to a directory server for publication as described in {{simple_publishing}}.
+An endpoint finally asks the directory server to probe it for resources and publish them as described in {{simple_publishing}}.
 
 The directory server integrates the information it received this way into its
 resource directory.  It MAY make the information available to further
