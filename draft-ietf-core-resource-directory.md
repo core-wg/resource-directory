@@ -945,7 +945,7 @@ The update interface is used by an endpoint to refresh or update its
 registration with an RD. To use the interface, the endpoint sends a POST request to the registration resource returned in the Location header option in the response returned from the initial registration operation. The POST request (in contrast to PUT) allows replacing a selection of a resource.
 
 An update MAY update the lifetime or context registration parameters
-"lt", "con" as in {{registration}} ) if the previous settings are to be retained. Parameters that are not being changed SHOULD NOT
+"lt", "con" as in {{registration}}. Parameters that are not being changed SHOULD NOT
 be included in an update. Adding parameters that have not changed increases
 the size of the message but does not have any other implications.
 Parameters MUST be included as query parameters in an update operation as
@@ -1052,24 +1052,24 @@ an RD using this interface with the example location value: /rd/4521. The initia
 * lifetime (lt)=500
 * context (con)=coap://local-proxy-old.example.com:5683
 
-The Registration Resource, /rd/4521, initial state is:
+The initial state of the Registration Resource, /rd/4521, is:
 
 ~~~~
 Req: GET /rd/4521
 
 Res: 2.01 Content
 Payload:
-</sensors/temp>;ct=41;rt="temperature";anchor=coap://local-proxy-old.example.com:5683,
-</sensors/light>;ct=41;rt="light-lux";if="sensor";anchor=coap://local-proxy-old.example.com:5683
+</sensors/temp>;ct=41;rt="temperature";anchor="coap://local-proxy-old.example.com:5683",
+</sensors/light>;ct=41;rt="light-lux";if="sensor";anchor="coap://local-proxy-old.example.com:5683"
 ~~~~
 
-The following example shows an EP adding the links </sensors/humid>;ct=41;rt="humid-s";if="sensor" and </sensors/co2>;ct=41;rt="co2-s"; if="sensor" to the collection of links at the location /rd/4521 and changing the context to coaps://new.example.com:5684. The humid-s respurce type has an anchor value coaps://[2001:db8:3::123]:61616 that overwrites the value of the con atribute.
+The following example shows an EP adding the links </sensors/humid>;ct=41;rt="humid-s";if="sensor" and </sensors/co2>;ct=41;rt="co2-s";if="sensor" to the collection of links at the location /rd/4521 and changing the context to coaps://new.example.com:5684. The humid-s resource type has an anchor value coaps://[2001:db8:3::123]:61616 that overwrites the value of the con atribute.
 
 ~~~~
 Req: POST /rd/4521?con=coaps://new.example.com:5684
 Content-Format:40
 Payload:
-</sensors/humid>;ct= 41;rt="humid-s";if="sensor";anchor="coaps://[2001:db8:3::123]:61616,
+</sensors/humid>;ct= 41;rt="humid-s";if="sensor";anchor="coaps://[2001:db8:3::123]:61616",
 </sensors/co2>;ct= 41;rt="co2-s";if="sensor"
 
 Res: 2.04 Changed
