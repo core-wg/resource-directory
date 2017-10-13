@@ -959,14 +959,13 @@ the RD MUST update the lifetime of the registration and set the timeout equal
 to the new lifetime. If the lifetime parameter is not included in the registration
 update, the most recent setting is re-used for the next registration time-out period.
 
-An update MAY optionally add or replace links for the endpoint by including
+An update MAY optionally add links for the endpoint by including
 those links in the payload of the update as a CoRE Link Format
-document. A link is replaced only if all of the target URI and relation type (if present) and anchor value (if present) match.
+document.
 
 If the link payload is included, it SHOULD be checked for reference plurality as described in {{link-plurality}} and rejected with a "Conflict" result if there are plural link references detected.
 
-In addition to the use of POST, as described in this section, there is an
-alternate way to add, replace, and delete links using iPATCH or PATCH as described
+In addition to the use of POST, as described in this section, in the future links can be individually be changed or replaced by using iPATCH or PATCH as proposed
 in {{link-up}}.
 
 The update registration request interface is specified as follows:
@@ -1047,22 +1046,130 @@ Req: POST /rd/4521
 Res: 2.04 Changed
 ~~~~
 
-
-The following example shows an endpoint updating its registration with a new lifetime and context, changing an existing link, and adding a new link using this interface with the example location value /rd/4521.
-With the initial registration the client set the following values:
+The following example shows an endpoint updating its registration at
+an RD using this interface with the example location value: /rd/4521. The initial registration by the client set the following values:
 
 * lifetime (lt)=500
 * context (con)=coap://local-proxy-old.example.com:5683
-* resource= </sensors/temp>;ct=41;rt="foobar";if="sensor"
+
+The Registration Resource, /rd/4521, initial state is:
 
 ~~~~
-Req: POST /rd/4521?lt=600&con=coap://local-proxy.example.com:5683
-Content-Format: 40
+Req: GET /rd/4521
+
+Res: 2.01 Content
 Payload:
-</sensors/temp>;ct=41;rt="temperature-f";if="sensor",
-</sensors/door>;ct=41;rt="door";if="sensor"
+</sensors/temp>;ct=41;rt="temperature";anchor=coap://local-proxy-old.example.com:5683,
+</sensors/light>;ct=41;rt="light-lux";if="sensor";anchor=coap://local-proxy-old.example.com:5683
+~~~~
+
+The following example shows an EP adding the links </sensors/humid>;ct=41;rt="humid-s";if="sensor" and </sensors/co2>;ct=41;rt="co2-s"; if="sensor" to the collection of links at the location /rd/4521 and changing the context to coaps://new.example.com:5684. The humid-s respurce type has an anchor value coaps://[2001:db8:3::123]:61616 that overwrites the value of the con atribute.
+
+~~~~
+Req: POST /rd/4521?con=coaps://new.example.com:5684
+Content-Format:40
+Payload:
+</sensors/humid>;ct= 41;rt="humid-s";if="sensor";anchor="coaps://[2001:db8:3::123]:61616,
+</sensors/co2>;ct= 41;rt="co2-s";if="sensor"
 
 Res: 2.04 Changed
+~~~~
+The consecutive query returns:
+~~~~
+Req: GET /rd/4521
+
+Res: 2.01 Content
+Payload:
+</sensors/temp>;ct=41;rt="temperature";anchor="coaps://new.example.com:5684",
+</sensors/light>;ct=41;rt="light-lux";if="sensor";anchor="coaps://new.example.com:5684",
+</sensors/humid>;ct=41;rt="humid-s";if="sensor";anchor="coaps://[2001:db8:3::123]:61616",
+</sensors/co2>;ct=41;rt="co2-s";if="sensor";anchor="coaps://new.example.com:5684"
+~~~~
+
+### Registration Read {#reg-read}
+
+The Registration Read interface is used by an endpoint to read all or a subset of the registrations in an RD. To use the interface the endpoint sends a GET request to the registration resource of the RD.
+
+One or more Registrations arre selectd for read by using query filtering as specified in {{RFC6690}} section 4.1. The query filter selects the registrations by matching the query parameter values to the values of the registration attributes.
+
+Upon receiving a Registration read request, an RD returns all selected registration resources with the following attributes: 
+
+href: contains the location returned by the Registration POST request
+
+con: contains the context specified by the "con" query parameter in the Registration request; or the value of the hosts relation.
+
+ep: contains the specified endpoint name
+
+et: contains the specified endpoint type (may be empty)
+
+rt: contains the "core.rd-endpoint"value
+
+ct: contains the content format(s) allowed by the RD
+
+lt: contains the lifetime as specified in the UPDATE or REGISTRATION request
+
+d: contains the domain of the registration (may be empty)
+
+The read registration request interface is specified as follows:
+
+Interaction: EP -> RD
+
+Method: GET
+
+URI Template: {+rd}{?ep,et,d,con}
+
+URI Template Variables:
+: rd :=
+  : RD registration URI (mandatory). This is the ocation of the RD as obtained by discovery.
+
+  
+  ep := 
+  : Endpoint name (optional)
+
+  et :=
+  : Endpoint type (optional) semantic type of the registration
+
+  d :=
+  : domain (optional) to which this registration belongs
+
+
+  con :=
+  : Context (optional). the value contains the scheme, address and port to which the registration belongs in the form scheme://host:port/path.
+
+Content-Format:
+: application/link-format (mandatory)
+
+Content-Format:
+: application/link-format+json (optional)
+
+Content-Format:
+: application/link-format+cbor (optional)
+
+The following response codes are defined for this interface:
+
+Success:
+: 2.01 "Content" or 200 "OK" upon success with an "application/link-format", "application/link-format+cbor", or "application/link-format+json" payload.
+
+Failure:
+: 4.00 "Bad Request" or 400 "Bad Request". Malformed request.
+
+Failure:
+: 4.04 "Not Found" or 404 "Not Found". Registration does not exist (e.g. may have expired).
+
+Failure:
+: 5.03 "Service Unavailable" or 503 "Service Unavailable". Service could not perform the operation.
+
+HTTP support:
+: YES
+
+The following example shows a successful read of a singlee registration from the RD  with the example RD location value: /rd.
+
+~~~~
+Req: GET /rd?ep=my-ep
+
+Res: 2.01 Content
+Payload:
+<rd/4521>;con="coap://[fdfd::12]:17072";ep="my-ep";et="ocf-device";rt="core.ocf.humid";ct="40";lt="600";d="floor-3"
 ~~~~
 
 
@@ -1175,151 +1282,7 @@ Payload:
 
 ### Update Endpoint Links {#link-up}
 
-A iPATCH (PATCH) update adds, removes or changes links for the endpoint by including link update information in the payload of the update as a merge-patch+json format {{RFC7396}}
-document.
-
-Other PATCH document formats may be used as appropriate for patching the array of objects format of a Registration Resource. In particular, a select-merge patch document format could combine the function of link selection query and link attribute replacement values.
-
-One or more links are selected for update by using query filtering as specified in {{RFC6690}} Section 4.1
-
-The query filter selects the links to be modified or deleted, by matching the query parameter values to the values of the link attributes.
-
-When the query parameters are not present in the request, the payload specifies links to be added to the target document. When the query parameters are present, the attribute names and values in the query parameters select one or more links on which to apply the iPATCH (PATCH) operation.
-
-If no links are selected by the query parameters, the iPATCH (PATCH) operation MUST NOT update the state of any resource, and MUST return a reply of "Changed".
-
-If an attribute name specified in the PATCH document exists in any the set of selected links, all occurrences of the attribute value in the target document MUST be updated using the value from the PATCH payload. If the attribute name is not present in any selected links, the attribute MUST be added to the links.
-
-If the PATCH payload contains plural link references, or processing the PATCH payload would result in plural link references, the request SHOULD be rejected with a "Conflict" result.
-
-If the PATCH payload results in the modification of link target, context, or relation values, that is "href", "rel", or "anchor", the request SHOULD be rejected with a "Conflict" result code.
-
-The update request interface is specified as follows:
-
-Interaction:
-: EP -> RD
-
-Method:
-: PATCH, iPATCH
-
-URI Template:
-: {+location}{?href,rel,rt,if,ct}
-
-URI Template Variables:
-: location :=
-  : This is the Location returned by the RD as a result of a successful
-    earlier registration.
-
-: href,rel,rt,if,ct := link relations and attributes specified in the query in order to select particular links based on their relations and attributes. "href" denotes the URI target of the link. See {{RFC6690}} Sec. 4.1
-
-Content-Format:
-: application/merge-patch+json (mandatory)
-
-The following response codes are defined for this interface:
-
-Success:
-: 2.04 "Changed" 0r 204 "No Content" in the update was successfully processed.
-
-Failure:
-: 4.00 "Bad Request" or 400 "Bad Request". Malformed request.
-
-Failure:
-: 4.04 "Not Found" or 404 "Not Found". Registration resource does not exist (e.g. may have expired).
-
-Failure:
-: 4.09 "Conflict" or 409 "Conflict". Attempt to update the registration content with links resulting in plurality of references; see {{link-plurality}}.
-
-Failure:
-: 5.03 "Service Unavailable" or 503 "Service Unavailable". Service could not perform the operation.
-
-HTTP support: YES
-
-The following examples show an endpoint adding </sensors/humid>, modifying </sensors/temp>, and removing </sensors/light> links in RD using the Update Endpoint Links function with the example location value /rd/4521.
-
-The Registration Resource initial state is:
-
-~~~~
-Req: GET /rd/4521
-
-Res: 2.01 Content
-Payload:
-</sensors/temp>;ct=41;rt="temperature",
-</sensors/light>;ct=41;rt="light-lux";if="sensor"
-~~~~
-
-The following example shows an EP adding the link </sensors/humid>;ct=41;rt="humid-s";if="sensor" to the collection of links at the location /rd/4521.
-
-
-~~~~
-Req: PATCH /rd/4521
-
-Payload:
-{"href":"/sensors/humid","ct": 41, "rt": "humid-s", "if": "sensor"}
-
-Content-Format:
-application/merge-patch+json
-
-Res: 2.04 Changed
-~~~~
-
-~~~~
-Req: GET /rd/4521
-
-Res: 2.01 Content
-Payload:
-</sensors/temp>;ct=41;rt="temperature",
-</sensors/light>;ct=41;rt="light-lux";if="sensor",
-</sensors/humid>;ct=41;rt="humid-s";if="sensor"
-~~~~
-
-
-The following example shows an EP modifying all links at the example location /rd/4521 which are  identified by href="/sensors/temp", from the initial link-value of </sensors/temp>;rt="temperature" to the new link-value </sensors/temp>;rt="temperature-c";if="sensor" by changing the value of the link attribute "rt" and adding the link attribute if="sensor" using the PATCH operation with the supplied merge-patch+json document payload.
-
-
-~~~~
-Req: PATCH /rd/4521?href=/sensors/temp
-
-Payload:
-{"rt": "temperature-c", "if": "sensor"},
-
-Content-Format:
-application/merge-patch+json
-
-Res: 2.04 Changed
-~~~~
-
-~~~~
-Req: GET /rd/4521
-
-Res: 2.01 Content
-Payload:
-</sensors/temp>;ct=41;rt="temperature-c";if="sensor",
-</sensors/light>;ct=41;rt="light-lux";if="sensor",
-</sensors/humid>;ct=41;rt="humid-s";if="sensor"
-~~~~
-
-This example shows an EP removing all links at the example location /rd/4521 which are identified by href="/sensors/light".
-
-~~~~
-Req: PATCH /rd/4521?href=/sensors/light
-
-Payload:
-{}
-
-Content-Format:
-application/merge-patch+json
-
-Res: 2.04 Changed
-~~~~
-
-~~~~
-Req: GET /rd/4521
-
-Res: 2.01 Content
-Payload:
-</sensors/temp>;ct=41;rt="temperature-c";if="sensor",
-</sensors/humid>;ct=41;rt="humid-s";if="sensor"
-~~~~
+A iPATCH (PATCH) update adds, removes or changes links of a registration by including link update information in the payload of the update with a media type that still needs to be defined.
 
 
 # RD Groups {#group}
