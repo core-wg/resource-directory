@@ -951,14 +951,6 @@ the size of the message but does not have any other implications.
 Parameters MUST be included as query parameters in an update operation as
 in {{registration}}.
 
-Upon receiving an update request, an RD MUST reset the timeout for that
-endpoint and update the scheme, IP address and port of the endpoint, using
-the source address of the update, or the context ("con") parameter if present.
-If the lifetime parameter "lt" is included in the received update request,
-the RD MUST update the lifetime of the registration and set the timeout equal
-to the new lifetime. If the lifetime parameter is not included in the registration
-update, the most recent setting is re-used for the next registration time-out period.
-
 An update MAY optionally add links for the endpoint by including
 those links in the payload of the update as a CoRE Link Format
 document.
@@ -967,6 +959,10 @@ If the link payload is included, it SHOULD be checked for reference plurality as
 
 In addition to the use of POST, as described in this section, in the future links can be individually be changed or replaced by using iPATCH or PATCH as proposed
 in {{link-up}}.
+
+A registration update resets the timeout of the registration to the (possibly
+updated) lifetime of the registration, independent of whether a `lt` parameter
+was given.
 
 The update registration request interface is specified as follows:
 
