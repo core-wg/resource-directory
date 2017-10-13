@@ -161,14 +161,14 @@ logical grouping of endpoints.
 Group
 :   In the context of a Resource Directory, a group is a logical grouping of
 endpoints for the purpose of group communications. All groups within a domain
-are unique.
+have unique names.
 
 Endpoint
 :   Endpoint (EP) is a term used to describe a web server or client in {{RFC7252}}.
 In the context of this specification an endpoint is used to describe a
 web server that registers resources to the Resource Directory. An endpoint
 is identified by its endpoint name, which is included during registration,
-and is unique within the associated domain of the registration.
+and has a unique name within the associated domain of the registration.
 
 Context
 :   A Context is a base URL that gives scheme and (typically) authority
@@ -857,7 +857,7 @@ specified in {{RFC6690}}.
 
 The endpoint then finds one or more addresses of the directory server as described in {{simple_finding}}.
 
-An endpoint can send (a selection of) hosted resources to a directory server for publication as described in {{simple_publishing}}.
+An endpoint finally asks the directory server to probe it for resources and publish them as described in {{simple_publishing}}.
 
 The directory server integrates the information it received this way into its
 resource directory.  It MAY make the information available to further
