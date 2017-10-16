@@ -957,7 +957,7 @@ document.
 
 If the link payload is included, it SHOULD be checked for reference plurality as described in {{link-plurality}} and rejected with a "Conflict" result if there are plural link references detected.
 
-In addition to the use of POST, as described in this section, in the future links can be individually be changed or replaced by using iPATCH or PATCH as proposed
+In addition to the use of POST, as described in this section, in the future links can be changed individually or replaced by using iPATCH or PATCH as proposed
 in {{link-up}}.
 
 A registration update resets the timeout of the registration to the (possibly
