@@ -1086,91 +1086,6 @@ Payload:
 </sensors/co2>;ct=41;rt="co2-s";if="sensor";anchor="coaps://new.example.com:5684"
 ~~~~
 
-### Registration Read {#reg-read}
-
-The Registration Read interface is used by an endpoint to read all or a subset of the registrations in an RD. To use the interface the endpoint sends a GET request to the registration resource of the RD.
-
-One or more Registrations arre selectd for read by using query filtering as specified in {{RFC6690}} section 4.1. The query filter selects the registrations by matching the query parameter values to the values of the registration attributes.
-
-Upon receiving a Registration read request, an RD returns all selected registration resources with the following attributes: 
-
-href: contains the location returned by the Registration POST request
-
-con: contains the context specified by the "con" query parameter in the Registration request; or the value of the hosts relation.
-
-ep: contains the specified endpoint name
-
-et: contains the specified endpoint type (may be empty)
-
-rt: contains the "core.rd-endpoint"value
-
-ct: contains the content format(s) allowed by the RD
-
-lt: contains the lifetime as specified in the UPDATE or REGISTRATION request
-
-d: contains the domain of the registration (may be empty)
-
-The read registration request interface is specified as follows:
-
-Interaction: EP -> RD
-
-Method: GET
-
-URI Template: {+rd}{?ep,et,d,con}
-
-URI Template Variables:
-: rd :=
-  : RD registration URI (mandatory). This is the ocation of the RD as obtained by discovery.
-
-  
-  ep := 
-  : Endpoint name (optional)
-
-  et :=
-  : Endpoint type (optional) semantic type of the registration
-
-  d :=
-  : domain (optional) to which this registration belongs
-
-
-  con :=
-  : Context (optional). the value contains the scheme, address and port to which the registration belongs in the form scheme://host:port/path.
-
-Content-Format:
-: application/link-format (mandatory)
-
-Content-Format:
-: application/link-format+json (optional)
-
-Content-Format:
-: application/link-format+cbor (optional)
-
-The following response codes are defined for this interface:
-
-Success:
-: 2.01 "Content" or 200 "OK" upon success with an "application/link-format", "application/link-format+cbor", or "application/link-format+json" payload.
-
-Failure:
-: 4.00 "Bad Request" or 400 "Bad Request". Malformed request.
-
-Failure:
-: 4.04 "Not Found" or 404 "Not Found". Registration does not exist (e.g. may have expired).
-
-Failure:
-: 5.03 "Service Unavailable" or 503 "Service Unavailable". Service could not perform the operation.
-
-HTTP support:
-: YES
-
-The following example shows a successful read of a singlee registration from the RD  with the example RD location value: /rd.
-
-~~~~
-Req: GET /rd?ep=my-ep
-
-Res: 2.01 Content
-Payload:
-<rd/4521>;con="coap://[fdfd::12]:17072";ep="my-ep";et="ocf-device";rt="core.ocf.humid";ct="40";lt="600";d="floor-3"
-~~~~
 
 
 ### Registration Removal {#removal}
@@ -1464,8 +1379,8 @@ which gets resolved according to the endpoint's context.
 That allows the client to interpret the response as links without any further knowledge of what the RD does.
 The Resource Directory MAY replace the contexts with a configured intermediate proxy, e.g. in the case of an HTTP lookup interface for CoAP endpoints.
 
-Endpoint and group lookups result in links to the selected registration and group resources.
-Endpoint registration resources are annotated with their endpoint names (ep), domains (d, if present) and context (con).
+Endpoint and group lookups result in links to the selected registration resource and group resources.
+Endpoint registration resources are annotated with their endpoint names (ep), domains (d, if present), context (con), resource-type (rt), endpoint type (et, if present) and lifetime (lt, if present).
 Group resources are annotated with their group names (gp), domain (d, if present) and multicast address (con, if present).
 
 Using the Accept Option, the requester can control whether this list is returned in CoRE Link Format (`application/link-format`, default) or its alternate content-formats (`application/link-format+json` or `application/link-format+cbor`).
@@ -1577,8 +1492,10 @@ The following example shows a client performing an endpoint type lookup:
 Req: GET /rd-lookup/ep?et=power-node
 
 Res: 2.05 Content
-</reg/1234>;con="coap://[2001:db8:3::127]:61616";ep="node5",
-</reg/5678>;con="coap://[2001:db8:3::129]:61616";ep="node7"
+</rd/1234>;con="coap://[2001:db8:3::127]:61616";ep="node5";
+et="power-node";rt="core.ocf.power";ct="40";lt="600",
+</rd/4521>;con="coap://[2001:db8:3::129]:61616";ep="node7";
+et="power-node";rt="core.ocf.power";ct="40";lt="600";d="floor-3"
 ~~~~
 
 The following example shows a client performing a group lookup for all groups:
@@ -1598,12 +1515,12 @@ in a particular group:
 Req: GET /rd-lookup/ep?gp=lights1
 
 Res: 2.05 Content
-</reg/abcd>;con="coap://[2001:db8:3::123]:61616";ep="node1",
-</reg/efgh>;con="coap://[2001:db8:3::124]:61616";ep="node2"
+</rd/abcd>;con="coap://[2001:db8:3::123]:61616";ep="node1";et="light-node";rt="core.ocf.light";ct="40";lt="600",
+</rd/efgh>;con="coap://[2001:db8:3::124]:61616";ep="node2";et="light-node";rt="core.ocf.light";ct="40";lt="600"
 ~~~~
 
-The following example shows a client performing a lookup for all groups an
-endpoint belongs to:
+The following example shows a client performing a lookup for all groups the
+endpoint "node1" belongs to:
 
 ~~~~
 Req: GET /rd-lookup/gp?ep=node1
@@ -1612,7 +1529,7 @@ Res: 2.05 Content
 </rd-group/1>;gp="lights1"
 ~~~~
 
-The following example shows a client performing a paginated lookup
+The following example shows a client performing a paginated resource lookup
 
 ~~~~
 Req: GET /rd-lookup/res?page=0&count=5
@@ -1644,26 +1561,17 @@ It demonstrates how the link targets stay unmodified, but the anchors get
 constructed by the resource directory:
 
 ~~~~
-Req: POST /rd?ep=mynode
+Req: GET /rd-lookup/ep?et=sensor-node
 
 </sensors>;ct=40;title="Sensor Index";
-    anchor="coap://sensor1.example.com",
+    anchor="coap://sensor1.example.com";et="sensor-node",
 </sensors/temp>;rt="temperature-c";if="sensor";
-    anchor="coap://sensor1.example.com",
+    anchor="coap://sensor1.example.com";et="sensor-node",
 </sensors/light>;rt="light-lux";if="sensor";
-    anchor="coap://sensor1.example.com",
+    anchor="coap://sensor1.example.com";et="sensor-node",
 <http://www.example.com/sensors/t123>;rel="describedby";
-    anchor="coap://sensor1.example.com/sensors/temp",
-</t>;rel="alternate";anchor="coap://sensor1.example.com/sensors/temp",
-</sensors>;ct=40;title="Sensor Index";
-    anchor="coap://sensor2.example.com",
-</sensors/temp>;rt="temperature-c";if="sensor";
-    anchor="coap://sensor2.example.com",
-</sensors/light>;rt="light-lux";if="sensor";
-    anchor="coap://sensor2.example.com",
-<http://www.example.com/sensors/t123>;rel="describedby";
-    ;anchor="coap://sensor2.example.com/sensors/temp",
-</t>;rel="alternate";anchor="coap://sensor2.example.com/sensors/temp"
+    anchor="coap://sensor1.example.com/sensors/temp";et="sensor-node",
+</t>;rel="alternate";anchor="coap://sensor1.example.com/sensors/temp";et="sensor-node"
 ~~~~
 
 # Security Considerations
