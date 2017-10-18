@@ -1439,8 +1439,8 @@ URI Template Variables:
   : Endpoint type (optional). Used for group, endpoint and resource lookups.
 
   resource-param :=
-  : Link attribute parameters (optional). Any link target attribute as defined in
-  Section 4.1 of {{RFC6690}}, used for resource lookups.
+  : Link parameters (optional). Any link parameter as defined in
+  Section 4.1 of {{RFC6690}}, including href, used for resource lookups.
 
   Content-Format:
   : application/link-format (optional)
