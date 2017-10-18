@@ -1552,8 +1552,8 @@ Res: 2.05 Content
 ~~~~
 
 The following example shows a client performing a lookup of all resources from
-endpoints of a given endpoint type. It assumes that endpoints with endpoint
-names `sensor1` and `sensor2` have previously registered with their respective
+endpoints of a given endpoint type. It assumes that two endpoints (with endpoint
+names `sensor1` and `sensor2`) have previously registered with their respective
 addresses `coap://sensor1.example.com` and `coap://sensor2.example.com`, and
 posted the very payload of the 6th request of section 5 of {{RFC6690}}.
 
@@ -1561,17 +1561,26 @@ It demonstrates how the link targets stay unmodified, but the anchors get
 constructed by the resource directory:
 
 ~~~~
-Req: GET /rd-lookup/ep?et=sensor-node
+Req: GET /rd-lookup/res?et=sensor-node
 
 </sensors>;ct=40;title="Sensor Index";
-    anchor="coap://sensor1.example.com";et="sensor-node",
+    anchor="coap://sensor1.example.com",
 </sensors/temp>;rt="temperature-c";if="sensor";
-    anchor="coap://sensor1.example.com";et="sensor-node",
+    anchor="coap://sensor1.example.com",
 </sensors/light>;rt="light-lux";if="sensor";
-    anchor="coap://sensor1.example.com";et="sensor-node",
+    anchor="coap://sensor1.example.com",
 <http://www.example.com/sensors/t123>;rel="describedby";
-    anchor="coap://sensor1.example.com/sensors/temp";et="sensor-node",
-</t>;rel="alternate";anchor="coap://sensor1.example.com/sensors/temp";et="sensor-node"
+    anchor="coap://sensor1.example.com/sensors/temp",
+</t>;rel="alternate";anchor="coap://sensor1.example.com/sensors/temp",
+</sensors>;ct=40;title="Sensor Index";
+    anchor="coap://sensor2.example.com",
+</sensors/temp>;rt="temperature-c";if="sensor";
+    anchor="coap://sensor2.example.com",
+</sensors/light>;rt="light-lux";if="sensor";
+    anchor="coap://sensor2.example.com",
+<http://www.example.com/sensors/t123>;rel="describedby";
+    ;anchor="coap://sensor2.example.com/sensors/temp",
+</t>;rel="alternate";anchor="coap://sensor2.example.com/sensors/temp"
 ~~~~
 
 # Security Considerations
