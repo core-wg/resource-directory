@@ -71,8 +71,8 @@ normative:
   RFC5988:
 #  RFC6335: portreg
   RFC6570:
-#  RFC6763: dnssd
-  RFC7396:
+  RFC6763: dnssd
+#  RFC7396:
   RFC8132:
   I-D.ietf-core-links-json:
 informative:
@@ -476,43 +476,73 @@ groups may defined to allow batched reads from multiple resources.
 
 # Finding a Resource Directory {#simple_finding}
 
-Several mechanisms can be employed for discovering the RD, including assuming a default location (e.g. on an Edge Router in a LoWPAN), assigning an anycast address to the RD, using DHCP, or discovering the RD using .well-known/core and hyperlinks as specified in CoRE Link Format {{RFC6690}}.  Endpoints that want to contact a Resource Directory (RD) can obtain candidate IP addresses of RD servers dependent on the operational conditions. It is assumed that the nodes looking for a Resource Directory are connected to a Border Router (6LBR). Given the various existing network installation procedures, the 6LBR is either connected or disconnected from the Internet and its services like DHCP and DNS. Two conditions are separately considered: (1) Internet services present, and (2) no Internet services present.
+A device coming up may want to find one or more resource directories
+to make itself known with.
 
-When no Internet services are present, the following techniques are used (in random order):
+The device may be pre-configured to exercise specific mechanisms for
+finding the resource directory:
 
-1. Sending a Multicast to [ff02::1]/.well-known/core with ?rt=core.rd*. The receiving RDs will answer the query.
-2. The Authoritative Border Router Option (ABRO) present in the Router Advertisements (RA), contains the address of the border router.
-3. Assuming that an RD is located at the 6LBR. Confirmation can be obtained by sending a Unicast to [6LBR]/.well-known/core with ?rt=core.rd*. Address of 6LBR is obtained from ABRO.
-4. The 6LBR can send the Resource Directory Address Option (RDAO) during neighbour Discovery containing one or more RD addresses, as explained in {{rdao}}
-5. The installation manager can decide to preconfigure an ANYCAST address with as destination the interface of the RDs. Clients send a discovery message to the predefined RD anycast address. Each target network environment in which some of these preconfigured nodes are to be brought up is then configured with a route for this anycast address that leads to an appropriate RD.
-6. Instead of using an ANYCAST address, a multicast address can be preconfigured. All RD directory servers need to configure one of their interfaces with this multicast address.
-7. After installation of mDNS on all nodes, mDNS can be queried for the IP-address of RD.
+* It may be configured with a specific IP address for the RD.  That IP
+  address may also be an anycast address, allowing the network to
+  forward RD requests to an RD that is topologically close; each
+  target network environment in which some of these preconfigured
+  nodes are to be brought up is then configured with a route for this
+  anycast address that leads to an appropriate RD.  (Instead of using
+  an anycast address, a multicast address can also be preconfigured.
+  The RD directory servers then need to configure one of their
+  interfaces with this multicast address.)
+* It may be configured with a DNS name for the RD and a
+  resource-record type to look up under this name; it can find a DNS
+  server to perform the lookup using the usual mechanisms for finding
+  DNS servers.
+* It may be configured to use a service discovery mechanism such as
+  DNS-SD {{-dnssd}}.  The present specification suggests configuring
+  the service with name rd._sub._coap._udp, preferably within the
+  domain of the querying nodes.[^1]
 
-When Internet services are present, the techniques cited above are still valid. Using standard techniques to obtain the addresses of DNS or DHCP servers, the RD can be discovered in the following way:
+[^1]: What is _sub here?
+{: source="cabo"}
 
-8.	Using a DNSSD query to return the Resource Records (RR) describing the service with name rd._sub._coap._udp, preferably within the domain of the querying nodes.
-9.	Using DHCPv6 with options to be defined.
+For cases where the device is not specifically configured with a way
+to find a resource directory, the network may want to provide a
+suitable default.
 
-Assisting the 9 techniques above, requires manual intervention or may be done automatically.
+* If the address configuration of the network is performed via SLAAC,
+  this is provided by the RDAO option {{rdao}}.
+* If the address configuration of the network is performed via DHCP,
+  this could be provided via a DHCP option (no such option is defined
+  at the time of writing).
 
-Manual management:
+Finally, if neither the device nor the network offer any specific
+configuration, the device may want to employ heuristics to find a
+suitable resource directory.
 
-- IP address of RD is present in each node.
-- ANYCAST address or Multicast address of RD is present in each node [see 5,6].
-- 6LBR receives IP address of RD for distribution via RDAO [see 4].
-- RD address is configured in DHCP [see 9].
-- DNS is configured with Resource Record specifying address of RD service [see 8].
+The present specification does not fully define these heuristics, but
+suggests a number of candidates:
 
-Automatic management
+* In a 6LoWPAN, just assume the Edge Router (6LBR) can act as a
+  resource directory (using the ABRO option to find that {{RFC6775}}).
+  Confirmation can be obtained by sending a Unicast to
+  coap://[6LBR]/.well-known/core?rt=core.rd*`.
 
-* Multicasting to all nodes to return IP address [see 1].
-* Querying mDNS to receive IP address [see 7].
-* 6LBR contains RD service [see 2, 3].
+* In a network that supports multicast well, discovering the RD using
+  a multicast query for /.well-known/core as specified in CoRE Link
+  Format {{RFC6690}}: Sending a Multicast GET to
+  `coap://[ff02::1]/.well-known/core?rt=core.rd*`.  RDs within the
+  multicast scope will answer the query.
 
-As some of these RD addresses are just (more or less educated) guesses, endpoints MUST make use of any error messages to very strictly rate-limit requests to candidate IP addresses that don't work out.  For example, an ICMP Destination Unreachable message (and, in particular, the port unreachable code for this message) may indicate the lack of a CoAP server on the candidate host, or a CoAP error response code such as 4.05 "Method Not Allowed" may indicate unwillingness of a CoAP server to act as a directory server.
-
+As some of the RD addresses obtained by the methods listed here are
+just (more or less educated) guesses, endpoints MUST make use of any
+error messages to very strictly rate-limit requests to candidate IP
+addresses that don't work out.  For example, an ICMP Destination
+Unreachable message (and, in particular, the port unreachable code for
+this message) may indicate the lack of a CoAP server on the candidate
+host, or a CoAP error response code such as 4.05 "Method Not Allowed"
+may indicate unwillingness of a CoAP server to act as a directory
+server.
 
 ## Resource Directory Address Option (RDAO) {#rdao}
+
 The Resource Directory Option (RDAO) using IPv6 neighbor Discovery (ND) carries
 information about the address of the Resource Directory (RD). This information is
 needed when endpoints cannot discover the Resource Directory with link-local
