@@ -284,6 +284,9 @@ provided using the CoRE Link Format.
 
 The Entity-Relationship (ER) models shown in {{fig-ER-WKC}} and {{fig-ER-RD}} model the contents of /.well-known/core and the resource directory respectively, with entity-relationship diagrams [ER][]. Entities (rectangles) are used for concepts that exist independently. Attributes (ovals) are used for concepts that exist only in connection with a related entity. Relations (diamonds) give a semantic meaning to the relation between entities. Numbers specify the cardinality of the relations. The relations between the values of the attributes are explained in the interface sections.
 
+Some of the attribute values are URIs. Those values are always full URIs and never relative references in the data model.
+They can, however, be expressed as relative references in serializations, and often are.
+
 ~~~~
                     +----------------------+
                     |   /.well-known/core  |
@@ -294,13 +297,13 @@ The Entity-Relationship (ER) models shown in {{fig-ER-WKC}} and {{fig-ER-RD}} mo
                       <    contains   >
                        \\\\\\\\///////
                                |
-                               | 1+
+                               | 0+
                      +--------------------+
                      |      link          |
                      +--------------------+
                                |
                                |  1   oooooooo
-                               +-----o  href  o
+                               +-----o target o
                             0+ |      oooooooo
           oooooooooooo         |
          o    target  o--------+
@@ -308,9 +311,9 @@ The Entity-Relationship (ER) models shown in {{fig-ER-WKC}} and {{fig-ER-RD}} mo
           oooooooooooo         +-----o rel  o
                                |      oooooo
                                |
-                               | 0-1   oooooooo
-                               +------o anchor o
-                                       oooooooo
+                               | 1    ooooooooo
+                               +-----o context o
+                                      ooooooooo
 
 
 
@@ -327,14 +330,14 @@ The set does not necessarily contain links to all resources served by the host.
 
 A link has the following attributes:
 
-* One or more link relations (expressed as space-separated values in the "rel" attribute, defaulting to "hosts").
+* Zero or more link relations (expressed as space-separated values in the "rel" attribute, defaulting to "hosts").
   They describe a relations between the link context and the link target.
 * A link context URI ("anchor").
   The link context defines the source of the relation, and serves as the Base URI for resolving the target.
-  It can be relative, in which case it gets resolved against the Base URI of the `.well-known/core` document it was obtained from <!-- or the / resource of said server: RFC6690bis anyone? -->. It can be absent, in which the Base URI of the document is used as the context.
+  In the serialization, it can be relative, in which case it gets resolved against the Base URI of the `.well-known/core` document it was obtained from <!-- or the / resource of said server: RFC6690bis anyone? -->. It can be absent, in which the Base URI of the document is used as the context.
 * A link target URI ("href", expressed between the angular brackets in link-format).
   The link target defines the destination of the relation, and is the topic of all other target attributes.
-  If it is a relative URI, it gets resolved against the link context URI.
+  In the serialization, if it is a relative URI, it gets resolved against the link context URI.
 * Other target attributes (eg. resource type (rt), interface (if), cor content-type (ct)).
   These provide additional information about the target URI.
 
@@ -363,23 +366,23 @@ o  con  o-------|  registration |---------< composed of >
        oooooooo     |                < contains >
                     |                 \\\\\/////
        oooooooo   1 |                      |
-      o   ep   o----+                      | 1+
+      o   ep   o----+                      | 0+
        oooooooo     |             +------------------+
                     |             |      link        |
        oooooooo 0-1 |             +------------------+
       o    d   o----+                      |
-       oooooooo     |                      |  1   ooooooo
-                    |                      +-----o href  o
-       oooooooo 0-1 |                      |      ooooooo
+       oooooooo     |                      |  1   oooooooo
+                    |                      +-----o target o
+       oooooooo 0-1 |                      |      oooooooo
       o   et   o----+     ooooooooooo   0+ |
        oooooooo     |    o  target   o-----+
                     |    o attribute o     | 0+   oooooo
        oooooooo 0-1 |     ooooooooooo      +-----o rel  o
       o   lt   o----+                      |      oooooo
        oooooooo                            |
-                                           | 0-1 oooooooo
-                                           +----o anchor o
-                                                 oooooooo
+                                           | 1   ooooooooo
+                                           +----o context o
+                                                 ooooooooo
 ~~~~
 {: #fig-ER-RD title='E-R Model of the content of the Resource Directory' align="left"}
 
@@ -400,8 +403,6 @@ A Group has one Multicast address attribute and is composed of 0 to n1 endpoints
 The cardinality of con is currently 1 (n2 = 1). The value of con is copied from the value of the "hosts" relation and overwritten by the value of the con query parameter.
 
 Links are modelled as they are in {{fig-ER-WKC}}.
-As they do not have their `.well-known/core` document associated with them any more which would originally provide its Base URI,
-the "con" attribute of the registration fills that gap and is used as a Base URI.
 
 ## Use Case: Cellular M2M {#cellular}
 
