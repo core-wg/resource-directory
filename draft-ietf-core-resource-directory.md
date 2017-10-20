@@ -2526,14 +2526,11 @@ Directory:
 
   For example, while a Link header in a page about a Swedish city might read
 
-      Link: </temperature/Malm%C3%B6>;rel="live-environment-data";
-          title*=UTF-8'en'Live%20temperature%20from%20Malm%C3%B6;
-          other=fields
+      Link: </temperature/Malm%C3%B6>;rel="live-environment-data"
 
   a link-format document from the same source might describe the link as
 
-      </temperature/Malmö>;rel="live-environment-data";
-      title*=UTF8'en'Live temperature from Malmö;other=fields
+      </temperature/Malmö>;rel="live-environment-data"
 
   <!-- The title conversion follows the rule of the text RFC6690 section 2; I
   doubt that's the intention, though, as it spills at semicolons/commas and
