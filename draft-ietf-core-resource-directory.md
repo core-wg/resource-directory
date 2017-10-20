@@ -767,6 +767,14 @@ replacing the registration parameters and links.
 
 An empty payload is considered a malformed request.
 
+The posted link-format document can (and typically does) contain relative references
+both in its link targets and in its anchors, or contain empty anchors.
+The server needs to resolve these references in order to faithfully represent them in lookups.
+The Base URI against which they are resolved is the context of the registration,
+which is provided either explicitly in the `con` parameter or constructed implicitly from the requester's network address.
+When resolving relative target references, the server first resolves the context of that link (the in the "anchor" attribute),
+and then interprets the target as a reference relative to that context (see {{resolution-rules}}).
+
 The registration request interface is specified as follows:
 
 Interaction:
@@ -1003,6 +1011,9 @@ in {{link-up}}.
 A registration update resets the timeout of the registration to the (possibly
 updated) lifetime of the registration, independent of whether a `lt` parameter
 was given.
+
+If the context of the registration is changed in an update explicitly or implicitly,
+relative references submitted in the original registration or later updates are resolved anew against the new context (like in the original registration).
 
 The update registration request interface is specified as follows:
 
@@ -1411,7 +1422,12 @@ The lookup type is selected by a URI endpoint, which is indicated by a Resource 
 
 Resource lookup results in links that are semantically equivalent to the links submitted to the RD if they were accessed on the endpoint itself.
 The links and link parameters returned are equal to the submitted ones except for anchor,
-which gets resolved according to the endpoint's context.
+which was resolved by the server against the endpoint's context.
+
+Links that did not have an anchor attribute are therefore returned with the (explicitly or implicitly set) context URI of the registration as the anchor.
+Links whose anchor was submitted as an absolute URI are returned as they were registered.
+The hrefs of links can always be served as they were submitted; the server MAY return relative references in absolute form in to resource lookups, but that results in needlessly verbose responses.
+
 That allows the client to interpret the response as links without any further knowledge of what the RD does.
 The Resource Directory MAY replace the contexts with a configured intermediate proxy, e.g. in the case of an HTTP lookup interface for CoAP endpoints.
 
@@ -2422,7 +2438,7 @@ have been used to resolve the relative anchor values instead, giving
 
 and analogous records.
 
-## A note on differences between link-format and Link headers
+## A note on differences between link-format and Link headers {#resolution-rules}
 
 While link-format and Link headers look very similar and are based on the same
 model of typed links, there are some differences between {{RFC6690}} and
