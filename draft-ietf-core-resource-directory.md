@@ -1423,10 +1423,6 @@ using attributes defined in this document and for use with the CoRE
 Link Format. The result of a lookup request is the list of links (if any)
 corresponding to the type of lookup.  Thus, a group lookup MUST return a list of groups, an endpoint lookup MUST return a list of endpoints and a resource lookup MUST return a list of links to resources.
 
-While Endpoint Lookup does expose the registration resources,
-the RD does not need to make them accessible to clients.
-Clients SHOULD NOT attempt to dereference or manipulate them.
-
 The lookup type is selected by a URI endpoint, which is indicated by a Resource Type as per {{lookup-types}} below:
 
 | Lookup Type | Resource Type | Mandatory |
@@ -1434,6 +1430,8 @@ The lookup type is selected by a URI endpoint, which is indicated by a Resource 
 | Endpoint | core.rd-lookup-ep | Mandatory |
 | Group | core.rd-lookup-gp | Optional |
 {: #lookup-types title='Lookup Types'}
+
+## Resource lookup
 
 Resource lookup results in links that are semantically equivalent to the links submitted to the RD if they were accessed on the endpoint itself.
 The links and link parameters returned are equal to the submitted ones except for anchor,
@@ -1446,10 +1444,18 @@ The hrefs of links can always be served as they were submitted; the server MAY r
 That allows the client to interpret the response as links without any further knowledge of what the RD does.
 The Resource Directory MAY replace the contexts with a configured intermediate proxy, e.g. in the case of an HTTP lookup interface for CoAP endpoints.
 
+## Endpoint and group lookup
+
 Endpoint and group lookups result in links to the selected registration resource and group resources.
 Endpoint registration resources are annotated with their endpoint names (ep), domains (d, if present), context (con), endpoint type (et, if present) and lifetime (lt, if present).
 Additional endpoint attributes are added as link attributes to their endpoint link unless their specification says otherwise.
 Group resources are annotated with their group names (gp), domain (d, if present) and multicast address (con, if present).
+
+While Endpoint Lookup does expose the registration resources,
+the RD does not need to make them accessible to clients.
+Clients SHOULD NOT attempt to dereference or manipulate them.
+
+## Lookup filtering
 
 Using the Accept Option, the requester can control whether this list is returned in CoRE Link Format (`application/link-format`, default) or its alternate content-formats (`application/link-format+json` or `application/link-format+cbor`).
 
@@ -1539,6 +1545,8 @@ Failure:
 
 HTTP support:
 : YES
+
+## Lookup examples
 
 The examples in this section assume CoAP hosts with a default CoAP port 61616. HTTP hosts are possible and do not change the nature of the examples.
 
