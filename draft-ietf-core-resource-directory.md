@@ -86,6 +86,7 @@ informative:
 #  RFC1034: dns1
   RFC7641:
   ER: DOI.10.1145/320434.320440
+  I-D.nottingham-rfc5988bis:
 
 --- abstract
 
@@ -2516,9 +2517,9 @@ model of typed links, there are some differences between {{RFC6690}} and
 {{RFC5988}} that should be kept in mind when using or implementing a Resource
 Directory:
 
-* There is no percent encoding in link-header documents.
+* There is no percent encoding in link-format documents.
 
-  A link-header document is an UTF-8 encoded string of Unicode characters and
+  A link-format document is a UTF-8 encoded string of Unicode characters and
   does not have percent encoding, while Link headers are practically ASCII
   strings that use percent encoding for non-ASCII characters, stating the
   encoding explictly when required.
@@ -2538,13 +2539,13 @@ Directory:
   doubt that's the intention, though, as it spills at semicolons/commas and
   does not match the ext-value ABNF. -->
 
-* If the anchor attribute is present, the link target reference is resolved
-  by using the the (resolved) anchor value as Base URI in a link-format
-  document, while in Link headers, it is resolved against the URI of the
+* In a link-format document, if the anchor attribute is present, the link target reference is resolved
+  by using the the (resolved) anchor value as Base URI for that link,
+  while in Link headers, it is resolved against the URI of the
   requested document.
 
-  This is explicit in {{RFC6690}} section 2.1 for link-format, and spellt out
-  in section B.2 of {{I.D.-draft-nottingham-rfc5988bis-08}} <!-- "Parsing a
+  This is explicit in {{RFC6690}} section 2.1 for link-format, and spelled out
+  in section B.2 of {{I-D.nottingham-rfc5988bis}} <!-- "Parsing a
   Link Field Value -->.
 
 
