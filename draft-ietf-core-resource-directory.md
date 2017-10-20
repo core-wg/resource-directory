@@ -1408,7 +1408,7 @@ That allows the client to interpret the response as links without any further kn
 The Resource Directory MAY replace the contexts with a configured intermediate proxy, e.g. in the case of an HTTP lookup interface for CoAP endpoints.
 
 Endpoint and group lookups result in links to the selected registration resource and group resources.
-Endpoint registration resources are annotated with their endpoint names (ep), domains (d, if present), context (con), resource-type (rt), endpoint type (et, if present) and lifetime (lt, if present).
+Endpoint registration resources are annotated with their endpoint names (ep), domains (d, if present), context (con), endpoint type (et, if present) and lifetime (lt, if present).
 Group resources are annotated with their group names (gp), domain (d, if present) and multicast address (con, if present).
 
 Using the Accept Option, the requester can control whether this list is returned in CoRE Link Format (`application/link-format`, default) or its alternate content-formats (`application/link-format+json` or `application/link-format+cbor`).
@@ -1434,7 +1434,7 @@ Method:
 : GET
 
 URI Template:
-: {+type-lookup-location}{?d,ep,gp,et,rt,page,count,resource-param}
+: {+type-lookup-location}{?d,ep,gp,et,page,count,resource-param}
 
 
 URI Template Variables:
@@ -1463,15 +1463,12 @@ URI Template Variables:
     the count parameter is not present, then the response MUST return all matching
     links in the result set. Link numbering starts with zero.
 
-  rt :=
-  : Resource type (optional). Used for group, endpoint and resource lookups.
-
   et :=
   : Endpoint type (optional). Used for group, endpoint and resource lookups.
 
   resource-param :=
-  : Link attribute parameters (optional). Any link target attribute as defined in
-  Section 4.1 of {{RFC6690}}, used for resource lookups.
+  : Link parameters (optional). Any link parameter as defined in
+  Section 4.1 of {{RFC6690}}, including href, used for resource lookups.
 
   Content-Format:
   : application/link-format (optional)
@@ -1521,9 +1518,9 @@ Req: GET /rd-lookup/ep?et=power-node
 
 Res: 2.05 Content
 </rd/1234>;con="coap://[2001:db8:3::127]:61616";ep="node5";
-et="power-node";rt="core.ocf.power";ct="40";lt="600",
+et="power-node";ct="40";lt="600",
 </rd/4521>;con="coap://[2001:db8:3::129]:61616";ep="node7";
-et="power-node";rt="core.ocf.power";ct="40";lt="600";d="floor-3"
+et="power-node";ct="40";lt="600";d="floor-3"
 ~~~~
 
 The following example shows a client performing a group lookup for all groups:
@@ -1543,8 +1540,8 @@ in a particular group:
 Req: GET /rd-lookup/ep?gp=lights1
 
 Res: 2.05 Content
-</rd/abcd>;con="coap://[2001:db8:3::123]:61616";ep="node1";et="light-node";rt="core.ocf.light";ct="40";lt="600",
-</rd/efgh>;con="coap://[2001:db8:3::124]:61616";ep="node2";et="light-node";rt="core.ocf.light";ct="40";lt="600"
+</rd/abcd>;con="coap://[2001:db8:3::123]:61616";ep="node1";et="power-node";ct="40";lt="600",
+</rd/efgh>;con="coap://[2001:db8:3::124]:61616";ep="node2";et="power-node";ct="40";lt="600"
 ~~~~
 
 The following example shows a client performing a lookup for all groups the
