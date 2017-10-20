@@ -1,14 +1,66 @@
 [
   {
-    "url": "https://api.github.com/repos/core-wg/resource-directory/issues/62",
+    "url": "https://api.github.com/repos/core-wg/resource-directory/issues/64",
     "repository_url": "https://api.github.com/repos/core-wg/resource-directory",
-    "labels_url": "https://api.github.com/repos/core-wg/resource-directory/issues/62/labels{/name}",
-    "comments_url": "https://api.github.com/repos/core-wg/resource-directory/issues/62/comments",
-    "events_url": "https://api.github.com/repos/core-wg/resource-directory/issues/62/events",
-    "html_url": "https://github.com/core-wg/resource-directory/pull/62",
-    "id": 266628657,
-    "number": 62,
-    "title": "Looup rt and parameters",
+    "labels_url": "https://api.github.com/repos/core-wg/resource-directory/issues/64/labels{/name}",
+    "comments_url": "https://api.github.com/repos/core-wg/resource-directory/issues/64/comments",
+    "events_url": "https://api.github.com/repos/core-wg/resource-directory/issues/64/events",
+    "html_url": "https://github.com/core-wg/resource-directory/pull/64",
+    "id": 266866391,
+    "number": 64,
+    "title": "Reorganize section 4 along the lines of slide 136 of the Prague meeting",
+    "user": {
+      "login": "cabo",
+      "id": 23118,
+      "avatar_url": "https://avatars3.githubusercontent.com/u/23118?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/cabo",
+      "html_url": "https://github.com/cabo",
+      "followers_url": "https://api.github.com/users/cabo/followers",
+      "following_url": "https://api.github.com/users/cabo/following{/other_user}",
+      "gists_url": "https://api.github.com/users/cabo/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/cabo/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/cabo/subscriptions",
+      "organizations_url": "https://api.github.com/users/cabo/orgs",
+      "repos_url": "https://api.github.com/users/cabo/repos",
+      "events_url": "https://api.github.com/users/cabo/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/cabo/received_events",
+      "type": "User",
+      "site_admin": false
+    },
+    "labels": [
+
+    ],
+    "state": "closed",
+    "locked": false,
+    "assignee": null,
+    "assignees": [
+
+    ],
+    "milestone": null,
+    "comments": 2,
+    "created_at": "2017-10-19T14:36:45Z",
+    "updated_at": "2017-10-20T09:44:53Z",
+    "closed_at": "2017-10-20T09:33:43Z",
+    "author_association": "COLLABORATOR",
+    "pull_request": {
+      "url": "https://api.github.com/repos/core-wg/resource-directory/pulls/64",
+      "html_url": "https://github.com/core-wg/resource-directory/pull/64",
+      "diff_url": "https://github.com/core-wg/resource-directory/pull/64.diff",
+      "patch_url": "https://github.com/core-wg/resource-directory/pull/64.patch"
+    },
+    "body": "... as promised for yesterday (oops)"
+  },
+  {
+    "url": "https://api.github.com/repos/core-wg/resource-directory/issues/63",
+    "repository_url": "https://api.github.com/repos/core-wg/resource-directory",
+    "labels_url": "https://api.github.com/repos/core-wg/resource-directory/issues/63/labels{/name}",
+    "comments_url": "https://api.github.com/repos/core-wg/resource-directory/issues/63/comments",
+    "events_url": "https://api.github.com/repos/core-wg/resource-directory/issues/63/events",
+    "html_url": "https://github.com/core-wg/resource-directory/pull/63",
+    "id": 266858910,
+    "number": 63,
+    "title": "Accept target-resolves-against-anchor and add text that says so",
     "user": {
       "login": "chrysn",
       "id": 442326,
@@ -31,7 +83,59 @@
     "labels": [
 
     ],
-    "state": "open",
+    "state": "closed",
+    "locked": false,
+    "assignee": null,
+    "assignees": [
+
+    ],
+    "milestone": null,
+    "comments": 2,
+    "created_at": "2017-10-19T14:16:36Z",
+    "updated_at": "2017-10-20T09:32:33Z",
+    "closed_at": "2017-10-20T09:32:33Z",
+    "author_association": "CONTRIBUTOR",
+    "pull_request": {
+      "url": "https://api.github.com/repos/core-wg/resource-directory/pulls/63",
+      "html_url": "https://github.com/core-wg/resource-directory/pull/63",
+      "diff_url": "https://github.com/core-wg/resource-directory/pull/63.diff",
+      "patch_url": "https://github.com/core-wg/resource-directory/pull/63.patch"
+    },
+    "body": "The new paragraph outlines differences between 5988 and 6690, wherever\r\nthat may finally go.\r\n\r\nSee-Also: https://github.com/core-wg/resource-directory/pull/56"
+  },
+  {
+    "url": "https://api.github.com/repos/core-wg/resource-directory/issues/62",
+    "repository_url": "https://api.github.com/repos/core-wg/resource-directory",
+    "labels_url": "https://api.github.com/repos/core-wg/resource-directory/issues/62/labels{/name}",
+    "comments_url": "https://api.github.com/repos/core-wg/resource-directory/issues/62/comments",
+    "events_url": "https://api.github.com/repos/core-wg/resource-directory/issues/62/events",
+    "html_url": "https://github.com/core-wg/resource-directory/pull/62",
+    "id": 266628657,
+    "number": 62,
+    "title": "Lookup: rt and parameters",
+    "user": {
+      "login": "chrysn",
+      "id": 442326,
+      "avatar_url": "https://avatars2.githubusercontent.com/u/442326?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/chrysn",
+      "html_url": "https://github.com/chrysn",
+      "followers_url": "https://api.github.com/users/chrysn/followers",
+      "following_url": "https://api.github.com/users/chrysn/following{/other_user}",
+      "gists_url": "https://api.github.com/users/chrysn/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/chrysn/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/chrysn/subscriptions",
+      "organizations_url": "https://api.github.com/users/chrysn/orgs",
+      "repos_url": "https://api.github.com/users/chrysn/repos",
+      "events_url": "https://api.github.com/users/chrysn/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/chrysn/received_events",
+      "type": "User",
+      "site_admin": false
+    },
+    "labels": [
+
+    ],
+    "state": "closed",
     "locked": false,
     "assignee": null,
     "assignees": [
@@ -40,8 +144,8 @@
     "milestone": null,
     "comments": 0,
     "created_at": "2017-10-18T20:20:30Z",
-    "updated_at": "2017-10-18T20:20:30Z",
-    "closed_at": null,
+    "updated_at": "2017-10-20T09:52:25Z",
+    "closed_at": "2017-10-20T09:51:30Z",
     "author_association": "CONTRIBUTOR",
     "pull_request": {
       "url": "https://api.github.com/repos/core-wg/resource-directory/pulls/62",
@@ -135,7 +239,7 @@
     "labels": [
 
     ],
-    "state": "open",
+    "state": "closed",
     "locked": false,
     "assignee": null,
     "assignees": [
@@ -144,8 +248,8 @@
     "milestone": null,
     "comments": 1,
     "created_at": "2017-10-13T15:29:12Z",
-    "updated_at": "2017-10-16T08:30:00Z",
-    "closed_at": null,
+    "updated_at": "2017-10-19T14:06:55Z",
+    "closed_at": "2017-10-19T14:06:45Z",
     "author_association": "CONTRIBUTOR",
     "pull_request": {
       "url": "https://api.github.com/repos/core-wg/resource-directory/pulls/60",
@@ -327,7 +431,7 @@
     "labels": [
 
     ],
-    "state": "open",
+    "state": "closed",
     "locked": false,
     "assignee": null,
     "assignees": [
@@ -336,8 +440,8 @@
     "milestone": null,
     "comments": 0,
     "created_at": "2017-10-12T14:58:15Z",
-    "updated_at": "2017-10-12T15:13:24Z",
-    "closed_at": null,
+    "updated_at": "2017-10-19T14:19:37Z",
+    "closed_at": "2017-10-19T14:18:53Z",
     "author_association": "CONTRIBUTOR",
     "pull_request": {
       "url": "https://api.github.com/repos/core-wg/resource-directory/pulls/57",
@@ -1598,7 +1702,8 @@
     "closed_at": null,
     "author_association": "CONTRIBUTOR",
     "body": "This is original comment by Jim, which have been restated partially by the issues before\r\n\r\nI am going through the group processing and I have the following issues:\r\n\r\n1.  There are no methods defined for modifying the contents of a group.\r\nThere is only a method for replacing the contents entirely.  Is this\r\nintentional?\r\n\r\n2.  The description of the context parameter looks to be a cut and paste\r\nthat you did not review.  If the parameter is absent, I do not believe that\r\nit makes sense to try and infer a context.  My assumption is that a context\r\nis only going to supplied in the event that a multicast address is\r\nassociated with the group.\r\n\r\n3.  Similar to the request for a GET on the resource directory to get the\r\nlist of resource registries, I believe that you should have a GET on the\r\ngroup directory to get the list of group registries."
-  },
+  }
+,
   {
     "url": "https://api.github.com/repos/core-wg/resource-directory/issues/34",
     "repository_url": "https://api.github.com/repos/core-wg/resource-directory",
@@ -1696,8 +1801,7 @@
     "closed_at": "2017-09-27T10:17:08Z",
     "author_association": "NONE",
     "body": "According \r\n\r\nhttps://github.com/core-wg/resource-directory/blob/master/draft-ietf-core-resource-directory.md#registration-registration\r\n\r\n> A new registration may be created at any time to supersede an existing registration, replacing the registration parameters and links.\r\n\r\nand below\r\n\r\n> lt := : Lifetime (optional). Lifetime of the registration in seconds. Range of 60-4294967295. If no lifetime is included in the initial registration, a default value of 86400 (24 hours) SHOULD be assumed. If the lt parameter is not included in a registration refresh or update operation, the most recently supplied value SHALL be re-used.\r\n\r\nTherefore I'm not sure, if the explanation for the `lt` about the reuse of the most recently supplied value, just doesn't apply here (and may be moved to a more proper place), because this section is only about **new** or **replacing** registrations, or, if **refresh** or **update** registrations also apply to this section, somehow \"extends\" the behaviour of \"replacing the registration parameters and links\" (and may be therefore explicitly mentioned as exception in the \"replacing the registration parameters and links, except the lifetime, where the below extra rule SHOULD be applied\").\r\n\r\nFMPOV, I don't see the use case, where a device sends a registration and the rd should use a previous lifetime without notice the device about that. The device would consider the default value, but, if the actual value would be smaller, the device will get unaware unregistered.\r\n\r\nAn example for \"supersede\" case would therefore be also a good idea, to clarify, what is intended. \r\n\r\n    \r\n\r\n\r\n"
-  }
-,
+  },
   {
     "url": "https://api.github.com/repos/core-wg/resource-directory/issues/32",
     "repository_url": "https://api.github.com/repos/core-wg/resource-directory",
@@ -2972,17 +3076,17 @@
         "default": false
       }
     ],
-    "state": "open",
+    "state": "closed",
     "locked": false,
     "assignee": null,
     "assignees": [
 
     ],
     "milestone": null,
-    "comments": 0,
+    "comments": 2,
     "created_at": "2017-04-19T12:19:36Z",
-    "updated_at": "2017-05-03T13:45:22Z",
-    "closed_at": null,
+    "updated_at": "2017-10-20T09:51:56Z",
+    "closed_at": "2017-10-20T09:51:56Z",
     "author_association": "CONTRIBUTOR",
     "pull_request": {
       "url": "https://api.github.com/repos/core-wg/resource-directory/pulls/11",
@@ -3390,7 +3494,8 @@
     "closed_at": "2017-09-26T11:26:33Z",
     "author_association": "CONTRIBUTOR",
     "body": "Addresses should probably be formatted according to [RFC5952](https://tools.ietf.org/html/rfc5952), and I'll need to look into the applicability of the 2001:db8: prefix reserved for documentation on whether addresses should be used from that area."
-  },
+  }
+,
   {
     "url": "https://api.github.com/repos/core-wg/resource-directory/issues/4",
     "repository_url": "https://api.github.com/repos/core-wg/resource-directory",
@@ -3537,8 +3642,7 @@
     "closed_at": "2017-06-01T15:52:43Z",
     "author_association": "CONTRIBUTOR",
     "body": "This is needed for the 4.09 error code referenced."
-  }
-,
+  },
   {
     "url": "https://api.github.com/repos/core-wg/resource-directory/issues/2",
     "repository_url": "https://api.github.com/repos/core-wg/resource-directory",
