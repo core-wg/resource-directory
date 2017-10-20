@@ -383,13 +383,13 @@ o  con  o-------|  registration |---------< composed of >
        oooooooo     |                      |  1   oooooooo
                     |                      +-----o target o
        oooooooo 0-1 |                      |      oooooooo
-      o   et   o----+     ooooooooooo   0+ |
+      o   lt   o----+     ooooooooooo   0+ |
        oooooooo     |    o  target   o-----+
                     |    o attribute o     | 0+   oooooo
-       oooooooo 0-1 |     ooooooooooo      +-----o rel  o
-      o   lt   o----+                      |      oooooo
-       oooooooo                            |
-                                           | 1   ooooooooo
+    ooooooooooo 0+  |     ooooooooooo      +-----o rel  o
+   o  endpoint o----+                      |      oooooo
+   o attribute o                           |
+    ooooooooooo                            | 1   ooooooooo
                                            +----o context o
                                                  ooooooooo
 ~~~~
@@ -405,9 +405,9 @@ A Group has one Multicast address attribute and is composed of 0 to n1 endpoints
 * one ep (endpoint with a unique  name)
 * one con (a string describing the scheme://authority part)
 * one lt (lifetime),
-* optional one et (endpoint type to add semantic information),
 * one loc (location in the RD)
-* optional one d (domain for query filtering)
+* optional one d (domain for query filtering),
+* optional endpoint attributes (from {{iana-registry}})
 
 The cardinality of con is currently 1 (n2 = 1). The value of con is copied from the value of the "hosts" relation and overwritten by the value of the con query parameter.
 
