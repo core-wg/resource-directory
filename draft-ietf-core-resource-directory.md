@@ -288,6 +288,8 @@ The Entity-Relationship (ER) models shown in {{fig-ER-WKC}} and {{fig-ER-RD}} mo
 Some of the attribute values are URIs. Those values are always full URIs and never relative references in the data model.
 They can, however, be expressed as relative references in serializations, and often are.
 
+These models provide an abstract view of the information expressed in link-format documents and a Resource Directory. They cover the concepts, but not necessarily all details of an RD's operation; they are meant to give an overview, and not be a template for implementations.
+
 ~~~~
                     +----------------------+
                     |   /.well-known/core  |
