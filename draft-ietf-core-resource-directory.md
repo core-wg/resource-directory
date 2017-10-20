@@ -333,14 +333,20 @@ The set does not necessarily contain links to all resources served by the host.
 
 A link has the following attributes:
 
-* Zero or more link relations (expressed as space-separated values in the "rel" attribute, defaulting to "hosts").
-  They describe a relations between the link context and the link target.
-* A link context URI ("anchor").
-  The link context defines the source of the relation, and serves as the Base URI for resolving the target.
-  In the serialization, it can be relative, in which case it gets resolved against the Base URI of the `.well-known/core` document it was obtained from <!-- or the / resource of said server: RFC6690bis anyone? -->. It can be absent, in which the Base URI of the document is used as the context.
-* A link target URI ("href", expressed between the angular brackets in link-format).
-  The link target defines the destination of the relation, and is the topic of all other target attributes.
-  In the serialization, if it is a relative URI, it gets resolved against the link context URI.
+* Zero or more link relations: They describe a relations between the link context and the link target.
+
+  In link-format serialization, they are expressed as space-separated values in the "rel" attribute, and default to "hosts".
+
+* A link context URI: It defines the source of the relation, eg. *who* "hosts" something.
+
+  In link-format serialization, it is expressed in the "anchor" attribute. There, it can be a relative reference, in which case it gets resolved against the URI of the `.well-known/core` document it was obtained from <!-- or the / resource of said server: RFC6690bis anyone? -->. It defaults to that document's URI.
+
+  In the serialization, the context also serves as the Base URI for resolving the target reference.
+
+* A link target URI: It defines the destination of the relation (eg. *what* is hosted), and is the topic of all target attributes.
+
+ In link-format serialization, it is expressed between angular brackets, and sometimes called the "href". If it is a relative URI, it gets resolved against the link context URI.
+
 * Other target attributes (eg. resource type (rt), interface (if), cor content-type (ct)).
   These provide additional information about the target URI.
 
