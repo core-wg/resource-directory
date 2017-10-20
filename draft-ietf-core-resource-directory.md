@@ -2546,7 +2546,9 @@ Directory:
 
   This is explicit in {{RFC6690}} section 2.1 for link-format, and spelled out
   in section B.2 of {{I-D.nottingham-rfc5988bis}} <!-- "Parsing a
-  Link Field Value -->.
+  Link Field Value -->,
+  which obsoletes the older {{RFC5988}}.
+  {{RFC6690}} is based on {{RFC5988}} and has not been updated with clarifications from {{I-D.nottingham-rfc5988bis}}.
 
 
 <!--  LocalWords:  lookups multicast lookup RESTful CoRE LoWPAN CoAP
