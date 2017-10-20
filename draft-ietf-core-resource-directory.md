@@ -407,7 +407,7 @@ A Group has one Multicast address attribute and is composed of 0 to n1 endpoints
 * one lt (lifetime),
 * one loc (location in the RD)
 * optional one d (domain for query filtering),
-* optional endpoint attributes (from {{iana-registry}})
+* optional additional endpoint attributes (from {{iana-registry}})
 
 The cardinality of con is currently 1 (n2 = 1). The value of con is copied from the value of the "hosts" relation and overwritten by the value of the con query parameter.
 
@@ -786,7 +786,7 @@ Method:
 
 
 URI Template:
-: {+rd}{?ep,d,et,lt,con}
+: {+rd}{?ep,d,et,lt,con,extra-attrs\*}
 
 
 URI Template Variables:
@@ -833,6 +833,13 @@ URI Template Variables:
     Directory which is on the network service side of the NAT gateway, the endpoint MUST
     use a persistent port for the outgoing registration in order to provide the NAT
     gateway with a valid network address for replies and incoming requests.
+
+  extra-attrs :=
+  : Additional registration attributes (optional). The endpoint can pass any
+    parameter registered at {{iana-registry}} to the directory. If the RD is
+    aware of the parameter's specified semantics, it processes it accordingly.
+    Otherwise, it MUST store the unknown key and its value(s) as an endpoint
+    attribute for further lookup.
 
 Content-Format:
 : application/link-format
@@ -920,7 +927,7 @@ request to the `/.well-known/core` URI of the directory server of choice. The bo
 directory server to perform GET requests at the requesting server's default
 discovery URI to obtain the link-format payload to register.
 
-The endpoint MUST include the endpoint name and MAY include the registration parameters d, lt, and et, in the POST request as per {{registration}}. The context of the registration is taken from the requesting server's URI.
+The endpoint MUST include the endpoint name and MAY include the registration parameters d, lt, et and extra-attrs, in the POST request as per {{registration}}. The context of the registration is taken from the requesting server's URI.
 
 The endpoints MUST be deleted after the expiration of their lifetime. Additional operations cannot be executed because no registration location is returned.
 
@@ -1024,7 +1031,7 @@ Method:
 : POST
 
 URI Template:
-: {+location}{?lt,con}
+: {+location}{?lt,con,extra-attrs\*}
 
 
 URI Template Variables:
@@ -1053,6 +1060,12 @@ URI Template Variables:
     If the parameter is not set and was not set explicitly before either, the
     source address and source port of the update request are stored as the
     context.
+
+  extra-attrs :=
+  : Additional registration attributes (optional). As with the registration,
+    the RD processes them if it knows their semantics. Otherwise, unknown
+    attributes are stored as endpoint attributes, overriding any previously
+    stored endpoint attributes of the same key.
 
 Content-Format:
 : application/link-format (mandatory)
@@ -1435,6 +1448,7 @@ The Resource Directory MAY replace the contexts with a configured intermediate p
 
 Endpoint and group lookups result in links to the selected registration resource and group resources.
 Endpoint registration resources are annotated with their endpoint names (ep), domains (d, if present), context (con), endpoint type (et, if present) and lifetime (lt, if present).
+Additional endpoint attributes are added as link attributes to their endpoint link unless their specification says otherwise.
 Group resources are annotated with their group names (gp), domain (d, if present) and multicast address (con, if present).
 
 Using the Accept Option, the requester can control whether this list is returned in CoRE Link Format (`application/link-format`, default) or its alternate content-formats (`application/link-format+json` or `application/link-format+cbor`).
