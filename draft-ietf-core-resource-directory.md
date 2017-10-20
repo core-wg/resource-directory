@@ -1490,9 +1490,9 @@ Req: GET /rd-lookup/ep?et=power-node
 
 Res: 2.05 Content
 </rd/1234>;con="coap://[2001:db8:3::127]:61616";ep="node5";
-et="core.ocf.power";ct="40";lt="600",
+et="power-node";ct="40";lt="600",
 </rd/4521>;con="coap://[2001:db8:3::129]:61616";ep="node7";
-et="core.ocf.power";ct="40";lt="600";d="floor-3"
+et="power-node";ct="40";lt="600";d="floor-3"
 ~~~~
 
 The following example shows a client performing a group lookup for all groups:
@@ -1512,8 +1512,8 @@ in a particular group:
 Req: GET /rd-lookup/ep?gp=lights1
 
 Res: 2.05 Content
-</rd/abcd>;con="coap://[2001:db8:3::123]:61616";ep="node1";et="core.ocf.light";ct="40";lt="600",
-</rd/efgh>;con="coap://[2001:db8:3::124]:61616";ep="node2";et="core.ocf.light";ct="40";lt="600"
+</rd/abcd>;con="coap://[2001:db8:3::123]:61616";ep="node1";et="power-node";ct="40";lt="600",
+</rd/efgh>;con="coap://[2001:db8:3::124]:61616";ep="node2";et="power-node";ct="40";lt="600"
 ~~~~
 
 The following example shows a client performing a lookup for all groups the
