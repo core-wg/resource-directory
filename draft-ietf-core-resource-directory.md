@@ -86,6 +86,7 @@ informative:
 #  RFC1034: dns1
   RFC7641:
   ER: DOI.10.1145/320434.320440
+  I-D.nottingham-rfc5988bis:
 
 --- abstract
 
@@ -2230,9 +2231,9 @@ Changes from -01 to -02:
 # Web links and the Resource Directory
 
 Understanding the semantics of a link-format document and its URI references is
-a journey through different documents ({{RFC3986}} defining URIs, {{RFC5988}}
-defining link headers, {{RFC6690}} serializing them into a link-format
-document, and {{RFC7252}} providing the transport). This appendix summarizes
+a journey through different documents ({{RFC3986}} defining URIs, {{RFC6690}}
+defining link-format documents based on {{RFC5988}} which defines link headers,
+and {{RFC7252}} providing the transport). This appendix summarizes
 the mechanisms and semantics at play from an entry in `.well-known/core` to a
 resource lookup.
 
@@ -2264,8 +2265,8 @@ ahead and create a new request to `[2001:db8:f0::1]:5683` with Uri-Path:
 
 The client parses the single returned record. The link's target (sometimes
 called "href") is "/temp", which is a relative URI that needs resolving. The
-Base URI to resolve that against is, in absence of an "anchor" parameter (as
-per {{RFC5988}} section 5.2), the URI of the requested resource.
+Base URI to resolve that against is, in absence of an "anchor" parameter,
+the URI of the requested resource as described in {{RFC6690}} Section 2.1.
 
 The URI of the requested resource can be composed by following the steps of
 {{RFC7252}} section 6.5 (with an addition at the end of 8.2) into
@@ -2385,6 +2386,44 @@ have been used to resolve the relative anchor values instead, giving
     </temp>;rt=temperature;ct=0;anchor="coap+tcp://simple-host1.example.com"
 
 and analogous records.
+
+## A note on differences between link-format and Link headers
+
+While link-format and Link headers look very similar and are based on the same
+model of typed links, there are some differences between {{RFC6690}} and
+{{RFC5988}} that should be kept in mind when using or implementing a Resource
+Directory:
+
+* There is no percent encoding in link-format documents.
+
+  A link-format document is a UTF-8 encoded string of Unicode characters and
+  does not have percent encoding, while Link headers are practically ASCII
+  strings that use percent encoding for non-ASCII characters, stating the
+  encoding explictly when required.
+
+  For example, while a Link header in a page about a Swedish city might read
+
+      Link: </temperature/Malm%C3%B6>;rel="live-environment-data"
+
+  a link-format document from the same source might describe the link as
+
+      </temperature/Malmö>;rel="live-environment-data"
+
+  <!-- The title conversion follows the rule of the text RFC6690 section 2; I
+  doubt that's the intention, though, as it spills at semicolons/commas and
+  does not match the ext-value ABNF. -->
+
+* In a link-format document, if the anchor attribute is present, the link target reference is resolved
+  by using the the (resolved) anchor value as Base URI for that link,
+  while in Link headers, it is resolved against the URI of the
+  requested document.
+
+  This is explicit in {{RFC6690}} section 2.1 for link-format, and spelled out
+  in section B.2 of {{I-D.nottingham-rfc5988bis}} <!-- "Parsing a
+  Link Field Value -->,
+  which obsoletes the older {{RFC5988}}.
+  {{RFC6690}} is based on {{RFC5988}} and has not been updated with clarifications from {{I-D.nottingham-rfc5988bis}}.
+
 
 <!--  LocalWords:  lookups multicast lookup RESTful CoRE LoWPAN CoAP
  -->
