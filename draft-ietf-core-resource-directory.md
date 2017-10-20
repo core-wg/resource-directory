@@ -1721,26 +1721,44 @@ parameters called "RD Parameters" under "CoRE Parameters". Although this
 specification defines a basic set of parameters, it is expected that other
 standards that make use of this interface will define new ones.
 
-Each entry in the registry must include the human readable name of the parameter,
-the query parameter, validity requirements if any and a description. The
-query parameter MUST be a valid URI query key {{RFC3986}}.
+Each entry in the registry must include
+* the human readable name of the parameter,
+* the short name as used in query parameters or link attributes,
+* indication of whether it can be passed as a query parameter at registration of endpoints or groups, as a query parameter in lookups, or be expressed as a link attribute,
+* validity requirements if any, and
+* a description.
+
+The query parameter MUST be both a valid URI query key {{RFC3986}} and a parmname as used in {{RFC5988}}.
+
+The description must give details on which registrations they apply to (Endpoint, group registrations or both? Can they be updated?), and how they are to be processed in lookups.
+
+The mechanisms around new RD parameters should be designed in such a way that they tolerate RD implementations that are unaware of the parameter and expose any parameter passed at registration or updates on in endpoint lookups. (For example, if a parameter used at registration were to be confidential, the registering endpoint should be instructed to only set that parameter if the RD advertises support for keeping it confidential at the discovery step.)
 
 Initial entries in this sub-registry are as follows:
 
-| Name          | Query | Validity      | Description                                                             |
-| Endpoint Name | ep    |               | Name of the endpoint, max 63 bytes                                      |
-| Lifetime      | lt    | 60-4294967295 | Lifetime of the registration in seconds                                 |
-| Domain        | d     |               | Domain to which this endpoint belongs                                   |
-| Endpoint Type | et    |               | Semantic name of the endpoint                                           |
-| Context       | con   | URI           | The scheme, address and port and path at which this server is available |
-| Group Name    | gp    |               | Name of a group in the RD                                               |
-| Page          | page  | Integer       | Used for pagination                                                     |
-| Count         | count | Integer       | Used for pagination                                                     |
-{: #tab-registry title='RD Parameters'}
+| Full name     | Short | Validity      | Use | Description                                                             |
+| Endpoint Name | ep    |               | RLA | Name of the endpoint, max 63 bytes                                      |
+| Lifetime      | lt    | 60-4294967295 | RLA | Lifetime of the registration in seconds                                 |
+| Domain        | d     |               | RLA | Domain to which this endpoint belongs                                   |
+| Endpoint Type | et    |               | RLA | Semantic name of the endpoint                                           |
+| Context       | con   | URI           | RLA | The scheme, address and port and path at which this server is available |
+| Group Name    | gp    |               | RLA | Name of a group in the RD                                               |
+| Page          | page  | Integer       |  L  | Used for pagination                                                     |
+| Count         | count | Integer       |  L  | Used for pagination                                                     |
+{: #tab-registry title='RD Parameters' }
+
+(Short: Short name used in query parameters or link attributes. Use: R = used at registration, L = used at lookup, A = expressed in link attribute
+
+The descriptions for the options defined in this document are only summarized here.
+To which registrations they apply and when they are to be shown is described in the respective sections of this document.
 
 The IANA policy for future additions to the sub-registry is "Expert Review"
-as described in {{RFC8126}}.
-
+as described in {{RFC8126}}. The evaluation should consider
+formal criteria,
+duplication of functionality (Is the new entry redundant with an existing one?),
+topical suitability (Eg. is the described property actually a property of the endpoint and not a property of a particular resource, in which case it should go into the payload of the registration and need not be registered?),
+and the potential for conflict with commonly used link attributes (For example, `if` could be used as a parameter for conditional registration if it were not to be used in lookup or attributes, but would make a bad parameter for lookup, because a resource lookup with an `if` query parameter could ambiguously filter by the registered endpoint property or the {{RFC6690}} link attribute).
+It is expected that the registry will receive between 5 and 50 registrations in total over the next years.
 
 
 # Examples {#examples}
