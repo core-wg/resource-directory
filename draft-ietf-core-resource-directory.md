@@ -383,13 +383,13 @@ o  con  o-------|  registration |---------< composed of >
        oooooooo     |                      |  1   oooooooo
                     |                      +-----o target o
        oooooooo 0-1 |                      |      oooooooo
-      o   et   o----+     ooooooooooo   0+ |
+      o   lt   o----+     ooooooooooo   0+ |
        oooooooo     |    o  target   o-----+
                     |    o attribute o     | 0+   oooooo
-       oooooooo 0-1 |     ooooooooooo      +-----o rel  o
-      o   lt   o----+                      |      oooooo
-       oooooooo                            |
-                                           | 1   ooooooooo
+    ooooooooooo 0+  |     ooooooooooo      +-----o rel  o
+   o  endpoint o----+                      |      oooooo
+   o attribute o                           |
+    ooooooooooo                            | 1   ooooooooo
                                            +----o context o
                                                  ooooooooo
 ~~~~
@@ -405,9 +405,9 @@ A Group has one Multicast address attribute and is composed of 0 to n1 endpoints
 * one ep (endpoint with a unique  name)
 * one con (a string describing the scheme://authority part)
 * one lt (lifetime),
-* optional one et (endpoint type to add semantic information),
 * one loc (location in the RD)
-* optional one d (domain for query filtering)
+* optional one d (domain for query filtering),
+* optional additional endpoint attributes (from {{iana-registry}})
 
 The cardinality of con is currently 1 (n2 = 1). The value of con is copied from the value of the "hosts" relation and overwritten by the value of the con query parameter.
 
@@ -786,7 +786,7 @@ Method:
 
 
 URI Template:
-: {+rd}{?ep,d,et,lt,con}
+: {+rd}{?ep,d,lt,con,extra-attrs\*}
 
 
 URI Template Variables:
@@ -804,10 +804,6 @@ URI Template Variables:
   : Domain (optional). The domain to which this endpoint belongs. The maximum
     length of this parameter is 63 bytes. When this parameter is elided, the
     RD MAY associate the endpoint with a configured default domain.
-
-  et :=
-  : Endpoint Type (optional). The semantic type of the endpoint. This parameter
-    SHOULD be less than 63 bytes.
 
   lt :=
   : Lifetime (optional). Lifetime of the registration in seconds. Range of 60-4294967295.
@@ -833,6 +829,13 @@ URI Template Variables:
     Directory which is on the network service side of the NAT gateway, the endpoint MUST
     use a persistent port for the outgoing registration in order to provide the NAT
     gateway with a valid network address for replies and incoming requests.
+
+  extra-attrs :=
+  : Additional registration attributes (optional). The endpoint can pass any
+    parameter registered at {{iana-registry}} to the directory. If the RD is
+    aware of the parameter's specified semantics, it processes it accordingly.
+    Otherwise, it MUST store the unknown key and its value(s) as an endpoint
+    attribute for further lookup.
 
 Content-Format:
 : application/link-format
@@ -920,7 +923,7 @@ request to the `/.well-known/core` URI of the directory server of choice. The bo
 directory server to perform GET requests at the requesting server's default
 discovery URI to obtain the link-format payload to register.
 
-The endpoint MUST include the endpoint name and MAY include the registration parameters d, lt, and et, in the POST request as per {{registration}}. The context of the registration is taken from the requesting server's URI.
+The endpoint MUST include the endpoint name and MAY include the registration parameters d, lt and extra-attrs, in the POST request as per {{registration}}. The context of the registration is taken from the requesting server's URI.
 
 The endpoints MUST be deleted after the expiration of their lifetime. Additional operations cannot be executed because no registration location is returned.
 
@@ -1024,7 +1027,7 @@ Method:
 : POST
 
 URI Template:
-: {+location}{?lt,con}
+: {+location}{?lt,con,extra-attrs\*}
 
 
 URI Template Variables:
@@ -1053,6 +1056,12 @@ URI Template Variables:
     If the parameter is not set and was not set explicitly before either, the
     source address and source port of the update request are stored as the
     context.
+
+  extra-attrs :=
+  : Additional registration attributes (optional). As with the registration,
+    the RD processes them if it knows their semantics. Otherwise, unknown
+    attributes are stored as endpoint attributes, overriding any previously
+    stored endpoint attributes of the same key.
 
 Content-Format:
 : application/link-format (mandatory)
@@ -1410,10 +1419,6 @@ using attributes defined in this document and for use with the CoRE
 Link Format. The result of a lookup request is the list of links (if any)
 corresponding to the type of lookup.  Thus, a group lookup MUST return a list of groups, an endpoint lookup MUST return a list of endpoints and a resource lookup MUST return a list of links to resources.
 
-While Endpoint Lookup does expose the registration resources,
-the RD does not need to make them accessible to clients.
-Clients SHOULD NOT attempt to dereference or manipulate them.
-
 The lookup type is selected by a URI endpoint, which is indicated by a Resource Type as per {{lookup-types}} below:
 
 | Lookup Type | Resource Type | Mandatory |
@@ -1421,6 +1426,8 @@ The lookup type is selected by a URI endpoint, which is indicated by a Resource 
 | Endpoint | core.rd-lookup-ep | Mandatory |
 | Group | core.rd-lookup-gp | Optional |
 {: #lookup-types title='Lookup Types'}
+
+## Resource lookup
 
 Resource lookup results in links that are semantically equivalent to the links submitted to the RD if they were accessed on the endpoint itself.
 The links and link parameters returned are equal to the submitted ones except for anchor,
@@ -1433,17 +1440,30 @@ The hrefs of links can always be served as they were submitted; the server MAY r
 That allows the client to interpret the response as links without any further knowledge of what the RD does.
 The Resource Directory MAY replace the contexts with a configured intermediate proxy, e.g. in the case of an HTTP lookup interface for CoAP endpoints.
 
-Endpoint and group lookups result in links to the selected registration resource and group resources.
-Endpoint registration resources are annotated with their endpoint names (ep), domains (d, if present), context (con), endpoint type (et, if present) and lifetime (lt, if present).
+## Endpoint and group lookup
+
+Endpoint and group lookups result in links to registration resources and group resources, respectively.
+Endpoint registration resources are annotated with their endpoint names (ep), domains (d, if present), context (con) and lifetime (lt, if present).
+Additional endpoint attributes are added as link attributes to their endpoint link unless their specification says otherwise.
 Group resources are annotated with their group names (gp), domain (d, if present) and multicast address (con, if present).
+
+While Endpoint Lookup does expose the registration resources,
+the RD does not need to make them accessible to clients.
+Clients SHOULD NOT attempt to dereference or manipulate them.
+
+## Lookup filtering
 
 Using the Accept Option, the requester can control whether this list is returned in CoRE Link Format (`application/link-format`, default) or its alternate content-formats (`application/link-format+json` or `application/link-format+cbor`).
 
 The page and count parameters are used to obtain lookup results in specified increments using pagination, where count specifies how many links to return and page specifies which subset of links organized in sequential pages, each containing 'count' links, starting with link zero and page zero. Thus, specifying count of 10 and page of 0 will return the first 10 links in the result set (links 0-9). Count = 10 and page = 1 will return the next 'page' containing links 10-19, and so on.
 
-Multiple query parameters MAY be included in a lookup, all included parameters MUST match for a resource to be returned.  The character'\*' MAY be included at the end of a parameter value as a wildcard operator.
+Multiple search criteria MAY be included in a lookup. All included criteria MUST match for a link to be returned.
 
-RD Lookup requests MAY use any set of query parameters to match the registered attributes and relations.  In addition, this interface MAY be used with queries that specify endpoints and groups.  For example, an endpoint lookup filtering on groups would return a list of endpoints that are in the specified groups.
+A link matches a search criterion if it has an attribute of the same name and the same value, allowing for a trailing "\*" wildcard operator as in Section 4.1 of {{RFC6690}}.
+Attributes that are defined as "link-type" match if the search value matches any of their values (see Section 4.1 of {{RFC6690}}; eg. `?if=core.s` matches `;if="abc core.s";`).
+A link also matches a search criterion if the link that would be produced for any of its containing entities would match the criterion: A search criterion matches an endpoint if it matches the endpoint itself or any of the groups it is contained in, and one on a resource if it matches the resource, the resource's endpoint, or any of the endpoint's groups.
+
+Note that `href` is also a valid search criterion and matches target references. Like all search criteria, on a resource lookup it can match the target reference of the resource link itself, but also the registration resource of the endpoint that registered it, or any group resource that endpoint is contained in.
 
 Clients that are interested in a lookup result repeatedly or continuously can use
 mechanisms like ETag caching, resource observation ({{RFC7641}}),
@@ -1460,7 +1480,7 @@ Method:
 : GET
 
 URI Template:
-: {+type-lookup-location}{?d,ep,gp,et,page,count,resource-param}
+: {+type-lookup-location}{?page,count,search\*}
 
 
 URI Template Variables:
@@ -1468,13 +1488,8 @@ URI Template Variables:
   : RD Lookup URI for a given lookup type (mandatory). The address is
     discovered as described in {{discovery}}.
 
-  ep :=
-  : Endpoint name (optional). Used for endpoint, group and resource lookups.
-
-  d :=
-  : Domain (optional). Used for group, endpoint and resource lookups.
-
-  gp :=  Group name (optional).  Used for endpoint, group and resource lookups.
+  search :=
+  : Search criteria for limiting the number of results (optional).
 
   page :=
   : Page (optional). Parameter can not be used without the count
@@ -1488,13 +1503,6 @@ URI Template Variables:
     links starting with the (page \* count) link in the result set from the query. If
     the count parameter is not present, then the response MUST return all matching
     links in the result set. Link numbering starts with zero.
-
-  et :=
-  : Endpoint type (optional). Used for group, endpoint and resource lookups.
-
-  resource-param :=
-  : Link parameters (optional). Any link parameter as defined in
-  Section 4.1 of {{RFC6690}}, including href, used for resource lookups.
 
   Content-Format:
   : application/link-format (optional)
@@ -1525,6 +1533,8 @@ Failure:
 
 HTTP support:
 : YES
+
+## Lookup examples
 
 The examples in this section assume CoAP hosts with a default CoAP port 61616. HTTP hosts are possible and do not change the nature of the examples.
 
@@ -1721,27 +1731,73 @@ parameters called "RD Parameters" under "CoRE Parameters". Although this
 specification defines a basic set of parameters, it is expected that other
 standards that make use of this interface will define new ones.
 
-Each entry in the registry must include the human readable name of the parameter,
-the query parameter, validity requirements if any and a description. The
-query parameter MUST be a valid URI query key {{RFC3986}}.
+Each entry in the registry must include
+* the human readable name of the parameter,
+* the short name as used in query parameters or link attributes,
+* indication of whether it can be passed as a query parameter at registration of endpoints or groups, as a query parameter in lookups, or be expressed as a link attribute,
+* validity requirements if any, and
+* a description.
+
+The query parameter MUST be both a valid URI query key {{RFC3986}} and a parmname as used in {{RFC5988}}.
+
+The description must give details on which registrations they apply to (Endpoint, group registrations or both? Can they be updated?), and how they are to be processed in lookups.
+
+The mechanisms around new RD parameters should be designed in such a way that they tolerate RD implementations that are unaware of the parameter and expose any parameter passed at registration or updates on in endpoint lookups. (For example, if a parameter used at registration were to be confidential, the registering endpoint should be instructed to only set that parameter if the RD advertises support for keeping it confidential at the discovery step.)
 
 Initial entries in this sub-registry are as follows:
 
-| Name          | Query | Validity      | Description                                                             |
-| Endpoint Name | ep    |               | Name of the endpoint, max 63 bytes                                      |
-| Lifetime      | lt    | 60-4294967295 | Lifetime of the registration in seconds                                 |
-| Domain        | d     |               | Domain to which this endpoint belongs                                   |
-| Endpoint Type | et    |               | Semantic name of the endpoint                                           |
-| Context       | con   | URI           | The scheme, address and port and path at which this server is available |
-| Group Name    | gp    |               | Name of a group in the RD                                               |
-| Page          | page  | Integer       | Used for pagination                                                     |
-| Count         | count | Integer       | Used for pagination                                                     |
-{: #tab-registry title='RD Parameters'}
+| Full name     | Short | Validity      | Use | Description                                                             |
+| Endpoint Name | ep    |               | RLA | Name of the endpoint, max 63 bytes                                      |
+| Lifetime      | lt    | 60-4294967295 | RLA | Lifetime of the registration in seconds                                 |
+| Domain        | d     |               | RLA | Domain to which this endpoint belongs                                   |
+| Context       | con   | URI           | RLA | The scheme, address and port and path at which this server is available |
+| Group Name    | gp    |               | RLA | Name of a group in the RD                                               |
+| Page          | page  | Integer       |  L  | Used for pagination                                                     |
+| Count         | count | Integer       |  L  | Used for pagination                                                     |
+| Endpoint Type | et    |               | RLA | Semantic name of the endpoint (see {{et-registry}})                     |
+{: #tab-registry title='RD Parameters' }
+
+(Short: Short name used in query parameters or link attributes. Use: R = used at registration, L = used at lookup, A = expressed in link attribute
+
+The descriptions for the options defined in this document are only summarized here.
+To which registrations they apply and when they are to be shown is described in the respective sections of this document.
 
 The IANA policy for future additions to the sub-registry is "Expert Review"
-as described in {{RFC8126}}.
+as described in {{RFC8126}}. The evaluation should consider
+formal criteria,
+duplication of functionality (Is the new entry redundant with an existing one?),
+topical suitability (Eg. is the described property actually a property of the endpoint and not a property of a particular resource, in which case it should go into the payload of the registration and need not be registered?),
+and the potential for conflict with commonly used link attributes (For example, `if` could be used as a parameter for conditional registration if it were not to be used in lookup or attributes, but would make a bad parameter for lookup, because a resource lookup with an `if` query parameter could ambiguously filter by the registered endpoint property or the {{RFC6690}} link attribute).
+It is expected that the registry will receive between 5 and 50 registrations in total over the next years.
 
+## Endpoint Type Parameter Registry {#et-registry}
 
+The Endpoint Type parameter is described as follows:
+
+An endpoint registering at an RD can describe itself with endpoint types,
+similar to how resources are described with Resource Types in {{RFC6690}}.
+An endpoint type is expressed as a string, which can be either a URI or one of
+the values defined in the Endpoint Type subregistry; it SHOULD be shorter than
+63 bytes.
+Endpoint types can be passed in the `et` query parameter as part of extra-attrs
+at the Registration step,
+are shown on endpoint lookups using the `et` target attribute,
+and can be filtered for using `et` as a search criterion in resource and
+endpoint lookup.
+Multiple endpoint types are given as separate query parameters or link
+attributes.
+
+Note that Endpoint Type differs from Resource Type in that it uses multiple
+attributes rather than space separated values.
+As a result, Resource Directory implementations automatically support correct
+filtering in the lookup interfaces from the rules for unknown endpoint
+attributes.
+
+This specification establishes a new sub-registry under "CoRE Parameters"
+called "Endpoint Type".
+The registry properties (required policy, requirements, template) are identical
+to those of the Resource Type parameters in {{RFC6690}}.
+The registry is initially empty.
 
 # Examples {#examples}
 
