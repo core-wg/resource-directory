@@ -1442,7 +1442,7 @@ The Resource Directory MAY replace the contexts with a configured intermediate p
 
 ## Endpoint and group lookup
 
-Endpoint and group lookups result in links to the selected registration resource and group resources.
+Endpoint and group lookups result in links to registration resources and group resources, respectively.
 Endpoint registration resources are annotated with their endpoint names (ep), domains (d, if present), context (con) and lifetime (lt, if present).
 Additional endpoint attributes are added as link attributes to their endpoint link unless their specification says otherwise.
 Group resources are annotated with their group names (gp), domain (d, if present) and multicast address (con, if present).
