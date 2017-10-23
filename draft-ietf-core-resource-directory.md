@@ -786,7 +786,7 @@ Method:
 
 
 URI Template:
-: {+rd}{?ep,d,et,lt,con,extra-attrs\*}
+: {+rd}{?ep,d,lt,con,extra-attrs\*}
 
 
 URI Template Variables:
@@ -804,10 +804,6 @@ URI Template Variables:
   : Domain (optional). The domain to which this endpoint belongs. The maximum
     length of this parameter is 63 bytes. When this parameter is elided, the
     RD MAY associate the endpoint with a configured default domain.
-
-  et :=
-  : Endpoint Type (optional). The semantic type of the endpoint. This parameter
-    SHOULD be less than 63 bytes.
 
   lt :=
   : Lifetime (optional). Lifetime of the registration in seconds. Range of 60-4294967295.
@@ -927,7 +923,7 @@ request to the `/.well-known/core` URI of the directory server of choice. The bo
 directory server to perform GET requests at the requesting server's default
 discovery URI to obtain the link-format payload to register.
 
-The endpoint MUST include the endpoint name and MAY include the registration parameters d, lt, et and extra-attrs, in the POST request as per {{registration}}. The context of the registration is taken from the requesting server's URI.
+The endpoint MUST include the endpoint name and MAY include the registration parameters d, lt and extra-attrs, in the POST request as per {{registration}}. The context of the registration is taken from the requesting server's URI.
 
 The endpoints MUST be deleted after the expiration of their lifetime. Additional operations cannot be executed because no registration location is returned.
 
@@ -1447,7 +1443,7 @@ The Resource Directory MAY replace the contexts with a configured intermediate p
 ## Endpoint and group lookup
 
 Endpoint and group lookups result in links to the selected registration resource and group resources.
-Endpoint registration resources are annotated with their endpoint names (ep), domains (d, if present), context (con), endpoint type (et, if present) and lifetime (lt, if present).
+Endpoint registration resources are annotated with their endpoint names (ep), domains (d, if present), context (con) and lifetime (lt, if present).
 Additional endpoint attributes are added as link attributes to their endpoint link unless their specification says otherwise.
 Group resources are annotated with their group names (gp), domain (d, if present) and multicast address (con, if present).
 
@@ -1754,11 +1750,11 @@ Initial entries in this sub-registry are as follows:
 | Endpoint Name | ep    |               | RLA | Name of the endpoint, max 63 bytes                                      |
 | Lifetime      | lt    | 60-4294967295 | RLA | Lifetime of the registration in seconds                                 |
 | Domain        | d     |               | RLA | Domain to which this endpoint belongs                                   |
-| Endpoint Type | et    |               | RLA | Semantic name of the endpoint                                           |
 | Context       | con   | URI           | RLA | The scheme, address and port and path at which this server is available |
 | Group Name    | gp    |               | RLA | Name of a group in the RD                                               |
 | Page          | page  | Integer       |  L  | Used for pagination                                                     |
 | Count         | count | Integer       |  L  | Used for pagination                                                     |
+| Endpoint Type | et    |               | RLA | Semantic name of the endpoint (see {{et-registry}})                     |
 {: #tab-registry title='RD Parameters' }
 
 (Short: Short name used in query parameters or link attributes. Use: R = used at registration, L = used at lookup, A = expressed in link attribute
@@ -1774,6 +1770,34 @@ topical suitability (Eg. is the described property actually a property of the en
 and the potential for conflict with commonly used link attributes (For example, `if` could be used as a parameter for conditional registration if it were not to be used in lookup or attributes, but would make a bad parameter for lookup, because a resource lookup with an `if` query parameter could ambiguously filter by the registered endpoint property or the {{RFC6690}} link attribute).
 It is expected that the registry will receive between 5 and 50 registrations in total over the next years.
 
+## Endpoint Type Parameter Registry {#et-registry}
+
+The Endpoint Type parameter is described as follows:
+
+An endpoint registering at an RD can describe itself with endpoint types,
+similar to how resources are described with Resource Types in {{RFC6690}}.
+An endpoint type is expressed as a string, which can be either a URI or one of
+the values defined in the Endpoint Type subregistry; it SHOULD be shorter than
+63 bytes.
+Endpoint types can be passed in the `et` query parameter as part of extra-attrs
+at the Registration step,
+are shown on endpoint lookups using the `et` target attribute,
+and can be filtered for using `et` as a search criterion in resource and
+endpoint lookup.
+Multiple endpoint types are given as separate query parameters or link
+attributes.
+
+Note that Endpoint Type differs from Resource Type in that it uses multiple
+attributes rather than space separated values.
+As a result, Resource Directory implementations automatically support correct
+filtering in the lookup interfaces from the rules for unknown endpoint
+attributes.
+
+This specification establishes a new sub-registry under "CoRE Parameters"
+called "Endpoint Type".
+The registry properties (required policy, requirements, template) are identical
+to those of the Resource Type parameters in {{RFC6690}}.
+The registry is initially empty.
 
 # Examples {#examples}
 
