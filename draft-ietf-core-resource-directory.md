@@ -1461,9 +1461,13 @@ Using the Accept Option, the requester can control whether this list is returned
 
 The page and count parameters are used to obtain lookup results in specified increments using pagination, where count specifies how many links to return and page specifies which subset of links organized in sequential pages, each containing 'count' links, starting with link zero and page zero. Thus, specifying count of 10 and page of 0 will return the first 10 links in the result set (links 0-9). Count = 10 and page = 1 will return the next 'page' containing links 10-19, and so on.
 
-Multiple query parameters MAY be included in a lookup, all included parameters MUST match for a resource to be returned.  The character'\*' MAY be included at the end of a parameter value as a wildcard operator.
+Multiple search criteria MAY be included in a lookup. All included criteria MUST match for a link to be returned.
 
-RD Lookup requests MAY use any set of query parameters to match the registered attributes and relations.  In addition, this interface MAY be used with queries that specify endpoints and groups.  For example, an endpoint lookup filtering on groups would return a list of endpoints that are in the specified groups.
+A link matches a search criterion if it has an attribute of the same name and the same value, allowing for a trailing "\*" wildcard operator as in Section 4.1 of {{RFC6690}}.
+Attributes that are defined as "link-type" match if the search value matches any of their values (see Section 4.1 of {{RFC6690}}; eg. `?if=core.s` matches `;if="abc core.s";`).
+A link also matches a search criterion if the link that would be produced for any of its containing entities would match the criterion: A search criterion matches an endpoint if it matches the endpoint itself or any of the groups it is contained in, and one on a resource if it matches the resource, the resource's endpoint, or any of the endpoint's groups.
+
+Note that `href` is also a valid search criterion and matches target references. Like all search criteria, on a resource lookup it can match the target reference of the resource link itself, but also the registration resource of the endpoint that registered it, or any group resource that endpoint is contained in.
 
 Clients that are interested in a lookup result repeatedly or continuously can use
 mechanisms like ETag caching, resource observation ({{RFC7641}}),
@@ -1480,7 +1484,7 @@ Method:
 : GET
 
 URI Template:
-: {+type-lookup-location}{?d,ep,gp,et,page,count,resource-param}
+: {+type-lookup-location}{?page,count,search\*}
 
 
 URI Template Variables:
@@ -1488,13 +1492,8 @@ URI Template Variables:
   : RD Lookup URI for a given lookup type (mandatory). The address is
     discovered as described in {{discovery}}.
 
-  ep :=
-  : Endpoint name (optional). Used for endpoint, group and resource lookups.
-
-  d :=
-  : Domain (optional). Used for group, endpoint and resource lookups.
-
-  gp :=  Group name (optional).  Used for endpoint, group and resource lookups.
+  search :=
+  : Search criteria for limiting the number of results (optional).
 
   page :=
   : Page (optional). Parameter can not be used without the count
@@ -1508,13 +1507,6 @@ URI Template Variables:
     links starting with the (page \* count) link in the result set from the query. If
     the count parameter is not present, then the response MUST return all matching
     links in the result set. Link numbering starts with zero.
-
-  et :=
-  : Endpoint type (optional). Used for group, endpoint and resource lookups.
-
-  resource-param :=
-  : Link parameters (optional). Any link parameter as defined in
-  Section 4.1 of {{RFC6690}}, including href, used for resource lookups.
 
   Content-Format:
   : application/link-format (optional)
