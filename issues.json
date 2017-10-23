@@ -1,5 +1,345 @@
 [
   {
+    "url": "https://api.github.com/repos/core-wg/resource-directory/issues/68",
+    "repository_url": "https://api.github.com/repos/core-wg/resource-directory",
+    "labels_url": "https://api.github.com/repos/core-wg/resource-directory/issues/68/labels{/name}",
+    "comments_url": "https://api.github.com/repos/core-wg/resource-directory/issues/68/comments",
+    "events_url": "https://api.github.com/repos/core-wg/resource-directory/issues/68/events",
+    "html_url": "https://github.com/core-wg/resource-directory/pull/68",
+    "id": 267216660,
+    "number": 68,
+    "title": "Allow endpoint attributes and use them to simplify the lookup description",
+    "user": {
+      "login": "chrysn",
+      "id": 442326,
+      "avatar_url": "https://avatars2.githubusercontent.com/u/442326?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/chrysn",
+      "html_url": "https://github.com/chrysn",
+      "followers_url": "https://api.github.com/users/chrysn/followers",
+      "following_url": "https://api.github.com/users/chrysn/following{/other_user}",
+      "gists_url": "https://api.github.com/users/chrysn/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/chrysn/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/chrysn/subscriptions",
+      "organizations_url": "https://api.github.com/users/chrysn/orgs",
+      "repos_url": "https://api.github.com/users/chrysn/repos",
+      "events_url": "https://api.github.com/users/chrysn/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/chrysn/received_events",
+      "type": "User",
+      "site_admin": false
+    },
+    "labels": [
+
+    ],
+    "state": "closed",
+    "locked": false,
+    "assignee": null,
+    "assignees": [
+
+    ],
+    "milestone": {
+      "url": "https://api.github.com/repos/core-wg/resource-directory/milestones/2",
+      "html_url": "https://github.com/core-wg/resource-directory/milestone/2",
+      "labels_url": "https://api.github.com/repos/core-wg/resource-directory/milestones/2/labels",
+      "id": 2854107,
+      "number": 2,
+      "title": "task-after-2017-10-10",
+      "description": "",
+      "creator": {
+        "login": "chrysn",
+        "id": 442326,
+        "avatar_url": "https://avatars2.githubusercontent.com/u/442326?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/chrysn",
+        "html_url": "https://github.com/chrysn",
+        "followers_url": "https://api.github.com/users/chrysn/followers",
+        "following_url": "https://api.github.com/users/chrysn/following{/other_user}",
+        "gists_url": "https://api.github.com/users/chrysn/gists{/gist_id}",
+        "starred_url": "https://api.github.com/users/chrysn/starred{/owner}{/repo}",
+        "subscriptions_url": "https://api.github.com/users/chrysn/subscriptions",
+        "organizations_url": "https://api.github.com/users/chrysn/orgs",
+        "repos_url": "https://api.github.com/users/chrysn/repos",
+        "events_url": "https://api.github.com/users/chrysn/events{/privacy}",
+        "received_events_url": "https://api.github.com/users/chrysn/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "open_issues": 0,
+      "closed_issues": 3,
+      "state": "open",
+      "created_at": "2017-10-20T12:09:16Z",
+      "updated_at": "2017-10-23T08:38:57Z",
+      "due_on": "2017-10-25T07:00:00Z",
+      "closed_at": null
+    },
+    "comments": 2,
+    "created_at": "2017-10-20T15:38:12Z",
+    "updated_at": "2017-10-23T08:38:57Z",
+    "closed_at": "2017-10-23T08:38:57Z",
+    "author_association": "CONTRIBUTOR",
+    "pull_request": {
+      "url": "https://api.github.com/repos/core-wg/resource-directory/pulls/68",
+      "html_url": "https://github.com/core-wg/resource-directory/pull/68",
+      "diff_url": "https://github.com/core-wg/resource-directory/pull/68.diff",
+      "patch_url": "https://github.com/core-wg/resource-directory/pull/68.patch"
+    },
+    "body": "As planned in the last authors' meeting:\r\n* et should become just one of the registrable endpoint attributes (registry is already being prepared as RD parameter registry, but needs some work)\r\n* lookup should allow using any of those registered attributes\r\n* lookup should define how endpoint attributes are used in resource lookups (after all, `/rd-lookup/res?et=power-node` should be possible even though none of the resource links actually carry that attribute)\r\n\r\nThis PR is not final as it is, but will track my branch as I'm assembling (and possibly rewriting/rebasing) commits for this change."
+  },
+  {
+    "url": "https://api.github.com/repos/core-wg/resource-directory/issues/67",
+    "repository_url": "https://api.github.com/repos/core-wg/resource-directory",
+    "labels_url": "https://api.github.com/repos/core-wg/resource-directory/issues/67/labels{/name}",
+    "comments_url": "https://api.github.com/repos/core-wg/resource-directory/issues/67/comments",
+    "events_url": "https://api.github.com/repos/core-wg/resource-directory/issues/67/events",
+    "html_url": "https://github.com/core-wg/resource-directory/pull/67",
+    "id": 267213254,
+    "number": 67,
+    "title": "Explain resolving",
+    "user": {
+      "login": "chrysn",
+      "id": 442326,
+      "avatar_url": "https://avatars2.githubusercontent.com/u/442326?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/chrysn",
+      "html_url": "https://github.com/chrysn",
+      "followers_url": "https://api.github.com/users/chrysn/followers",
+      "following_url": "https://api.github.com/users/chrysn/following{/other_user}",
+      "gists_url": "https://api.github.com/users/chrysn/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/chrysn/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/chrysn/subscriptions",
+      "organizations_url": "https://api.github.com/users/chrysn/orgs",
+      "repos_url": "https://api.github.com/users/chrysn/repos",
+      "events_url": "https://api.github.com/users/chrysn/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/chrysn/received_events",
+      "type": "User",
+      "site_admin": false
+    },
+    "labels": [
+
+    ],
+    "state": "closed",
+    "locked": false,
+    "assignee": null,
+    "assignees": [
+
+    ],
+    "milestone": {
+      "url": "https://api.github.com/repos/core-wg/resource-directory/milestones/2",
+      "html_url": "https://github.com/core-wg/resource-directory/milestone/2",
+      "labels_url": "https://api.github.com/repos/core-wg/resource-directory/milestones/2/labels",
+      "id": 2854107,
+      "number": 2,
+      "title": "task-after-2017-10-10",
+      "description": "",
+      "creator": {
+        "login": "chrysn",
+        "id": 442326,
+        "avatar_url": "https://avatars2.githubusercontent.com/u/442326?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/chrysn",
+        "html_url": "https://github.com/chrysn",
+        "followers_url": "https://api.github.com/users/chrysn/followers",
+        "following_url": "https://api.github.com/users/chrysn/following{/other_user}",
+        "gists_url": "https://api.github.com/users/chrysn/gists{/gist_id}",
+        "starred_url": "https://api.github.com/users/chrysn/starred{/owner}{/repo}",
+        "subscriptions_url": "https://api.github.com/users/chrysn/subscriptions",
+        "organizations_url": "https://api.github.com/users/chrysn/orgs",
+        "repos_url": "https://api.github.com/users/chrysn/repos",
+        "events_url": "https://api.github.com/users/chrysn/events{/privacy}",
+        "received_events_url": "https://api.github.com/users/chrysn/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "open_issues": 0,
+      "closed_issues": 3,
+      "state": "open",
+      "created_at": "2017-10-20T12:09:16Z",
+      "updated_at": "2017-10-23T08:38:57Z",
+      "due_on": "2017-10-25T07:00:00Z",
+      "closed_at": null
+    },
+    "comments": 0,
+    "created_at": "2017-10-20T15:27:26Z",
+    "updated_at": "2017-10-20T15:30:09Z",
+    "closed_at": "2017-10-20T15:27:35Z",
+    "author_association": "CONTRIBUTOR",
+    "pull_request": {
+      "url": "https://api.github.com/repos/core-wg/resource-directory/pulls/67",
+      "html_url": "https://github.com/core-wg/resource-directory/pull/67",
+      "diff_url": "https://github.com/core-wg/resource-directory/pull/67.diff",
+      "patch_url": "https://github.com/core-wg/resource-directory/pull/67.patch"
+    },
+    "body": "The first commit tries to get across the difference between the relative references in the serialization and the URIs in the model more clearly.\r\n\r\nThe second commit adds paragraphs to the descriptions of various operations about how and by whom URIs are resolved in those steps."
+  },
+  {
+    "url": "https://api.github.com/repos/core-wg/resource-directory/issues/66",
+    "repository_url": "https://api.github.com/repos/core-wg/resource-directory",
+    "labels_url": "https://api.github.com/repos/core-wg/resource-directory/issues/66/labels{/name}",
+    "comments_url": "https://api.github.com/repos/core-wg/resource-directory/issues/66/comments",
+    "events_url": "https://api.github.com/repos/core-wg/resource-directory/issues/66/events",
+    "html_url": "https://github.com/core-wg/resource-directory/issues/66",
+    "id": 267170905,
+    "number": 66,
+    "title": "\"registration resource\" used ambiguously",
+    "user": {
+      "login": "chrysn",
+      "id": 442326,
+      "avatar_url": "https://avatars2.githubusercontent.com/u/442326?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/chrysn",
+      "html_url": "https://github.com/chrysn",
+      "followers_url": "https://api.github.com/users/chrysn/followers",
+      "following_url": "https://api.github.com/users/chrysn/following{/other_user}",
+      "gists_url": "https://api.github.com/users/chrysn/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/chrysn/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/chrysn/subscriptions",
+      "organizations_url": "https://api.github.com/users/chrysn/orgs",
+      "repos_url": "https://api.github.com/users/chrysn/repos",
+      "events_url": "https://api.github.com/users/chrysn/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/chrysn/received_events",
+      "type": "User",
+      "site_admin": false
+    },
+    "labels": [
+
+    ],
+    "state": "open",
+    "locked": false,
+    "assignee": {
+      "login": "chrysn",
+      "id": 442326,
+      "avatar_url": "https://avatars2.githubusercontent.com/u/442326?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/chrysn",
+      "html_url": "https://github.com/chrysn",
+      "followers_url": "https://api.github.com/users/chrysn/followers",
+      "following_url": "https://api.github.com/users/chrysn/following{/other_user}",
+      "gists_url": "https://api.github.com/users/chrysn/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/chrysn/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/chrysn/subscriptions",
+      "organizations_url": "https://api.github.com/users/chrysn/orgs",
+      "repos_url": "https://api.github.com/users/chrysn/repos",
+      "events_url": "https://api.github.com/users/chrysn/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/chrysn/received_events",
+      "type": "User",
+      "site_admin": false
+    },
+    "assignees": [
+      {
+        "login": "chrysn",
+        "id": 442326,
+        "avatar_url": "https://avatars2.githubusercontent.com/u/442326?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/chrysn",
+        "html_url": "https://github.com/chrysn",
+        "followers_url": "https://api.github.com/users/chrysn/followers",
+        "following_url": "https://api.github.com/users/chrysn/following{/other_user}",
+        "gists_url": "https://api.github.com/users/chrysn/gists{/gist_id}",
+        "starred_url": "https://api.github.com/users/chrysn/starred{/owner}{/repo}",
+        "subscriptions_url": "https://api.github.com/users/chrysn/subscriptions",
+        "organizations_url": "https://api.github.com/users/chrysn/orgs",
+        "repos_url": "https://api.github.com/users/chrysn/repos",
+        "events_url": "https://api.github.com/users/chrysn/events{/privacy}",
+        "received_events_url": "https://api.github.com/users/chrysn/received_events",
+        "type": "User",
+        "site_admin": false
+      }
+    ],
+    "milestone": null,
+    "comments": 1,
+    "created_at": "2017-10-20T13:10:41Z",
+    "updated_at": "2017-10-20T13:40:58Z",
+    "closed_at": null,
+    "author_association": "CONTRIBUTOR",
+    "body": "The term \"registration resource\" is used ambiguously in the current document:\r\n\r\nSometimes, it refers to the particular resource created for a single endpoint's registration (eg. `/reg/1234`). At other occasions, it refers to the resource at which endpoints can registrer (eg. `/rd`).\r\n\r\nI'm currently out of ideas on which terms to best use, would appreciate input and post an update if I come up with anything that's not \"registration endpoint\" (endpoint term being otherwise using in the CoAP netloc sense)  and \"endpoint location\" (endpoint again, and Location because of the header that sent the client there)."
+  },
+  {
+    "url": "https://api.github.com/repos/core-wg/resource-directory/issues/65",
+    "repository_url": "https://api.github.com/repos/core-wg/resource-directory",
+    "labels_url": "https://api.github.com/repos/core-wg/resource-directory/issues/65/labels{/name}",
+    "comments_url": "https://api.github.com/repos/core-wg/resource-directory/issues/65/comments",
+    "events_url": "https://api.github.com/repos/core-wg/resource-directory/issues/65/events",
+    "html_url": "https://github.com/core-wg/resource-directory/pull/65",
+    "id": 267154595,
+    "number": 65,
+    "title": "ER model: Describe intention",
+    "user": {
+      "login": "chrysn",
+      "id": 442326,
+      "avatar_url": "https://avatars2.githubusercontent.com/u/442326?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/chrysn",
+      "html_url": "https://github.com/chrysn",
+      "followers_url": "https://api.github.com/users/chrysn/followers",
+      "following_url": "https://api.github.com/users/chrysn/following{/other_user}",
+      "gists_url": "https://api.github.com/users/chrysn/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/chrysn/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/chrysn/subscriptions",
+      "organizations_url": "https://api.github.com/users/chrysn/orgs",
+      "repos_url": "https://api.github.com/users/chrysn/repos",
+      "events_url": "https://api.github.com/users/chrysn/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/chrysn/received_events",
+      "type": "User",
+      "site_admin": false
+    },
+    "labels": [
+
+    ],
+    "state": "closed",
+    "locked": false,
+    "assignee": null,
+    "assignees": [
+
+    ],
+    "milestone": {
+      "url": "https://api.github.com/repos/core-wg/resource-directory/milestones/2",
+      "html_url": "https://github.com/core-wg/resource-directory/milestone/2",
+      "labels_url": "https://api.github.com/repos/core-wg/resource-directory/milestones/2/labels",
+      "id": 2854107,
+      "number": 2,
+      "title": "task-after-2017-10-10",
+      "description": "",
+      "creator": {
+        "login": "chrysn",
+        "id": 442326,
+        "avatar_url": "https://avatars2.githubusercontent.com/u/442326?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/chrysn",
+        "html_url": "https://github.com/chrysn",
+        "followers_url": "https://api.github.com/users/chrysn/followers",
+        "following_url": "https://api.github.com/users/chrysn/following{/other_user}",
+        "gists_url": "https://api.github.com/users/chrysn/gists{/gist_id}",
+        "starred_url": "https://api.github.com/users/chrysn/starred{/owner}{/repo}",
+        "subscriptions_url": "https://api.github.com/users/chrysn/subscriptions",
+        "organizations_url": "https://api.github.com/users/chrysn/orgs",
+        "repos_url": "https://api.github.com/users/chrysn/repos",
+        "events_url": "https://api.github.com/users/chrysn/events{/privacy}",
+        "received_events_url": "https://api.github.com/users/chrysn/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "open_issues": 0,
+      "closed_issues": 3,
+      "state": "open",
+      "created_at": "2017-10-20T12:09:16Z",
+      "updated_at": "2017-10-23T08:38:57Z",
+      "due_on": "2017-10-25T07:00:00Z",
+      "closed_at": null
+    },
+    "comments": 0,
+    "created_at": "2017-10-20T12:06:59Z",
+    "updated_at": "2017-10-20T12:28:19Z",
+    "closed_at": "2017-10-20T12:07:37Z",
+    "author_association": "CONTRIBUTOR",
+    "pull_request": {
+      "url": "https://api.github.com/repos/core-wg/resource-directory/pulls/65",
+      "html_url": "https://github.com/core-wg/resource-directory/pull/65",
+      "diff_url": "https://github.com/core-wg/resource-directory/pull/65.diff",
+      "patch_url": "https://github.com/core-wg/resource-directory/pull/65.patch"
+    },
+    "body": "Says that this describes concepts and not implementation."
+  },
+  {
     "url": "https://api.github.com/repos/core-wg/resource-directory/issues/64",
     "repository_url": "https://api.github.com/repos/core-wg/resource-directory",
     "labels_url": "https://api.github.com/repos/core-wg/resource-directory/issues/64/labels{/name}",
@@ -142,9 +482,9 @@
 
     ],
     "milestone": null,
-    "comments": 0,
+    "comments": 1,
     "created_at": "2017-10-18T20:20:30Z",
-    "updated_at": "2017-10-20T09:52:25Z",
+    "updated_at": "2017-10-23T07:48:48Z",
     "closed_at": "2017-10-20T09:51:30Z",
     "author_association": "CONTRIBUTOR",
     "pull_request": {
@@ -809,7 +1149,7 @@
     "labels": [
 
     ],
-    "state": "open",
+    "state": "closed",
     "locked": false,
     "assignee": {
       "login": "chrysn",
@@ -854,8 +1194,8 @@
     "milestone": null,
     "comments": 0,
     "created_at": "2017-10-01T11:38:30Z",
-    "updated_at": "2017-10-01T11:38:30Z",
-    "closed_at": null,
+    "updated_at": "2017-10-23T08:38:57Z",
+    "closed_at": "2017-10-23T08:38:57Z",
     "author_association": "CONTRIBUTOR",
     "body": "The \"RD Parameters\" subregistry is set up in the IANA considerations, but only referenced at the registration interface.\r\n\r\nThe lookup interface allows lookup by parameters of the same names (and page and count are exclusively used for lookup), but doesn't make a reference to the iana-registry.\r\n\r\nNext steps (→CA): Add a reference to lookup interface description (and reviewing that text, decide on whether that does create linkage to any other existing registry)."
   },
@@ -1518,7 +1858,8 @@
     "closed_at": null,
     "author_association": "CONTRIBUTOR",
     "body": "So, with this new understanding I am going to try some different questions\r\nabout PATCH.\r\n\r\n1.  Is there a good reason to support the addition of new resources in two\r\ndifferent methods?  Addition of new resources can already be done through\r\nthe POST method, needing to recognize that the documents to be patched are\r\ndifferent is a potential error waiting to happen if this is not well\r\ndescribed in document.\r\n\r\n2.  For the delete case, the patch string of {\"href\":null}  is more in line\r\nwith how I understand a JSON patch document to be designed.  The string of\r\n{} would say that nothing is to be changed by default unless it is special\r\ncased.  Setting the value of the href to absent or null would be easily\r\nunderstood as saying remove the element.\r\n\r\n3.  The text on patch needs to be clear on how to treat a patch document\r\nwhere multiple occurrences of an attribute to modify occur in the patch\r\ndocument.  It should also be clearer on the correct way to deal with\r\nupdating multiple occurrences of the attribute in the link document.  My\r\nreading of the current text could end up with \"</foo>;alpha=beta;alpha=beta\"\r\nas the output if the input was \"</foo>;alpha=gamma;alpha=delta\" and the\r\npatch was {alpha:\"beta\"}.   I am not sure that is what you want to be\r\nsaying.\r\n\r\n4.  This paragraph is missing some text I believe:\r\n\r\nIf the PATCH payload results in the modification of link target,\r\n   context, or relation values, that is \"href\", \"rel\", or \"anchor\", the\r\n   request SHOULD be rejected with a \"Conflict\" result code.\r\n\r\nWhy is this a SHOULD and not a MUST.  If you keep it as a MUST some guidance\r\non which rejections SHOULD occur and when they are acceptable would be\r\nhighly desirable.  Making it a MUST means that a Conflict response would not\r\nbe able to occur if I have my logic correct for anything other than an\r\naddition request."
-  },
+  }
+,
   {
     "url": "https://api.github.com/repos/core-wg/resource-directory/issues/38",
     "repository_url": "https://api.github.com/repos/core-wg/resource-directory",
@@ -1702,8 +2043,7 @@
     "closed_at": null,
     "author_association": "CONTRIBUTOR",
     "body": "This is original comment by Jim, which have been restated partially by the issues before\r\n\r\nI am going through the group processing and I have the following issues:\r\n\r\n1.  There are no methods defined for modifying the contents of a group.\r\nThere is only a method for replacing the contents entirely.  Is this\r\nintentional?\r\n\r\n2.  The description of the context parameter looks to be a cut and paste\r\nthat you did not review.  If the parameter is absent, I do not believe that\r\nit makes sense to try and infer a context.  My assumption is that a context\r\nis only going to supplied in the event that a multicast address is\r\nassociated with the group.\r\n\r\n3.  Similar to the request for a GET on the resource directory to get the\r\nlist of resource registries, I believe that you should have a GET on the\r\ngroup directory to get the list of group registries."
-  }
-,
+  },
   {
     "url": "https://api.github.com/repos/core-wg/resource-directory/issues/34",
     "repository_url": "https://api.github.com/repos/core-wg/resource-directory",
@@ -2225,11 +2565,11 @@
         "type": "User",
         "site_admin": false
       },
-      "open_issues": 2,
-      "closed_issues": 1,
+      "open_issues": 1,
+      "closed_issues": 2,
       "state": "open",
       "created_at": "2017-06-01T15:54:53Z",
-      "updated_at": "2017-07-03T10:04:47Z",
+      "updated_at": "2017-10-20T12:30:11Z",
       "due_on": "2017-07-03T07:00:00Z",
       "closed_at": null
     },
@@ -2305,11 +2645,11 @@
         "type": "User",
         "site_admin": false
       },
-      "open_issues": 2,
-      "closed_issues": 1,
+      "open_issues": 1,
+      "closed_issues": 2,
       "state": "open",
       "created_at": "2017-06-01T15:54:53Z",
-      "updated_at": "2017-07-03T10:04:47Z",
+      "updated_at": "2017-10-20T12:30:11Z",
       "due_on": "2017-07-03T07:00:00Z",
       "closed_at": null
     },
@@ -2404,7 +2744,7 @@
     "labels": [
 
     ],
-    "state": "open",
+    "state": "closed",
     "locked": false,
     "assignee": null,
     "assignees": [
@@ -2437,18 +2777,18 @@
         "type": "User",
         "site_admin": false
       },
-      "open_issues": 2,
-      "closed_issues": 1,
+      "open_issues": 1,
+      "closed_issues": 2,
       "state": "open",
       "created_at": "2017-06-01T15:54:53Z",
-      "updated_at": "2017-07-03T10:04:47Z",
+      "updated_at": "2017-10-20T12:30:11Z",
       "due_on": "2017-07-03T07:00:00Z",
       "closed_at": null
     },
-    "comments": 4,
+    "comments": 5,
     "created_at": "2017-05-18T14:03:05Z",
-    "updated_at": "2017-09-20T17:48:56Z",
-    "closed_at": null,
+    "updated_at": "2017-10-20T12:30:11Z",
+    "closed_at": "2017-10-20T12:30:11Z",
     "author_association": "CONTRIBUTOR",
     "body": "(Summarizing a topic that came up in meetings and [on the list](https://mailarchive.ietf.org/arch/msg/core/jFjEaM0PYK72dq-i1lOLwuc9To4))\r\n\r\nBased on the notion of the domains managed in an RD being fully independent of each other \"like ships that pass in the night\", the idea has been brought up to do away with the domain functionality at all and have the domains exposed as different RDs by the server that would otherwise host a single RD.\r\n\r\nPro:\r\n\r\n* This would align better with the general web design\r\n* Issues with the domain lookup interface would go away (#21)\r\n* This would be consistent with the use of RD by OCF and LWM2M, where the domains are used to separate \r\n\r\nCon:\r\n\r\n* This enforces the independence of domains; setups where endpoints know their ep= but not their d= could not rely on the RD to assign them to a domain (the default domain for the given endpoint) any more.\r\n* RD discovery would become more complicated (What would it look like at all?)\r\n* Domains could not spring into existence any more by virtue of a device or CT registering at it\r\n* Lookups could not span multiple domains any more"
   },
@@ -3242,7 +3582,8 @@
     "closed_at": null,
     "author_association": "NONE",
     "body": "\"ins\" (instance ID) is used to differentiate between two links which are otherwise indistinguishable. It is a text value which should be restricted to a maximum 63 octets.\r\n\r\n\"exp\"is an attribute which provides a hint that the link may be exported to other RDs or other discovery services like DNS-SD"
-  },
+  }
+,
   {
     "url": "https://api.github.com/repos/core-wg/resource-directory/issues/8",
     "repository_url": "https://api.github.com/repos/core-wg/resource-directory",
@@ -3494,8 +3835,7 @@
     "closed_at": "2017-09-26T11:26:33Z",
     "author_association": "CONTRIBUTOR",
     "body": "Addresses should probably be formatted according to [RFC5952](https://tools.ietf.org/html/rfc5952), and I'll need to look into the applicability of the 2001:db8: prefix reserved for documentation on whether addresses should be used from that area."
-  }
-,
+  },
   {
     "url": "https://api.github.com/repos/core-wg/resource-directory/issues/4",
     "repository_url": "https://api.github.com/repos/core-wg/resource-directory",
