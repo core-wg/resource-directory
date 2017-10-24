@@ -177,6 +177,15 @@ information about an Endpoint. The Context of an Endpoint is provided at
 registration time, and is used by the Resource Directory to resolve relative
 references inside the registration into absolute URIs.
 
+Directory Resource
+:  A resource in the Resource Directory (RD) containing registration resources.
+
+Group Resource
+:  A resource in the RD containing registration repources of the Endpoints that form a group.
+
+Registration Resource
+:  A resource in the RD that contains information about an Endpoint and its links.
+
 Commissioning Tool
 : Commissioning Tool (CT) is a device that assists during the installation of the
 network by assigning values to parameters, naming endpoints and groups, or adapting
@@ -216,8 +225,7 @@ The resource directory architecture is illustrated in {{fig-arch}}. A
 Resource Directory (RD) is used as a repository for Web Links {{RFC5988}}
 about resources hosted on other web servers, which are called endpoints
 (EP).
-An endpoint is a web server associated with a scheme, IP address and port
-(called Context), thus a physical node may host one or more endpoints. The
+An endpoint is a web server associated with a scheme, IP address and port, thus a physical node may host one or more endpoints. The
 RD implements a set of REST interfaces for endpoints to register and maintain
 sets of Web Links (called resource directory registration entries), and for clients to
 lookup resources from the RD or maintain groups. Endpoints themselves can
@@ -232,9 +240,9 @@ on the RD, which are soft state and need to be periodically refreshed.
 
 An endpoint is provided with interfaces to register, update and remove a resource
 directory registration entry. It is also possible for an RD to fetch Web Links
-from endpoints and add them as resource directory entries.
+from endpoints and add them as resource directory registration entries.
 
-At the first registration of a set of entries, a "registration resource" is created,
+At the first registration of a set of entries, a "directory resource" is created,
 the location of which is returned to the registering endpoint. The registering
 endpoint uses this registration resource to manage the contents of the registration entry.
 
@@ -283,7 +291,7 @@ provided using the CoRE Link Format.
 
 ## Content model {#ER-model}
 
-The Entity-Relationship (ER) models shown in {{fig-ER-WKC}} and {{fig-ER-RD}} model the contents of /.well-known/core and the resource directory respectively, with entity-relationship diagrams [ER][]. Entities (rectangles) are used for concepts that exist independently. Attributes (ovals) are used for concepts that exist only in connection with a related entity. Relations (diamonds) give a semantic meaning to the relation between entities. Numbers specify the cardinality of the relations. The relations between the values of the attributes are explained in the interface sections.
+The Entity-Relationship (ER) models shown in {{fig-ER-WKC}} and {{fig-ER-RD}} model the contents of /.well-known/core and the resource directory respectively, with entity-relationship diagrams [ER][]. Entities (rectangles) are used for concepts that exist independently. Attributes (ovals) are used for concepts that exist only in connection with a related entity. Relations (diamonds) give a semantic meaning to the relation between entities. Numbers specify the cardinality of the relations. 
 
 Some of the attribute values are URIs. Those values are always full URIs and never relative references in the data model.
 They can, however, be expressed as relative references in serializations, and often are.
@@ -398,9 +406,9 @@ o  con  o-------|  registration |---------< composed of >
 The model shown in {{fig-ER-RD}} models the contents of the resource directory which contains in addition to /.well-known/core:
 
 * 0 to n Registration (entries),
-* 0 to k Groups
+* 0 or more Groups
 
-A Group has one Multicast address attribute and is composed of 0 to n1 endpoints. A registration is associated with one endpoint (ep). An endpoint can be part of 0 to k1 Groups . An endpoint is contained in 1 to m RDs. A registration defines a set of links as defined for /.well-known/core. A Registration has six attributes:
+A Group has one Multicast address attribute and is composed of 0 or more endpoints. A registration is associated with one endpoint (ep). An endpoint can be part of 0 or more Groups . A registration defines a set of links as defined for /.well-known/core. A Registration has six attributes:
 
 * one ep (endpoint with a unique  name)
 * one con (a string describing the scheme://authority part)
@@ -409,7 +417,7 @@ A Group has one Multicast address attribute and is composed of 0 to n1 endpoints
 * optional one d (domain for query filtering),
 * optional additional endpoint attributes (from {{iana-registry}})
 
-The cardinality of con is currently 1 (n2 = 1). The value of con is copied from the value of the "hosts" relation and overwritten by the value of the con query parameter.
+The cardinality of con is currently 1. The value of con is copied from the value of the "hosts" relation and overwritten by the value of the con query parameter.
 
 Links are modelled as they are in {{fig-ER-WKC}}.
 
@@ -508,10 +516,8 @@ finding the resource directory:
 * It may be configured to use a service discovery mechanism such as
   DNS-SD {{-dnssd}}.  The present specification suggests configuring
   the service with name rd._sub._coap._udp, preferably within the
-  domain of the querying nodes.[^1]
+  domain of the querying nodes.
 
-[^1]: What is _sub here?
-{: source="cabo"}
 
 For cases where the device is not specifically configured with a way
 to find a resource directory, the network may want to provide a
@@ -710,7 +716,7 @@ HTTP support :
 : YES (Unicast only)
 
 The following example shows an endpoint discovering an RD using this interface,
-thus learning that the RD registration resource is, in this example, at /rd, and that the
+thus learning that the directory resource is, in this example, at /rd, and that the
 content-format delivered by the server hosting the resource is application/link-format
 (ct=40).  Note that it is up to the RD to choose its RD resource paths.
 
@@ -734,7 +740,6 @@ The example below shows the required Content-Format 40 (application/link-format)
 indicated as well as a more application-specific content format
 (picked as 65225 in this example; this is in the experimental space, not an assigned value).
 The RD resource paths /rd, /rd-lookup, and /rd-group are example values.
-This server only implements some of the interfaces described in this document.
 
 ~~~~
 Req: GET coap://[ff02::1]/.well-known/core?rt=core.rd*
@@ -743,6 +748,7 @@ Res: 2.05 Content
 </rd>;rt="core.rd";ct="40 65225",
 </rd-lookup/res>;rt="core.rd-lookup-res";ct="40 65225",
 </rd-lookup/ep>;rt="core.rd-lookup-ep";ct="40 65225",
+</rd-lookup/gp>;rt="core.rd-lookup-gp";ct=40 65225",
 </rd-group>;rt="core.rd-group";ct="40 65225"
 ~~~~
 
@@ -756,23 +762,23 @@ parameters indicating the name of the endpoint, and optionally its domain
 and the lifetime of the registration.
 It is expected that other specifications will define further parameters (see
 {{iana-registry}}). The RD then creates a new registration resource in the RD and returns its location. An endpoint MUST use that
-location when refreshing registrations using this interface. Endpoint
+location when refreshing registrations using this interface. Registration
 resources in the RD are kept active for the period indicated by the lifetime
-parameter. The endpoint is responsible for refreshing the entry within this
+parameter. The endpoint is responsible for refreshing the registration resource within this
 period using either the registration or update interface. The registration
 interface MUST be implemented to be idempotent, so that registering twice
-with the same endpoint parameters ep and d does not create multiple RD entries.
-A new registration may be created at any time to supersede an existing registration,
+with the same endpoint parameters ep and d does not create multiple registration resources.
+A new registration resource may be created at any time to supersede an existing registration,
 replacing the registration parameters and links.
 
 An empty payload is considered a malformed request.
 
 The posted link-format document can (and typically does) contain relative references
 both in its link targets and in its anchors, or contain empty anchors.
-The server needs to resolve these references in order to faithfully represent them in lookups.
+The RD server needs to resolve these references in order to faithfully represent them in lookups.
 The Base URI against which they are resolved is the context of the registration,
 which is provided either explicitly in the `con` parameter or constructed implicitly from the requester's network address.
-When resolving relative target references, the server first resolves the context of that link (the in the "anchor" attribute),
+When resolving relative target references, the server first resolves the context of that link,
 and then interprets the target as a reference relative to that context (see {{resolution-rules}}).
 
 The registration request interface is specified as follows:
@@ -812,13 +818,11 @@ URI Template Variables:
 
   con :=
   : Context (optional). This parameter sets the Default Base URI under which
-    the request's body are be interpreted. The URI scheme provided MUST allow a
-    path component, but the path component of the Context parameter MUST be
-    empty. The parameter is therefore of the shape "scheme://authority" for
+    the request's links are to be interpreted. The URI MUST NOT have a path component of its own, but MUST be suitable as a base URI to resolve any relative references given in the registration. The parameter is therefore of the shape "scheme://authority" for
     HTTP and CoAP URIs.
 
     In the absence of this parameter the scheme of the protocol, source address
-    and source port of the register request are assumed. This parameter is
+    and source port of the registration request are assumed. This parameter is
     mandatory when the directory is filled by a third party such as an
     commissioning tool.
 
@@ -976,26 +980,25 @@ Plurality of link references exists if, and only if, two or more links in a Reso
 contain identical context, target, and relation values. This condition would be likely to arise if there were multiple co-ordinators or configuration tools, each with a different
 set of configuration values for the same resource.
 
-A Resource Directory SHOULD reject a registration, or an operation on a registration, which would result in a plurality of link references within the the context of the Resource Directory. There is no requirement in this document for a resource directory to check for plurality of reference. Resource Directory operations which are rejected due to reference plurality SHOULD be returned the "Conflict" code, indicating that there is someting wrong with the request.
+A Resource Directory SHOULD reject a registration, or an operation on a registration resource, which would result in a plurality of link references within the directory resource. There is no requirement in this document for a resource directory to check for plurality of reference. Resource Directory operations which are rejected due to reference plurality SHOULD return the "Conflict" code, indicating that there is someting wrong with the request.
 
 ## Operations on the Registration Resource
 
-After the initial registration, an endpoint should retain the returned location of the Registration Resource for further operations, including refreshing the registration in order to extend the lifetime and "keep-alive" the registration. When the lifetime of the registration has expired, the RD SHOULD NOT respond to discovery queries with information from the endpoint. The RD SHOULD continue to provide access to the Registration Resource after a registration time-out occurs in order to enable the registering endpoint to eventually refresh the registration. The RD MAY eventually remove the registration resource for the purpose of resource recovery and garbage collection. If the Registration Resource is removed, the endpoint will need to re-register.
+After the initial registration, an endpoint should retain the returned location of the Registration Resource for further operations, including refreshing the registration in order to extend the lifetime and "keep-alive" the registration. When the lifetime of the registration has expired, the RD SHOULD NOT respond to discovery queries concerning this endpoint. The RD SHOULD continue to provide access to the Registration Resource after a registration time-out occurs in order to enable the registering endpoint to eventually refresh the registration. The RD MAY eventually remove the registration resource for the purpose of resource recovery and garbage collection. If the Registration Resource is removed, the endpoint will need to re-register.
 
-The Registration Resource may also be used to inspect the registration resource using GET, update the registration link contents using iPATCH or PATCH (as introduced in {{RFC8132}}), or cancel the registration using DELETE.
+The Registration Resource may also be used to inspect the registration resource using GET, update the registration link contents, or cancel the registration using DELETE.
 
 These operations are described in this section.
 
 In accordance with {{link-plurality}}, operations which would result in plural link references within the context of a registration resource SHOULD be rejected using the "Conflict" result code.
 
-TODO: suggestion to do a GET /rd to obtain a list of registrations loc, ep,...
 
 ### Registration Update {#update}
 
 The update interface is used by an endpoint to refresh or update its
 registration with an RD. To use the interface, the endpoint sends a POST request to the registration resource returned in the Location header option in the response returned from the initial registration operation. The POST request (in contrast to PUT) allows replacing a selection of a resource.
 
-An update MAY update the lifetime or context registration parameters
+An update MAY update the lifetime- or the context- registration parameters
 "lt", "con" as in {{registration}}. Parameters that are not being changed SHOULD NOT
 be included in an update. Adding parameters that have not changed increases
 the size of the message but does not have any other implications.
@@ -1093,7 +1096,7 @@ HTTP support:
 : YES
 
 
-The following example shows an endpoint updating its registration at
+The following example shows an endpoint updating its registration resource at
 an RD using this interface with the example location value: /rd/4521.
 
 ~~~~
@@ -1102,7 +1105,7 @@ Req: POST /rd/4521
 Res: 2.04 Changed
 ~~~~
 
-The following example shows an endpoint updating its registration at
+The following example shows an endpoint updating its registration resource at
 an RD using this interface with the example location value: /rd/4521. The initial registration by the client set the following values:
 
 * lifetime (lt)=500
@@ -1306,13 +1309,9 @@ URI Template Variables:
     domain.
 
   con :=
-  : Context (optional). This parameter sets the scheme, address and port at
-    which this server is available in the form scheme://host:port/path. In
-    the absence of this parameter the scheme of the protocol, source address
-    and source port of the register request are assumed. This parameter is
-    mandatory when the directory is filled by a third party such as an
-    commissioning tool. When con is used, scheme and host are mandatory and
-    port and path parameters are optional.
+  : Context (optional). This parameter sets the scheme, address and port of the multicast address associated with the group.
+     When con is used, scheme and host are mandatory and
+    port parameter is optional.
 
 Content-Format:
 : application/link-format
@@ -1326,7 +1325,7 @@ Content-Format:
 The following response codes are defined for this interface:
 
 Success:
-: 2.01 "Created" or 201 "Created". The Location header option MUST be returned in response to a successful group CREATE operation.  This Location MUST be a stable identifier generated by the RD as it is used for delete operations of the group registration resource.
+: 2.01 "Created" or 201 "Created". The Location header option MUST be returned in response to a successful group CREATE operation.  This Location MUST be a stable identifier generated by the RD as it is used for delete operations of the group resource.
 
 Failure:
 : 4.00 "Bad Request" or 400 "Bad Request". Malformed request.
@@ -1340,20 +1339,23 @@ Failure:
 HTTP support:
 : YES
 
-The following example shows an EP registering a group with the name “lights” which has two endpoints to an RD using this interface. The RD group path /rd-group
+The following example shows an EP registering a group with the name “lights” which has two endpoints. The RD group path /rd-group
 is an example RD location discovered in a request similar to {{example-discovery}}.
 
 
 ~~~~
 Req: POST coap://rd.example.com/rd-group?gp=lights
+                                  &con=coap://[ff35:30:2001:db8::1]
 Content-Format: 40
 Payload:
-<>;ep="node1",
-<>;ep="node2"
+</rd/4521>;ep="node1",
+</rd/4522>;ep="node2"
 
 Res: 2.01 Created
 Location: /rd-group/12
 ~~~~
+
+The href value is the path to the registration resource of the Endpoint.
 
 ## Group Removal {#group-removal}
 
@@ -1374,7 +1376,7 @@ URI Template:
 
 URI Template Variables:
 : location :=
-  : This is the Location returned by the RD as a result of a successful
+  : This is the path of the group resource returned by the RD as a result of a successful
     group registration.
 
 The following responses codes are defined for this interface:
@@ -1407,7 +1409,7 @@ Res: 2.02 Deleted
 
 # RD Lookup {#lookup}
 
-In order for an RD to be used for discovering resources registered with it,
+To discover the resources registered with the RD,
 a lookup interface must be provided. This lookup interface
 is defined as a default, and it is assumed that RDs may also support lookups
 to return resource descriptions in alternative formats (e.g. Atom or HTML
@@ -1437,7 +1439,7 @@ Links that did not have an anchor attribute are therefore returned with the (exp
 Links whose anchor was submitted as an absolute URI are returned as they were registered.
 The hrefs of links can always be served as they were submitted; the server MAY return relative references in absolute form in to resource lookups, but that results in needlessly verbose responses.
 
-That allows the client to interpret the response as links without any further knowledge of what the RD does.
+Above rules allow the client to interpret the response as links without any further knowledge of what the RD does.
 The Resource Directory MAY replace the contexts with a configured intermediate proxy, e.g. in the case of an HTTP lookup interface for CoAP endpoints.
 
 ## Endpoint and group lookup
@@ -1565,8 +1567,8 @@ The following example shows a client performing a group lookup for all groups:
 Req: GET /rd-lookup/gp
 
 Res: 2.05 Content
-</rd-group/1>;gp="lights1";d="example.com"
-</rd-group/2>;gp="lights2";d="example.com"
+</rd-group/1>;gp="lights1";d="example.com";con="coap://[ff35:30:2001:db8::1]",
+</rd-group/2>;gp="lights2";d="example.com";con="coap://[ff35:30:2001:db8::2]"
 ~~~~
 
 The following example shows a client performing a lookup for all endpoints
@@ -1655,7 +1657,7 @@ or TLS security requirements and references  -->.
 
 ## Endpoint Identification and Authentication {#endpoint_identification}
 
-An Endpoint is determined to be unique by an RD by the Endpoint identifier
+An Endpoint is determined to be unique within (the domain of) an RD by the Endpoint identifier
 parameter included during Registration, and any associated TLS or DTLS security
 bindings. An Endpoint MUST NOT be identified by its protocol, port or IP
 address as these may change over the lifetime of an Endpoint.
@@ -1935,10 +1937,9 @@ of the presence sensor are registered as members of the group.
 Req: POST coap://[2001:db8:4::ff]/rd-group
 ?gp=grp_R2-4-015&con=coap://[ff05::1]
 Payload:
-[ request still unclear -- see https://github.com/core-wg/resource-directory/issues/48 ]
-<>;ep=lm_R2-4-015_wndw,
-<>;ep=lm_R2-4-015_door,
-<>;ep=ps_R2-4-015_door
+</rd/4521>;ep=lm_R2-4-015_wndw,
+</rd/4522>;ep=lm_R2-4-015_door,
+</rd/4523>;ep=ps_R2-4-015_door
 
 Res: 2.01 Created
 Location: /rd-group/501
@@ -2155,10 +2156,17 @@ originally developed.
 changes from -11 to -12
 
 * added ER diagram
+* changed domain functionality
 * updated discovery text
 * improved text on: atomicity, idempotency, multiple query, ep removal, simple registration
 * section 5.3.4 extended uniqueness from single registration to RD
 * updated LWM2M description
+* relation between context and anchor clarified
+* new appendix on 6690 and 3986
+* changed lookup interface
+* removed patch links section
+* added to IANA registry
+* More examples and improved text
 
 changes from -09 to -10
 
