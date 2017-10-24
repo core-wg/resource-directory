@@ -1273,10 +1273,11 @@ CoAP, a group MAY have a multicast address associated with it.
 In order to create a group, a commissioning tool (CT) used to configure groups,
 makes a request to the RD indicating the name of the group to create (or
 update), optionally the domain the group belongs to, and optionally the multicast
-address of the group. The registration message includes the list of endpoints
-that belong to that group.
+address of the group. The registration message is a list of links to
+registration resources of the endpoints that belong to that group.
 
-All the endpoints in the group MUST be registered with the RD before registering a group. If an endpoint is not yet registered to the RD before registering the group, the registration message returns an error. The RD sends a blank target URI for every endpoint link when registering the group.
+The commissioning tool SHOULD not send any target attributes with the links to the registration resources,
+and the resource directory SHOULD ignore any attributes that are set.
 
 Configuration of the endpoints themselves is out of
 scope of this specification. Such an interface for managing the group membership
@@ -1348,8 +1349,8 @@ Req: POST coap://rd.example.com/rd-group?gp=lights
                                   &con=coap://[ff35:30:2001:db8::1]
 Content-Format: 40
 Payload:
-</rd/4521>;ep="node1",
-</rd/4522>;ep="node2"
+</rd/4521>,
+</rd/4522>
 
 Res: 2.01 Created
 Location: /rd-group/12
@@ -1937,9 +1938,9 @@ of the presence sensor are registered as members of the group.
 Req: POST coap://[2001:db8:4::ff]/rd-group
 ?gp=grp_R2-4-015&con=coap://[ff05::1]
 Payload:
-</rd/4521>;ep=lm_R2-4-015_wndw,
-</rd/4522>;ep=lm_R2-4-015_door,
-</rd/4523>;ep=ps_R2-4-015_door
+</rd/4521>,
+</rd/4522>,
+</rd/4523>
 
 Res: 2.01 Created
 Location: /rd-group/501
