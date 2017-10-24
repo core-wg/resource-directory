@@ -87,6 +87,8 @@ informative:
   RFC7641:
   ER: DOI.10.1145/320434.320440
   I-D.nottingham-rfc5988bis:
+  I-D.silverajan-core-coap-protocol-negotiation:
+  I-D.arkko-core-dev-urn:
 
 --- abstract
 
@@ -2542,6 +2544,107 @@ Directory:
   Link Field Value -->,
   which obsoletes the older {{RFC5988}}.
   {{RFC6690}} is based on {{RFC5988}} and has not been updated with clarifications from {{I-D.nottingham-rfc5988bis}}.
+
+# Outlook for Protocol Negotiation
+
+\[ This appendix should not show up in a published version of this document. \]
+
+There is a work-in-progress document {{I-D.silverajan-core-coap-protocol-negotiation}} that will specify
+how to use a Resource Directory to select one of many protocols for communication with a single endpoint in the sense of the RD.
+Until that is updated to reflect the changes to this document since draft version 10,
+this appendix demonstrates a simplified version of protocol negotiation:
+
+Only small updates to the information model are required:
+
+* An endpoint can have more than one context.
+* A link simultaneously has one target and one context for each of the contexts of its endpoint iff that URI was constructed from a relative reference.
+
+In registration, the registrant can provide multiple con values.
+This is regarded as a statement that it is willing to serve all resources referenced in the links it publishes equally from all those base URIs.
+
+Lookup is extended to allow querying the transports:
+
+* Endpoint lookups return all con values.
+* In resource lookups, the RD picks one of the cons and returns appropriate anchors.
+  It chooses a suitable protocol based on the incoming request's protocol, or based on an additional query parameter (tt)
+  that explains the client's protocol preferences.
+* When filtering, any href, target of the target or con can of the endpoint can produce a match,
+  not only the one selected for the response.
+
+As an example, an endpoint could register as follows:
+
+~~~~
+Req: POST coap://rd.example.com/rd?ep=node1
+    &con=coap+tcp://[2001:db8:f1::2]
+    &con=coap://[2001:db8:f1::2]
+Content-Format: 40
+Payload:
+</temperature>;ct=0;rt="temperature";if="core.s"
+
+Res: 2.01 Created
+Location: /rd/1234
+~~~~
+
+A UDP client would then query:
+
+~~~~
+Req: GET /rd-lookup/res?rt=temperature&tt=coap-over-udp
+
+Res: 2.05 Content
+</temperature>;ct=0;rt="temperature";if="core.s";
+    anchor="coap://[2001:db8:f1::2]"
+~~~~
+
+while a TCP client could query the RD with CoAP over TCP, give no explicit tt preference, and receive:
+
+~~~~
+Req: GET /rd-lookup/res?rt=temperature
+
+Res: 2.05 Content
+</temperature>;ct=0;rt="temperature";if="core.s";
+    anchor="coap+tcp://[2001:db8:f1::2]"
+~~~~
+
+The same mechanism could also be used when endpoints register with non-resolvable "transports".
+
+An endpoint can register both a resolvable and a name-only address…
+
+(Note that the example urn:dev space ({{I-D.arkko-core-dev-urn}}) is unsuitable
+because it can not take path components and thus violates the constraints for
+con; other to-be-defined schemes can.)
+
+~~~~
+Req: POST coap://rd.example.com/rd?ep=node2
+    &con=coap://[2001:db8:f1::3]
+    &con=urn:dev:mac:12-34-56-78-9A-BC
+Content-Format: 40
+Payload:
+</temperature>;ct=0;rt="temperature";if="core.s"
+
+Res: 2.01 Created
+Location: /rd/2345
+~~~~
+
+…and a lookup client can use the RD not only to discover its resources,
+but also to find routable versions of resources it knows…
+
+~~~~
+Req: GET /rd-lookup/res?href=urn:dev:mac:12-34-56-78-9A-BC/temperature
+
+Res: 2.05 Content
+</temperature>;ct=0;rt="temperature";if="core.s";
+    anchor="coap://[2001:db8:f1::3]"
+~~~~
+
+…or just find devices based on an address they should have registered with:
+
+~~~~
+Req: GET /rd-lookup/ep?con=urn:dev:mac:12-34-56-78-9A-BC
+
+Res: 2.05 Content
+</rd/2345>;ep="node2";con="coap://[2001:db8:f1::3]";
+    con="urn:dev:mac:12-34-56-78-9A-BC"
+~~~~
 
 
 <!--  LocalWords:  lookups multicast lookup RESTful CoRE LoWPAN CoAP
