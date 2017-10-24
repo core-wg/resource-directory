@@ -408,7 +408,7 @@ The model shown in {{fig-ER-RD}} models the contents of the resource directory w
 * 0 to n Registration (entries),
 * 0 or more Groups
 
-A Group has one Multicast address attribute and is composed of 0 or more endpoints. A registration is associated with one endpoint (ep). An endpoint can be part of 0 or more Groups . A registration defines a set of links as defined for /.well-known/core. A Registration has six attributes:
+A Group has no or one Multicast address attribute and is composed of 0 or more endpoints. A registration is associated with one endpoint (ep). An endpoint can be part of 0 or more Groups . A registration defines a set of links as defined for /.well-known/core. A Registration has six attributes:
 
 * one ep (endpoint with a unique  name)
 * one con (a string describing the scheme://authority part)
