@@ -805,9 +805,12 @@ URI Template Variables:
     the RD, as obtained from discovery.
 
   ep :=
-  : Endpoint name (mandatory). The endpoint name is an identifier
+  : Endpoint name (mostly mandatory). The endpoint name is an identifier
     that MUST be unique within a domain.  The maximum length of this
     parameter is 63 bytes.
+
+    If the RD is configured to recognize the endpoint (eg. based on its security context),
+    the endpoint can elide the endpoint name, and assign one based on the configuration.
 
   d :=
   : Domain (optional). The domain to which this endpoint belongs. The maximum
@@ -930,7 +933,7 @@ request to the `/.well-known/core` URI of the directory server of choice. The bo
 directory server to perform GET requests at the requesting server's default
 discovery URI to obtain the link-format payload to register.
 
-The endpoint MUST include the endpoint name and MAY include the registration parameters d, lt and extra-attrs, in the POST request as per {{registration}}. The context of the registration is taken from the requesting server's URI.
+The endpoint includes the same registration parameters in the POST request as it would per {{registration}}. The context of the registration is taken from the requesting server's URI.
 
 The endpoints MUST be deleted after the expiration of their lifetime. Additional operations cannot be executed because no registration location is returned.
 
