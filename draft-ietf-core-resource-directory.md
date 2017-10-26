@@ -921,11 +921,9 @@ specified in {{RFC6690}}.
 
 The endpoint then finds one or more addresses of the directory server as described in {{finding_an_rd}}.
 
-An endpoint finally asks the directory server to probe it for resources and publish them as described in {{simple_publishing}}.
+An endpoint finally asks the directory server to probe it for resources and publish them as follows:
 
-### Simple publishing to Resource Directory Server {#simple_publishing}
-
-An endpoint that wants to make itself discoverable sends (and regularly refreshes with) a POST
+It sends (and regularly refreshes with) a POST
 request to the `/.well-known/core` URI of the directory server of choice. The body of the POST request is empty, which triggers the resource
 directory server to perform GET requests at the requesting server's default
 discovery URI to obtain the link-format payload to register.
@@ -934,7 +932,7 @@ The endpoint includes the same registration parameters in the POST request as it
 
 The endpoints MUST be deleted after the expiration of their lifetime. Additional operations cannot be executed because no registration location is returned.
 
-The following example shows an endpoint using simple publishing,
+The following example shows an endpoint using Simple Registration,
 by simply sending an empty POST to a resource directory.
 
 ~~~~
