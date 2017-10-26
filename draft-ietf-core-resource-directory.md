@@ -937,27 +937,20 @@ by simply sending an empty POST to a resource directory.
 
 ~~~~
 Req:(to RD server from [2001:db8:2::1])
-POST coap://rd.example.com/.well-known/core?lt=6000&ep=node1
-
+POST /.well-known/core?lt=6000&ep=node1
 Content-Format: 40
-
-payload:
-
-(empty payload)
+No payload
 
 Res: 2.04 Changed
 
 (later)
 
 Req: (from RD server to [2001:db8:2::1])
-GET coap://[2001:db8:2::1]/.well-known/core
-
+GET /.well-known/core
 Accept: 40
 
 Res: 2.05 Content
-
-payload:
-
+Payload:
 </sen/temp>
 ~~~~
 
