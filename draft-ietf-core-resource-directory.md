@@ -1252,7 +1252,7 @@ Payload:
 
 ### Update Endpoint Links {#link-up}
 
-A iPATCH (PATCH) update adds, removes or changes links of a registration by including link update information in the payload of the update with a media type that still needs to be defined.
+An iPATCH (or PATCH) update {{RFC8132}} adds, removes or changes links of a registration by including link update information in the payload of the update with a media type that still needs to be defined.
 
 
 # RD Groups {#group}
