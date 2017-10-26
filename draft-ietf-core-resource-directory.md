@@ -495,7 +495,7 @@ This provides isolation and protection of sensitive data when needed. Resource
 groups may defined to allow batched reads from multiple resources.
 
 
-# Finding a Resource Directory {#simple_finding}
+# Finding a Resource Directory {#finding_an_rd}
 
 A device coming up may want to find one or more resource directories
 to make itself known with.
@@ -651,7 +651,7 @@ content format.
 Before an endpoint can make use of an RD, it must first know the RD's address
 and port, and the URI path information for its REST APIs. This section defines
 discovery of the RD and its URIs using the well-known interface of the
-CoRE Link Format {{RFC6690}}. A complete set of RD discovery methods is described in {{simple_finding}}.
+CoRE Link Format {{RFC6690}}. A complete set of RD discovery methods is described in {{finding_an_rd}}.
 
 Discovery of the RD registration URI path is performed by sending either a multicast or
 unicast GET request to `/.well-known/core` and including a Resource Type (rt)
@@ -919,7 +919,7 @@ This approach requires that the endpoint makes available the hosted resources
 that it wants to be discovered, as links on its `/.well-known/core` interface as
 specified in {{RFC6690}}.
 
-The endpoint then finds one or more addresses of the directory server as described in {{simple_finding}}.
+The endpoint then finds one or more addresses of the directory server as described in {{finding_an_rd}}.
 
 An endpoint finally asks the directory server to probe it for resources and publish them as described in {{simple_publishing}}.
 
