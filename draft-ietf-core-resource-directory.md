@@ -630,7 +630,10 @@ the discovery, registration, update, lookup, and removal interfaces defined in t
 
 All operations on the contents of the Resource Directory MUST be atomic and idempotent.
 
-A Resource Directory MUST accept query filtering with multiple query parameters in the URI.
+A resource directory MAY make the information submitted to it available to further
+directories, if it can ensure that a loop does not form.  The protocol used
+between directories to ensure loop-free operation is outside the scope of
+this document.
 
 ## Content Formats
 
@@ -919,12 +922,6 @@ specified in {{RFC6690}}.
 The endpoint then finds one or more addresses of the directory server as described in {{simple_finding}}.
 
 An endpoint finally asks the directory server to probe it for resources and publish them as described in {{simple_publishing}}.
-
-The directory server integrates the information it received this way into its
-resource directory.  It MAY make the information available to further
-directories, if it can ensure that a loop does not form.  The protocol used
-between directories to ensure loop-free operation is outside the scope of
-this document.
 
 ### Simple publishing to Resource Directory Server {#simple_publishing}
 
