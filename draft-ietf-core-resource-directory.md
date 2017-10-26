@@ -183,7 +183,7 @@ Directory Resource
 :  A resource in the Resource Directory (RD) containing registration resources.
 
 Group Resource
-:  A resource in the RD containing registration repources of the Endpoints that form a group.
+:  A resource in the RD containing registration resources of the Endpoints that form a group.
 
 Registration Resource
 :  A resource in the RD that contains information about an Endpoint and its links.
@@ -244,7 +244,7 @@ An endpoint is provided with interfaces to register, update and remove a resourc
 directory registration entry. It is also possible for an RD to fetch Web Links
 from endpoints and add them as resource directory registration entries.
 
-At the first registration of a set of entries, a "directory resource" is created,
+At the first registration of a set of entries, a "registration resource" is created,
 the location of which is returned to the registering endpoint. The registering
 endpoint uses this registration resource to manage the contents of the registration entry.
 
