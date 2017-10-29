@@ -873,7 +873,7 @@ Failure:
 : 4.00 "Bad Request" or 400 "Bad Request". Malformed request.
 
 Failure:
-: 4.09 "Conflict" or 409 "Conflict". Attempt to update the registration content with links resulting in plurality of references; see {{link-plurality}}.
+: 4.09 "Conflict" or 409 "Conflict". Attempt to create a registration resource with ep and d value pair which is already present in an earlier created registration resource.
 
 Failure:
 : 5.03 "Service Unavailable" or 503 "Service Unavailable". Service could not perform the operation.
@@ -967,14 +967,6 @@ tool can fill the Resource Directory from a database or other means. For
 that purpose the scheme, IP address and port of the registered device is
 indicated in the Context parameter of the registration described in {{registration}}.
 
-### Plurality of link references in a Registration {#link-plurality}
-Plurality of link references within a Resource Directory is an indication of some error condition and should not be allowed.
-
-Plurality of link references exists if, and only if, two or more links in a Resource Directory
-contain identical context, target, and relation values. This condition would be likely to arise if there were multiple co-ordinators or configuration tools, each with a different
-set of configuration values for the same resource.
-
-A Resource Directory SHOULD reject a registration, or an operation on a registration resource, which would result in a plurality of link references within the directory resource. There is no requirement in this document for a resource directory to check for plurality of reference. Resource Directory operations which are rejected due to reference plurality SHOULD return the "Conflict" code, indicating that there is someting wrong with the request.
 
 ## Operations on the Registration Resource
 
@@ -984,7 +976,7 @@ The Registration Resource may also be used to inspect the registration resource 
 
 These operations are described in this section.
 
-In accordance with {{link-plurality}}, operations which would result in plural link references within the context of a registration resource SHOULD be rejected using the "Conflict" result code.
+Operations which would result in multiple occurrences of registration resources with the same ep and d value pair SHOULD be rejected using the "Conflict" result code.
 
 
 ### Registration Update {#update}
@@ -1003,7 +995,7 @@ An update MAY optionally add links for the endpoint by including
 those links in the payload of the update as a CoRE Link Format
 document.
 
-If the link payload is included, it SHOULD be checked for reference plurality as described in {{link-plurality}} and rejected with a "Conflict" result if there are plural link references detected.
+When the link payload contains links which are fully identical to already registered links, these duplicate links are not added to the registration resource of the endpoint.
 
 In addition to the use of POST, as described in this section, in the future links can be changed individually or replaced by using iPATCH or PATCH as proposed
 in {{link-up}}.
@@ -1079,9 +1071,6 @@ Failure:
 
 Failure:
 : 4.04 "Not Found" or 404 "Not Found". Registration does not exist (e.g. may have expired).
-
-Failure:
-: 4.09 "Conflict" or 409 "Conflict". Attempt to update the registration content with links resulting in plurality of references; see {{link-plurality}}.
 
 Failure:
 : 5.03 "Service Unavailable" or 503 "Service Unavailable". Service could not perform the operation.
