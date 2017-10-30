@@ -979,13 +979,11 @@ The Registration Resource may also be used to inspect the registration resource 
 
 These operations are described in this section.
 
-Operations which would result in multiple occurrences of registration resources with the same ep and d value pair SHOULD be rejected using the "Conflict" result code.
-
 
 ### Registration Update {#update}
 
 The update interface is used by an endpoint to refresh or update its
-registration with an RD. To use the interface, the endpoint sends a POST request to the registration resource returned in the Location header option in the response returned from the initial registration operation. The POST request (in contrast to PUT) allows replacing a selection of a resource.
+registration with an RD. To use the interface, the endpoint sends a POST request to the registration resource returned in the Location header option in the response returned from the initial registration operation.
 
 An update MAY update the lifetime- or the context- registration parameters
 "lt", "con" as in {{registration}}. Parameters that are not being changed SHOULD NOT
@@ -994,21 +992,17 @@ the size of the message but does not have any other implications.
 Parameters MUST be included as query parameters in an update operation as
 in {{registration}}.
 
-An update MAY optionally add links for the endpoint by including
-those links in the payload of the update as a CoRE Link Format
-document.
-
-When the link payload contains links which are fully identical to already registered links, these duplicate links are not added to the registration resource of the endpoint.
-
-In addition to the use of POST, as described in this section, in the future links can be changed individually or replaced by using iPATCH or PATCH as proposed
-in {{link-up}}.
-
 A registration update resets the timeout of the registration to the (possibly
 updated) lifetime of the registration, independent of whether a `lt` parameter
 was given.
 
 If the context of the registration is changed in an update explicitly or implicitly,
 relative references submitted in the original registration or later updates are resolved anew against the new context (like in the original registration).
+
+This operation only describes the use of POST with an empty payload.
+As with modification of individual using iPATCH or PATCH as proposed in {{link-up}},
+future standards might describe the semantics of using content formats and payloads
+with the POST method to update the links of a registration.
 
 The update registration request interface is specified as follows:
 
@@ -1056,13 +1050,7 @@ URI Template Variables:
     stored endpoint attributes of the same key.
 
 Content-Format:
-: application/link-format (mandatory)
-
-Content-Format:
-: application/link-format+json (optional)
-
-Content-Format:
-: application/link-format+cbor (optional)
+: none (no payload)
 
 The following response codes are defined for this interface:
 
@@ -1094,13 +1082,14 @@ Res: 2.04 Changed
 The following example shows an endpoint updating its registration resource at
 an RD using this interface with the example location value: /rd/4521. The initial registration by the client set the following values:
 
+* endpoint name (ep)=endpoint1
 * lifetime (lt)=500
 * context (con)=coap://local-proxy-old.example.com:5683
 
-The initial state of the Registration Resource, /rd/4521, is:
+The initial state of the Resource Directory is reflected in the following request:
 
 ~~~~
-Req: GET /rd/4521
+Req: GET /rd-lookup/res?ep=endpoint1
 
 Res: 2.01 Content
 Payload:
@@ -1108,14 +1097,10 @@ Payload:
 </sensors/light>;ct=41;rt="light-lux";if="sensor";anchor="coap://local-proxy-old.example.com:5683"
 ~~~~
 
-The following example shows an EP adding the links `</sensors/humid>;ct=41;rt="humid-s";if="sensor"` and `</sensors/co2>;ct=41;rt="co2-s";if="sensor"` to the collection of links at the location /rd/4521 and changing the context to `coaps://new.example.com:5684`. The humid-s resource type has an anchor value `coaps://[2001:db8:3::123]:61616` that overwrites the value of the con atribute.
+The following example shows an EP changing the context to `coaps://new.example.com:5684`:
 
 ~~~~
 Req: POST /rd/4521?con=coaps://new.example.com:5684
-Content-Format:40
-Payload:
-</sensors/humid>;ct= 41;rt="humid-s";if="sensor";anchor="coaps://[2001:db8:3::123]:61616",
-</sensors/co2>;ct= 41;rt="co2-s";if="sensor"
 
 Res: 2.04 Changed
 ~~~~
@@ -1123,14 +1108,12 @@ Res: 2.04 Changed
 The consecutive query returns:
 
 ~~~~
-Req: GET /rd/4521
+Req: GET /rd-lookup/res?ep=endpoint1
 
 Res: 2.01 Content
 Payload:
 </sensors/temp>;ct=41;rt="temperature";anchor="coaps://new.example.com:5684",
 </sensors/light>;ct=41;rt="light-lux";if="sensor";anchor="coaps://new.example.com:5684",
-</sensors/humid>;ct=41;rt="humid-s";if="sensor";anchor="coaps://[2001:db8:3::123]:61616",
-</sensors/co2>;ct=41;rt="co2-s";if="sensor";anchor="coaps://new.example.com:5684"
 ~~~~
 
 
