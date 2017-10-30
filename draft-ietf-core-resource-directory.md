@@ -295,7 +295,7 @@ provided using the CoRE Link Format.
 
 The Entity-Relationship (ER) models shown in {{fig-ER-WKC}} and {{fig-ER-RD}} model the contents of /.well-known/core and the resource directory respectively, with entity-relationship diagrams [ER][]. Entities (rectangles) are used for concepts that exist independently. Attributes (ovals) are used for concepts that exist only in connection with a related entity. Relations (diamonds) give a semantic meaning to the relation between entities. Numbers specify the cardinality of the relations.
 
-Some of the attribute values are URIs. Those values are always full URIs and never relative references in the data model.
+Some of the attribute values are URIs. Those values are always full URIs and never relative references in the information model.
 They can, however, be expressed as relative references in serializations, and often are.
 
 These models provide an abstract view of the information expressed in link-format documents and a Resource Directory. They cover the concepts, but not necessarily all details of an RD's operation; they are meant to give an overview, and not be a template for implementations.
@@ -2173,7 +2173,7 @@ originally developed.
 
 changes from -11 to -12
 
-* added ER diagram
+* added Content Model section, including ER diagram
 * changed domain functionality
 * updated discovery text
 * improved text on: atomicity, idempotency, multiple query, ep removal, simple registration
