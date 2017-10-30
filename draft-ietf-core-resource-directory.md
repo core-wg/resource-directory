@@ -666,8 +666,6 @@ and the multicast capabilities of the network.
 
 A Resource Directory MAY provide hints about the content-formats it supports in the links it exposes or registers, using the "ct" link attribute, as shown in the example below. Clients MAY use these hints to select alternate content-formats for interaction with the Resource Directory.
 
-TODO: Suggestion to add a version, ver, parameter.
-
 HTTP does not support multicast and consequently only unicast discovery can be supported
 using HTTP. Links to Resource Directories MAY be registered in other Resource Directories,
 and well-known entry points SHOULD be provided to enable the bootstrapping of unicast discovery.
