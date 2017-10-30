@@ -743,19 +743,23 @@ alternate content-formats. The Content-Format code attribute "ct" MAY include a
 space-separated sequence of Content-Format codes as specified in
 Section 7.2.1 of {{RFC7252}}, indicating that multiple content-formats are available.
 The example below shows the required Content-Format 40 (application/link-format)
-indicated as well as a more application-specific content format
-(picked as 65225 in this example; this is in the experimental space, not an assigned value).
+indicated as well as the the CBOR and JSON representation of link format.
 The RD resource paths /rd, /rd-lookup, and /rd-group are example values.
+
+\[ The RFC editor is asked to replace these and later occurrences of TBD64 and
+TBD504 with the numeric ID values assigned by IANA to
+application/link-format+cbor and application/link-format+json, respectively, as
+they are defined in I-D.ietf-core-links-json. \]
 
 ~~~~
 Req: GET coap://[ff02::1]/.well-known/core?rt=core.rd*
 
 Res: 2.05 Content
 </rd>;rt="core.rd";ct="40 65225",
-</rd-lookup/res>;rt="core.rd-lookup-res";ct="40 65225",
-</rd-lookup/ep>;rt="core.rd-lookup-ep";ct="40 65225",
-</rd-lookup/gp>;rt="core.rd-lookup-gp";ct=40 65225",
-</rd-group>;rt="core.rd-group";ct="40 65225"
+</rd-lookup/res>;rt="core.rd-lookup-res";ct="40 TBD64 TBD504",
+</rd-lookup/ep>;rt="core.rd-lookup-ep";ct="40 TBD64 TBD504",
+</rd-lookup/gp>;rt="core.rd-lookup-gp";ct=40 TBD64 TBD504",
+</rd-group>;rt="core.rd-group";ct="40 TBD64 TBD504"
 ~~~~
 
 ## Registration {#registration}
