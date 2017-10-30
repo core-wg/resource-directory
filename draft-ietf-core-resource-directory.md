@@ -708,10 +708,6 @@ Success:
   application/link-format, application/link-format+json, or application/link-format+cbor payload containing one or more matching entries for the RD resource.
 
 Failure:
-: 4.04 "Not Found" or 404 "Not Found" is returned in case no matching entry is found for a unicast
-  request.
-
-Failure:
 : 4.00 "Bad Request" or 400 "Bad Request" is returned in case of a malformed request for a unicast
   request.
 
@@ -1512,8 +1508,8 @@ The following responses codes are defined for this interface:
 Success:
 : 2.05 "Content" or 200 "OK" with an `application/link-format`, `application/link-format+cbor`, or `application/link-format+json` payload containing matching entries for the lookup.
 
-Failure:
-: 4.04 "Not Found" or 404 "Not Found" in case no matching entry is found for a unicast request.
+  The payload can contain zero links (which is an empty payload, `80` (hex) or `[]` in the respective content format),
+  indicating that no entities matched the request.
 
 Failure:
 : No error response to a multicast request.
