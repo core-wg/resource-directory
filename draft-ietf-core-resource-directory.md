@@ -1,7 +1,6 @@
 ---
 title: CoRE Resource Directory
 docname: draft-ietf-core-resource-directory-latest
-date: 2017-03-26
 stand_alone: true
 ipr: trust200902
 cat: std
