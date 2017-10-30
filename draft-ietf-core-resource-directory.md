@@ -2174,16 +2174,17 @@ originally developed.
 changes from -11 to -12
 
 * added Content Model section, including ER diagram
-* changed domain functionality
-* updated discovery text
-* improved text on: atomicity, idempotency, multiple query, ep removal, simple registration
-* section 5.3.4 extended uniqueness from single registration to RD
+* removed domain lookup interface; domains are now plain attributes of groups and endpoints
+* updated chapter "Finding a Resource Directory"; now distinguishes configuration-provided, network-provided and heuristic sources
+* improved text on: atomicity, idempotency, lookup with multiple parameters, endpoint removal, simple registration
 * updated LWM2M description
-* relation between context and anchor clarified
-* new appendix on 6690 and 3986
-* changed lookup interface
-* removed patch links section
-* added to IANA registry
+* clarified where relative references are resolved, and how context and anchor interact
+* new appendix on the interaction with RFCs 6690, 5988 and 3986
+* lookup interface: group and endpoint lookup return group and registration resources as link targets
+* lookup interface: search parameters work the same across all entities
+* removed all methods that modify links in an existing registration (POST with payload, PATCH and iPATCH)
+* removed plurality definition (was only needed for link modification)
+* enhanced IANA registry text
 * More examples and improved text
 
 changes from -09 to -10
