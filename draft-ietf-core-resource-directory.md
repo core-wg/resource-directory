@@ -1082,13 +1082,14 @@ Res: 2.04 Changed
 The following example shows an endpoint updating its registration resource at
 an RD using this interface with the example location value: /rd/4521. The initial registration by the client set the following values:
 
+* endpoint name (ep)=endpoint1
 * lifetime (lt)=500
 * context (con)=coap://local-proxy-old.example.com:5683
 
-The initial state of the Registration Resource, /rd/4521, is:
+The initial state of the Resource Directory is reflected in the following request:
 
 ~~~~
-Req: GET /rd/4521
+Req: GET /rd-lookup/res?ep=endpoint1
 
 Res: 2.01 Content
 Payload:
@@ -1107,7 +1108,7 @@ Res: 2.04 Changed
 The consecutive query returns:
 
 ~~~~
-Req: GET /rd/4521
+Req: GET /rd-lookup/res?ep=endpoint1
 
 Res: 2.01 Content
 Payload:
