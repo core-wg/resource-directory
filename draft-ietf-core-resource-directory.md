@@ -869,11 +869,13 @@ Success:
   of the registration and for maintaining the content of the
   registered links, including updating and deleting links.
 
-Failure:
-: 4.00 "Bad Request" or 400 "Bad Request". Malformed request.
+  A registration with an already registered ep and d value pair
+  responds with the same success code and Location as the original registration;
+  the set of links registered with the endpoint is replaced with the links
+  from the payload.
 
 Failure:
-: 4.09 "Conflict" or 409 "Conflict". Attempt to create a registration resource with ep and d value pair which is already present in an earlier created registration resource.
+: 4.00 "Bad Request" or 400 "Bad Request". Malformed request.
 
 Failure:
 : 5.03 "Service Unavailable" or 503 "Service Unavailable". Service could not perform the operation.
