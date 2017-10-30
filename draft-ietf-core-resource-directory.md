@@ -1551,6 +1551,27 @@ Decoded payload:
 [{1: "/temp", 9: "temperature", 3: "coap://[2001:db8:3::123]:61616"}]
 ~~~~
 
+A client that wants to be notified of new resources as they show up can use
+observation:
+
+~~~~
+Req: GET /rd-lookup/res?rt=light
+Observe: 0
+
+Res: 2.05 Content
+Observe: 23
+Payload: empty
+
+(at a later point in time)
+
+Res: 2.05 Content
+Observe: 24
+Payload:
+</west>;rt="light";anchor="coap://[2001:db8:3::124]",
+</south>;rt="light";anchor="coap://[2001:db8:3::124]",
+</east>;rt="light";anchor="coap://[2001:db8:3::124]"
+~~~~
+
 The following example shows a client performing an endpoint type lookup:
 
 ~~~~
