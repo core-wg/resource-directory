@@ -1795,15 +1795,12 @@ topical suitability (Eg. is the described property actually a property of the en
 and the potential for conflict with commonly used link attributes (For example, `if` could be used as a parameter for conditional registration if it were not to be used in lookup or attributes, but would make a bad parameter for lookup, because a resource lookup with an `if` query parameter could ambiguously filter by the registered endpoint property or the {{RFC6690}} link attribute).
 It is expected that the registry will receive between 5 and 50 registrations in total over the next years.
 
-## Endpoint Type Parameter Registry {#et-registry}
-
-The Endpoint Type parameter is described as follows:
+### Full description of the "Endpoint Type" Registration Parameter {#et-description}
 
 An endpoint registering at an RD can describe itself with endpoint types,
 similar to how resources are described with Resource Types in {{RFC6690}}.
 An endpoint type is expressed as a string, which can be either a URI or one of
-the values defined in the Endpoint Type subregistry; it SHOULD be shorter than
-63 bytes.
+the values defined in the Endpoint Type subregistry.
 Endpoint types can be passed in the `et` query parameter as part of extra-attrs
 at the Registration step,
 are shown on endpoint lookups using the `et` target attribute,
@@ -1818,10 +1815,25 @@ As a result, Resource Directory implementations automatically support correct
 filtering in the lookup interfaces from the rules for unknown endpoint
 attributes.
 
+## "Endpoint Type" (et=) RD Parameter values {#et-registry}
+
 This specification establishes a new sub-registry under "CoRE Parameters"
-called "Endpoint Type".
+called '"Endpoint Type" (et=) RD Parameter values'.
 The registry properties (required policy, requirements, template) are identical
-to those of the Resource Type parameters in {{RFC6690}}.
+to those of the Resource Type parameters in {{RFC6690}}, in short:
+
+The review policy is IETF Review for values starting with "core", and
+Specification Required for others.
+
+The requirements to be enforced are:
+
+* The values MUST be related to the purpose described in {{et-description}}.
+
+* The registered values MUST conform to the ABNF reg-rel-type definition of
+  {{RFC6690}} and MUST NOT be a URI.
+
+* It is recommended to use the period "." character for segmentation.
+
 The registry is initially empty.
 
 # Examples {#examples}
