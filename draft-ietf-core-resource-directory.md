@@ -900,15 +900,18 @@ Res: 2.01 Created
 Location: /rd/4521
 ~~~~
 
-A Resource Directory may optionally support HTTP. Here is an example of the same registration operation above, when done using HTTP.
+A Resource Directory may optionally support HTTP. Here is an example of almost the same registration operation above, when done using HTTP
+and the JSON Link Format.
 
 ~~~~
 Req: POST /rd?ep=node1&con=http://[2001:db8:1::1] HTTP/1.1
 Host : example.com
-Content-Type: application/link-format
+Content-Type: application/link-format+json
 Payload:
-</sensors/temp>;ct=41;rt="temperature-c";if="sensor",
-</sensors/light>;ct=41;rt="light-lux";if="sensor"
+[
+{"href": "/sensors/temp", "ct": "41", "rt": "temperature-c", "if": "sensor"},
+{"href": "/sensors/light", "ct": "41", "rt": "light-lux", "if": "sensor"}
+]
 
 Res: 201 Created
 Location: /rd/4521
@@ -1535,6 +1538,21 @@ Req: GET /rd-lookup/res?rt=temperature
 
 Res: 2.05 Content
 </temp>;rt="temperature";anchor="coap://[2001:db8:3::123]:61616"
+~~~~
+
+The same lookup using the CBOR Link Format media type:
+
+~~~~
+Req: GET /rd-lookup/res?rt=temperature
+Accept: TBD64
+
+Res: 2.05 Content
+Content-Format: TBD64
+Payload in Hex notation:
+81A301652F74656D70096B74656D706572617475726503781E636F61703A2F2F5B323030
+313A6462383A333A3A3132335D3A3631363136
+Decoded payload:
+[{1: "/temp", 9: "temperature", 3: "coap://[2001:db8:3::123]:61616"}]
 ~~~~
 
 The following example shows a client performing an endpoint type lookup:
