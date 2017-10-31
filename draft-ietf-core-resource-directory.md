@@ -2184,6 +2184,7 @@ changes from -11 to -12
 * removed all methods that modify links in an existing registration (POST with payload, PATCH and iPATCH)
 * removed plurality definition (was only needed for link modification)
 * enhanced IANA registry text
+* state that lookup resources can be observable
 * More examples and improved text
 
 changes from -09 to -10
