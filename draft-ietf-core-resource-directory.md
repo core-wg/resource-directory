@@ -290,7 +290,7 @@ provided using the CoRE Link Format.
 {: #fig-hierarchy title='The resource directory information hierarchy.' align="left"}
 
 
-## Content model {#ER-model}
+## RD Content Model {#ER-model}
 
 The Entity-Relationship (ER) models shown in {{fig-ER-WKC}} and {{fig-ER-RD}} model the contents of /.well-known/core and the resource directory respectively, with entity-relationship diagrams [ER][]. Entities (rectangles) are used for concepts that exist independently. Attributes (ovals) are used for concepts that exist only in connection with a related entity. Relations (diamonds) give a semantic meaning to the relation between entities. Numbers specify the cardinality of the relations.
 
@@ -342,7 +342,7 @@ The set does not necessarily contain links to all resources served by the host.
 
 A link has the following attributes:
 
-* Zero or more link relations: They describe a relations between the link context and the link target.
+* Zero or more link relations: They describe relations between the link context and the link target.
 
   In link-format serialization, they are expressed as space-separated values in the "rel" attribute, and default to "hosts".
 
@@ -561,9 +561,9 @@ server.
 
 ## Resource Directory Address Option (RDAO) {#rdao}
 
-The Resource Directory Option (RDAO) using IPv6 neighbor Discovery (ND) carries
+The Resource Directory Address Option (RDAO) using IPv6 neighbor Discovery (ND) carries
 information about the address of the Resource Directory (RD). This information is
-needed when endpoints cannot discover the Resource Directory with link-local
+needed when endpoints cannot discover the Resource Directory with a link-local
 multicast address because the endpoint and the RD are separated by a border Router
 (6LBR). In many circumstances the availability of DHCP cannot be guaranteed either
 during commissioning of the network. The presence and the use of the RD is
@@ -634,7 +634,7 @@ directories, if it can ensure that a loop does not form.  The protocol used
 between directories to ensure loop-free operation is outside the scope of
 this document.
 
-## Content Formats
+## Payload Content Formats
 
 Resource Directory implementations using this specification MUST support the
 application/link-format content format (ct=40).
@@ -761,7 +761,7 @@ After discovering the location of an RD, an endpoint MAY
 register its resources using the registration interface. This interface
 accepts a POST from an endpoint containing the list of resources to be added
 to the directory as the message payload in the CoRE Link Format {{RFC6690}}, JSON CoRE Link Format (application/link-format+json), or CBOR CoRE Link Format (application/link-format+cbor)  {{I-D.ietf-core-links-json}}, along with query
-parameters indicating the name of the endpoint, and optionally its domain
+parameters indicating the name of the endpoint, and optionally the domain
 and the lifetime of the registration.
 It is expected that other specifications will define further parameters (see
 {{iana-registry}}). The RD then creates a new registration resource in the RD and returns its location. An endpoint MUST use that
@@ -810,12 +810,12 @@ URI Template Variables:
     parameter is 63 bytes.
 
     If the RD is configured to recognize the endpoint (eg. based on its security context),
-    the endpoint can elide the endpoint name, and assign one based on the configuration.
+    the endpoint can elide the endpoint name, and assign one based on the configuration parameter values.
 
   d :=
   : Domain (optional). The domain to which this endpoint belongs. The maximum
-    length of this parameter is 63 bytes. When this parameter is elided, the
-    RD MAY associate the endpoint with a configured default domain.
+    length of this parameter is 63 bytes. When this parameter is not present, the
+    RD MAY associate the endpoint with a configured default domain or leave it empty.
 
   lt :=
   : Lifetime (optional). Lifetime of the registration in seconds. Range of 60-4294967295.
@@ -960,7 +960,7 @@ Payload:
 ### Third-party registration {#third-party-registration}
 
 For some applications, even Simple Registration may be too taxing
-for certain very constrained devices, in particular if the security requirements
+for some very constrained devices, in particular if the security requirements
 become too onerous.
 
 In a controlled environment (e.g. building control), the Resource Directory
@@ -974,7 +974,7 @@ indicated in the Context parameter of the registration described in {{registrati
 
 After the initial registration, an endpoint should retain the returned location of the Registration Resource for further operations, including refreshing the registration in order to extend the lifetime and "keep-alive" the registration. When the lifetime of the registration has expired, the RD SHOULD NOT respond to discovery queries concerning this endpoint. The RD SHOULD continue to provide access to the Registration Resource after a registration time-out occurs in order to enable the registering endpoint to eventually refresh the registration. The RD MAY eventually remove the registration resource for the purpose of resource recovery and garbage collection. If the Registration Resource is removed, the endpoint will need to re-register.
 
-The Registration Resource may also be used to inspect the registration resource using GET, update the registration link contents, or cancel the registration using DELETE.
+The Registration Resource may also be used to inspect the registration resource using GET, update the registration, or cancel the registration using DELETE.
 
 These operations are described in this section.
 
@@ -982,7 +982,7 @@ These operations are described in this section.
 ### Registration Update {#update}
 
 The update interface is used by an endpoint to refresh or update its
-registration with an RD. To use the interface, the endpoint sends a POST request to the registration resource returned in the Location header option in the response returned from the initial registration operation.
+registration with an RD. To use the interface, the endpoint sends a POST request to the registration resource returned by the initial registration operation.
 
 An update MAY update the lifetime- or the context- registration parameters
 "lt", "con" as in {{registration}}. Parameters that are not being changed SHOULD NOT
@@ -999,9 +999,8 @@ If the context of the registration is changed in an update explicitly or implici
 relative references submitted in the original registration or later updates are resolved anew against the new context (like in the original registration).
 
 This operation only describes the use of POST with an empty payload.
-As with modification of individual using iPATCH or PATCH as proposed in {{link-up}},
-future standards might describe the semantics of using content formats and payloads
-with the POST method to update the links of a registration.
+Future standards might describe the semantics of using content formats and payloads
+with the POST method to update the links of a registration (see {{link-up}}).
 
 The update registration request interface is specified as follows:
 
@@ -1428,7 +1427,7 @@ Using the Accept Option, the requester can control whether this list is returned
 
 The page and count parameters are used to obtain lookup results in specified increments using pagination, where count specifies how many links to return and page specifies which subset of links organized in sequential pages, each containing 'count' links, starting with link zero and page zero. Thus, specifying count of 10 and page of 0 will return the first 10 links in the result set (links 0-9). Count = 10 and page = 1 will return the next 'page' containing links 10-19, and so on.
 
-Multiple search criteria MAY be included in a lookup. All included criteria MUST match for a link to be returned.
+Multiple search criteria MAY be included in a lookup. All included criteria MUST match for a link to be returned. The Resource Directory MUST support matching with multiple search criteria.
 
 A link matches a search criterion if it has an attribute of the same name and the same value, allowing for a trailing "\*" wildcard operator as in Section 4.1 of {{RFC6690}}.
 Attributes that are defined as "link-type" match if the search value matches any of their values (see Section 4.1 of {{RFC6690}}; eg. `?if=core.s` matches `;if="abc core.s";`).
@@ -1620,7 +1619,7 @@ Res: 2.05 Content
 ~~~~
 
 The following example shows a client performing a lookup of all resources from
-endpoints of a given endpoint type. It assumes that two endpoints (with endpoint
+endpoints of all endpoints of a given endpoint type. It assumes that two endpoints (with endpoint
 names `sensor1` and `sensor2`) have previously registered with their respective
 addresses `coap://sensor1.example.com` and `coap://sensor2.example.com`, and
 posted the very payload of the 6th request of section 5 of {{RFC6690}}.
