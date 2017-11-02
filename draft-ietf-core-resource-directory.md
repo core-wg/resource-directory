@@ -1272,9 +1272,8 @@ URI Template Variables:
 
   d :=
   : Domain (optional). The domain to which this group belongs. The maximum
-    length of this parameter is 63 bytes. Optional. When this parameter is
-    elided, the RD MAY associate the endpoint with a configured default
-    domain.
+    length of this parameter is 63 bytes. When this parameter is not present, the
+    RD MAY associate the group with a configured default domain or leave it empty.
 
   con :=
   : Context (optional). This parameter sets the scheme, address and port of the multicast address associated with the group.
