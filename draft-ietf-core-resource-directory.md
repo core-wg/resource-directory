@@ -143,7 +143,7 @@ document are to be interpreted as described in {{RFC2119}}. The
 term "byte" is used in its now customary sense as a synonym for "octet".
 
 This specification requires readers to be familiar with all the terms and
-concepts that are discussed in {{RFC5988}} and {{RFC6690}}. Readers should
+concepts that are discussed in {{RFC3986}}, {{RFC5988}} and {{RFC6690}}. Readers should
 also be familiar with the terms and concepts discussed in {{RFC7252}}.  To
 describe the REST interfaces defined in this specification, the URI Template
 format is used {{RFC6570}}.
@@ -151,6 +151,12 @@ format is used {{RFC6570}}.
 This specification makes use of the following additional terminology:
 
 {: vspace='0'}
+resolve against
+:   The expression "a URI-reference is *resolved against* a base URI" is used
+to describe the process of {{RFC3986}} Section 5.2. Noteworthy corner cases are
+that resolving an absolute URI against any base URI gives the original URI, and
+that resolving the an empty URI reference gives the base URI.
+
 Resource Directory
 :   A web entity that stores information about web resources and implements the
 REST interfaces defined in this specification for registration and lookup
