@@ -1248,7 +1248,9 @@ CoAP, a group MAY have a multicast address associated with it.
 In order to create a group, a commissioning tool (CT) used to configure groups,
 makes a request to the RD indicating the name of the group to create (or
 update), optionally the domain the group belongs to, and optionally the multicast
-address of the group. The registration message is a list of links to
+address of the group. This specification does not require that the endpoints belong to the same domain as the group, but a Resource Directory implementation can impose requirements on the domains of groups and endpoints depending on its configuration. 
+
+The registration message is a list of links to
 registration resources of the endpoints that belong to that group.
 
 The commissioning tool SHOULD not send any target attributes with the links to the registration resources,
