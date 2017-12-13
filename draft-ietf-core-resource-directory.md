@@ -975,6 +975,8 @@ tool can fill the Resource Directory from a database or other means. For
 that purpose the scheme, IP address and port of the registered device is
 indicated in the Context parameter of the registration described in {{registration}}.
 
+It should be noted that the value of the con parameter applies to all the links of the registration and has consequences for the anchor value of the individual links as exemplified in {{weblink}}. An eventual (currently non-existing) con attribute of the link is not affected by the value of con parameter in the registration.
+
 
 ## Operations on the Registration Resource
 
@@ -2386,7 +2388,7 @@ Changes from -01 to -02:
 
 --- back
 
-# Web links and the Resource Directory
+# Web links and the Resource Directory {#weblink}
 
 Understanding the semantics of a link-format document and its URI references is
 a journey through different documents ({{RFC3986}} defining URIs, {{RFC6690}}
