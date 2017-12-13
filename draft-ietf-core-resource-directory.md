@@ -236,8 +236,8 @@ An endpoint is a web server associated with a scheme, IP address and port, thus 
 RD implements a set of REST interfaces for endpoints to register and maintain
 sets of Web Links (called resource directory registration entries), and for clients to
 lookup resources from the RD or maintain groups. Endpoints themselves can
-also act as clients. An RD can be logically segmented by the use of Domains.
-The domain an endpoint is associated with can be defined by the RD or configured
+also act as clients. An RD can be logically segmented by the use of Groups.
+The group an endpoint is part of, can be defined by the RD or configured
 by an outside entity. This information hierarchy is shown in {{fig-hierarchy}}.
 
 A mechanism to discover an RD using CoRE Link Format {{RFC6690}} is defined.
@@ -276,13 +276,10 @@ provided using the CoRE Link Format.
 
 ~~~~
                +------------+
-               |   Domain   | <-- Name
+               |   Group    | <-- Name, Scheme, IP, Port
                +------------+
-                    |     |
-                    |   +------------+
-                    |   |   Group    | <-- Name, Scheme, IP, Port
-                    |   +------------+
-                    |     |
+                     |     
+                     | 
                +------------+
                |  Endpoint  |  <-- Name, Scheme, IP, Port
                +------------+
