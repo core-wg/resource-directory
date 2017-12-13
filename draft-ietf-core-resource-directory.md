@@ -552,7 +552,7 @@ suggests a number of candidates:
 * In a network that supports multicast well, discovering the RD using
   a multicast query for /.well-known/core as specified in CoRE Link
   Format {{RFC6690}}: Sending a Multicast GET to
-  `coap://[ff02::1]/.well-known/core?rt=core.rd*`.  RDs within the
+  `coap://[MCD1]/.well-known/core?rt=core.rd*`.  RDs within the
   multicast scope will answer the query.
 
 As some of the RD addresses obtained by the methods listed here are
@@ -726,7 +726,7 @@ content-format delivered by the server hosting the resource is application/link-
 (ct=40).  Note that it is up to the RD to choose its RD resource paths.
 
 ~~~~
-Req: GET coap://[ff02::1]/.well-known/core?rt=core.rd*
+Req: GET coap://[MCD1]/.well-known/core?rt=core.rd*
 
 Res: 2.05 Content
 </rd>;rt="core.rd";ct=40,
@@ -751,7 +751,7 @@ application/link-format+cbor and application/link-format+json, respectively, as
 they are defined in I-D.ietf-core-links-json. \]
 
 ~~~~
-Req: GET coap://[ff02::1]/.well-known/core?rt=core.rd*
+Req: GET coap://[MCD1]/.well-known/core?rt=core.rd*
 
 Res: 2.05 Content
 </rd>;rt="core.rd";ct="40 65225",
@@ -1821,6 +1821,24 @@ The requirements to be enforced are:
 * It is recommended to use the period "." character for segmentation.
 
 The registry is initially empty.
+
+
+## Multicast Address Registration {#mc-registration}
+
+   IANA has
+   assigned the following multicast addresses for use by CoAP nodes:
+
+   IPv4  -- "all CoRE resource directories" address, from the "IPv4
+      Multicast Address Space Registry" equal to "All CoAP Nodes", 224.0.1.187.  As the address is used for
+      discovery that may span beyond a single network, it has come from
+      the Internetwork Control Block (224.0.1.x, RFC 5771).
+
+   IPv6  -- "all CoRE resource directories" address MCD1 (uggestions FF0X::FE), from the "IPv6 Multicast
+      Address Space Registry", in the "Variable Scope Multicast
+      Addresses" space (RFC 3307).  Note that there is a distinct
+      multicast address for each scope that interested CoAP nodes should
+      listen to; CoAP needs the Link-Local and Site-Local scopes only.
+
 
 # Examples {#examples}
 
