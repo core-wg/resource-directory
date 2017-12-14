@@ -85,7 +85,7 @@ informative:
 #  RFC1034: dns1
   RFC7641:
   ER: DOI.10.1145/320434.320440
-  I-D.nottingham-rfc5988bis:
+  RFC8288:
   I-D.silverajan-core-coap-protocol-negotiation:
   I-D.arkko-core-dev-urn:
 
@@ -353,11 +353,17 @@ A link has the following attributes:
 
   In link-format serialization, it is expressed in the "anchor" attribute. There, it can be a relative reference, in which case it gets resolved against the URI of the `.well-known/core` document it was obtained from <!-- or the / resource of said server: RFC6690bis anyone? -->. It defaults to that document's URI.
 
-  In the serialization, the context also serves as the Base URI for resolving the target reference.
-
 * A link target URI: It defines the destination of the relation (eg. *what* is hosted), and is the topic of all target attributes.
 
- In link-format serialization, it is expressed between angular brackets, and sometimes called the "href". If it is a relative URI, it gets resolved against the link context URI.
+ In link-format serialization, it is expressed between angular brackets, and sometimes called the "href".
+
+ If there is an anchor attribute present
+ and the link is serialized in {{RFC6690}} link format,
+ this document will require that is an absolute reference to avoid the
+ ambiguities outlined in {{resolution-rules}}.
+
+ Otherwise, it can be serialized as a relative URI,
+ and gets resolved against the document's URI.
 
 * Other target attributes (eg. resource type (rt), interface (if), cor content-type (ct)).
   These provide additional information about the target URI.
@@ -784,8 +790,10 @@ both in its link targets and in its anchors, or contain empty anchors.
 The RD server needs to resolve these references in order to faithfully represent them in lookups.
 The Base URI against which they are resolved is the context of the registration,
 which is provided either explicitly in the `con` parameter or constructed implicitly from the requester's network address.
-When resolving relative target references, the server first resolves the context of that link,
-and then interprets the target as a reference relative to that context (see {{resolution-rules}}).
+
+Documents in {{RFC6690}} Link Format MUST NOT contain links
+whose target is a relative reference and whose anchor attribute is present
+to avoid the ambiguities described in {{resolution-rules}}.
 
 The registration request interface is specified as follows:
 
@@ -923,6 +931,8 @@ be security reasons why this form of directory discovery would be disabled.
 This approach requires that the endpoint makes available the hosted resources
 that it wants to be discovered, as links on its `/.well-known/core` interface as
 specified in {{RFC6690}}.
+The links in that document are subject to the same limitations as the payload of a registration
+(no relative target references when anchor is present).
 
 The endpoint then finds one or more addresses of the directory server as described in {{finding_an_rd}}.
 
@@ -1096,8 +1106,10 @@ Req: GET /rd-lookup/res?ep=endpoint1
 
 Res: 2.01 Content
 Payload:
-</sensors/temp>;ct=41;rt="temperature";anchor="coap://local-proxy-old.example.com:5683",
-</sensors/light>;ct=41;rt="light-lux";if="sensor";anchor="coap://local-proxy-old.example.com:5683"
+<coap://local-proxy-old.example.com:5683/sensors/temp>;ct=41;rt="temperature";
+    anchor="coap://local-proxy-old.example.com:5683",
+<coap://local-proxy-old.example.com:5683/sensors/light>;ct=41;rt="light-lux";
+    if="sensor";anchor="coap://local-proxy-old.example.com:5683"
 ~~~~
 
 The following example shows an EP changing the context to `coaps://new.example.com:5684`:
@@ -1115,8 +1127,10 @@ Req: GET /rd-lookup/res?ep=endpoint1
 
 Res: 2.01 Content
 Payload:
-</sensors/temp>;ct=41;rt="temperature";anchor="coaps://new.example.com:5684",
-</sensors/light>;ct=41;rt="light-lux";if="sensor";anchor="coaps://new.example.com:5684",
+<coaps://new.example.com:5684/sensors/temp>;ct=41;rt="temperature";
+    anchor="coaps://new.example.com:5684",
+<coaps://new.example.com:5684/sensors/light>;ct=41;rt="light-lux";if="sensor";
+    anchor="coaps://new.example.com:5684",
 ~~~~
 
 
@@ -1249,7 +1263,7 @@ address of the group. This specification does not require that the endpoints bel
 
 The registration message is a list of links to
 registration resources of the endpoints that belong to that group.
-The endpoints MAY be hosted by a different RD than the the group hosting RD. In that case the endpoint link SHOULD contain an "anchor=" attribute.
+The endpoints MAY be hosted by a different RD than the the group hosting RD. In that case the endpoint link points to the registration resource on the other RD.
 
 The commissioning tool SHOULD not send any target attributes with the links to the registration resources,
 and the resource directory SHOULD reject registrations that contain links with unprocessable attributes.
@@ -1323,7 +1337,7 @@ Req: POST coap://rd.example.com/rd-group?gp=lights
                                   &con=coap://[ff35:30:2001:db8::1]
 Content-Format: 40
 Payload:
-</rd/4521>;anchor="coap://other-rd",
+<coap://other-rd/rd/4521>,
 </rd/4522>
 
 Res: 2.01 Created
@@ -1407,12 +1421,11 @@ The lookup type is selected by a URI endpoint, which is indicated by a Resource 
 ## Resource lookup
 
 Resource lookup results in links that are semantically equivalent to the links submitted to the RD if they were accessed on the endpoint itself.
-The links and link parameters returned are equal to the submitted ones except for anchor,
-which was resolved by the server against the endpoint's context.
+The links and link parameters returned are equal to the submitted,
+except that the target and anchor references are fully resolved.
 
 Links that did not have an anchor attribute are therefore returned with the (explicitly or implicitly set) context URI of the registration as the anchor.
-Links whose anchor was submitted as an absolute URI are returned as they were registered.
-The hrefs of links can always be served as they were submitted; the server MAY return relative references in absolute form in to resource lookups, but that results in needlessly verbose responses.
+Links whose href or anchor was submitted as an absolute URI are returned with respective attributes unmodified.
 
 Above rules allow the client to interpret the response as links without any further knowledge of what the RD does.
 The Resource Directory MAY replace the contexts with a configured intermediate proxy, e.g. in the case of an HTTP lookup interface for CoAP endpoints.
@@ -1521,7 +1534,7 @@ The following example shows a client performing a resource lookup with the examp
 Req: GET /rd-lookup/res?rt=temperature
 
 Res: 2.05 Content
-</temp>;rt="temperature";anchor="coap://[2001:db8:3::123]:61616"
+<coap://[2001:db8:3::123]:61616/temp>;rt="temperature";anchor="coap://[2001:db8:3::123]:61616"
 ~~~~
 
 The same lookup using the CBOR Link Format media type:
@@ -1533,10 +1546,12 @@ Accept: TBD64
 Res: 2.05 Content
 Content-Format: TBD64
 Payload in Hex notation:
-81A301652F74656D70096B74656D706572617475726503781E636F61703A2F2F5B323030
-313A6462383A333A3A3132335D3A3631363136
+81A3017823636F61703A2F2F5B323030313A6462383A333A3A3132335D3A36313631362F
+74656D7003781E636F61703A2F2F5B323030313A6462383A333A3A3132335D3A36313631
+36096B74656D7065726174757265
 Decoded payload:
-[{1: "/temp", 9: "temperature", 3: "coap://[2001:db8:3::123]:61616"}]
+[{1: "coap://[2001:db8:3::123]:61616/temp", 9: "temperature",
+3: "coap://[2001:db8:3::123]:61616"}]
 ~~~~
 
 A client that wants to be notified of new resources as they show up can use
@@ -1555,9 +1570,12 @@ Payload: empty
 Res: 2.05 Content
 Observe: 24
 Payload:
-</west>;rt="light";anchor="coap://[2001:db8:3::124]",
-</south>;rt="light";anchor="coap://[2001:db8:3::124]",
-</east>;rt="light";anchor="coap://[2001:db8:3::124]"
+<coap://[2001:db8:3::124]/west>;rt="light";
+    anchor="coap://[2001:db8:3::124]",
+<coap://[2001:db8:3::124]/south>;rt="light";
+    anchor="coap://[2001:db8:3::124]",
+<coap://[2001:db8:3::124]/east>;rt="light";
+    anchor="coap://[2001:db8:3::124]"
 ~~~~
 
 The following example shows a client performing an endpoint type lookup with  the value oic.d.sensor (which is currently a registered rt value):
@@ -1611,20 +1629,30 @@ The following example shows a client performing a paginated resource lookup
 Req: GET /rd-lookup/res?page=0&count=5
 
 Res: 2.05 Content
-</res/0>;rt=sensor;ct=60;anchor="coap://[2001:db8:3::123]:61616",
-</res/1>;rt=sensor;ct=60;anchor="coap://[2001:db8:3::123]:61616",
-</res/2>;rt=sensor;ct=60;anchor="coap://[2001:db8:3::123]:61616",
-</res/3>;rt=sensor;ct=60;anchor="coap://[2001:db8:3::123]:61616",
-</res/4>;rt=sensor;ct=60;anchor="coap://[2001:db8:3::123]:61616"
+<coap://[2001:db8:3::123]:61616/res/0>;rt=sensor;ct=60;
+    anchor="coap://[2001:db8:3::123]:61616",
+<coap://[2001:db8:3::123]:61616/res/1>;rt=sensor;ct=60;
+    anchor="coap://[2001:db8:3::123]:61616",
+<coap://[2001:db8:3::123]:61616/res/2>;rt=sensor;ct=60;
+    anchor="coap://[2001:db8:3::123]:61616",
+<coap://[2001:db8:3::123]:61616/res/3>;rt=sensor;ct=60;
+    anchor="coap://[2001:db8:3::123]:61616",
+<coap://[2001:db8:3::123]:61616/res/4>;rt=sensor;ct=60;
+    anchor="coap://[2001:db8:3::123]:61616"
 
 Req: GET /rd-lookup/res?page=1&count=5
 
 Res: 2.05 Content
-</res/5>;rt=sensor;ct=60;anchor="coap://[2001:db8:3::123]:61616",
-</res/6>;rt=sensor;ct=60;anchor="coap://[2001:db8:3::123]:61616",
-</res/7>;rt=sensor;ct=60;anchor="coap://[2001:db8:3::123]:61616",
-</res/8>;rt=sensor;ct=60;anchor="coap://[2001:db8:3::123]:61616",
-</res/9>;rt=sensor;ct=60;anchor="coap://[2001:db8:3::123]:61616"
+<coap://[2001:db8:3::123]:61616/res/5>;rt=sensor;ct=60;
+    anchor="coap://[2001:db8:3::123]:61616",
+<coap://[2001:db8:3::123]:61616/res/6>;rt=sensor;ct=60;
+    anchor="coap://[2001:db8:3::123]:61616",
+<coap://[2001:db8:3::123]:61616/res/7>;rt=sensor;ct=60;
+    anchor="coap://[2001:db8:3::123]:61616",
+<coap://[2001:db8:3::123]:61616/res/8>;rt=sensor;ct=60;
+    anchor="coap://[2001:db8:3::123]:61616",
+<coap://[2001:db8:3::123]:61616/res/9>;rt=sensor;ct=60;
+    anchor="coap://[2001:db8:3::123]:61616"
 ~~~~
 
 The following example shows a client performing a lookup of all resources from
@@ -1633,30 +1661,36 @@ names `sensor1` and `sensor2`) have previously registered with their respective
 addresses `coap://sensor1.example.com` and `coap://sensor2.example.com`, and
 posted the very payload of the 6th request of section 5 of {{RFC6690}}.
 
-It demonstrates how the link targets stay unmodified, but the anchors get
-constructed by the resource directory:
+Note that said content is in violation of the rule against relative references
+in presence of the anchor attribute; the server accepted it in this case
+because no ambiguity is created in this particular case.
+
+It demonstrates how absolute link targets stay unmodified, while relative ones
+are resolved:
 
 ~~~~
 Req: GET /rd-lookup/res?et=oic.d.sensor
 
-</sensors>;ct=40;title="Sensor Index";
+<coap://sensor1.example.com/sensors>;ct=40;title="Sensor Index";
     anchor="coap://sensor1.example.com",
-</sensors/temp>;rt="temperature-c";if="sensor";
+<coap://sensor1.example.com/sensors/temp>;rt="temperature-c";if="sensor";
     anchor="coap://sensor1.example.com",
-</sensors/light>;rt="light-lux";if="sensor";
+<coap://sensor1.example.com/sensors/light>;rt="light-lux";if="sensor";
     anchor="coap://sensor1.example.com",
 <http://www.example.com/sensors/t123>;rel="describedby";
     anchor="coap://sensor1.example.com/sensors/temp",
-</t>;rel="alternate";anchor="coap://sensor1.example.com/sensors/temp",
-</sensors>;ct=40;title="Sensor Index";
+<coap://sensor1.example.com/t>;rel="alternate";
+    anchor="coap://sensor1.example.com/sensors/temp",
+<coap://sensor2.example.com/sensors>;ct=40;title="Sensor Index";
     anchor="coap://sensor2.example.com",
-</sensors/temp>;rt="temperature-c";if="sensor";
+<coap://sensor2.example.com/sensors/temp>;rt="temperature-c";if="sensor";
     anchor="coap://sensor2.example.com",
-</sensors/light>;rt="light-lux";if="sensor";
+<coap://sensor2.example.com/sensors/light>;rt="light-lux";if="sensor";
     anchor="coap://sensor2.example.com",
 <http://www.example.com/sensors/t123>;rel="describedby";
-    ;anchor="coap://sensor2.example.com/sensors/temp",
-</t>;rel="alternate";anchor="coap://sensor2.example.com/sensors/temp"
+    anchor="coap://sensor2.example.com/sensors/temp",
+<coap://sensor2.example.com/t>;rel="alternate";
+    anchor="coap://sensor2.example.com/sensors/temp"
 ~~~~
 
 # Security Considerations
@@ -2203,6 +2237,9 @@ changes from -12 to -13
 * domain from figure 2
 * more explanatory text
 * endpoints of a groups hosted by different RD
+* resolve RFC6690-vs-8288 resolution ambiguities:
+    - require registered links not to be relative when using anchor
+    - return absolute URIs in resource lookup
 
 changes from -11 to -12
 
@@ -2402,7 +2439,7 @@ Changes from -01 to -02:
 
 Understanding the semantics of a link-format document and its URI references is
 a journey through different documents ({{RFC3986}} defining URIs, {{RFC6690}}
-defining link-format documents based on {{RFC5988}} which defines link headers,
+defining link-format documents based on {{RFC8288}} which defines link headers,
 and {{RFC7252}} providing the transport). This appendix summarizes
 the mechanisms and semantics at play from an entry in `.well-known/core` to a
 resource lookup.
@@ -2434,9 +2471,10 @@ ahead and create a new request to `[2001:db8:f0::1]:5683` with Uri-Path:
 ### Resolving the URIs
 
 The client parses the single returned record. The link's target (sometimes
-called "href") is "`/temp`", which is a relative URI that needs resolving. The
-Base URI to resolve that against is, in absence of an "anchor" parameter,
-the URI of the requested resource as described in {{RFC6690}} Section 2.1.
+called "href") is "`/temp`", which is a relative URI that needs resolving.
+As long as all involved links follow the restrictions set forth for this
+document (see {{resolution-rules}}), the base URI to resolve this against the
+requested URI.
 
 The URI of the requested resource can be composed by following the steps of
 {{RFC7252}} section 6.5 (with an addition at the end of 8.2) into
@@ -2473,9 +2511,7 @@ have given some more records in the payload:
     </light>;rt=light-lux;ct=0,
     </t>;anchor="/sensors/temp";rel=alternate,
     <http://www.example.com/sensors/t123>;anchor="/sensors/temp";
-        rel=describedby,
-    <t123.pdf>;rel=alternate;ct=65001;
-        anchor="http://www.example.com/sensors/t123"
+        rel="describedby"
 
 Parsing the third record, the client encounters the "anchor" parameter. It is
 a URI relative to the document's Base URI and is thus resolved to
@@ -2489,13 +2525,7 @@ Thus, the third record could be read as
 `coap://[2001:db8:f0::1]/t`".
 
 The fourth record can be read as "`coap://[2001:db8:f0::1]/sensors/temp` is
-described by `http://www.example.com/sensors/t123`"
-
-<!-- FIXME this example does not align wiht 5988 -->
-In the last example the anchor is absolute, where a "`t123.pdf`" is resolved
-relative to "`http://www.example.com/sensors/t123`", which gives a statement that
-"`http://www.example.com/sensors/t123/t123.pdf` is an alternate representation
-to "`http://www.example.com/sensors/t123` of which the content type is PDF".
+described by `http://www.example.com/sensors/t123`".
 
 ## Enter the Resource Directory
 
@@ -2522,7 +2552,8 @@ request, it would go through the RD discovery steps by fetching
 issue a request to `coap://[2001:db8:f0::ff]/rd-lookup/res?rt=temperature` to
 receive the following data:
 
-        </temp>;rt=temperature;ct=0;anchor="coap://[2001:db8:f0::1]"
+    <coap://[2001:db8:f0::1]/temp>;rt=temperature;ct=0;
+        anchor="coap://[2001:db8:f0::1]"
 
 This is not *literally* the same response that it would have received from a
 multicast request, but it would contain the (almost) same statement:
@@ -2538,22 +2569,24 @@ To complete the examples, the client could also query all resources hosted at
 the endpoint with the known endpoint name "simple-host1". A request to
 `coap://[2001:db8:f0::ff]/rd-lookup/res?ep=simple-host1` would return
 
-    </temp>;rt=temperature;ct=0;anchor="coap://[2001:db8:f0::1]",
-    </light>;rt=light-lux;ct=0;anchor="coap://[2001:db8:f0::1]",
-    </t>;anchor="coap://[2001:db8:f0::1]/sensors/temp";rel=alternate,
+    <coap://[2001:db8:f0::1]/temp>;rt=temperature;ct=0;
+        anchor="coap://[2001:db8:f0::1]",
+    <coap://[2001:db8:f0::1]/light>;rt=light-lux;ct=0;
+        anchor="coap://[2001:db8:f0::1]",
+    <coap://[2001:db8:f0::1]/t>;
+        anchor="coap://[2001:db8:f0::1]/sensors/temp";rel=alternate,
     <http://www.example.com/sensors/t123>;
-        anchor="coap://[2001:db8:f0::1]/sensors/temp";rel=describedby,
-    <t123.pdf>;rel=alternate;ct=65001;
-        anchor="http://www.example.com/sensors/t123"
+        anchor="coap://[2001:db8:f0::1]/sensors/temp";rel="describedby"
 
-Note that the last link was not modified at all because its anchor was already
-an absolute reference.
+All the target and anchor references are already in absolute form there, which
+don't need to be resolved any further.
 
 Had the simple host registered with an explicit context (eg.
 `?ep=simple-host1&con=coap+tcp://simple-host1.example.com`), that context would
 have been used to resolve the relative anchor values instead, giving
 
-    </temp>;rt=temperature;ct=0;anchor="coap+tcp://simple-host1.example.com"
+    <coap+tcp://simple-host1.example.com/temp>;rt=temperature;ct=0;
+        anchor="coap+tcp://simple-host1.example.com"
 
 and analogous records.
 
@@ -2561,8 +2594,21 @@ and analogous records.
 
 While link-format and Link headers look very similar and are based on the same
 model of typed links, there are some differences between {{RFC6690}} and
-{{RFC5988}} that should be kept in mind when using or implementing a Resource
-Directory:
+{{RFC5988}}, which are dealt with differently:
+
+* "Resolving the target against the anchor":
+  {{RFC6690}} Section 2.1 states that the anchor of a link is used the Base URI
+  against which the term inside the angle brackets (the target) is resolved.
+  {{RFC8288}} Section B.2 describes that the anchor is immaterial to the
+  resolution of the target reference.
+
+  In the context of a Resource Directory, the authors decided not to not let
+  this become an issue by requiring that RFC6690 serialized links bearing an
+  anchor attribute have absolute target references.
+
+  Applications that would prefer to transport references with a relative target
+  and an absolute anchor are advised to use a different serialization of the
+  links. {{I-D.ietf-core-links-json}} might provide such formats.
 
 * There is no percent encoding in link-format documents.
 
@@ -2579,20 +2625,12 @@ Directory:
 
   `</temperature/Malmö>;rel="live-environment-data"`
 
+  Parsers and producers of link-format and header data need to be aware of this
+  difference.
+
   <!-- The title conversion follows the rule of the text RFC6690 section 2; I
   doubt that's the intention, though, as it spills at semicolons/commas and
   does not match the ext-value ABNF. -->
-
-* In a link-format document, if the anchor attribute is present, the link target reference is resolved
-  by using the the (resolved) anchor value as Base URI for that link,
-  while in Link headers, it is resolved against the URI of the
-  requested document.
-
-  This is explicit in {{RFC6690}} section 2.1 for link-format, and spelled out
-  in section B.2 of {{I-D.nottingham-rfc5988bis}} <!-- "Parsing a
-  Link Field Value -->,
-  which obsoletes the older {{RFC5988}}.
-  {{RFC6690}} is based on {{RFC5988}} and has not been updated with clarifications from {{I-D.nottingham-rfc5988bis}}.
 
 # Syntax examples for Protocol Negotiation
 
@@ -2625,7 +2663,7 @@ A UDP client would then query:
 Req: GET /rd-lookup/res?rt=temperature
 
 Res: 2.05 Content
-</temperature>;ct=0;rt="temperature";if="core.s";
+<coap://[2001:db8:f1::2]/temperature>;ct=0;rt="temperature";if="core.s";
     anchor="coap://[2001:db8:f1::2]"
 ~~~~
 
@@ -2635,8 +2673,8 @@ while a TCP capable client could say:
 Req: GET /rd-lookup/res?rt=temperature&tt=tcp
 
 Res: 2.05 Content
-</temperature>;ct=0;rt="temperature";if="core.s";
-    anchor="coap+tcp://[2001:db8:f1::2]"
+<coap+tcp://[2001:db8:f1::2]/temperature>;ct=0;rt="temperature";
+    if="core.s";anchor="coap+tcp://[2001:db8:f1::2]"
 ~~~~
 
 
