@@ -2196,6 +2196,14 @@ originally developed.
 
 # Changelog
 
+changes from -12 to -13
+
+* Added "all resource directory" nodes MC address 
+* example rt= and et= values
+* domain from figure 2
+* more explanatory text
+* endpoints of a groups hosted by different RD
+
 changes from -11 to -12
 
 * added Content Model section, including ER diagram
