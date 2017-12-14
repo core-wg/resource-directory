@@ -278,8 +278,8 @@ provided using the CoRE Link Format.
                +------------+
                |   Group    | <-- Name, Scheme, IP, Port
                +------------+
-                     |     
-                     | 
+                     |
+                     |
                +------------+
                |  Endpoint  |  <-- Name, Scheme, IP, Port
                +------------+
@@ -1245,7 +1245,7 @@ CoAP, a group MAY have a multicast address associated with it.
 In order to create a group, a commissioning tool (CT) used to configure groups,
 makes a request to the RD indicating the name of the group to create (or
 update), optionally the domain the group belongs to, and optionally the multicast
-address of the group. This specification does not require that the endpoints belong to the same domain as the group, but a Resource Directory implementation can impose requirements on the domains of groups and endpoints depending on its configuration. 
+address of the group. This specification does not require that the endpoints belong to the same domain as the group, but a Resource Directory implementation can impose requirements on the domains of groups and endpoints depending on its configuration.
 
 The registration message is a list of links to
 registration resources of the endpoints that belong to that group.
@@ -2198,7 +2198,7 @@ originally developed.
 
 changes from -12 to -13
 
-* Added "all resource directory" nodes MC address 
+* Added "all resource directory" nodes MC address
 * example rt= and et= values
 * domain from figure 2
 * more explanatory text
