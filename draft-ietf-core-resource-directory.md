@@ -1251,7 +1251,7 @@ The registration message is a list of links to
 registration resources of the endpoints that belong to that group.
 
 The commissioning tool SHOULD not send any target attributes with the links to the registration resources,
-and the resource directory SHOULD ignore any attributes that are set.
+and the resource directory SHOULD reject registrations that contain links with unprocessable attributes.
 
 Configuration of the endpoints themselves is out of
 scope of this specification. Such an interface for managing the group membership
