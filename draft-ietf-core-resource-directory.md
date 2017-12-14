@@ -236,8 +236,8 @@ An endpoint is a web server associated with a scheme, IP address and port, thus 
 RD implements a set of REST interfaces for endpoints to register and maintain
 sets of Web Links (called resource directory registration entries), and for clients to
 lookup resources from the RD or maintain groups. Endpoints themselves can
-also act as clients. An RD can be logically segmented by the use of Domains.
-The domain an endpoint is associated with can be defined by the RD or configured
+also act as clients. An RD can be logically segmented by the use of Groups.
+The group an endpoint is part of, can be defined by the RD or configured
 by an outside entity. This information hierarchy is shown in {{fig-hierarchy}}.
 
 A mechanism to discover an RD using CoRE Link Format {{RFC6690}} is defined.
@@ -276,13 +276,10 @@ provided using the CoRE Link Format.
 
 ~~~~
                +------------+
-               |   Domain   | <-- Name
+               |   Group    | <-- Name, Scheme, IP, Port
                +------------+
-                    |     |
-                    |   +------------+
-                    |   |   Group    | <-- Name, Scheme, IP, Port
-                    |   +------------+
-                    |     |
+                     |     
+                     | 
                +------------+
                |  Endpoint  |  <-- Name, Scheme, IP, Port
                +------------+
@@ -552,7 +549,7 @@ suggests a number of candidates:
 * In a network that supports multicast well, discovering the RD using
   a multicast query for /.well-known/core as specified in CoRE Link
   Format {{RFC6690}}: Sending a Multicast GET to
-  `coap://[ff02::1]/.well-known/core?rt=core.rd*`.  RDs within the
+  `coap://[MCD1]/.well-known/core?rt=core.rd*`.  RDs within the
   multicast scope will answer the query.
 
 As some of the RD addresses obtained by the methods listed here are
@@ -726,7 +723,7 @@ content-format delivered by the server hosting the resource is application/link-
 (ct=40).  Note that it is up to the RD to choose its RD resource paths.
 
 ~~~~
-Req: GET coap://[ff02::1]/.well-known/core?rt=core.rd*
+Req: GET coap://[MCD1]/.well-known/core?rt=core.rd*
 
 Res: 2.05 Content
 </rd>;rt="core.rd";ct=40,
@@ -751,7 +748,7 @@ application/link-format+cbor and application/link-format+json, respectively, as
 they are defined in I-D.ietf-core-links-json. \]
 
 ~~~~
-Req: GET coap://[ff02::1]/.well-known/core?rt=core.rd*
+Req: GET coap://[MCD1]/.well-known/core?rt=core.rd*
 
 Res: 2.05 Content
 </rd>;rt="core.rd";ct="40 65225",
@@ -975,10 +972,12 @@ tool can fill the Resource Directory from a database or other means. For
 that purpose the scheme, IP address and port of the registered device is
 indicated in the Context parameter of the registration described in {{registration}}.
 
+It should be noted that the value of the con parameter applies to all the links of the registration and has consequences for the anchor value of the individual links as exemplified in {{weblink}}. An eventual (currently non-existing) con attribute of the link is not affected by the value of con parameter in the registration.
+
 
 ## Operations on the Registration Resource
 
-After the initial registration, an endpoint should retain the returned location of the Registration Resource for further operations, including refreshing the registration in order to extend the lifetime and "keep-alive" the registration. When the lifetime of the registration has expired, the RD SHOULD NOT respond to discovery queries concerning this endpoint. The RD SHOULD continue to provide access to the Registration Resource after a registration time-out occurs in order to enable the registering endpoint to eventually refresh the registration. The RD MAY eventually remove the registration resource for the purpose of resource recovery and garbage collection. If the Registration Resource is removed, the endpoint will need to re-register.
+After the initial registration, an endpoint should retain the returned location of the Registration Resource for further operations, including refreshing the registration in order to extend the lifetime and "keep-alive" the registration. When the lifetime of the registration has expired, the RD SHOULD NOT respond to discovery queries concerning this endpoint. The RD SHOULD continue to provide access to the Registration Resource after a registration time-out occurs in order to enable the registering endpoint to eventually refresh the registration. The RD MAY eventually remove the registration resource for the purpose of garbage collection and remove it from any group it belongs to. If the Registration Resource is removed, the endpoint will need to re-register.
 
 The Registration Resource may also be used to inspect the registration resource using GET, update the registration, or cancel the registration using DELETE.
 
@@ -1246,11 +1245,14 @@ CoAP, a group MAY have a multicast address associated with it.
 In order to create a group, a commissioning tool (CT) used to configure groups,
 makes a request to the RD indicating the name of the group to create (or
 update), optionally the domain the group belongs to, and optionally the multicast
-address of the group. The registration message is a list of links to
+address of the group. This specification does not require that the endpoints belong to the same domain as the group, but a Resource Directory implementation can impose requirements on the domains of groups and endpoints depending on its configuration. 
+
+The registration message is a list of links to
 registration resources of the endpoints that belong to that group.
+The endpoints MAY be hosted by a different RD than the the group hosting RD. In that case the endpoint link SHOULD contain an "anchor=" attribute.
 
 The commissioning tool SHOULD not send any target attributes with the links to the registration resources,
-and the resource directory SHOULD ignore any attributes that are set.
+and the resource directory SHOULD reject registrations that contain links with unprocessable attributes.
 
 Configuration of the endpoints themselves is out of
 scope of this specification. Such an interface for managing the group membership
@@ -1321,7 +1323,7 @@ Req: POST coap://rd.example.com/rd-group?gp=lights
                                   &con=coap://[ff35:30:2001:db8::1]
 Content-Format: 40
 Payload:
-</rd/4521>,
+</rd/4521>;anchor="coap://other-rd",
 </rd/4522>
 
 Res: 2.01 Created
@@ -1558,16 +1560,16 @@ Payload:
 </east>;rt="light";anchor="coap://[2001:db8:3::124]"
 ~~~~
 
-The following example shows a client performing an endpoint type lookup:
+The following example shows a client performing an endpoint type lookup with  the value oic.d.sensor (which is currently a registered rt value):
 
 ~~~~
-Req: GET /rd-lookup/ep?et=power-node
+Req: GET /rd-lookup/ep?et=oic.d.sensor
 
 Res: 2.05 Content
 </rd/1234>;con="coap://[2001:db8:3::127]:61616";ep="node5";
-et="power-node";ct="40";lt="600",
+et="oic.d.sensor";ct="40";lt="600",
 </rd/4521>;con="coap://[2001:db8:3::129]:61616";ep="node7";
-et="power-node";ct="40";lt="600";d="floor-3"
+et="oic.d.sensor";ct="40";lt="600";d="floor-3"
 ~~~~
 
 The following example shows a client performing a group lookup for all groups:
@@ -1581,14 +1583,16 @@ Res: 2.05 Content
 ~~~~
 
 The following example shows a client performing a lookup for all endpoints
-in a particular group:
+in a particular group, with one endpoint hosted by another RD:
 
 ~~~~
 Req: GET /rd-lookup/ep?gp=lights1
 
 Res: 2.05 Content
-</rd/abcd>;con="coap://[2001:db8:3::123]:61616";ep="node1";et="power-node";ct="40";lt="600",
-</rd/efgh>;con="coap://[2001:db8:3::124]:61616";ep="node2";et="power-node";ct="40";lt="600"
+</rd/abcd>;con="coap://[2001:db8:3::123]:61616";
+anchor="coap://[other-rd];ep="node1";et="oic.d.sensor";ct="40";lt="600",
+</rd/efgh>;con="coap://[2001:db8:3::124]:61616";
+ep="node2";et="oic.d.sensor";ct="40";lt="600"
 ~~~~
 
 The following example shows a client performing a lookup for all groups the
@@ -1633,7 +1637,7 @@ It demonstrates how the link targets stay unmodified, but the anchors get
 constructed by the resource directory:
 
 ~~~~
-Req: GET /rd-lookup/res?et=sensor-node
+Req: GET /rd-lookup/res?et=oic.d.sensor
 
 </sensors>;ct=40;title="Sensor Index";
     anchor="coap://sensor1.example.com",
@@ -1821,6 +1825,24 @@ The requirements to be enforced are:
 * It is recommended to use the period "." character for segmentation.
 
 The registry is initially empty.
+
+
+## Multicast Address Registration {#mc-registration}
+
+   IANA has
+   assigned the following multicast addresses for use by CoAP nodes:
+
+   IPv4  -- "all CoRE resource directories" address, from the "IPv4
+      Multicast Address Space Registry" equal to "All CoAP Nodes", 224.0.1.187.  As the address is used for
+      discovery that may span beyond a single network, it has come from
+      the Internetwork Control Block (224.0.1.x, RFC 5771).
+
+   IPv6  -- "all CoRE resource directories" address MCD1 (uggestions FF0X::FE), from the "IPv6 Multicast
+      Address Space Registry", in the "Variable Scope Multicast
+      Addresses" space (RFC 3307).  Note that there is a distinct
+      multicast address for each scope that interested CoAP nodes should
+      listen to; CoAP needs the Link-Local and Site-Local scopes only.
+
 
 # Examples {#examples}
 
@@ -2174,6 +2196,14 @@ originally developed.
 
 # Changelog
 
+changes from -12 to -13
+
+* Added "all resource directory" nodes MC address 
+* example rt= and et= values
+* domain from figure 2
+* more explanatory text
+* endpoints of a groups hosted by different RD
+
 changes from -11 to -12
 
 * added Content Model section, including ER diagram
@@ -2368,7 +2398,7 @@ Changes from -01 to -02:
 
 --- back
 
-# Web links and the Resource Directory
+# Web links and the Resource Directory {#weblink}
 
 Understanding the semantics of a link-format document and its URI references is
 a journey through different documents ({{RFC3986}} defining URIs, {{RFC6690}}
