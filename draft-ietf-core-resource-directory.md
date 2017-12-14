@@ -1562,16 +1562,16 @@ Payload:
 </east>;rt="light";anchor="coap://[2001:db8:3::124]"
 ~~~~
 
-The following example shows a client performing an endpoint type lookup:
+The following example shows a client performing an endpoint type lookup with  the value oic.d.sensor (which is currently a registered rt value):
 
 ~~~~
-Req: GET /rd-lookup/ep?et=power-node
+Req: GET /rd-lookup/ep?et=oic.d.sensor
 
 Res: 2.05 Content
 </rd/1234>;con="coap://[2001:db8:3::127]:61616";ep="node5";
-et="power-node";ct="40";lt="600",
+et="oic.d.sensor";ct="40";lt="600",
 </rd/4521>;con="coap://[2001:db8:3::129]:61616";ep="node7";
-et="power-node";ct="40";lt="600";d="floor-3"
+et="oic.d.sensor";ct="40";lt="600";d="floor-3"
 ~~~~
 
 The following example shows a client performing a group lookup for all groups:
@@ -1591,8 +1591,10 @@ in a particular group:
 Req: GET /rd-lookup/ep?gp=lights1
 
 Res: 2.05 Content
-</rd/abcd>;con="coap://[2001:db8:3::123]:61616";ep="node1";et="power-node";ct="40";lt="600",
-</rd/efgh>;con="coap://[2001:db8:3::124]:61616";ep="node2";et="power-node";ct="40";lt="600"
+</rd/abcd>;con="coap://[2001:db8:3::123]:61616";
+ep="node1";et="oic.d.sensor";ct="40";lt="600",
+</rd/efgh>;con="coap://[2001:db8:3::124]:61616";
+ep="node2";et="oic.d.sensor";ct="40";lt="600"
 ~~~~
 
 The following example shows a client performing a lookup for all groups the
@@ -1637,7 +1639,7 @@ It demonstrates how the link targets stay unmodified, but the anchors get
 constructed by the resource directory:
 
 ~~~~
-Req: GET /rd-lookup/res?et=sensor-node
+Req: GET /rd-lookup/res?et=oic.d.sensor
 
 </sensors>;ct=40;title="Sensor Index";
     anchor="coap://sensor1.example.com",
