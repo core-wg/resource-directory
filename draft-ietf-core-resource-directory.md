@@ -155,7 +155,7 @@ resolve against
 :   The expression "a URI-reference is *resolved against* a base URI" is used
 to describe the process of {{RFC3986}} Section 5.2. Noteworthy corner cases are
 that resolving an absolute URI against any base URI gives the original URI, and
-that resolving the an empty URI reference gives the base URI.
+that resolving an empty URI reference gives the base URI.
 
 Resource Directory
 :   A web entity that stores information about web resources and implements the
@@ -359,7 +359,7 @@ A link has the following attributes:
 
  If there is an anchor attribute present
  and the link is serialized in {{RFC6690}} link format,
- this document will require that is an absolute reference to avoid the
+ this document will require that the link is an absolute reference to avoid the
  ambiguities outlined in {{resolution-rules}}.
 
  Otherwise, it can be serialized as a relative URI,
@@ -899,7 +899,8 @@ is an example RD location discovered in a request similar to {{example-discovery
 Req: POST coap://rd.example.com/rd?ep=node1
 Content-Format: 40
 Payload:
-</sensors/temp>;ct=41;rt="temperature-c";if="sensor",
+</sensors/temp>;ct=41;rt="temperature-c";if="sensor";
+      anchor="coap://spurious.example.com:5683",
 </sensors/light>;ct=41;rt="light-lux";if="sensor"
 
 Res: 2.01 Created
@@ -915,7 +916,8 @@ Host : example.com
 Content-Type: application/link-format+json
 Payload:
 [
-{"href": "/sensors/temp", "ct": "41", "rt": "temperature-c", "if": "sensor"},
+{"href": "/sensors/temp", "ct": "41", "rt": "temperature-c", "if": "sensor",
+ "anchor": "coap://spurious.example.com:5683"},
 {"href": "/sensors/light", "ct": "41", "rt": "light-lux", "if": "sensor"}
 ]
 
@@ -1107,7 +1109,7 @@ Req: GET /rd-lookup/res?ep=endpoint1
 Res: 2.01 Content
 Payload:
 <coap://local-proxy-old.example.com:5683/sensors/temp>;ct=41;rt="temperature";
-    anchor="coap://local-proxy-old.example.com:5683",
+    anchor="coap://spurious.example.com:5683",
 <coap://local-proxy-old.example.com:5683/sensors/light>;ct=41;rt="light-lux";
     if="sensor";anchor="coap://local-proxy-old.example.com:5683"
 ~~~~
@@ -1128,7 +1130,7 @@ Req: GET /rd-lookup/res?ep=endpoint1
 Res: 2.01 Content
 Payload:
 <coaps://new.example.com:5684/sensors/temp>;ct=41;rt="temperature";
-    anchor="coaps://new.example.com:5684",
+    anchor="coap://spurious.example.com:5683",
 <coaps://new.example.com:5684/sensors/light>;ct=41;rt="light-lux";if="sensor";
     anchor="coaps://new.example.com:5684",
 ~~~~
@@ -1237,7 +1239,8 @@ Req: GET /rd/4521
 
 Res: 2.01 Content
 Payload:
-</sensors/temp>;ct=41;rt="temperature-c";if="sensor",
+</sensors/temp>;ct=41;rt="temperature-c";if="sensor";
+anchor="coap://spurious.example.com:5683",
 </sensors/light>;ct=41;rt="light-lux";if="sensor"
 ~~~~
 
@@ -1662,7 +1665,7 @@ addresses `coap://sensor1.example.com` and `coap://sensor2.example.com`, and
 posted the very payload of the 6th request of section 5 of {{RFC6690}}.
 
 Note that said content is in violation of the rule against relative references
-in presence of the anchor attribute; the server accepted it in this case
+in presence of the anchor attribute; the server accepted it
 because no ambiguity is created in this particular case.
 
 It demonstrates how absolute link targets stay unmodified, while relative ones
