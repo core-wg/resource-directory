@@ -1347,7 +1347,7 @@ Res: 2.01 Created
 Location: /rd-group/12
 ~~~~
 
-The href value is the path to the registration resource of the Endpoint.
+The href value is the path to the registration resource of the Endpoint. When pointing to a registration resource on a different RD, the href value is an absolute URI. 
 
 ## Group Removal {#group-removal}
 
@@ -1610,7 +1610,7 @@ in a particular group, with one endpoint hosted by another RD:
 Req: GET /rd-lookup/ep?gp=lights1
 
 Res: 2.05 Content
-</rd/abcd>;con="coap://[2001:db8:3::123]:61616";
+<coap://[other-rd]/rd/abcd>;con="coap://[2001:db8:3::123]:61616";
 anchor="coap://[other-rd];ep="node1";et="oic.d.sensor";ct="40";lt="600",
 </rd/efgh>;con="coap://[2001:db8:3::124]:61616";
 ep="node2";et="oic.d.sensor";ct="40";lt="600"
