@@ -1347,7 +1347,7 @@ Res: 2.01 Created
 Location: /rd-group/12
 ~~~~
 
-The href value is the path to the registration resource of the Endpoint. When pointing to a registration resource on a different RD, the href value is an absolute URI. 
+The href value is the path to the registration resource of the Endpoint. When pointing to a registration resource on a different RD, the href value is an absolute URI.
 
 ## Group Removal {#group-removal}
 
