@@ -764,6 +764,29 @@ Res: 2.05 Content
 </rd-group>;rt="core.rd-group";ct="40 TBD64 TBD504"
 ~~~~
 
+At the same location where URI discovery happens,
+a user who wants to debug interoperability issues can ask for additional information
+that might be available about the server
+using generic resource discovery techniques.
+That information would typically be stored in an implementation information link
+(as described in {{?I-D.bormann-t2trg-rel-impl}}):
+
+~~~~
+Req: GET /.well-known/core?rel=impl-info
+
+Res: 2.05 Content
+<http://software.example.com/shiny-resource-directory/1.0beta1>;
+    rel="impl-info"
+~~~~
+
+Note that depending on the particular server's architecture,
+such a link could be anchored at the server's root,
+at the discovery site (as in this example) or
+at individual RD components.
+The latter is to be expected when different applications
+are run on the same server.
+
+
 ## Registration {#registration}
 
 After discovering the location of an RD, an endpoint MAY
