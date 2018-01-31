@@ -1464,6 +1464,14 @@ or any future mechanism that might allow more efficient observations of collecti
 These are advertised, detected and used according to their own specifications
 and can be used with the lookup interface as with any other resource.
 
+When resource observation is used, the following convention MUST be followed: 
+
+* When /rd-lookup/res does not exist, the response code 4.04 (Not Found) is returned and the request is not registered. 
+* When rd-lookup/res exists, the request is registered in the list of subjects and observers.
+* When none of the links matches the filter, an empty payload with response code 2.03 (Valid) is returned.
+* In all other cases, the set of matching links is returned in the payload with response code 2.05 (Content).
+* Every time, the set of matching links changes, or the content of a matching link changes, the RD sends a notification with the matching link set.
+
 The lookup interface is specified as follows:
 
 Interaction:
