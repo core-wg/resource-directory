@@ -791,9 +791,13 @@ The RD server needs to resolve these references in order to faithfully represent
 The Base URI against which they are resolved is the context of the registration,
 which is provided either explicitly in the `con` parameter or constructed implicitly from the requester's network address.
 
-Documents in {{RFC6690}} Link Format MUST NOT contain links
-whose target is a relative reference and whose anchor attribute is present
-to avoid the ambiguities described in {{resolution-rules}}.
+Documents in {{RFC6690}} Link Format SHOULD NOT contain links
+in which resolving the target literal against the base URI gives a different result than resolving it against the resolved anchor;
+this is to avoid the ambiguities described in {{resolution-rules}}.
+Records in which there is no anchor attribute,
+records in which the target is an absolute reference and
+records in which both the target and the anchor start with a slash ("/")
+never cause that kind of ambiguity.
 
 The registration request interface is specified as follows:
 
@@ -2614,8 +2618,9 @@ model of typed links, there are some differences between {{RFC6690}} and
   resolution of the target reference.
 
   In the context of a Resource Directory, the authors decided not to not let
-  this become an issue by requiring that RFC6690 serialized links bearing an
-  anchor attribute have absolute target references.
+  this become an issue by requiring that RFC6690 links be serialized in a way
+  that either rule set can be applied and give the same results.
+  Note that all examples of {{RFC6690}}, {{RFC8288}} and this document comply with that rule.
 
   Applications that would prefer to transport references with a relative target
   and an absolute anchor are advised to use a different serialization of the
