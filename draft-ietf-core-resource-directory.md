@@ -764,11 +764,12 @@ Res: 2.05 Content
 </rd-group>;rt="core.rd-group";ct="40 TBD64 TBD504"
 ~~~~
 
-At the same location where URI discovery happens,
-a user who wants to debug interoperability issues can ask for additional information
-that might be available about the server
-using generic resource discovery techniques.
-That information would typically be stored in an implementation information link
+A user can introspect the server
+for implementation information to ease debugging
+by using the URI discovery address
+as described in {{RFC6690}} Section 4.
+Information about the used software
+would typically be stored in an implementation information link
 (as described in {{?I-D.bormann-t2trg-rel-impl}}):
 
 ~~~~
