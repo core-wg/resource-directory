@@ -807,8 +807,6 @@ with the same endpoint parameters ep and d does not create multiple registration
 A new registration resource may be created at any time to supersede an existing registration,
 replacing the registration parameters and links.
 
-An empty payload is considered a malformed request.
-
 The posted link-format document can (and typically does) contain relative references
 both in its link targets and in its anchors, or contain empty anchors.
 The RD server needs to resolve these references in order to faithfully represent them in lookups.
