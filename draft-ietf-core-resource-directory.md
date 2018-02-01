@@ -1470,6 +1470,11 @@ While Endpoint Lookup does expose the registration resources,
 the RD does not need to make them accessible to clients.
 Clients SHOULD NOT attempt to dereference or manipulate them.
 
+For groups, a Resource Directory as specified here
+does not provide a lookup mechanism for the resources that can be accessed on a group's multicast address
+(ie. no lookup will return links like `<coap://[ff35:30:2001:db8::1]/light>;...` for a group registered with `con=coap://[ff35...]`).
+Such an additional lookup interface could be specified in an extension document.
+
 ## Lookup filtering
 
 Using the Accept Option, the requester can control whether this list is returned in CoRE Link Format (`application/link-format`, default) or its alternate content-formats (`application/link-format+json` or `application/link-format+cbor`).
