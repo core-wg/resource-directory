@@ -1446,7 +1446,7 @@ Clients SHOULD NOT attempt to dereference or manipulate them.
 
 For groups, a Resource Directory as specified here
 does not provide a lookup mechanism for the resources that can be accessed on a group's multicast address
-(ie. no lookup will return links like `<coap://[ff35:30:2001:db8::1]/light>;...` for a group registered with `con=copa://[ff35...]`).
+(ie. no lookup will return links like `<coap://[ff35:30:2001:db8::1]/light>;...` for a group registered with `con=coap://[ff35...]`).
 Such an additional lookup interface could be specified in an extension document.
 
 ## Lookup filtering
