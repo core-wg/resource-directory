@@ -764,11 +764,13 @@ Res: 2.05 Content
 </rd-group>;rt="core.rd-group";ct="40 TBD64 TBD504"
 ~~~~
 
-A user can introspect the server
-for implementation information to ease debugging
-by using the URI discovery address
-as described in {{RFC6690}} Section 4.
-Information about the used software
+From a management and maintenance perspective,
+it is necessary to identify the components that constitute the server.
+The identification refers to information about for example client-server incompatibilities,
+supported features, required updates and other aspects.
+The URI discovery address, a described in section 4 of {{RFC6690}} can be used to find the identification.
+
+It
 would typically be stored in an implementation information link
 (as described in {{?I-D.bormann-t2trg-rel-impl}}):
 
