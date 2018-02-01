@@ -1676,10 +1676,6 @@ names `sensor1` and `sensor2`) have previously registered with their respective
 addresses `coap://sensor1.example.com` and `coap://sensor2.example.com`, and
 posted the very payload of the 6th request of section 5 of {{RFC6690}}.
 
-Note that said content is in violation of the rule against relative references
-in presence of the anchor attribute; the server accepted it
-because no ambiguity is created in this particular case.
-
 It demonstrates how absolute link targets stay unmodified, while relative ones
 are resolved:
 
