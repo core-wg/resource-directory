@@ -673,7 +673,7 @@ parameter {{RFC6690}} with the value "core.rd" in the query string. Likewise, a
 Resource Type parameter value of "core.rd-lookup\*" is used to discover the
 URIs for RD Lookup operations, and "core.rd-group" is used to discover the URI path for RD
 Group operations. Upon success, the response will contain a payload with
-a link format entry for each RD function discovered, indicating the URI path
+a link format entry for each RD function discovered, indicating the URI
 of the RD function returned and the corresponding Resource Type. When performing
 multicast discovery, the multicast IP address used will depend on the scope required
 and the multicast capabilities of the network.
@@ -686,6 +686,12 @@ and well-known entry points SHOULD be provided to enable the bootstrapping of un
 
 An RD implementation of this specification MUST support query filtering for
 the rt parameter as defined in {{RFC6690}}.
+
+While the link targets in this discovery step are often expressed in path-absolute form,
+this is not a requirement.
+Clients SHOULD therefore accept URIs of all schemes they support,
+both in absolute and relative forms,
+and not limit the set of discovered URIs to those hosted at the address used for URI discovery.
 
 The URI Discovery operation can yield multiple URIs of a particular resource type.
 The client may use any of the discovered addresses initially.
@@ -1322,7 +1328,11 @@ address of the group. This specification does not require that the endpoints bel
 
 The registration message is a list of links to
 registration resources of the endpoints that belong to that group.
-The endpoints MAY be hosted by a different RD than the the group hosting RD. In that case the endpoint link points to the registration resource on the other RD.
+The registration resources MAY be located on different hosts than the group hosting RD.
+In that case the endpoint link points to the registration resource on the other RD.
+The commissioning tool SHOULD NOT attempt to enter a foreign registration in a group unless
+it found it in the group RD's lookup results,
+or has other reasons to assume that the foreign registration will be accepted.
 
 The commissioning tool SHOULD not send any target attributes with the links to the registration resources,
 and the resource directory SHOULD reject registrations that contain links with unprocessable attributes.
@@ -1499,6 +1509,10 @@ Group resources are annotated with their group names (gp), domain (d, if present
 While Endpoint Lookup does expose the registration resources,
 the RD does not need to make them accessible to clients.
 Clients SHOULD NOT attempt to dereference or manipulate them.
+
+A Resource Directory can report endpoints or groups in lookup that are not hosted at the same address.
+While the setup and management of such a distributed system is out of scope for this document,
+lookup clients MUST be prepared to see arbitrary URIs as registration or group resources in the results.
 
 ## Lookup filtering
 
