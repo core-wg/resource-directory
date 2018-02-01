@@ -568,6 +568,12 @@ host, or a CoAP error response code such as 4.05 "Method Not Allowed"
 may indicate unwillingness of a CoAP server to act as a directory
 server.
 
+
+If multiple candidate addresses are discovered, the device may pick any of them initially,
+unless the discovery method indicates a more precise selection scheme.
+<!-- Eg. if a hypothetical coap+dns-sd://service.example.com is configured
+as a starting point, the client should honor the SRV record's mechanisms -->
+
 ## Resource Directory Address Option (RDAO) {#rdao}
 
 The Resource Directory Address Option (RDAO) using IPv6 neighbor Discovery (ND) carries
@@ -680,6 +686,9 @@ and well-known entry points SHOULD be provided to enable the bootstrapping of un
 
 An RD implementation of this specification MUST support query filtering for
 the rt parameter as defined in {{RFC6690}}.
+
+The URI Discovery operation can yield multiple URIs of a particular resource type.
+The client may use any of the discovered addresses initially.
 
 The discovery request interface is specified as follows:
 
@@ -913,6 +922,24 @@ Failure:
 HTTP support:
 : YES
 
+If the registration fails with a Service Unavailable response
+and a Max-Age option or Retry-After header,
+the client SHOULD retry the operation after the time indicated.
+If the registration fails in another way, including request timeouts,
+if if the Service Unavailable error persists after several retries
+or indicates a longer time than the endpoint is willing to wait,
+it SHOULD pick another registration URI from the "URI Discovery" step
+and if there is only one or the list is exhausted,
+pick other choices from the "Finding a Resource Directory" step.
+Care has to be taken to consider the freshness of results obtained earlier,
+eg. of the result of a `/.well-known/core` response,
+the lifetime of an RDAO option and
+of DNS responses.
+Any rate limits and persistent errors from the "Finding a Resource Directory" step
+must be considered for the whole registration time,
+not only for a single operation.
+
+
 The following example shows an endpoint with the name "node1" registering
 two resources to an RD using this interface. The location "/rd"
 is an example RD location discovered in a request similar to {{example-discovery}}.
@@ -1105,6 +1132,13 @@ Failure:
 
 HTTP support:
 : YES
+
+If the registration update fails with a "Service Unavailable" response
+and a Max-Age option or Retry-After header,
+the client SHOULD retry the operation after the time indicated.
+If the registration fails in another way, including request timeouts,
+or if the time indicated excedes the remaining lifetime,
+the client SHOULD attempt registration again.
 
 
 The following example shows an endpoint updating its registration resource at
