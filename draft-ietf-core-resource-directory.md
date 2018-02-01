@@ -1823,6 +1823,7 @@ specification defines a basic set of parameters, it is expected that other
 standards that make use of this interface will define new ones.
 
 Each entry in the registry must include
+
 * the human readable name of the parameter,
 * the short name as used in query parameters or link attributes,
 * indication of whether it can be passed as a query parameter at registration of endpoints or groups, as a query parameter in lookups, or be expressed as a link attribute,
