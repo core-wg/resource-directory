@@ -932,7 +932,7 @@ If the registration fails with a Service Unavailable response
 and a Max-Age option or Retry-After header,
 the client SHOULD retry the operation after the time indicated.
 If the registration fails in another way, including request timeouts,
-if if the Service Unavailable error persists after several retries
+if the Service Unavailable error persists after several retries
 or indicates a longer time than the endpoint is willing to wait,
 it SHOULD pick another registration URI from the "URI Discovery" step
 and if there is only one or the list is exhausted,
