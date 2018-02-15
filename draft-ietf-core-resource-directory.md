@@ -568,6 +568,12 @@ host, or a CoAP error response code such as 4.05 "Method Not Allowed"
 may indicate unwillingness of a CoAP server to act as a directory
 server.
 
+
+If multiple candidate addresses are discovered, the device may pick any of them initially,
+unless the discovery method indicates a more precise selection scheme.
+<!-- Eg. if a hypothetical coap+dns-sd://service.example.com is configured
+as a starting point, the client should honor the SRV record's mechanisms -->
+
 ## Resource Directory Address Option (RDAO) {#rdao}
 
 The Resource Directory Address Option (RDAO) using IPv6 neighbor Discovery (ND) carries
@@ -667,7 +673,7 @@ parameter {{RFC6690}} with the value "core.rd" in the query string. Likewise, a
 Resource Type parameter value of "core.rd-lookup\*" is used to discover the
 URIs for RD Lookup operations, and "core.rd-group" is used to discover the URI path for RD
 Group operations. Upon success, the response will contain a payload with
-a link format entry for each RD function discovered, indicating the URI path
+a link format entry for each RD function discovered, indicating the URI
 of the RD function returned and the corresponding Resource Type. When performing
 multicast discovery, the multicast IP address used will depend on the scope required
 and the multicast capabilities of the network.
@@ -680,6 +686,15 @@ and well-known entry points SHOULD be provided to enable the bootstrapping of un
 
 An RD implementation of this specification MUST support query filtering for
 the rt parameter as defined in {{RFC6690}}.
+
+While the link targets in this discovery step are often expressed in path-absolute form,
+this is not a requirement.
+Clients SHOULD therefore accept URIs of all schemes they support,
+both in absolute and relative forms,
+and not limit the set of discovered URIs to those hosted at the address used for URI discovery.
+
+The URI Discovery operation can yield multiple URIs of a particular resource type.
+The client may use any of the discovered addresses initially.
 
 The discovery request interface is specified as follows:
 
@@ -810,8 +825,6 @@ with the same endpoint parameters ep and d does not create multiple registration
 A new registration resource may be created at any time to supersede an existing registration,
 replacing the registration parameters and links.
 
-An empty payload is considered a malformed request.
-
 The posted link-format document can (and typically does) contain relative references
 both in its link targets and in its anchors, or contain empty anchors.
 The RD server needs to resolve these references in order to faithfully represent them in lookups.
@@ -921,6 +934,24 @@ Failure:
 
 HTTP support:
 : YES
+
+If the registration fails with a Service Unavailable response
+and a Max-Age option or Retry-After header,
+the client SHOULD retry the operation after the time indicated.
+If the registration fails in another way, including request timeouts,
+if the Service Unavailable error persists after several retries
+or indicates a longer time than the endpoint is willing to wait,
+it SHOULD pick another registration URI from the "URI Discovery" step
+and if there is only one or the list is exhausted,
+pick other choices from the "Finding a Resource Directory" step.
+Care has to be taken to consider the freshness of results obtained earlier,
+eg. of the result of a `/.well-known/core` response,
+the lifetime of an RDAO option and
+of DNS responses.
+Any rate limits and persistent errors from the "Finding a Resource Directory" step
+must be considered for the whole registration time,
+not only for a single operation.
+
 
 The following example shows an endpoint with the name "node1" registering
 two resources to an RD using this interface. The location "/rd"
@@ -1115,6 +1146,13 @@ Failure:
 HTTP support:
 : YES
 
+If the registration update fails with a "Service Unavailable" response
+and a Max-Age option or Retry-After header,
+the client SHOULD retry the operation after the time indicated.
+If the registration fails in another way, including request timeouts,
+or if the time indicated excedes the remaining lifetime,
+the client SHOULD attempt registration again.
+
 
 The following example shows an endpoint updating its registration resource at
 an RD using this interface with the example location value: /rd/4521.
@@ -1297,7 +1335,11 @@ address of the group. This specification does not require that the endpoints bel
 
 The registration message is a list of links to
 registration resources of the endpoints that belong to that group.
-The endpoints MAY be hosted by a different RD than the the group hosting RD. In that case the endpoint link points to the registration resource on the other RD.
+The registration resources MAY be located on different hosts than the group hosting RD.
+In that case the endpoint link points to the registration resource on the other RD.
+The commissioning tool SHOULD NOT attempt to enter a foreign registration in a group unless
+it found it in the group RD's lookup results,
+or has other reasons to assume that the foreign registration will be accepted.
 
 The commissioning tool SHOULD not send any target attributes with the links to the registration resources,
 and the resource directory SHOULD reject registrations that contain links with unprocessable attributes.
@@ -1474,6 +1516,10 @@ Group resources are annotated with their group names (gp), domain (d, if present
 While Endpoint Lookup does expose the registration resources,
 the RD does not need to make them accessible to clients.
 Clients SHOULD NOT attempt to dereference or manipulate them.
+
+A Resource Directory can report endpoints or groups in lookup that are not hosted at the same address.
+While the setup and management of such a distributed system is out of scope for this document,
+lookup clients MUST be prepared to see arbitrary URIs as registration or group resources in the results.
 
 For groups, a Resource Directory as specified here
 does not provide a lookup mechanism for the resources that can be accessed on a group's multicast address
