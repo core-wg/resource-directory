@@ -427,7 +427,8 @@ A Group has no or one Multicast address attribute and is composed of 0 or more e
 * optional one d (domain for query filtering),
 * optional additional endpoint attributes (from {{iana-registry}})
 
-The cardinality of con is currently 1.
+The cardinality of con is currently 1;
+future documents are invited to extend the RD specification to support multiple values (eg. {{I-D.silverajan-core-coap-protocol-negotiation}}).
 Its value is used as a Base URI when resolving URIs in the links contained in the endpoint.
 
 Links are modelled as they are in {{fig-ER-WKC}}.
