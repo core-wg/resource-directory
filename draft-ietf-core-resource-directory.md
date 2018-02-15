@@ -1537,9 +1537,19 @@ Multiple search criteria MAY be included in a lookup. All included criteria MUST
 
 A link matches a search criterion if it has an attribute of the same name and the same value, allowing for a trailing "\*" wildcard operator as in Section 4.1 of {{RFC6690}}.
 Attributes that are defined as "link-type" match if the search value matches any of their values (see Section 4.1 of {{RFC6690}}; eg. `?if=core.s` matches `;if="abc core.s";`).
-A link also matches a search criterion if the link that would be produced for any of its containing entities would match the criterion, or an entity contained in it would: A search criterion matches an endpoint if it matches the endpoint itself, any of the groups it is contained in or any resource it contains. One on a resource matches if it matches the resource itself, the resource's endpoint, or any of the endpoint's groups.
 
-Note that `href` is also a valid search criterion and matches target references. Like all search criteria, on a resource lookup it can match the target reference of the resource link itself, but also the registration resource of the endpoint that registered it, or any group resource that endpoint is contained in.
+Search criteria whose names start with 'ep/', 'res/' or 'gp/' are compared not with the individual links,
+but with entities (endpoint, resource and group, respectively)
+connected to the looked up entity type with the "contains" or "composed of" relations in {{fig-ER-RD}}.
+Such criteria match if their remainder would match the link produced in the endpoint, resource or group lookup
+of any of the respective entities thusly connected.
+
+The prefixed forms can not be used to query the requested entity itself,
+ie. there MUST not be search criteria starting with 'ep/' in and endpoint lookup and so on.
+<!-- or we just drop this paragraph, and 'ep/' is implied for endpoint lookups and so forth -->
+
+Note that `href` is also a valid search criterion and matches target references.
+Like all search criteria, it can be prefixed, so for example `/rd-lookup/res?gp/href=/rd-group/123` matches all resource links whose endpoints are in the group with the group resource `/rd-group/123`.
 
 Clients that are interested in a lookup result repeatedly or continuously can use
 mechanisms like ETag caching, resource observation ({{RFC7641}}),
@@ -1693,7 +1703,7 @@ The following example shows a client performing a lookup for all endpoints
 in a particular group, with one endpoint hosted by another RD:
 
 ~~~~
-Req: GET /rd-lookup/ep?gp=lights1
+Req: GET /rd-lookup/ep?gp/gp=lights1
 
 Res: 2.05 Content
 <coap://[other-rd]/rd/abcd>;con="coap://[2001:db8:3::123]:61616";
@@ -1706,7 +1716,7 @@ The following example shows a client performing a lookup for all groups the
 endpoint "node1" belongs to:
 
 ~~~~
-Req: GET /rd-lookup/gp?ep=node1
+Req: GET /rd-lookup/gp?ep/ep=node1
 
 Res: 2.05 Content
 </rd-group/1>;gp="lights1"
@@ -1754,7 +1764,7 @@ It demonstrates how absolute link targets stay unmodified, while relative ones
 are resolved:
 
 ~~~~
-Req: GET /rd-lookup/res?et=oic.d.sensor
+Req: GET /rd-lookup/res?ep/et=oic.d.sensor
 
 <coap://sensor1.example.com/sensors>;ct=40;title="Sensor Index";
     anchor="coap://sensor1.example.com",
@@ -1900,9 +1910,8 @@ To which registrations they apply and when they are to be shown is described in 
 The IANA policy for future additions to the sub-registry is "Expert Review"
 as described in {{RFC8126}}. The evaluation should consider
 formal criteria,
-duplication of functionality (Is the new entry redundant with an existing one?),
-topical suitability (Eg. is the described property actually a property of the endpoint and not a property of a particular resource, in which case it should go into the payload of the registration and need not be registered?),
-and the potential for conflict with commonly used link attributes (For example, `if` could be used as a parameter for conditional registration if it were not to be used in lookup or attributes, but would make a bad parameter for lookup, because a resource lookup with an `if` query parameter could ambiguously filter by the registered endpoint property or the {{RFC6690}} link attribute).
+duplication of functionality (Is the new entry redundant with an existing one?) and
+topical suitability (Eg. is the described property actually a property of the endpoint and not a property of a particular resource, in which case it should go into the payload of the registration and need not be registered?).
 It is expected that the registry will receive between 5 and 50 registrations in total over the next years.
 
 ### Full description of the "Endpoint Type" Registration Parameter {#et-description}
@@ -2118,7 +2127,7 @@ and d=R2-4-015. The RD returns all endpoints in the domain.
 
 ~~~~
 Req: GET coap://[2001:db8:4::ff]/rd-lookup/ep
-  ?d=R2-4-015;rt=light
+  ?ep/d=R2-4-015&rt=light
 
 Res: 2.05 Content
 </rd/4521>;con="coap://[2001:db8:4::1]",
