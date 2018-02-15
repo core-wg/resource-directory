@@ -747,6 +747,7 @@ Section 7.2.1 of {{RFC7252}}, indicating that multiple content-formats are avail
 The example below shows the required Content-Format 40 (application/link-format)
 indicated as well as the the CBOR and JSON representation of link format.
 The RD resource paths /rd, /rd-lookup, and /rd-group are example values.
+The server in this example also indicates that it is capable of providing observation on resource lookups.
 
 \[ The RFC editor is asked to replace these and later occurrences of TBD64 and
 TBD504 with the numeric ID values assigned by IANA to
@@ -758,7 +759,7 @@ Req: GET coap://[MCD1]/.well-known/core?rt=core.rd*
 
 Res: 2.05 Content
 </rd>;rt="core.rd";ct="40 65225",
-</rd-lookup/res>;rt="core.rd-lookup-res";ct="40 TBD64 TBD504",
+</rd-lookup/res>;rt="core.rd-lookup-res";ct="40 TBD64 TBD504";obs,
 </rd-lookup/ep>;rt="core.rd-lookup-ep";ct="40 TBD64 TBD504",
 </rd-lookup/gp>;rt="core.rd-lookup-gp";ct=40 TBD64 TBD504",
 </rd-group>;rt="core.rd-group";ct="40 TBD64 TBD504"
@@ -1499,13 +1500,8 @@ or any future mechanism that might allow more efficient observations of collecti
 These are advertised, detected and used according to their own specifications
 and can be used with the lookup interface as with any other resource.
 
-When resource observation is used, the following convention MUST be followed: 
-
-* When /rd-lookup/res does not exist, the response code 4.04 (Not Found) is returned and the request is not registered. 
-* When rd-lookup/res exists, the request is registered in the list of subjects and observers.
-* When none of the links matches the filter, an empty payload with response code 2.03 (Valid) is returned.
-* In all other cases, the set of matching links is returned in the payload with response code 2.05 (Content).
-* Every time, the set of matching links changes, or the content of a matching link changes, the RD sends a notification with the matching link set.
+When resource observation is used,
+every time the set of matching links changes, or the content of a matching link changes, the RD sends a notification with the matching link set.
 
 The lookup interface is specified as follows:
 
