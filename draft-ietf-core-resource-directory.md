@@ -2730,12 +2730,11 @@ Until that document is update to use the latest resource-directory
 specification, here are some examples of protocol negotiation with the current
 Resource Directory:
 
-An endpoint could register as follows:
+An endpoint could register as follows from its address `[2001:db8:f1::2]:5683`:
 
 ~~~~
 Req: POST coap://rd.example.com/rd?ep=node1
     &at=coap+tcp://[2001:db8:f1::2]
-    &at=coap://[2001:db8:f1::2]
 Content-Format: 40
 Payload:
 </temperature>;ct=0;rt="temperature";if="core.s"
@@ -2744,7 +2743,17 @@ Res: 2.01 Created
 Location: /rd/1234
 ~~~~
 
-A UDP client would then query:
+An endpoint lookup would just reflect the registered attributes:
+
+~~~
+Req: GET /rd-lookup/ep
+
+Res: 2.05 Content
+</rd/1234>;ep="node1";con="coap://[2001:db8:f1::2]:5683";
+    at="coap+tcp://[2001:db8:f1::2]"
+~~~
+
+A UDP client would then see the following in a resource lookup:
 
 ~~~~
 Req: GET /rd-lookup/res?rt=temperature
