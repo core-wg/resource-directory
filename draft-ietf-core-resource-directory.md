@@ -2121,7 +2121,7 @@ and d=R2-4-015. The RD returns all endpoints in the domain.
 
 ~~~~
 Req: GET coap://[2001:db8:4::ff]/rd-lookup/ep
-  ?d=R2-4-015;rt=light
+  ?d=R2-4-015&rt=light
 
 Res: 2.05 Content
 </rd/4521>;con="coap://[2001:db8:4::1]",
@@ -2150,10 +2150,10 @@ Alternatively, the CT can communicate the multicast address directly to the
 luminaries by using the "coap-group" resource specified in {{RFC7390}}.
 
 ~~~~
-Req: POST //[2001:db8:4::1]/coap-group
-          Content-Format: application/coap-group+json
-       { "a": "[ff05::1]",
-          "n": "grp_R2-4-015"}
+Req: POST coap://[2001:db8:4::1]/coap-group
+Content-Format: application/coap-group+json
+Payload:
+{ "a": "[ff05::1]", "n": "grp_R2-4-015"}
 
 Res: 2.01 Created
 Location-Path: /coap-group/1
@@ -2625,7 +2625,7 @@ For the following queries, we will assume that the simple host has used Simple
 Registration to register at the resource directory that was announced to it,
 sending this request from its UDP port `[2001:db8:f0::1]:6553`:
 
-    POST coap://[2001:db8:f01::ff]/.well-known/core?ep-simple-host1
+    POST coap://[2001:db8:f01::ff]/.well-known/core?ep=simple-host1
 
 The resource directory would have accepted the registration, and queried the
 simple host's `.well-known/core` by itself. As a result, the host is registered
