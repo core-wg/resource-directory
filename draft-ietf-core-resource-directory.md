@@ -1549,6 +1549,9 @@ and can be used with the lookup interface as with any other resource.
 
 When resource observation is used,
 every time the set of matching links changes, or the content of a matching link changes, the RD sends a notification with the matching link set.
+The notification contains the successful current response to the given request,
+especially with respect to representing zero matching links
+(see "Success" item below).
 
 The lookup interface is specified as follows:
 
