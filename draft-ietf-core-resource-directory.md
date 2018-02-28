@@ -215,16 +215,15 @@ It provides a cache (in the high-level sense, not as defined in
 directly querying the /.well-known/core resource on the target device, or by
 accessing those resources with a multicast request.
 
-From that, it follows that no information should be stored in the resource
-directory that cannot be discovered from querying the described device's
+From that, it follows that only information should be stored in the resource
+directory that is discovered from querying the described device's
 /.well-known/core resource directly.
 
 It also follows that data in the resource directory can only be provided by the
 device whose descriptions are cached or a dedicated Commissioning Tool (CT).
 These CTs are thought to act on behalf agents too constrained, or generally
 unable, to present that information themselves. No other client can modify data
-in the resource directory or even expect those changes to propagate back to its
-source.
+in the resource directory. Changes in the Resource Directory do not propagate automatically back to its source.
 
 ## Architecture
 
@@ -232,26 +231,26 @@ The resource directory architecture is illustrated in {{fig-arch}}. A
 Resource Directory (RD) is used as a repository for Web Links {{RFC5988}}
 about resources hosted on other web servers, which are called endpoints
 (EP).
-An endpoint is a web server associated with a scheme, IP address and port, thus a physical node may host one or more endpoints. The
+An endpoint is a web server associated with a scheme, IP address and port. A physical node may host one or more endpoints. The
 RD implements a set of REST interfaces for endpoints to register and maintain
 sets of Web Links (called resource directory registration entries), and for clients to
 lookup resources from the RD or maintain groups. Endpoints themselves can
 also act as clients. An RD can be logically segmented by the use of Groups.
 The group an endpoint is part of, can be defined by the RD or configured
-by an outside entity. This information hierarchy is shown in {{fig-hierarchy}}.
+by a Commissioning Tool. This information hierarchy is shown in {{fig-hierarchy}}.
 
 A mechanism to discover an RD using CoRE Link Format {{RFC6690}} is defined.
 
 Endpoints proactively register and maintain resource directory registration entries
 on the RD, which are soft state and need to be periodically refreshed.
 
-An endpoint is provided with interfaces to register, update and remove a resource
+An endpoint uses specific interfaces to register, update and remove a resource
 directory registration entry. It is also possible for an RD to fetch Web Links
 from endpoints and add them as resource directory registration entries.
 
 At the first registration of a set of entries, a "registration resource" is created,
 the location of which is returned to the registering endpoint. The registering
-endpoint uses this registration resource to manage the contents of the registration entry.
+endpoint uses this registration resource to manage the contents of registration entries.
 
 A lookup interface for discovering any of the Web Links held in the RD is
 provided using the CoRE Link Format.
@@ -343,7 +342,7 @@ The host is free to choose links it deems appropriate to be exposed in its `.wel
 Typically, the links describe resources that are served by the host, but the set can also contain links to resources on other servers (see examples in {{RFC6690}} page 14).
 The set does not necessarily contain links to all resources served by the host.
 
-A link has the following attributes:
+A link has the following attributes (see {{RFC5988}}):
 
 * Zero or more link relations: They describe relations between the link context and the link target.
 
@@ -351,7 +350,7 @@ A link has the following attributes:
 
 * A link context URI: It defines the source of the relation, eg. *who* "hosts" something.
 
-  In link-format serialization, it is expressed in the "anchor" attribute. There, it can be a relative reference, in which case it gets resolved against the URI of the `.well-known/core` document it was obtained from <!-- or the / resource of said server: RFC6690bis anyone? -->. It defaults to that document's URI.
+  In link-format serialization, it is expressed in the "anchor" attribute. There, it can be a relative reference, in which case it gets resolved against the URI of the `.well-known/core` document it was obtained from. <!-- or the / resource of said server: RFC6690bis anyone? --> It defaults to that document's URI.
 
 * A link target URI: It defines the destination of the relation (eg. *what* is hosted), and is the topic of all target attributes.
 
@@ -457,7 +456,7 @@ update their registration and may modify resources they offer.
 
 When endpoints are not always connected, for example because they enter
 a sleep mode, a remote server is usually used to provide proxy access to
-the endpoints. Mobile apps or web applications for environment monitoring contact the RD, look up the endpoints capable of providing information about the environment using appropriate set of link parameters, obtain information on how to contact them (URLs of the proxy server) and then initiate interaction to obtain information that is finally processed, displayed on the screen and usually stored in a database. Similarly, fleet management systems provide
+the endpoints. Mobile apps or web applications for environment monitoring contact the RD, look up the endpoints capable of providing information about the environment using an appropriate set of link parameters, obtain information on how to contact them (URLs of the proxy server), and then initiate interaction to obtain information that is finally processed, displayed on the screen and usually stored in a database. Similarly, fleet management systems provide
 the appropriate link parameters to the RD to look up for EPs deployed on
 the vehicles the application is responsible for.
 
@@ -506,7 +505,7 @@ groups may defined to allow batched reads from multiple resources.
 
 # Finding a Resource Directory {#finding_an_rd}
 
-A device coming up may want to find one or more resource directories
+A (re-e)starting device may want to find one or more resource directories
 to make itself known with.
 
 The device may be pre-configured to exercise specific mechanisms for
@@ -682,10 +681,10 @@ and the multicast capabilities of the network.
 A Resource Directory MAY provide hints about the content-formats it supports in the links it exposes or registers, using the "ct" link attribute, as shown in the example below. Clients MAY use these hints to select alternate content-formats for interaction with the Resource Directory.
 
 HTTP does not support multicast and consequently only unicast discovery can be supported
-using HTTP. Links to Resource Directories MAY be registered in other Resource Directories,
-and well-known entry points SHOULD be provided to enable the bootstrapping of unicast discovery.
+using HTTP. Links to Resource Directories MAY be registered in other Resource Directories.
+The well-known entry points SHOULD be provided to enable the bootstrapping of unicast discovery.
 
-An RD implementation of this specification MUST support query filtering for
+An implementation of this  resource directory specification MUST support query filtering for
 the rt parameter as defined in {{RFC6690}}.
 
 While the link targets in this discovery step are often expressed in path-absolute form,
@@ -694,8 +693,8 @@ Clients SHOULD therefore accept URIs of all schemes they support,
 both in absolute and relative forms,
 and not limit the set of discovered URIs to those hosted at the address used for URI discovery.
 
-The URI Discovery operation can yield multiple URIs of a particular resource type.
-The client may use any of the discovered addresses initially.
+The URI Discovery operation can yield multiple URIs of a given resource type.
+The client can use any of the discovered addresses initially.
 
 The discovery request interface is specified as follows:
 
@@ -835,9 +834,10 @@ which is provided either explicitly in the `con` parameter or constructed implic
 Documents in {{RFC6690}} Link Format SHOULD NOT contain links
 in which resolving the target literal against the base URI gives a different result than resolving it against the resolved anchor;
 this is to avoid the ambiguities described in {{resolution-rules}}.
-Records in which there is no anchor attribute,
-records in which the target is an absolute reference and
-records in which both the target and the anchor start with a slash ("/")
+* Entries in which there is no anchor attribute,
+* entries in which the target is an absolute reference and
+* entries in which both the target and the anchor start with a slash ("/")
+
 never cause that kind of ambiguity.
 
 The registration request interface is specified as follows:
@@ -866,7 +866,7 @@ URI Template Variables:
     parameter is 63 bytes.
 
     If the RD is configured to recognize the endpoint (eg. based on its security context),
-    the endpoint can elide the endpoint name, and assign one based on the configuration parameter values.
+    the endpoint can ignore the endpoint name, and assign one based on a se of configuration parameter values.
 
   d :=
   : Domain (optional). The domain to which this endpoint belongs. The maximum
@@ -880,7 +880,7 @@ URI Template Variables:
 
   con :=
   : Context (optional). This parameter sets the Default Base URI under which
-    the request's links are to be interpreted. The URI MUST NOT have a path component of its own, but MUST be suitable as a base URI to resolve any relative references given in the registration. The parameter is therefore of the shape "scheme://authority" for
+    the request's links are to be interpreted. The specified URI MUST NOT have a path component of its own, but MUST be suitable as a base URI to resolve any relative references given in the registration. The parameter is therefore of the shape "scheme://authority" for
     HTTP and CoAP URIs.
 
     In the absence of this parameter the scheme of the protocol, source address
@@ -940,7 +940,7 @@ If the registration fails with a Service Unavailable response
 and a Max-Age option or Retry-After header,
 the client SHOULD retry the operation after the time indicated.
 If the registration fails in another way, including request timeouts,
-if the Service Unavailable error persists after several retries
+or if the Service Unavailable error persists after several retries,
 or indicates a longer time than the endpoint is willing to wait,
 it SHOULD pick another registration URI from the "URI Discovery" step
 and if there is only one or the list is exhausted,
@@ -969,6 +969,7 @@ Payload:
 Res: 2.01 Created
 Location: /rd/4521
 ~~~~
+{: #example-payload title="Example registration payload" }
 
 A Resource Directory may optionally support HTTP. Here is an example of almost the same registration operation above, when done using HTTP
 and the JSON Link Format.
@@ -1001,16 +1002,16 @@ The links in that document are subject to the same limitations as the payload of
 
 The endpoint then finds one or more addresses of the directory server as described in {{finding_an_rd}}.
 
-An endpoint finally asks the directory server to probe it for resources and publish them as follows:
+An endpoint finally asks the selected directory server to probe it for resources and publish them as follows:
 
-It sends (and regularly refreshes with) a POST
+The endpoint sends (and regularly refreshes with) a POST
 request to the `/.well-known/core` URI of the directory server of choice. The body of the POST request is empty, which triggers the resource
 directory server to perform GET requests at the requesting server's default
 discovery URI to obtain the link-format payload to register.
 
 The endpoint includes the same registration parameters in the POST request as it would per {{registration}}. The context of the registration is taken from the requesting server's URI.
 
-The endpoints MUST be deleted after the expiration of their lifetime. Additional operations cannot be executed because no registration location is returned.
+The endpoints MUST be deleted after the expiration of their lifetime. Additional operations on the registration resource cannot be executed because no registration location is returned.
 
 The following example shows an endpoint using Simple Registration,
 by simply sending an empty POST to a resource directory.
@@ -1078,7 +1079,7 @@ was given.
 If the context of the registration is changed in an update explicitly or implicitly,
 relative references submitted in the original registration or later updates are resolved anew against the new context (like in the original registration).
 
-This operation only describes the use of POST with an empty payload.
+The registration update operation only describes the use of POST with an empty payload.
 Future standards might describe the semantics of using content formats and payloads
 with the POST method to update the links of a registration (see {{link-up}}).
 
@@ -1170,6 +1171,7 @@ an RD using this interface with the example location value: /rd/4521. The initia
 * endpoint name (ep)=endpoint1
 * lifetime (lt)=500
 * context (con)=coap://local-proxy-old.example.com:5683
+* payload of {{example-payload}}
 
 The initial state of the Resource Directory is reflected in the following request:
 
@@ -1285,7 +1287,7 @@ URI Template Variables:
 
 : href,rel,rt,if,ct := link relations and attributes specified in the query in order to select particular links based on their relations and attributes. "href" denotes the URI target of the link. See {{RFC6690}} Sec. 4.1
 
-The following responses codes are defined for this interface:
+The following response codes are defined for this interface:
 
 Success:
 : 2.05 "Content" or 200 "OK" upon success with an `application/link-format`, `application/link-format+cbor`, or `application/link-format+json` payload.
@@ -1301,7 +1303,7 @@ Failure:
 
 HTTP support: YES
 
-The following examples show successful read of the endpoint links from the RD, with example location value /rd/4521.
+The following examples show successful read of the endpoint links from the RD, with example location value /rd/4521 and example registration payload of {{example-payload}}.
 
 
 ~~~~
@@ -1421,7 +1423,7 @@ Res: 2.01 Created
 Location: /rd-group/12
 ~~~~
 
-The href value is the path to the registration resource of the Endpoint. When pointing to a registration resource on a different RD, the href value is an absolute URI.
+A relative href value denotes the path to the registration resource of the Endpoint. When pointing to a registration resource on a different RD, the href value is an absolute URI.
 
 ## Group Removal {#group-removal}
 
@@ -1529,7 +1531,7 @@ Such an additional lookup interface could be specified in an extension document.
 
 ## Lookup filtering
 
-Using the Accept Option, the requester can control whether this list is returned in CoRE Link Format (`application/link-format`, default) or its alternate content-formats (`application/link-format+json` or `application/link-format+cbor`).
+Using the Accept Option, the requester can control whether the returned list is returned in CoRE Link Format (`application/link-format`, default) or its alternate content-formats (`application/link-format+json` or `application/link-format+cbor`).
 
 The page and count parameters are used to obtain lookup results in specified increments using pagination, where count specifies how many links to return and page specifies which subset of links organized in sequential pages, each containing 'count' links, starting with link zero and page zero. Thus, specifying count of 10 and page of 0 will return the first 10 links in the result set (links 0-9). Count = 10 and page = 1 will return the next 'page' containing links 10-19, and so on.
 
@@ -1537,7 +1539,7 @@ Multiple search criteria MAY be included in a lookup. All included criteria MUST
 
 A link matches a search criterion if it has an attribute of the same name and the same value, allowing for a trailing "\*" wildcard operator as in Section 4.1 of {{RFC6690}}.
 Attributes that are defined as "link-type" match if the search value matches any of their values (see Section 4.1 of {{RFC6690}}; eg. `?if=core.s` matches `;if="abc core.s";`).
-A link also matches a search criterion if the link that would be produced for any of its containing entities would match the criterion, or an entity contained in it would: A search criterion matches an endpoint if it matches the endpoint itself, any of the groups it is contained in or any resource it contains. One on a resource matches if it matches the resource itself, the resource's endpoint, or any of the endpoint's groups.
+A link also matches a search criterion if the link that would be produced for any of its containing entities would match the criterion, or an entity contained in it would: A search criterion matches an endpoint if it matches the endpoint itself, any of the groups it is contained in or any resource it contains. A serch criterion matches a resource if it matches the resource itself, the resource's endpoint, or any of the endpoint's groups.
 
 Note that `href` is also a valid search criterion and matches target references. Like all search criteria, on a resource lookup it can match the target reference of the resource link itself, but also the registration resource of the endpoint that registered it, or any group resource that endpoint is contained in.
 
@@ -1618,7 +1620,7 @@ HTTP support:
 
 ## Lookup examples
 
-The examples in this section assume CoAP hosts with a default CoAP port 61616. HTTP hosts are possible and do not change the nature of the examples.
+The examples in this section assume the existence of CoAP hosts with a default CoAP port 61616. HTTP hosts are possible and do not change the nature of the examples.
 
 The following example shows a client performing a resource lookup with the example resource look-up locations discovered in {{example-discovery}}:
 
@@ -1670,7 +1672,7 @@ Payload:
     anchor="coap://[2001:db8:3::124]"
 ~~~~
 
-The following example shows a client performing an endpoint type lookup with  the value oic.d.sensor (which is currently a registered rt value):
+The following example shows a client performing an endpoint type (et) lookup with  the value oic.d.sensor (which is currently a registered rt value):
 
 ~~~~
 Req: GET /rd-lookup/ep?et=oic.d.sensor
@@ -1700,7 +1702,7 @@ Req: GET /rd-lookup/ep?gp=lights1
 
 Res: 2.05 Content
 <coap://[other-rd]/rd/abcd>;con="coap://[2001:db8:3::123]:61616";
-anchor="coap://[other-rd];ep="node1";et="oic.d.sensor";ct="40";lt="600",
+anchor="coap://[other-rd]";ep="node1";et="oic.d.sensor";ct="40";lt="600",
 </rd/efgh>;con="coap://[2001:db8:3::124]:61616";
 ep="node2";et="oic.d.sensor";ct="40";lt="600"
 ~~~~
@@ -1803,7 +1805,7 @@ Certificate based security.
 
 Consider te following threat: two devices A and B are managed by a single server. Both devices have unique, per-device credentials for use with DTLS to make sure that only parties with authorization to access A or B can do so.
 
-Now, imagine that a malicious device A wants to sabotage the device B. It uses its credentials during the TLS exchange. Then, it puts the
+Now, imagine that a malicious device A wants to sabotage the device B. It uses its credentials during the DTLS exchange. Then, it puts the
 endpoint name of device B. If the server does not check
 whether the identifier provided in the DTLS handshake matches the
 identifier used at the CoAP layer then it may be inclined to use the
@@ -2047,8 +2049,8 @@ relevant to the Resource Directory are shown in {{endpoint}} below:
 | Presence sensor | ps_R2-4-015_door  | /ps  |  p-sensor  |
 {: #endpoint title='Resource Directory identifiers'}
 
-It is assumed that the CT knows of the RD's address, and has performed URI
-discovery on it that gave a response like the one in the {{discovery}} example.
+It is assumed that the CT knows the RD's address, and has performed URI
+discovery on it that returned a response like the one in the {{discovery}} example.
 
 The CT inserts the endpoints of the luminaries and the sensor in the RD
 using the Context parameter (con) to specify the interface address:
@@ -2124,9 +2126,9 @@ Req: GET coap://[2001:db8:4::ff]/rd-lookup/ep
   ?d=R2-4-015&rt=light
 
 Res: 2.05 Content
-</rd/4521>;con="coap://[2001:db8:4::1]",
+</rd/4521>;con="coap://[2001:db8:4::1]";
   ep="lm_R2-4-015_wndw",
-</rd/4522>;con="coap://[2001:db8:4::2]",
+</rd/4522>;con="coap://[2001:db8:4::2]";
    ep="lm_R2-4-015_door"
 ~~~~
 
@@ -2322,6 +2324,8 @@ originally developed.
 changes from -12 to -13
 
 * Added "all resource directory" nodes MC address
+* Clarified observation behavior
+* version identification
 * example rt= and et= values
 * domain from figure 2
 * more explanatory text
@@ -2686,7 +2690,7 @@ model of typed links, there are some differences between {{RFC6690}} and
 {{RFC5988}}, which are dealt with differently:
 
 * "Resolving the target against the anchor":
-  {{RFC6690}} Section 2.1 states that the anchor of a link is used the Base URI
+  {{RFC6690}} Section 2.1 states that the anchor of a link uses the Base URI
   against which the term inside the angle brackets (the target) is resolved.
   {{RFC8288}} Section B.2 describes that the anchor is immaterial to the
   resolution of the target reference.
