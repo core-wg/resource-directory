@@ -1240,7 +1240,7 @@ Success:
 : 2.02 "Deleted" or 204 "No Content" upon successful deletion
 
 Failure:
-: 4.00 "Bad Request" or 400 "Bad request". Malformed request.
+: 4.00 "Bad Request" or 400 "Bad Request". Malformed request.
 
 Failure:
 : 4.04 "Not Found" or 404 "Not Found". Registration does not exist (e.g. may have expired).
