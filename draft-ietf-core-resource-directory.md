@@ -55,12 +55,11 @@ author:
   uri: www.vanderstok.org
 - ins: C. Amsüss
   name: Christian Amsüss
-  organization: Energy Harvesting Solutions
   street: Hollandstr. 12/4
   code: '1020'
   country: Austria
   phone: "+43-664-9790639"
-  email: c.amsuess@energyharvesting.at
+  email: christian@amsuess.com
   role: editor
 normative:
   RFC6690:
