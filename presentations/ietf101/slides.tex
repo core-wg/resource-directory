@@ -1,0 +1,96 @@
+\documentclass{beamer}
+
+% generic packages
+
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+
+% about the presentation
+\title{Resource Directory}
+\subtitle{\texttt{draft-ietf-core-resource-directory\\draft-ietf-core-rd-dns-sd\\draft-amsuess-rd-replication}}
+\author{Zach Shelby, Michael Koster, Carsten Bormann, Peter~van~der~Stok, \textit{Christian Amsüss}\\Kerry Lynn}
+\date{2018-03-19}
+
+% used commands
+
+\usepackage{soul} % \st
+\usepackage{verbatim}
+
+% attach self
+
+\usepackage{embedfile}
+\embedfile{\jobname.tex}
+\embedfile{cloud.txt}
+
+\begin{document}
+
+\frame{\titlepage}
+
+\begin{frame}{Status}\begin{center}\Huge
+	pretty much ready
+\end{center}\end{frame}
+
+\begin{frame}{Issue tracker / pull requests}\begin{center}\Huge
+	107 down, \st{1 to go} 2 to go
+\end{center}\end{frame}
+
+\begin{frame}{Issue \#91}\begin{center}\Huge
+	{\Huge plug test upcoming}
+
+	\vspace{2cm}
+
+	\Large contact me: \href{mailto:c@amsuess.com}{\texttt{c@amsuess.com}}
+\end{center}\end{frame}
+
+\begin{frame}{Changes since -12}
+\begin{itemize}
+	\item Cleanup and clarification
+	\begin{itemize}
+		\item Clarified observation behavior
+		\item Refer to t2trg-rel-impl for server metadata / versioning
+		\item Reduced the significance of domains (removed from figure 2)
+	\end{itemize}
+
+	\item Added "all resource directory" nodes MC address
+
+	\item Resolve RFC6690-vs-8288 resolution ambiguities
+	\begin{itemize}
+		\item Require registered links not to be relative when using anchor
+		\item Return absolute URIs in resource lookup
+	\end{itemize}
+
+	\item Work with replication without really changing the RD
+	\begin{itemize}
+		\item Multiple RDs can be found, and can have absolute addresses
+		\item Endpoints from other RDs can be members of a group
+	\end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{\texttt{rd-replication}}
+	\begin{itemize}
+		\item Different registration addresses
+		\item Different lookup addresses
+		\item Eventually consistent results
+	\end{itemize}
+
+	{\small \verbatiminput{cloud.txt}}
+\end{frame}
+
+\begin{frame}{\texttt{rd-dns-sd}}\begin{center}\Huge
+	-01: updated with introduction
+\end{center}\end{frame}
+
+\begin{frame}{\texttt{rd-dns-sd}}\begin{center}\Huge
+	hooks into RD extension points
+\end{center}\end{frame}
+
+\begin{frame}{Next steps for \texttt{resource-directory}}\begin{center}\Huge
+	reviews
+
+	\vspace{1cm}
+
+	plug test
+\end{center}\end{frame}
+
+\end{document}

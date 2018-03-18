@@ -1,0 +1,21 @@
+* get across: this is as good as we will get it. now would be the time to review and implement it, and with that we'd like to publish.
+
+* plug test is roughly scheduled for 2-3 weeks after ietf, but so far has 2-3 participants, and i'm sure there are more people for that.
+
+* recap changes, the incorporated feedback from last round
+
+  * only change in mechanism was the absolute uris stuff, the rest is corner cases and wording
+
+  * to avoid ambiguity, we're sending absolute references in resource lookup
+
+* "work with replication" is bridge to "related documents"
+
+  * rd-replication: document to explore whether rd can be scaled up. showed some corner cases in rd that have been resolved.
+
+  * rd-dns-sd: document is still in active development, but has no unsatisfied demands on rd any more and is a direct extension to it.
+
+    key message: we're not there, but on the path. rd is the base of this and supports all dns-sd needs.
+
+    will also be presented by kerry in dns-sd on thursday 0930 in buckingham
+
+* ask for reviewes and plugtest participants
