@@ -827,6 +827,11 @@ with the same endpoint parameters ep and d does not create multiple registration
 A new registration resource may be created at any time to supersede an existing registration,
 replacing the registration parameters and links.
 
+The following rules apply for an update identified by a given (ep, d) value pair:
+* when the parameter values of the Update generate the same attribute values as already present, the location of the already existing registration is returned.
+* when for a given (ep, d) value pair the the update generates attribute values which are different from the existing one, the existing registration is removed and a new registration with a new location is created.
+* when the (ep, d) value pair of the update is different from any existing regsitration, a new registration is generated.
+
 The posted link-format document can (and typically does) contain relative references
 both in its link targets and in its anchors, or contain empty anchors.
 The RD server needs to resolve these references in order to faithfully represent them in lookups.
@@ -1013,6 +1018,82 @@ discovery URI to obtain the link-format payload to register.
 
 The endpoint includes the same registration parameters in the POST request as it would per {{registration}}. The context of the registration is taken from the requesting server's URI.
 
+The simple registration request interface is specified as follows:
+
+Interaction:
+: EP -> RD
+
+
+Method:
+: POST
+
+
+URI Template:
+: /.well-known/core{?ep,d\*}
+
+
+URI Template Variables:
+
+  ep :=
+  : Endpoint name (mostly mandatory). The endpoint name is an identifier
+    that MUST be unique within a domain.  The maximum length of this
+    parameter is 63 bytes.
+
+    If the RD is configured to recognize the endpoint (eg. based on its security context),
+    the endpoint can ignore the endpoint name, and assign one based on a se of configuration parameter values.
+
+  d :=
+  : Domain (optional). The domain to which this endpoint belongs. The maximum
+    length of this parameter is 63 bytes. When this parameter is not present, the
+    RD MAY associate the endpoint with a configured default domain or leave it empty.
+
+
+The following response codes are defined for this interface:
+
+Success:
+: 2.04 "Changed" or 204 "No Content". 
+
+Failure:
+: 4.00 "Bad Request" or 400 "Bad Request". Malformed request.
+
+Failure:
+: 5.03 "Service Unavailable" or 503 "Service Unavailable". Service could not perform the operation.
+
+HTTP support:
+: YES
+
+The accept option specifies which content formats the server supports.
+
+Interaction:
+: RD -> EP
+
+
+Method:
+: GET
+
+
+URI Template:
+: /.well-known/core
+
+
+The following response codes are defined for this interface:
+
+Success:
+: 2.05 "Content" or 200 "OK". with the content format suggested by the accept option sent by the RD, and chosen from the ones suggested by the server.
+
+Failure:
+: 4.00 "Bad Request" or 400 "Bad Request". Malformed request.
+
+Failure:
+: 4.04 "Not Founds" or 404 "Not Found". /.well-known/core does not exist or is empty.
+
+Failure:
+: 5.03 "Service Unavailable" or 503 "Service Unavailable". Service could not perform the operation.
+
+HTTP support:
+: YES
+
+
 The endpoints MUST be deleted after the expiration of their lifetime. Additional operations on the registration resource cannot be executed because no registration location is returned.
 
 The following example shows an endpoint using Simple Registration,
@@ -1033,6 +1114,7 @@ GET /.well-known/core
 Accept: 40
 
 Res: 2.05 Content
+Content-Format: 40
 Payload:
 </sen/temp>
 ~~~~
@@ -1490,6 +1572,8 @@ RD Lookup allows lookups for groups, endpoints and resources
 using attributes defined in this document and for use with the CoRE
 Link Format. The result of a lookup request is the list of links (if any)
 corresponding to the type of lookup.  Thus, a group lookup MUST return a list of groups, an endpoint lookup MUST return a list of endpoints and a resource lookup MUST return a list of links to resources.
+
+The value of the lt attribute of the registration represents the time interval form the lookup moment till the end of life of the registration.
 
 The lookup type is selected by a URI endpoint, which is indicated by a Resource Type as per {{lookup-types}} below:
 
@@ -2335,6 +2419,9 @@ changes from -12 to -13
 * resolve RFC6690-vs-8288 resolution ambiguities:
     - require registered links not to be relative when using anchor
     - return absolute URIs in resource lookup
+* clarified registration update rules
+* lt-value semantics for lookup clarified.
+* added template for simple registration
 
 changes from -11 to -12
 
