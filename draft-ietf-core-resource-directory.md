@@ -183,6 +183,9 @@ information about an Endpoint. The Context of an Endpoint is provided at
 registration time, and is used by the Resource Directory to resolve relative
 references inside the registration into absolute URIs.
 
+Target
+:   The target of a link is the destination address (URI) of the link. It is sometimes identified with "href=", or displayed as <target>. Relative targets need resolving with respect to the Base URI (section 5.2 of {{RFC3986}}. 
+
 Directory Resource
 :  A resource in the Resource Directory (RD) containing registration resources.
 
@@ -220,9 +223,9 @@ directory that is discovered from querying the described device's
 
 It also follows that data in the resource directory can only be provided by the
 device whose descriptions are cached or a dedicated Commissioning Tool (CT).
-These CTs are thought to act on behalf agents too constrained, or generally
+These CTs are thought to act on behalf of agents too constrained, or generally
 unable, to present that information themselves. No other client can modify data
-in the resource directory. Changes in the Resource Directory do not propagate automatically back to its source.
+in the resource directory. Changes in the Resource Directory do not propagate automatically back to the web server from where the links originated.
 
 ## Architecture
 
@@ -317,8 +320,8 @@ These models provide an abstract view of the information expressed in link-forma
                                |
                                |  1   oooooooo
                                +-----o target o
-                            0+ |      oooooooo
-          oooooooooooo         |
+                               |      oooooooo
+          oooooooooooo   0+    |
          o    target  o--------+
          o  attribute o        | 0+   oooooo
           oooooooooooo         +-----o rel  o
@@ -335,9 +338,11 @@ These models provide an abstract view of the information expressed in link-forma
 
 The model shown in {{fig-ER-WKC}} models the contents of /.well-known/core which contains:
 
-* a set of links belonging to the host
+* a set of links belonging to the hosting web server
 
-The host is free to choose links it deems appropriate to be exposed in its `.well-known/core`.
+The web server
+
+1.  is free to choose links it deems appropriate to be exposed in its `.well-known/core`.
 Typically, the links describe resources that are served by the host, but the set can also contain links to resources on other servers (see examples in {{RFC6690}} page 14).
 The set does not necessarily contain links to all resources served by the host.
 
@@ -371,20 +376,20 @@ A link has the following attributes (see {{RFC5988}}):
              +----------------------+
              |  resource-directory  |
              +----------------------+
-                        |
+                        | 1
                         |         oooooooooooo  0-1
                         |        o MC address o---+
                         |         oooooooooooo    |
-                        |                         |
+                        |                         | 
                    //////\\\\             0+  +--------+
                   < contains >----------------| group  |
                    \\\\\/////                 +--------+
-                        |                         |
-                    0-n |                         | 1+
- ooooooo     1  +---------------+          ///////\\\\\\
+                        |                         | 0+
+                     0+ |                         | 
+ ooooooo     1  +---------------+  1+      ///////\\\\\\
 o  con  o-------|  registration |---------< composed of >
  ooooooo        +---------------+          \\\\\\\//////
-                    |       |
+                    |       | 1
                     |       +--------------+
        oooooooo   1 |                      |
       o  loc   o----+                 /////\\\\
@@ -398,7 +403,7 @@ o  con  o-------|  registration |---------< composed of >
       o    d   o----+                      |
        oooooooo     |                      |  1   oooooooo
                     |                      +-----o target o
-       oooooooo 0-1 |                      |      oooooooo
+       oooooooo   1 |                      |      oooooooo
       o   lt   o----+     ooooooooooo   0+ |
        oooooooo     |    o  target   o-----+
                     |    o attribute o     | 0+   oooooo
@@ -413,10 +418,10 @@ o  con  o-------|  registration |---------< composed of >
 
 The model shown in {{fig-ER-RD}} models the contents of the resource directory which contains in addition to /.well-known/core:
 
-* 0 to n Registration (entries),
+* 0 to n Registration (entries) of endpoints,
 * 0 or more Groups
 
-A Group has no or one Multicast address attribute and is composed of 0 or more endpoints. A registration is associated with one endpoint (ep). An endpoint can be part of 0 or more Groups . A registration defines a set of links as defined for /.well-known/core. A Registration has six attributes:
+A Group has zero or one Multicast address attribute and is composed of zero or more  registrations (endpoints). A registration is associated with one endpoint (ep). A registration can be part of 0 or more Groups . A registration defines a set of links as defined for /.well-known/core. A Registration has six attributes:
 
 * one ep (endpoint with a unique  name)
 * one con (a string describing the scheme://authority part)
@@ -498,32 +503,31 @@ generally be sufficient to store external metadata in Resource Directories.
 
 The additional features of Resource Directory allow domains to be defined
 to enable access to a particular set of resources from particular applications.
-This provides isolation and protection of sensitive data when needed. Resource
-groups may defined to allow batched reads from multiple resources.
+This provides isolation and protection of sensitive data when needed. Groups may defined to support efficient data transport.
 
 
 # Finding a Resource Directory {#finding_an_rd}
 
-A (re-e)starting device may want to find one or more resource directories
+A (re-)starting device may want to find one or more resource directories
 to make itself known with.
 
 The device may be pre-configured to exercise specific mechanisms for
 finding the resource directory:
 
-* It may be configured with a specific IP address for the RD.  That IP
+1. It may be configured with a specific IP address for the RD.  That IP
   address may also be an anycast address, allowing the network to
   forward RD requests to an RD that is topologically close; each
   target network environment in which some of these preconfigured
   nodes are to be brought up is then configured with a route for this
   anycast address that leads to an appropriate RD.  (Instead of using
   an anycast address, a multicast address can also be preconfigured.
-  The RD directory servers then need to configure one of their
+  The RD servers then need to configure one of their
   interfaces with this multicast address.)
-* It may be configured with a DNS name for the RD and a
+2. It may be configured with a DNS name for the RD and a
   resource-record type to look up under this name; it can find a DNS
   server to perform the lookup using the usual mechanisms for finding
   DNS servers.
-* It may be configured to use a service discovery mechanism such as
+3. It may be configured to use a service discovery mechanism such as
   DNS-SD {{-dnssd}}.  The present specification suggests configuring
   the service with name rd._sub._coap._udp, preferably within the
   domain of the querying nodes.
@@ -533,9 +537,9 @@ For cases where the device is not specifically configured with a way
 to find a resource directory, the network may want to provide a
 suitable default.
 
-* If the address configuration of the network is performed via SLAAC,
+4. If the address configuration of the network is performed via SLAAC,
   this is provided by the RDAO option {{rdao}}.
-* If the address configuration of the network is performed via DHCP,
+5. If the address configuration of the network is performed via DHCP,
   this could be provided via a DHCP option (no such option is defined
   at the time of writing).
 
@@ -546,12 +550,12 @@ suitable resource directory.
 The present specification does not fully define these heuristics, but
 suggests a number of candidates:
 
-* In a 6LoWPAN, just assume the Edge Router (6LBR) can act as a
+6. In a 6LoWPAN, just assume the Border Router (6LBR) can act as a
   resource directory (using the ABRO option to find that {{RFC6775}}).
   Confirmation can be obtained by sending a Unicast to
   `coap://[6LBR]/.well-known/core?rt=core.rd*`.
 
-* In a network that supports multicast well, discovering the RD using
+7. In a network that supports multicast well, discovering the RD using
   a multicast query for /.well-known/core as specified in CoRE Link
   Format {{RFC6690}}: Sending a Multicast GET to
   `coap://[MCD1]/.well-known/core?rt=core.rd*`.  RDs within the
@@ -578,15 +582,13 @@ as a starting point, the client should honor the SRV record's mechanisms -->
 The Resource Directory Address Option (RDAO) using IPv6 neighbor Discovery (ND) carries
 information about the address of the Resource Directory (RD). This information is
 needed when endpoints cannot discover the Resource Directory with a link-local
-multicast address because the endpoint and the RD are separated by a border Router
+or realm-local scope multicast address because the endpoint and the RD are separated by a Border Router
 (6LBR). In many circumstances the availability of DHCP cannot be guaranteed either
 during commissioning of the network. The presence and the use of the RD is
 essential during commissioning.
 
 It is possible to send multiple RDAO options in one message,
 indicating as many resource directory addresses.
-
-The lifetime 0x0 means that the RD address is invalid and to be removed.
 
 The RDAO format is:
 
@@ -824,6 +826,11 @@ with the same endpoint parameters ep and d does not create multiple registration
 A new registration resource may be created at any time to supersede an existing registration,
 replacing the registration parameters and links.
 
+The following rules apply for an update identified by a given (ep, d) value pair:
+* when the parameter values of the Update generate the same attribute values as already present, the location of the already existing registration is returned.
+* when for a given (ep, d) value pair the the update generates attribute values which are different from the existing one, the existing registration is removed and a new registration with a new location is created.
+* when the (ep, d) value pair of the update is different from any existing regsitration, a new registration is generated.
+
 The posted link-format document can (and typically does) contain relative references
 both in its link targets and in its anchors, or contain empty anchors.
 The RD server needs to resolve these references in order to faithfully represent them in lookups.
@@ -1010,6 +1017,82 @@ discovery URI to obtain the link-format payload to register.
 
 The endpoint includes the same registration parameters in the POST request as it would per {{registration}}. The context of the registration is taken from the requesting server's URI.
 
+The simple registration request interface is specified as follows:
+
+Interaction:
+: EP -> RD
+
+
+Method:
+: POST
+
+
+URI Template:
+: /.well-known/core{?ep,d\*}
+
+
+URI Template Variables:
+
+  ep :=
+  : Endpoint name (mostly mandatory). The endpoint name is an identifier
+    that MUST be unique within a domain.  The maximum length of this
+    parameter is 63 bytes.
+
+    If the RD is configured to recognize the endpoint (eg. based on its security context),
+    the endpoint can ignore the endpoint name, and assign one based on a se of configuration parameter values.
+
+  d :=
+  : Domain (optional). The domain to which this endpoint belongs. The maximum
+    length of this parameter is 63 bytes. When this parameter is not present, the
+    RD MAY associate the endpoint with a configured default domain or leave it empty.
+
+
+The following response codes are defined for this interface:
+
+Success:
+: 2.04 "Changed" or 204 "No Content". 
+
+Failure:
+: 4.00 "Bad Request" or 400 "Bad Request". Malformed request.
+
+Failure:
+: 5.03 "Service Unavailable" or 503 "Service Unavailable". Service could not perform the operation.
+
+HTTP support:
+: YES
+
+The accept option specifies which content formats the server supports.
+
+Interaction:
+: RD -> EP
+
+
+Method:
+: GET
+
+
+URI Template:
+: /.well-known/core
+
+
+The following response codes are defined for this interface:
+
+Success:
+: 2.05 "Content" or 200 "OK". with the content format suggested by the accept option sent by the RD, and chosen from the ones suggested by the server.
+
+Failure:
+: 4.00 "Bad Request" or 400 "Bad Request". Malformed request.
+
+Failure:
+: 4.04 "Not Founds" or 404 "Not Found". /.well-known/core does not exist or is empty.
+
+Failure:
+: 5.03 "Service Unavailable" or 503 "Service Unavailable". Service could not perform the operation.
+
+HTTP support:
+: YES
+
+
 The endpoints MUST be deleted after the expiration of their lifetime. Additional operations on the registration resource cannot be executed because no registration location is returned.
 
 The following example shows an endpoint using Simple Registration,
@@ -1030,6 +1113,7 @@ GET /.well-known/core
 Accept: 40
 
 Res: 2.05 Content
+Content-Format: 40
 Payload:
 </sen/temp>
 ~~~~
@@ -1487,6 +1571,8 @@ RD Lookup allows lookups for groups, endpoints and resources
 using attributes defined in this document and for use with the CoRE
 Link Format. The result of a lookup request is the list of links (if any)
 corresponding to the type of lookup.  Thus, a group lookup MUST return a list of groups, an endpoint lookup MUST return a list of endpoints and a resource lookup MUST return a list of links to resources.
+
+The value of the lt attribute of the registration represents the time interval form the lookup moment till the end of life of the registration.
 
 The lookup type is selected by a URI endpoint, which is indicated by a Resource Type as per {{lookup-types}} below:
 
@@ -2332,6 +2418,9 @@ changes from -12 to -13
 * resolve RFC6690-vs-8288 resolution ambiguities:
     - require registered links not to be relative when using anchor
     - return absolute URIs in resource lookup
+* clarified registration update rules
+* lt-value semantics for lookup clarified.
+* added template for simple registration
 
 changes from -11 to -12
 
