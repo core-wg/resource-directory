@@ -184,7 +184,7 @@ registration time, and is used by the Resource Directory to resolve relative
 references inside the registration into absolute URIs.
 
 Target
-:   The target of a link is the destination address (URI) of the link. It is sometimes identified with "href=", or displayed as <target>. Relative targets need resolving with respect to the Base URI (section 5.2 of {{RFC3986}}. 
+:   The target of a link is the destination address (URI) of the link. It is sometimes identified with "href=", or displayed as `<target>`. Relative targets need resolving with respect to the Base URI (section 5.2 of {{RFC3986}}.
 
 Directory Resource
 :  A resource in the Resource Directory (RD) containing registration resources.
@@ -380,12 +380,12 @@ A link has the following attributes (see {{RFC5988}}):
                         |         oooooooooooo  0-1
                         |        o MC address o---+
                         |         oooooooooooo    |
-                        |                         | 
+                        |                         |
                    //////\\\\             0+  +--------+
                   < contains >----------------| group  |
                    \\\\\/////                 +--------+
                         |                         | 0+
-                     0+ |                         | 
+                     0+ |                         |
  ooooooo     1  +---------------+  1+      ///////\\\\\\
 o  con  o-------|  registration |---------< composed of >
  ooooooo        +---------------+          \\\\\\\//////
@@ -1050,7 +1050,7 @@ URI Template Variables:
 The following response codes are defined for this interface:
 
 Success:
-: 2.04 "Changed" or 204 "No Content". 
+: 2.04 "Changed" or 204 "No Content".
 
 Failure:
 : 4.00 "Bad Request" or 400 "Bad Request". Malformed request.
