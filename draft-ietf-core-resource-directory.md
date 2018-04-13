@@ -1028,24 +1028,12 @@ Method:
 
 
 URI Template:
-: /.well-known/core{?ep,d\*}
+: /.well-known/core{?ep,d,lt,extra-attrs\*}
 
 
-URI Template Variables:
-
-  ep :=
-  : Endpoint name (mostly mandatory). The endpoint name is an identifier
-    that MUST be unique within a domain.  The maximum length of this
-    parameter is 63 bytes.
-
-    If the RD is configured to recognize the endpoint (eg. based on its security context),
-    the endpoint can ignore the endpoint name, and assign one based on a se of configuration parameter values.
-
-  d :=
-  : Domain (optional). The domain to which this endpoint belongs. The maximum
-    length of this parameter is 63 bytes. When this parameter is not present, the
-    RD MAY associate the endpoint with a configured default domain or leave it empty.
-
+URI Template Variables are as they are for registration in {{registration}}.
+The con attribute is not accepted to keep the registration interface simple;
+that rules out registration over CoAP-over-TCP or HTTP that would need to specify one.
 
 The following response codes are defined for this interface:
 
