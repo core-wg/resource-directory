@@ -2403,6 +2403,12 @@ originally developed.
 
 # Changelog
 
+changes from -13 to -14
+
+* clarified registration update rules
+* lt-value semantics for lookup clarified.
+* added template for simple registration
+
 changes from -12 to -13
 
 * Added "all resource directory" nodes MC address
@@ -2415,9 +2421,6 @@ changes from -12 to -13
 * resolve RFC6690-vs-8288 resolution ambiguities:
     - require registered links not to be relative when using anchor
     - return absolute URIs in resource lookup
-* clarified registration update rules
-* lt-value semantics for lookup clarified.
-* added template for simple registration
 
 changes from -11 to -12
 
