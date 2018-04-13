@@ -1061,8 +1061,6 @@ Failure:
 HTTP support:
 : YES
 
-The accept option specifies which content formats the server supports.
-
 Interaction:
 : RD -> EP
 
@@ -1101,7 +1099,6 @@ by simply sending an empty POST to a resource directory.
 ~~~~
 Req:(to RD server from [2001:db8:2::1])
 POST /.well-known/core?lt=6000&ep=node1
-Content-Format: 40
 No payload
 
 Res: 2.04 Changed
