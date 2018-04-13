@@ -882,7 +882,7 @@ URI Template Variables:
   lt :=
   : Lifetime (optional). Lifetime of the registration in seconds. Range of 60-4294967295.
     If no lifetime is included in the initial registration, a default value of
-    86400 (24 hours) SHOULD be assumed.
+    90000 (25 hours) SHOULD be assumed.
 
   con :=
   : Context (optional). This parameter sets the Default Base URI under which
@@ -1184,7 +1184,7 @@ URI Template Variables:
   : Lifetime (optional). Lifetime of the registration in seconds. Range of 60-4294967295.
     If no lifetime is included, the previous last
   lifetime set on a previous update or the original registration
-  (falling back to 86400) SHOULD be used.
+  (falling back to 90000) SHOULD be used.
 
 
   con :=
@@ -2722,7 +2722,7 @@ sending this request from its UDP port `[2001:db8:f0::1]:6553`:
 The resource directory would have accepted the registration, and queried the
 simple host's `.well-known/core` by itself. As a result, the host is registered
 as an endpoint in the RD with the name "simple-host1". The registration is
-active for 86400 seconds, and the endpoint registration Base URI is
+active for 90000 seconds, and the endpoint registration Base URI is
 "`coap://[2001:db8:f0::1]/`" because that is the address the registration was
 sent from (and no explicit `con=` was given).
 
