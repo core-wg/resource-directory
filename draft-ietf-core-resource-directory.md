@@ -1038,16 +1038,16 @@ that rules out registration over CoAP-over-TCP or HTTP that would need to specif
 The following response codes are defined for this interface:
 
 Success:
-: 2.04 "Changed" or 204 "No Content".
+: 2.04 "Changed".
 
 Failure:
-: 4.00 "Bad Request" or 400 "Bad Request". Malformed request.
+: 4.00 "Bad Request". Malformed request.
 
 Failure:
-: 5.03 "Service Unavailable" or 503 "Service Unavailable". Service could not perform the operation.
+: 5.03 "Service Unavailable". Service could not perform the operation.
 
 HTTP support:
-: YES
+: NO
 
 Interaction:
 : RD -> EP
@@ -1064,19 +1064,19 @@ URI Template:
 The following response codes are defined for this interface:
 
 Success:
-: 2.05 "Content" or 200 "OK".
+: 2.05 "Content".
 
 Failure:
-: 4.00 "Bad Request" or 400 "Bad Request". Malformed request.
+: 4.00 "Bad Request". Malformed request.
 
 Failure:
-: 4.04 "Not Founds" or 404 "Not Found". /.well-known/core does not exist or is empty.
+: 4.04 "Not Founds". /.well-known/core does not exist or is empty.
 
 Failure:
-: 5.03 "Service Unavailable" or 503 "Service Unavailable". Service could not perform the operation.
+: 5.03 "Service Unavailable". Service could not perform the operation.
 
 HTTP support:
-: YES
+: NO
 
 
 The endpoints MUST be deleted after the expiration of their lifetime. Additional operations on the registration resource cannot be executed because no registration location is returned.
