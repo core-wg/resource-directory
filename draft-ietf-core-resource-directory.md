@@ -1076,7 +1076,7 @@ URI Template:
 The following response codes are defined for this interface:
 
 Success:
-: 2.05 "Content" or 200 "OK". with the content format suggested by the accept option sent by the RD, and chosen from the ones suggested by the server.
+: 2.05 "Content" or 200 "OK".
 
 Failure:
 : 4.00 "Bad Request" or 400 "Bad Request". Malformed request.
