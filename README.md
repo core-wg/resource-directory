@@ -1,6 +1,6 @@
-# CoRE Resource Directory
+#  CoRE Resource Directory
 
-This is the working area for the IETF CORE Working Group Internet-Draft, "CoRE Resource Directory".
+This is the working area for the IETF [CORE Working Group](https://datatracker.ietf.org/wg/core/documents/) Internet-Draft, " CoRE Resource Directory".
 
 * [Editor's Copy](https://core-wg.github.io/resource-directory/#go.draft-ietf-core-resource-directory.html)
 * [Working Group Draft](https://tools.ietf.org/html/draft-ietf-core-resource-directory)

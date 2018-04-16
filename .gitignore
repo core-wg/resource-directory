@@ -2,7 +2,8 @@
 *.txt
 *.html
 *.pdf
-*.xml
+*.upload
+.tags
 *~
 *.swp
 /*-[0-9][0-9].xml
@@ -10,4 +11,7 @@
 .targets.mk
 venv/
 issues.json
-draft-ietf-core-resource-directory.md
+pulls.json
+report.xml
+lib
+draft-ietf-core-resource-directory.xml
