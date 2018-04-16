@@ -1049,6 +1049,11 @@ Failure:
 HTTP support:
 : NO
 
+
+For the second interaction triggered by the above, the endpoint takes the role of a server:
+<!-- the above paragraph could just as well be any other text;
+what amtters is that the tables above and below are clearly separated. -->
+
 Interaction:
 : RD -> EP
 
