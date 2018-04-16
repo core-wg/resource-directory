@@ -204,6 +204,19 @@ RDAO
 : Resource Directory Address Option.
 
 
+For several operations, interface descriptions are given in list form;
+those describe the operation participants, request codes, URIs, content formats and outcomes.
+Those templates contain normative content in their
+Interaction, Method, URI Template and URI Template Variables sections
+as well as the details of the Success condition.
+The additional sections
+on options like Content-Format and on Failure codes
+give typical cases that the implementing parties should be prepared to deal with.
+Those serve to illustrate the typical responses
+to readers who are not yet familiar with all the details of CoAP based interfaces;
+they do not limit what a server may respond under atypical circumstances.
+
+
 # Architecture and Use Cases {#arch}
 
 ## Principles
@@ -697,7 +710,9 @@ and not limit the set of discovered URIs to those hosted at the address used for
 The URI Discovery operation can yield multiple URIs of a given resource type.
 The client can use any of the discovered addresses initially.
 
-The discovery request interface is specified as follows:
+The discovery request interface is specified as follows
+(this is exactly the the Well-Known Interface of {{RFC6690}} Section 4,
+with the additional requirement that the server MUST support query filtering):
 
 Interaction:
 : EP -> RD
@@ -1050,7 +1065,8 @@ HTTP support:
 : NO
 
 
-For the second interaction triggered by the above, the endpoint takes the role of a server:
+For the second interaction triggered by the above, the endpoint takes the role of a server
+(note that this is exactly the the Well-Known Interface of {{RFC6690}} Section 4):
 <!-- the above paragraph could just as well be any other text;
 what amtters is that the tables above and below are clearly separated. -->
 
