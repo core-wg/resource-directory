@@ -204,6 +204,19 @@ RDAO
 : Resource Directory Address Option.
 
 
+For several operations, interface descriptions are given in list form;
+those describe the operation participants, request codes, URIs, content formats and outcomes.
+Those templates contain normative content in their
+Interaction, Method, URI Template and URI Template Variables sections
+as well as the details of the Success condition.
+The additional sections
+on options like Content-Format and on Failure codes
+give typical cases that the implementing parties should be prepared to deal with.
+Those serve to illustrate the typical responses
+to readers who are not yet familiar with all the details of CoAP based interfaces;
+they do not limit what a server may respond under atypical circumstances.
+
+
 # Architecture and Use Cases {#arch}
 
 ## Principles
@@ -697,7 +710,9 @@ and not limit the set of discovered URIs to those hosted at the address used for
 The URI Discovery operation can yield multiple URIs of a given resource type.
 The client can use any of the discovered addresses initially.
 
-The discovery request interface is specified as follows:
+The discovery request interface is specified as follows
+(this is exactly the the Well-Known Interface of {{RFC6690}} Section 4,
+with the additional requirement that the server MUST support query filtering):
 
 Interaction:
 : EP -> RD
@@ -1028,38 +1043,32 @@ Method:
 
 
 URI Template:
-: /.well-known/core{?ep,d\*}
+: /.well-known/core{?ep,d,lt,extra-attrs\*}
 
 
-URI Template Variables:
-
-  ep :=
-  : Endpoint name (mostly mandatory). The endpoint name is an identifier
-    that MUST be unique within a domain.  The maximum length of this
-    parameter is 63 bytes.
-
-    If the RD is configured to recognize the endpoint (eg. based on its security context),
-    the endpoint can ignore the endpoint name, and assign one based on a se of configuration parameter values.
-
-  d :=
-  : Domain (optional). The domain to which this endpoint belongs. The maximum
-    length of this parameter is 63 bytes. When this parameter is not present, the
-    RD MAY associate the endpoint with a configured default domain or leave it empty.
-
+URI Template Variables are as they are for registration in {{registration}}.
+The con attribute is not accepted to keep the registration interface simple;
+that rules out registration over CoAP-over-TCP or HTTP that would need to specify one.
 
 The following response codes are defined for this interface:
 
 Success:
-: 2.04 "Changed" or 204 "No Content".
+: 2.04 "Changed".
 
 Failure:
-: 4.00 "Bad Request" or 400 "Bad Request". Malformed request.
+: 4.00 "Bad Request". Malformed request.
 
 Failure:
-: 5.03 "Service Unavailable" or 503 "Service Unavailable". Service could not perform the operation.
+: 5.03 "Service Unavailable". Service could not perform the operation.
 
 HTTP support:
-: YES
+: NO
+
+
+For the second interaction triggered by the above, the endpoint takes the role of a server
+(note that this is exactly the the Well-Known Interface of {{RFC6690}} Section 4):
+<!-- the above paragraph could just as well be any other text;
+what amtters is that the tables above and below are clearly separated. -->
 
 Interaction:
 : RD -> EP
@@ -1076,19 +1085,19 @@ URI Template:
 The following response codes are defined for this interface:
 
 Success:
-: 2.05 "Content" or 200 "OK". with the content format suggested by the accept option sent by the RD, and chosen from the ones suggested by the server.
+: 2.05 "Content".
 
 Failure:
-: 4.00 "Bad Request" or 400 "Bad Request". Malformed request.
+: 4.00 "Bad Request". Malformed request.
 
 Failure:
-: 4.04 "Not Founds" or 404 "Not Found". /.well-known/core does not exist or is empty.
+: 4.04 "Not Founds". /.well-known/core does not exist or is empty.
 
 Failure:
-: 5.03 "Service Unavailable" or 503 "Service Unavailable". Service could not perform the operation.
+: 5.03 "Service Unavailable". Service could not perform the operation.
 
 HTTP support:
-: YES
+: NO
 
 
 The endpoints MUST be deleted after the expiration of their lifetime. Additional operations on the registration resource cannot be executed because no registration location is returned.
