@@ -183,8 +183,12 @@ information about an Endpoint. The Context of an Endpoint is provided at
 registration time, and is used by the Resource Directory to resolve relative
 references inside the registration into absolute URIs.
 
+    This is a distinct concept from the "link context" defined in {{RFC8288}}.
+
 Target
 :   The target of a link is the destination address (URI) of the link. It is sometimes identified with "href=", or displayed as `<target>`. Relative targets need resolving with respect to the Base URI (section 5.2 of {{RFC3986}}.
+
+    This use of the term Target is consistent with {{RFC8288}}'s use of the term.
 
 Directory Resource
 :  A resource in the Resource Directory (RD) containing registration resources.
