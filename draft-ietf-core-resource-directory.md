@@ -1040,6 +1040,10 @@ discovery URI to obtain the link-format payload to register.
 
 The endpoint includes the same registration parameters in the POST request as it would per {{registration}}. The context of the registration is taken from the requesting server's URI.
 
+The Resource Directory MUST NOT query the endpoint's <!-- "registree-ep's" if #138 is merged--> data before sending the response; this is to accomodate very limited endpoints.
+The success condition only indicates that the request was valid (ie. the passed parameters are valid per se),
+not that the link data could be obtained or parsed or was successfully registered into the RD.
+
 The simple registration request interface is specified as follows:
 
 Interaction:
