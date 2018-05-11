@@ -1040,6 +1040,9 @@ discovery URI to obtain the link-format payload to register.
 
 The endpoint includes the same registration parameters in the POST request as it would per {{registration}}. The context of the registration is taken from the requesting server's URI.
 
+It is up to the RD implementation whether a successful response is sent immediately (where later failures are not visible to the endpoint),
+or whether the RD only sends the response when it has successfully queried the endpoint's data and registered it in full.
+
 The simple registration request interface is specified as follows:
 
 Interaction:
