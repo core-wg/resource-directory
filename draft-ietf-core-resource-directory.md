@@ -1797,17 +1797,22 @@ Res: 2.05 Content
 ~~~~
 
 The following example shows a client performing a lookup for all endpoints
-in a particular group, with one endpoint hosted by another RD:
+in a particular group, with one endpoint registered over TCP:
 
 ~~~~
 Req: GET /rd-lookup/ep?gp=lights1
 
 Res: 2.05 Content
-<coap://[other-rd]/rd/abcd>;con="coap://[2001:db8:3::123]:61616";
-anchor="coap://[other-rd]";ep="node1";et="oic.d.sensor";ct="40";lt="600",
+<coap+tcp://rd.example.com/rd/abcd>;con="coap://[2001:db8:3::123]:61616";
+ep="node1";et="oic.d.sensor";ct="40";lt="600",
 </rd/efgh>;con="coap://[2001:db8:3::124]:61616";
 ep="node2";et="oic.d.sensor";ct="40";lt="600"
 ~~~~
+
+(The RD server could have and expose an equivalent `coap://rd.exaple.com/rd/abcd` resource
+for that registration that could be expressed as `</rd/abcd>` here,
+but is under no obligtion to do so, and this RD chose not to.)
+
 
 The following example shows a client performing a lookup for all groups the
 endpoint "node1" belongs to:
