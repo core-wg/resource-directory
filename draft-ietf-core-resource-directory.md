@@ -178,7 +178,7 @@ is identified by its endpoint name, which is included during registration,
 and has a unique name within the associated domain of the registration.
 
 Context
-:   A Context is a base URL that gives scheme and (typically) authority
+:   A Context is a base URL that typically gives scheme and authority
 information about an Endpoint. The Context of an Endpoint is provided at
 registration time, and is used by the Resource Directory to resolve relative
 references inside the registration into absolute URIs.
@@ -441,7 +441,7 @@ The model shown in {{fig-ER-RD}} models the contents of the resource directory w
 A Group has zero or one Multicast address attribute and is composed of zero or more  registrations (endpoints). A registration is associated with one endpoint (ep). A registration can be part of 0 or more Groups . A registration defines a set of links as defined for /.well-known/core. A Registration has six attributes:
 
 * one ep (endpoint with a unique  name)
-* one con (a string describing the scheme://authority part)
+* one con (a string typically describing the scheme://authority part)
 * one lt (lifetime),
 * one loc (location in the RD)
 * optional one d (domain for query filtering),
@@ -905,7 +905,7 @@ URI Template Variables:
 
   con :=
   : Context (optional). This parameter sets the Default Base URI under which
-    the request's links are to be interpreted. The specified URI MUST NOT have a path component of its own, but MUST be suitable as a base URI to resolve any relative references given in the registration. The parameter is therefore of the shape "scheme://authority" for
+    the request's links are to be interpreted. The specified URI typically does not have a path component of its own, and MUST be suitable as a base URI to resolve any relative references given in the registration. The parameter is therefore usually of the shape "scheme://authority" for
     HTTP and CoAP URIs.
 
     In the absence of this parameter the scheme of the protocol, source address
@@ -920,6 +920,10 @@ URI Template Variables:
     Directory which is on the network service side of the NAT gateway, the endpoint MUST
     use a persistent port for the outgoing registration in order to provide the NAT
     gateway with a valid network address for replies and incoming requests.
+
+    Endpoints that register with a con that contains a path component
+    need to carefully consider the rules of relative URI resolution.
+    Typically, links submitted by such an endpoint are of the `path-noscheme` form.
 
   extra-attrs :=
   : Additional registration attributes (optional). The endpoint can pass any
