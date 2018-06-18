@@ -204,6 +204,9 @@ Commissioning Tool
 network by assigning values to parameters, naming endpoints and groups, or adapting
 the installation to the needs of the applications.
 
+Registree-ep
+:    Registree-ep is the endpoint that is registered into the RD. The registree-ep can register itself, or a CT registers the registree-ep.
+
 RDAO
 : Resource Directory Address Option.
 
@@ -828,14 +831,14 @@ are run on the same server.
 
 ## Registration {#registration}
 
-After discovering the location of an RD, an endpoint MAY
-register its resources using the registration interface. This interface
+After discovering the location of an RD, an registree-ep or CT MAY
+register the resources of the registree-ep using the registration interface. This interface
 accepts a POST from an endpoint containing the list of resources to be added
 to the directory as the message payload in the CoRE Link Format {{RFC6690}}, JSON CoRE Link Format (application/link-format+json), or CBOR CoRE Link Format (application/link-format+cbor)  {{I-D.ietf-core-links-json}}, along with query
 parameters indicating the name of the endpoint, and optionally the domain
 and the lifetime of the registration.
 It is expected that other specifications will define further parameters (see
-{{iana-registry}}). The RD then creates a new registration resource in the RD and returns its location. An endpoint MUST use that
+{{iana-registry}}). The RD then creates a new registration resource in the RD and returns its location. The receiving endpoint MUST use that
 location when refreshing registrations using this interface. Registration
 resources in the RD are kept active for the period indicated by the lifetime
 parameter. The endpoint is responsible for refreshing the registration resource within this
@@ -891,7 +894,7 @@ URI Template Variables:
     parameter is 63 bytes.
 
     If the RD is configured to recognize the endpoint (eg. based on its security context),
-    the endpoint can ignore the endpoint name, and assign one based on a se of configuration parameter values.
+    the endpoint can ignore the endpoint name, and assign one based on a set of configuration parameter values.
 
   d :=
   : Domain (optional). The domain to which this endpoint belongs. The maximum
@@ -967,7 +970,7 @@ HTTP support:
 
 If the registration fails with a Service Unavailable response
 and a Max-Age option or Retry-After header,
-the client SHOULD retry the operation after the time indicated.
+the registering endpoint SHOULD retry the operation after the time indicated.
 If the registration fails in another way, including request timeouts,
 or if the Service Unavailable error persists after several retries,
 or indicates a longer time than the endpoint is willing to wait,
@@ -983,7 +986,7 @@ must be considered for the whole registration time,
 not only for a single operation.
 
 
-The following example shows an endpoint with the name "node1" registering
+The following example shows a registree-ep with the name "node1" registering
 two resources to an RD using this interface. The location "/rd"
 is an example RD location discovered in a request similar to {{example-discovery}}.
 
@@ -1020,25 +1023,25 @@ Location: /rd/4521
 
 ### Simple Registration {#simple}
 
-Not all endpoints hosting resources are expected to know how to upload links to a RD as described in {{registration}}. Instead, simple endpoints can implement the Simple Registration approach described in this section. An RD implementing this specification MUST implement Simple Registration. However, there may
+Not all endpoints hosting resources are expected to know how to upload links to an RD as described in {{registration}}. Instead, simple endpoints can implement the Simple Registration approach described in this section. An RD implementing this specification MUST implement Simple Registration. However, there may
 be security reasons why this form of directory discovery would be disabled.
 
-This approach requires that the endpoint makes available the hosted resources
+This approach requires that the registree-ep makes available the hosted resources
 that it wants to be discovered, as links on its `/.well-known/core` interface as
 specified in {{RFC6690}}.
 The links in that document are subject to the same limitations as the payload of a registration
 (no relative target references when anchor is present).
 
-The endpoint then finds one or more addresses of the directory server as described in {{finding_an_rd}}.
+The registree-ep then finds one or more addresses of the directory server as described in {{finding_an_rd}}.
 
-An endpoint finally asks the selected directory server to probe it for resources and publish them as follows:
+The regsitree-ep finally asks the selected directory server to probe it for resources and publish them as follows:
 
-The endpoint sends (and regularly refreshes with) a POST
+The regsitree-ep sends (and regularly refreshes with) a POST
 request to the `/.well-known/core` URI of the directory server of choice. The body of the POST request is empty, which triggers the resource
-directory server to perform GET requests at the requesting server's default
+directory server to perform GET requests at the requesting registree-ep's default
 discovery URI to obtain the link-format payload to register.
 
-The endpoint includes the same registration parameters in the POST request as it would per {{registration}}. The context of the registration is taken from the requesting server's URI.
+The registree-ep includes the same registration parameters in the POST request as it would per {{registration}}. The context of the registration is taken from the requesting server's URI.
 
 The simple registration request interface is specified as follows:
 
@@ -1073,7 +1076,7 @@ HTTP support:
 : NO
 
 
-For the second interaction triggered by the above, the endpoint takes the role of a server
+For the second interaction triggered by the above, the registree-ep takes the role of server and the RD the role of client.
 (note that this is exactly the the Well-Known Interface of {{RFC6690}} Section 4):
 <!-- the above paragraph could just as well be any other text;
 what amtters is that the tables above and below are clearly separated. -->
@@ -1108,9 +1111,9 @@ HTTP support:
 : NO
 
 
-The endpoints MUST be deleted after the expiration of their lifetime. Additional operations on the registration resource cannot be executed because no registration location is returned.
+The registration resources MUST be deleted after the expiration of their lifetime. Additional operations on the registration resource cannot be executed because no registration location is returned.
 
-The following example shows an endpoint using Simple Registration,
+The following example shows a registree-ep using Simple Registration,
 by simply sending an empty POST to a resource directory.
 
 ~~~~
@@ -1140,7 +1143,7 @@ for some very constrained devices, in particular if the security requirements
 become too onerous.
 
 In a controlled environment (e.g. building control), the Resource Directory
-can be filled by a third device, called a commissioning tool. The commissioning
+can be filled by a third party device, called a commissioning tool. The commissioning
 tool can fill the Resource Directory from a database or other means. For
 that purpose the scheme, IP address and port of the registered device is
 indicated in the Context parameter of the registration described in {{registration}}.
@@ -1247,10 +1250,10 @@ HTTP support:
 
 If the registration update fails with a "Service Unavailable" response
 and a Max-Age option or Retry-After header,
-the client SHOULD retry the operation after the time indicated.
+the endpoint SHOULD retry the operation after the time indicated.
 If the registration fails in another way, including request timeouts,
 or if the time indicated excedes the remaining lifetime,
-the client SHOULD attempt registration again.
+the endpoint SHOULD attempt registration again.
 
 
 The following example shows an endpoint updating its registration resource at
@@ -1263,7 +1266,7 @@ Res: 2.04 Changed
 ~~~~
 
 The following example shows an endpoint updating its registration resource at
-an RD using this interface with the example location value: /rd/4521. The initial registration by the client set the following values:
+an RD using this interface with the example location value: /rd/4521. The initial registration by the endpoint set the following values:
 
 * endpoint name (ep)=endpoint1
 * lifetime (lt)=500
@@ -1283,7 +1286,7 @@ Payload:
     if="sensor";anchor="coap://local-proxy-old.example.com:5683"
 ~~~~
 
-The following example shows an EP changing the context to `coaps://new.example.com:5684`:
+The following example shows an endpoint changing the context to `coaps://new.example.com:5684`:
 
 ~~~~
 Req: POST /rd/4521?con=coaps://new.example.com:5684
@@ -1309,12 +1312,12 @@ Payload:
 ### Registration Removal {#removal}
 
 Although RD entries have soft state and will eventually timeout after their
-lifetime, an endpoint SHOULD explicitly remove its entry from the RD if it
+lifetime, an endpoint SHOULD explicitly remove an entry from the RD if it
 knows it will no longer be available (for example on shut-down). This is
 accomplished using a removal interface on the RD by performing a DELETE on
 the endpoint resource.
 
-Removed endpoints are implicitly removed from the groups to which they belong.
+Removed registrations are implicitly removed from the groups to which they belong.
 
 The removal request interface is specified as follows:
 
