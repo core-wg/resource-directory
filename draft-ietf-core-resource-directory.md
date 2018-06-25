@@ -1603,8 +1603,6 @@ using attributes defined in this document and for use with the CoRE
 Link Format. The result of a lookup request is the list of links (if any)
 corresponding to the type of lookup.  Thus, a group lookup MUST return a list of groups, an endpoint lookup MUST return a list of endpoints and a resource lookup MUST return a list of links to resources.
 
-The value of the lt attribute of the registration represents the time interval form the lookup moment till the end of life of the registration.
-
 The lookup type is selected by a URI endpoint, which is indicated by a Resource Type as per {{lookup-types}} below:
 
 | Lookup Type | Resource Type | Mandatory |
@@ -1628,7 +1626,7 @@ The Resource Directory MAY replace the contexts with a configured intermediate p
 ## Endpoint and group lookup
 
 Endpoint and group lookups result in links to registration resources and group resources, respectively.
-Endpoint registration resources are annotated with their endpoint names (ep), domains (d, if present), context (con) and lifetime (lt, if present).
+Endpoint registration resources are annotated with their endpoint names (ep), domains (d, if present) and context (con); the lifetime (lt) is not reported.
 Additional endpoint attributes are added as link attributes to their endpoint link unless their specification says otherwise.
 Group resources are annotated with their group names (gp), domain (d, if present) and multicast address (con, if present).
 
@@ -1796,9 +1794,9 @@ Req: GET /rd-lookup/ep?et=oic.d.sensor
 
 Res: 2.05 Content
 </rd/1234>;con="coap://[2001:db8:3::127]:61616";ep="node5";
-et="oic.d.sensor";ct="40";lt="600",
+et="oic.d.sensor";ct="40",
 </rd/4521>;con="coap://[2001:db8:3::129]:61616";ep="node7";
-et="oic.d.sensor";ct="40";lt="600";d="floor-3"
+et="oic.d.sensor";ct="40";d="floor-3"
 ~~~~
 
 The following example shows a client performing a group lookup for all groups:
@@ -1819,9 +1817,9 @@ Req: GET /rd-lookup/ep?gp=lights1
 
 Res: 2.05 Content
 <coap://[other-rd]/rd/abcd>;con="coap://[2001:db8:3::123]:61616";
-anchor="coap://[other-rd]";ep="node1";et="oic.d.sensor";ct="40";lt="600",
+anchor="coap://[other-rd]";ep="node1";et="oic.d.sensor";ct="40",
 </rd/efgh>;con="coap://[2001:db8:3::124]:61616";
-ep="node2";et="oic.d.sensor";ct="40";lt="600"
+ep="node2";et="oic.d.sensor";ct="40"
 ~~~~
 
 The following example shows a client performing a lookup for all groups the
@@ -2005,7 +2003,7 @@ Initial entries in this sub-registry are as follows:
 
 | Full name     | Short | Validity      | Use | Description                                                             |
 | Endpoint Name | ep    |               | RLA | Name of the endpoint, max 63 bytes                                      |
-| Lifetime      | lt    | 60-4294967295 | RLA | Lifetime of the registration in seconds                                 |
+| Lifetime      | lt    | 60-4294967295 | R   | Lifetime of the registration in seconds                                 |
 | Domain        | d     |               | RLA | Domain to which this endpoint belongs                                   |
 | Context       | con   | URI           | RLA | The scheme, address and port and path at which this server is available |
 | Group Name    | gp    |               | RLA | Name of a group in the RD                                               |
