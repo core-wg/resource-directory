@@ -2438,6 +2438,17 @@ originally developed.
 
 changes from -13 to -14
 
+* Minor editorial changes
+  * PATCH/iPATCH is clearly deferred to another document
+  * Recommend against query / fragment identifier in con=
+  * Interface description lists are described as illustrative
+  * Rewording of Simple Registration
+* Simple registration carries no error information and succeeds immediately (previously, sequence was unspecified)
+* Lookup: href are matched against resolved values (previously, this was unspecified)
+* Lookup: lt are not exposed any more
+* con: Paths are allowed
+* Registration resource locations can not have query or fragment parts
+* Default life time extended to 25 hours
 * clarified registration update rules
 * lt-value semantics for lookup clarified.
 * added template for simple registration
