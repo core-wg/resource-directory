@@ -923,7 +923,9 @@ URI Template Variables:
 
     Endpoints that register with a con that contains a path component
     need to carefully consider the rules of relative URI resolution.
-    Typically, links submitted by such an endpoint are of the `path-noscheme` form.
+    Typically, links submitted by such an endpoint are of the `path-noscheme`
+    (starts with a a path not preceded by a slash, precisely defined in {{RFC3986}} Section 3.3)
+    form.
 
   extra-attrs :=
   : Additional registration attributes (optional). The endpoint can pass any
