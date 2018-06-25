@@ -71,13 +71,13 @@ normative:
   RFC6570:
   RFC6763: dnssd
 #  RFC7396:
-  RFC8132:
   I-D.ietf-core-links-json:
 informative:
   RFC7252:
   RFC7390:
   RFC6775:
   RFC7230:
+  RFC8132:
 #  RFC3629: utf8
 #  RFC5198: nvt-utf8
 #  RFC1123: hostreq
@@ -1428,7 +1428,9 @@ anchor="coap://spurious.example.com:5683",
 
 ### Update Endpoint Links {#link-up}
 
-An iPATCH (or PATCH) update {{RFC8132}} adds, removes or changes links of a registration by including link update information in the payload of the update with a media type that still needs to be defined.
+An iPATCH (or PATCH) update ({{RFC8132}}) can add, remove or change the links of a registration.
+
+Those operations are out of scope of this document, and will require media types suitable for modifying sets of links.
 
 
 # RD Groups {#group}
