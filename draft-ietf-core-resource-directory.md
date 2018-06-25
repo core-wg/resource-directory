@@ -907,6 +907,8 @@ URI Template Variables:
   : Context (optional). This parameter sets the Default Base URI under which
     the request's links are to be interpreted. The specified URI typically does not have a path component of its own, and MUST be suitable as a base URI to resolve any relative references given in the registration. The parameter is therefore usually of the shape "scheme://authority" for
     HTTP and CoAP URIs.
+    The URI SHOULD NOT have a query or fragment component
+    as any non-empty relative part in a reference would remove those parts from the resulting URI.
 
     In the absence of this parameter the scheme of the protocol, source address
     and source port of the registration request are assumed. This parameter is
