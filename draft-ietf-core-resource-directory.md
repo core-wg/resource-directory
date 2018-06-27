@@ -360,9 +360,7 @@ The model shown in {{fig-ER-WKC}} models the contents of /.well-known/core which
 
 * a set of links belonging to the hosting web server
 
-The web server
-
-1.  is free to choose links it deems appropriate to be exposed in its `.well-known/core`.
+The web server is free to choose links it deems appropriate to be exposed in its `.well-known/core`.
 Typically, the links describe resources that are served by the host, but the set can also contain links to resources on other servers (see examples in {{RFC6690}} page 14).
 The set does not necessarily contain links to all resources served by the host.
 
