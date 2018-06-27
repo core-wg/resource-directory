@@ -161,13 +161,16 @@ Resource Directory
 REST interfaces defined in this specification for registration and lookup
 of those resources.
 
-Domain
-:   In the context of a Resource Directory, a domain is a
+Sector
+:   In the context of a Resource Directory, a sector is a
 logical grouping of endpoints.
+
+The abbreviaton "d" is used for the sector in query parameters for
+compatibility with deployed implementations.
 
 Group
 :   In the context of a Resource Directory, a group is a logical grouping of
-endpoints for the purpose of group communications. All groups within a domain
+endpoints for the purpose of group communications. All groups within a sector
 have unique names.
 
 Endpoint
@@ -175,20 +178,25 @@ Endpoint
 In the context of this specification an endpoint is used to describe a
 web server that registers resources to the Resource Directory. An endpoint
 is identified by its endpoint name, which is included during registration,
-and has a unique name within the associated domain of the registration.
+and has a unique name within the associated sector of the registration.
 
-Context
-:   A Context is a base URL that typically gives scheme and authority
-information about an Endpoint. The Context of an Endpoint is provided at
-registration time, and is used by the Resource Directory to resolve relative
-references inside the registration into absolute URIs.
-
-    This is a distinct concept from the "link context" defined in {{RFC8288}}.
+Registration Base URI
+:   The Base URI of a Registration is a URI that typically gives scheme and
+authority information about an Endpoint. The Registration Base URI is provided
+by the Endpoint at registration time, and is used by the Resource Directory to
+resolve relative references inside the registration into absolute URIs.
 
 Target
 :   The target of a link is the destination address (URI) of the link. It is sometimes identified with "href=", or displayed as `<target>`. Relative targets need resolving with respect to the Base URI (section 5.2 of {{RFC3986}}.
 
     This use of the term Target is consistent with {{RFC8288}}'s use of the term.
+
+Context
+:   The context of a link is the source address (URI) of the link,
+    and describes which resource is linked to the target.
+    A link's context is made explicit in serialized links as the "anchor=" attribute.
+
+    This use of the term Context is consistent with {{RFC8288}}'s use of the term.
 
 Directory Resource
 :  A resource in the Resource Directory (RD) containing registration resources.
@@ -407,7 +415,7 @@ A link has the following attributes (see {{RFC5988}}):
                         |                         | 0+
                      0+ |                         |
  ooooooo     1  +---------------+  1+      ///////\\\\\\
-o  con  o-------|  registration |---------< composed of >
+o  base o-------|  registration |---------< composed of >
  ooooooo        +---------------+          \\\\\\\//////
                     |       | 1
                     |       +--------------+
@@ -443,14 +451,14 @@ The model shown in {{fig-ER-RD}} models the contents of the resource directory w
 
 A Group has zero or one Multicast address attribute and is composed of zero or more  registrations (endpoints). A registration is associated with one endpoint (ep). A registration can be part of 0 or more Groups . A registration defines a set of links as defined for /.well-known/core. A Registration has six attributes:
 
-* one ep (endpoint with a unique  name)
-* one con (a string typically describing the scheme://authority part)
-* one lt (lifetime),
-* one loc (location in the RD)
-* optional one d (domain for query filtering),
+* a unique endpoint name ("ep")
+* a Registration Base URI ("base", a URI typically describing the scheme://authority part)
+* a lifetime ("lt"),
+* a registration resource location inside the RD ("loc"),
+* optionally a sector (abbreviated "d" for historical reasons),
 * optional additional endpoint attributes (from {{iana-registry}})
 
-The cardinality of con is currently 1;
+The cardinality of "base" is currently 1;
 future documents are invited to extend the RD specification to support multiple values (eg. {{I-D.silverajan-core-coap-protocol-negotiation}}).
 Its value is used as a Base URI when resolving URIs in the links contained in the endpoint.
 
@@ -521,7 +529,7 @@ storage and access by Resource Directories. Since it is common practice for thes
 to be URN encoded, simple and lossless structural transforms should
 generally be sufficient to store external metadata in Resource Directories.
 
-The additional features of Resource Directory allow domains to be defined
+The additional features of Resource Directory allow sectors to be defined
 to enable access to a particular set of resources from particular applications.
 This provides isolation and protection of sensitive data when needed. Groups may defined to support efficient data transport.
 
@@ -835,8 +843,8 @@ After discovering the location of an RD, an registree-ep or CT MAY
 register the resources of the registree-ep using the registration interface. This interface
 accepts a POST from an endpoint containing the list of resources to be added
 to the directory as the message payload in the CoRE Link Format {{RFC6690}}, JSON CoRE Link Format (application/link-format+json), or CBOR CoRE Link Format (application/link-format+cbor)  {{I-D.ietf-core-links-json}}, along with query
-parameters indicating the name of the endpoint, and optionally the domain
-and the lifetime of the registration.
+parameters indicating the name of the endpoint, and optionally the sector,
+lifetime and base URI of the registration.
 It is expected that other specifications will define further parameters (see
 {{iana-registry}}). The RD then creates a new registration resource in the RD and returns its location. The receiving endpoint MUST use that
 location when refreshing registrations using this interface. Registration
@@ -844,7 +852,7 @@ resources in the RD are kept active for the period indicated by the lifetime
 parameter. The endpoint is responsible for refreshing the registration resource within this
 period using either the registration or update interface. The registration
 interface MUST be implemented to be idempotent, so that registering twice
-with the same endpoint parameters ep and d does not create multiple registration resources.
+with the same endpoint parameters ep and d (sector) does not create multiple registration resources.
 A new registration resource may be created at any time to supersede an existing registration,
 replacing the registration parameters and links.
 
@@ -856,8 +864,8 @@ The following rules apply for an update identified by a given (ep, d) value pair
 The posted link-format document can (and typically does) contain relative references
 both in its link targets and in its anchors, or contain empty anchors.
 The RD server needs to resolve these references in order to faithfully represent them in lookups.
-The Base URI against which they are resolved is the context of the registration,
-which is provided either explicitly in the `con` parameter or constructed implicitly from the requester's network address.
+They are resolved against the base URI of the registration,
+which is provided either explicitly in the `base` parameter or constructed implicitly from the requester's network address.
 
 Documents in {{RFC6690}} Link Format SHOULD NOT contain links
 in which resolving the target literal against the base URI gives a different result than resolving it against the resolved anchor;
@@ -880,7 +888,7 @@ Method:
 
 
 URI Template:
-: {+rd}{?ep,d,lt,con,extra-attrs\*}
+: {+rd}{?ep,d,lt,base,extra-attrs\*}
 
 
 URI Template Variables:
@@ -891,24 +899,24 @@ URI Template Variables:
 
   ep :=
   : Endpoint name (mostly mandatory). The endpoint name is an identifier
-    that MUST be unique within a domain.  The maximum length of this
+    that MUST be unique within a sector.  The maximum length of this
     parameter is 63 bytes.
 
     If the RD is configured to recognize the endpoint (eg. based on its security context),
     the endpoint can ignore the endpoint name, and assign one based on a set of configuration parameter values.
 
   d :=
-  : Domain (optional). The domain to which this endpoint belongs. The maximum
+  : Sector (optional). The sector to which this endpoint belongs. The maximum
     length of this parameter is 63 bytes. When this parameter is not present, the
-    RD MAY associate the endpoint with a configured default domain or leave it empty.
+    RD MAY associate the endpoint with a configured default sector or leave it empty.
 
   lt :=
   : Lifetime (optional). Lifetime of the registration in seconds. Range of 60-4294967295.
     If no lifetime is included in the initial registration, a default value of
     90000 (25 hours) SHOULD be assumed.
 
-  con :=
-  : Context (optional). This parameter sets the Default Base URI under which
+  base :=
+  : Base UR (optional). This parameter sets the base URI of the registration, under which
     the request's links are to be interpreted. The specified URI typically does not have a path component of its own, and MUST be suitable as a base URI to resolve any relative references given in the registration. The parameter is therefore usually of the shape "scheme://authority" for
     HTTP and CoAP URIs.
     The URI SHOULD NOT have a query or fragment component
@@ -919,7 +927,7 @@ URI Template Variables:
     mandatory when the directory is filled by a third party such as an
     commissioning tool.
 
-    If the endpoint uses an ephemeral port to register with, it MUST include the con
+    If the endpoint uses an ephemeral port to register with, it MUST include the base
     parameter in the registration to provide a valid network path.
 
     If the endpoint which is located behind a NAT gateway is registering with a Resource
@@ -927,7 +935,7 @@ URI Template Variables:
     use a persistent port for the outgoing registration in order to provide the NAT
     gateway with a valid network address for replies and incoming requests.
 
-    Endpoints that register with a con that contains a path component
+    Endpoints that register with a base that contains a path component
     need to carefully consider the rules of relative URI resolution.
     Typically, links submitted by such an endpoint are of the `path-noscheme`
     (starts with a a path not preceded by a slash, precisely defined in {{RFC3986}} Section 3.3)
@@ -1016,7 +1024,7 @@ A Resource Directory may optionally support HTTP. Here is an example of almost t
 and the JSON Link Format.
 
 ~~~~
-Req: POST /rd?ep=node1&con=http://[2001:db8:1::1] HTTP/1.1
+Req: POST /rd?ep=node1&base=http://[2001:db8:1::1] HTTP/1.1
 Host : example.com
 Content-Type: application/link-format+json
 Payload:
@@ -1051,7 +1059,7 @@ request to the `/.well-known/core` URI of the directory server of choice. The bo
 directory server to perform GET requests at the requesting registree-ep's default
 discovery URI to obtain the link-format payload to register.
 
-The registree-ep includes the same registration parameters in the POST request as it would per {{registration}}. The context of the registration is taken from the requesting server's URI.
+The registree-ep includes the same registration parameters in the POST request as it would per {{registration}}. The registration base URI of the registration is taken from the requesting server's URI.
 
 The Resource Directory MUST NOT query the registree-ep's data before sending the response; this is to accomodate very limited endpoints.
 The success condition only indicates that the request was valid (ie. the passed parameters are valid per se),
@@ -1072,7 +1080,7 @@ URI Template:
 
 
 URI Template Variables are as they are for registration in {{registration}}.
-The con attribute is not accepted to keep the registration interface simple;
+The base attribute is not accepted to keep the registration interface simple;
 that rules out registration over CoAP-over-TCP or HTTP that would need to specify one.
 
 The following response codes are defined for this interface:
@@ -1160,9 +1168,9 @@ In a controlled environment (e.g. building control), the Resource Directory
 can be filled by a third party device, called a commissioning tool. The commissioning
 tool can fill the Resource Directory from a database or other means. For
 that purpose the scheme, IP address and port of the registered device is
-indicated in the Context parameter of the registration described in {{registration}}.
+indicated in the "base" parameter of the registration described in {{registration}}.
 
-It should be noted that the value of the con parameter applies to all the links of the registration and has consequences for the anchor value of the individual links as exemplified in {{weblink}}. An eventual (currently non-existing) con attribute of the link is not affected by the value of con parameter in the registration.
+It should be noted that the value of the "base" parameter applies to all the links of the registration and has consequences for the anchor value of the individual links as exemplified in {{weblink}}. An eventual (currently non-existing) "base" attribute of the link is not affected by the value of "base" parameter in the registration.
 
 
 # RD Groups {#group}
@@ -1176,8 +1184,8 @@ CoAP, a group MAY have a multicast address associated with it.
 
 In order to create a group, a commissioning tool (CT) used to configure groups,
 makes a request to the RD indicating the name of the group to create (or
-update), optionally the domain the group belongs to, and optionally the multicast
-address of the group. This specification does not require that the endpoints belong to the same domain as the group, but a Resource Directory implementation can impose requirements on the domains of groups and endpoints depending on its configuration.
+update), optionally the sector the group belongs to, and optionally the multicast
+address of the group. This specification does not require that the endpoints belong to the same sector as the group, but a Resource Directory implementation can impose requirements on the sectors of groups and endpoints depending on its configuration.
 
 The registration message is a list of links to
 registration resources of the endpoints that belong to that group.
@@ -1203,7 +1211,7 @@ Method:
 : POST
 
 URI Template:
-: {+rd-group}{?gp,d,con}
+: {+rd-group}{?gp,d,base}
 
 URI Template Variables:
 : rd-group :=
@@ -1212,16 +1220,16 @@ URI Template Variables:
 
   gp :=
   : Group Name (mandatory). The name of the group to be created or replaced,
-    unique within that domain. The maximum length of this parameter is 63 bytes.
+    unique within that sector. The maximum length of this parameter is 63 bytes.
 
   d :=
-  : Domain (optional). The domain to which this group belongs. The maximum
+  : Sector (optional). The sector to which this group belongs. The maximum
     length of this parameter is 63 bytes. When this parameter is not present, the
-    RD MAY associate the group with a configured default domain or leave it empty.
+    RD MAY associate the group with a configured default sector or leave it empty.
 
-  con :=
-  : Context (optional). This parameter sets the scheme, address and port of the multicast address associated with the group.
-     When con is used, scheme and host are mandatory and
+  base :=
+  : Group Base URI (optional). This parameter sets the scheme, address and port of the multicast address associated with the group.
+     When base is used, scheme and host are mandatory and
     port parameter is optional.
 
 Content-Format:
@@ -1259,7 +1267,7 @@ is an example RD location discovered in a request similar to {{example-discovery
 
 ~~~~
 Req: POST coap://rd.example.com/rd-group?gp=lights
-                                  &con=coap://[ff35:30:2001:db8::1]
+                                  &base=coap://[ff35:30:2001:db8::1]
 Content-Format: 40
 Payload:
 <coap://other-rd/rd/4521>,
@@ -1349,18 +1357,18 @@ Resource lookup results in links that are semantically equivalent to the links s
 The links and link parameters returned are equal to the submitted,
 except that the target and anchor references are fully resolved.
 
-Links that did not have an anchor attribute are therefore returned with the (explicitly or implicitly set) context URI of the registration as the anchor.
+Links that did not have an anchor attribute are therefore returned with the (explicitly or implicitly set) base URI of the registration as the anchor.
 Links whose href or anchor was submitted as an absolute URI are returned with respective attributes unmodified.
 
 Above rules allow the client to interpret the response as links without any further knowledge of what the RD does.
-The Resource Directory MAY replace the contexts with a configured intermediate proxy, e.g. in the case of an HTTP lookup interface for CoAP endpoints.
+The Resource Directory MAY replace the registration base URIs with a configured intermediate proxy, e.g. in the case of an HTTP lookup interface for CoAP endpoints.
 
 ## Endpoint and group lookup
 
 Endpoint and group lookups result in links to registration resources and group resources, respectively.
-Endpoint registration resources are annotated with their endpoint names (ep), domains (d, if present) and context (con); the lifetime (lt) is not reported.
+Endpoint registration resources are annotated with their endpoint names (ep), sectors (d, if present) and registration base URIs (base); the lifetime (lt) is not reported.
 Additional endpoint attributes are added as link attributes to their endpoint link unless their specification says otherwise.
-Group resources are annotated with their group names (gp), domain (d, if present) and multicast address (con, if present).
+Group resources are annotated with their group names (gp), sector (d, if present) and multicast address (base, if present).
 
 While Endpoint Lookup does expose the registration resources,
 the RD does not need to make them accessible to clients.
@@ -1372,7 +1380,7 @@ lookup clients MUST be prepared to see arbitrary URIs as registration or group r
 
 For groups, a Resource Directory as specified here
 does not provide a lookup mechanism for the resources that can be accessed on a group's multicast address
-(ie. no lookup will return links like `<coap://[ff35:30:2001:db8::1]/light>;...` for a group registered with `con=coap://[ff35...]`).
+(ie. no lookup will return links like `<coap://[ff35:30:2001:db8::1]/light>;...` for a group registered with `base=coap://[ff35...]`).
 Such an additional lookup interface could be specified in an extension document.
 
 ## Lookup filtering
@@ -1526,9 +1534,9 @@ The following example shows a client performing an endpoint type (et) lookup wit
 Req: GET /rd-lookup/ep?et=oic.d.sensor
 
 Res: 2.05 Content
-</rd/1234>;con="coap://[2001:db8:3::127]:61616";ep="node5";
+</rd/1234>;base="coap://[2001:db8:3::127]:61616";ep="node5";
 et="oic.d.sensor";ct="40",
-</rd/4521>;con="coap://[2001:db8:3::129]:61616";ep="node7";
+</rd/4521>;base="coap://[2001:db8:3::129]:61616";ep="node7";
 et="oic.d.sensor";ct="40";d="floor-3"
 ~~~~
 
@@ -1539,9 +1547,9 @@ Req: GET /rd-lookup/gp
 
 Res: 2.05 Content
 </rd-group/1>;gp="lights1";d="example.com";
-       con="coap://[ff35:30:2001:db8::1]",
+       base="coap://[ff35:30:2001:db8::1]",
 </rd-group/2>;gp="lights2";d="example.com";
-       con="coap://[ff35:30:2001:db8::2]"
+       base="coap://[ff35:30:2001:db8::2]"
 ~~~~
 
 The following example shows a client performing a lookup for all endpoints
@@ -1551,9 +1559,9 @@ in a particular group, with one endpoint hosted by another RD:
 Req: GET /rd-lookup/ep?gp=lights1
 
 Res: 2.05 Content
-<coap://[other-rd]/rd/abcd>;con="coap://[2001:db8:3::123]:61616";
+<coap://[other-rd]/rd/abcd>;base="coap://[2001:db8:3::123]:61616";
 anchor="coap://[other-rd]";ep="node1";et="oic.d.sensor";ct="40",
-</rd/efgh>;con="coap://[2001:db8:3::124]:61616";
+</rd/efgh>;base="coap://[2001:db8:3::124]:61616";
 ep="node2";et="oic.d.sensor";ct="40"
 ~~~~
 
@@ -1644,7 +1652,7 @@ or TLS security requirements and references  -->.
 
 ## Endpoint Identification and Authentication {#endpoint_identification}
 
-An Endpoint is determined to be unique within (the domain of) an RD by the Endpoint identifier
+An Endpoint is determined to be unique within (the sector of) an RD by the Endpoint identifier
 parameter included during Registration, and any associated TLS or DTLS security
 bindings. An Endpoint MUST NOT be identified by its protocol, port or IP
 address as these may change over the lifetime of an Endpoint.
@@ -1673,7 +1681,7 @@ Access control SHOULD be performed separately for the RD registration, Lookup, a
 group API paths, as different endpoints may be authorized to register
 with an RD from those authorized to lookup endpoints from the RD. Such access
 control SHOULD be performed in as fine-grained a level as possible. For example
-access control for lookups could be performed either at the domain, endpoint
+access control for lookups could be performed either at the sector, endpoint
 or resource level.
 
 
@@ -1736,15 +1744,15 @@ The mechanisms around new RD parameters should be designed in such a way that th
 
 Initial entries in this sub-registry are as follows:
 
-| Full name     | Short | Validity      | Use | Description                                                             |
-| Endpoint Name | ep    |               | RLA | Name of the endpoint, max 63 bytes                                      |
-| Lifetime      | lt    | 60-4294967295 | R   | Lifetime of the registration in seconds                                 |
-| Domain        | d     |               | RLA | Domain to which this endpoint belongs                                   |
-| Context       | con   | URI           | RLA | The scheme, address and port and path at which this server is available |
-| Group Name    | gp    |               | RLA | Name of a group in the RD                                               |
-| Page          | page  | Integer       |  L  | Used for pagination                                                     |
-| Count         | count | Integer       |  L  | Used for pagination                                                     |
-| Endpoint Type | et    |               | RLA | Semantic name of the endpoint (see {{et-registry}})                     |
+| Full name             | Short | Validity      | Use | Description                                                             |
+| Endpoint Name         | ep    |               | RLA | Name of the endpoint, max 63 bytes                                      |
+| Lifetime              | lt    | 60-4294967295 | R   | Lifetime of the registration in seconds                                 |
+| Section               | d     |               | RLA | Section to which this endpoint belongs                                  |
+| Registration Base URI | base  | URI           | RLA | The scheme, address and port and path at which this server is available |
+| Group Name            | gp    |               | RLA | Name of a group in the RD                                               |
+| Page                  | page  | Integer       |  L  | Used for pagination                                                     |
+| Count                 | count | Integer       |  L  | Used for pagination                                                     |
+| Endpoint Type         | et    |               | RLA | Semantic name of the endpoint (see {{et-registry}})                     |
 {: #tab-registry title='RD Parameters' }
 
 (Short: Short name used in query parameters or link attributes. Use: R = used at registration, L = used at lookup, A = expressed in link attribute
@@ -1903,12 +1911,12 @@ It is assumed that the CT knows the RD's address, and has performed URI
 discovery on it that returned a response like the one in the {{discovery}} example.
 
 The CT inserts the endpoints of the luminaries and the sensor in the RD
-using the Context parameter (con) to specify the interface address:
+using the registration base URI parameter (base) to specify the interface address:
 
 
 ~~~~
 Req: POST coap://[2001:db8:4::ff]/rd
-  ?ep=lm_R2-4-015_wndw&con=coap://[2001:db8:4::1]&d=R2-4-015
+  ?ep=lm_R2-4-015_wndw&base=coap://[2001:db8:4::1]&d=R2-4-015
 Payload:
 </light/left>;rt="light",
 </light/middle>;rt="light",
@@ -1921,7 +1929,7 @@ Location-Path: /rd/4521
 
 ~~~~
 Req: POST coap://[2001:db8:4::ff]/rd
-  ?ep=lm_R2-4-015_door&con=coap://[2001:db8:4::2]&d=R2-4-015
+  ?ep=lm_R2-4-015_door&base=coap://[2001:db8:4::2]&d=R2-4-015
 Payload:
 </light/left>;rt="light",
 </light/middle>;rt="light",
@@ -1934,7 +1942,7 @@ Location-Path: /rd/4522
 
 ~~~~
 Req: POST coap://[2001:db8:4::ff]/rd
-  ?ep=ps_R2-4-015_door&con=coap://[2001:db8:4::3]d&d=R2-4-015
+  ?ep=ps_R2-4-015_door&base=coap://[2001:db8:4::3]d&d=R2-4-015
 Payload:
 </ps>;rt="p-sensor"
 
@@ -1942,18 +1950,18 @@ Res: 2.01 Created
 Location-Path: /rd/4523
 ~~~~
 
-The domain name d=R2-4-015 has been added for an efficient lookup because
-filtering on "ep" name is more awkward. The same domain name is communicated to
+The sector name d=R2-4-015 has been added for an efficient lookup because
+filtering on "ep" name is more awkward. The same sector name is communicated to
 the two luminaries and the presence sensor by the CT.
 
-The group is specified in the RD. The Context parameter is set to the site-local
+The group is specified in the RD. The base parameter is set to the site-local
 multicast address allocated to the group.
 In the POST in the example below, these two endpoints and the endpoint
 of the presence sensor are registered as members of the group.
 
 ~~~~
 Req: POST coap://[2001:db8:4::ff]/rd-group
-?gp=grp_R2-4-015&con=coap://[ff05::1]
+?gp=grp_R2-4-015&base=coap://[ff05::1]
 Payload:
 </rd/4521>,
 </rd/4522>,
@@ -1967,8 +1975,8 @@ After the filling of the RD by the CT, the application in the luminaries
 can learn to which groups they belong, and enable their interface for the
 multicast address.
 
-The luminary, knowing its domain, queries the RD for the endpoint with rt=light
-and d=R2-4-015. The RD returns all endpoints in the domain.
+The luminary, knowing its sector, queries the RD for the endpoint with rt=light
+and d=R2-4-015. The RD returns all endpoints in the sector.
 
 
 ~~~~
@@ -1976,9 +1984,9 @@ Req: GET coap://[2001:db8:4::ff]/rd-lookup/ep
   ?d=R2-4-015&rt=light
 
 Res: 2.05 Content
-</rd/4521>;con="coap://[2001:db8:4::1]";
+</rd/4521>;base="coap://[2001:db8:4::1]";
   ep="lm_R2-4-015_wndw",
-</rd/4522>;con="coap://[2001:db8:4::2]";
+</rd/4522>;base="coap://[2001:db8:4::2]";
    ep="lm_R2-4-015_door"
 ~~~~
 
@@ -1992,10 +2000,10 @@ Req: GET coap://[2001:db8:4::ff]/rd-lookup/gp
   ?ep=lm_R2-4-015_wndw
 
 Res: 2.05 Content
-</rd-group/501>;gp="grp_R2-4-015";con="coap://[ff05::1]"
+</rd-group/501>;gp="grp_R2-4-015";base="coap://[ff05::1]"
 ~~~~
 
-From the context parameter value, the luminary learns the multicast address
+From the base parameter value, the luminary learns the multicast address
 of the multicast group.
 
 Alternatively, the CT can communicate the multicast address directly to the
@@ -2025,7 +2033,7 @@ An LWM2M server is an instance of an LWM2M middleware service layer, containing 
 
 CoRE Resource Directory (RD) is used to provide the LWM2M Registration interface.
 
-LWM2M does not provide for registration domains and does not currently
+LWM2M does not provide for registration sectors and does not currently
 use the rd-group or rd-lookup interfaces.
 
 The LWM2M specification describes a set of interfaces and a resource model used between a LWM2M device and an LWM2M server. Other interfaces, proxies, and applications are currently out of scope for LWM2M.
@@ -2123,7 +2131,7 @@ The following RD registration parameters are not currently specified for use in 
 
 ~~~~
 et - Endpoint Type
-con - Context
+base - Registration Base URI
 ~~~~
 
 The endpoint registration must include a payload containing links to all supported objects and existing object instances, optionally including the appropriate link-format relations.
@@ -2173,6 +2181,9 @@ originally developed.
 
 changes from -13 to -14
 
+* Rename "registration context" to "registration base URI" (and "con" to
+  "base") and "domain" to "sector" (where the abbreviation "d" stays for
+  compatibility reasons)
 * Registration management moved to appendix A
 * Minor editorial changes
   * PATCH/iPATCH is clearly deferred to another document
@@ -2182,7 +2193,7 @@ changes from -13 to -14
 * Simple registration carries no error information and succeeds immediately (previously, sequence was unspecified)
 * Lookup: href are matched against resolved values (previously, this was unspecified)
 * Lookup: lt are not exposed any more
-* con: Paths are allowed
+* con/base: Paths are allowed
 * Registration resource locations can not have query or fragment parts
 * Default life time extended to 25 hours
 * clarified registration update rules
