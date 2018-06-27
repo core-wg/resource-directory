@@ -1356,9 +1356,10 @@ The Resource Directory MAY replace the contexts with a configured intermediate p
 ## Endpoint and group lookup
 
 Endpoint and group lookups result in links to registration resources and group resources, respectively.
-Endpoint registration resources are annotated with their endpoint names (ep), domains (d, if present) and context (con); the lifetime (lt) is not reported.
+Endpoint registration resources are annotated with their endpoint names (ep), domains (d, if present) and context (con) as well as a constant resource type (rt="core.rd-ep"); the lifetime (lt) is not reported.
 Additional endpoint attributes are added as link attributes to their endpoint link unless their specification says otherwise.
-Group resources are annotated with their group names (gp), domain (d, if present) and multicast address (con, if present).
+
+Group resources are annotated with their group names (gp), domain (d, if present) and multicast address (con, if present) as well as a constant resource type (rt="core.rd-gp").
 
 While Endpoint Lookup does expose the registration resources,
 the RD does not need to make them accessible to clients.
@@ -1698,6 +1699,8 @@ Target Attribute Values subregistry of the Constrained Restful Environments
 | core.rd-lookup-res  | Resource lookup of an RD              | RFCTHIS {{discovery}} |
 | core.rd-lookup-ep   | Endpoint lookup of an RD              | RFCTHIS {{discovery}} |
 | core.rd-lookup-gp   | Group lookup of an RD                 | RFCTHIS {{discovery}} |
+| core.rd-ep          | Endpoint resource of an RD            | RFCTHIS {{lookup}}    |
+| core.rd-gp          | Group resource of an RD               | RFCTHIS {{lookup}}    |
 
 
 ## IPv6 ND Resource Directory Address Option
@@ -2166,6 +2169,7 @@ originally developed.
 
 changes from -13 to -14
 
+* Introduced resource types core.rd-ep and core.rd-gp
 * Registration management moved to appendix A
 * Minor editorial changes
   * PATCH/iPATCH is clearly deferred to another document
