@@ -847,6 +847,7 @@ A new registration resource may be created at any time to supersede an existing 
 replacing the registration parameters and links.
 
 The following rules apply for an update identified by a given (ep, d) value pair:
+
 * when the parameter values of the Update generate the same attribute values as already present, the location of the already existing registration is returned.
 * when for a given (ep, d) value pair the the update generates attribute values which are different from the existing one, the existing registration is removed and a new registration with a new location is created.
 * when the (ep, d) value pair of the update is different from any existing registration, a new registration is generated.
