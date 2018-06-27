@@ -1688,9 +1688,16 @@ attack.
 
 ## Resource Types {#iana-rt}
 
-"core.rd", "core.rd-group", "core.rd-lookup-ep", "core.rd-lookup-res",
-and "core.rd-lookup-gp" resource types need to be
-registered with the resource type registry defined by {{RFC6690}}.
+IANA is asked to enter the following values into the Resource Type (rt=) Link
+Target Attribute Values subregistry of the Constrained Restful Environments
+(CoRE) Parameters registry defined in {{RFC6690}}:
+
+| Value               | Description                           | Reference              |
+| core.rd             | Directory resource of an RD           | RFCTHIS {{discovery}} |
+| core.rd-group       | Group directory resource of an RD     | RFCTHIS {{discovery}} |
+| core.rd-lookup-res  | Resource lookup of an RD              | RFCTHIS {{discovery}} |
+| core.rd-lookup-ep   | Endpoint lookup of an RD              | RFCTHIS {{discovery}} |
+| core.rd-lookup-gp   | Group lookup of an RD                 | RFCTHIS {{discovery}} |
 
 
 ## IPv6 ND Resource Directory Address Option
