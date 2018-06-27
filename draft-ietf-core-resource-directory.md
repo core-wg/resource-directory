@@ -372,19 +372,11 @@ A link has the following attributes (see {{RFC5988}}):
 
 * A link context URI: It defines the source of the relation, eg. *who* "hosts" something.
 
-  In link-format serialization, it is expressed in the "anchor" attribute. There, it can be a relative reference, in which case it gets resolved against the URI of the `.well-known/core` document it was obtained from. <!-- or the / resource of said server: RFC6690bis anyone? --> It defaults to that document's URI.
+  In link-format serialization, it is expressed in the "anchor" attribute. It defaults to that document's URI.
 
 * A link target URI: It defines the destination of the relation (eg. *what* is hosted), and is the topic of all target attributes.
 
  In link-format serialization, it is expressed between angular brackets, and sometimes called the "href".
-
- If there is an anchor attribute present
- and the link is serialized in {{RFC6690}} link format,
- this document will require that the link is an absolute reference to avoid the
- ambiguities outlined in {{resolution-rules}}.
-
- Otherwise, it can be serialized as a relative URI,
- and gets resolved against the document's URI.
 
 * Other target attributes (eg. resource type (rt), interface (if), cor content-type (ct)).
   These provide additional information about the target URI.
@@ -858,15 +850,14 @@ The RD server needs to resolve these references in order to faithfully represent
 The Base URI against which they are resolved is the context of the registration,
 which is provided either explicitly in the `con` parameter or constructed implicitly from the requester's network address.
 
-Documents in {{RFC6690}} Link Format SHOULD NOT contain links
-in which resolving the target literal against the base URI gives a different result than resolving it against the resolved anchor;
-this is to avoid the ambiguities described in {{resolution-rules}}.
+Link format documents submitted to the resource directory are interpreted
+as Modernized Link Format (see {{modern6690}}) by the RD.
+A registree-ep SHOULD NOT submit documents those interpretation according to
+{{RFC6690}} and {{modern6690}} differs and RFC6690 interpretation is intended
+to avoid the ambiguities described in {{resolution-rules}}.
 
-* Entries in which there is no anchor attribute,
-* entries in which the target is an absolute reference and
-* entries in which both the target and the anchor start with a slash ("/")
-
-never cause that kind of ambiguity.
+In practice, most links (precisely listed in {{modern-safe}}) can be submitted
+without consideration for those details.
 
 The registration request interface is specified as follows:
 
@@ -927,7 +918,9 @@ URI Template Variables:
     gateway with a valid network address for replies and incoming requests.
 
     Endpoints that register with a con that contains a path component
-    need to carefully consider the rules of relative URI resolution.
+    can not meaningfully use {{RFC6690}} Link Format due to its prevalence of
+    the Origin concept in relative reference resolution; they can submit
+    payloads for interpretation as Modernized Link Format.
     Typically, links submitted by such an endpoint are of the `path-noscheme`
     (starts with a a path not preceded by a slash, precisely defined in {{RFC3986}} Section 3.3)
     form.
@@ -2820,19 +2813,23 @@ model of typed links, there are some differences between {{RFC6690}} and
 {{RFC5988}}, which are dealt with differently:
 
 * "Resolving the target against the anchor":
-  {{RFC6690}} Section 2.1 states that the anchor of a link uses the Base URI
-  against which the term inside the angle brackets (the target) is resolved.
+  {{RFC6690}} Section 2.1 states that the anchor of a link is used as the Base URI
+  against which the term inside the angle brackets (the target) is resolved,
+  falling back to the resource's URI with paths stripped off (its "Origin").
   {{RFC8288}} Section B.2 describes that the anchor is immaterial to the
   resolution of the target reference.
+
+  RFC6690, in the same section, also states that absent anchors set the context of
+  the link to the target's URI with its path stripped off, while according to
+  {{RFC8288}} Section 3.2, the context is the resource's base URI.
 
   In the context of a Resource Directory, the authors decided not to not let
   this become an issue by requiring that RFC6690 links be serialized in a way
   that either rule set can be applied and give the same results.
   Note that all examples of {{RFC6690}}, {{RFC8288}} and this document comply with that rule.
 
-  Applications that would prefer to transport references with a relative target
-  and an absolute anchor are advised to use a different serialization of the
-  links. {{I-D.ietf-core-links-json}} might provide such formats.
+  The Modernized Link Format is introduced in {{modern6690}} to formalize what
+  it means to apply the ruleset of RFC8288 to Link Format documents.
 
 * There is no percent encoding in link-format documents.
 
@@ -2909,6 +2906,60 @@ Res: 2.05 Content
 <coap+tcp://[2001:db8:f1::2]/temperature>;ct=0;rt="temperature";
     if="core.s";anchor="coap+tcp://[2001:db8:f1::2]"
 ~~~~
+
+# Modernized Link Format parsing {#modern6690}
+
+The CoRE Link Format as described in {{RFC6690}} is unsuitable for some use cases
+of the Resource Directory, and their resolution scheme is often misunderstood
+by developers familiar with {{RFC8288}}.
+
+For the correct application of base URIs, we describe the interpretation of a
+Link Format document as a Modernized Link Format. In Modernized Link Format,
+the document is processed as in Link Format, with the exception of Section 2.1
+of {{RFC6690}}:
+
+* The URI-reference inside angle brackets ("<>") describes the target URI of
+  the link. If it is a relative reference, it is resolved against the base URI
+  of the document.
+
+* The context of the link is expressed by the "anchor" parameter; if it is a
+  relative reference, it is resolved against the document's base URI. In
+  absence of the "anchor" attribute, the base URI is the link's context.
+
+Content formats derived from {{RFC6690}} which inherit its resolution rules,
+like JSON and CBOR link format of {{I-D.ietf-core-links-json}}, can be
+interpreted in analogy to that.
+
+For where the Resource Directory is concerned, all common forms of links (eg.
+all the examples of RFC6690) yield identical results. When interpreting data
+read from `.well-known/core`, differences in interpretation only affect links
+where the absent anchor attribute means `coap://host/` according to RFC6690 and
+`coap://host/.well-known/core` according to Modernized Link format; those
+typically only occur in conjunction with the vaguely defined implicit "hosts"
+relationship.
+
+## For endpoint developers {#modern-safe}
+
+When developing endpoints, ie. when generating documents that will be submitted
+to a Resource Directory, the differences between Modernized Link Format and
+RFC6690 can be ignored as long as all relative references start with a slash,
+and any of the following applies:
+
+* There is no anchor attribute, and the context of the link does not matter to
+  the application.
+
+  Example:
+  `</sensors>;ct=40`
+
+* The anchor is a relative reference.
+
+  Example:
+  `</t>;anchor="/sensors/temp";rel="alternate`
+
+* The target is an absolute reference.
+
+  Example:
+  `<http://www.example.com/sensors/t123>;anchor="/sensors/temp";rel="describedby"`
 
 
 <!--  LocalWords:  lookups multicast lookup RESTful CoRE LoWPAN CoAP
