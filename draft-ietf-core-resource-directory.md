@@ -1180,11 +1180,10 @@ address of the group. This specification does not require that the endpoints bel
 
 The registration message is a list of links to
 registration resources of the endpoints that belong to that group.
-The registration resources MAY be located on different hosts than the group hosting RD.
-In that case the endpoint link points to the registration resource on the other RD.
-The commissioning tool SHOULD NOT attempt to enter a foreign registration in a group unless
-it found it in the group RD's lookup results,
-or has other reasons to assume that the foreign registration will be accepted.
+The CT can use any URI reference discovered using endpoint lookup from the same server
+or obtained by registering an endpoint using third party registration
+and enter it into a group.
+The use of other URIs is not specified in this document and can be defined in others.
 
 The commissioning tool SHOULD not send any target attributes with the links to the registration resources,
 and the resource directory SHOULD reject registrations that contain links with unprocessable attributes.
@@ -1261,7 +1260,7 @@ Req: POST coap://rd.example.com/rd-group?gp=lights
                                   &con=coap://[ff35:30:2001:db8::1]
 Content-Format: 40
 Payload:
-<coap://other-rd/rd/4521>,
+</rd/4521>,
 </rd/4522>
 
 Res: 2.01 Created
@@ -1366,8 +1365,9 @@ the RD does not need to make them accessible to clients.
 Clients SHOULD NOT attempt to dereference or manipulate them.
 
 A Resource Directory can report endpoints or groups in lookup that are not hosted at the same address.
-While the setup and management of such a distributed system is out of scope for this document,
-lookup clients MUST be prepared to see arbitrary URIs as registration or group resources in the results.
+Lookup clients MUST be prepared to see arbitrary URIs as registration or group resources in the results
+and treat them as opaque identifiers;
+the precise semantics of such links are left to future specifications.
 
 For groups, a Resource Directory as specified here
 does not provide a lookup mechanism for the resources that can be accessed on a group's multicast address
@@ -1541,19 +1541,6 @@ Res: 2.05 Content
        con="coap://[ff35:30:2001:db8::1]",
 </rd-group/2>;gp="lights2";d="example.com";
        con="coap://[ff35:30:2001:db8::2]"
-~~~~
-
-The following example shows a client performing a lookup for all endpoints
-in a particular group, with one endpoint hosted by another RD:
-
-~~~~
-Req: GET /rd-lookup/ep?gp=lights1
-
-Res: 2.05 Content
-<coap://[other-rd]/rd/abcd>;con="coap://[2001:db8:3::123]:61616";
-anchor="coap://[other-rd]";ep="node1";et="oic.d.sensor";ct="40",
-</rd/efgh>;con="coap://[2001:db8:3::124]:61616";
-ep="node2";et="oic.d.sensor";ct="40"
 ~~~~
 
 The following example shows a client performing a lookup for all groups the
