@@ -405,13 +405,13 @@ A link has the following attributes (see {{RFC5988}}):
              |  resource-directory  |
              +----------------------+
                         | 1
-                        |         oooooooooooo  0-1
-                        |        o MC address o---+
-                        |         oooooooooooo    |
-                        |                         |
-                   //////\\\\             0+  +--------+
-                  < contains >----------------| group  |
-                   \\\\\/////                 +--------+
+                        |         oooooooooo  0-1        1  oooooo
+                        |        o    base  o---+   +------o  gp  o
+                        |         ooooooooooo   |   |       oooooo
+                        |                       |   |
+                   //////\\\\             0+  +--------+  0-1  ooooo
+                  < contains >----------------| group  |------o  d  o
+                   \\\\\/////                 +--------+       ooooo
                         |                         | 0+
                      0+ |                         |
  ooooooo     1  +---------------+  1+      ///////\\\\\\
@@ -449,13 +449,20 @@ The model shown in {{fig-ER-RD}} models the contents of the resource directory w
 * 0 to n Registration (entries) of endpoints,
 * 0 or more Groups
 
-A Group has zero or one Multicast address attribute and is composed of zero or more  registrations (endpoints). A registration is associated with one endpoint (ep). A registration can be part of 0 or more Groups . A registration defines a set of links as defined for /.well-known/core. A Registration has six attributes:
+A Group has:
+
+* a group name ("gp"),
+* optionally a sector (abbreviated "d" for historical reasons),
+* zero or one multicast addresses expressed as a base URI ("base"),
+* and is composed of zero or more  registrations (endpoints).
+
+A registration is associated with one endpoint. A registration can be part of 0 or more Groups . A registration defines a set of links as defined for /.well-known/core. A Registration has six types of attributes:
 
 * a unique endpoint name ("ep")
 * a Registration Base URI ("base", a URI typically describing the scheme://authority part)
 * a lifetime ("lt"),
 * a registration resource location inside the RD ("loc"),
-* optionally a sector (abbreviated "d" for historical reasons),
+* optionally a sector ("d")
 * optional additional endpoint attributes (from {{iana-registry}})
 
 The cardinality of "base" is currently 1;
