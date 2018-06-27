@@ -401,14 +401,14 @@ A link has the following attributes (see {{RFC5988}}):
 
 
 ~~~~
-             +----------------------+
-             |  resource-directory  |
-             +----------------------+
-                        | 1
-                        |         oooooooooo  0-1        1  oooooo
-                        |        o    base  o---+   +------o  gp  o
-                        |         ooooooooooo   |   |       oooooo
-                        |                       |   |
+             +----------------------+              1  ooooooo
+             |  resource-directory  |             +--o  href o
+             +----------------------+             |   ooooooo
+                        | 1                       |
+                        |         oooooooooo  0-1 |      1  oooooo
+                        |        o    base  o---+ | +------o  gp  o
+                        |         ooooooooooo   | | |       oooooo
+                        |                       | | |
                    //////\\\\             0+  +--------+  0-1  ooooo
                   < contains >----------------| group  |------o  d  o
                    \\\\\/////                 +--------+       ooooo
@@ -420,7 +420,7 @@ o  base o-------|  registration |---------< composed of >
                     |       | 1
                     |       +--------------+
        oooooooo   1 |                      |
-      o  loc   o----+                 /////\\\\
+      o  href  o----+                 /////\\\\
        oooooooo     |                < contains >
                     |                 \\\\\/////
        oooooooo   1 |                      |
@@ -453,6 +453,7 @@ A Group has:
 
 * a group name ("gp"),
 * optionally a sector (abbreviated "d" for historical reasons),
+* a group resource location inside the RD ("href"),
 * zero or one multicast addresses expressed as a base URI ("base"),
 * and is composed of zero or more  registrations (endpoints).
 
@@ -461,7 +462,7 @@ A registration is associated with one endpoint. A registration can be part of 0 
 * a unique endpoint name ("ep")
 * a Registration Base URI ("base", a URI typically describing the scheme://authority part)
 * a lifetime ("lt"),
-* a registration resource location inside the RD ("loc"),
+* a registration resource location inside the RD ("href"),
 * optionally a sector ("d")
 * optional additional endpoint attributes (from {{iana-registry}})
 
