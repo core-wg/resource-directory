@@ -862,6 +862,7 @@ which is provided either explicitly in the `con` parameter or constructed implic
 Documents in {{RFC6690}} Link Format SHOULD NOT contain links
 in which resolving the target literal against the base URI gives a different result than resolving it against the resolved anchor;
 this is to avoid the ambiguities described in {{resolution-rules}}.
+
 * Entries in which there is no anchor attribute,
 * entries in which the target is an absolute reference and
 * entries in which both the target and the anchor start with a slash ("/")
@@ -1020,9 +1021,9 @@ Host : example.com
 Content-Type: application/link-format+json
 Payload:
 [
-{"href": "/sensors/temp", "ct": "41", "rt": "temperature-c", 
+{"href": "/sensors/temp", "ct": "41", "rt": "temperature-c",
 "if": "sensor", "anchor": "coap://spurious.example.com:5683"},
-{"href": "/sensors/light", "ct": "41", "rt": "light-lux", 
+{"href": "/sensors/light", "ct": "41", "rt": "light-lux",
   "if": "sensor"}
 ]
 
