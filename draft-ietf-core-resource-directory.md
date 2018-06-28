@@ -1972,35 +1972,19 @@ After the filling of the RD by the CT, the application in the luminaries
 can learn to which groups they belong, and enable their interface for the
 multicast address.
 
-The luminary, knowing its sector, queries the RD for the endpoint with rt=light
-and d=R2-4-015. The RD returns all endpoints in the sector.
 
-
-~~~~
-Req: GET coap://[2001:db8:4::ff]/rd-lookup/ep
-  ?d=R2-4-015&rt=light
-
-Res: 2.05 Content
-</rd/4521>;base="coap://[2001:db8:4::1]";
-  ep="lm_R2-4-015_wndw",
-</rd/4522>;base="coap://[2001:db8:4::2]";
-   ep="lm_R2-4-015_door"
-~~~~
-
-Knowing its own IPv6 address, the luminary discovers its endpoint name. With
-the endpoint name the luminary queries the RD for all groups to which the
-endpoint belongs.
-
+The luminary, knowing its sector and own IPv6 address, looks up the groups
+containing light resources it is assigned to:
 
 ~~~~
 Req: GET coap://[2001:db8:4::ff]/rd-lookup/gp
-  ?ep=lm_R2-4-015_wndw
+  ?d=R2-4-015&base=coap://[2001:db8:4::1]&rt=light
 
 Res: 2.05 Content
 </rd-group/501>;gp="grp_R2-4-015";base="coap://[ff05::1]"
 ~~~~
 
-From the base parameter value, the luminary learns the multicast address
+From the returned base parameter value, the luminary learns the multicast address
 of the multicast group.
 
 Alternatively, the CT can communicate the multicast address directly to the
