@@ -1372,9 +1372,10 @@ The Resource Directory MAY replace the registration base URIs with a configured 
 ## Endpoint and group lookup
 
 Endpoint and group lookups result in links to registration resources and group resources, respectively.
-Endpoint registration resources are annotated with their endpoint names (ep), sectors (d, if present) and registration base URIs (base); the lifetime (lt) is not reported.
+Endpoint registration resources are annotated with their endpoint names (ep), sectors (d, if present) and registration base URI (base) as well as a constant resource type (rt="core.rd-ep"); the lifetime (lt) is not reported.
 Additional endpoint attributes are added as link attributes to their endpoint link unless their specification says otherwise.
-Group resources are annotated with their group names (gp), sector (d, if present) and multicast address (base, if present).
+
+Group resources are annotated with their group names (gp), sector (d, if present) and multicast address (base, if present) as well as a constant resource type (rt="core.rd-gp").
 
 While Endpoint Lookup does expose the registration resources,
 the RD does not need to make them accessible to clients.
@@ -1704,9 +1705,18 @@ attack.
 
 ## Resource Types {#iana-rt}
 
-"core.rd", "core.rd-group", "core.rd-lookup-ep", "core.rd-lookup-res",
-and "core.rd-lookup-gp" resource types need to be
-registered with the resource type registry defined by {{RFC6690}}.
+IANA is asked to enter the following values into the Resource Type (rt=) Link
+Target Attribute Values subregistry of the Constrained Restful Environments
+(CoRE) Parameters registry defined in {{RFC6690}}:
+
+| Value               | Description                           | Reference              |
+| core.rd             | Directory resource of an RD           | RFCTHIS {{discovery}} |
+| core.rd-group       | Group directory resource of an RD     | RFCTHIS {{discovery}} |
+| core.rd-lookup-res  | Resource lookup of an RD              | RFCTHIS {{discovery}} |
+| core.rd-lookup-ep   | Endpoint lookup of an RD              | RFCTHIS {{discovery}} |
+| core.rd-lookup-gp   | Group lookup of an RD                 | RFCTHIS {{discovery}} |
+| core.rd-ep          | Endpoint resource of an RD            | RFCTHIS {{lookup}}    |
+| core.rd-gp          | Group resource of an RD               | RFCTHIS {{lookup}}    |
 
 
 ## IPv6 ND Resource Directory Address Option
@@ -2178,6 +2188,7 @@ changes from -13 to -14
 * Rename "registration context" to "registration base URI" (and "con" to
   "base") and "domain" to "sector" (where the abbreviation "d" stays for
   compatibility reasons)
+* Introduced resource types core.rd-ep and core.rd-gp
 * Registration management moved to appendix A
 * Minor editorial changes
   * PATCH/iPATCH is clearly deferred to another document
