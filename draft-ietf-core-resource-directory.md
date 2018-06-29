@@ -868,8 +868,8 @@ which is provided either explicitly in the `base` parameter or constructed impli
 
 Link format documents submitted to the resource directory are interpreted
 as Modernized Link Format (see {{modern6690}}) by the RD.
-A registree-ep SHOULD NOT submit documents those interpretation according to
-{{RFC6690}} and {{modern6690}} differs and RFC6690 interpretation is intended
+A registree-ep SHOULD NOT submit documents whose interpretations according to
+{{RFC6690}} and {{modern6690}} differ and RFC6690 interpretation is intended
 to avoid the ambiguities described in {{resolution-rules}}.
 
 In practice, most links (precisely listed in {{modern-safe}}) can be submitted
