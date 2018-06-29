@@ -1744,7 +1744,7 @@ Initial entries in this sub-registry are as follows:
 | Full name             | Short | Validity      | Use | Description                                                             |
 | Endpoint Name         | ep    |               | RLA | Name of the endpoint, max 63 bytes                                      |
 | Lifetime              | lt    | 60-4294967295 | R   | Lifetime of the registration in seconds                                 |
-| Section               | d     |               | RLA | Section to which this endpoint belongs                                  |
+| Sector                | d     |               | RLA | Sector to which this endpoint belongs                                   |
 | Registration Base URI | base  | URI           | RLA | The scheme, address and port and path at which this server is available |
 | Group Name            | gp    |               | RLA | Name of a group in the RD                                               |
 | Page                  | page  | Integer       |  L  | Used for pagination                                                     |
