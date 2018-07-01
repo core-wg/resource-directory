@@ -851,8 +851,6 @@ parameter. The endpoint is responsible for refreshing the registration resource 
 period using either the registration or update interface. The registration
 interface MUST be implemented to be idempotent, so that registering twice
 with the same endpoint parameters ep and d (sector) does not create multiple registration resources.
-A new registration resource may be created at any time to supersede an existing registration,
-replacing the registration parameters and links.
 
 The following rules apply for an update identified by a given (ep, d) value pair:
 
