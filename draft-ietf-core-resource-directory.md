@@ -1051,7 +1051,7 @@ This approach requires that the registree-ep makes available the hosted resource
 that it wants to be discovered, as links on its `/.well-known/core` interface as
 specified in {{RFC6690}}.
 The links in that document are subject to the same limitations as the payload of a registration
-(no relative target references when anchor is present).
+(with respect to {{modern6690}}).
 
 The registree-ep then finds one or more addresses of the directory server as described in {{finding_an_rd}}.
 
