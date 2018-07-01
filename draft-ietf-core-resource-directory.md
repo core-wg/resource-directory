@@ -168,7 +168,7 @@ Sector
 :   In the context of a Resource Directory, a sector is a
 logical grouping of endpoints.
 
-The abbreviation "d" is used for the sector in query parameters for
+: The abbreviation "d" is used for the sector in query parameters for
 compatibility with deployed implementations.
 
 Group
@@ -190,16 +190,16 @@ by the Endpoint at registration time, and is used by the Resource Directory to
 resolve relative references inside the registration into absolute URIs.
 
 Target
-:   The target of a link is the destination address (URI) of the link. It is sometimes identified with "href=", or displayed as `<target>`. Relative targets need resolving with respect to the Base URI (section 5.2 of {{RFC3986}}.
+:   The target of a link is the destination address (URI) of the link. It is sometimes identified with "href=", or displayed as `<target>`. Relative targets need resolving with respect to the Base URI (section 5.2 of {{RFC3986}}).
 
-    This use of the term Target is consistent with {{RFC8288}}'s use of the term.
+:   This use of the term Target is consistent with {{RFC8288}}'s use of the term.
 
 Context
 :   The context of a link is the source address (URI) of the link,
     and describes which resource is linked to the target.
     A link's context is made explicit in serialized links as the "anchor=" attribute.
 
-    This use of the term Context is consistent with {{RFC8288}}'s use of the term.
+:   This use of the term Context is consistent with {{RFC8288}}'s use of the term.
 
 Directory Resource
 :  A resource in the Resource Directory (RD) containing registration resources.
@@ -387,7 +387,7 @@ A link has the following attributes (see {{RFC5988}}):
 
 * A link target URI: It defines the destination of the relation (eg. *what* is hosted), and is the topic of all target attributes.
 
- In link-format serialization, it is expressed between angular brackets, and sometimes called the "href".
+    In link-format serialization, it is expressed between angular brackets, and sometimes called the "href".
 
 * Other target attributes (eg. resource type (rt), interface (if), or content-type (ct)).
   These provide additional information about the target URI.
@@ -921,20 +921,20 @@ URI Template Variables:
     The URI SHOULD NOT have a query or fragment component
     as any non-empty relative part in a reference would remove those parts from the resulting URI.
 
-    In the absence of this parameter the scheme of the protocol, source address
+  : In the absence of this parameter the scheme of the protocol, source address
     and source port of the registration request are assumed. This parameter is
     mandatory when the directory is filled by a third party such as an
     commissioning tool.
 
-    If the endpoint uses an ephemeral port to register with, it MUST include the base
+  : If the endpoint uses an ephemeral port to register with, it MUST include the base
     parameter in the registration to provide a valid network path.
 
-    If the endpoint which is located behind a NAT gateway is registering with a Resource
+  : If the endpoint which is located behind a NAT gateway is registering with a Resource
     Directory which is on the network service side of the NAT gateway, the endpoint MUST
     use a persistent port for the outgoing registration in order to provide the NAT
     gateway with a valid network address for replies and incoming requests.
 
-    Endpoints that register with a base that contains a path component
+  : Endpoints that register with a base that contains a path component
     can not meaningfully use {{RFC6690}} Link Format due to its prevalence of
     the Origin concept in relative reference resolution; they can submit
     payloads for interpretation as Modernized Link Format.
@@ -968,12 +968,12 @@ Success:
   of the registration and for maintaining the content of the
   registered links, including updating and deleting links.
 
-  A registration with an already registered ep and d value pair
+: A registration with an already registered ep and d value pair
   responds with the same success code and location as the original registration;
   the set of links registered with the endpoint is replaced with the links
   from the payload.
 
-  The location MUST NOT have a query or fragment component,
+: The location MUST NOT have a query or fragment component,
   as that could conflict with query parameters during the Registration Update operation.
   Therefore, the Location-Query option MUST NOT be present in a successful response.
 
@@ -1026,7 +1026,7 @@ and the JSON Link Format.
 
 ~~~~
 Req: POST /rd?ep=node1&base=http://[2001:db8:1::1] HTTP/1.1
-Host : example.com
+Host: example.com
 Content-Type: application/link-format+json
 Payload:
 [
@@ -1100,7 +1100,7 @@ HTTP support:
 
 
 For the second interaction triggered by the above, the registree-ep takes the role of server and the RD the role of client.
-(note that this is exactly the Well-Known Interface of {{RFC6690}} Section 4):
+(Note that this is exactly the Well-Known Interface of {{RFC6690}} Section 4):
 <!-- the above paragraph could just as well be any other text;
 what amtters is that the tables above and below are clearly separated. -->
 
@@ -1125,7 +1125,7 @@ Failure:
 : 4.00 "Bad Request". Malformed request.
 
 Failure:
-: 4.04 "Not Founds". /.well-known/core does not exist or is empty.
+: 4.04 "Not Found". /.well-known/core does not exist or is empty.
 
 Failure:
 : 5.03 "Service Unavailable". Service could not perform the operation.
@@ -1246,7 +1246,7 @@ The following response codes are defined for this interface:
 Success:
 : 2.01 "Created" or 201 "Created". The Location header or Location-Path option MUST be returned in response to a successful group CREATE operation.  This location MUST be a stable identifier generated by the RD as it is used for delete operations of the group resource.
 
-  As with the Registration operation,
+: As with the Registration operation,
   the location MUST NOT have a query or fragment component.
 
 Failure:
@@ -1640,7 +1640,7 @@ Since there is no return routability check and the responses can be significantl
 larger than requests, RDs can unknowingly become part of a DDoS amplification
 attack.
 
-#Authorization Server example. {#authorization_example}
+#Authorization Server example {#authorization_example}
 
 When threats may occur as described in {{endpoint_identification}}, an Authorization Server (AS) as specified in {{I-D.ietf-ace-oauth-authz}} can be used to remove the threat. An authorized  registry request to the Resource Directory (RD) is accompanied by an Access Token that validates the access of the client to the RD. In this example, the contents of the Access Token is specified by a CBOR Web Token (CWT) {{RFC8392}}. Selecting one of the scenarios of {{I-D.ietf-anima-bootstrapping-keyinfra}}, the registree-ep has a certificate that has been inserted at manufacturing time. The contents of the certificate will be used to generate the unique endpoint name. The certificate is uniquely identified by the leftmost CNcomponent of the subject name appended with the serial number. The unique certificate identifier is used as the unique endpoint name. The same unique identification is used for the registree-ep and the Commissioning Tool.
 
