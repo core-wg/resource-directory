@@ -915,7 +915,7 @@ URI Template Variables:
     90000 (25 hours) SHOULD be assumed.
 
   base :=
-  : Base UR (optional). This parameter sets the base URI of the registration, under which
+  : Base URI (optional). This parameter sets the base URI of the registration, under which
     the request's links are to be interpreted. The specified URI typically does not have a path component of its own, and MUST be suitable as a base URI to resolve any relative references given in the registration. The parameter is therefore usually of the shape "scheme://authority" for
     HTTP and CoAP URIs.
     The URI SHOULD NOT have a query or fragment component
@@ -1455,7 +1455,7 @@ Failure:
 HTTP support:
 : YES
 
-The group and endpoint lookup return registration resources which can only be manipulated by the registering endpoint. Examples of group and endpoint lookup belong to the management aspects of the RD and are shown in {ep-gp-lookup}. The resource lookup examples are shown in this section.
+The group and endpoint lookup return registration resources which can only be manipulated by the registering endpoint. Examples of group and endpoint lookup belong to the management aspects of the RD and are shown in {{ep-gp-lookup}}. The resource lookup examples are shown in this section.
 
 
 ##  Resource lookup examples
@@ -1679,14 +1679,14 @@ Three sections for as many authorized RD registration scenarios describe: (1) th
 
 ##Registree-ep registers with RD
 
-The registree-ep sends a Request to the RD accompanied by a CBOR Web Token (CWT). To prevent ambiguities, the URI of the authorized request cannot contain the ep= or the d= parameters which are specified in the CWT. When these parameters are present in the URI, the request is rejected with CoAP response code 4.00 (bad request). In {{fig-registree}}, the  CWT authorizes the registree-ep to register itself in the RD by specifying the certificate identifier of the registree-ep in the sub claim. The same value is assigned to the endpoint name of the registree-ep in the RD. 
+The registree-ep sends a Request to the RD accompanied by a CBOR Web Token (CWT). To prevent ambiguities, the URI of the authorized request cannot contain the ep= or the d= parameters which are specified in the CWT. When these parameters are present in the URI, the request is rejected with CoAP response code 4.00 (bad request). The CWT of {{fig-registree}} authorizes the registree-ep to register itself in the RD by specifying the certificate identifier of the registree-ep in the sub claim. The same value is assigned to the endpoint name of the registree-ep in the RD. 
 
 ~~~~
 The claim set of the CWT is represented in CBOR diagnostic notation
 {
      /iss/  1: ”coaps://as.example.com”,   / identifies the AS/
      /sub/ 2: ”Fairhair_01:02:03:04:05:06:07:08”,  
-      / certificate identifier uniquely identifiess registree-ep/
+      / certificate identifier uniquely identifies registree-ep/
      /aud/ 3: ”coaps://rd.example.com”   / audience is the RD/
 }
 ~~~~
@@ -1694,7 +1694,7 @@ The claim set of the CWT is represented in CBOR diagnostic notation
 
 ## Third party Commissioning Tool (CT) registers registree-ep with RD.
 
-The CT sends a Request to the RD accompanied by a CBOR Web Token (CWT). To prevent ambiguities, the URI of an authorized request cannot contain the ep= or the d= parameters which are specified in the CWT. When these parameters are present in the URI, the request is rejected with CoAP response code 4.00 (bad request). In {{fig-CT}}, the  CWT authorizes the CT to register the registree-ep by specifying the new certificate identifier, Fairhair_08:07:06:05:04:03:02:01, of the CT in the “sub” claim. Next to the certificate identifier of the CT, the CWT needs to specify the security identifier of the registree-ep. The new “rd_epn” claim is used to specify the value of the certificate identifier Fairhair_01:02:03:04:05:06:07:08, of the registree-ep. The CWT may contain the optional new “rd_sct” claim to assign a sector name to the registree-ep.
+The CT sends a Request to the RD accompanied by a CBOR Web Token (CWT). To prevent ambiguities, the URI of an authorized request cannot contain the ep= or the d= parameters which are specified in the CWT. When these parameters are present in the URI, the request is rejected with CoAP response code 4.00 (bad request). The CWT of {{fig-CT}} authorizes the CT to register the registree-ep by specifying the certificate identifier, Fairhair_08:07:06:05:04:03:02:01, of the CT in the “sub” claim. Next to the certificate identifier of the CT, the CWT needs to specify the security identifier of the registree-ep. The new “rd_epn” claim is used to specify the value of the certificate identifier Fairhair_01:02:03:04:05:06:07:08, of the registree-ep. The CWT may contain the optional new “rd_sct” claim to assign a sector name to the registree-ep.
 
 ~~~~
 The claim set is represented in CBOR diagnostic notation
@@ -2459,7 +2459,7 @@ The update interface is used by the registering endpoint to refresh or update it
 registration with an RD. To use the interface, the registering endpoint sends a POST request to the registration resource returned by the initial registration operation.
 
 An update MAY update the lifetime- or the context- registration parameters
-"lt", "con" as in {{registration}}. Parameters that are not being changed SHOULD NOT
+"lt", "base" as in {{registration}}. Parameters that are not being changed SHOULD NOT
 be included in an update. Adding parameters that have not changed increases
 the size of the message but does not have any other implications.
 Parameters MUST be included as query parameters in an update operation as
@@ -2500,8 +2500,8 @@ URI Template Variables:
   (falling back to 90000) SHOULD be used.
 
 
-  con :=
-  : Context (optional). This parameter updates the context established in the
+  base :=
+  : Base URI (optional). This parameter updates the context established in the
     original registration to a new value.
 
     If the parameter is set in an update, it is stored by the RD as the new
@@ -2509,11 +2509,11 @@ URI Template Variables:
     the same restrictions as in the registration.
 
     If the parameter is not set and was set explicitly before, the previous
-    context value is kept unmodified.
+    Base URI value is kept unmodified.
 
     If the parameter is not set and was not set explicitly before either, the
     source address and source port of the update request are stored as the
-    context.
+    Base URI.
 
   extra-attrs :=
   : Additional registration attributes (optional). As with the registration,
