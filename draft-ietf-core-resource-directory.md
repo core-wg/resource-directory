@@ -731,7 +731,7 @@ The discovery request interface is specified as follows
 with the additional requirement that the server MUST support query filtering):
 
 Interaction:
-: EP -> RD
+: EP and Client -> RD
 
 Method:
 : GET
