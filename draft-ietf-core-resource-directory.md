@@ -85,8 +85,11 @@ informative:
   RFC7641:
   ER: DOI.10.1145/320434.320440
   RFC8288:
+  RFC8392:
   I-D.silverajan-core-coap-protocol-negotiation:
   I-D.arkko-core-dev-urn:
+  I-D.ietf-ace-oauth-authz:
+  I-D.ietf-anima-bootstrapping-keyinfra:
 
 --- abstract
 
@@ -1604,10 +1607,7 @@ whether the identifier provided in the DTLS handshake matches the
 identifier used at the CoAP layer then it may be inclined to use the
 endpoint name for looking up what information to provision to the malicious device.
 
-Therefore, Endpoints MUST include the
-Endpoint identifier in the message, and this identifier
-MUST be checked by a resource directory to match the Endpoint identifier
-included in the Registration message.
+{{authorization_example}} specifies an example that removes this threat by using an Authorization Server for endpoints that have a certificate installed.
 
 
 ## Access Control
@@ -1639,6 +1639,80 @@ to wild-card lookups is potentially vulnerable if run with CoAP over UDP.
 Since there is no return routability check and the responses can be significantly
 larger than requests, RDs can unknowingly become part of a DDoS amplification
 attack.
+
+#Authorization Server example. {#authorization_example}
+
+When threats may occur as described in {{endpoint_identification}}, an Authorization Server (AS) as specified in {{I-D.ietf-ace-oauth-authz}} can be used to remove the threat. An authorized  registry request to the Resource Directory (RD) is accompanied by an Access Token that validates the access of the client to the RD. In this example, the contents of the Access Token is specified by a CBOR Web Token (CWT) {{RFC8392}}. Selecting one of the scenarios of {{I-D.ietf-anima-bootstrapping-keyinfra}}, the registree-ep has a certificate that has been inserted at manufacturing time. The contents of the certificate will be used to generate the unique endpoint name. The certificate is uniquely identified by the leftmost CNcomponent of the subject name appended with the serial number. The unique certificate identifier is used as the unique endpoint name. The same unique identification is used for the registree-ep and the Commissioning Tool.
+
+The case of using RPK or PSK is outside the scope of this example.
+
+{{fig-cert}} shows the example certificate used to specify the claim values in the CWT. Serial number 01:02:03:04:05:06:07:08, and CN field, Fairhair, in the subject field are concatenated to create a unique certificate identifier: Fairhair-01:02:03:04:05:06:07:08, which is used in {{fig-registree}} and {{fig-CT}} as “sub” claim and “epn” claim values respectively.
+
+~~~~
+Certificate: Data: 
+    Version: 3 (0x2) 
+    Serial Number: 01:02:03:04:05:06:07:08 
+    Signature Algorithm: md5WithRSA
+    Encryption Issuer: C=US, ST=Florida, O=Acme, Inc., OU=Security, 
+                                                           CN=CA 
+   Authority/emailAddress=ca@acme.com 
+    Validity Not Before: Aug 20 12:59:55 2013 GMT 
+                               Not After : Aug 20 12:59:55 2013 GMT 
+     Subject: C=US, ST=Florida, O=Acme, Inc., OU=Sales, CN=Fairhair 
+     Subject Public Key 
+     Info: Public Key Algorithm: rsaEncryption 
+     RSA Public Key: (1024 bit) Modulus (1024 bit):
+ 00:be:5e:6e:f8:2c:c7:8c:07:7e:f0:ab:a5:12:db:
+ fc:5a:1e:27:ba:49:b0:2c:e1:cb:4b:05:f2:23:09:
+ 77:13:75:57:08:29:45:29:d0:db:8c:06:4b:c3:10:
+ 88:e1:ba:5e:6f:1e:c0:2e:42:82:2b:e4:fa:ba:bc:
+ 45:e9:98:f8:e9:00:84:60:53:a6:11:2e:18:39:6e:
+ ad:76:3e:75:8d:1e:b1:b2:1e:07:97:7f:49:31:35:
+ 25:55:0a:28:11:20:a6:7d:85:76:f7:9f:c4:66:90:
+ e6:2d:ce:73:45:66:be:56:aa:ee:93:ae:10:f9:ba:
+ 24:fe:38:d0:f0:23:d7:a1:3b 
+ Exponent: 65537 (0x10001)
+~~~~
+{: #fig-cert title='Sample X.509 version 3 certificate for Fairhair device issued by the Acme corporation.' align="left"}
+
+Three sections for as many authorized RD registration scenarios describe: (1) the registree-ep registers itself with the RD, (2) a 3rd party Commissioning Tool (CT) registers the registree-ep with the RD, and (3) A client updates multiple links in an RD.
+
+##Registree-ep registers with RD
+
+The registree-ep sends a Request to the RD accompanied by a CBOR Web Token (CWT). To prevent ambiguities, the URI of the authorized request cannot contain the ep= or the d= parameters which are specified in the CWT. When these parameters are present in the URI, the request is rejected with CoAP response code 4.00 (bad request). In {{fig-registree}}, the  CWT authorizes the registree-ep to register itself in the RD by specifying the certificate identifier of the registree-ep in the sub claim. The same value is assigned to the endpoint name of the registree-ep in the RD. 
+
+~~~~
+The claim set of the CWT is represented in CBOR diagnostic notation
+{
+     /iss/  1: ”coaps://as.example.com”,   / identifies the AS/
+     /sub/ 2: ”Fairhair_01:02:03:04:05:06:07:08”,  
+      / certificate identifier uniquely identifiess registree-ep/
+     /aud/ 3: ”coaps://rd.example.com”   / audience is the RD/
+}
+~~~~
+{: #fig-registree title='Claim set of CWT for registering registree-ep' align="left"}
+
+## Third party Commissioning Tool (CT) registers registree-ep with RD.
+
+The CT sends a Request to the RD accompanied by a CBOR Web Token (CWT). To prevent ambiguities, the URI of an authorized request cannot contain the ep= or the d= parameters which are specified in the CWT. When these parameters are present in the URI, the request is rejected with CoAP response code 4.00 (bad request). In {{fig-CT}}, the  CWT authorizes the CT to register the registree-ep by specifying the new certificate identifier, Fairhair_08:07:06:05:04:03:02:01, of the CT in the “sub” claim. Next to the certificate identifier of the CT, the CWT needs to specify the security identifier of the registree-ep. The new “rd_epn” claim is used to specify the value of the certificate identifier Fairhair_01:02:03:04:05:06:07:08, of the registree-ep. The CWT may contain the optional new “rd_sct” claim to assign a sector name to the registree-ep.
+
+~~~~
+The claim set is represented in CBOR diagnostic notation
+{
+    /iss/       1: ”coaps://as.example.com”,    / identifies the AS/
+    /sub/      2: ”Fairhair_08:07:06:05:04:03:02:01”,           
+             / certificate identifier uniquely identifies CT/
+    /aud/      3: ”coaps://rd.example.com”,   / audience is the RD/
+    /rd_epn/ y: “Fairhair_01:02:03:04:05:06:07:08”,       
+           /certificate identifier uniquely identifies registree-ep/
+    /rd_sct/  z: “my-devices”       /optional sector name/
+}
+~~~~
+{: #fig-CT title='Claim set of CWT for registering registree-ep by CT' align="left"}
+
+## Updating multiple links
+
+{{link-up}} of RD specifies that multiple links can be updated with a media format to be specified. The updating endpoint sends a Request to the RD accompanied by a CWT. The “sub” claim of the CWT contains the certificate identifier of the updating endpoint. Updating registrations and links cannot not change or delete the endpoint names. Consequently, the updating endpoint is authorized by the CWT to change all links of its registrations but cannot delete or add registrations. The CWT of {{fig-registree}} and {{fig-CT}} authorize an updating registree-ep or an updating CT respectively.
 
 
 # IANA Considerations
@@ -1769,6 +1843,38 @@ The registry is initially empty.
       Addresses" space (RFC 3307).  Note that there is a distinct
       multicast address for each scope that interested CoAP nodes should
       listen to; CoAP needs the Link-Local and Site-Local scopes only.
+
+## CBOR Web Token claims
+
+This specification registers the following new claims in the CBOR Web
+Token (CWT) registry of CBOR Web Token Claims:
+
+ Claim "rd_epn"
+
+* Claim Name: "rd_epn"
+* Claim Description: The endpoint name of the RD entry as described in {{authorization_example}} of RFCTHIS.
+* JWT Claim Name: N/A
+* Claim Key: y
+* Claim Value Type(s): 0 (uint), 2 (byte string), 3 (text string)
+* Change Controller: IESG
+* Specification Document(s): {{authorization_example}} of RFCTHIS
+
+Claim "rd_sct"
+
+* Claim Name: "rd_sct"
+* Claim Description: The sector name of the RD entry as described in {{authorization_example}} of RFCTHIS.
+* JWT Claim Name: N/A
+* Claim Key: z
+* Claim Value Type(s): 0 (uint), 2 (byte string), 3 (text string)
+* Change Controller: IESG
+* Specification Document(s): {{authorization_example}} of RFCTHIS 
+
+Mapping of claim name to CWT key
+
+| Parameter name             | CBOR key | Value type   |
+| rd_epn                     | y        | Text string  |
+| rd_sct                     | z        | Text string  | 
+
 
 
 # Examples {#examples}
