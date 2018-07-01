@@ -165,7 +165,7 @@ Sector
 :   In the context of a Resource Directory, a sector is a
 logical grouping of endpoints.
 
-The abbreviaton "d" is used for the sector in query parameters for
+The abbreviation "d" is used for the sector in query parameters for
 compatibility with deployed implementations.
 
 Group
@@ -386,7 +386,7 @@ A link has the following attributes (see {{RFC5988}}):
 
  In link-format serialization, it is expressed between angular brackets, and sometimes called the "href".
 
-* Other target attributes (eg. resource type (rt), interface (if), cor content-type (ct)).
+* Other target attributes (eg. resource type (rt), interface (if), or content-type (ct)).
   These provide additional information about the target URI.
 
 
@@ -521,7 +521,7 @@ to data intermediaries may be many-to-many.
 
 Metadata in web link formats like {{RFC6690}} are supplied by Resource Directories,
 which may be internally stored as  triples, or relation/attribute
-pairs providing metadata about resource links. External catalogs that are
+pairs providing metadata about resource links. External catalogues that are
 represented in other formats may be converted to common web linking formats for
 storage and access by Resource Directories. Since it is common practice for these
 to be URN encoded, simple and lossless structural transforms should
@@ -529,7 +529,7 @@ generally be sufficient to store external metadata in Resource Directories.
 
 The additional features of Resource Directory allow sectors to be defined
 to enable access to a particular set of resources from particular applications.
-This provides isolation and protection of sensitive data when needed. Groups may defined to support efficient data transport.
+This provides isolation and protection of sensitive data when needed. Groups may be defined to support efficient data transport.
 
 
 # Finding a Resource Directory {#finding_an_rd}
@@ -569,7 +569,7 @@ suitable default.
   this could be provided via a DHCP option (no such option is defined
   at the time of writing).
 
-Finally, if neither the device nor the network offer any specific
+Finally, if neither the device nor the network offers any specific
 configuration, the device may want to employ heuristics to find a
 suitable resource directory.
 
@@ -724,7 +724,7 @@ The URI Discovery operation can yield multiple URIs of a given resource type.
 The client can use any of the discovered addresses initially.
 
 The discovery request interface is specified as follows
-(this is exactly the the Well-Known Interface of {{RFC6690}} Section 4,
+(this is exactly the Well-Known Interface of {{RFC6690}} Section 4,
 with the additional requirement that the server MUST support query filtering):
 
 Interaction:
@@ -789,7 +789,7 @@ alternate content-formats. The Content-Format code attribute "ct" MAY include a
 space-separated sequence of Content-Format codes as specified in
 Section 7.2.1 of {{RFC7252}}, indicating that multiple content-formats are available.
 The example below shows the required Content-Format 40 (application/link-format)
-indicated as well as the the CBOR and JSON representation of link format.
+indicated as well as the CBOR and JSON representation of link format.
 The RD resource paths /rd, /rd-lookup, and /rd-group are example values.
 The server in this example also indicates that it is capable of providing observation on resource lookups.
 
@@ -837,7 +837,7 @@ are run on the same server.
 
 ## Registration {#registration}
 
-After discovering the location of an RD, an registree-ep or CT MAY
+After discovering the location of an RD, a registree-ep or CT MAY
 register the resources of the registree-ep using the registration interface. This interface
 accepts a POST from an endpoint containing the list of resources to be added
 to the directory as the message payload in the CoRE Link Format {{RFC6690}}, JSON CoRE Link Format (application/link-format+json), or CBOR CoRE Link Format (application/link-format+cbor)  {{I-D.ietf-core-links-json}}, along with query
@@ -855,7 +855,7 @@ with the same endpoint parameters ep and d (sector) does not create multiple reg
 The following rules apply for an update identified by a given (ep, d) value pair:
 
 * when the parameter values of the Update generate the same attribute values as already present, the location of the already existing registration is returned.
-* when for a given (ep, d) value pair the the update generates attribute values which are different from the existing one, the existing registration is removed and a new registration with a new location is created.
+* when for a given (ep, d) value pair the update generates attribute values which are different from the existing one, the existing registration is removed and a new registration with a new location is created.
 * when the (ep, d) value pair of the update is different from any existing registration, a new registration is generated.
 
 The posted link-format document can (and typically does) contain relative references
@@ -936,7 +936,7 @@ URI Template Variables:
     the Origin concept in relative reference resolution; they can submit
     payloads for interpretation as Modernized Link Format.
     Typically, links submitted by such an endpoint are of the `path-noscheme`
-    (starts with a a path not preceded by a slash, precisely defined in {{RFC3986}} Section 3.3)
+    (starts with a path not preceded by a slash, precisely defined in {{RFC3986}} Section 3.3)
     form.
 
   extra-attrs :=
@@ -1059,7 +1059,7 @@ discovery URI to obtain the link-format payload to register.
 
 The registree-ep includes the same registration parameters in the POST request as it would per {{registration}}. The registration base URI of the registration is taken from the requesting server's URI.
 
-The Resource Directory MUST NOT query the registree-ep's data before sending the response; this is to accomodate very limited endpoints.
+The Resource Directory MUST NOT query the registree-ep's data before sending the response; this is to accommodate very limited endpoints.
 The success condition only indicates that the request was valid (ie. the passed parameters are valid per se),
 not that the link data could be obtained or parsed or was successfully registered into the RD.
 
@@ -1097,7 +1097,7 @@ HTTP support:
 
 
 For the second interaction triggered by the above, the registree-ep takes the role of server and the RD the role of client.
-(note that this is exactly the the Well-Known Interface of {{RFC6690}} Section 4):
+(note that this is exactly the Well-Known Interface of {{RFC6690}} Section 4):
 <!-- the above paragraph could just as well be any other text;
 what amtters is that the tables above and below are clearly separated. -->
 
@@ -1360,27 +1360,7 @@ Links whose href or anchor was submitted as an absolute URI are returned with re
 Above rules allow the client to interpret the response as links without any further knowledge of what the RD does.
 The Resource Directory MAY replace the registration base URIs with a configured intermediate proxy, e.g. in the case of an HTTP lookup interface for CoAP endpoints.
 
-## Endpoint and group lookup
 
-Endpoint and group lookups result in links to registration resources and group resources, respectively.
-Endpoint registration resources are annotated with their endpoint names (ep), sectors (d, if present) and registration base URI (base) as well as a constant resource type (rt="core.rd-ep"); the lifetime (lt) is not reported.
-Additional endpoint attributes are added as link attributes to their endpoint link unless their specification says otherwise.
-
-Group resources are annotated with their group names (gp), sector (d, if present) and multicast address (base, if present) as well as a constant resource type (rt="core.rd-gp").
-
-While Endpoint Lookup does expose the registration resources,
-the RD does not need to make them accessible to clients.
-Clients SHOULD NOT attempt to dereference or manipulate them.
-
-A Resource Directory can report endpoints or groups in lookup that are not hosted at the same address.
-Lookup clients MUST be prepared to see arbitrary URIs as registration or group resources in the results
-and treat them as opaque identifiers;
-the precise semantics of such links are left to future specifications.
-
-For groups, a Resource Directory as specified here
-does not provide a lookup mechanism for the resources that can be accessed on a group's multicast address
-(ie. no lookup will return links like `<coap://[ff35:30:2001:db8::1]/light>;...` for a group registered with `base=coap://[ff35...]`).
-Such an additional lookup interface could be specified in an extension document.
 
 ## Lookup filtering
 
@@ -1472,7 +1452,10 @@ Failure:
 HTTP support:
 : YES
 
-## Lookup examples
+The group and endpoint lookup return registration resources which can only be manipulated by the registering endpoint. Examples of group and endpoint lookup belong to the management aspects of the RD and are shown in {ep-gp-lookup}. The resource lookup examples are shown in this section.
+
+
+##  Resource lookup examples
 
 The examples in this section assume the existence of CoAP hosts with a default CoAP port 61616. HTTP hosts are possible and do not change the nature of the examples.
 
@@ -1525,40 +1508,6 @@ Payload:
     anchor="coap://[2001:db8:3::124]",
 <coap://[2001:db8:3::124]/east>;rt="light";
     anchor="coap://[2001:db8:3::124]"
-~~~~
-
-The following example shows a client performing an endpoint type (et) lookup with  the value oic.d.sensor (which is currently a registered rt value):
-
-~~~~
-Req: GET /rd-lookup/ep?et=oic.d.sensor
-
-Res: 2.05 Content
-</rd/1234>;base="coap://[2001:db8:3::127]:61616";ep="node5";
-et="oic.d.sensor";ct="40",
-</rd/4521>;base="coap://[2001:db8:3::129]:61616";ep="node7";
-et="oic.d.sensor";ct="40";d="floor-3"
-~~~~
-
-The following example shows a client performing a group lookup for all groups:
-
-~~~~
-Req: GET /rd-lookup/gp
-
-Res: 2.05 Content
-</rd-group/1>;gp="lights1";d="example.com";
-       base="coap://[ff35:30:2001:db8::1]",
-</rd-group/2>;gp="lights2";d="example.com";
-       base="coap://[ff35:30:2001:db8::2]"
-~~~~
-
-The following example shows a client performing a lookup for all groups the
-endpoint "node1" belongs to:
-
-~~~~
-Req: GET /rd-lookup/gp?ep=node1
-
-Res: 2.05 Content
-</rd-group/1>;gp="lights1"
 ~~~~
 
 The following example shows a client performing a paginated resource lookup
@@ -1647,7 +1596,7 @@ Every operation performed by an Endpoint or Client on a resource directory
 SHOULD be mutually authenticated using Pre-Shared Key, Raw Public Key or
 Certificate based security.
 
-Consider te following threat: two devices A and B are managed by a single server. Both devices have unique, per-device credentials for use with DTLS to make sure that only parties with authorization to access A or B can do so.
+Consider the following threat: two devices A and B are managed by a single server. Both devices have unique, per-device credentials for use with DTLS to make sure that only parties with authorization to access A or B can do so.
 
 Now, imagine that a malicious device A wants to sabotage the device B. It uses its credentials during the DTLS exchange. Then, it puts the
 endpoint name of device B. If the server does not check
@@ -1655,7 +1604,7 @@ whether the identifier provided in the DTLS handshake matches the
 identifier used at the CoAP layer then it may be inclined to use the
 endpoint name for looking up what information to provision to the malicious device.
 
-Therfore, Endpoints MUST include the
+Therefore, Endpoints MUST include the
 Endpoint identifier in the message, and this identifier
 MUST be checked by a resource directory to match the Endpoint identifier
 included in the Registration message.
@@ -1815,7 +1764,7 @@ The registry is initially empty.
       discovery that may span beyond a single network, it has come from
       the Internetwork Control Block (224.0.1.x, RFC 5771).
 
-   IPv6  -- "all CoRE resource directories" address MCD1 (uggestions FF0X::FE), from the "IPv6 Multicast
+   IPv6  -- "all CoRE resource directories" address MCD1 (suggestions FF0X::FE), from the "IPv6 Multicast
       Address Space Registry", in the "Variable Scope Multicast
       Addresses" space (RFC 3307).  Note that there is a distinct
       multicast address for each scope that interested CoAP nodes should
@@ -2164,7 +2113,7 @@ changes from -13 to -14
   "base") and "domain" to "sector" (where the abbreviation "d" stays for
   compatibility reasons)
 * Introduced resource types core.rd-ep and core.rd-gp
-* Registration management moved to appendix A
+* Registration management moved to appendix A, including endpoint and group lookup
 * Minor editorial changes
   * PATCH/iPATCH is clearly deferred to another document
   * Recommend against query / fragment identifier in con=
@@ -2389,11 +2338,11 @@ Changes from -01 to -02:
 
 # Registration Management {#registration-mgmt}
 
-This section describes how the registering endpoint can maintain the registries that it created. The registering endpoint can be the registree-ep or the CT. An endpoint SHOULD NOT use this interface for registries that it did not create. The registries are resources of the RD.
+This section describes how the registering endpoint can maintain the registries that it created. The registering endpoint can be the registree-ep or the CT. An endpoint SHOULD NOT use this interface for registries that it did not create. The registries are resources of the RD. 
 
 After the initial registration, the registering endpoint retains the returned location of the Registration Resource for further operations, including refreshing the registration in order to extend the lifetime and "keep-alive" the registration. When the lifetime of the registration has expired, the RD SHOULD NOT respond to discovery queries concerning this endpoint. The RD SHOULD continue to provide access to the Registration Resource after a registration time-out occurs in order to enable the registering endpoint to eventually refresh the registration. The RD MAY eventually remove the registration resource for the purpose of garbage collection and remove it from any group it belongs to. If the Registration Resource is removed, the corresponding endpoint will need to be re-registered.
 
-The Registration Resource may also be used to inspect the registration resource using GET, update the registration, or cancel the registration using DELETE.
+The Registration Resource may also be used to inspect the registration resource using GET, update the registration, cancel the registration using DELETE, do an endpoint lookup, or a group lookup.
 
 These operations are described below.
 
@@ -2662,6 +2611,62 @@ An iPATCH (or PATCH) update ({{RFC8132}}) can add, remove or change the links of
 
 Those operations are out of scope of this document, and will require media types suitable for modifying sets of links.
 
+## Endpoint and group lookup {#ep-gp-lookup}
+
+Endpoint and group lookups result in links to registration resources and group resources, respectively.
+Endpoint registration resources are annotated with their endpoint names (ep), sectors (d, if present) and registration base URI (base) as well as a constant resource type (rt="core.rd-ep"); the lifetime (lt) is not reported.
+Additional endpoint attributes are added as link attributes to their endpoint link unless their specification says otherwise.
+
+Group resources are annotated with their group names (gp), sector (d, if present) and multicast address (base, if present) as well as a constant resource type (rt="core.rd-gp").
+
+While Endpoint Lookup does expose the registration resources,
+the RD does not need to make them accessible to clients.
+Clients SHOULD NOT attempt to dereference or manipulate them.
+
+A Resource Directory can report endpoints or groups in lookup that are not hosted at the same address.
+Lookup clients MUST be prepared to see arbitrary URIs as registration or group resources in the results
+and treat them as opaque identifiers;
+the precise semantics of such links are left to future specifications.
+
+For groups, a Resource Directory as specified here
+does not provide a lookup mechanism for the resources that can be accessed on a group's multicast address
+(ie. no lookup will return links like `<coap://[ff35:30:2001:db8::1]/light>;...` for a group registered with `base=coap://[ff35...]`).
+Such an additional lookup interface could be specified in an extension document.
+
+The following example shows a client performing an endpoint type (et) lookup with  the value oic.d.sensor (which is currently a registered rt value):
+
+~~~~
+Req: GET /rd-lookup/ep?et=oic.d.sensor
+
+Res: 2.05 Content
+</rd/1234>;base="coap://[2001:db8:3::127]:61616";ep="node5";
+et="oic.d.sensor";ct="40",
+</rd/4521>;base="coap://[2001:db8:3::129]:61616";ep="node7";
+et="oic.d.sensor";ct="40";d="floor-3"
+~~~~
+
+The following example shows a client performing a group lookup for all groups:
+
+~~~~
+Req: GET /rd-lookup/gp
+
+Res: 2.05 Content
+</rd-group/1>;gp="lights1";d="example.com";
+       base="coap://[ff35:30:2001:db8::1]",
+</rd-group/2>;gp="lights2";d="example.com";
+       base="coap://[ff35:30:2001:db8::2]"
+~~~~
+
+The following example shows a client performing a lookup for all groups the
+endpoint "node1" belongs to:
+
+~~~~
+Req: GET /rd-lookup/gp?ep=node1
+
+Res: 2.05 Content
+</rd-group/1>;gp="lights1"
+~~~~
+
 
 # Web links and the Resource Directory {#weblink}
 
@@ -2848,7 +2853,7 @@ model of typed links, there are some differences between {{RFC6690}} and
   A link-format document is a UTF-8 encoded string of Unicode characters and
   does not have percent encoding, while Link headers are practically ASCII
   strings that use percent encoding for non-ASCII characters, stating the
-  encoding explictly when required.
+  encoding explicitly when required.
 
   For example, while a Link header in a page about a Swedish city might read
 
