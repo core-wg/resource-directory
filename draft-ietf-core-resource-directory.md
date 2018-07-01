@@ -1058,7 +1058,7 @@ The registree-ep then finds one or more addresses of the directory server as des
 The registree-ep finally asks the selected directory server to probe it for resources and publish them as follows:
 
 The registree-ep sends (and regularly refreshes with) a POST
-request to the `/.well-known/core` URI of the directory server of choice. The body of the POST request is empty, which triggers the resource
+request to the `/.well-known/core` URI of the directory server of choice. The body of the POST request is empty, and triggers the resource
 directory server to perform GET requests at the requesting registree-ep's default
 discovery URI to obtain the link-format payload to register.
 
