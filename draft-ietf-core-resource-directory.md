@@ -902,12 +902,14 @@ URI Template Variables:
     parameter is 63 bytes.
 
     If the RD is configured to recognize the endpoint (eg. based on its security context),
-    the endpoint can ignore the endpoint name, and assign one based on a set of configuration parameter values.
+    the endpoint sets no endpoint name, and the RD assigns one based on a set of configuration parameter values.
 
   d :=
   : Sector (optional). The sector to which this endpoint belongs. The maximum
     length of this parameter is 63 bytes. When this parameter is not present, the
     RD MAY associate the endpoint with a configured default sector or leave it empty.
+
+    As with then endpoint name, this parameter is not set when one is set in the security context.
 
   lt :=
   : Lifetime (optional). Lifetime of the registration in seconds. Range of 60-4294967295.
