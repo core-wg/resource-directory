@@ -172,9 +172,7 @@ logical grouping of endpoints.
 compatibility with deployed implementations.
 
 Group
-:   In the context of a Resource Directory, a group is a logical grouping of
-endpoints for the purpose of group communications. All groups within a sector
-have unique names.
+:   A group in the Resource Directory specifies a set of endpoints that are enabled with the same multicast address for the purpose of efficient group communications. All groups within a sector have unique names.
 
 Endpoint
 :   Endpoint (EP) is a term used to describe a web server or client in {{RFC7252}}.
@@ -268,8 +266,8 @@ An endpoint is a web server associated with a scheme, IP address and port. A phy
 RD implements a set of REST interfaces for endpoints to register and maintain
 sets of Web Links (called resource directory registration entries), and for clients to
 lookup resources from the RD or maintain groups. Endpoints themselves can
-also act as clients. An RD can be logically segmented by the use of Groups.
-The group an endpoint is part of, can be defined by the RD or configured
+also act as clients. An RD can be logically segmented by the use of Sectors.
+The set of endpoints grouped for group communication can be defined by the RD or configured
 by a Commissioning Tool. This information hierarchy is shown in {{fig-hierarchy}}.
 
 A mechanism to discover an RD using CoRE Link Format {{RFC6690}} is defined.
@@ -909,7 +907,7 @@ URI Template Variables:
     length of this parameter is 63 bytes. When this parameter is not present, the
     RD MAY associate the endpoint with a configured default sector or leave it empty.
 
-    As with then endpoint name, this parameter is not set when one is set in the security context.
+    The endpoint name and sector name are not set when one or both are set in an accompanying authorization token.
 
   lt :=
   : Lifetime (optional). Lifetime of the registration in seconds. Range of 60-4294967295.
@@ -1253,9 +1251,6 @@ Success:
 
 Failure:
 : 4.00 "Bad Request" or 400 "Bad Request". Malformed request.
-
-Failure:
-: 4.04 "Not Found" or 404 "Not Found".  An Endpoint is not registered in the RD (e.g. may have expired).
 
 Failure:
 : 5.03 "Service Unavailable" or 503 "Service Unavailable". Service could not perform the operation.
@@ -2726,6 +2721,8 @@ Endpoint registration resources are annotated with their endpoint names (ep), se
 Additional endpoint attributes are added as link attributes to their endpoint link unless their specification says otherwise.
 
 Group resources are annotated with their group names (gp), sector (d, if present) and multicast address (base, if present) as well as a constant resource type (rt="core.rd-gp").
+
+Serializations derived from Link Format, SHOULD present links to groups and endpoints in path-absolute form or, if required, as absolute references. (This approach avoids the RFC6690 ambiguities.)
 
 While Endpoint Lookup does expose the registration resources,
 the RD does not need to make them accessible to clients.
