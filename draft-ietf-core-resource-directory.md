@@ -2938,6 +2938,7 @@ model of typed links, there are some differences between {{RFC6690}} and
   {{RFC6690}} Section 2.1 states that the anchor of a link is used as the Base URI
   against which the term inside the angle brackets (the target) is resolved,
   falling back to the resource's URI with paths stripped off (its "Origin").
+  In contrast to that,
   {{RFC8288}} Section B.2 describes that the anchor is immaterial to the
   resolution of the target reference.
 
