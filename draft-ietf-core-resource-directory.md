@@ -2811,7 +2811,7 @@ ahead and create a new request to `[2001:db8:f0::1]:5683` with Uri-Path:
 The client parses the single returned record. The link's target (sometimes
 called "href") is "`/temp`", which is a relative URI that needs resolving.
 As long as all involved links follow the restrictions set forth for this
-document (see {{resolution-rules}}), the base URI to resolve this against the
+document (see {{resolution-rules}}), the base URI to resolve this against is the
 requested URI.
 
 The URI of the requested resource can be composed by following the steps of
