@@ -145,7 +145,10 @@ document are to be interpreted as described in {{RFC2119}}. The
 term "byte" is used in its now customary sense as a synonym for "octet".
 
 This specification requires readers to be familiar with all the terms and
-concepts that are discussed in {{RFC3986}}, {{RFC5988}} and {{RFC6690}}. Readers should
+concepts that are discussed in
+{{RFC3986}} (especially "URI", "URI reference" and "relative reference"),
+{{RFC8288}} (especially "target" and "context")
+and {{RFC6690}}. Readers should
 also be familiar with the terms and concepts discussed in {{RFC7252}}.  To
 describe the REST interfaces defined in this specification, the URI Template
 format is used {{RFC6570}}.
@@ -153,13 +156,6 @@ format is used {{RFC6570}}.
 This specification makes use of the following additional terminology:
 
 {: vspace='0'}
-URI, relative reference, URI reference
-:   A URI is a character sequence that identifies a resource, starting with a scheme.
-A relative reference is a character sequence that is not a URI but can be resolved to one.
-The term "URI reference" denotes a character sequence that can be either a URI or a relative reference.
-
-: These explanations are consistent with the terms' definitions in {{RFC3986}}.
-
 resolve against
 :   The expression "a URI-reference is *resolved against* a base URI" is used
 to describe the process of {{RFC3986}} Section 5.2. Noteworthy corner cases are
@@ -193,18 +189,6 @@ Registration Base URI
 authority information about an Endpoint. The Registration Base URI is provided
 by the Endpoint at registration time, and is used by the Resource Directory to
 resolve relative references inside the registration into URIs.
-
-Target
-:   The target of a link is the destination address (URI) of the link. It is sometimes identified with "href=", or displayed as `<target>`. Relative targets need resolving with respect to the Base URI (section 5.2 of {{RFC3986}}).
-
-:   This use of the term Target is consistent with {{RFC8288}}'s use of the term.
-
-Context
-:   The context of a link is the source address (URI) of the link,
-    and describes which resource is linked to the target.
-    A link's context is made explicit in serialized links as the "anchor=" attribute.
-
-:   This use of the term Context is consistent with {{RFC8288}}'s use of the term.
 
 Directory Resource
 :  A resource in the Resource Directory (RD) containing registration resources.
