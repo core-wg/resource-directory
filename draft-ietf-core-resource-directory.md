@@ -153,6 +153,13 @@ format is used {{RFC6570}}.
 This specification makes use of the following additional terminology:
 
 {: vspace='0'}
+URI, relative reference, URI reference
+:   A URI is a character sequence that identifies a resource, starting with a scheme.
+A relative reference is a character sequence that is not a URI but can be resolved to one.
+The term "URI reference" denotes a character sequence that can be either a URI or a relative reference.
+
+: These explanations are consistent with the terms' definitions in {{RFC3986}}.
+
 resolve against
 :   The expression "a URI-reference is *resolved against* a base URI" is used
 to describe the process of {{RFC3986}} Section 5.2. Noteworthy corner cases are
