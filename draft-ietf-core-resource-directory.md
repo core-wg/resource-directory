@@ -156,8 +156,8 @@ This specification makes use of the following additional terminology:
 resolve against
 :   The expression "a URI-reference is *resolved against* a base URI" is used
 to describe the process of {{RFC3986}} Section 5.2. Noteworthy corner cases are
-that resolving an absolute URI against any base URI gives the original URI, and
-that resolving an empty URI reference gives the base URI.
+that if the URI-reference is a (full) URI and resolved  against any base URI, that gives the original full URI, and
+that resolving an empty URI reference gives the base URI without any fragment identifier.
 
 Resource Directory
 :   A web entity that stores information about web resources and implements the
@@ -185,7 +185,7 @@ Registration Base URI
 :   The Base URI of a Registration is a URI that typically gives scheme and
 authority information about an Endpoint. The Registration Base URI is provided
 by the Endpoint at registration time, and is used by the Resource Directory to
-resolve relative references inside the registration into absolute URIs.
+resolve relative references inside the registration into URIs.
 
 Target
 :   The target of a link is the destination address (URI) of the link. It is sometimes identified with "href=", or displayed as `<target>`. Relative targets need resolving with respect to the Base URI (section 5.2 of {{RFC3986}}).
@@ -718,7 +718,7 @@ the rt parameter as defined in {{RFC6690}}.
 While the link targets in this discovery step are often expressed in path-absolute form,
 this is not a requirement.
 Clients SHOULD therefore accept URIs of all schemes they support,
-both in absolute and relative forms,
+both as URIs and relative references,
 and not limit the set of discovered URIs to those hosted at the address used for URI discovery.
 
 The URI Discovery operation can yield multiple URIs of a given resource type.
@@ -1274,7 +1274,7 @@ Res: 2.01 Created
 Location-Path: /rd-group/12
 ~~~~
 
-A relative href value denotes the path to the registration resource of the Endpoint. When pointing to a registration resource on a different RD, the href value is an absolute URI.
+A relative href value denotes the path to the registration resource of the Endpoint. When pointing to a registration resource on a different RD, the href value is a URI.
 
 ## Group Removal {#group-removal}
 
@@ -1355,7 +1355,7 @@ The links and link parameters returned are equal to the submitted,
 except that the target and anchor references are fully resolved.
 
 Links that did not have an anchor attribute are therefore returned with the (explicitly or implicitly set) base URI of the registration as the anchor.
-Links whose href or anchor was submitted as an absolute URI are returned with respective attributes unmodified.
+Links whose href or anchor was submitted as a (full) URI are returned with respective attributes unmodified.
 
 Above rules allow the client to interpret the response as links without any further knowledge of what the RD does.
 The Resource Directory MAY replace the registration base URIs with a configured intermediate proxy, e.g. in the case of an HTTP lookup interface for CoAP endpoints.
@@ -1375,7 +1375,7 @@ Attributes that are defined as "link-type" match if the search value matches any
 A link also matches a search criterion if the link that would be produced for any of its containing entities would match the criterion, or an entity contained in it would: A search criterion matches an endpoint if it matches the endpoint itself, any of the groups it is contained in or any resource it contains. A search criterion matches a resource if it matches the resource itself, the resource's endpoint, or any of the endpoint's groups.
 
 Note that `href` is also a valid search criterion and matches target references. Like all search criteria, on a resource lookup it can match the target reference of the resource link itself, but also the registration resource of the endpoint that registered it, or any group resource that endpoint is contained in.
-Queries for resource link targets MUST be in absolute form and are matched against a resolved link target. Queries for groups and endpoints SHOULD be expressed in path-absolute form if possible and MUST be expressed in absolute form otherwise; the RD SHOULD recognize either.
+Queries for resource link targets MUST be in URI form (ie. not relative references) and are matched against a resolved link target. Queries for groups and endpoints SHOULD be expressed in path-absolute form if possible and MUST be expressed in URI form otherwise; the RD SHOULD recognize either.
 
 Clients that are interested in a lookup result repeatedly or continuously can use
 mechanisms like ETag caching, resource observation ({{RFC7641}}),
@@ -2209,6 +2209,11 @@ originally developed.
 
 
 # Changelog
+
+changes from -14 to -15
+
+* Talk of "relative references" and "URIs" rather than "relative" and
+  "absolute" URIs. (The concept of "absolute URIs" of {{RFC3986}} is not needed in RD).
 
 changes from -13 to -14
 
