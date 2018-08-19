@@ -537,18 +537,15 @@ The device may be pre-configured to exercise specific mechanisms for
 finding the resource directory:
 
 1. It may be configured with a specific IP address for the RD.  That IP
-  address may also be an anycast address, allowing the network to
-  forward RD requests to an RD that is topologically close; each
-  target network environment in which some of these preconfigured
-  nodes are to be brought up is then configured with a route for this
-  anycast address that leads to an appropriate RD.  (Instead of using
-  an anycast address, a multicast address can also be preconfigured.
-  The RD servers then need to configure one of their
-  interfaces with this multicast address.)
-2. It may be configured with a DNS name for the RD and a
-  resource-record type to look up under this name; it can find a DNS
-  server to perform the lookup using the usual mechanisms for finding
-  DNS servers.
+   address may also be an anycast address, allowing the network to
+   forward RD requests to an RD that is topologically close; each
+   target network environment in which some of these preconfigured
+   nodes are to be brought up is then configured with a route for this
+   anycast address that leads to an appropriate RD.  (Instead of using
+   an anycast address, a multicast address can also be preconfigured.
+   The RD servers then need to configure one of their
+   interfaces with this multicast address.)
+2. It may be configured with a DNS name for the RD and use DNS to return  the IP address of the RD; it can find a DNS server to perform the lookup using the usual mechanisms for finding DNS servers.
 3. It may be configured to use a service discovery mechanism such as
   DNS-SD {{-dnssd}}.  The present specification suggests configuring
   the service with name rd._sub._coap._udp, preferably within the
@@ -601,7 +598,7 @@ as a starting point, the client should honor the SRV record's mechanisms -->
 
 ## Resource Directory Address Option (RDAO) {#rdao}
 
-The Resource Directory Address Option (RDAO) using IPv6 neighbor Discovery (ND) carries
+The Resource Directory Address Option (RDAO) using IPv6 Neighbor Discovery (ND) carries
 information about the address of the Resource Directory (RD). This information is
 needed when endpoints cannot discover the Resource Directory with a link-local
 or realm-local scope multicast address because the endpoint and the RD are separated by a Border Router
@@ -694,7 +691,7 @@ Discovery of the RD registration URI path is performed by sending either a multi
 unicast GET request to `/.well-known/core` and including a Resource Type (rt)
 parameter {{RFC6690}} with the value "core.rd" in the query string. Likewise, a
 Resource Type parameter value of "core.rd-lookup\*" is used to discover the
-URIs for RD Lookup operations, and "core.rd-group" is used to discover the URI path for RD
+URIs for RD Lookup operations, core.rd\* is used to discover all URI paths for RD operations, and "core.rd-group" is used to discover the URI path for RD
 Group operations. Upon success, the response will contain a payload with
 a link format entry for each RD function discovered, indicating the URI
 of the RD function returned and the corresponding Resource Type. When performing
@@ -734,7 +731,7 @@ URI Template:
 
 URI Template Variables:
 : rt :=
-  : Resource Type (optional). MAY contain one of the values "core.rd", "core.rd-lookup\*",
+  : Resource Type. SHOULD contain one of the values "core.rd", "core.rd-lookup\*",
   "core.rd-lookup-res", "core.rd-lookup-ep", "core.rd-lookup-gp",
   "core.rd-group" or "core.rd\*"
 
@@ -1096,7 +1093,7 @@ HTTP support:
 For the second interaction triggered by the above, the registree-ep takes the role of server and the RD the role of client.
 (Note that this is exactly the Well-Known Interface of {{RFC6690}} Section 4):
 <!-- the above paragraph could just as well be any other text;
-what amtters is that the tables above and below are clearly separated. -->
+what matters is that the tables above and below are clearly separated. -->
 
 Interaction:
 : RD -> EP
@@ -1160,10 +1157,10 @@ for some very constrained devices, in particular if the security requirements
 become too onerous.
 
 In a controlled environment (e.g. building control), the Resource Directory
-can be filled by a third party device, called a commissioning tool. The commissioning
+can be filled by a third party device, called a Commissioning Tool (CT). The commissioning
 tool can fill the Resource Directory from a database or other means. For
-that purpose the scheme, IP address and port of the registered device is
-indicated in the "base" parameter of the registration described in {{registration}}.
+that purpose scheme, IP address and port of the URI of the registered device is
+ the value of the "base" parameter of the registration described in {{registration}}.
 
 It should be noted that the value of the "base" parameter applies to all the links of the registration and has consequences for the anchor value of the individual links as exemplified in {{weblink}}. An eventual (currently non-existing) "base" attribute of the link is not affected by the value of "base" parameter in the registration.
 
@@ -1569,6 +1566,43 @@ Req: GET /rd-lookup/res?et=oic.d.sensor
     anchor="coap://sensor2.example.com/sensors/temp"
 ~~~~
 
+# Security policies {#policies}
+
+The Resource Directory (RD) provides assistance to applications situated on a selection of nodes to discover endpoints on connected nodes. This section discusses different security aspects of accessing the RD.
+
+The contents of the RD are inserted in two ways:
+
+1.  The node hosting the discoverable endpoint fills the RD with the contents of /.well-known/core by:
+     * Storing the contents directly into RD (see {{registration}})
+     * Requesting the RD to load the contents from /.well-known/core see (section {{simple})
+ 
+2.  A Commissioning Tool (CT) fills the RD with endpoint information for a set of discoverable nodes. (see {{registration}} with base=authority parameter value)
+
+In both cases, the nodes filling the RD should be authenticated and authorized to change the contents of the RD. An Authorization Server (AS) is responsible to assign a token to the registering node to authorize the node to discover or register endpoints in a given RD {{I-D.ietf-ace-oauth-authz}}.
+
+It can be imagined that an installation is divided in a set of security regions, each one with its own RD(s) to discover the endpoints that are part of a given security region. An endpoint that wants to discover an RD, responsible for a given region, needs to be authorized to learn the contents of a given RD. Within a region, for a given RD, a more fine-grained security division is possible based on the values of the endpoint registration parameters. Authorization to discover endpoints with a given set of filter values is recommended for those cases. 
+
+When a node registers its endpoints, criteria are needed to authorize the node to enter them. An important aspect is the uniqueness of the (endpoint name, and optional sector) pair within the RD. Consider the two cases separately: (1) CT registers endpoints, and (2) the registering node registers its own endpoint(s).
+   * A CT needs authorization to register a set of endpoints. This authorization can be based on the region, i.e. a given CT is authorized to register any endpoint (endpoint name, sector) into a given RD, or to register an endpoint with (endpoint name, sector) value pairs assigned by the AS, or can be more fine-grained, including a subset of registration parameter values. 
+   * A given endpoint that registers itself, needs to proof its possession of its unique (endpoint name, sector) value pair. Alternatively, the AS can authorize the endpoint to register with an (endpoint name, sector) value pair assigned by the AS.
+   * 
+A separate document needs to specify these aspects to ensure interoperability between registering nodes and RD. The subsections below give some hints how to handle a subset of the different aspects.
+
+## Secure RD discovery
+
+The Resource Server (RS) discussed in {{I-D.ietf-ace-oauth-authz}} is equated to the RD. The client (C) needs to discover the RD as discussed in {{finding_an_rd}}. C can discover the related AS by sending a request to the RD. The RD denies the request by sending the address of the related AS, as discussed in section 5.1 of {{I-D.ietf-ace-oauth-authz}}.
+The client MUST send an authorization request to the AS. When appropriate, the AS returns a token that specifies the authorization permission which needs to be specified in a separate document.
+
+## Secure RD filtering
+
+The authorized parameter values for the queries by a given endpoint must be registered by the AS. The AS communicates the parameter values in the token. A separate document needs to specify the parameter value combinations and their storage in the token. The RD decodes the token and checks the validity of the queries of the client.
+
+## Secure endpoint Name assignment {#secure-ep}
+
+This section only considers the assignment of a name to the endpoint based on an automatic mechanism without use of AS. More elaborate protocols are out of scope. The registering endpoint is authorized by the AS to discover the RD and add registrations. A token is provided by the AS and communicated from registering endpoint to RD.  It is assumed that DTLS is used to secure the channel between registering endpoint and RD, where the registering endpoint is the DTLS client. Assuming that the client is provided by a certificate at manufacturing time, the certificate is uniquely identified by the CN field and the serial number. The RD can assign a unique endpoint name by using the certificate identifier as endpoint name. Proof of possession of the endpoint name by the registering endpoint is checked by encrypting the certificate identifier with the private key of the registering endpoint, which the RD can decrypt with the public key stored in the certificate.
+Even simpler, the authorized registering endpoint can generate a random number (or string) that identifies the endpoint. The RD can check for the improbable replication of the random value. The RD MUST check that registering endpoint uses only one random value for each authorized endpoint.
+
+
 # Security Considerations
 
 The security considerations as described in Section 7 of {{RFC5988}} and
@@ -1595,7 +1629,7 @@ whether the identifier provided in the DTLS handshake matches the
 identifier used at the CoAP layer then it may be inclined to use the
 endpoint name for looking up what information to provision to the malicious device.
 
-{{authorization_example}} specifies an example that removes this threat by using an Authorization Server for endpoints that have a certificate installed.
+{{secure-ep}} specifies an example that removes this threat for endpoints that have a certificate installed.
 
 
 ## Access Control
@@ -1628,81 +1662,7 @@ Since there is no return routability check and the responses can be significantl
 larger than requests, RDs can unknowingly become part of a DDoS amplification
 attack.
 
-#Authorization Server example {#authorization_example}
 
-EDNote: to be reviewed; use only DTLS, no AS, and only ep registration.
-
-When threats may occur as described in {{endpoint_identification}}, an Authorization Server (AS) as specified in {{I-D.ietf-ace-oauth-authz}} can be used to remove the threat. An authorized  registry request to the Resource Directory (RD) is accompanied by an Access Token that authorizes the access of the client to the RD. In this example, the contents of the Access Token is specified by a CBOR Web Token (CWT) {{RFC8392}}. Selecting one of the scenarios of {{I-D.ietf-anima-bootstrapping-keyinfra}}, the registree-ep has a certificate that has been inserted at manufacturing time. The contents of the certificate will be used to generate the unique endpoint name. The certificate is uniquely identified by the leftmost CNcomponent of the subject name appended with the serial number. The unique certificate identifier is used as the unique endpoint name. The same unique identification is used for the registree-ep and the Commissioning Tool.
-
-The case of using RPK or PSK is outside the scope of this example.
-
-{{fig-cert}} shows the example certificate used to specify the claim values in the CWT. Serial number 01:02:03:04:05:06:07:08, and CN field, Fairhair, in the subject field are concatenated to create a unique certificate identifier: Fairhair-01:02:03:04:05:06:07:08, which is used in {{fig-registree}} and {{fig-CT}} as “sub” claim and “epn” claim values respectively.
-
-~~~~
-Certificate: Data:
-    Version: 3 (0x2)
-    Serial Number: 01:02:03:04:05:06:07:08
-    Signature Algorithm: md5WithRSA
-    Encryption Issuer: C=US, ST=Florida, O=Acme, Inc., OU=Security,
-                                                           CN=CA
-   Authority/emailAddress=ca@acme.com
-    Validity Not Before: Aug 20 12:59:55 2013 GMT
-                               Not After : Aug 20 12:59:55 2013 GMT
-     Subject: C=US, ST=Florida, O=Acme, Inc., OU=Sales, CN=Fairhair
-     Subject Public Key
-     Info: Public Key Algorithm: rsaEncryption
-     RSA Public Key: (1024 bit) Modulus (1024 bit):
- 00:be:5e:6e:f8:2c:c7:8c:07:7e:f0:ab:a5:12:db:
- fc:5a:1e:27:ba:49:b0:2c:e1:cb:4b:05:f2:23:09:
- 77:13:75:57:08:29:45:29:d0:db:8c:06:4b:c3:10:
- 88:e1:ba:5e:6f:1e:c0:2e:42:82:2b:e4:fa:ba:bc:
- 45:e9:98:f8:e9:00:84:60:53:a6:11:2e:18:39:6e:
- ad:76:3e:75:8d:1e:b1:b2:1e:07:97:7f:49:31:35:
- 25:55:0a:28:11:20:a6:7d:85:76:f7:9f:c4:66:90:
- e6:2d:ce:73:45:66:be:56:aa:ee:93:ae:10:f9:ba:
- 24:fe:38:d0:f0:23:d7:a1:3b
- Exponent: 65537 (0x10001)
-~~~~
-{: #fig-cert title='Sample X.509 version 3 certificate for Fairhair device issued by the Acme corporation.' align="left"}
-
-Three sections for as many authorized RD registration scenarios describe: (1) the registree-ep registers itself with the RD, (2) a 3rd party Commissioning Tool (CT) registers the registree-ep with the RD, and (3) A client updates multiple links in an RD.
-
-##Registree-ep registers with RD
-
-The registree-ep sends a Request to the RD accompanied by a CBOR Web Token (CWT). To prevent ambiguities, the URI of the authorized request cannot contain the ep= or the d= parameters which are specified in the CWT. When these parameters are present in the URI, the request is rejected with CoAP response code 4.00 (bad request). The CWT of {{fig-registree}} authorizes the registree-ep to register itself in the RD by specifying the certificate identifier of the registree-ep in the sub claim. The same value is assigned to the endpoint name of the registree-ep in the RD.
-
-~~~~
-The claim set of the CWT is represented in CBOR diagnostic notation
-{
-     /iss/  1: ”coaps://as.example.com”,   / identifies the AS/
-     /sub/ 2: ”Fairhair_01:02:03:04:05:06:07:08”,
-      / certificate identifier uniquely identifies registree-ep/
-     /aud/ 3: ”coaps://rd.example.com”   / audience is the RD/
-}
-~~~~
-{: #fig-registree title='Claim set of CWT for registering registree-ep' align="left"}
-
-## Third party Commissioning Tool (CT) registers registree-ep with RD.
-
-The CT sends a Request to the RD accompanied by a CBOR Web Token (CWT). To prevent ambiguities, the URI of an authorized request cannot contain the ep= or the d= parameters which are specified in the CWT. When these parameters are present in the URI, the request is rejected with CoAP response code 4.00 (bad request). The CWT of {{fig-CT}} authorizes the CT to register the registree-ep by specifying the certificate identifier, Fairhair_08:07:06:05:04:03:02:01, of the CT in the “sub” claim. Next to the certificate identifier of the CT, the CWT needs to specify the security identifier of the registree-ep. The new “rd_epn” claim is used to specify the value of the certificate identifier Fairhair_01:02:03:04:05:06:07:08, of the registree-ep. The CWT may contain the optional new “rd_sct” claim to assign a sector name to the registree-ep.
-
-~~~~
-The claim set is represented in CBOR diagnostic notation
-{
-    /iss/       1: ”coaps://as.example.com”,    / identifies the AS/
-    /sub/      2: ”Fairhair_08:07:06:05:04:03:02:01”,
-             / certificate identifier uniquely identifies CT/
-    /aud/      3: ”coaps://rd.example.com”,   / audience is the RD/
-    /rd_epn/ y: “Fairhair_01:02:03:04:05:06:07:08”,
-           /certificate identifier uniquely identifies registree-ep/
-    /rd_sct/  z: “my-devices”       /optional sector name/
-}
-~~~~
-{: #fig-CT title='Claim set of CWT for registering registree-ep by CT' align="left"}
-
-## Updating multiple links
-
-{{link-up}} of RD specifies that multiple links can be updated with a media format to be specified. The updating endpoint sends a Request to the RD accompanied by a CWT. The “sub” claim of the CWT contains the certificate identifier of the updating endpoint. Updating registrations and links cannot not change or delete the endpoint names. Consequently, the updating endpoint is authorized by the CWT to change all links of its registrations but cannot delete or add registrations. The CWT of {{fig-registree}} and {{fig-CT}} authorize an updating registree-ep or an updating CT respectively.
 
 
 # IANA Considerations
@@ -1833,37 +1793,6 @@ The registry is initially empty.
       Addresses" space (RFC 3307).  Note that there is a distinct
       multicast address for each scope that interested CoAP nodes should
       listen to; CoAP needs the Link-Local and Site-Local scopes only.
-
-## CBOR Web Token claims
-
-This specification registers the following new claims in the CBOR Web
-Token (CWT) registry of CBOR Web Token Claims:
-
- Claim "rd_epn"
-
-* Claim Name: "rd_epn"
-* Claim Description: The endpoint name of the RD entry as described in {{authorization_example}} of RFCTHIS.
-* JWT Claim Name: N/A
-* Claim Key: y
-* Claim Value Type(s): 0 (uint), 2 (byte string), 3 (text string)
-* Change Controller: IESG
-* Specification Document(s): {{authorization_example}} of RFCTHIS
-
-Claim "rd_sct"
-
-* Claim Name: "rd_sct"
-* Claim Description: The sector name of the RD entry as described in {{authorization_example}} of RFCTHIS.
-* JWT Claim Name: N/A
-* Claim Key: z
-* Claim Value Type(s): 0 (uint), 2 (byte string), 3 (text string)
-* Change Controller: IESG
-* Specification Document(s): {{authorization_example}} of RFCTHIS
-
-Mapping of claim name to CWT key
-
-| Parameter name             | CBOR key | Value type   |
-| rd_epn                     | y        | Text string  |
-| rd_sct                     | z        | Text string  |
 
 
 
