@@ -210,8 +210,8 @@ Commissioning Tool
 network by assigning values to parameters, naming endpoints and groups, or adapting
 the installation to the needs of the applications.
 
-Registree-ep
-:    Registree-ep is the endpoint that is registered into the RD. The registree-ep can register itself, or a CT registers the registree-ep.
+Registrant-ep
+:    Registrant-ep is the endpoint that is registered into the RD. The registrant-ep can register itself, or a CT registers the registrant-ep.
 
 RDAO
 : Resource Directory Address Option.
@@ -830,8 +830,8 @@ are run on the same server.
 
 ## Registration {#registration}
 
-After discovering the location of an RD, a registree-ep or CT MAY
-register the resources of the registree-ep using the registration interface. This interface
+After discovering the location of an RD, a registrant-ep or CT MAY
+register the resources of the registrant-ep using the registration interface. This interface
 accepts a POST from an endpoint containing the list of resources to be added
 to the directory as the message payload in the CoRE Link Format {{RFC6690}}, JSON CoRE Link Format (application/link-format+json), or CBOR CoRE Link Format (application/link-format+cbor)  {{I-D.ietf-core-links-json}}, along with query
 parameters indicating the name of the endpoint, and optionally the sector,
@@ -859,7 +859,7 @@ which is provided either explicitly in the `base` parameter or constructed impli
 
 Link format documents submitted to the resource directory are interpreted
 as Modernized Link Format (see {{modern6690}}) by the RD.
-A registree-ep SHOULD NOT submit documents whose interpretations according to
+A registrant-ep SHOULD NOT submit documents whose interpretations according to
 {{RFC6690}} and {{modern6690}} differ
 to avoid the ambiguities described in {{resolution-rules}}.
 
@@ -908,7 +908,7 @@ URI Template Variables:
 
   base :=
   : Base URI (optional). This parameter sets the base URI of the registration, under which
-    the request's links are to be interpreted. The specified URI typically does not have a path component of its own, and MUST be suitable as a base URI to resolve any relative references given in the registration. The parameter is therefore usually of the shape "scheme://authority" for
+    the relative links in the payload are to be interpreted. The specified URI typically does not have a path component of its own, and MUST be suitable as a base URI to resolve any relative references given in the registration. The parameter is therefore usually of the shape "scheme://authority" for
     HTTP and CoAP URIs.
     The URI SHOULD NOT have a query or fragment component
     as any non-empty relative part in a reference would remove those parts from the resulting URI.
@@ -918,10 +918,10 @@ URI Template Variables:
     mandatory when the directory is filled by a third party such as an
     commissioning tool.
 
-  : If the registree-ep uses an ephemeral port to register with, it MUST include the base
+  : If the registrant-ep uses an ephemeral port to register with, it MUST include the base
     parameter in the registration to provide a valid network path.
 
-  : If the registree-ep, located behind a NAT gateway, is registering with a Resource
+  : If the registrant-ep, located behind a NAT gateway, is registering with a Resource
     Directory which is on the network service side of the NAT gateway, the endpoint MUST
     use a persistent port for the outgoing registration in order to provide the NAT
     gateway with a valid network address for replies and incoming requests.
@@ -996,7 +996,7 @@ must be considered for the whole registration time,
 not only for a single operation.
 
 
-The following example shows a registree-ep with the name "node1" registering
+The following example shows a registrant-ep with the name "node1" registering
 two resources to an RD using this interface. The location "/rd"
 is an example RD location discovered in a request similar to {{example-discovery}}.
 
@@ -1037,23 +1037,23 @@ Location: /rd/4521
 Not all endpoints hosting resources are expected to know how to upload links to an RD as described in {{registration}}. Instead, simple endpoints can implement the Simple Registration approach described in this section. An RD implementing this specification MUST implement Simple Registration. However, there may
 be security reasons why this form of directory discovery would be disabled.
 
-This approach requires that the registree-ep makes available the hosted resources
+This approach requires that the registrant-ep makes available the hosted resources
 that it wants to be discovered, as links on its `/.well-known/core` interface as
 specified in {{RFC6690}}.
 The links in that document are subject to the same limitations as the payload of a registration
 (with respect to {{modern6690}}).
 
-The registree-ep finds one or more addresses of the directory server as described in {{finding_an_rd}}.
+The registrant-ep finds one or more addresses of the directory server as described in {{finding_an_rd}}.
 
-The registree-ep asks the selected directory server to probe its /.well-known/core and publish the links as follows:
+The registrant-ep asks the selected directory server to probe its /.well-known/core and publish the links as follows:
 
-The registree-ep sends (and regularly refreshes with) a POST
+The registrant-ep sends (and regularly refreshes with) a POST
 request to the `/.well-known/core` URI of the directory server of choice. The body of the POST request is empty, and triggers the resource
-directory server to perform GET requests at the requesting registree-ep's /.well-known/core to obtain the link-format payload to register.
+directory server to perform GET requests at the requesting registrant-ep's /.well-known/core to obtain the link-format payload to register.
 
-The registree-ep includes the same registration parameters in the POST request as it would per {{registration}}. The registration base URI of the registration is taken from the requesting server's URI.
+The registrant-ep includes the same registration parameters in the POST request as it would per {{registration}}. The registration base URI of the registration is taken from the requesting server's URI.
 
-The Resource Directory MUST NOT query the registree-ep's data before sending the response; this is to accommodate very limited endpoints.
+The Resource Directory MUST NOT query the registrant-ep's data before sending the response; this is to accommodate very limited endpoints.
 The success condition only indicates that the request was valid (i.e. the passed parameters are valid per se),
 not that the link data could be obtained or parsed or was successfully registered into the RD.
 
@@ -1090,7 +1090,7 @@ HTTP support:
 : NO
 
 
-For the second interaction triggered by the above, the registree-ep takes the role of server and the RD the role of client.
+For the second interaction triggered by the above, the registrant-ep takes the role of server and the RD the role of client.
 (Note that this is exactly the Well-Known Interface of {{RFC6690}} Section 4):
 <!-- the above paragraph could just as well be any other text;
 what matters is that the tables above and below are clearly separated. -->
@@ -1127,7 +1127,7 @@ HTTP support:
 
 The registration resources MUST be deleted after the expiration of their lifetime. Additional operations on the registration resource cannot be executed because no registration location is returned.
 
-The following example shows a registree-ep using Simple Registration,
+The following example shows a registrant-ep using Simple Registration,
 by simply sending an empty POST to a resource directory.
 
 ~~~~
@@ -2134,6 +2134,8 @@ originally developed.
 
 changes from -14 to -15
 
+* "base" parameter text applies to all relative links in payload
+* registree -> registrant
 * Talk of "relative references" and "URIs" rather than "relative" and
   "absolute" URIs. (The concept of "absolute URIs" of {{RFC3986}} is not needed in RD).
 
@@ -2368,7 +2370,7 @@ Changes from -01 to -02:
 
 # Registration Management {#registration-mgmt}
 
-This section describes how the registering endpoint can maintain the registries that it created. The registering endpoint can be the registree-ep or the CT. An endpoint SHOULD NOT use this interface for registries that it did not create. The registries are resources of the RD.
+This section describes how the registering endpoint can maintain the registries that it created. The registering endpoint can be the registrant-ep or the CT. An endpoint SHOULD NOT use this interface for registries that it did not create. The registries are resources of the RD.
 
 After the initial registration, the registering endpoint retains the returned location of the Registration Resource for further operations, including refreshing the registration in order to extend the lifetime and "keep-alive" the registration. When the lifetime of the registration has expired, the RD SHOULD NOT respond to discovery queries concerning this endpoint. The RD SHOULD continue to provide access to the Registration Resource after a registration time-out occurs in order to enable the registering endpoint to eventually refresh the registration. The RD MAY eventually remove the registration resource for the purpose of garbage collection and remove it from any group it belongs to. If the Registration Resource is removed, the corresponding endpoint will need to be re-registered.
 
@@ -2429,8 +2431,8 @@ URI Template Variables:
     original registration to a new value.
 
     If the parameter is set in an update, it is stored by the RD as the new
-    Base URI under which to interpret the links of the registration, following
-    the same restrictions as in the registration.
+    Base URI under which to interpret the relative links present in the payload of the original registration, following
+    the same restrictions as in the registration. 
 
     If the parameter is not set in the request but was set before, the previous
     Base URI value is kept unmodified.
