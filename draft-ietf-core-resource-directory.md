@@ -2882,7 +2882,7 @@ model of typed links, there are some differences between {{RFC6690}} and
   {{RFC8288}} Section 3.2, the context is the resource's base URI.
 
   In the context of a Resource Directory, the authors decided to not let
-  this become an issue by requiring that links in the Resource Directory
+  this become an issue by recommending that links in the Resource Directory
   be *deserializable* by either rule set to give the same results.
   Note that all examples of {{RFC6690}}, {{RFC8288}} and this document comply with that rule.
 
