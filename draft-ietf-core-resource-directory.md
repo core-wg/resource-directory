@@ -701,7 +701,7 @@ and the multicast capabilities of the network (see {{mc-registration}}.
 A Resource Directory MAY provide hints about the content-formats it supports in the links it exposes or registers, using the "ct" link attribute, as shown in the example below. Clients MAY use these hints to select alternate content-formats for interaction with the Resource Directory.
 
 HTTP does not support multicast and consequently only unicast discovery can be supported
-using HTTP. 
+using HTTP.
 The well-known entry points SHOULD be provided to enable unicast discovery.
 
 An implementation of this  resource directory specification MUST support query filtering for
@@ -1575,17 +1575,17 @@ The contents of the RD are inserted in two ways:
 1.  The node hosting the discoverable endpoint fills the RD with the contents of /.well-known/core by:
      * Storing the contents directly into RD (see {{registration}})
      * Requesting the RD to load the contents from /.well-known/core see (section {{simple})
- 
+
 2.  A Commissioning Tool (CT) fills the RD with endpoint information for a set of discoverable nodes. (see {{registration}} with base=authority parameter value)
 
 In both cases, the nodes filling the RD should be authenticated and authorized to change the contents of the RD. An Authorization Server (AS) is responsible to assign a token to the registering node to authorize the node to discover or register endpoints in a given RD {{I-D.ietf-ace-oauth-authz}}.
 
-It can be imagined that an installation is divided in a set of security regions, each one with its own RD(s) to discover the endpoints that are part of a given security region. An endpoint that wants to discover an RD, responsible for a given region, needs to be authorized to learn the contents of a given RD. Within a region, for a given RD, a more fine-grained security division is possible based on the values of the endpoint registration parameters. Authorization to discover endpoints with a given set of filter values is recommended for those cases. 
+It can be imagined that an installation is divided in a set of security regions, each one with its own RD(s) to discover the endpoints that are part of a given security region. An endpoint that wants to discover an RD, responsible for a given region, needs to be authorized to learn the contents of a given RD. Within a region, for a given RD, a more fine-grained security division is possible based on the values of the endpoint registration parameters. Authorization to discover endpoints with a given set of filter values is recommended for those cases.
 
 When a node registers its endpoints, criteria are needed to authorize the node to enter them. An important aspect is the uniqueness of the (endpoint name, and optional sector) pair within the RD. Consider the two cases separately: (1) CT registers endpoints, and (2) the registering node registers its own endpoint(s).
-   * A CT needs authorization to register a set of endpoints. This authorization can be based on the region, i.e. a given CT is authorized to register any endpoint (endpoint name, sector) into a given RD, or to register an endpoint with (endpoint name, sector) value pairs assigned by the AS, or can be more fine-grained, including a subset of registration parameter values. 
+   * A CT needs authorization to register a set of endpoints. This authorization can be based on the region, i.e. a given CT is authorized to register any endpoint (endpoint name, sector) into a given RD, or to register an endpoint with (endpoint name, sector) value pairs assigned by the AS, or can be more fine-grained, including a subset of registration parameter values.
    * A given endpoint that registers itself, needs to proof its possession of its unique (endpoint name, sector) value pair. Alternatively, the AS can authorize the endpoint to register with an (endpoint name, sector) value pair assigned by the AS.
-   * 
+   *
 A separate document needs to specify these aspects to ensure interoperability between registering nodes and RD. The subsections below give some hints how to handle a subset of the different aspects.
 
 ## Secure RD discovery
@@ -2432,7 +2432,7 @@ URI Template Variables:
 
     If the parameter is set in an update, it is stored by the RD as the new
     Base URI under which to interpret the relative links present in the payload of the original registration, following
-    the same restrictions as in the registration. 
+    the same restrictions as in the registration.
 
     If the parameter is not set in the request but was set before, the previous
     Base URI value is kept unmodified.
