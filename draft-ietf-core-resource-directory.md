@@ -914,7 +914,13 @@ URI Template Variables:
     as any non-empty relative part in a reference would remove those parts from the resulting URI.
 
   : In the absence of this parameter the scheme of the protocol, source address
-    and source port of the registration request are assumed. This parameter is
+    and source port of the registration request are assumed.
+    That Base URI is constructed by concatenating the used protcol's scheme
+    with the characters "://", the requester's source address as an address
+    literal and ":" followed by its port (if it was not the protocol's default
+    one) in analogy to {{RFC7252}} Section 6.5.
+
+  : This parameter is
     mandatory when the directory is filled by a third party such as an
     commissioning tool.
 
@@ -2439,7 +2445,7 @@ URI Template Variables:
 
     If the parameter is not set in the request and was not set before either, the
     source address and source port of the update request are stored as the
-    Base URI according to {{RFC6690}}.
+    Base URI.
 
   extra-attrs :=
   : Additional registration attributes (optional). As with the registration,
