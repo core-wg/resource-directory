@@ -2816,7 +2816,7 @@ The resource directory would have accepted the registration, and queried the
 simple host's `.well-known/core` by itself. As a result, the host is registered
 as an endpoint in the RD with the name "simple-host1". The registration is
 active for 90000 seconds, and the endpoint registration Base URI is
-"`coap://[2001:db8:f0::1]/`" following the resolution steps described in {{resolveURI}}. It should be remarked that he Base URI constructed fron ?.well-known/core, and used in the RD, always yields a URI of the form: scheme://authority without path suffix.
+"`coap://[2001:db8:f0::1]/`" following the resolution steps described in {{resolveURI}}. It should be remarked that the Base URI constructed that way always yields a URI of the form: scheme://authority without path suffix.
 
 If the client now queries the RD as it would previously have issued a multicast
 request, it would go through the RD discovery steps by fetching
