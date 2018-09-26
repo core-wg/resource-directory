@@ -2855,7 +2855,7 @@ All the target and anchor references are already in absolute form there, which
 don't need to be resolved any further.
 
 Had the simple host registered with a base= parameter (e.g.
-`?ep=simple-host1&con=coap+tcp://simple-host1.example.com`), that context would
+`?ep=simple-host1&base=coap+tcp://simple-host1.example.com`), that context would
 have been used to resolve the relative anchor values instead, giving
 
     <coap+tcp://simple-host1.example.com/temp>;rt=temperature;ct=0;
@@ -2941,7 +2941,7 @@ An endpoint lookup would just reflect the registered attributes:
 Req: GET /rd-lookup/ep
 
 Res: 2.05 Content
-</rd/1234>;ep="node1";con="coap://[2001:db8:f1::2]:5683";
+</rd/1234>;ep="node1";base="coap://[2001:db8:f1::2]:5683";
     at="coap+tcp://[2001:db8:f1::2]"
 ~~~
 
