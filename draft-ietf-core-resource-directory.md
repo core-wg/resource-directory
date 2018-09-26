@@ -243,8 +243,8 @@ It provides a cache (in the high-level sense, not as defined in
 directly querying the /.well-known/core resource on the target device, or by
 accessing those resources with a multicast request.
 
-Only information MUST be stored in the resource
-directory that is discovered from querying the described device's
+Only information SHOULD be stored in the resource
+directory that is discoverable from querying the described device's
 /.well-known/core resource directly.
 
 Data in the resource directory can only be provided by the
