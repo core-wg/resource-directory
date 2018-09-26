@@ -855,7 +855,7 @@ The posted link-format document can (and typically does) contain relative refere
 both in its link targets and in its anchors, or contain empty anchors.
 The RD server needs to resolve these references in order to faithfully represent them in lookups.
 They are resolved against the base URI of the registration,
-which is provided either explicitly in the `base` parameter or constructed implicitly from the requester's network address provided by the "hosts" relation.
+which is provided either explicitly in the `base` parameter or constructed implicitly from the requester's URI as constructed from its network address and scheme.
 
 Link format documents submitted to the resource directory are interpreted
 as Modernized Link Format (see {{modern6690}}) by the RD.
