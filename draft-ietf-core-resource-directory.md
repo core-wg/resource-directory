@@ -243,8 +243,8 @@ It provides a cache (in the high-level sense, not as defined in
 directly querying the /.well-known/core resource on the target device, or by
 accessing those resources with a multicast request.
 
-Only information MUST be stored in the resource
-directory that is discovered from querying the described device's
+Only information SHOULD be stored in the resource
+directory that is discoverable from querying the described device's
 /.well-known/core resource directly.
 
 Data in the resource directory can only be provided by the
@@ -701,7 +701,7 @@ and the multicast capabilities of the network (see {{mc-registration}}.
 A Resource Directory MAY provide hints about the content-formats it supports in the links it exposes or registers, using the "ct" link attribute, as shown in the example below. Clients MAY use these hints to select alternate content-formats for interaction with the Resource Directory.
 
 HTTP does not support multicast and consequently only unicast discovery can be supported
-using HTTP. 
+using HTTP.
 The well-known entry points SHOULD be provided to enable unicast discovery.
 
 An implementation of this  resource directory specification MUST support query filtering for
@@ -855,7 +855,7 @@ The posted link-format document can (and typically does) contain relative refere
 both in its link targets and in its anchors, or contain empty anchors.
 The RD server needs to resolve these references in order to faithfully represent them in lookups.
 They are resolved against the base URI of the registration,
-which is provided either explicitly in the `base` parameter or constructed implicitly from the requester's network address provided by the "hosts" relation.
+which is provided either explicitly in the `base` parameter or constructed implicitly from the requester's URI as constructed from its network address and scheme.
 
 Link format documents submitted to the resource directory are interpreted
 as Modernized Link Format (see {{modern6690}}) by the RD.
@@ -914,7 +914,13 @@ URI Template Variables:
     as any non-empty relative part in a reference would remove those parts from the resulting URI.
 
   : In the absence of this parameter the scheme of the protocol, source address
-    and source port of the registration request are assumed. This parameter is
+    and source port of the registration request are assumed.
+    That Base URI is constructed by concatenating the used protcol's scheme
+    with the characters "://", the requester's source address as an address
+    literal and ":" followed by its port (if it was not the protocol's default
+    one) in analogy to {{RFC7252}} Section 6.5.
+
+  : This parameter is
     mandatory when the directory is filled by a third party such as an
     commissioning tool.
 
@@ -1575,17 +1581,17 @@ The contents of the RD are inserted in two ways:
 1.  The node hosting the discoverable endpoint fills the RD with the contents of /.well-known/core by:
      * Storing the contents directly into RD (see {{registration}})
      * Requesting the RD to load the contents from /.well-known/core see (section {{simple})
- 
+
 2.  A Commissioning Tool (CT) fills the RD with endpoint information for a set of discoverable nodes. (see {{registration}} with base=authority parameter value)
 
 In both cases, the nodes filling the RD should be authenticated and authorized to change the contents of the RD. An Authorization Server (AS) is responsible to assign a token to the registering node to authorize the node to discover or register endpoints in a given RD {{I-D.ietf-ace-oauth-authz}}.
 
-It can be imagined that an installation is divided in a set of security regions, each one with its own RD(s) to discover the endpoints that are part of a given security region. An endpoint that wants to discover an RD, responsible for a given region, needs to be authorized to learn the contents of a given RD. Within a region, for a given RD, a more fine-grained security division is possible based on the values of the endpoint registration parameters. Authorization to discover endpoints with a given set of filter values is recommended for those cases. 
+It can be imagined that an installation is divided in a set of security regions, each one with its own RD(s) to discover the endpoints that are part of a given security region. An endpoint that wants to discover an RD, responsible for a given region, needs to be authorized to learn the contents of a given RD. Within a region, for a given RD, a more fine-grained security division is possible based on the values of the endpoint registration parameters. Authorization to discover endpoints with a given set of filter values is recommended for those cases.
 
 When a node registers its endpoints, criteria are needed to authorize the node to enter them. An important aspect is the uniqueness of the (endpoint name, and optional sector) pair within the RD. Consider the two cases separately: (1) CT registers endpoints, and (2) the registering node registers its own endpoint(s).
-   * A CT needs authorization to register a set of endpoints. This authorization can be based on the region, i.e. a given CT is authorized to register any endpoint (endpoint name, sector) into a given RD, or to register an endpoint with (endpoint name, sector) value pairs assigned by the AS, or can be more fine-grained, including a subset of registration parameter values. 
+   * A CT needs authorization to register a set of endpoints. This authorization can be based on the region, i.e. a given CT is authorized to register any endpoint (endpoint name, sector) into a given RD, or to register an endpoint with (endpoint name, sector) value pairs assigned by the AS, or can be more fine-grained, including a subset of registration parameter values.
    * A given endpoint that registers itself, needs to proof its possession of its unique (endpoint name, sector) value pair. Alternatively, the AS can authorize the endpoint to register with an (endpoint name, sector) value pair assigned by the AS.
-   * 
+   *
 A separate document needs to specify these aspects to ensure interoperability between registering nodes and RD. The subsections below give some hints how to handle a subset of the different aspects.
 
 ## Secure RD discovery
@@ -2432,14 +2438,14 @@ URI Template Variables:
 
     If the parameter is set in an update, it is stored by the RD as the new
     Base URI under which to interpret the relative links present in the payload of the original registration, following
-    the same restrictions as in the registration. 
+    the same restrictions as in the registration.
 
     If the parameter is not set in the request but was set before, the previous
     Base URI value is kept unmodified.
 
     If the parameter is not set in the request and was not set before either, the
     source address and source port of the update request are stored as the
-    Base URI according to {{RFC6690}}.
+    Base URI.
 
   extra-attrs :=
   : Additional registration attributes (optional). As with the registration,
@@ -2810,7 +2816,7 @@ The resource directory would have accepted the registration, and queried the
 simple host's `.well-known/core` by itself. As a result, the host is registered
 as an endpoint in the RD with the name "simple-host1". The registration is
 active for 90000 seconds, and the endpoint registration Base URI is
-"`coap://[2001:db8:f0::1]/`" following the resolution steps described in {{resolveURI}}. It should be remarked that he Base URI constructed fron ?.well-known/core, and used in the RD, always yields a URI of the form: scheme://authority without path suffix.
+"`coap://[2001:db8:f0::1]/`" following the resolution steps described in {{resolveURI}}. It should be remarked that the Base URI constructed that way always yields a URI of the form: scheme://authority without path suffix.
 
 If the client now queries the RD as it would previously have issued a multicast
 request, it would go through the RD discovery steps by fetching
@@ -2849,7 +2855,7 @@ All the target and anchor references are already in absolute form there, which
 don't need to be resolved any further.
 
 Had the simple host registered with a base= parameter (e.g.
-`?ep=simple-host1&con=coap+tcp://simple-host1.example.com`), that context would
+`?ep=simple-host1&base=coap+tcp://simple-host1.example.com`), that context would
 have been used to resolve the relative anchor values instead, giving
 
     <coap+tcp://simple-host1.example.com/temp>;rt=temperature;ct=0;
@@ -2876,7 +2882,7 @@ model of typed links, there are some differences between {{RFC6690}} and
   {{RFC8288}} Section 3.2, the context is the resource's base URI.
 
   In the context of a Resource Directory, the authors decided to not let
-  this become an issue by requiring that links in the Resource Directory
+  this become an issue by recommending that links in the Resource Directory
   be *deserializable* by either rule set to give the same results.
   Note that all examples of {{RFC6690}}, {{RFC8288}} and this document comply with that rule.
 
@@ -2935,7 +2941,7 @@ An endpoint lookup would just reflect the registered attributes:
 Req: GET /rd-lookup/ep
 
 Res: 2.05 Content
-</rd/1234>;ep="node1";con="coap://[2001:db8:f1::2]:5683";
+</rd/1234>;ep="node1";base="coap://[2001:db8:f1::2]:5683";
     at="coap+tcp://[2001:db8:f1::2]"
 ~~~
 
