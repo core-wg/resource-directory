@@ -2140,10 +2140,14 @@ originally developed.
 
 changes from -14 to -15
 
-* "base" parameter text applies to all relative links in payload
-* registree -> registrant
+* Rewrite of section "Security policies"
+* Clarify that the "base" parameter text applies both to relative references
+  both in anchor and href
+* Renamed "Registree-EP" to  Registrant-EP"
 * Talk of "relative references" and "URIs" rather than "relative" and
   "absolute" URIs. (The concept of "absolute URIs" of {{RFC3986}} is not needed in RD).
+* Fixed examples
+* Editorial changes
 
 changes from -13 to -14
 
