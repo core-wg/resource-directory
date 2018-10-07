@@ -807,7 +807,7 @@
         <td>
           The request sent by the client contains:<ul><li>Type = 0 and Code = 1</li>
 		  <li>Token = XX, set by client </li>
-		  <li>Uri-Path: "rd-lookup", "ep"</li>
+		  <li>Uri-Path: "rd-lookup", "gp"</li>
 		  <li>Accept: 40 </li>
 		  <li> empty payload</li>
           </ul>
@@ -933,7 +933,7 @@
           Server sends response containing:<ul><li>Code = 2.05 (Content)</li>
 		  <li>Token = XX </li>
 		  <li>Content-Format: 40 </li>
-          <li>payload<ul><li>&lt;coap://[client-address]/temp&gt;;rt="temperature";ct=0</li></ul></li>
+          <li>payload<ul><li>&lt;coap://[client-address]/temp&gt;;rt="temperature";ct=0;anchor="coap://[client-address]"</li></ul></li>
           </ul>
         </td>
       </tr>
@@ -947,7 +947,7 @@
         </td>
         <td>
           Client displays:<ul>
-		  <li>&lt;coap://[client-address]/temp&gt;;rt="temperature";ct=0</li>
+		  <li>&lt;coap://[client-address]/temp&gt;;rt="temperature";ct=0;anchor="coap://[client-address]"</li>
 		  </ul>
         </td>
       </tr>
@@ -1144,7 +1144,7 @@
 		  <li>Token = XX </li>
 		  <li>Content-Format: 40 </li>
           <li>payload</li>
-		  <li>&lt;/rd/4522&gt;;base="coap://[client-ip]";ep="node2";rt="temperature"</li>
+		  <li>&lt;/rd/4522&gt;;base="coap://[client-ip]";ep="node2"</li>
           </ul>
         </td>
       </tr>
@@ -1158,7 +1158,7 @@
         </td>
         <td>
           Cient displays:<ul>
-		  <li>&lt;/rd/4522&gt;;base="coap://[client-ip]";ep="node2";rt="temperature"</li>
+		  <li>&lt;/rd/4522&gt;;base="coap://[client-ip]";ep="node2"</li>
 		  </ul>
         </td>
       </tr>
