@@ -319,11 +319,12 @@ provided using the CoRE Link Format.
 {: #fig-hierarchy title='The resource directory information hierarchy.' align="left"}
 
 
-A Registrant-EP MAY keep concurrent registrations to more than one RD at the same time.
-Those registrations are independent of each other.
+A Registrant-EP MAY keep concurrent registrations to more than one RD at the same time,
+but that is not expected to supported by typical EP implementations.
+Any such registrations are independent of each other.
 
-That case is not expected to be implemented in typical Registrant-EP implementations.
-The EP would need to be explicitly configured to do so,
+For this case to occur,
+the EP would need to be explicitly configured to register multiple times:
 either by having multiple discovery mechanisms or addresses configured (which are not merely fallbacks to each other),
 or by having several sets of registration data to register with (eg. multiple endpoint names).
 
