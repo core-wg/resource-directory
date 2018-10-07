@@ -825,7 +825,7 @@
           Server sends response containing:<ul><li>Code = 2.05 (Content)</li>
 		  <li>Token = XX </li>
 		  <li>Content-Format: 40 </li>
-          <li>payload<ul><li>&lt;/rd-group/12&gt;;gp="lights";base="coap://[ff35:30:2001:db8::1]"</li></ul></li>
+          <li>payload<ul><li>&lt;/rd-group/12&gt;;gp="lights";base="coap://[ff35:30:2001:db8::1]";rt="core.rd-gp"</li></ul></li>
           </ul>
         </td>
       </tr>
@@ -839,7 +839,7 @@
         </td>
         <td>
           Client displays <ul>
-		  <li> &lt;/rd-group/12&gt;;gp="lights",base="coap://[ff35:30:2001:db8::1]"</li>
+		  <li> &lt;/rd-group/12&gt;;gp="lights",base="coap://[ff35:30:2001:db8::1]";rt="core.rd-gp"</li>
 		  </ul>
         </td>
       </tr>
@@ -1144,7 +1144,7 @@
 		  <li>Token = XX </li>
 		  <li>Content-Format: 40 </li>
           <li>payload</li>
-		  <li>&lt;/rd/4522&gt;;base="coap://[client-ip]";ep="node2"</li>
+		  <li>&lt;/rd/4522&gt;;base="coap://[client-ip]";ep="node2";rt="core.rd-ep"</li>
           </ul>
         </td>
       </tr>
@@ -1158,7 +1158,7 @@
         </td>
         <td>
           Cient displays:<ul>
-		  <li>&lt;/rd/4522&gt;;base="coap://[client-ip]";ep="node2"</li>
+		  <li>&lt;/rd/4522&gt;;base="coap://[client-ip]";ep="node2";rt="core.rd-ep"</li>
 		  </ul>
         </td>
       </tr>
