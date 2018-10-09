@@ -1,6 +1,4 @@
-<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    
-    <style>
+<html lang="nl"><head><!-- meta ignored --><style type="text/css">
       body { font-family: Arial, Sans-Serif; }
       table {
         border-collapse: collapse;
@@ -11,15 +9,27 @@
         padding: 4px 0 4px 10px;
       }
     </style>
-  </head>
-  <body>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<link rel="stylesheet" type="text/css" href="skins/larry/embed.css?s=1450128732">
+<script type="text/javascript">
+/* <![CDATA[ */
+
+
+/* ]]> */
+</script>
+
+</head><body>
 
     <h2>Preface</h2>
-    <p>The present test descriptions are meant to guide coordinated interoperability tests of the <a href="https://tools.ietf.org/html/draft-ietf-core-resource-directory-14">CoRE Resource Directory draft</a>. When preparing for an interop event, implementors should not try to follow the test description to the letter, but run the implementations they developed based on the draft as they are, and document deviations from the described baseline test data when non-interoperability is found. In particular, the paths of lookup and registration resources on the server can be arbitrary, and the concrete paths given in the test specifications are to be seen as exemplary. Clients must always use the paths discovered in earlier tests.</p>
+    <p>The present test descriptions are meant to guide coordinated interoperability tests of the <a href="https://tools.ietf.org/html/draft-ietf-core-resource-directory-14" target="_blank" rel="noreferrer">CoRE Resource Directory draft</a>. 
+	When preparing for an interop event, implementors should not try to follow the test description to the letter, 
+	but run the implementations they developed based on the draft as they are, and document deviations from the described baseline test data 
+	when non-interoperability is found. In particular, the paths of lookup and registration resources on the server can be arbitrary, 
+	and the concrete paths, rd/xxx, rd/yyy, /rd/xyz, and /rd-group/zzz, given in the test specifications are to be seen as variable. 
+	Clients must always use the paths discovered in earlier tests.</p>
 
     <h2>Contents</h2>
-<ul>
-  <li><a href="#TAB01">TD_CoRE_resource-directory_01: Discover RD server with coap multicast</a></li>
+<ul><li><a href="#TAB01">TD_CoRE_resource-directory_01: Discover RD server with coap multicast</a></li>
   <li><a href="#TAB02">TD_CoRE_resource-directory_02: Discover all resources of RD server with coap multicast</a></li>
   <li><a href="#TAB03">TD_CoRE_resource-directory_03: Simple registration</a></li>
   <li><a href="#TAB04">TD_CoRE_resource-directory_04: Registrant registration</a></li>
@@ -34,55 +44,35 @@
   <li><a href="#TAB13">TD_CoRE_resource-directory_13: Registration update</a></li>
   <li><a href="#TAB14">TD_CoRE_resource-directory_14: group lookup</a></li>
   <li><a href="#TAB15">TD_CoRE_resource-directory_15: Verify remaining resources</a></li>
-</ul>
+</ul><h2>Test descriptions</h2>
 
-    <h2>Test descriptions</h2>
-
-	<table id="TAB01" border="1" width="100%">
-      <tbody><tr>
-        <th colspan="4">Interoperability Test Description</th>
-      </tr>
-      <tr>
-        <th width="15%">Identifier:</th>
+	<table id="TAB01" border="1" width="100%"><tbody><tr><th colspan="4">Interoperability Test Description</th>
+      </tr><tr><th width="15%">Identifier:</th>
         <td colspan="3">
           TD_CoRE_resource-directory_01
         </td>
-      </tr>
-      <tr>
-        <th>Objective:</th>
+      </tr><tr><th>Objective:</th>
         <td colspan="3">
           Discover RD server with coap multicast
         </td>
-      </tr>
-      <tr>
-        <th>Configuration:</th>
+      </tr><tr><th>Configuration:</th>
         <td colspan="3">
           CoAP_CFG_resource-directory
         </td>
-      </tr>
-      <tr>
-        <th>References:</th>
+      </tr><tr><th>References:</th>
         <td colspan="3">
           [resource-directory] 5.2
         </td>
-      </tr>
-      <tr>
-        <th>Pre-test conditions:</th>
+      </tr><tr><th>Pre-test conditions:</th>
         <td colspan="3">
-		<ul>
-		  <li>Server enabled its interface for MC address "All CoAP Nodes" address FF0X::FD</li>
+		<ul><li>Server enabled its interface for MC address &quot;All CoAP Nodes&quot; address FF0X::FD</li>
 		  <li>Server contains resource /rd</li>
-		</ul>
-        </td>
-      </tr>
-      <tr>
-        <th>Test Sequence:</th>
+		</ul></td>
+      </tr><tr><th>Test Sequence:</th>
         <td width="10 %">Step</td>
         <td width="15 %">Type</td>
         <td>Description</td>
-      </tr>
-      <tr>
-        <td></td>
+      </tr><tr><td></td>
         <td>
           1
         </td>
@@ -93,11 +83,8 @@
           Client is requested to send a MC GET request with:<ul><li>Type = 1 (NON)</li>
           <li>Code = 1 (GET)</li>
 		  
-          </ul>
-        </td>
-      </tr>
-      <tr>
-        <td></td>
+          </ul></td>
+      </tr><tr><td></td>
         <td>
           2
         </td>
@@ -107,15 +94,12 @@
         <td>
           The request sent by the client contains:<ul><li>Type = 1 and Code = 1</li>
 		  <li>Token = XX, set by client </li>
-		  <li>Uri-Path: ".well-known", "core"</li>
-		  <li>Uri-Query: "rt=core.rd"
+		  <li>Uri-Path: &quot;.well-known&quot;, &quot;core&quot;</li>
+		  <li>Uri-Query: &quot;rt=core.rd&quot;
 		  </li><li>Accept: 40 </li>
 		  <li>empty payload</li>
-          </ul>
-        </td>
-      </tr>
-      <tr>
-        <td></td>
+          </ul></td>
+      </tr><tr><td></td>
         <td>
           3
         </td>
@@ -127,11 +111,8 @@
 		  <li>Token = XX </li>
           <li>Content-Format: 40</li>
           <li>Payload with RD resource</li>
-          </ul>
-        </td>
-      </tr>
-      <tr>
-        <td></td>
+          </ul></td>
+      </tr><tr><td></td>
         <td>
           4
         </td>
@@ -139,56 +120,35 @@
           Verify
         </td>
         <td>
-          Client displays &lt;/rd&gt;;rt="core.rd";ct="40"
+          Client displays &lt;/rd&gt;;rt=&quot;core.rd&quot;;ct=&quot;40&quot;
         </td>
-      </tr>
-    </tbody></table>
-	
-	<table id="TAB02" border="1" width="100%">
-      <tbody><tr>
-        <th colspan="4">Interoperability Test Description</th>
-      </tr>
-      <tr>
-        <th width="15%">Identifier:</th>
+      </tr></tbody></table><table id="TAB02" border="1" width="100%"><tbody><tr><th colspan="4">Interoperability Test Description</th>
+      </tr><tr><th width="15%">Identifier:</th>
         <td colspan="3">
           TD_CoRE_resource-directory_02
         </td>
-      </tr>
-      <tr>
-        <th>Objective:</th>
+      </tr><tr><th>Objective:</th>
         <td colspan="3">
           Discover all resources of RD server with coap multicast
         </td>
-      </tr>
-      <tr>
-        <th>Configuration:</th>
+      </tr><tr><th>Configuration:</th>
         <td colspan="3">
           CoAP_CFG_resource-directory
         </td>
-      </tr>
-      <tr>
-        <th>References:</th>
+      </tr><tr><th>References:</th>
         <td colspan="3">
           [resource-directory] 5.2
         </td>
-      </tr>
-      <tr>
-        <th>Pre-test conditions:</th>
+      </tr><tr><th>Pre-test conditions:</th>
         <td colspan="3">
-		<ul>
-		  <li>Server enabled its interface for MC address "All CoAP Nodes" address FF0X::FD</li>
+		<ul><li>Server enabled its interface for MC address &quot;All CoAP Nodes&quot; address FF0X::FD</li>
 		  <li>Server contains resource /rd</li>
-		  </ul>
-        </td>
-      </tr>
-      <tr>
-        <th>Test Sequence:</th>
+		  </ul></td>
+      </tr><tr><th>Test Sequence:</th>
         <td width="10 %">Step</td>
         <td width="15 %">Type</td>
         <td>Description</td>
-      </tr>
-      <tr>
-        <td></td>
+      </tr><tr><td></td>
         <td>
           1
         </td>
@@ -199,11 +159,8 @@
           Client is requested to send a MC GET request with:<ul><li>Type = 1 (NON)</li>
           <li>Code = 1 (GET)</li>
 		  
-          </ul>
-        </td>
-      </tr>
-      <tr>
-        <td></td>
+          </ul></td>
+      </tr><tr><td></td>
         <td>
           2
         </td>
@@ -213,15 +170,12 @@
         <td>
           The request sent by the client contains:<ul><li>Type = 1 and Code = 1</li>
 		  <li>Token = XX, set by client </li>
-		  <li>Uri-Path: ".well-known", "core"</li>
-		  <li>Uri-Query: "rt=core.rd*"
+		  <li>Uri-Path: &quot;.well-known&quot;, &quot;core&quot;</li>
+		  <li>Uri-Query: &quot;rt=core.rd*&quot;
 		  </li><li>Accept: 40 </li>
 		  <li>empty payload</li>
-          </ul>
-        </td>
-      </tr>
-      <tr>
-        <td></td>
+          </ul></td>
+      </tr><tr><td></td>
         <td>
           3
         </td>
@@ -233,11 +187,8 @@
 		  <li>Token = XX </li>
           <li>Content-Format: 40</li>
           <li>Payload with all RD resources</li>
-          </ul>
-        </td>
-      </tr>
-      <tr>
-        <td></td>
+          </ul></td>
+      </tr><tr><td></td>
         <td>
           4
         </td>
@@ -245,64 +196,40 @@
           Verify
         </td>
         <td>
-          Client displays <ul>
-		  <li>&lt;/rd&gt;;rt="core.rd";ct="40"</li>
-		  <li>&lt;/rd-lookup/ep;&gt;rt="core.rd-lookup-ep";ct="40"</li>
-		  <li>&lt;/rd-lookup/res;&gt;rt="core.rd-lookup-res";ct="40"</li>
-		  <li>&lt;/rd-lookup/gp;&gt;rt="core.rd-lookup-gp";ct="40"</li>
-		  <li>&lt;/rd-group&gt;;rt="core.rd-group";ct="40"</li>
-		  </ul>
-        </td>
-      </tr>
-    </tbody></table>
-		
-	<table id="TAB03" border="1" width="100%">
-      <tbody><tr>
-        <th colspan="4">Interoperability Test Description</th>
-      </tr>
-      <tr>
-        <th width="15%">Identifier:</th>
+          Client displays <ul><li>&lt;/rd&gt;;rt=&quot;core.rd&quot;;ct=&quot;40&quot;</li>
+		  <li>&lt;/rd-lookup/ep;&gt;rt=&quot;core.rd-lookup-ep&quot;;ct=&quot;40&quot;</li>
+		  <li>&lt;/rd-lookup/res;&gt;rt=&quot;core.rd-lookup-res&quot;;ct=&quot;40&quot;</li>
+		  <li>&lt;/rd-lookup/gp;&gt;rt=&quot;core.rd-lookup-gp&quot;;ct=&quot;40&quot;</li>
+		  <li>&lt;/rd-group&gt;;rt=&quot;core.rd-group&quot;;ct=&quot;40&quot;</li>
+		  </ul></td>
+      </tr></tbody></table><table id="TAB03" border="1" width="100%"><tbody><tr><th colspan="4">Interoperability Test Description</th>
+      </tr><tr><th width="15%">Identifier:</th>
         <td colspan="3">
           TD_CoRE_resource-directory_03
         </td>
-      </tr>
-      <tr>
-        <th>Objective:</th>
+      </tr><tr><th>Objective:</th>
         <td colspan="3">
           Simple registration
         </td>
-      </tr>
-      <tr>
-        <th>Configuration:</th>
+      </tr><tr><th>Configuration:</th>
         <td colspan="3">
           CoAP_CFG_resource-directory
         </td>
-      </tr>
-      <tr>
-        <th>References:</th>
+      </tr><tr><th>References:</th>
         <td colspan="3">
           [resource-directory] 5.3.1
         </td>
-      </tr>
-      <tr>
-        <th>Pre-test conditions:</th>
-        <td colspan="3"><ul>
-		  <li> Client knows address of resource directory (server)</li>
+      </tr><tr><th>Pre-test conditions:</th>
+        <td colspan="3"><ul><li> Client knows address of resource directory (server)</li>
 		  <li>Server contains resource /rd</li>
-		  <li>Client prepares /.well-known/core resource with links </li><ul>
-		  <li>&lt;/sensors/temp&gt;;ct=41;rt="temperature-c";if="sensor";anchor="coap://spurious.example.com:5683"</li>
-		  <li>&lt;/sensors/light&gt;;ct=41;rt-"light-lux";if="sensor"</li></ul>
-		  </ul>
-       </td>
-      </tr>
-      <tr>
-        <th>Test Sequence:</th>
+		  <li>Client prepares /.well-known/core resource with links <ul><li>&lt;/sensors/temp&gt;;ct=41;rt=&quot;temperature-c&quot;;if=&quot;sensor&quot;;anchor=&quot;coap://spurious.example.com:5683&quot;</li>
+		  <li>&lt;/sensors/light&gt;;ct=41;rt-&quot;light-lux&quot;;if=&quot;sensor&quot;</li></ul></li>
+		  </ul></td>
+      </tr><tr><th>Test Sequence:</th>
         <td width="10 %">Step</td>
         <td width="15 %">Type</td>
         <td>Description</td>
-      </tr>
-      <tr>
-        <td></td>
+      </tr><tr><td></td>
         <td>
           1
         </td>
@@ -313,11 +240,8 @@
           Client is requested to send a POST request with:<ul><li>Type = 0 (CON)</li>
           <li>Code = 2 (POST)</li>
 		  
-          </ul>
-        </td>
-      </tr>
-      <tr>
-        <td></td>
+          </ul></td>
+      </tr><tr><td></td>
         <td>
           2
         </td>
@@ -327,14 +251,11 @@
         <td>
           The request sent by the client contains:<ul><li>Type = 1 and Code = 2</li>
 		  <li>Token = XX, set by client </li>
-		  <li>Uri-Path: ".well-known", "core"</li>
-		  <li>Uri-Query: "lt=6000", "ep=node1"</li>
+		  <li>Uri-Path: &quot;.well-known&quot;, &quot;core&quot;</li>
+		  <li>Uri-Query: &quot;lt=6000&quot;, &quot;ep=node1&quot;</li>
 		  <li>empty payload</li>
-          </ul>
-        </td>
-      </tr>
-      <tr>
-        <td></td>
+          </ul></td>
+      </tr><tr><td></td>
         <td>
           3
         </td>
@@ -345,11 +266,8 @@
           Server sends response containing:<ul><li>Code = 2.04 (Changed)</li>
 		  <li>Token = XX </li>
           <li>empty payload</li>
-          </ul>
-        </td>
-      </tr>
-	    <tr>
-        <td></td>
+          </ul></td>
+      </tr><tr><td></td>
         <td>
           4
         </td>
@@ -359,15 +277,11 @@
         <td>
           Server sends request containing:<ul><li>Type = 1 and Code = 2</li>
 		  <li>Token = XY, set by server </li>
-		  <li>Uri-Path: ".well-known", "core"</li>
+		  <li>Uri-Path: &quot;.well-known&quot;, &quot;core&quot;</li>
 		  <li>Accept: 40 </li>
 		  <li>empty payload</li>
-          </ul>
-          
-        </td>
-      </tr>
-	  	    <tr>
-        <td></td>
+          </ul></td>
+      </tr><tr><td></td>
         <td>
           5
         </td>
@@ -378,75 +292,48 @@
           client sends response containing:<ul><li>Code = 2.05 (Content)</li>
 		  <li>Token = XY </li>
 		  <li>Content-Format: 40 </li>
-		  <li> payload</li>
-          <ul>
-		  <li>&lt;/sensors/temp&gt;;ct=41;rt="temperature-c";if="sensor";anchor="coap://spurious.example.com:5683"</li>
-		  <li>&lt;/sensors/light&gt;;ct=41;rt-"light-lux";if="sensor"</li>
-		  </ul>
-          </ul>
-        </td>
-      </tr>
-      <tr>
-        <td></td>
+		  <li> payload<ul><li>&lt;/sensors/temp&gt;;ct=41;rt=&quot;temperature-c&quot;;if=&quot;sensor&quot;;anchor=&quot;coap://spurious.example.com:5683&quot;</li>
+		  <li>&lt;/sensors/light&gt;;ct=41;rt-&quot;light-lux&quot;;if=&quot;sensor&quot;</li>
+		  </ul></li>
+          
+          </ul></td>
+      </tr><tr><td></td>
         <td>
           6
         </td>
         <td>
           Verify
         </td>
-        <td><ul>
-          <li>See test TD_CoRE_resource-directory_15</li>
-		  <li>Assumption: /rd/4521 is the registration resource</li>
-		  </ul>
-        </td>
-      </tr>
-    </tbody></table>
-	
-	<table id="TAB04" border="1" width="100%">
-      <tbody><tr>
-        <th colspan="4">Interoperability Test Description</th>
-      </tr>
-      <tr>
-        <th width="15%">Identifier:</th>
+        <td><ul><li>See test TD_CoRE_resource-directory_15</li>
+		  <li>Assumption: /rd/xxx is the registration resource</li>
+		  </ul></td>
+      </tr></tbody></table><table id="TAB04" border="1" width="100%"><tbody><tr><th colspan="4">Interoperability Test Description</th>
+      </tr><tr><th width="15%">Identifier:</th>
         <td colspan="3">
           TD_CoRE_resource-directory_04
         </td>
-      </tr>
-      <tr>
-        <th>Objective:</th>
+      </tr><tr><th>Objective:</th>
         <td colspan="3">
           Registrant registration
         </td>
-      </tr>
-      <tr>
-        <th>Configuration:</th>
+      </tr><tr><th>Configuration:</th>
         <td colspan="3">
           CoAP_CFG_resource-directory
         </td>
-      </tr>
-      <tr>
-        <th>References:</th>
+      </tr><tr><th>References:</th>
         <td colspan="3">
           [resource-directory] 5.3
         </td>
-      </tr>
-      <tr>
-        <th>Pre-test conditions:</th>
+      </tr><tr><th>Pre-test conditions:</th>
         <td colspan="3">
-		<ul>
-		  <li>Server contains resource /rd</li>
+		<ul><li>Server contains resource /rd</li>
 		  <li>Client knows address of Resource Directory (server)</li>
-		</ul>
-       </td>
-      </tr>
-      <tr>
-        <th>Test Sequence:</th>
+		</ul></td>
+      </tr><tr><th>Test Sequence:</th>
         <td width="10 %">Step</td>
         <td width="15 %">Type</td>
         <td>Description</td>
-      </tr>
-      <tr>
-        <td></td>
+      </tr><tr><td></td>
         <td>
           1
         </td>
@@ -457,11 +344,8 @@
           Client is requested to send a POST request with:<ul><li>Type = 0 (CON)</li>
           <li>Code = 2 (POST)</li>
 		  
-          </ul>
-        </td>
-      </tr>
-      <tr>
-        <td></td>
+          </ul></td>
+      </tr><tr><td></td>
         <td>
           2
         </td>
@@ -471,20 +355,16 @@
         <td>
           The request sent by the client contains:<ul><li>Type = 0 and Code = 2</li>
 		  <li>Token = XX, set by client </li>
-		  <li>Uri-Path: "rd"</li>
-		  <li>Uri-Query: "ep=node2"</li>
+		  <li>Uri-Path: &quot;rd&quot;</li>
+		  <li>Uri-Query: &quot;ep=node2&quot;</li>
 		  <li>Content-Format: 40 </li>
-		  <li>payload</li><ul>
-		      <li>&lt;/temp&gt;;rt="temperature";ct=0</li>
-			  <li>&lt;/light&gt;;rt="light-lux";ct=0</li>
-			  <li>&lt;/t&gt;;anchor="sensors/temp";rel="alternate"</li>
-			  <li>&lt;http://www.example.com/sensors/t123&gt;;anchor="sensors/temp";rel="describedby"</li>
-		  </ul>
-          </ul>
-        </td>
-      </tr>
-      <tr>
-        <td></td>
+		  <li>payload<ul><li>&lt;/temp&gt;;rt=&quot;temperature&quot;;ct=0</li>
+			  <li>&lt;/light&gt;;rt=&quot;light-lux&quot;;ct=0</li>
+			  <li>&lt;/t&gt;;anchor=&quot;sensors/temp&quot;;rel=&quot;alternate&quot;</li>
+			  <li>&lt;http://www.example.com/sensors/t123&gt;;anchor=&quot;sensors/temp&quot;;rel=&quot;describedby&quot;</li>
+		  </ul></li>
+          </ul></td>
+      </tr><tr><td></td>
         <td>
           3
         </td>
@@ -494,14 +374,10 @@
         <td>
           Server sends response containing:<ul><li>Code = 2.01 (Created)</li>
 		  <li>Token = XX </li>
-		  <li>Location-Path: "rd", "4522"
+		  <li>Location-Path: &quot;rd&quot;, &quot;yyy&quot;
           </li><li>empty payload</li>
-          </ul>
-        </td>
-      </tr>
-	    
-      <tr>
-        <td></td>
+          </ul></td>
+      </tr><tr><td></td>
         <td>
           4
         </td>
@@ -511,54 +387,33 @@
         <td>
           See test TD_CoRE_resource-directory_15
         </td>
-      </tr>
-    </tbody></table>
-	
-	<table id="TAB05" border="1" width="100%">
-      <tbody><tr>
-        <th colspan="4">Interoperability Test Description</th>
-      </tr>
-      <tr>
-        <th width="15%">Identifier:</th>
+      </tr></tbody></table><table id="TAB05" border="1" width="100%"><tbody><tr><th colspan="4">Interoperability Test Description</th>
+      </tr><tr><th width="15%">Identifier:</th>
         <td colspan="3">
           TD_CoRE_resource-directory_05
         </td>
-      </tr>
-      <tr>
-        <th>Objective:</th>
+      </tr><tr><th>Objective:</th>
         <td colspan="3">
           Third party registration
         </td>
-      </tr>
-      <tr>
-        <th>Configuration:</th>
+      </tr><tr><th>Configuration:</th>
         <td colspan="3">
           CoAP_CFG_resource-directory
         </td>
-      </tr>
-      <tr>
-        <th>References:</th>
+      </tr><tr><th>References:</th>
         <td colspan="3">
           [resource-directory] 5.3, 5.3.2
         </td>
-      </tr>
-      <tr>
-        <th>Pre-test conditions:</th>
+      </tr><tr><th>Pre-test conditions:</th>
         <td colspan="3">
-		<ul>
-		  <li>Server contains resource /rd</li>
+		<ul><li>Server contains resource /rd</li>
 		  <li>Client knows address of Resource Directory (server)</li>
-		</ul>
-       </td>
-      </tr>
-      <tr>
-        <th>Test Sequence:</th>
+		</ul></td>
+      </tr><tr><th>Test Sequence:</th>
         <td width="10 %">Step</td>
         <td width="15 %">Type</td>
         <td>Description</td>
-      </tr>
-      <tr>
-        <td></td>
+      </tr><tr><td></td>
         <td>
           1
         </td>
@@ -569,11 +424,8 @@
           Client is requested to send a POST request with:<ul><li>Type = 0 (CON)</li>
           <li>Code = 2 (POST)</li>
 		  
-          </ul>
-        </td>
-      </tr>
-      <tr>
-        <td></td>
+          </ul></td>
+      </tr><tr><td></td>
         <td>
           2
         </td>
@@ -583,19 +435,15 @@
         <td>
           The request sent by the client contains:<ul><li>Type = 0 and Code = 2</li>
 		  <li>Token = XX, set by client </li>
-		  <li>Uri-Path: "rd"</li>
-		  <li>Uri-Query: "ep=node3", "base=coap://[2001:db8:4::1]"</li>
+		  <li>Uri-Path: &quot;rd&quot;</li>
+		  <li>Uri-Query: &quot;ep=node3&quot;, &quot;base=coap://[2001:db8:4::1]&quot;</li>
 		  <li>Content-Format: 40 </li>
-		  <li>payload</li><ul>
-		      <li>&lt;/light/left&gt;;rt="light";ct=0</li>
-			  <li>&lt;/light/middle&gt;;rt="light";ct=0</li>
-			  <li>&lt;/light/right&gt;;rt="light";ct=0</li>
-		  </ul>
-          </ul>
-        </td>
-      </tr>
-      <tr>
-        <td></td>
+		  <li>payload<ul><li>&lt;/light/left&gt;;rt=&quot;light&quot;;ct=0</li>
+			  <li>&lt;/light/middle&gt;;rt=&quot;light&quot;;ct=0</li>
+			  <li>&lt;/light/right&gt;;rt=&quot;light&quot;;ct=0</li>
+		  </ul></li>
+          </ul></td>
+      </tr><tr><td></td>
         <td>
           3
         </td>
@@ -605,14 +453,10 @@
         <td>
           Server sends response containing:<ul><li>Code = 2.01 (Created)</li>
 		  <li>Token = XX </li>
-		  <li>Location-Path: "rd", "4523"
+		  <li>Location-Path: &quot;rd&quot;, &quot;xyz&quot;
           </li><li>empty payload</li>
-          </ul>
-        </td>
-      </tr>
-	    
-      <tr>
-        <td></td>
+          </ul></td>
+      </tr><tr><td></td>
         <td>
           4
         </td>
@@ -622,56 +466,35 @@
         <td>
           See test TD_CoRE_resource-directory_15
         </td>
-      </tr>
-    </tbody></table>
-	
-	<table id="TAB06" border="1" width="100%">
-      <tbody><tr>
-        <th colspan="4">Interoperability Test Description</th>
-      </tr>
-      <tr>
-        <th width="15%">Identifier:</th>
+      </tr></tbody></table><table id="TAB06" border="1" width="100%"><tbody><tr><th colspan="4">Interoperability Test Description</th>
+      </tr><tr><th width="15%">Identifier:</th>
         <td colspan="3">
           TD_CoRE_resource-directory_06
         </td>
-      </tr>
-      <tr>
-        <th>Objective:</th>
+      </tr><tr><th>Objective:</th>
         <td colspan="3">
           Group registration
         </td>
-      </tr>
-      <tr>
-        <th>Configuration:</th>
+      </tr><tr><th>Configuration:</th>
         <td colspan="3">
           CoAP_CFG_resource-directory
         </td>
-      </tr>
-      <tr>
-        <th>References:</th>
+      </tr><tr><th>References:</th>
         <td colspan="3">
           [resource-directory] 6.1
         </td>
-      </tr>
-      <tr>
-        <th>Pre-test conditions:</th>
+      </tr><tr><th>Pre-test conditions:</th>
         <td colspan="3">
-		<ul>
-		  <li>Server contains resource /rd-group</li>
+		<ul><li>Server contains resource /rd-group</li>
 		  <li>Client knows address of Resource Directory (server)</li>
-		  <li>/rd/4521 created by TD_CoRE_resource-directory-03</li> 
-		  <li>/rd/4522 created by TD_CoRE_resource-directory-04</li>
-		</ul>
-       </td>
-      </tr>
-      <tr>
-        <th>Test Sequence:</th>
+		  <li>/rd/xxx created by TD_CoRE_resource-directory-03</li> 
+		  <li>/rd/yyy created by TD_CoRE_resource-directory-04</li>
+		</ul></td>
+      </tr><tr><th>Test Sequence:</th>
         <td width="10 %">Step</td>
         <td width="15 %">Type</td>
         <td>Description</td>
-      </tr>
-      <tr>
-        <td></td>
+      </tr><tr><td></td>
         <td>
           1
         </td>
@@ -682,11 +505,8 @@
           Client is requested to send a POST request with:<ul><li>Type = 0 (CON)</li>
           <li>Code = 2 (POST)</li>
 		  
-          </ul>
-        </td>
-      </tr>
-      <tr>
-        <td></td>
+          </ul></td>
+      </tr><tr><td></td>
         <td>
           2
         </td>
@@ -696,18 +516,14 @@
         <td>
           The request sent by the client contains:<ul><li>Type = 0 and Code = 2</li>
 		  <li>Token = XX, set by client </li>
-		  <li>Uri-Path: "rd-group"</li>
-		  <li>Uri-Query: "gp=lights", "base=coap://[ff35:30:2001:db8::1]"</li>
+		  <li>Uri-Path: &quot;rd-group&quot;</li>
+		  <li>Uri-Query: &quot;gp=lights&quot;, &quot;base=coap://[ff35:30:2001:db8::1]&quot;</li>
 		  <li>Content-Format: 40 </li>
-		  <li>payload</li><ul>
-		      <li>&lt;/rd/4521&gt;,</li>
-			  <li>&lt;/rd/4522&gt;</li>
-		  </ul>
-          </ul>
-        </td>
-      </tr>
-      <tr>
-        <td></td>
+		  <li>payload<ul><li>&lt;/rd/xxx&gt;,</li>
+			  <li>&lt;/rd/yyy&gt;</li>
+		  </ul></li>
+          </ul></td>
+      </tr><tr><td></td>
         <td>
           3
         </td>
@@ -717,14 +533,10 @@
         <td>
           Server sends response containing:<ul><li>Code = 2.01 (Created)</li>
 		  <li>Token = XX </li>
-		  <li>Location-Path=/rd-group/12
+		  <li>Location-Path=/rd-group/zzz
           </li><li>empty payload</li>
-          </ul>
-        </td>
-      </tr>
-	    
-      <tr>
-        <td></td>
+          </ul></td>
+      </tr><tr><td></td>
         <td>
           4
         </td>
@@ -734,56 +546,33 @@
         <td>
           See test TD_CoRE_resource-directory_15
         </td>
-      </tr>
-    </tbody></table>
-	
-
-	
-	<table id="TAB07" border="1" width="100%">
-      <tbody><tr>
-        <th colspan="4">Interoperability Test Description</th>
-      </tr>
-      <tr>
-        <th width="15%">Identifier:</th>
+      </tr></tbody></table><table id="TAB07" border="1" width="100%"><tbody><tr><th colspan="4">Interoperability Test Description</th>
+      </tr><tr><th width="15%">Identifier:</th>
         <td colspan="3">
           TD_CoRE_resource-directory_07
         </td>
-      </tr>
-      <tr>
-        <th>Objective:</th>
+      </tr><tr><th>Objective:</th>
         <td colspan="3">
           Group lookup
         </td>
-      </tr>
-      <tr>
-        <th>Configuration:</th>
+      </tr><tr><th>Configuration:</th>
         <td colspan="3">
           CoAP_CFG_resource-directory
         </td>
-      </tr>
-      <tr>
-        <th>References:</th>
+      </tr><tr><th>References:</th>
         <td colspan="3">
           [resource-directory] A.5
         </td>
-      </tr>
-      <tr>
-        <th>Pre-test conditions:</th>
+      </tr><tr><th>Pre-test conditions:</th>
         <td colspan="3">
-		<ul>
-		  <li>Server contains resources and groups created in TD_CoRE_resource-directory_ 03, 04, 05, and 06</li>
+		<ul><li>Server contains resources and groups created in TD_CoRE_resource-directory_ 03, 04, 05, and 06</li>
 		  <li>Client knows address of Resource Directory (server)</li>
-		</ul>
-       </td>
-      </tr>
-      <tr>
-        <th>Test Sequence:</th>
+		</ul></td>
+      </tr><tr><th>Test Sequence:</th>
         <td width="10 %">Step</td>
         <td width="15 %">Type</td>
         <td>Description</td>
-      </tr>
-      <tr>
-        <td></td>
+      </tr><tr><td></td>
         <td>
           1
         </td>
@@ -793,11 +582,8 @@
         <td>
           Client is requested to send a GET request with:<ul><li>Type = 0 (CON)</li>
           <li>Code = 1 (GET)</li>
-          </ul>
-        </td>
-      </tr>
-      <tr>
-        <td></td>
+          </ul></td>
+      </tr><tr><td></td>
         <td>
           2
         </td>
@@ -807,14 +593,11 @@
         <td>
           The request sent by the client contains:<ul><li>Type = 0 and Code = 1</li>
 		  <li>Token = XX, set by client </li>
-		  <li>Uri-Path: "rd-lookup", "gp"</li>
+		  <li>Uri-Path: &quot;rd-lookup&quot;, &quot;gp&quot;</li>
 		  <li>Accept: 40 </li>
 		  <li> empty payload</li>
-          </ul>
-        </td>
-      </tr>
-      <tr>
-        <td></td>
+          </ul></td>
+      </tr><tr><td></td>
         <td>
           3
         </td>
@@ -825,12 +608,9 @@
           Server sends response containing:<ul><li>Code = 2.05 (Content)</li>
 		  <li>Token = XX </li>
 		  <li>Content-Format: 40 </li>
-          <li>payload<ul><li>&lt;/rd-group/12&gt;;gp="lights";base="coap://[ff35:30:2001:db8::1]";rt="core.rd-gp"</li></ul></li>
-          </ul>
-        </td>
-      </tr>
-      <tr>
-        <td></td>
+          <li>payload<ul><li>&lt;/rd-group/zzz&gt;;gp=&quot;lights&quot;;base=&quot;coap://[ff35:30:2001:db8::1]&quot;;rt=&quot;core.rd-gp&quot;</li></ul></li>
+          </ul></td>
+      </tr><tr><td></td>
         <td>
           4
         </td>
@@ -838,58 +618,35 @@
           Verify
         </td>
         <td>
-          Client displays <ul>
-		  <li> &lt;/rd-group/12&gt;;gp="lights",base="coap://[ff35:30:2001:db8::1]";rt="core.rd-gp"</li>
-		  </ul>
-        </td>
-      </tr>
-    </tbody></table>
-	
-	<table id="TAB08" border="1" width="100%">
-      <tbody><tr>
-        <th colspan="4">Interoperability Test Description</th>
-      </tr>
-      <tr>
-        <th width="15%">Identifier:</th>
+          Client displays <ul><li> &lt;/rd-group/zzz&gt;;gp=&quot;lights&quot;,base=&quot;coap://[ff35:30:2001:db8::1]&quot;;rt=&quot;core.rd-gp&quot;</li>
+		  </ul></td>
+      </tr></tbody></table><table id="TAB08" border="1" width="100%"><tbody><tr><th colspan="4">Interoperability Test Description</th>
+      </tr><tr><th width="15%">Identifier:</th>
         <td colspan="3">
           TD_CoRE_resource-directory_08
         </td>
-      </tr>
-      <tr>
-        <th>Objective:</th>
+      </tr><tr><th>Objective:</th>
         <td colspan="3">
           Resource lookup
         </td>
-      </tr>
-      <tr>
-        <th>Configuration:</th>
+      </tr><tr><th>Configuration:</th>
         <td colspan="3">
           CoAP_CFG_resource-directory
         </td>
-      </tr>
-      <tr>
-        <th>References:</th>
+      </tr><tr><th>References:</th>
         <td colspan="3">
           [resource-directory] 7.1, 7.2, 7.3
         </td>
-      </tr>
-      <tr>
-        <th>Pre-test conditions:</th>
+      </tr><tr><th>Pre-test conditions:</th>
         <td colspan="3">
-		<ul>
-		  <li>Server contains resources created in tests TD_CoRE_resource-directory_ 03, 04, and 05</li>
+		<ul><li>Server contains resources created in tests TD_CoRE_resource-directory_ 03, 04, and 05</li>
 		  <li>Client knows address of Resource Directory (server)</li>
-		</ul>
-       </td>
-      </tr>
-      <tr>
-        <th>Test Sequence:</th>
+		</ul></td>
+      </tr><tr><th>Test Sequence:</th>
         <td width="10 %">Step</td>
         <td width="15 %">Type</td>
         <td>Description</td>
-      </tr>
-      <tr>
-        <td></td>
+      </tr><tr><td></td>
         <td>
           1
         </td>
@@ -900,11 +657,8 @@
           Client is requested to send a GET request with:<ul><li>Type = 0 (CON)</li>
           <li>Code = 1 (GET)</li>
 		  
-          </ul>
-        </td>
-      </tr>
-      <tr>
-        <td></td>
+          </ul></td>
+      </tr><tr><td></td>
         <td>
           2
         </td>
@@ -914,15 +668,12 @@
         <td>
           The request sent by the client contains:<ul><li>Type = 0 and Code = 1</li>
 		  <li>Token = XX, set by client </li>
-		  <li>Uri-Path: "rd-lookup", "res"</li>
-		  <li>Uri-Query: "rt=temperature"</li>
+		  <li>Uri-Path: &quot;rd-lookup&quot;, &quot;res&quot;</li>
+		  <li>Uri-Query: &quot;rt=temperature&quot;</li>
 		  <li>Accept: 40 </li>
 		  <li> empty payload</li>
-          </ul>
-        </td>
-      </tr>
-      <tr>
-        <td></td>
+          </ul></td>
+      </tr><tr><td></td>
         <td>
           3
         </td>
@@ -933,12 +684,9 @@
           Server sends response containing:<ul><li>Code = 2.05 (Content)</li>
 		  <li>Token = XX </li>
 		  <li>Content-Format: 40 </li>
-          <li>payload<ul><li>&lt;coap://[client-address]/temp&gt;;rt="temperature";ct=0;anchor="coap://[client-address]"</li></ul></li>
-          </ul>
-        </td>
-      </tr>
-      <tr>
-        <td></td>
+          <li>payload<ul><li>&lt;coap://[client-address]/temp&gt;;rt=&quot;temperature&quot;;ct=0;anchor=&quot;coap://[client-address]&quot;</li></ul></li>
+          </ul></td>
+      </tr><tr><td></td>
         <td>
           4
         </td>
@@ -946,59 +694,36 @@
           Verify
         </td>
         <td>
-          Client displays:<ul>
-		  <li>&lt;coap://[client-address]/temp&gt;;rt="temperature";ct=0;anchor="coap://[client-address]"</li>
-		  </ul>
-        </td>
-      </tr>
-    </tbody></table>
-	
-		<table id="TAB09" border="1" width="100%">
-      <tbody><tr>
-        <th colspan="4">Interoperability Test Description</th>
-      </tr>
-      <tr>
-        <th width="15%">Identifier:</th>
+          Client displays:<ul><li>&lt;coap://[client-address]/temp&gt;;rt=&quot;temperature&quot;;ct=0;anchor=&quot;coap://[client-address]&quot;</li>
+		  </ul></td>
+      </tr></tbody></table><table id="TAB09" border="1" width="100%"><tbody><tr><th colspan="4">Interoperability Test Description</th>
+      </tr><tr><th width="15%">Identifier:</th>
         <td colspan="3">
           TD_CoRE_resource-directory_09
         </td>
-      </tr>
-      <tr>
-        <th>Objective:</th>
+      </tr><tr><th>Objective:</th>
         <td colspan="3">
           Group removal
         </td>
-      </tr>
-      <tr>
-        <th>Configuration:</th>
+      </tr><tr><th>Configuration:</th>
         <td colspan="3">
           CoAP_CFG_resource-directory
         </td>
-      </tr>
-      <tr>
-        <th>References:</th>
+      </tr><tr><th>References:</th>
         <td colspan="3">
           [resource-directory] 6.2
         </td>
-      </tr>
-      <tr>
-        <th>Pre-test conditions:</th>
+      </tr><tr><th>Pre-test conditions:</th>
         <td colspan="3">
-		<ul>
-		  <li>Server contains resource /rd-group</li>
+		<ul><li>Server contains resource /rd-group</li>
 		  <li>Client knows address of Resource Directory (server)</li>
-		  <li>/rd-group/12 created by TD_CoRE_resource-directory_06
-		</li></ul>
-       </td>
-      </tr>
-      <tr>
-        <th>Test Sequence:</th>
+		  <li>/rd-group/zzz created by TD_CoRE_resource-directory_06
+		</li></ul></td>
+      </tr><tr><th>Test Sequence:</th>
         <td width="10 %">Step</td>
         <td width="15 %">Type</td>
         <td>Description</td>
-      </tr>
-      <tr>
-        <td></td>
+      </tr><tr><td></td>
         <td>
           1
         </td>
@@ -1008,11 +733,8 @@
         <td>
           Client is requested to send a POST request with:<ul><li>Type = 0 (CON)</li>
           <li>Code = 4 (DELETE)</li>
-          </ul>
-        </td>
-      </tr>
-      <tr>
-        <td></td>
+          </ul></td>
+      </tr><tr><td></td>
         <td>
           2
         </td>
@@ -1022,13 +744,10 @@
         <td>
           The request sent by the client contains:<ul><li>Type = 0 and Code = 4</li>
 		  <li>Token = XX, set by client </li>
-		  <li>Uri-Path: "rd-group", "12"</li>
+		  <li>Uri-Path: &quot;rd-group&quot;, &quot;zzz&quot;</li>
 		  <li> empty payload</li>
-          </ul>
-        </td>
-      </tr>
-      <tr>
-        <td></td>
+          </ul></td>
+      </tr><tr><td></td>
         <td>
           3
         </td>
@@ -1039,11 +758,8 @@
           Server sends response containing:<ul><li>Code = 2.02 (Deleted)</li>
 		  <li>Token = XX </li>
           <li>empty payload</li>
-          </ul>
-        </td>
-      </tr>
-      <tr>
-        <td></td>
+          </ul></td>
+      </tr><tr><td></td>
         <td>
           4
         </td>
@@ -1053,54 +769,33 @@
         <td>
           See TD_CoRE_resurce-directory_14
         </td>
-      </tr>
-    </tbody></table>
-	
-	<table id="TAB10" border="1" width="100%">
-      <tbody><tr>
-        <th colspan="4">Interoperability Test Description</th>
-      </tr>
-      <tr>
-        <th width="15%">Identifier:</th>
+      </tr></tbody></table><table id="TAB10" border="1" width="100%"><tbody><tr><th colspan="4">Interoperability Test Description</th>
+      </tr><tr><th width="15%">Identifier:</th>
         <td colspan="3">
           TD_CoRE_resource-directory_10
         </td>
-      </tr>
-      <tr>
-        <th>Objective:</th>
+      </tr><tr><th>Objective:</th>
         <td colspan="3">
           Endpoint lookup
         </td>
-      </tr>
-      <tr>
-        <th>Configuration:</th>
+      </tr><tr><th>Configuration:</th>
         <td colspan="3">
           CoAP_CFG_resource-directory
         </td>
-      </tr>
-      <tr>
-        <th>References:</th>
+      </tr><tr><th>References:</th>
         <td colspan="3">
           [resource-directory] A.5
         </td>
-      </tr>
-      <tr>
-        <th>Pre-test conditions:</th>
+      </tr><tr><th>Pre-test conditions:</th>
         <td colspan="3">
-		<ul>
-		  <li>Server contains resources and groups created in TD_CoRE_resource-directory_ 03, 04, 05, and 06</li>
+		<ul><li>Server contains resources and groups created in TD_CoRE_resource-directory_ 03, 04, 05, and 06</li>
 		  <li>Client knows address of Resource Directory (server)</li>
-		</ul>
-       </td>
-      </tr>
-      <tr>
-        <th>Test Sequence:</th>
+		</ul></td>
+      </tr><tr><th>Test Sequence:</th>
         <td width="10 %">Step</td>
         <td width="15 %">Type</td>
         <td>Description</td>
-      </tr>
-      <tr>
-        <td></td>
+      </tr><tr><td></td>
         <td>
           1
         </td>
@@ -1110,11 +805,8 @@
         <td>
           Client is requested to send a GET request with:<ul><li>Type = 0 (CON)</li>
           <li>Code = 1 (GET)</li>
-          </ul>
-        </td>
-      </tr>
-      <tr>
-        <td></td>
+          </ul></td>
+      </tr><tr><td></td>
         <td>
           2
         </td>
@@ -1124,15 +816,12 @@
         <td>
           The request sent by the client contains:<ul><li>Type = 0 and Code = 1</li>
 		  <li>Token = XX, set by client </li>
-		  <li>Uri-Path: "rd-lookup", "ep"</li>
+		  <li>Uri-Path: &quot;rd-lookup&quot;, &quot;ep&quot;</li>
 		  <li>Uri-Query: rt=temperature</li>
 		  <li>Accept: 40 </li>
 		  <li> empty payload</li>
-          </ul>
-        </td>
-      </tr>
-      <tr>
-        <td></td>
+          </ul></td>
+      </tr><tr><td></td>
         <td>
           3
         </td>
@@ -1144,12 +833,9 @@
 		  <li>Token = XX </li>
 		  <li>Content-Format: 40 </li>
           <li>payload</li>
-		  <li>&lt;/rd/4522&gt;;base="coap://[client-ip]";ep="node2";rt="core.rd-ep"</li>
-          </ul>
-        </td>
-      </tr>
-      <tr>
-        <td></td>
+		  <li>&lt;/rd/yyy&gt;;base=&quot;coap://[client-ip]&quot;;ep=&quot;node2&quot;;rt=&quot;core.rd-ep&quot;</li>
+          </ul></td>
+      </tr><tr><td></td>
         <td>
           4
         </td>
@@ -1157,59 +843,35 @@
           Verify
         </td>
         <td>
-          Cient displays:<ul>
-		  <li>&lt;/rd/4522&gt;;base="coap://[client-ip]";ep="node2";rt="core.rd-ep"</li>
-		  </ul>
-        </td>
-      </tr>
-    </tbody></table>
-	
-	
-	<table id="TAB11" border="1" width="100%">
-      <tbody><tr>
-        <th colspan="4">Interoperability Test Description</th>
-      </tr>
-      <tr>
-        <th width="15%">Identifier:</th>
+          Cient displays:<ul><li>&lt;/rd/yyy&gt;;base=&quot;coap://[client-ip]&quot;;ep=&quot;node2&quot;;rt=&quot;core.rd-ep&quot;</li>
+		  </ul></td>
+      </tr></tbody></table><table id="TAB11" border="1" width="100%"><tbody><tr><th colspan="4">Interoperability Test Description</th>
+      </tr><tr><th width="15%">Identifier:</th>
         <td colspan="3">
           TD_CoRE_resource-directory_11
         </td>
-      </tr>
-      <tr>
-        <th>Objective:</th>
+      </tr><tr><th>Objective:</th>
         <td colspan="3">
           read Endpoint link
         </td>
-      </tr>
-      <tr>
-        <th>Configuration:</th>
+      </tr><tr><th>Configuration:</th>
         <td colspan="3">
           CoAP_CFG_resource-directory
         </td>
-      </tr>
-      <tr>
-        <th>References:</th>
+      </tr><tr><th>References:</th>
         <td colspan="3">
           [resource-directory] A.3
         </td>
-      </tr>
-      <tr>
-        <th>Pre-test conditions:</th>
+      </tr><tr><th>Pre-test conditions:</th>
         <td colspan="3">
-		<ul>
-		  <li>Server contains resources and groups created in TD_CoRE_resource-directory_ 03, 04, 05, and 06</li>
+		<ul><li>Server contains resources and groups created in TD_CoRE_resource-directory_ 03, 04, 05, and 06</li>
 		  <li>Client knows address of Resource Directory (server)</li>
-		</ul>
-       </td>
-      </tr>
-      <tr>
-        <th>Test Sequence:</th>
+		</ul></td>
+      </tr><tr><th>Test Sequence:</th>
         <td width="10 %">Step</td>
         <td width="15 %">Type</td>
         <td>Description</td>
-      </tr>
-      <tr>
-        <td></td>
+      </tr><tr><td></td>
         <td>
           1
         </td>
@@ -1219,11 +881,8 @@
         <td>
           Client is requested to send a GET request with:<ul><li>Type = 0 (CON)</li>
           <li>Code = 1 (GET)</li>
-          </ul>
-        </td>
-      </tr>
-      <tr>
-        <td></td>
+          </ul></td>
+      </tr><tr><td></td>
         <td>
           2
         </td>
@@ -1233,14 +892,11 @@
         <td>
           The request sent by the client contains:<ul><li>Type = 0 and Code = 1</li>
 		  <li>Token = XX, set by client </li>
-		  <li>Uri-Path: "rd", "4521"</li>
+		  <li>Uri-Path: &quot;rd&quot;, &quot;xxx&quot;</li>
 		  <li>Accept: 40 </li>
 		  <li>empty payload</li>
-          </ul>
-        </td>
-      </tr>
-      <tr>
-        <td></td>
+          </ul></td>
+      </tr><tr><td></td>
         <td>
           3
         </td>
@@ -1251,14 +907,11 @@
           Server sends response containing:<ul><li>Code = 2.05 (Content)</li>
 		  <li>Token = XX </li>
 		  <li>Content-Format: 40 </li>
-          <li>payload</li><ul>
-		  <li>&lt;/sensors/temp&gt;;ct=41;rt="temperature-c";if="sensor";anchor="coap://spurious.example.com:5683"</li>
-		  <li>&lt;/sensors/light&gt;;ct=41;rt="light-lux";if="sensor"</li>
-          </ul>
+          <li>payload<ul><li>&lt;/sensors/temp&gt;;ct=41;rt=&quot;temperature-c&quot;;if=&quot;sensor&quot;;anchor=&quot;coap://spurious.example.com:5683&quot;</li>
+		  <li>&lt;/sensors/light&gt;;ct=41;rt=&quot;light-lux&quot;;if=&quot;sensor&quot;</li>
+          </ul></li>
         </ul></td>
-      </tr>
-      <tr>
-        <td></td>
+      </tr><tr><td></td>
         <td>
           4
         </td>
@@ -1266,59 +919,36 @@
           Verify
         </td>
         <td>
-          Client displays:<ul>
-		  <li>&lt;/sensors/temp&gt;;ct=41;rt="temperature-c";if="sensor";anchor="coap://spurious.example.com:5683"</li>
-		  <li>&lt;/sensors/light&gt;;ct=41;rt="light-lux";if="sensor"</li>
-		  </ul>
-        </td>
-      </tr>
-    </tbody></table>
-	
-	<table id="TAB12" border="1" width="100%">
-      <tbody><tr>
-        <th colspan="4">Interoperability Test Description</th>
-      </tr>
-      <tr>
-        <th width="15%">Identifier:</th>
+          Client displays:<ul><li>&lt;/sensors/temp&gt;;ct=41;rt=&quot;temperature-c&quot;;if=&quot;sensor&quot;;anchor=&quot;coap://spurious.example.com:5683&quot;</li>
+		  <li>&lt;/sensors/light&gt;;ct=41;rt=&quot;light-lux&quot;;if=&quot;sensor&quot;</li>
+		  </ul></td>
+      </tr></tbody></table><table id="TAB12" border="1" width="100%"><tbody><tr><th colspan="4">Interoperability Test Description</th>
+      </tr><tr><th width="15%">Identifier:</th>
         <td colspan="3">
           TD_CoRE_resource-directory_12
         </td>
-      </tr>
-      <tr>
-        <th>Objective:</th>
+      </tr><tr><th>Objective:</th>
         <td colspan="3">
           Registration removal
         </td>
-      </tr>
-      <tr>
-        <th>Configuration:</th>
+      </tr><tr><th>Configuration:</th>
         <td colspan="3">
           CoAP_CFG_resource-directory
         </td>
-      </tr>
-      <tr>
-        <th>References:</th>
+      </tr><tr><th>References:</th>
         <td colspan="3">
           [resource-directory] A.2
         </td>
-      </tr>
-      <tr>
-        <th>Pre-test conditions:</th>
+      </tr><tr><th>Pre-test conditions:</th>
         <td colspan="3">
-		<ul>
-		  <li>Server contains resources and groups created in in TD_CoRE_resource-directory_ 03, 04, 05, and 06</li>
+		<ul><li>Server contains resources and groups created in in TD_CoRE_resource-directory_ 03, 04, 05, and 06</li>
 		  <li>Client knows address of Resource Directory (server)</li>
-		</ul>
-       </td>
-      </tr>
-      <tr>
-        <th>Test Sequence:</th>
+		</ul></td>
+      </tr><tr><th>Test Sequence:</th>
         <td width="10 %">Step</td>
         <td width="15 %">Type</td>
         <td>Description</td>
-      </tr>
-      <tr>
-        <td></td>
+      </tr><tr><td></td>
         <td>
           1
         </td>
@@ -1328,11 +958,8 @@
         <td>
           Client is requested to send a DELETE request with:<ul><li>Type = 0 (CON)</li>
           <li>Code = 4 (DELETE)</li>
-          </ul>
-        </td>
-      </tr>
-      <tr>
-        <td></td>
+          </ul></td>
+      </tr><tr><td></td>
         <td>
           2
         </td>
@@ -1342,13 +969,10 @@
         <td>
           The request sent by the client contains:<ul><li>Type = 0 and Code = 4</li>
 		  <li>Token = XX, set by client </li>
-		  <li>Uri-Path: "rd", "4521"</li>
+		  <li>Uri-Path: &quot;rd&quot;, &quot;xxx&quot;</li>
 		  <li> empty payload</li>
-          </ul>
-        </td>
-      </tr>
-      <tr>
-        <td></td>
+          </ul></td>
+      </tr><tr><td></td>
         <td>
           3
         </td>
@@ -1359,9 +983,7 @@
           Server sends response containing:<ul><li>Code = 2.02 (Deleted)</li>
 		  <li>Token = XX </li>
           <li>empty payload</li>
-      </ul></td></tr>
-      <tr>
-        <td></td>
+      </ul></td></tr><tr><td></td>
         <td>
           4
         </td>
@@ -1371,54 +993,33 @@
         <td>
           See test TD_CoRE_resource-directory_15
         </td>
-      </tr>
-    </tbody></table>
-
-	<table id="TAB13" border="1" width="100%">
-      <tbody><tr>
-        <th colspan="4">Interoperability Test Description</th>
-      </tr>
-      <tr>
-        <th width="15%">Identifier:</th>
+      </tr></tbody></table><table id="TAB13" border="1" width="100%"><tbody><tr><th colspan="4">Interoperability Test Description</th>
+      </tr><tr><th width="15%">Identifier:</th>
         <td colspan="3">
           TD_CoRE_resource-directory_13
         </td>
-      </tr>
-      <tr>
-        <th>Objective:</th>
+      </tr><tr><th>Objective:</th>
         <td colspan="3">
           Registration update
         </td>
-      </tr>
-      <tr>
-        <th>Configuration:</th>
+      </tr><tr><th>Configuration:</th>
         <td colspan="3">
           CoAP_CFG_resource-directory
         </td>
-      </tr>
-      <tr>
-        <th>References:</th>
+      </tr><tr><th>References:</th>
         <td colspan="3">
           [resource-directory] A.1
         </td>
-      </tr>
-      <tr>
-        <th>Pre-test conditions:</th>
+      </tr><tr><th>Pre-test conditions:</th>
         <td colspan="3">
-		<ul>
-		  <li>Server contains resources and groups created in in TD_CoRE_resource-directory_ 03, 04, 05, 06, and 12</li>
+		<ul><li>Server contains resources and groups created in in TD_CoRE_resource-directory_ 03, 04, 05, 06, and 12</li>
 		  <li>Client knows address of Resource Directory (server)</li>
-		</ul>
-       </td>
-      </tr>
-      <tr>
-        <th>Test Sequence:</th>
+		</ul></td>
+      </tr><tr><th>Test Sequence:</th>
         <td width="10 %">Step</td>
         <td width="15 %">Type</td>
         <td>Description</td>
-      </tr>
-      <tr>
-        <td></td>
+      </tr><tr><td></td>
         <td>
           1
         </td>
@@ -1428,11 +1029,8 @@
         <td>
           Client is requested to send a POST request with:<ul><li>Type = 0 (CON)</li>
           <li>Code = 2 (POST)</li>
-          </ul>
-        </td>
-      </tr>
-      <tr>
-        <td></td>
+          </ul></td>
+      </tr><tr><td></td>
         <td>
           2
         </td>
@@ -1442,14 +1040,11 @@
         <td>
           The request sent by the client contains:<ul><li>Type = 0 and Code = 2</li>
 		  <li>Token = XX, set by client </li>
-		  <li>Uri-Path: "rd", "4522"</li>
-		  <li>Uri-Query: "base=coaps://new.example.com:5684"</li>
+		  <li>Uri-Path: &quot;rd&quot;, &quot;yyy&quot;</li>
+		  <li>Uri-Query: &quot;base=coaps://new.example.com:5684&quot;</li>
 		  <li>empty payload</li>
-          </ul>
-        </td>
-      </tr>
-      <tr>
-        <td></td>
+          </ul></td>
+      </tr><tr><td></td>
         <td>
           3
         </td>
@@ -1460,9 +1055,7 @@
           Server sends response containing:<ul><li>Code = 2.04 (Changed)</li>
 		  <li>Token = XX </li>
           <li>empty payload</li>
-      </ul></td></tr>
-      <tr>
-        <td></td>
+      </ul></td></tr><tr><td></td>
         <td>
           4
         </td>
@@ -1472,54 +1065,33 @@
         <td>
           See test TD_CoRE_resource-directory_15
         </td>
-      </tr>
-    </tbody></table>
-	
-	<table id="TAB14" border="1" width="100%">
-      <tbody><tr>
-        <th colspan="4">Interoperability Test Description</th>
-      </tr>
-      <tr>
-        <th width="15%">Identifier:</th>
+      </tr></tbody></table><table id="TAB14" border="1" width="100%"><tbody><tr><th colspan="4">Interoperability Test Description</th>
+      </tr><tr><th width="15%">Identifier:</th>
         <td colspan="3">
           TD_CoRE_resource-directory_14
         </td>
-      </tr>
-      <tr>
-        <th>Objective:</th>
+      </tr><tr><th>Objective:</th>
         <td colspan="3">
           group lookup
         </td>
-      </tr>
-      <tr>
-        <th>Configuration:</th>
+      </tr><tr><th>Configuration:</th>
         <td colspan="3">
           CoAP_CFG_resource-directory
         </td>
-      </tr>
-      <tr>
-        <th>References:</th>
+      </tr><tr><th>References:</th>
         <td colspan="3">
           [resource-directory] A.5
         </td>
-      </tr>
-      <tr>
-        <th>Pre-test conditions:</th>
+      </tr><tr><th>Pre-test conditions:</th>
         <td colspan="3">
-		<ul>
-		  <li>Server contains resources and groups created in in TD_CoRE_resource-directory 06, and 09</li>
+		<ul><li>Server contains resources and groups created in in TD_CoRE_resource-directory 06, and 09</li>
 		  <li>Client knows address of Resource Directory (server)</li>
-		</ul>
-       </td>
-      </tr>
-      <tr>
-        <th>Test Sequence:</th>
+		</ul></td>
+      </tr><tr><th>Test Sequence:</th>
         <td width="10 %">Step</td>
         <td width="15 %">Type</td>
         <td>Description</td>
-      </tr>
-      <tr>
-        <td></td>
+      </tr><tr><td></td>
         <td>
           1
         </td>
@@ -1529,11 +1101,8 @@
         <td>
           Client is requested to send a GET request with:<ul><li>Type = 0 (CON)</li>
           <li>Code = 1 (GET)</li>
-          </ul>
-        </td>
-      </tr>
-      <tr>
-        <td></td>
+          </ul></td>
+      </tr><tr><td></td>
         <td>
           2
         </td>
@@ -1543,14 +1112,11 @@
         <td>
           The request sent by the client contains:<ul><li>Type = 0 and Code = 1</li>
 		  <li>Token = XX, set by client </li>
-		  <li>Uri-Path: "rd-lookup", "gp"</li>
+		  <li>Uri-Path: &quot;rd-lookup&quot;, &quot;gp&quot;</li>
 		  <li>Accept: 40 </li>
 		  <li>empty payload</li>
-          </ul>
-        </td>
-      </tr>
-      <tr>
-        <td></td>
+          </ul></td>
+      </tr><tr><td></td>
         <td>
           3
         </td>
@@ -1562,11 +1128,8 @@
 		  <li>Token = XX </li>
 		  <li>Content-Format: 40 </li>
           <li>empty payload</li>
-		  </ul>
-        </td>
-      </tr>
-      <tr>
-        <td></td>
+		  </ul></td>
+      </tr><tr><td></td>
         <td>
           4
         </td>
@@ -1574,56 +1137,35 @@
           Verify
         </td>
         <td>
-          Client displays: "no groups"
+          Client displays: &quot;no groups&quot;
         </td>
-      </tr>
-    </tbody></table>
-
-	<table id="TAB15" border="1" width="100%">
-      <tbody><tr>
-        <th colspan="4">Interoperability Test Description</th>
-      </tr>
-      <tr>
-        <th width="15%">Identifier:</th>
+      </tr></tbody></table><table id="TAB15" border="1" width="100%"><tbody><tr><th colspan="4">Interoperability Test Description</th>
+      </tr><tr><th width="15%">Identifier:</th>
         <td colspan="3">
           TD_CoRE_resource-directory_15
         </td>
-      </tr>
-      <tr>
-        <th>Objective:</th>
+      </tr><tr><th>Objective:</th>
         <td colspan="3">
           Verify remaining resources
         </td>
-      </tr>
-      <tr>
-        <th>Configuration:</th>
+      </tr><tr><th>Configuration:</th>
         <td colspan="3">
           CoAP_CFG_resource-directory
         </td>
-      </tr>
-      <tr>
-        <th>References:</th>
+      </tr><tr><th>References:</th>
         <td colspan="3">
           [resource-directory]
         </td>
-      </tr>
-      <tr>
-        <th>Pre-test conditions:</th>
+      </tr><tr><th>Pre-test conditions:</th>
         <td colspan="3">
-		<ul>
-		  <li>Server contains resources and groups created in in TD_CoRE_resource-directory_ 03, 04, 05, 06, and 12</li>
+		<ul><li>Server contains resources and groups created in in TD_CoRE_resource-directory_ 03, 04, 05, 06, and 12</li>
 		  <li>Client knows address of Resource Directory (server)</li>
-		</ul>
-       </td>
-      </tr>
-      <tr>
-        <th>Test Sequence:</th>
+		</ul></td>
+      </tr><tr><th>Test Sequence:</th>
         <td width="10 %">Step</td>
         <td width="15 %">Type</td>
         <td>Description</td>
-      </tr>
-      <tr>
-        <td></td>
+      </tr><tr><td></td>
         <td>
           1
         </td>
@@ -1633,11 +1175,8 @@
         <td>
           Client is requested to send a GET request with:<ul><li>Type = 0 (CON)</li>
           <li>Code = 1 (GET)</li>
-          </ul>
-        </td>
-      </tr>
-      <tr>
-        <td></td>
+          </ul></td>
+      </tr><tr><td></td>
         <td>
           2
         </td>
@@ -1647,14 +1186,11 @@
         <td>
           The request sent by the client contains:<ul><li>Type = 0 and Code = 1</li>
 		  <li>Token = XX, set by client </li>
-		  <li>Uri-Path: "rd-lookup", "res"</li>
+		  <li>Uri-Path: &quot;rd-lookup&quot;, &quot;res&quot;</li>
 		  <li>Accept: 40 </li>
 		  <li>empty payload</li>
-          </ul>
-        </td>
-      </tr>
-      <tr>
-        <td></td>
+          </ul></td>
+      </tr><tr><td></td>
         <td>
           3
         </td>
@@ -1665,20 +1201,16 @@
           Server sends response containing:<ul><li>Code = 2.05 (Content)</li>
 		  <li>Token = XX </li>
 		  <li>Content-Format: 40 </li>
-          <li>payload</li><ul>
-		      <li>&lt;coaps://new.example.com:5684/temp&gt;;rt="temperature";ct=0</li>
-			  <li>&lt;coaps://new.example.com:5684/light&gt;;rt="light-lux";ct=0</li>
-			  <li>&lt;coaps://new.example.com:5684/t&gt;;anchor="coaps://new.example.com:5684/sensors/temp";rel="alternate"</li>
-			  <li>&lt;http://www.example.com/sensors/t123&gt;;anchor="coaps://new.example.com:5684/sensors/temp";rel="describedby"</li>
-		      <li>&lt;coap://[2001:db8:4::1]/light/left&gt;;rt="light";ct=0</li>
-			  <li>&lt;coap://[2001:db8:4::1]/light/middle&gt;;rt="light";ct=0</li>
-			  <li>&lt;coap://[2001:db8:4::1]/light/right&gt;;rt="light";ct=0</li>
-		  </ul>
-		  </ul>
-        </td>
-      </tr>
-      <tr>
-        <td></td>
+          <li>payload<ul><li>&lt;coaps://new.example.com:5684/temp&gt;;rt=&quot;temperature&quot;;ct=0</li>
+			  <li>&lt;coaps://new.example.com:5684/light&gt;;rt=&quot;light-lux&quot;;ct=0</li>
+			  <li>&lt;coaps://new.example.com:5684/t&gt;;anchor=&quot;coaps://new.example.com:5684/sensors/temp&quot;;rel=&quot;alternate&quot;</li>
+			  <li>&lt;http://www.example.com/sensors/t123&gt;;anchor=&quot;coaps://new.example.com:5684/sensors/temp&quot;;rel=&quot;describedby&quot;</li>
+		      <li>&lt;coap://[2001:db8:4::1]/light/left&gt;;rt=&quot;light&quot;;ct=0</li>
+			  <li>&lt;coap://[2001:db8:4::1]/light/middle&gt;;rt=&quot;light&quot;;ct=0</li>
+			  <li>&lt;coap://[2001:db8:4::1]/light/right&gt;;rt=&quot;light&quot;;ct=0</li>
+		  </ul></li>
+		  </ul></td>
+      </tr><tr><td></td>
         <td>
           4
         </td>
@@ -1686,20 +1218,13 @@
           Verify
         </td>
         <td>
-          Client displays:<ul>
-		      <li>&lt;coaps://new.example.com:5684/temp&gt;;rt="temperature";ct=0</li>
-			  <li>&lt;coaps://new.example.com:5684/light&gt;;rt="light-lux";ct=0</li>
-			  <li>&lt;coaps://new.example.com:5684/t&gt;;anchor="coaps://new.example.com:5684/sensors/temp";rel="alternate"</li>
-			  <li>&lt;http://www.example.com/sensors/t123&gt;;anchor="coaps://new.example.com:5684/sensors/temp";rel="describedby"</li>
-		      <li>&lt;coap://[2001:db8:4::1]/light/left&gt;;rt="light";ct=0</li>
-			  <li>&lt;coap://[2001:db8:4::1]/light/middle&gt;;rt="light";ct=0</li>
-			  <li>&lt;coap://[2001:db8:4::1]/light/right&gt;;rt="light";ct=0</li>
-		  </ul>
-        </td>
-      </tr>
-    </tbody></table>
-	
-	
-  
-
+          Client displays:<ul><li>&lt;coaps://new.example.com:5684/temp&gt;;rt=&quot;temperature&quot;;ct=0</li>
+			  <li>&lt;coaps://new.example.com:5684/light&gt;;rt=&quot;light-lux&quot;;ct=0</li>
+			  <li>&lt;coaps://new.example.com:5684/t&gt;;anchor=&quot;coaps://new.example.com:5684/sensors/temp&quot;;rel=&quot;alternate&quot;</li>
+			  <li>&lt;http://www.example.com/sensors/t123&gt;;anchor=&quot;coaps://new.example.com:5684/sensors/temp&quot;;rel=&quot;describedby&quot;</li>
+		      <li>&lt;coap://[2001:db8:4::1]/light/left&gt;;rt=&quot;light&quot;;ct=0</li>
+			  <li>&lt;coap://[2001:db8:4::1]/light/middle&gt;;rt=&quot;light&quot;;ct=0</li>
+			  <li>&lt;coap://[2001:db8:4::1]/light/right&gt;;rt=&quot;light&quot;;ct=0</li>
+		  </ul></td>
+      </tr></tbody></table>
 </body></html>
