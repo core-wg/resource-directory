@@ -1175,12 +1175,12 @@ It should be noted that the value of the "base" parameter applies to all the lin
 
 This section defines the REST API for the creation, management, and lookup of endpoints for group operations.
 Similar to endpoint registration entries in the RD, groups may be created or removed. However unlike an endpoint entry, a group entry consists of a list of endpoints and does
-not have a lifetime associated with it. In order to make use of multicast requests with
-CoAP, a group MAY have a multicast address associated with it.
+not have a lifetime associated with it. To make use of multicast requests with
+CoAP, a group MAY have a multicast address associated with it, and should share a common set of resources.
 
 ## Register a Group {#group-register}
 
-In order to create a group, a commissioning tool (CT) used to configure groups,
+To create a group, a commissioning tool (CT) used to configure groups,
 makes a request to the RD indicating the name of the group to create (or
 update), optionally the sector the group belongs to, and optionally the multicast
 address of the group. This specification does not require that the endpoints belong to the same sector as the group, but a Resource Directory implementation can impose requirements on the sectors of groups and endpoints depending on its configuration.
@@ -1264,7 +1264,7 @@ Req: POST coap://rd.example.com/rd-group?gp=lights
 Content-Format: 40
 Payload:
 </rd/4521>,
-</rd/4522>
+</rd/4520>
 
 Res: 2.01 Created
 Location-Path: /rd-group/12
@@ -1931,16 +1931,14 @@ the two luminaries and the presence sensor by the CT.
 
 The group is specified in the RD. The base parameter is set to the site-local
 multicast address allocated to the group.
-In the POST in the example below, these two endpoints and the endpoint
-of the presence sensor are registered as members of the group.
+In the POST in the example below, two luminary endpoints are registered as members of the group. They share a common resource set to which a multicast request can be sent and executed by all members of the group.
 
 ~~~~
 Req: POST coap://[2001:db8:4::ff]/rd-group
 ?gp=grp_R2-4-015&base=coap://[ff05::1]
 Payload:
 </rd/4521>,
-</rd/4522>,
-</rd/4523>
+</rd/4522>
 
 Res: 2.01 Created
 Location-Path: /rd-group/501
@@ -1949,7 +1947,6 @@ Location-Path: /rd-group/501
 After the filling of the RD by the CT, the application in the luminaries
 can learn to which groups they belong, and enable their interface for the
 multicast address.
-
 
 The luminary, knowing its sector and own IPv6 address, looks up the groups
 containing light resources it is assigned to:
@@ -1981,6 +1978,16 @@ Location-Path: /coap-group/1
 Dependent on the situation, only the address, "a", or the name, "n", is specified
 in the coap-group resource.
 
+The presence sensor can learn the presence of groups that support resources with rt=light in its own sector by sending the request:
+
+~~~~
+Req: GET coap://[2001:db8:4::ff]/rd-lookup/gp?d=R2-4-015&rt=light
+
+Res: 2.05 Content
+</rd-group/501>;gp="grp_R2-4-015";base="coap://[ff05::1]"
+~~~~
+
+The presence sensor learns the multicast address to use for sending messages to the luminaries.
 
 ## OMA Lightweight M2M (LWM2M) Example {#lwm2m-ex}
 
@@ -2140,6 +2147,8 @@ originally developed.
 
 changes from -14 to -15
 
+* Recommend a common set of resources for members of a group
+* Clarified use of multicast group in lighting example
 * Rewrite of section "Security policies"
 * Clarify that the "base" parameter text applies both to relative references
   both in anchor and href
