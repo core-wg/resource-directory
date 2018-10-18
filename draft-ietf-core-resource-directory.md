@@ -319,6 +319,14 @@ provided using the CoRE Link Format.
 {: #fig-hierarchy title='The resource directory information hierarchy.' align="left"}
 
 
+A Registrant-EP MAY keep concurrent registrations to more than one RD at the same time
+if explicitly configured to do so,
+but that is not expected to be supported by typical EP implementations.
+Any such registrations are independent of each other.
+The usual expectation when multiple discovery mechanisms or addresses are configured
+is that they constitute a fallback path for a single registration.
+
+
 ## RD Content Model {#ER-model}
 
 The Entity-Relationship (ER) models shown in {{fig-ER-WKC}} and {{fig-ER-RD}} model the contents of /.well-known/core and the resource directory respectively, with entity-relationship diagrams [ER][]. Entities (rectangles) are used for concepts that exist independently. Attributes (ovals) are used for concepts that exist only in connection with a related entity. Relations (diamonds) give a semantic meaning to the relation between entities. Numbers specify the cardinality of the relations.
