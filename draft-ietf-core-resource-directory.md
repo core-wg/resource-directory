@@ -2145,10 +2145,13 @@ originally developed.
 
 # Changelog
 
-changes from -14 to -15
+changes after -15
 
 * Recommend a common set of resources for members of a group
 * Clarified use of multicast group in lighting example
+
+changes from -14 to -15
+
 * Rewrite of section "Security policies"
 * Clarify that the "base" parameter text applies both to relative references
   both in anchor and href
