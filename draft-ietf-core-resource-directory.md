@@ -1610,7 +1610,9 @@ The requirements to be enforced are:
 
 * It is recommended to use the period "." character for segmentation.
 
-The registry is initially empty.
+The registry initially contains one value:
+
+ * "core.rd-group": A multicast group as described in {{groups}}.
 
 
 ## Multicast Address Registration {#mc-registration}
@@ -2520,6 +2522,42 @@ et="oic.d.sensor";ct="40",
 </rd/4521>;base="coap://[2001:db8:3::129]:61616";ep="node7";
 et="oic.d.sensor";ct="40";d="floor-3"
 ~~~~
+
+
+# RD-Groups {#groups}
+
+The RD-Groups usage pattern allows announcing multicast groups inside a Resource Directory.
+
+Groups are represented by endpoint registrations.
+Their base address is a multicast address,
+and they SHOULD be entered with the endpoint type `core.rd-group`.
+The endpoint name can also be referred to as a group name in this context.
+
+The registration is inserted into the RD by a Commissioning Tool,
+which might also be known as a group manager here.
+It performs third party registration and registration updates,
+and SHOULD register the resources which the group members have in common.
+
+The following example shows a CT registering a group with the name “lights” which provides two resources.
+The directory resource path /rd
+is an example RD location discovered in a request similar to {{example-discovery}}.
+
+~~~~
+Req: POST coap://rd.example.com/rd?ep=lights&et=core.rd-group
+                                  &base=coap://[ff35:30:2001:db8::1]
+Content-Format: 40
+Payload:
+</light>;rt="light";if="core.a",
+</color-temperature>;if="core.p";u="K"
+
+Res: 2.01 Created
+Location-Path: /rd/12
+~~~~
+
+
+The resources of a group can be looked up like any other resource,
+and the group registrations (along with any additional registration parameters)
+can be looked up using the endpoint lookup interface.
 
 
 # Web links and the Resource Directory {#weblink}
