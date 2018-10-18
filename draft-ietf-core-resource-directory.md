@@ -1643,7 +1643,7 @@ This example shows a simplified lighting installation which makes use of
 the Resource Directory (RD) with a CoAP interface to facilitate the installation and start up of
 the application code in the lights and sensors. In particular, the example
 leads to the definition of a group and the enabling of the corresponding
-multicast address. No conclusions must be drawn on the realization of actual
+multicast address as described in {{groups}}. No conclusions must be drawn on the realization of actual
 installation or naming procedures, because the example only "emphasizes" some of the issues
 that may influence the use of the RD and does not pretend to be normative.
 
@@ -1762,32 +1762,33 @@ the two luminaries and the presence sensor by the CT.
 
 The group is specified in the RD. The base parameter is set to the site-local
 multicast address allocated to the group.
-In the POST in the example below, two luminary endpoints are registered as members of the group. They share a common resource set to which a multicast request can be sent and executed by all members of the group.
+In the POST in the example below, the resources supported by all group members are published.
 
 ~~~~
-Req: POST coap://[2001:db8:4::ff]/rd-group
-?gp=grp_R2-4-015&base=coap://[ff05::1]
+Req: POST coap://[2001:db8:4::ff]/rd
+?ep=grp_R2-4-015&et=core.rd-group&base=coap://[ff05::1]
 Payload:
-</rd/4521>,
-</rd/4522>
+</light/left>;rt="light",
+</light/middle>;rt="light",
+</light/right>;rt="light"
 
 Res: 2.01 Created
-Location-Path: /rd-group/501
+Location-Path: /rd/501
 ~~~~
 
 After the filling of the RD by the CT, the application in the luminaries
 can learn to which groups they belong, and enable their interface for the
 multicast address.
 
-The luminary, knowing its sector and own IPv6 address, looks up the groups
-containing light resources it is assigned to:
+The luminary, knowing its sector and being configured to join any group
+containing lights, searches for candidate groups and joins them:
 
 ~~~~
-Req: GET coap://[2001:db8:4::ff]/rd-lookup/gp
-  ?d=R2-4-015&base=coap://[2001:db8:4::1]&rt=light
+Req: GET coap://[2001:db8:4::ff]/rd-lookup/ep
+  ?d=R2-4-015&et=core.rd-group&rt=light
 
 Res: 2.05 Content
-</rd-group/501>;gp="grp_R2-4-015";base="coap://[ff05::1]"
+</rd/501>;ep="grp_R2-4-015";et="core.rd-gruop";base="coap://[ff05::1]"
 ~~~~
 
 From the returned base parameter value, the luminary learns the multicast address
@@ -1812,10 +1813,10 @@ in the coap-group resource.
 The presence sensor can learn the presence of groups that support resources with rt=light in its own sector by sending the request:
 
 ~~~~
-Req: GET coap://[2001:db8:4::ff]/rd-lookup/gp?d=R2-4-015&rt=light
+Req: GET coap://[2001:db8:4::ff]/rd-lookup/ep?d=R2-4-015&rt=light&rt=core.rd-group
 
 Res: 2.05 Content
-</rd-group/501>;gp="grp_R2-4-015";base="coap://[ff05::1]"
+</rd/501>;gp="grp_R2-4-015";et="core.rd-group";base="coap://[ff05::1]"
 ~~~~
 
 The presence sensor learns the multicast address to use for sending messages to the luminaries.
@@ -1831,7 +1832,7 @@ An LWM2M server is an instance of an LWM2M middleware service layer, containing 
 CoRE Resource Directory (RD) is used to provide the LWM2M Registration interface.
 
 LWM2M does not provide for registration sectors and does not currently
-use the rd-group or rd-lookup interfaces.
+use the rd-lookup interface.
 
 The LWM2M specification describes a set of interfaces and a resource model used between a LWM2M device and an LWM2M server. Other interfaces, proxies, and applications are currently out of scope for LWM2M.
 
