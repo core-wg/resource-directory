@@ -795,7 +795,7 @@ The RD resource locations /rd, /rd-lookup, and /rd-group are example values.
 The server in this example also indicates that it is capable of providing observation on resource lookups.
 
 \[ The RFC editor is asked to replace these and later occurrences of MCD1, TBD64 and
-TBD504 with the numeric ID values assigned by IANA to
+TBD504 with the assigned IPv6 site-local address for "all CoRE Resource Directories" and the numeric ID values assigned by IANA to
 application/link-format+cbor and application/link-format+json, respectively, as
 they are defined in I-D.ietf-core-links-json. \]
 
