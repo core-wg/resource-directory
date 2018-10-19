@@ -512,7 +512,7 @@ generally be sufficient to store external metadata in Resource Directories.
 
 The additional features of Resource Directory allow sectors to be defined
 to enable access to a particular set of resources from particular applications.
-This provides isolation and protection of sensitive data when needed. Multicast groups may be defined to support efficient data transport.
+This provides isolation and protection of sensitive data when needed. Application groups with multicast addresses may be defined to support efficient data transport.
 
 
 # Finding a Resource Directory {#finding_an_rd}
@@ -1612,7 +1612,7 @@ The requirements to be enforced are:
 
 The registry initially contains one value:
 
- * "core.rd-group": A multicast group as described in {{groups}}.
+ * "core.rd-group": An application group as described in {{groups}}.
 
 
 ## Multicast Address Registration {#mc-registration}
@@ -2527,7 +2527,7 @@ et="oic.d.sensor";ct="40";d="floor-3"
 
 # RD-Groups {#groups}
 
-The RD-Groups usage pattern allows announcing multicast groups inside a Resource Directory.
+The RD-Groups usage pattern allows announcing application groups inside a Resource Directory.
 
 Groups are represented by endpoint registrations.
 Their base address is a multicast address,
@@ -2536,8 +2536,12 @@ The endpoint name can also be referred to as a group name in this context.
 
 The registration is inserted into the RD by a Commissioning Tool,
 which might also be known as a group manager here.
-It performs third party registration and registration updates,
-and SHOULD register the resources which the group members have in common.
+It performs third party registration and registration updates.
+
+The links it registers SHOULD be available on all members that join the group.
+Depending on the application, members that lack some resource
+MAY be permissible if requests to them fail gracefully.
+
 
 The following example shows a CT registering a group with the name “lights” which provides two resources.
 The directory resource path /rd
@@ -2554,6 +2558,12 @@ Payload:
 Res: 2.01 Created
 Location-Path: /rd/12
 ~~~~
+
+In this example, the group manager can easily permit devices that have no
+writable color-temperature to join, as they would still respond to brightness
+changing commands. Had the group instead contained a single resource that sets
+brightness and color temperature atomically, endpoints would need to support
+both properties in a simple example.
 
 
 The resources of a group can be looked up like any other resource,
