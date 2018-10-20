@@ -719,8 +719,7 @@ URI Template:
 URI Template Variables:
 : rt :=
   : Resource Type. SHOULD contain one of the values "core.rd", "core.rd-lookup\*",
-  "core.rd-lookup-res", "core.rd-lookup-ep", "core.rd-lookup-gp",
-  or "core.rd\*"
+  "core.rd-lookup-res", "core.rd-lookup-ep", or "core.rd\*"
 
 Content-Format:
 : application/link-format (if any)
@@ -759,7 +758,6 @@ Res: 2.05 Content
 </rd>;rt="core.rd";ct=40,
 </rd-lookup/ep>;rt="core.rd-lookup-ep";ct=40,
 </rd-lookup/res>;rt="core.rd-lookup-res";ct=40,
-</rd-lookup/gp>;rt="core.rd-lookup-gp";ct=40
 ~~~~
 {: #example-discovery title="Example discovery exchange" }
 
@@ -769,7 +767,7 @@ space-separated sequence of Content-Format codes as specified in
 Section 7.2.1 of {{RFC7252}}, indicating that multiple content-formats are available.
 The example below shows the required Content-Format 40 (application/link-format)
 indicated as well as the CBOR and JSON representation of link format.
-The RD resource locations /rd, /rd-lookup, and /rd-group are example values.
+The RD resource locations /rd, and /rd-lookup are example values.
 The server in this example also indicates that it is capable of providing observation on resource lookups.
 
 \[ The RFC editor is asked to replace these and later occurrences of MCD1, TBD64 and
@@ -784,7 +782,6 @@ Res: 2.05 Content
 </rd>;rt="core.rd";ct="40 65225",
 </rd-lookup/res>;rt="core.rd-lookup-res";ct="40 TBD64 TBD504";obs,
 </rd-lookup/ep>;rt="core.rd-lookup-ep";ct="40 TBD64 TBD504",
-</rd-lookup/gp>;rt="core.rd-lookup-gp";ct=40 TBD64 TBD504"
 ~~~~
 
 From a management and maintenance perspective,
@@ -1155,6 +1152,50 @@ that purpose scheme, IP address and port of the URI of the registered device is
 
 It should be noted that the value of the "base" parameter applies to all the links of the registration and has consequences for the anchor value of the individual links as exemplified in {{weblink}}. An eventual (currently non-existing) "base" attribute of the link is not affected by the value of "base" parameter in the registration.
 
+## RD-Groups {#groups}
+
+The RD-Groups usage pattern allows announcing application groups inside a Resource Directory.
+
+Groups are represented by endpoint registrations.
+Their base address is a multicast address,
+and they SHOULD be entered with the endpoint type `core.rd-group`.
+The endpoint name can also be referred to as a group name in this context.
+
+The registration is inserted into the RD by a Commissioning Tool,
+which might also be known as a group manager here.
+It performs third party registration and registration updates.
+
+The links it registers SHOULD be available on all members that join the group.
+Depending on the application, members that lack some resource
+MAY be permissible if requests to them fail gracefully.
+
+
+The following example shows a CT registering a group with the name “lights” which provides two resources.
+The directory resource path /rd
+is an example RD location discovered in a request similar to {{example-discovery}}.
+
+~~~~
+Req: POST coap://rd.example.com/rd?ep=lights&et=core.rd-group
+                                  &base=coap://[ff35:30:2001:db8::1]
+Content-Format: 40
+Payload:
+</light>;rt="light";if="core.a",
+</color-temperature>;if="core.p";u="K"
+
+Res: 2.01 Created
+Location-Path: /rd/12
+~~~~
+
+In this example, the group manager can easily permit devices that have no
+writable color-temperature to join, as they would still respond to brightness
+changing commands. Had the group instead contained a single resource that sets
+brightness and color temperature atomically, endpoints would need to support
+both properties.
+
+The resources of a group can be looked up like any other resource,
+and the group registrations (along with any additional registration parameters)
+can be looked up using the endpoint lookup interface.
+
 
 # RD Lookup {#lookup}
 
@@ -1403,6 +1444,15 @@ Req: GET /rd-lookup/res?et=oic.d.sensor
     anchor="coap://sensor2.example.com/sensors/temp",
 <coap://sensor2.example.com/t>;rel="alternate";
     anchor="coap://sensor2.example.com/sensors/temp"
+~~~~
+
+The following example shows a client performing a lookup of all resources of all endpoints (groups) with et=core.rd-group.
+
+~~~~
+Req: GET /rd-lookup/res?et=core.rd-group
+
+</light>;rt="light";if="core.a";et=core.rd-group,
+</color-temperature>;if="core.p";u="K";et=core.rd-group
 ~~~~
 
 # Security policies {#policies}
@@ -1788,7 +1838,8 @@ Req: GET coap://[2001:db8:4::ff]/rd-lookup/ep
   ?d=R2-4-015&et=core.rd-group&rt=light
 
 Res: 2.05 Content
-</rd/501>;ep="grp_R2-4-015";et="core.rd-gruop";base="coap://[ff05::1]"
+</rd/501>;ep="grp_R2-4-015";et="core.rd-group";
+                             base="coap://[ff05::1]"
 ~~~~
 
 From the returned base parameter value, the luminary learns the multicast address
@@ -1813,10 +1864,12 @@ in the coap-group resource.
 The presence sensor can learn the presence of groups that support resources with rt=light in its own sector by sending the request:
 
 ~~~~
-Req: GET coap://[2001:db8:4::ff]/rd-lookup/ep?d=R2-4-015&rt=light&rt=core.rd-group
+Req: GET coap://[2001:db8:4::ff]/rd-lookup/ep?
+          d=R2-4-015&rt=light&et=core.rd-group
 
 Res: 2.05 Content
-</rd/501>;gp="grp_R2-4-015";et="core.rd-group";base="coap://[ff05::1]"
+</rd/501>;ep="grp_R2-4-015";et="core.rd-group";
+                                   base="coap://[ff05::1]"
 ~~~~
 
 The presence sensor learns the multicast address to use for sending messages to the luminaries.
@@ -2381,7 +2434,18 @@ Payload:
     if="sensor"; anchor="coaps://new.example.com:5684",
 ~~~~
 
+The following example shows a client performing and enpoint lookup for all groups.
 
+~~~~
+Req: GET /rd-lookup/ep?et=core.rd-group
+
+Res: 2.01 Content
+Payload:
+</rd/501>;ep="GRP_R2-4-015";et="core.rd-group";
+                                   base="coap://[ff05:;1]",
+<rd/12>;ep=lights&et=core.rd-group;
+                         base="coap://[ff35:30:2001:db8::1]"
+~~~~
 
 ## Registration Removal {#removal}
 
@@ -2524,51 +2588,6 @@ et="oic.d.sensor";ct="40",
 et="oic.d.sensor";ct="40";d="floor-3"
 ~~~~
 
-
-# RD-Groups {#groups}
-
-The RD-Groups usage pattern allows announcing application groups inside a Resource Directory.
-
-Groups are represented by endpoint registrations.
-Their base address is a multicast address,
-and they SHOULD be entered with the endpoint type `core.rd-group`.
-The endpoint name can also be referred to as a group name in this context.
-
-The registration is inserted into the RD by a Commissioning Tool,
-which might also be known as a group manager here.
-It performs third party registration and registration updates.
-
-The links it registers SHOULD be available on all members that join the group.
-Depending on the application, members that lack some resource
-MAY be permissible if requests to them fail gracefully.
-
-
-The following example shows a CT registering a group with the name “lights” which provides two resources.
-The directory resource path /rd
-is an example RD location discovered in a request similar to {{example-discovery}}.
-
-~~~~
-Req: POST coap://rd.example.com/rd?ep=lights&et=core.rd-group
-                                  &base=coap://[ff35:30:2001:db8::1]
-Content-Format: 40
-Payload:
-</light>;rt="light";if="core.a",
-</color-temperature>;if="core.p";u="K"
-
-Res: 2.01 Created
-Location-Path: /rd/12
-~~~~
-
-In this example, the group manager can easily permit devices that have no
-writable color-temperature to join, as they would still respond to brightness
-changing commands. Had the group instead contained a single resource that sets
-brightness and color temperature atomically, endpoints would need to support
-both properties in a simple example.
-
-
-The resources of a group can be looked up like any other resource,
-and the group registrations (along with any additional registration parameters)
-can be looked up using the endpoint lookup interface.
 
 
 # Web links and the Resource Directory {#weblink}
