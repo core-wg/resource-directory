@@ -1152,7 +1152,7 @@ that purpose scheme, IP address and port of the URI of the registered device is
 
 It should be noted that the value of the "base" parameter applies to all the links of the registration and has consequences for the anchor value of the individual links as exemplified in {{weblink}}. An eventual (currently non-existing) "base" attribute of the link is not affected by the value of "base" parameter in the registration.
 
-## RD-Groups {#groups}
+### RD-Groups {#groups}
 
 The RD-Groups usage pattern allows announcing application groups inside a Resource Directory.
 
@@ -1451,8 +1451,11 @@ The following example shows a client performing a lookup of all resources of all
 ~~~~
 Req: GET /rd-lookup/res?et=core.rd-group
 
-</light>;rt="light";if="core.a";et=core.rd-group,
-</color-temperature>;if="core.p";u="K";et=core.rd-group
+<coap://[ff35:30:2001:db8::1]/light>;rt="light";if="core.a";
+     et="core.rd-group"; anchor="coap://[ff35:30:2001:db8::1]/light",
+<coap://[ff35:30:2001:db8::1]/color-temperature>;if="core.p";u="K";
+     et="core.rd-group";
+     anchor="coap://[ff35:30:2001:db8::1]/color-temperature"
 ~~~~
 
 # Security policies {#policies}
@@ -1861,18 +1864,7 @@ Location-Path: /coap-group/1
 Dependent on the situation, only the address, "a", or the name, "n", is specified
 in the coap-group resource.
 
-The presence sensor can learn the presence of groups that support resources with rt=light in its own sector by sending the request:
-
-~~~~
-Req: GET coap://[2001:db8:4::ff]/rd-lookup/ep?
-          d=R2-4-015&rt=light&et=core.rd-group
-
-Res: 2.05 Content
-</rd/501>;ep="grp_R2-4-015";et="core.rd-group";
-                                   base="coap://[ff05::1]"
-~~~~
-
-The presence sensor learns the multicast address to use for sending messages to the luminaries.
+The presence sensor can learn the presence of groups that support resources with rt=light in its own sector by sending the same request, as used by the luminary. The presence sensor learns the multicast address to use for sending messages to the luminaries.
 
 ## OMA Lightweight M2M (LWM2M) Example {#lwm2m-ex}
 
