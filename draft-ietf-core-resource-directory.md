@@ -1452,10 +1452,10 @@ The following example shows a client performing a lookup of all resources of all
 Req: GET /rd-lookup/res?et=core.rd-group
 
 <coap://[ff35:30:2001:db8::1]/light>;rt="light";if="core.a";
-     et="core.rd-group"; anchor="coap://[ff35:30:2001:db8::1]/light",
+     et="core.rd-group";anchor="coap://[ff35:30:2001:db8::1]",
 <coap://[ff35:30:2001:db8::1]/color-temperature>;if="core.p";u="K";
      et="core.rd-group";
-     anchor="coap://[ff35:30:2001:db8::1]/color-temperature"
+     anchor="coap://[ff35:30:2001:db8::1]"
 ~~~~
 
 # Security policies {#policies}
