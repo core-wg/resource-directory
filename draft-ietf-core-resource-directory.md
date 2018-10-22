@@ -2022,6 +2022,13 @@ originally developed.
 
 # Changelog
 
+changes from -16 to -17
+
+(Note that -17 is published as a direct follow-up to -16, containing a single change to be discussed at IETF103)
+
+* Removed groups that are enumerations of registrations and have dedicated mechanism
+* Add groups that are enumerations of shared resources and are a special case of endpoint registrations
+
 changes from -15 to -16
 
 * Recommend a common set of resources for members of a group
