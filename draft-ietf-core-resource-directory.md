@@ -3051,9 +3051,9 @@ and any of the following applies:
 
 ## Examples of links with differing interpretations
 
-These example links should not be submitted to a Resource Directory
-because their RFC6690 and Modernized Link Format interpretations differ
-(expansions assuming that they when obtained from `/device/index`):
+Examples of links with different interpretations from either applying RFC6690
+or Modernized Link Format are shown here. The example is assumed to be obtained
+from a </device/index> document.
 
 * `<sensors>`: The target is `/sensors` in RFC6690 and `/device/sensors`
   in Modernized Link Format
@@ -3070,9 +3070,12 @@ because their RFC6690 and Modernized Link Format interpretations differ
   explicitly expressing most of its own URI (which is problematic in reverse
   proxy scenarios or when the Uri-Host option is not sent).
 
-* `</i>;rel="alternate"`: According to RFC6690, this states that the `/`
+* `</i>;rel="alternate";anchor=""`: According to RFC6690, this states that the `/`
   resource has an alternative representation at `/i`, whereas Modernized Link
   Format says that `/devices/index` has an alternative representation at `/i`.
+
+  The `anchor` attribute is usually left out; the link `</i>;rel="alternate"`
+  is equivalent to the above and results in the same interpretations.
 
 
 <!--  LocalWords:  lookups multicast lookup RESTful CoRE LoWPAN CoAP
