@@ -2153,10 +2153,14 @@ originally developed.
 
 # Changelog
 
-changes after -15
+changes from -15 to -16
 
 * Recommend a common set of resources for members of a group
 * Clarified use of multicast group in lighting example
+* Add note on concurrent registrations from one EP being possible but not expected
+* Refresh web examples appendix to reflect current use of Modernized Link Format
+* Add examples of URIs where Modernized Link Format matters
+* Editorial changes
 
 changes from -14 to -15
 
