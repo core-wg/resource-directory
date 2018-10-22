@@ -2745,6 +2745,10 @@ This text is primarily aimed at people entering the field of Constrained
 Restful Environments from applications that previously did not use web
 mechanisms.
 
+At all examples in this section give compatible results for both
+Modernized and RFC6690 Link Format;
+the explanation of the steps follow Modernized Link Format.
+
 ## A simple example
 
 Let's start this example with a very simple host, `2001:db8:f0::1`. A client
@@ -2769,8 +2773,7 @@ ahead and create a new request to `[2001:db8:f0::1]:5683` with Uri-Path:
 
 The client parses the single returned record. The link's target (sometimes
 called "href") is "`/temp`", which is a relative URI that needs resolving.
-As long as all involved links follow the restrictions set forth for this
-document (see {{resolution-rules}}), the base
+The base
 URI <coap://[ff02::fd]:5683/.well-known/core> is used to resolve the
 reference /temp against.
 
@@ -2778,7 +2781,8 @@ The Base URI of the requested resource can be composed from the header options o
 {{RFC7252}} section 6.5 (with an addition at the end of 8.2) into
 "`coap://[2001:db8:f0::1]/.well-known/core`".
 
-The record's target is resolved by replacing the path "`/.well-known/core`"
+Because "`/temp`" starts with a single slash,
+the record's target is resolved by replacing the path "`/.well-known/core`"
 from the Base URI (section 5.2 {{RFC3986}}) with the relative target URI "`/temp`" into
 "`coap://[2001:db8:f0::1]/temp`".
 
