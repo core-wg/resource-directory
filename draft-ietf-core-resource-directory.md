@@ -2878,7 +2878,7 @@ the endpoint with the known endpoint name "simple-host1". A request to
 All the target and anchor references are already in absolute form there, which
 don't need to be resolved any further.
 
-Had the simple host registered with a base= parameter (e.g.
+Had the simple host done an equivalent full registration with a base= parameter (e.g.
 `?ep=simple-host1&base=coap+tcp://simple-host1.example.com`), that context would
 have been used to resolve the relative anchor values instead, giving
 
