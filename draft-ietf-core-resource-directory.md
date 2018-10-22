@@ -2745,6 +2745,10 @@ This text is primarily aimed at people entering the field of Constrained
 Restful Environments from applications that previously did not use web
 mechanisms.
 
+At all examples in this section give compatible results for both
+Modernized and RFC6690 Link Format;
+the explanation of the steps follow Modernized Link Format.
+
 ## A simple example
 
 Let's start this example with a very simple host, `2001:db8:f0::1`. A client
@@ -2769,8 +2773,7 @@ ahead and create a new request to `[2001:db8:f0::1]:5683` with Uri-Path:
 
 The client parses the single returned record. The link's target (sometimes
 called "href") is "`/temp`", which is a relative URI that needs resolving.
-As long as all involved links follow the restrictions set forth for this
-document (see {{resolution-rules}}), the base
+The base
 URI <coap://[ff02::fd]:5683/.well-known/core> is used to resolve the
 reference /temp against.
 
@@ -2778,7 +2781,8 @@ The Base URI of the requested resource can be composed from the header options o
 {{RFC7252}} section 6.5 (with an addition at the end of 8.2) into
 "`coap://[2001:db8:f0::1]/.well-known/core`".
 
-The record's target is resolved by replacing the path "`/.well-known/core`"
+Because "`/temp`" starts with a single slash,
+the record's target is resolved by replacing the path "`/.well-known/core`"
 from the Base URI (section 5.2 {{RFC3986}}) with the relative target URI "`/temp`" into
 "`coap://[2001:db8:f0::1]/temp`".
 
@@ -2790,7 +2794,7 @@ text/plain (ct=0).
 
 A relation in a web link is a three-part statement that specifies a named relation between the so-called "context resource"
 and the target resource, like "*This page* has *its table
-of contents* at */toc.html*". In {{RFC6690}} link-format documents,
+of contents* at */toc.html*". In {{RFC6690}} and modernized link-format documents,
 there is an implicit "host relation" specified with default parameter: rel="hosts".
 
 In our example, the context resource of the link is the URI specified in the GET request "coap:://[2001:db8:f0::1]/.well-known/core". A full English expression of the "host relation" is:
@@ -2840,7 +2844,7 @@ The resource directory would have accepted the registration, and queried the
 simple host's `.well-known/core` by itself. As a result, the host is registered
 as an endpoint in the RD with the name "simple-host1". The registration is
 active for 90000 seconds, and the endpoint registration Base URI is
-"`coap://[2001:db8:f0::1]/`" following the resolution steps described in {{resolveURI}}. It should be remarked that the Base URI constructed that way always yields a URI of the form: scheme://authority without path suffix.
+"`coap://[2001:db8:f0::1]`" following the resolution steps described in {{resolveURI}}. It should be remarked that the Base URI constructed that way always yields a URI of the form: scheme://authority without path suffix.
 
 If the client now queries the RD as it would previously have issued a multicast
 request, it would go through the RD discovery steps by fetching
@@ -2860,7 +2864,7 @@ multicast request, but it contains the equivalent statement:
 can be accessed using the text/plain content format.'
 
 (The difference is whether `/` or `/.well-known/core` hosts the resources,
-which is subject of ongoing discussion about RFC6690). Actually, /.well-known/core does NOT host the resource but stores a URI reference to the resource.
+which is one of the often misunderstood subtleties Modernized Link Format addresses. Actually, /.well-known/core does NOT host the resource but stores a URI reference to the resource.)
 
 To complete the examples, the client could also query all resources hosted at
 the endpoint with the known endpoint name "simple-host1". A request to
@@ -2878,7 +2882,7 @@ the endpoint with the known endpoint name "simple-host1". A request to
 All the target and anchor references are already in absolute form there, which
 don't need to be resolved any further.
 
-Had the simple host registered with a base= parameter (e.g.
+Had the simple host done an equivalent full registration with a base= parameter (e.g.
 `?ep=simple-host1&base=coap+tcp://simple-host1.example.com`), that context would
 have been used to resolve the relative anchor values instead, giving
 
@@ -3023,7 +3027,10 @@ relationship.
 
 When developing endpoints, i.e. when generating documents that will be submitted
 to a Resource Directory, the differences between Modernized Link Format and
-RFC6690 can be ignored as long as all relative references start with a slash,
+RFC6690 can be ignored as long as
+
+* all relative references start with a slash,
+
 and any of the following applies:
 
 * There is no anchor attribute, and the context of the link does not matter to
@@ -3041,6 +3048,34 @@ and any of the following applies:
 
   Example:
   `<http://www.example.com/sensors/t123>;anchor="/sensors/temp";rel="describedby"`
+
+## Examples of links with differing interpretations
+
+Examples of links with different interpretations from either applying RFC6690
+or Modernized Link Format are shown here. The example is assumed to be obtained
+from a </device/index> document.
+
+* `<sensors>`: The target is `/sensors` in RFC6690 and `/device/sensors`
+  in Modernized Link Format
+  (whereas `</sensors>` would be unambiguous).
+
+* `<?which=these>`: The target is `/?which=these` in RFC6690 and
+  `/device/index?which=these` in Modernized Link Format.
+
+* `<sensors>;anchor="http://example.com/calib-proto/1234";rel="topic"`
+  is about `http://example.com/sensors` in RFC6690 and about `/device/sensors`
+  in Modernized Link Format.
+
+  This link can not be expressed in RFC6690 link format without the server
+  explicitly expressing most of its own URI (which is problematic in reverse
+  proxy scenarios or when the Uri-Host option is not sent).
+
+* `</i>;rel="alternate";anchor=""`: According to RFC6690, this states that the `/`
+  resource has an alternative representation at `/i`, whereas Modernized Link
+  Format says that `/devices/index` has an alternative representation at `/i`.
+
+  The `anchor` attribute is usually left out; the link `</i>;rel="alternate"`
+  is equivalent to the above and results in the same interpretations.
 
 
 <!--  LocalWords:  lookups multicast lookup RESTful CoRE LoWPAN CoAP
