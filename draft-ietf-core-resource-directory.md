@@ -3035,7 +3035,7 @@ and any of the following applies:
 * The anchor is a relative reference.
 
   Example:
-  `</t>;anchor="/sensors/temp";rel="alternate`
+  `</t>;anchor="/sensors/temp";rel="alternate"`
 
 * The target is an absolute reference.
 
