@@ -2790,7 +2790,7 @@ text/plain (ct=0).
 
 A relation in a web link is a three-part statement that specifies a named relation between the so-called "context resource"
 and the target resource, like "*This page* has *its table
-of contents* at */toc.html*". In {{RFC6690}} link-format documents,
+of contents* at */toc.html*". In {{RFC6690}} and modernized link-format documents,
 there is an implicit "host relation" specified with default parameter: rel="hosts".
 
 In our example, the context resource of the link is the URI specified in the GET request "coap:://[2001:db8:f0::1]/.well-known/core". A full English expression of the "host relation" is:
@@ -2860,7 +2860,7 @@ multicast request, but it contains the equivalent statement:
 can be accessed using the text/plain content format.'
 
 (The difference is whether `/` or `/.well-known/core` hosts the resources,
-which is subject of ongoing discussion about RFC6690). Actually, /.well-known/core does NOT host the resource but stores a URI reference to the resource.
+which is one of the often misunderstood subtleties Modernized Link Format addresses. Actually, /.well-known/core does NOT host the resource but stores a URI reference to the resource.)
 
 To complete the examples, the client could also query all resources hosted at
 the endpoint with the known endpoint name "simple-host1". A request to
