@@ -3023,7 +3023,10 @@ relationship.
 
 When developing endpoints, i.e. when generating documents that will be submitted
 to a Resource Directory, the differences between Modernized Link Format and
-RFC6690 can be ignored as long as all relative references start with a slash,
+RFC6690 can be ignored as long as
+
+* all relative references start with a slash,
+
 and any of the following applies:
 
 * There is no anchor attribute, and the context of the link does not matter to
