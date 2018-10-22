@@ -1588,7 +1588,7 @@ The contents of the RD are inserted in two ways:
 
 1.  The node hosting the discoverable endpoint fills the RD with the contents of /.well-known/core by:
      * Storing the contents directly into RD (see {{registration}})
-     * Requesting the RD to load the contents from /.well-known/core see (section {{simple})
+     * Requesting the RD to load the contents from /.well-known/core (see {{simple}})
 
 2.  A Commissioning Tool (CT) fills the RD with endpoint information for a set of discoverable nodes. (see {{registration}} with base=authority parameter value)
 
