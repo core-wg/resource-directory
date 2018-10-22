@@ -3049,6 +3049,31 @@ and any of the following applies:
   Example:
   `<http://www.example.com/sensors/t123>;anchor="/sensors/temp";rel="describedby"`
 
+## Examples of links with differing interpretations
+
+These example links should not be submitted to a Resource Directory
+because their RFC6690 and Modernized Link Format interpretations differ
+(expansions assuming that they when obtained from `/device/index`):
+
+* `<sensors>`: The target is `/sensors` in RFC6690 and `/device/sensors`
+  in Modernized Link Format
+  (whereas `</sensors>` would be unambiguous).
+
+* `<?which=these>`: The target is `/?which=these` in RFC6690 and
+  `/device/index?which=these` in Modernized Link Format.
+
+* `<sensors>;anchor="http://example.com/calib-proto/1234";rel="topic"`
+  is about `http://example.com/sensors` in RFC6690 and about `/device/sensors`
+  in Modernized Link Format.
+
+  This link can not be expressed in RFC6690 link format without the server
+  explicitly expressing most of its own URI (which is problematic in reverse
+  proxy scenarios or when the Uri-Host option is not sent).
+
+* `</i>;rel="alternate"`: According to RFC6690, this states that the `/`
+  resource has an alternative representation at `/i`, whereas Modernized Link
+  Format says that `/devices/index` has an alternative representation at `/i`.
+
 
 <!--  LocalWords:  lookups multicast lookup RESTful CoRE LoWPAN CoAP
  -->
