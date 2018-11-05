@@ -1,0 +1,91 @@
+\documentclass[aspectratio=169]{beamer}
+
+% generic packages
+
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+
+% about the presentation
+\title{Resource Directory}
+\subtitle{\texttt{draft-ietf-core-resource-directory}}
+\author{Zach Shelby, Michael Koster, Carsten Bormann, Peter~van~der~Stok, \textit{Christian~Amsüss}}
+\date{2018-11-05}
+
+% used commands
+
+\usepackage{soul} % \st
+\usepackage{verbatim}
+
+% attach self
+
+\usepackage{embedfile}
+\embedfile{\jobname.tex}
+
+\begin{document}
+
+\frame{\titlepage}
+
+\begin{frame}{Status}\Large
+	From review and dependent document:
+	\begin{itemize}
+		\item Appendix “Modernized Link Format” is overstepping
+		\item Groups are not used as described
+	\end{itemize}
+\end{frame}
+
+\begin{frame}{Et cetera}\Large
+	\begin{itemize}
+		\item Security policies updated
+		\item Plug test successful, only details remain,\\
+			Groups not tested
+		\item Editorial changes
+	\end{itemize}
+
+	\bigskip
+
+	all in -16
+\end{frame}
+
+\begin{frame}{\st{Modernized Link Format}}\Large
+	\begin{itemize}
+		\item redefined interpretation of RFC6690 links
+		\item Background: Not implemented as specified (0/10)
+		\item Instead: defined unambiguous subset
+		\item Downside: Some use cases need to wait for CoRAL or similar, or depend on implementation specifics
+	\end{itemize}
+	\bigskip
+	see core-links-json
+\end{frame}
+
+\begin{frame}[fragile]{Group proposal}\Large
+	\st{Groups: separate concept, enumerating membership}
+
+	\bigskip
+
+	Groups: almost an endpoint (with endpoint type \texttt{et=core.gp}).\\No members registered, but resources.
+
+	\pause\bigskip
+
+	\begin{verbatim}
+		GET /rd-lookup/res?ep=my-group
+		<coap://[ff05::8431]/light>;rt="light";...
+	\end{verbatim}
+
+	\pause\bigskip
+
+	-17: Draft size -10\%, compatible with implementations,\\Groups described an usage pattern
+\end{frame}
+
+\begin{frame}{Next steps for \texttt{resource-directory}}\begin{center}\Large
+	Does anyone use more than the limited subset of RFC6690?
+
+	\vspace{1cm}
+
+	Is anyone using pre -17 groups?
+
+	\vspace{1cm}
+
+	(no, no): publish version for WGLC
+\end{center}\end{frame}
+
+\end{document}
