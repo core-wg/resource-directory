@@ -481,14 +481,12 @@
         </td>
       </tr><tr><th>References:</th>
         <td colspan="3">
-          [resource-directory] 6.1
+          [resource-directory] 5.3.3
         </td>
       </tr><tr><th>Pre-test conditions:</th>
         <td colspan="3">
-		<ul><li>Server contains resource /rd-group</li>
+		<ul><li>Server contains resource /rd</li>
 		  <li>Client knows address of Resource Directory (server)</li>
-		  <li>/rd/xxx created by TD_CoRE_resource-directory-03</li> 
-		  <li>/rd/yyy created by TD_CoRE_resource-directory-04</li>
 		</ul></td>
       </tr><tr><th>Test Sequence:</th>
         <td width="10 %">Step</td>
@@ -516,11 +514,12 @@
         <td>
           The request sent by the client contains:<ul><li>Type = 0 and Code = 2</li>
 		  <li>Token = XX, set by client </li>
-		  <li>Uri-Path: &quot;rd-group&quot;</li>
-		  <li>Uri-Query: &quot;gp=lights&quot;, &quot;base=coap://[ff35:30:2001:db8::1]&quot;</li>
+		  <li>Uri-Path: &quot;rd&quot;</li>
+		  <li>Uri-Query: &quot;ep=lights&quot;,&quot;et=core.rd-group&quot;,&quot;base=coap://[ff35:30:2001:db8::1]&quot;</li>
 		  <li>Content-Format: 40 </li>
-		  <li>payload<ul><li>&lt;/rd/xxx&gt;,</li>
-			  <li>&lt;/rd/yyy&gt;</li>
+		  <li>payload<ul>
+		      <li>&lt;/light&gt;;rt=&quot;light&quot;;if=&quot;core.a&quot;,</li>
+			  <li>&lt;/color-temperature&gt;;if=&quot;core.p&quot;;u=&quot;K&quot;</li>
 		  </ul></li>
           </ul></td>
       </tr><tr><td></td>
@@ -533,7 +532,7 @@
         <td>
           Server sends response containing:<ul><li>Code = 2.01 (Created)</li>
 		  <li>Token = XX </li>
-		  <li>Location-Path=/rd-group/zzz
+		  <li>Location-Path=/rd/zzz
           </li><li>empty payload</li>
           </ul></td>
       </tr><tr><td></td>
@@ -561,11 +560,11 @@
         </td>
       </tr><tr><th>References:</th>
         <td colspan="3">
-          [resource-directory] A.5
+          [resource-directory] 6.2, 6.3
         </td>
       </tr><tr><th>Pre-test conditions:</th>
         <td colspan="3">
-		<ul><li>Server contains resources and groups created in TD_CoRE_resource-directory_ 03, 04, 05, and 06</li>
+		<ul><li>Server contains resources created in TD_CoRE_resource-directory_ 03, 04, 05, and 06</li>
 		  <li>Client knows address of Resource Directory (server)</li>
 		</ul></td>
       </tr><tr><th>Test Sequence:</th>
@@ -593,7 +592,8 @@
         <td>
           The request sent by the client contains:<ul><li>Type = 0 and Code = 1</li>
 		  <li>Token = XX, set by client </li>
-		  <li>Uri-Path: &quot;rd-lookup&quot;, &quot;gp&quot;</li>
+		  <li>Uri-Path: &quot;rd-lookup&quot;, &quot;res&quot;</li>
+		  <li>URI-Query: &quot;et=core.rd-group&quot;</li>
 		  <li>Accept: 40 </li>
 		  <li> empty payload</li>
           </ul></td>
@@ -608,7 +608,10 @@
           Server sends response containing:<ul><li>Code = 2.05 (Content)</li>
 		  <li>Token = XX </li>
 		  <li>Content-Format: 40 </li>
-          <li>payload<ul><li>&lt;/rd-group/zzz&gt;;gp=&quot;lights&quot;;base=&quot;coap://[ff35:30:2001:db8::1]&quot;;rt=&quot;core.rd-gp&quot;</li></ul></li>
+          <li>payload<ul>
+		    <li>&lt;coap://[ff35:30:2001:db8::1]/light&gt;;rt=&quot;light&quot;;if=&quot;core.a&quot;;et=&quot;core.rd-group&quot;;anchor=&quot;coap://[ff35:30:2001:db8::1]/light&quot;,</li>
+	        <li>&lt;coap://[ff35:30:2001:db8::1]/color-temperature&gt;;rt=&quot;light&quot;;if=&quot;core.p&quot;;u=&quot;K&quot;;et=&quot;core.rd-group&quot;;anchor=&quot;coap://[ff35:30:2001:db8::1]/light&quot;</li>
+	      </ul></li>
           </ul></td>
       </tr><tr><td></td>
         <td>
@@ -618,7 +621,9 @@
           Verify
         </td>
         <td>
-          Client displays <ul><li> &lt;/rd-group/zzz&gt;;gp=&quot;lights&quot;,base=&quot;coap://[ff35:30:2001:db8::1]&quot;;rt=&quot;core.rd-gp&quot;</li>
+          Client displays <ul>
+            <li>&lt;coap://[ff35:30:2001:db8::1]/light&gt;;rt=&quot;light&quot;;if=&quot;core.a&quot;;et=&quot;core.rd-group&quot;;anchor=&quot;coap://[ff35:30:2001:db8::1]/light&quot;,</li>
+	        <li>&lt;coap://[ff35:30:2001:db8::1]/color-temperature&gt;;rt=&quot;light&quot;;if=&quot;core.p&quot;;u=&quot;K&quot;;et=&quot;core.rd-group&quot;;anchor=&quot;coap://[ff35:30:2001:db8::1]/light&quot;</li>
 		  </ul></td>
       </tr></tbody></table><table id="TAB08" border="1" width="100%"><tbody><tr><th colspan="4">Interoperability Test Description</th>
       </tr><tr><th width="15%">Identifier:</th>
@@ -715,9 +720,9 @@
         </td>
       </tr><tr><th>Pre-test conditions:</th>
         <td colspan="3">
-		<ul><li>Server contains resource /rd-group</li>
+		<ul><li>Server contains resource /rd</li>
 		  <li>Client knows address of Resource Directory (server)</li>
-		  <li>/rd-group/zzz created by TD_CoRE_resource-directory_06
+		  <li>/rd/zzz created by TD_CoRE_resource-directory_06
 		</li></ul></td>
       </tr><tr><th>Test Sequence:</th>
         <td width="10 %">Step</td>
@@ -744,7 +749,7 @@
         <td>
           The request sent by the client contains:<ul><li>Type = 0 and Code = 4</li>
 		  <li>Token = XX, set by client </li>
-		  <li>Uri-Path: &quot;rd-group&quot;, &quot;zzz&quot;</li>
+		  <li>Uri-Path: &quot;rd&quot;, &quot;zzz&quot;</li>
 		  <li> empty payload</li>
           </ul></td>
       </tr><tr><td></td>
@@ -1080,7 +1085,7 @@
         </td>
       </tr><tr><th>References:</th>
         <td colspan="3">
-          [resource-directory] A.5
+          [resource-directory] 6.2, 6.3
         </td>
       </tr><tr><th>Pre-test conditions:</th>
         <td colspan="3">
@@ -1112,7 +1117,8 @@
         <td>
           The request sent by the client contains:<ul><li>Type = 0 and Code = 1</li>
 		  <li>Token = XX, set by client </li>
-		  <li>Uri-Path: &quot;rd-lookup&quot;, &quot;gp&quot;</li>
+		  <li>Uri-Path: &quot;rd-lookup&quot;, &quot;res&quot;</li>
+		  <li>URI-Query: &quot;et=core.rd-group&quot;</li>
 		  <li>Accept: 40 </li>
 		  <li>empty payload</li>
           </ul></td>
