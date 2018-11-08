@@ -839,14 +839,10 @@ The RD server needs to resolve these references in order to faithfully represent
 They are resolved against the base URI of the registration,
 which is provided either explicitly in the `base` parameter or constructed implicitly from the requester's URI as constructed from its network address and scheme.
 
-Link format documents submitted to the resource directory are interpreted
-as Modernized Link Format (see {{modern6690}}) by the RD.
-A registrant-ep SHOULD NOT submit documents whose interpretations according to
-{{RFC6690}} and {{modern6690}} differ
-to avoid the ambiguities described in {{resolution-rules}}.
-
-In practice, most links (precisely listed in {{modern-safe}}) can be submitted
-without consideration for those details.
+For media types to which {{limitedlinkformat}} applies
+(ie. documents in application/link-format),
+the RD only needs to accept representations in Limited Link Format as described there.
+Its behavior with representations outside that subset is implementation defined.
 
 The registration request interface is specified as follows:
 
@@ -916,11 +912,10 @@ URI Template Variables:
 
   : Endpoints that register with a base that contains a path component
     can not meaningfully use {{RFC6690}} Link Format due to its prevalence of
-    the Origin concept in relative reference resolution; they can submit
-    payloads for interpretation as Modernized Link Format.
-    Typically, links submitted by such an endpoint are of the `path-noscheme`
-    (starts with a path not preceded by a slash, precisely defined in {{RFC3986}} Section 3.3)
-    form.
+    the Origin concept in relative reference resolution.
+    Those applications should use different representations of links to which {{limitedlinkformat}} is not applicable
+    (eg. {{?I-D.hartke-t2trg-coral}}).
+    <!-- or may use non-Limited-Link-Format documents on servers that share their necessarily-non6690 understanding of links – but we can't say that in an RFC, can we? -->
 
   extra-attrs :=
   : Additional registration attributes (optional). The endpoint can pass any
@@ -1029,7 +1024,7 @@ This approach requires that the registrant-ep makes available the hosted resourc
 that it wants to be discovered, as links on its `/.well-known/core` interface as
 specified in {{RFC6690}}.
 The links in that document are subject to the same limitations as the payload of a registration
-(with respect to {{modern6690}}).
+(with respect to {{limitedlinkformat}}).
 
 The registrant-ep finds one or more addresses of the directory server as described in {{finding_an_rd}}.
 
@@ -2606,9 +2601,8 @@ This text is primarily aimed at people entering the field of Constrained
 Restful Environments from applications that previously did not use web
 mechanisms.
 
-At all examples in this section give compatible results for both
-Modernized and RFC6690 Link Format;
-the explanation of the steps follow Modernized Link Format.
+The explanation of the steps makes some shortcuts in the more confusing details of {{RFC6690}},
+which are justified as all examples being in Limited Link Format.
 
 ## A simple example
 
@@ -2655,7 +2649,7 @@ text/plain (ct=0).
 
 A relation in a web link is a three-part statement that specifies a named relation between the so-called "context resource"
 and the target resource, like "*This page* has *its table
-of contents* at */toc.html*". In {{RFC6690}} and modernized link-format documents,
+of contents* at */toc.html*". In link format documents,
 there is an implicit "host relation" specified with default parameter: rel="hosts".
 
 In our example, the context resource of the link is the URI specified in the GET request "coap:://[2001:db8:f0::1]/.well-known/core". A full English expression of the "host relation" is:
@@ -2725,7 +2719,7 @@ multicast request, but it contains the equivalent statement:
 can be accessed using the text/plain content format.'
 
 (The difference is whether `/` or `/.well-known/core` hosts the resources,
-which is one of the often misunderstood subtleties Modernized Link Format addresses. Actually, /.well-known/core does NOT host the resource but stores a URI reference to the resource.)
+which does not matter in this application; if it did, the endpoint would have been more explicit. Actually, /.well-known/core does NOT host the resource but stores a URI reference to the resource.)
 
 To complete the examples, the client could also query all resources hosted at
 the endpoint with the known endpoint name "simple-host1". A request to
@@ -2770,13 +2764,10 @@ model of typed links, there are some differences between {{RFC6690}} and
   the link to the target's URI with its path stripped off, while according to
   {{RFC8288}} Section 3.2, the context is the resource's base URI.
 
-  In the context of a Resource Directory, the authors decided to not let
-  this become an issue by recommending that links in the Resource Directory
-  be *deserializable* by either rule set to give the same results.
-  Note that all examples of {{RFC6690}}, {{RFC8288}} and this document comply with that rule.
-
-  The Modernized Link Format is introduced in {{modern6690}} to formalize what
-  it means to apply the ruleset of RFC8288 to Link Format documents.
+  The rules introduced in {{limitedlinkformat}} ensure
+  that an RD does not need to deal with those differences
+  when processing input data.
+  Lookup results are required to be absolute references for the same reason.
 
 * There is no percent encoding in link-format documents.
 
@@ -2854,89 +2845,38 @@ Res: 2.05 Content
     if="core.s";anchor="coap+tcp://[2001:db8:f1::2]"
 ~~~~
 
-# Modernized Link Format parsing {#modern6690}
+# Limited Link Format {#limitedlinkformat}
 
-The CoRE Link Format as described in {{RFC6690}} is unsuitable for some use cases
-of the Resource Directory, and their resolution scheme is often misunderstood
-by developers familiar with {{RFC8288}}.
+The CoRE Link Format as described in {{RFC6690}}
+has been interpreted differently by implementers,
+and a strict implementation
+rules out some use cases of a Resource Directory
+(eg. base values with path components).
 
-For the correct application of base URIs, we describe the interpretation of a
-Link Format document as a Modernized Link Format. In Modernized Link Format,
-the document is processed as in Link Format, with the exception of Section 2.1
-of {{RFC6690}}:
+This appendix describes
+a subset of link format documents called Limited Link Format.
+The rules herein are not very limiting in practice --
+all examples in RFC6690, and all deployments the authors are aware of already stick to them --
+but ease the implementation of resource directory servers.
 
-* The URI-reference inside angle brackets ("<>") describes the target URI
-  of the link.
-* The context of the link is expressed by the "anchor" parameter. If
-  the anchor attribute is absent, it defaults to the empty reference
-  ("").
-* Both these references are resolved according to Section 5 of {{RFC3986}}.
+It is applicable to representations in the application/link-format media type,
+and any other media types that inherit {{RFC6690}} Section 2.1.
 
-Content formats derived from {{RFC6690}} which inherit its resolution rules,
-like JSON and CBOR link format of {{I-D.ietf-core-links-json}}, can be
-interpreted in analogy to that.
+A link format representation is in Limited Link format if,
+for each link in it,
+the following applies:
 
-For where the Resource Directory is concerned, all common forms of links (e.g.
-all the examples of RFC6690) yield identical results. When interpreting data
-read from `.well-known/core`, differences in interpretation only affect links
-where the absent anchor attribute means `coap://host/` according to RFC6690 and
-`coap://host/.well-known/core` according to Modernized Link format; those
-typically only occur in conjunction with the vaguely defined implicit "hosts"
-relationship.
+* All URI references either folllow the URI or the path-absolute ABNF rule of
+  RFC3986 (ie. target and anchor each either start with a scheme or with a
+  single slash),
 
-## For endpoint developers {#modern-safe}
+* if the anchor reference starts with a scheme, the target reference starts
+  with a scheme as well (ie. relative references in target cannot be used when
+  the anchor is a full URI), and
 
-When developing endpoints, i.e. when generating documents that will be submitted
-to a Resource Directory, the differences between Modernized Link Format and
-RFC6690 can be ignored as long as
-
-* all relative references start with a slash,
-
-and any of the following applies:
-
-* There is no anchor attribute, and the context of the link does not matter to
-  the application.
-
-  Example:
-  `</sensors>;ct=40`
-
-* The anchor is a relative reference.
-
-  Example:
-  `</t>;anchor="/sensors/temp";rel="alternate"`
-
-* The target is an absolute reference.
-
-  Example:
-  `<http://www.example.com/sensors/t123>;anchor="/sensors/temp";rel="describedby"`
-
-## Examples of links with differing interpretations
-
-Examples of links with different interpretations from either applying RFC6690
-or Modernized Link Format are shown here. The example is assumed to be obtained
-from a </device/index> document.
-
-* `<sensors>`: The target is `/sensors` in RFC6690 and `/device/sensors`
-  in Modernized Link Format
-  (whereas `</sensors>` would be unambiguous).
-
-* `<?which=these>`: The target is `/?which=these` in RFC6690 and
-  `/device/index?which=these` in Modernized Link Format.
-
-* `<sensors>;anchor="http://example.com/calib-proto/1234";rel="topic"`
-  is about `http://example.com/sensors` in RFC6690 and about `/device/sensors`
-  in Modernized Link Format.
-
-  This link can not be expressed in RFC6690 link format without the server
-  explicitly expressing most of its own URI (which is problematic in reverse
-  proxy scenarios or when the Uri-Host option is not sent).
-
-* `</i>;rel="alternate";anchor=""`: According to RFC6690, this states that the `/`
-  resource has an alternative representation at `/i`, whereas Modernized Link
-  Format says that `/devices/index` has an alternative representation at `/i`.
-
-  The `anchor` attribute is usually left out; the link `</i>;rel="alternate"`
-  is equivalent to the above and results in the same interpretations.
+* the application does not care whether links without an explicitly given
+  anchor have the origin's "/" or "/.well-known/core" resource as their link
+  context.
 
 
 <!--  LocalWords:  lookups multicast lookup RESTful CoRE LoWPAN CoAP
