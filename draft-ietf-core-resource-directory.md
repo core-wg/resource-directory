@@ -721,13 +721,13 @@ URI Template Variables:
   : Resource Type. SHOULD contain one of the values "core.rd", "core.rd-lookup\*",
   "core.rd-lookup-res", "core.rd-lookup-ep", or "core.rd\*"
 
-Content-Format:
+Accept:
 : application/link-format (if any)
 
-Content-Format:
+Accept:
 : application/link-format+json (if any)
 
-Content-Format:
+Accept:
 : application/link-format+cbor (if any)
 
 The following response codes are defined for this interface:
@@ -1292,13 +1292,13 @@ URI Template Variables:
     the count parameter is not present, then the response MUST return all matching
     links in the result set. Link numbering starts with zero.
 
-  Content-Format:
+  Accept:
   : application/link-format (optional)
 
-  Content-Format:
+  Accept:
   : application/link-format+json (optional)
 
-  Content-Format:
+  Accept:
   : application/link-format+cbor (optional)
 
 
