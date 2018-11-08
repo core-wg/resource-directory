@@ -66,7 +66,6 @@ normative:
   RFC2119:
   RFC3986:
   RFC8126:
-  RFC5988:
 #  RFC6335: portreg
   RFC6570:
   RFC6763: dnssd
@@ -115,7 +114,7 @@ and building automation.
 The discovery of resources offered by a constrained server is very important
 in machine-to-machine applications where there are no humans in the loop and
 static interfaces result in fragility. The discovery of resources provided by
-an HTTP Web Server is typically called Web Linking {{RFC5988}}. The use of
+an HTTP Web Server is typically called Web Linking {{RFC8288}}. The use of
 Web Linking for the description and discovery of resources hosted by
 constrained web servers is specified by the CoRE Link Format
 {{RFC6690}}. However, {{RFC6690}} only describes how to discover
@@ -143,7 +142,7 @@ document are to be interpreted as described in {{RFC2119}}. The
 term "byte" is used in its now customary sense as a synonym for "octet".
 
 This specification requires readers to be familiar with all the terms and
-concepts that are discussed in {{RFC3986}}, {{RFC5988}} and {{RFC6690}}. Readers should
+concepts that are discussed in {{RFC3986}}, {{RFC8288}} and {{RFC6690}}. Readers should
 also be familiar with the terms and concepts discussed in {{RFC7252}}.  To
 describe the REST interfaces defined in this specification, the URI Template
 format is used {{RFC6570}}.
@@ -250,7 +249,7 @@ in the resource directory. Changes in the Resource Directory do not propagate au
 ## Architecture
 
 The resource directory architecture is illustrated in {{fig-arch}}. A
-Resource Directory (RD) is used as a repository for Web Links {{RFC5988}}
+Resource Directory (RD) is used as a repository for Web Links {{RFC8288}}
 describing resources hosted on other web servers, also called endpoints
 (EP).
 An endpoint is a web server associated with a scheme, IP address and port. A physical node may host one or more endpoints. The
@@ -365,7 +364,7 @@ The web server is free to choose links it deems appropriate to be exposed in its
 Typically, the links describe resources that are served by the host, but the set can also contain links to resources on other servers (see examples in {{RFC6690}} page 14).
 The set does not necessarily contain links to all resources served by the host.
 
-A link has the following attributes (see {{RFC5988}}):
+A link has the following attributes (see {{RFC8288}}):
 
 * Zero or more link relations: They describe relations between the link context and the link target.
 
@@ -1492,7 +1491,7 @@ Even simpler, the authorized registering endpoint can generate a random number (
 
 # Security Considerations
 
-The security considerations as described in Section 7 of {{RFC5988}} and
+The security considerations as described in Section 5 of {{RFC8288}} and
 Section 6 of {{RFC6690}} apply. The `/.well-known/core` resource may be
 protected e.g. using DTLS when hosted on a CoAP server as described in
 {{RFC7252}}. DTLS or TLS based security SHOULD be used on all resource
@@ -1588,7 +1587,7 @@ Each entry in the registry must include
 * validity requirements if any, and
 * a description.
 
-The query parameter MUST be both a valid URI query key {{RFC3986}} and a parmname as used in {{RFC5988}}.
+The query parameter MUST be both a valid URI query key {{RFC3986}} and a token as used in {{RFC8288}}.
 
 The description must give details on whether the parameter can be updated, and how it is to be processed in lookups.
 
@@ -2750,7 +2749,7 @@ and analogous records.
 
 While link-format and Link headers look very similar and are based on the same
 model of typed links, there are some differences between {{RFC6690}} and
-{{RFC5988}}, which are dealt with differently:
+{{RFC8288}}, which are dealt with differently:
 
 * "Resolving the target against the anchor":
   {{RFC6690}} Section 2.1 states that the anchor of a link is used as the Base URI
