@@ -70,7 +70,6 @@ normative:
   RFC6570:
   RFC6763: dnssd
 #  RFC7396:
-  I-D.ietf-core-links-json:
 informative:
   RFC7252:
   RFC7390:
@@ -89,6 +88,7 @@ informative:
   I-D.arkko-core-dev-urn:
   I-D.ietf-ace-oauth-authz:
   I-D.ietf-anima-bootstrapping-keyinfra:
+  I-D.ietf-core-links-json:
 
 --- abstract
 
@@ -721,19 +721,13 @@ URI Template Variables:
   "core.rd-lookup-res", "core.rd-lookup-ep", or "core.rd\*"
 
 Content-Format:
-: application/link-format (if any)
-
-Content-Format:
-: application/link-format+json (if any)
-
-Content-Format:
-: application/link-format+cbor (if any)
+: absent, application/link-format or any other media type representing web links
 
 The following response codes are defined for this interface:
 
 Success:
 : 2.05 "Content" or 200 "OK" with an
-  application/link-format, application/link-format+json, or application/link-format+cbor payload containing one or more matching entries for the RD resource.
+  application/link-format or other web link payload containing one or more matching entries for the RD resource.
 
 Failure:
 : 4.00 "Bad Request" or 400 "Bad Request" is returned in case of a malformed request for a unicast
@@ -765,14 +759,13 @@ alternate content-formats. The Content-Format code attribute "ct" MAY include a
 space-separated sequence of Content-Format codes as specified in
 Section 7.2.1 of {{RFC7252}}, indicating that multiple content-formats are available.
 The example below shows the required Content-Format 40 (application/link-format)
-indicated as well as the CBOR and JSON representation of link format.
+indicated as well as a CBOR and JSON representation from {{I-D.ietf-core-links-json}}
+(which have no numeric values assigned yet, so they are shown as TBD64 and TBD504 as in that draft).
 The RD resource locations /rd, and /rd-lookup are example values.
 The server in this example also indicates that it is capable of providing observation on resource lookups.
 
-\[ The RFC editor is asked to replace these and later occurrences of MCD1, TBD64 and
-TBD504 with the assigned IPv6 site-local address for "all CoRE Resource Directories" and the numeric ID values assigned by IANA to
-application/link-format+cbor and application/link-format+json, respectively, as
-they are defined in I-D.ietf-core-links-json. \]
+\[ The RFC editor is asked to replace this and later occurrences of MCD1
+with the assigned IPv6 site-local address for "all CoRE Resource Directories". \]
 
 ~~~~
 Req: GET coap://[MCD1]/.well-known/core?rt=core.rd*
@@ -814,7 +807,7 @@ are run on the same server.
 After discovering the location of an RD, a registrant-ep or CT MAY
 register the resources of the registrant-ep using the registration interface. This interface
 accepts a POST from an endpoint containing the list of resources to be added
-to the directory as the message payload in the CoRE Link Format {{RFC6690}}, JSON CoRE Link Format (application/link-format+json), or CBOR CoRE Link Format (application/link-format+cbor)  {{I-D.ietf-core-links-json}}, along with query
+to the directory as the message payload in the CoRE Link Format {{RFC6690}} or other representations of web links, along with query
 parameters indicating the name of the endpoint, and optionally the sector,
 lifetime and base URI of the registration.
 It is expected that other specifications will define further parameters (see
@@ -924,13 +917,7 @@ URI Template Variables:
     attribute for further lookup.
 
 Content-Format:
-: application/link-format
-
-Content-Format:
-: application/link-format+json
-
-Content-Format:
-: application/link-format+cbor
+: application/link-format or any other indicated media type representing web links
 
 The following response codes are defined for this interface:
 
@@ -996,7 +983,7 @@ Location-Path: /rd/4521
 {: #example-payload title="Example registration payload" }
 
 A Resource Directory may optionally support HTTP. Here is an example of almost the same registration operation above, when done using HTTP
-and the JSON Link Format.
+and the JSON Link Format as described in {{I-D.ietf-core-links-json}}.
 
 ~~~~
 Req: POST /rd?ep=node1&base=http://[2001:db8:1::1] HTTP/1.1
@@ -1228,7 +1215,7 @@ The Resource Directory MAY replace the registration base URIs with a configured 
 
 ## Lookup filtering
 
-Using the Accept Option, the requester can control whether the returned list is returned in CoRE Link Format (`application/link-format`, default) or its alternate content-formats (`application/link-format+json` or `application/link-format+cbor`).
+Using the Accept Option, the requester can control whether the returned list is returned in CoRE Link Format (`application/link-format`, default) or in alternate content-formats (eg. from {{I-D.ietf-core-links-json}}).
 
 The page and count parameters are used to obtain lookup results in specified increments using pagination, where count specifies how many links to return and page specifies which subset of links organized in sequential pages, each containing 'count' links, starting with link zero and page zero. Thus, specifying count of 10 and page of 0 will return the first 10 links in the result set (links 0-9). Count = 10 and page = 1 will return the next 'page' containing links 10-19, and so on.
 
@@ -1287,21 +1274,15 @@ URI Template Variables:
     links in the result set. Link numbering starts with zero.
 
   Content-Format:
-  : application/link-format (optional)
-
-  Content-Format:
-  : application/link-format+json (optional)
-
-  Content-Format:
-  : application/link-format+cbor (optional)
+  : absent, application/link-format or any other indicated media type representing web links
 
 
 The following responses codes are defined for this interface:
 
 Success:
-: 2.05 "Content" or 200 "OK" with an `application/link-format`, `application/link-format+cbor`, or `application/link-format+json` payload containing matching entries for the lookup.
+: 2.05 "Content" or 200 "OK" with an `application/link-format` or other web link payload containing matching entries for the lookup.
 
-  The payload can contain zero links (which is an empty payload, `80` (hex) or `[]` in the respective content format),
+  The payload can contain zero links (which is an empty payload in {{RFC6690}} link format, but could also be `[]` in JSON based formats),
   indicating that no entities matched the request.
 
 Failure:
@@ -1333,7 +1314,7 @@ Res: 2.05 Content
            anchor="coap://[2001:db8:3::123]:61616"
 ~~~~
 
-The same lookup using the CBOR Link Format media type:
+The same lookup using the CBOR Link Format media type described in {{I-D.ietf-core-links-json}}:
 
 ~~~~
 Req: GET /rd-lookup/res?rt=temperature
@@ -2523,7 +2504,7 @@ URI Template Variables:
 The following response codes are defined for this interface:
 
 Success:
-: 2.05 "Content" or 200 "OK" upon success with an `application/link-format`, `application/link-format+cbor`, or `application/link-format+json` payload.
+: 2.05 "Content" or 200 "OK" upon success with an `application/link-format` or other web link payload.
 
 Failure:
 : 4.00 "Bad Request" or 400 "Bad Request". Malformed request.
