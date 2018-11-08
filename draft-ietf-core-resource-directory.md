@@ -1202,6 +1202,8 @@ The lookup type is selected by a URI endpoint, which is indicated by a Resource 
 Resource lookup results in links that are semantically equivalent to the links submitted to the RD.
 The links and link parameters returned by the lookup are equal to the submitted ones,
 except that the target and anchor references are fully resolved.
+(Web link serializations that internally support changing the Base URI MAY express them as relative references
+as long as it is ensured that when resolved, they give the full URIs of the registered resources again).
 
 Links that did not have an anchor attribute are therefore returned with the  base URI of the registration as the anchor.
 Links of which href or anchor was submitted as a (full) URI are returned with these attributes unmodified.
@@ -1216,6 +1218,9 @@ The Resource Directory MAY replace the registration base URIs with a configured 
 Using the Accept Option, the requester can control whether the returned list is returned in CoRE Link Format (`application/link-format`, default) or in alternate content-formats (eg. from {{I-D.ietf-core-links-json}}).
 
 The page and count parameters are used to obtain lookup results in specified increments using pagination, where count specifies how many links to return and page specifies which subset of links organized in sequential pages, each containing 'count' links, starting with link zero and page zero. Thus, specifying count of 10 and page of 0 will return the first 10 links in the result set (links 0-9). Count = 10 and page = 1 will return the next 'page' containing links 10-19, and so on.
+
+The number of links returned MAY not exactly match the requested count if the server supports several link formats that represent and count links differently.
+Links that do not stem from the resource lookup (eg. an HTML result's link to its style sheet) are not counted towards the pagination limits, and are not subject to link filtering either.
 
 Multiple search criteria MAY be included in a lookup. All included criteria MUST match for a link to be returned. The Resource Directory MUST support matching with multiple search criteria.
 
