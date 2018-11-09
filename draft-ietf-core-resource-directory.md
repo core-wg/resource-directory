@@ -95,10 +95,10 @@ informative:
 In many M2M applications, direct discovery of resources is not practical
 due to sleeping nodes, disperse networks, or networks where multicast traffic
 is inefficient. These problems can be solved by employing an entity called
-a Resource Directory (RD), which hosts registrations of resources held on
-other servers, allowing lookups to be performed for those resources. This
+a Resource Directory (RD), which contains information about resources held on
+other servers, allowing lookups to be performed for those resources. The input to an RD is composed of links and the output is composed of links constructed from the information stored in the RD. This
 document specifies the web interfaces that a Resource Directory supports for web servers to discover the RD and to register, maintain, lookup
-and remove resource descriptions. Furthermore, new link attributes useful
+and remove information on resources. Furthermore, new link attributes useful
 in conjunction with an RD are defined.
 
 --- middle
@@ -122,12 +122,11 @@ resources from the web server that hosts them by querying
 `/.well-known/core`. In many M2M scenarios, direct discovery of resources is
 not practical due to sleeping nodes, disperse networks, or networks where
 multicast traffic is inefficient. These problems can be solved by employing
-an entity called a Resource Directory (RD), which hosts registrations of
-resources held on other servers, allowing lookups to be performed for those
-resources.
+an entity called a Resource Directory (RD), which contains information about resources held on
+other servers, allowing lookups to be performed for those resources.
 
 This document specifies the web interfaces that a Resource Directory supports for web servers to discover the RD and to register, maintain, lookup
-and remove resource descriptions. Furthermore, new link attributes useful in
+and remove information on resources. Furthermore, new link attributes useful in
 conjunction with a Resource Directory are defined. Although the examples in
 this document show the use of these interfaces with CoAP {{RFC7252}}, they
 can be applied in an equivalent manner to HTTP {{RFC7230}}.
@@ -231,47 +230,44 @@ The Resource Directory is primarily a tool to make discovery operations more
 efficient than querying /.well-known/core on all connected devices, or across
 boundaries that would be limiting those operations.
 
-It provides a cache (in the high-level sense, not as defined in
-{{RFC7252}}/{{?RFC2616}}) of data that could otherwise only be obtained by
-directly querying the /.well-known/core resource on the target device, or by
-accessing those resources with a multicast request.
+It provides information about resources hosted by other devices that could otherwise only be obtained by
+directly querying the /.well-known/core resource on these other devicess, either by a unicast request or a multicast request.
 
 Only information SHOULD be stored in the resource
-directory that is discoverable from querying the described device's
+directory that is obtained by querying the described device's
 /.well-known/core resource directly.
 
 Data in the resource directory can only be provided by the
 device which hosts those data or a dedicated Commissioning Tool (CT).
 These CTs are thought to act on behalf of endpoints too constrained, or generally
 unable, to present that information themselves. No other client can modify data
-in the resource directory. Changes in the Resource Directory do not propagate automatically back to the web server from where the links originated.
+in the resource directory. Changes to the information in the Resource Directory do not propagate automatically back to the web servers from where the information originated.
 
 ## Architecture
 
 The resource directory architecture is illustrated in {{fig-arch}}. A
-Resource Directory (RD) is used as a repository for Web Links {{RFC8288}}
+Resource Directory (RD) is used as a repository of registrations
 describing resources hosted on other web servers, also called endpoints
 (EP).
 An endpoint is a web server associated with a scheme, IP address and port. A physical node may host one or more endpoints. The
 RD implements a set of REST interfaces for endpoints to register and maintain
-sets of Web Links (called resource directory registration entries), and for endpoints to
+resource directory registrations, and for endpoints to
 lookup resources from the RD. An RD can be logically segmented by the use of Sectors.
 This information hierarchy is shown in {{fig-hierarchy}}.
 
 A mechanism to discover an RD using CoRE Link Format {{RFC6690}} is defined.
 
-Registration entries
+Registrations
 in the RD are soft state and need to be periodically refreshed.
 
-An endpoint uses specific interfaces to register, update and remove a resource
-directory registration entry. It is also possible for an RD to fetch Web Links
-from endpoints and add them as resource directory registration entries.
+An endpoint uses specific interfaces to register, update and remove a registration. It is also possible for an RD to fetch Web Links
+from endpoints and add their contents to resource directory registrations.
 
-At the first registration of a set of entries, a "registration resource" is created,
+At the first registration of an endpoint, a "registration resource" is created,
 the location of which is returned to the registering endpoint. The registering
-endpoint uses this registration resource to manage the contents of registration entries.
+endpoint uses this registration resource to manage the contents of registrations.
 
-A lookup interface for discovering any of the Web Links held in the RD is
+A lookup interface for discovering any of the Web Links stored in the RD is
 provided using the CoRE Link Format.
 
 ~~~~
@@ -428,7 +424,7 @@ o  base o-------|  registration |
 
 The model shown in {{fig-ER-RD}} models the contents of the resource directory which contains in addition to /.well-known/core:
 
-* 0 to n Registration (entries) of endpoints,
+* 0 to n Registrations of endpoints,
 
 A registration is associated with one endpoint. A registration defines a set of links as defined for /.well-known/core. A Registration has six types of attributes:
 
@@ -2446,7 +2442,7 @@ Payload:
 
 ## Registration Removal {#removal}
 
-Although RD entries have soft state and will eventually timeout after their
+Although RD registrations have soft state and will eventually timeout after their
 lifetime, the registering endpoint SHOULD explicitly remove an entry from the RD if it
 knows it will no longer be available (for example on shut-down). This is
 accomplished using a removal interface on the RD by performing a DELETE on
