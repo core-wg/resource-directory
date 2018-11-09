@@ -659,8 +659,10 @@ application/link-format content format (ct=40).
 Resource Directories implementing this specification MAY support additional content formats.
 
 Any additional content format supported by a Resource Directory implementing this
-specification MUST have an equivalent serialization in the application/link-format
-content format.
+specification SHOULD be able to express all the information expressible in link-format.
+It MAY be able to express information that is inexpressible in link-format,
+but those expressions SHOULD be avoided where possible.
+
 
 ## URI Discovery {#discovery}
 
