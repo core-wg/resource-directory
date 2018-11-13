@@ -1181,9 +1181,9 @@ can be looked up using the endpoint lookup interface.
 To discover the resources registered with the RD,
 a lookup interface must be provided. This lookup interface
 is defined as a default, and it is assumed that RDs may also support lookups
-to return resource descriptions in alternative formats (e.g. Atom or HTML
-Link) or using more advanced interfaces (e.g. supporting context or semantic
-based lookup).
+to return resource descriptions in alternative formats (e.g. JSON or CBOR link format {{I-D.ietf-core-links-json}})
+or using more advanced interfaces (e.g. supporting context or semantic
+based lookup) on different resources that are discovered indepenently.
 
 RD Lookup allows lookups for endpoints and resources
 using attributes defined in this document and for use with the CoRE
