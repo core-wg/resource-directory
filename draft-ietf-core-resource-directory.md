@@ -234,7 +234,7 @@ It provides information about resources hosted by other devices that could other
 directly querying the /.well-known/core resource on these other devicess, either by a unicast request or a multicast request.
 
 Only information SHOULD be stored in the resource
-directory that is obtained by querying the described device's
+directory that can be obtained by querying the described device's
 /.well-known/core resource directly.
 
 Data in the resource directory can only be provided by the
