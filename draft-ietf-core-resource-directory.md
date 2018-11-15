@@ -1287,19 +1287,6 @@ Payload:
     if="sensor"; anchor="coaps://new.example.com:5684",
 ~~~~
 
-The following example shows a client performing and enpoint lookup for all groups.
-
-~~~~
-Req: GET /rd-lookup/ep?et=core.rd-group
-
-Res: 2.01 Content
-Payload:
-</rd/501>;ep="GRP_R2-4-015";et="core.rd-group";
-                                   base="coap://[ff05::1]",
-</rd/12>;ep=lights&et=core.rd-group;
-                         base="coap://[ff35:30:2001:db8::1]"
-~~~~
-
 ### Registration Removal {#removal}
 
 Although RD registrations have soft state and will eventually timeout after their
@@ -2512,6 +2499,19 @@ The resources of a group can be looked up like any other resource,
 and the group registrations (along with any additional registration parameters)
 can be looked up using the endpoint lookup interface.
 
+
+The following example shows a client performing and enpoint lookup for all groups.
+
+~~~~
+Req: GET /rd-lookup/ep?et=core.rd-group
+
+Res: 2.01 Content
+Payload:
+</rd/501>;ep="GRP_R2-4-015";et="core.rd-group";
+                                   base="coap://[ff05::1]",
+</rd/12>;ep=lights&et=core.rd-group;
+                         base="coap://[ff35:30:2001:db8::1]"
+~~~~
 
 # Web links and the Resource Directory {#weblink}
 
