@@ -1129,50 +1129,6 @@ that purpose scheme, IP address and port of the URI of the registered device is
 
 It should be noted that the value of the "base" parameter applies to all the links of the registration and has consequences for the anchor value of the individual links as exemplified in {{weblink}}. An eventual (currently non-existing) "base" attribute of the link is not affected by the value of "base" parameter in the registration.
 
-### RD-Groups {#groups}
-
-The RD-Groups usage pattern allows announcing application groups inside a Resource Directory.
-
-Groups are represented by endpoint registrations.
-Their base address is a multicast address,
-and they SHOULD be entered with the endpoint type `core.rd-group`.
-The endpoint name can also be referred to as a group name in this context.
-
-The registration is inserted into the RD by a Commissioning Tool,
-which might also be known as a group manager here.
-It performs third party registration and registration updates.
-
-The links it registers SHOULD be available on all members that join the group.
-Depending on the application, members that lack some resource
-MAY be permissible if requests to them fail gracefully.
-
-
-The following example shows a CT registering a group with the name “lights” which provides two resources.
-The directory resource path /rd
-is an example RD location discovered in a request similar to {{example-discovery}}.
-
-~~~~
-Req: POST coap://rd.example.com/rd?ep=lights&et=core.rd-group
-                                  &base=coap://[ff35:30:2001:db8::1]
-Content-Format: 40
-Payload:
-</light>;rt="light";if="core.a",
-</color-temperature>;if="core.p";u="K"
-
-Res: 2.01 Created
-Location-Path: /rd/12
-~~~~
-
-In this example, the group manager can easily permit devices that have no
-writable color-temperature to join, as they would still respond to brightness
-changing commands. Had the group instead contained a single resource that sets
-brightness and color temperature atomically, endpoints would need to support
-both properties.
-
-The resources of a group can be looked up like any other resource,
-and the group registrations (along with any additional registration parameters)
-can be looked up using the endpoint lookup interface.
-
 
 # RD Lookup {#lookup}
 
@@ -2562,6 +2518,50 @@ et="oic.d.sensor";ct="40",
 et="oic.d.sensor";ct="40";d="floor-3"
 ~~~~
 
+
+# RD-Groups {#groups}
+
+The RD-Groups usage pattern allows announcing application groups inside a Resource Directory.
+
+Groups are represented by endpoint registrations.
+Their base address is a multicast address,
+and they SHOULD be entered with the endpoint type `core.rd-group`.
+The endpoint name can also be referred to as a group name in this context.
+
+The registration is inserted into the RD by a Commissioning Tool,
+which might also be known as a group manager here.
+It performs third party registration and registration updates.
+
+The links it registers SHOULD be available on all members that join the group.
+Depending on the application, members that lack some resource
+MAY be permissible if requests to them fail gracefully.
+
+
+The following example shows a CT registering a group with the name “lights” which provides two resources.
+The directory resource path /rd
+is an example RD location discovered in a request similar to {{example-discovery}}.
+
+~~~~
+Req: POST coap://rd.example.com/rd?ep=lights&et=core.rd-group
+                                  &base=coap://[ff35:30:2001:db8::1]
+Content-Format: 40
+Payload:
+</light>;rt="light";if="core.a",
+</color-temperature>;if="core.p";u="K"
+
+Res: 2.01 Created
+Location-Path: /rd/12
+~~~~
+
+In this example, the group manager can easily permit devices that have no
+writable color-temperature to join, as they would still respond to brightness
+changing commands. Had the group instead contained a single resource that sets
+brightness and color temperature atomically, endpoints would need to support
+both properties.
+
+The resources of a group can be looked up like any other resource,
+and the group registrations (along with any additional registration parameters)
+can be looked up using the endpoint lookup interface.
 
 
 # Web links and the Resource Directory {#weblink}
