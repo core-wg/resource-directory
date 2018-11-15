@@ -1135,7 +1135,7 @@ This section describes how the registering endpoint can maintain the registratio
 
 After the initial registration, the registering endpoint retains the returned location of the Registration Resource for further operations, including refreshing the registration in order to extend the lifetime and "keep-alive" the registration. When the lifetime of the registration has expired, the RD SHOULD NOT respond to discovery queries concerning this endpoint. The RD SHOULD continue to provide access to the Registration Resource after a registration time-out occurs in order to enable the registering endpoint to eventually refresh the registration. The RD MAY eventually remove the registration resource for the purpose of garbage collection. If the Registration Resource is removed, the corresponding endpoint will need to be re-registered.
 
-The Registration Resource may also be used to inspect the registration resource using GET, update the registration, or cancel the registration using DELETE.
+The Registration Resource may also be used cancel the registration using DELETE, and to perform further operations beyond the scope of this specification.
 
 These operations are described below.
 
@@ -1350,65 +1350,12 @@ Res: 2.02 Deleted
 ~~~~
 
 
-### Read Endpoint Links {#read}
+### Further operations {#link-up}
 
-Some registering endpoints may wish to manage their links as a collection, and may need to read the current set of links stored in the registration resource, in order to determine link maintenance operations.
+Additional operations on the registration can be specified in future documents, for example:
 
-One or more links MAY be selected by using query filtering as specified in {{RFC6690}} Section 4.1
-
-If no links are selected, the Resource Directory SHOULD return an empty payload.
-
-The read request interface is specified as follows:
-
-Interaction:
-: EP -> RD
-
-Method:
-: GET
-
-URI Template:
-: {+location}{?href,rel,rt,if,ct}
-
-URI Template Variables:
-: location :=
-  : This is the Location returned by the RD as a result of a successful
-    earlier registration.
-
-: href,rel,rt,if,ct := link relations and attributes specified in the query in order to select particular links based on their relations and attributes. "href" denotes the URI target of the link. See {{RFC6690}} Sec. 4.1
-
-The following response codes are defined for this interface:
-
-Success:
-: 2.05 "Content" or 200 "OK" upon success with an `application/link-format` or other web link payload.
-
-Failure:
-: 4.00 "Bad Request" or 400 "Bad Request". Malformed request.
-
-Failure:
-: 4.04 "Not Found" or 404 "Not Found". Registration does not exist (e.g. may have expired).
-
-Failure:
-: 5.03 "Service Unavailable" or 503 "Service Unavailable". Service could not perform the operation.
-
-HTTP support: YES
-
-The following examples show successful read of the endpoint links from the RD, with example location value /rd/4521 and example registration payload of {{example-payload}}.
-
-
-~~~~
-Req: GET /rd/4521
-
-Res: 2.01 Content
-Payload:
-</sensors/temp>;ct=41;rt="temperature-c";if="sensor";
-anchor="coap://spurious.example.com:5683",
-</sensors/light>;ct=41;rt="light-lux";if="sensor"
-~~~~
-
-
-### Update Endpoint Links {#link-up}
-
-An iPATCH (or PATCH) update ({{RFC8132}}) can add, remove or change the links of a registration.
+* Send iPATCH (or PATCH) updates ({{RFC8132}}) to add, remove or change the links of a registration.
+* Use GET to read the currently stored set of links in a registration resource.
 
 Those operations are out of scope of this document, and will require media types suitable for modifying sets of links.
 
