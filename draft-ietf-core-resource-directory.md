@@ -2763,64 +2763,6 @@ model of typed links, there are some differences between {{RFC6690}} and
   Parsers and producers of link-format and header data need to be aware of this
   difference.
 
-  <!-- The title conversion follows the rule of the text RFC6690 section 2; I
-  doubt that's the intention, though, as it spills at semicolons/commas and
-  does not match the ext-value ABNF. -->
-
-# Syntax examples for Protocol Negotiation
-
-\[ This appendix should not show up in a published version of this document. \]
-
-The protocol negotiation that is being worked on in {{I-D.silverajan-core-coap-protocol-negotiation}}
-makes use of the Resource Directory.
-
-Until that document is update to use the latest resource-directory
-specification, here are some examples of protocol negotiation with the current
-Resource Directory:
-
-An endpoint could register as follows from its address [2001:db8:f1::2]:5683:
-
-~~~~
-Req: POST coap://rd.example.com/rd?ep=node1
-    &at=coap+tcp://[2001:db8:f1::2]
-Content-Format: 40
-Payload:
-</temperature>;ct=0;rt="temperature";if="core.s"
-
-Res: 2.01 Created
-Location-Path: /rd/1234
-~~~~
-
-An endpoint lookup would just reflect the registered attributes:
-
-~~~
-Req: GET /rd-lookup/ep
-
-Res: 2.05 Content
-</rd/1234>;ep="node1";base="coap://[2001:db8:f1::2]:5683";
-    at="coap+tcp://[2001:db8:f1::2]"
-~~~
-
-A UDP client would then see the following in a resource lookup:
-
-~~~~
-Req: GET /rd-lookup/res?rt=temperature
-
-Res: 2.05 Content
-<coap://[2001:db8:f1::2]/temperature>;ct=0;rt="temperature";
-    if="core.s"; anchor="coap://[2001:db8:f1::2]"
-~~~~
-
-while a TCP capable client could say:
-
-~~~~
-Req: GET /rd-lookup/res?rt=temperature&tt=tcp
-
-Res: 2.05 Content
-<coap+tcp://[2001:db8:f1::2]/temperature>;ct=0;rt="temperature";
-    if="core.s";anchor="coap+tcp://[2001:db8:f1::2]"
-~~~~
-
 # Limited Link Format {#limitedlinkformat}
 
 The CoRE Link Format as described in {{RFC6690}}
