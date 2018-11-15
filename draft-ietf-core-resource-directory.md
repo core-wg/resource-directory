@@ -2436,7 +2436,7 @@ Changes from -01 to -02:
 --- back
 
 
-# RD-Groups {#groups}
+# Groups Registration and Lookup {#groups}
 
 The RD-Groups usage pattern allows announcing application groups inside a Resource Directory.
 
