@@ -98,7 +98,7 @@ is inefficient. These problems can be solved by employing an entity called
 a Resource Directory (RD), which contains information about resources held on
 other servers, allowing lookups to be performed for those resources. The input to an RD is composed of links and the output is composed of links constructed from the information stored in the RD. This
 document specifies the web interfaces that a Resource Directory supports for web servers to discover the RD and to register, maintain, lookup
-and remove information on resources. Furthermore, new link attributes useful
+and remove information on resources. Furthermore, new target attributes useful
 in conjunction with an RD are defined.
 
 --- middle
@@ -126,7 +126,7 @@ an entity called a Resource Directory (RD), which contains information about res
 other servers, allowing lookups to be performed for those resources.
 
 This document specifies the web interfaces that a Resource Directory supports for web servers to discover the RD and to register, maintain, lookup
-and remove information on resources. Furthermore, new link attributes useful in
+and remove information on resources. Furthermore, new target attributes useful in
 conjunction with a Resource Directory are defined. Although the examples in
 this document show the use of these interfaces with CoAP {{RFC7252}}, they
 can be applied in an equivalent manner to HTTP {{RFC7230}}.
@@ -680,7 +680,7 @@ of the RD function returned and the corresponding Resource Type. When performing
 multicast discovery, the multicast IP address used will depend on the scope required
 and the multicast capabilities of the network (see {{mc-registration}}.
 
-A Resource Directory MAY provide hints about the content-formats it supports in the links it exposes or registers, using the "ct" link attribute, as shown in the example below. Clients MAY use these hints to select alternate content-formats for interaction with the Resource Directory.
+A Resource Directory MAY provide hints about the content-formats it supports in the links it exposes or registers, using the "ct" target attribute, as shown in the example below. Clients MAY use these hints to select alternate content-formats for interaction with the Resource Directory.
 
 HTTP does not support multicast and consequently only unicast discovery can be supported
 using HTTP.
@@ -1559,8 +1559,8 @@ standards that make use of this interface will define new ones.
 Each entry in the registry must include
 
 * the human readable name of the parameter,
-* the short name as used in query parameters or link attributes,
-* indication of whether it can be passed as a query parameter at registration of endpoints, as a query parameter in lookups, or be expressed as a link attribute,
+* the short name as used in query parameters or target attributes,
+* indication of whether it can be passed as a query parameter at registration of endpoints, as a query parameter in lookups, or be expressed as a target attribute,
 * validity requirements if any, and
 * a description.
 
@@ -1582,7 +1582,7 @@ Initial entries in this sub-registry are as follows:
 | Endpoint Type         | et    |               | RLA | Semantic name of the endpoint (see {{et-registry}})                     |
 {: #tab-registry title='RD Parameters' }
 
-(Short: Short name used in query parameters or link attributes. Use: R = used at registration, L = used at lookup, A = expressed in link attribute
+(Short: Short name used in query parameters or target attributes. Use: R = used at registration, L = used at lookup, A = expressed in target attribute
 
 The descriptions for the options defined in this document are only summarized here.
 To which registrations they apply and when they are to be shown is described in the respective sections of this document.
@@ -1592,7 +1592,7 @@ as described in {{RFC8126}}. The evaluation should consider
 formal criteria,
 duplication of functionality (Is the new entry redundant with an existing one?),
 topical suitability (E.g. is the described property actually a property of the endpoint and not a property of a particular resource, in which case it should go into the payload of the registration and need not be registered?),
-and the potential for conflict with commonly used link attributes (For example, `if` could be used as a parameter for conditional registration if it were not to be used in lookup or attributes, but would make a bad parameter for lookup, because a resource lookup with an `if` query parameter could ambiguously filter by the registered endpoint property or the {{RFC6690}} link attribute).
+and the potential for conflict with commonly used target attributes (For example, `if` could be used as a parameter for conditional registration if it were not to be used in lookup or attributes, but would make a bad parameter for lookup, because a resource lookup with an `if` query parameter could ambiguously filter by the registered endpoint property or the {{RFC6690}} target attribute).
 It is expected that the registry will receive between 5 and 50 registrations in total over the next years.
 
 ### Full description of the "Endpoint Type" Registration Parameter {#et-description}
@@ -2537,7 +2537,7 @@ Those operations are out of scope of this document, and will require media types
 
 Endpoint lookups result in links to registration resources.
 Endpoint registration resources are annotated with their endpoint names (ep), sectors (d, if present) and registration base URI (base; reports the registrant-ep's address if no explicit base was given) as well as a constant resource type (rt="core.rd-ep"); the lifetime (lt) is not reported.
-Additional endpoint attributes are added as link attributes to their endpoint link unless their specification says otherwise.
+Additional endpoint attributes are added as target attributes to their endpoint link unless their specification says otherwise.
 
 Serializations derived from Link Format, SHOULD present links to endpoints in path-absolute form or, if required, as absolute references. (This approach avoids the RFC6690 ambiguities.)
 
