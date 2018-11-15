@@ -2416,8 +2416,8 @@ Req: GET /rd-lookup/ep?et=core.rd-group
 Res: 2.01 Content
 Payload:
 </rd/501>;ep="GRP_R2-4-015";et="core.rd-group";
-                                   base="coap://[ff05:;1]",
-<rd/12>;ep=lights&et=core.rd-group;
+                                   base="coap://[ff05::1]",
+</rd/12>;ep=lights&et=core.rd-group;
                          base="coap://[ff35:30:2001:db8::1]"
 ~~~~
 
