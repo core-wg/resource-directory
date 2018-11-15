@@ -253,7 +253,6 @@ An endpoint is a web server associated with a scheme, IP address and port. A phy
 RD implements a set of REST interfaces for endpoints to register and maintain
 resource directory registrations, and for endpoints to
 lookup resources from the RD. An RD can be logically segmented by the use of Sectors.
-This information hierarchy is shown in {{fig-hierarchy}}.
 
 A mechanism to discover an RD using CoRE Link Format {{RFC6690}} is defined.
 
@@ -287,19 +286,6 @@ provided using the CoRE Link Format.
 
 ~~~~
 {: #fig-arch title='The resource directory architecture.' align="left"}
-
-~~~~
-               +------------+
-               |  Endpoint  |  <-- Name, Scheme, IP, Port
-               +------------+
-                     |
-                     |
-               +------------+
-               |  Resource  |  <-- Target, Parameters
-               +------------+
-
-~~~~
-{: #fig-hierarchy title='The resource directory information hierarchy.' align="left"}
 
 
 A Registrant-EP MAY keep concurrent registrations to more than one RD at the same time
