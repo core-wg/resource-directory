@@ -1380,7 +1380,6 @@ Above rules allow the client to interpret the response as links without any furt
 The Resource Directory MAY replace the registration base URIs with a configured intermediate proxy, e.g. in the case of an HTTP lookup interface for CoAP endpoints.
 
 
-
 ## Lookup filtering
 
 Using the Accept Option, the requester can control whether the returned list is returned in CoRE Link Format (`application/link-format`, default) or in alternate content-formats (eg. from {{I-D.ietf-core-links-json}}).
@@ -1464,8 +1463,6 @@ Failure:
 
 HTTP support:
 : YES
-
-The endpoint lookup returns registration resources which can only be manipulated by the registering endpoint. Examples of endpoint lookup belong to the management aspects of the RD and are shown in {{ep-lookup}}. The resource lookup examples are shown in this section.
 
 
 ##  Resource lookup examples
@@ -1600,6 +1597,37 @@ Req: GET /rd-lookup/res?et=core.rd-group
      et="core.rd-group";
      anchor="coap://[ff35:30:2001:db8::1]"
 ~~~~
+
+## Endpoint lookup {#ep-lookup}
+
+The endpoint lookup returns registration resources which can only be manipulated by the registering endpoint.
+
+Endpoint registration resources are annotated with their endpoint names (ep), sectors (d, if present) and registration base URI (base; reports the registrant-ep's address if no explicit base was given) as well as a constant resource type (rt="core.rd-ep"); the lifetime (lt) is not reported.
+Additional endpoint attributes are added as link attributes to their endpoint link unless their specification says otherwise.
+
+Serializations derived from Link Format, SHOULD present links to endpoints in path-absolute form or, if required, as absolute references. (This approach avoids the RFC6690 ambiguities.)
+
+While Endpoint Lookup does expose the registration resources,
+the RD does not need to make them accessible to clients.
+Clients SHOULD NOT attempt to dereference or manipulate them.
+
+A Resource Directory can report endpoints in lookup that are not hosted at the same address.
+Lookup clients MUST be prepared to see arbitrary URIs as registration resources in the results
+and treat them as opaque identifiers;
+the precise semantics of such links are left to future specifications.
+
+The following example shows a client performing an endpoint type (et) lookup with  the value oic.d.sensor (which is currently a registered rt value):
+
+~~~~
+Req: GET /rd-lookup/ep?et=oic.d.sensor
+
+Res: 2.05 Content
+</rd/1234>;base="coap://[2001:db8:3::127]:61616";ep="node5";
+et="oic.d.sensor";ct="40",
+</rd/4521>;base="coap://[2001:db8:3::129]:61616";ep="node7";
+et="oic.d.sensor";ct="40";d="floor-3"
+~~~~
+
 
 # Security policies {#policies}
 
@@ -2420,39 +2448,6 @@ Changes from -01 to -02:
 *  Changed the lookup interface to accept endpoint and Domain as query string parameters to control the scope of a lookup.
 
 --- back
-
-# Registration Management {#registration-mgmt}
-
-
-
-## Endpoint lookup {#ep-lookup}
-
-Endpoint lookups result in links to registration resources.
-Endpoint registration resources are annotated with their endpoint names (ep), sectors (d, if present) and registration base URI (base; reports the registrant-ep's address if no explicit base was given) as well as a constant resource type (rt="core.rd-ep"); the lifetime (lt) is not reported.
-Additional endpoint attributes are added as link attributes to their endpoint link unless their specification says otherwise.
-
-Serializations derived from Link Format, SHOULD present links to endpoints in path-absolute form or, if required, as absolute references. (This approach avoids the RFC6690 ambiguities.)
-
-While Endpoint Lookup does expose the registration resources,
-the RD does not need to make them accessible to clients.
-Clients SHOULD NOT attempt to dereference or manipulate them.
-
-A Resource Directory can report endpoints in lookup that are not hosted at the same address.
-Lookup clients MUST be prepared to see arbitrary URIs as registration resources in the results
-and treat them as opaque identifiers;
-the precise semantics of such links are left to future specifications.
-
-The following example shows a client performing an endpoint type (et) lookup with  the value oic.d.sensor (which is currently a registered rt value):
-
-~~~~
-Req: GET /rd-lookup/ep?et=oic.d.sensor
-
-Res: 2.05 Content
-</rd/1234>;base="coap://[2001:db8:3::127]:61616";ep="node5";
-et="oic.d.sensor";ct="40",
-</rd/4521>;base="coap://[2001:db8:3::129]:61616";ep="node7";
-et="oic.d.sensor";ct="40";d="floor-3"
-~~~~
 
 
 # RD-Groups {#groups}
