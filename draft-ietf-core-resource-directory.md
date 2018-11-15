@@ -1135,10 +1135,9 @@ This section describes how the registering endpoint can maintain the registratio
 
 After the initial registration, the registering endpoint retains the returned location of the Registration Resource for further operations, including refreshing the registration in order to extend the lifetime and "keep-alive" the registration. When the lifetime of the registration has expired, the RD SHOULD NOT respond to discovery queries concerning this endpoint. The RD SHOULD continue to provide access to the Registration Resource after a registration time-out occurs in order to enable the registering endpoint to eventually refresh the registration. The RD MAY eventually remove the registration resource for the purpose of garbage collection. If the Registration Resource is removed, the corresponding endpoint will need to be re-registered.
 
-The Registration Resource may also be used to inspect the registration resource using GET, update the registration, cancel the registration using DELETE, or do an endpoint lookup.
+The Registration Resource may also be used to inspect the registration resource using GET, update the registration, or cancel the registration using DELETE.
 
 These operations are described below.
-
 
 ### Registration Update {#update}
 
