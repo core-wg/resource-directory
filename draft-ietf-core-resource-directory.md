@@ -1593,7 +1593,7 @@ The endpoint lookup returns registration resources which can only be manipulated
 Endpoint registration resources are annotated with their endpoint names (ep), sectors (d, if present) and registration base URI (base; reports the registrant-ep's address if no explicit base was given) as well as a constant resource type (rt="core.rd-ep"); the lifetime (lt) is not reported.
 Additional endpoint attributes are added as target attributes to their endpoint link unless their specification says otherwise.
 
-Serializations derived from Link Format, SHOULD present links to endpoints in path-absolute form or, if required, as absolute references. (This approach avoids the RFC6690 ambiguities.)
+Links to endpoints SHOULD be presented in path-absolute form or, if required, as absolute references. (This avoids the RFC6690 ambiguities.)
 
 While Endpoint Lookup does expose the registration resources,
 the RD does not need to make them accessible to clients.
