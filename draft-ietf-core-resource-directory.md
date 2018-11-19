@@ -253,7 +253,6 @@ An endpoint is a web server associated with a scheme, IP address and port. A phy
 RD implements a set of REST interfaces for endpoints to register and maintain
 resource directory registrations, and for endpoints to
 lookup resources from the RD. An RD can be logically segmented by the use of Sectors.
-This information hierarchy is shown in {{fig-hierarchy}}.
 
 A mechanism to discover an RD using CoRE Link Format {{RFC6690}} is defined.
 
@@ -287,19 +286,6 @@ provided using the CoRE Link Format.
 
 ~~~~
 {: #fig-arch title='The resource directory architecture.' align="left"}
-
-~~~~
-               +------------+
-               |  Endpoint  |  <-- Name, Scheme, IP, Port
-               +------------+
-                     |
-                     |
-               +------------+
-               |  Resource  |  <-- Target, Parameters
-               +------------+
-
-~~~~
-{: #fig-hierarchy title='The resource directory information hierarchy.' align="left"}
 
 
 A Registrant-EP MAY keep concurrent registrations to more than one RD at the same time
@@ -1129,50 +1115,222 @@ that purpose scheme, IP address and port of the URI of the registered device is
 
 It should be noted that the value of the "base" parameter applies to all the links of the registration and has consequences for the anchor value of the individual links as exemplified in {{weblink}}. An eventual (currently non-existing) "base" attribute of the link is not affected by the value of "base" parameter in the registration.
 
-### RD-Groups {#groups}
+## Operations on the Registration Resource
 
-The RD-Groups usage pattern allows announcing application groups inside a Resource Directory.
+This section describes how the registering endpoint can maintain the registrations that it created. The registering endpoint can be the registrant-ep or the CT. An endpoint SHOULD NOT use this interface for registrations that it did not create. The registrations are resources of the RD.
 
-Groups are represented by endpoint registrations.
-Their base address is a multicast address,
-and they SHOULD be entered with the endpoint type `core.rd-group`.
-The endpoint name can also be referred to as a group name in this context.
+After the initial registration, the registering endpoint retains the returned location of the Registration Resource for further operations, including refreshing the registration in order to extend the lifetime and "keep-alive" the registration. When the lifetime of the registration has expired, the RD SHOULD NOT respond to discovery queries concerning this endpoint. The RD SHOULD continue to provide access to the Registration Resource after a registration time-out occurs in order to enable the registering endpoint to eventually refresh the registration. The RD MAY eventually remove the registration resource for the purpose of garbage collection. If the Registration Resource is removed, the corresponding endpoint will need to be re-registered.
 
-The registration is inserted into the RD by a Commissioning Tool,
-which might also be known as a group manager here.
-It performs third party registration and registration updates.
+The Registration Resource may also be used cancel the registration using DELETE, and to perform further operations beyond the scope of this specification.
 
-The links it registers SHOULD be available on all members that join the group.
-Depending on the application, members that lack some resource
-MAY be permissible if requests to them fail gracefully.
+These operations are described below.
+
+### Registration Update {#update}
+
+The update interface is used by the registering endpoint to refresh or update its
+registration with an RD. To use the interface, the registering endpoint sends a POST request to the registration resource returned by the initial registration operation.
+
+An update MAY update the lifetime- or the context- registration parameters
+"lt", "base" as in {{registration}}. Parameters that are not being changed SHOULD NOT
+be included in an update. Adding parameters that have not changed increases
+the size of the message but does not have any other implications.
+Parameters MUST be included as query parameters in an update operation as
+in {{registration}}.
+
+A registration update resets the timeout of the registration to the (possibly
+updated) lifetime of the registration, independent of whether a `lt` parameter
+was given.
+
+If the context of the registration is changed in an update,
+relative references submitted in the original registration or later updates are resolved anew against the new context.
+
+The registration update operation only describes the use of POST with an empty payload.
+Future standards might describe the semantics of using content formats and payloads
+with the POST method to update the links of a registration (see {{link-up}}).
+
+The update registration request interface is specified as follows:
+
+Interaction:
+: EP -> RD
+
+Method:
+: POST
+
+URI Template:
+: {+location}{?lt,con,extra-attrs\*}
 
 
-The following example shows a CT registering a group with the name “lights” which provides two resources.
-The directory resource path /rd
-is an example RD location discovered in a request similar to {{example-discovery}}.
+URI Template Variables:
+: location :=
+  : This is the Location returned by the RD as a result of a successful
+    earlier registration.
+
+  lt :=
+  : Lifetime (optional). Lifetime of the registration in seconds. Range of 60-4294967295.
+    If no lifetime is included, the previous last
+  lifetime set on a previous update or the original registration
+  (falling back to 90000) SHOULD be used.
+
+
+  base :=
+  : Base URI (optional). This parameter updates the Base URI established in the
+    original registration to a new value.
+
+    If the parameter is set in an update, it is stored by the RD as the new
+    Base URI under which to interpret the relative links present in the payload of the original registration, following
+    the same restrictions as in the registration.
+
+    If the parameter is not set in the request but was set before, the previous
+    Base URI value is kept unmodified.
+
+    If the parameter is not set in the request and was not set before either, the
+    source address and source port of the update request are stored as the
+    Base URI.
+
+  extra-attrs :=
+  : Additional registration attributes (optional). As with the registration,
+    the RD processes them if it knows their semantics. Otherwise, unknown
+    attributes are stored as endpoint attributes, overriding any previously
+    stored endpoint attributes of the same key.
+
+Content-Format:
+: none (no payload)
+
+The following response codes are defined for this interface:
+
+Success:
+: 2.04 "Changed" or 204 "No Content" if the update was successfully processed.
+
+Failure:
+: 4.00 "Bad Request" or 400 "Bad Request". Malformed request.
+
+Failure:
+: 4.04 "Not Found" or 404 "Not Found". Registration does not exist (e.g. may have expired).
+
+Failure:
+: 5.03 "Service Unavailable" or 503 "Service Unavailable". Service could not perform the operation.
+
+HTTP support:
+: YES
+
+If the registration update fails with a "Service Unavailable" response
+and a Max-Age option or Retry-After header,
+the registering endpoint SHOULD retry the operation after the time indicated.
+If the registration fails in another way, including request timeouts,
+or if the time indicated exceeds the remaining lifetime,
+the registering endpoint SHOULD attempt registration again.
+
+
+The following example shows how the registering endpoint updates its registration resource at
+an RD using this interface with the example location value: /rd/4521.
 
 ~~~~
-Req: POST coap://rd.example.com/rd?ep=lights&et=core.rd-group
-                                  &base=coap://[ff35:30:2001:db8::1]
-Content-Format: 40
+Req: POST /rd/4521
+
+Res: 2.04 Changed
+~~~~
+
+The following example shows the registering endpoint updating its registration resource at
+an RD using this interface with the example location value: /rd/4521. The initial registration by the registering endpoint set the following values:
+
+* endpoint name (ep)=endpoint1
+* lifetime (lt)=500
+* Base URI (base)=coap://local-proxy-old.example.com:5683
+* payload of {{example-payload}}
+
+The initial state of the Resource Directory is reflected in the following request:
+
+~~~~
+Req: GET /rd-lookup/res?ep=endpoint1
+
+Res: 2.01 Content
 Payload:
-</light>;rt="light";if="core.a",
-</color-temperature>;if="core.p";u="K"
-
-Res: 2.01 Created
-Location-Path: /rd/12
+<coap://local-proxy-old.example.com:5683/sensors/temp>;ct=41;
+ rt="temperature"; anchor="coap://spurious.example.com:5683",
+<coap://local-proxy-old.example.com:5683/sensors/light>;ct=41;
+  rt="light-lux"; if="sensor";
+  anchor="coap://local-proxy-old.example.com:5683"
 ~~~~
 
-In this example, the group manager can easily permit devices that have no
-writable color-temperature to join, as they would still respond to brightness
-changing commands. Had the group instead contained a single resource that sets
-brightness and color temperature atomically, endpoints would need to support
-both properties.
+The following example shows the registering endpoint changing the Base URI to `coaps://new.example.com:5684`:
 
-The resources of a group can be looked up like any other resource,
-and the group registrations (along with any additional registration parameters)
-can be looked up using the endpoint lookup interface.
+~~~~
+Req: POST /rd/4521?base=coaps://new.example.com:5684
 
+Res: 2.04 Changed
+~~~~
+
+The consecutive query returns:
+
+~~~~
+Req: GET /rd-lookup/res?ep=endpoint1
+
+Res: 2.01 Content
+Payload:
+<coaps://new.example.com:5684/sensors/temp>;ct=41;rt="temperature";
+    anchor="coap://spurious.example.com:5683",
+<coaps://new.example.com:5684/sensors/light>;ct=41;rt="light-lux";
+    if="sensor"; anchor="coaps://new.example.com:5684",
+~~~~
+
+### Registration Removal {#removal}
+
+Although RD registrations have soft state and will eventually timeout after their
+lifetime, the registering endpoint SHOULD explicitly remove an entry from the RD if it
+knows it will no longer be available (for example on shut-down). This is
+accomplished using a removal interface on the RD by performing a DELETE on
+the endpoint resource.
+
+The removal request interface is specified as follows:
+
+Interaction:
+: EP -> RD
+
+Method:
+: DELETE
+
+URI Template:
+: {+location}
+
+URI Template Variables:
+: location :=
+  : This is the Location returned by the RD as a result of a successful
+    earlier registration.
+
+The following response codes are defined for this interface:
+
+Success:
+: 2.02 "Deleted" or 204 "No Content" upon successful deletion
+
+Failure:
+: 4.00 "Bad Request" or 400 "Bad Request". Malformed request.
+
+Failure:
+: 4.04 "Not Found" or 404 "Not Found". Registration does not exist (e.g. may have expired).
+
+Failure:
+: 5.03 "Service Unavailable" or 503 "Service Unavailable". Service could not perform the operation.
+
+HTTP support: YES
+
+The following examples shows successful removal of the endpoint from the RD with example location value /rd/4521.
+
+
+~~~~
+Req: DELETE /rd/4521
+
+Res: 2.02 Deleted
+~~~~
+
+
+### Further operations {#link-up}
+
+Additional operations on the registration can be specified in future documents, for example:
+
+* Send iPATCH (or PATCH) updates ({{RFC8132}}) to add, remove or change the links of a registration.
+* Use GET to read the currently stored set of links in a registration resource.
+
+Those operations are out of scope of this document, and will require media types suitable for modifying sets of links.
 
 # RD Lookup {#lookup}
 
@@ -1206,7 +1364,6 @@ Links of which href or anchor was submitted as a (full) URI are returned with th
 
 Above rules allow the client to interpret the response as links without any further knowledge of the storage conventions of the RD.
 The Resource Directory MAY replace the registration base URIs with a configured intermediate proxy, e.g. in the case of an HTTP lookup interface for CoAP endpoints.
-
 
 
 ## Lookup filtering
@@ -1292,8 +1449,6 @@ Failure:
 
 HTTP support:
 : YES
-
-The endpoint lookup returns registration resources which can only be manipulated by the registering endpoint. Examples of endpoint lookup belong to the management aspects of the RD and are shown in {{ep-lookup}}. The resource lookup examples are shown in this section.
 
 
 ##  Resource lookup examples
@@ -1428,6 +1583,37 @@ Req: GET /rd-lookup/res?et=core.rd-group
      et="core.rd-group";
      anchor="coap://[ff35:30:2001:db8::1]"
 ~~~~
+
+## Endpoint lookup {#ep-lookup}
+
+The endpoint lookup returns registration resources which can only be manipulated by the registering endpoint.
+
+Endpoint registration resources are annotated with their endpoint names (ep), sectors (d, if present) and registration base URI (base; reports the registrant-ep's address if no explicit base was given) as well as a constant resource type (rt="core.rd-ep"); the lifetime (lt) is not reported.
+Additional endpoint attributes are added as link attributes to their endpoint link unless their specification says otherwise.
+
+Serializations derived from Link Format, SHOULD present links to endpoints in path-absolute form or, if required, as absolute references. (This approach avoids the RFC6690 ambiguities.)
+
+While Endpoint Lookup does expose the registration resources,
+the RD does not need to make them accessible to clients.
+Clients SHOULD NOT attempt to dereference or manipulate them.
+
+A Resource Directory can report endpoints in lookup that are not hosted at the same address.
+Lookup clients MUST be prepared to see arbitrary URIs as registration resources in the results
+and treat them as opaque identifiers;
+the precise semantics of such links are left to future specifications.
+
+The following example shows a client performing an endpoint type (et) lookup with  the value oic.d.sensor (which is currently a registered rt value):
+
+~~~~
+Req: GET /rd-lookup/ep?et=oic.d.sensor
+
+Res: 2.05 Content
+</rd/1234>;base="coap://[2001:db8:3::127]:61616";ep="node5";
+et="oic.d.sensor";ct="40",
+</rd/4521>;base="coap://[2001:db8:3::129]:61616";ep="node7";
+et="oic.d.sensor";ct="40";d="floor-3"
+~~~~
+
 
 # Security policies {#policies}
 
@@ -2249,164 +2435,51 @@ Changes from -01 to -02:
 
 --- back
 
-# Registration Management {#registration-mgmt}
 
-This section describes how the registering endpoint can maintain the registrations that it created. The registering endpoint can be the registrant-ep or the CT. An endpoint SHOULD NOT use this interface for registrations that it did not create. The registrations are resources of the RD.
+# Groups Registration and Lookup {#groups}
 
-After the initial registration, the registering endpoint retains the returned location of the Registration Resource for further operations, including refreshing the registration in order to extend the lifetime and "keep-alive" the registration. When the lifetime of the registration has expired, the RD SHOULD NOT respond to discovery queries concerning this endpoint. The RD SHOULD continue to provide access to the Registration Resource after a registration time-out occurs in order to enable the registering endpoint to eventually refresh the registration. The RD MAY eventually remove the registration resource for the purpose of garbage collection. If the Registration Resource is removed, the corresponding endpoint will need to be re-registered.
+The RD-Groups usage pattern allows announcing application groups inside a Resource Directory.
 
-The Registration Resource may also be used to inspect the registration resource using GET, update the registration, cancel the registration using DELETE, or do an endpoint lookup.
+Groups are represented by endpoint registrations.
+Their base address is a multicast address,
+and they SHOULD be entered with the endpoint type `core.rd-group`.
+The endpoint name can also be referred to as a group name in this context.
 
-These operations are described below.
+The registration is inserted into the RD by a Commissioning Tool,
+which might also be known as a group manager here.
+It performs third party registration and registration updates.
 
-
-## Registration Update {#update}
-
-The update interface is used by the registering endpoint to refresh or update its
-registration with an RD. To use the interface, the registering endpoint sends a POST request to the registration resource returned by the initial registration operation.
-
-An update MAY update the lifetime- or the context- registration parameters
-"lt", "base" as in {{registration}}. Parameters that are not being changed SHOULD NOT
-be included in an update. Adding parameters that have not changed increases
-the size of the message but does not have any other implications.
-Parameters MUST be included as query parameters in an update operation as
-in {{registration}}.
-
-A registration update resets the timeout of the registration to the (possibly
-updated) lifetime of the registration, independent of whether a `lt` parameter
-was given.
-
-If the context of the registration is changed in an update,
-relative references submitted in the original registration or later updates are resolved anew against the new context.
-
-The registration update operation only describes the use of POST with an empty payload.
-Future standards might describe the semantics of using content formats and payloads
-with the POST method to update the links of a registration (see {{link-up}}).
-
-The update registration request interface is specified as follows:
-
-Interaction:
-: EP -> RD
-
-Method:
-: POST
-
-URI Template:
-: {+location}{?lt,con,extra-attrs\*}
+The links it registers SHOULD be available on all members that join the group.
+Depending on the application, members that lack some resource
+MAY be permissible if requests to them fail gracefully.
 
 
-URI Template Variables:
-: location :=
-  : This is the Location returned by the RD as a result of a successful
-    earlier registration.
-
-  lt :=
-  : Lifetime (optional). Lifetime of the registration in seconds. Range of 60-4294967295.
-    If no lifetime is included, the previous last
-  lifetime set on a previous update or the original registration
-  (falling back to 90000) SHOULD be used.
-
-
-  base :=
-  : Base URI (optional). This parameter updates the Base URI established in the
-    original registration to a new value.
-
-    If the parameter is set in an update, it is stored by the RD as the new
-    Base URI under which to interpret the relative links present in the payload of the original registration, following
-    the same restrictions as in the registration.
-
-    If the parameter is not set in the request but was set before, the previous
-    Base URI value is kept unmodified.
-
-    If the parameter is not set in the request and was not set before either, the
-    source address and source port of the update request are stored as the
-    Base URI.
-
-  extra-attrs :=
-  : Additional registration attributes (optional). As with the registration,
-    the RD processes them if it knows their semantics. Otherwise, unknown
-    attributes are stored as endpoint attributes, overriding any previously
-    stored endpoint attributes of the same key.
-
-Content-Format:
-: none (no payload)
-
-The following response codes are defined for this interface:
-
-Success:
-: 2.04 "Changed" or 204 "No Content" if the update was successfully processed.
-
-Failure:
-: 4.00 "Bad Request" or 400 "Bad Request". Malformed request.
-
-Failure:
-: 4.04 "Not Found" or 404 "Not Found". Registration does not exist (e.g. may have expired).
-
-Failure:
-: 5.03 "Service Unavailable" or 503 "Service Unavailable". Service could not perform the operation.
-
-HTTP support:
-: YES
-
-If the registration update fails with a "Service Unavailable" response
-and a Max-Age option or Retry-After header,
-the registering endpoint SHOULD retry the operation after the time indicated.
-If the registration fails in another way, including request timeouts,
-or if the time indicated exceeds the remaining lifetime,
-the registering endpoint SHOULD attempt registration again.
-
-
-The following example shows how the registering endpoint updates its registration resource at
-an RD using this interface with the example location value: /rd/4521.
+The following example shows a CT registering a group with the name “lights” which provides two resources.
+The directory resource path /rd
+is an example RD location discovered in a request similar to {{example-discovery}}.
 
 ~~~~
-Req: POST /rd/4521
-
-Res: 2.04 Changed
-~~~~
-
-The following example shows the registering endpoint updating its registration resource at
-an RD using this interface with the example location value: /rd/4521. The initial registration by the registering endpoint set the following values:
-
-* endpoint name (ep)=endpoint1
-* lifetime (lt)=500
-* Base URI (base)=coap://local-proxy-old.example.com:5683
-* payload of {{example-payload}}
-
-The initial state of the Resource Directory is reflected in the following request:
-
-~~~~
-Req: GET /rd-lookup/res?ep=endpoint1
-
-Res: 2.01 Content
+Req: POST coap://rd.example.com/rd?ep=lights&et=core.rd-group
+                                  &base=coap://[ff35:30:2001:db8::1]
+Content-Format: 40
 Payload:
-<coap://local-proxy-old.example.com:5683/sensors/temp>;ct=41;
- rt="temperature"; anchor="coap://spurious.example.com:5683",
-<coap://local-proxy-old.example.com:5683/sensors/light>;ct=41;
-  rt="light-lux"; if="sensor";
-  anchor="coap://local-proxy-old.example.com:5683"
+</light>;rt="light";if="core.a",
+</color-temperature>;if="core.p";u="K"
+
+Res: 2.01 Created
+Location-Path: /rd/12
 ~~~~
 
-The following example shows the registering endpoint changing the Base URI to `coaps://new.example.com:5684`:
+In this example, the group manager can easily permit devices that have no
+writable color-temperature to join, as they would still respond to brightness
+changing commands. Had the group instead contained a single resource that sets
+brightness and color temperature atomically, endpoints would need to support
+both properties.
 
-~~~~
-Req: POST /rd/4521?base=coaps://new.example.com:5684
+The resources of a group can be looked up like any other resource,
+and the group registrations (along with any additional registration parameters)
+can be looked up using the endpoint lookup interface.
 
-Res: 2.04 Changed
-~~~~
-
-The consecutive query returns:
-
-~~~~
-Req: GET /rd-lookup/res?ep=endpoint1
-
-Res: 2.01 Content
-Payload:
-<coaps://new.example.com:5684/sensors/temp>;ct=41;rt="temperature";
-    anchor="coap://spurious.example.com:5683",
-<coaps://new.example.com:5684/sensors/light>;ct=41;rt="light-lux";
-    if="sensor"; anchor="coaps://new.example.com:5684",
-~~~~
 
 The following example shows a client performing and enpoint lookup for all groups.
 
@@ -2416,153 +2489,10 @@ Req: GET /rd-lookup/ep?et=core.rd-group
 Res: 2.01 Content
 Payload:
 </rd/501>;ep="GRP_R2-4-015";et="core.rd-group";
-                                   base="coap://[ff05:;1]",
-<rd/12>;ep=lights&et=core.rd-group;
+                                   base="coap://[ff05::1]",
+</rd/12>;ep=lights&et=core.rd-group;
                          base="coap://[ff35:30:2001:db8::1]"
 ~~~~
-
-## Registration Removal {#removal}
-
-Although RD registrations have soft state and will eventually timeout after their
-lifetime, the registering endpoint SHOULD explicitly remove an entry from the RD if it
-knows it will no longer be available (for example on shut-down). This is
-accomplished using a removal interface on the RD by performing a DELETE on
-the endpoint resource.
-
-The removal request interface is specified as follows:
-
-Interaction:
-: EP -> RD
-
-Method:
-: DELETE
-
-URI Template:
-: {+location}
-
-URI Template Variables:
-: location :=
-  : This is the Location returned by the RD as a result of a successful
-    earlier registration.
-
-The following response codes are defined for this interface:
-
-Success:
-: 2.02 "Deleted" or 204 "No Content" upon successful deletion
-
-Failure:
-: 4.00 "Bad Request" or 400 "Bad Request". Malformed request.
-
-Failure:
-: 4.04 "Not Found" or 404 "Not Found". Registration does not exist (e.g. may have expired).
-
-Failure:
-: 5.03 "Service Unavailable" or 503 "Service Unavailable". Service could not perform the operation.
-
-HTTP support: YES
-
-The following examples shows successful removal of the endpoint from the RD with example location value /rd/4521.
-
-
-~~~~
-Req: DELETE /rd/4521
-
-Res: 2.02 Deleted
-~~~~
-
-
-## Read Endpoint Links {#read}
-
-Some registering endpoints may wish to manage their links as a collection, and may need to read the current set of links stored in the registration resource, in order to determine link maintenance operations.
-
-One or more links MAY be selected by using query filtering as specified in {{RFC6690}} Section 4.1
-
-If no links are selected, the Resource Directory SHOULD return an empty payload.
-
-The read request interface is specified as follows:
-
-Interaction:
-: EP -> RD
-
-Method:
-: GET
-
-URI Template:
-: {+location}{?href,rel,rt,if,ct}
-
-URI Template Variables:
-: location :=
-  : This is the Location returned by the RD as a result of a successful
-    earlier registration.
-
-: href,rel,rt,if,ct := link relations and attributes specified in the query in order to select particular links based on their relations and attributes. "href" denotes the URI target of the link. See {{RFC6690}} Sec. 4.1
-
-The following response codes are defined for this interface:
-
-Success:
-: 2.05 "Content" or 200 "OK" upon success with an `application/link-format` or other web link payload.
-
-Failure:
-: 4.00 "Bad Request" or 400 "Bad Request". Malformed request.
-
-Failure:
-: 4.04 "Not Found" or 404 "Not Found". Registration does not exist (e.g. may have expired).
-
-Failure:
-: 5.03 "Service Unavailable" or 503 "Service Unavailable". Service could not perform the operation.
-
-HTTP support: YES
-
-The following examples show successful read of the endpoint links from the RD, with example location value /rd/4521 and example registration payload of {{example-payload}}.
-
-
-~~~~
-Req: GET /rd/4521
-
-Res: 2.01 Content
-Payload:
-</sensors/temp>;ct=41;rt="temperature-c";if="sensor";
-anchor="coap://spurious.example.com:5683",
-</sensors/light>;ct=41;rt="light-lux";if="sensor"
-~~~~
-
-
-## Update Endpoint Links {#link-up}
-
-An iPATCH (or PATCH) update ({{RFC8132}}) can add, remove or change the links of a registration.
-
-Those operations are out of scope of this document, and will require media types suitable for modifying sets of links.
-
-## Endpoint lookup {#ep-lookup}
-
-Endpoint lookups result in links to registration resources.
-Endpoint registration resources are annotated with their endpoint names (ep), sectors (d, if present) and registration base URI (base; reports the registrant-ep's address if no explicit base was given) as well as a constant resource type (rt="core.rd-ep"); the lifetime (lt) is not reported.
-Additional endpoint attributes are added as target attributes to their endpoint link unless their specification says otherwise.
-
-Serializations derived from Link Format, SHOULD present links to endpoints in path-absolute form or, if required, as absolute references. (This approach avoids the RFC6690 ambiguities.)
-
-While Endpoint Lookup does expose the registration resources,
-the RD does not need to make them accessible to clients.
-Clients SHOULD NOT attempt to dereference or manipulate them.
-
-A Resource Directory can report endpoints in lookup that are not hosted at the same address.
-Lookup clients MUST be prepared to see arbitrary URIs as registration resources in the results
-and treat them as opaque identifiers;
-the precise semantics of such links are left to future specifications.
-
-The following example shows a client performing an endpoint type (et) lookup with  the value oic.d.sensor (which is currently a registered rt value):
-
-~~~~
-Req: GET /rd-lookup/ep?et=oic.d.sensor
-
-Res: 2.05 Content
-</rd/1234>;base="coap://[2001:db8:3::127]:61616";ep="node5";
-et="oic.d.sensor";ct="40",
-</rd/4521>;base="coap://[2001:db8:3::129]:61616";ep="node7";
-et="oic.d.sensor";ct="40";d="floor-3"
-~~~~
-
-
 
 # Web links and the Resource Directory {#weblink}
 
