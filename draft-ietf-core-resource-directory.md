@@ -966,20 +966,16 @@ Location-Path: /rd/4521
 ~~~~
 {: #example-payload title="Example registration payload" }
 
-A Resource Directory may optionally support HTTP. Here is an example of almost the same registration operation above, when done using HTTP
-and the JSON Link Format as described in {{I-D.ietf-core-links-json}}.
+A Resource Directory may optionally support HTTP. Here is an example of almost the same registration operation above, when done using HTTP.
 
 ~~~~
 Req: POST /rd?ep=node1&base=http://[2001:db8:1::1] HTTP/1.1
 Host: example.com
-Content-Type: application/link-format+json
+Content-Type: application/link-format
 Payload:
-[
-{"href": "/sensors/temp", "ct": "41", "rt": "temperature-c",
-"if": "sensor", "anchor": "coap://spurious.example.com:5683"},
-{"href": "/sensors/light", "ct": "41", "rt": "light-lux",
-  "if": "sensor"}
-]
+</sensors/temp>;ct=41;rt="temperature-c";if="sensor";
+      anchor="coap://spurious.example.com:5683",
+</sensors/light>;ct=41;rt="light-lux";if="sensor"
 
 Res: 201 Created
 Location: /rd/4521
@@ -1465,23 +1461,6 @@ Req: GET /rd-lookup/res?rt=temperature
 Res: 2.05 Content
 <coap://[2001:db8:3::123]:61616/temp>;rt="temperature";
            anchor="coap://[2001:db8:3::123]:61616"
-~~~~
-
-The same lookup using the CBOR Link Format media type described in {{I-D.ietf-core-links-json}}:
-
-~~~~
-Req: GET /rd-lookup/res?rt=temperature
-Accept: TBD64
-
-Res: 2.05 Content
-Content-Format: TBD64
-Payload in Hex notation:
-81A3017823636F61703A2F2F5B323030313A6462383A333A3A3132335D3A363136313
-62F74656D7003781E636F61703A2F2F5B323030313A6462383A333A3A3132335D3A36
-31363136096B74656D7065726174757265
-Decoded payload:
-[{1: "coap://[2001:db8:3::123]:61616/temp", 9: "temperature",
-3: "coap://[2001:db8:3::123]:61616"}]
 ~~~~
 
 A client that wants to be notified of new resources as they show up can use
@@ -2187,7 +2166,8 @@ changes from -17 to -18
   Limited Link Format that's the uncontested subset of Link Format
 * Acknowledging the -17 version as part of the draft
 * Move "Read endpoint links" operation to future specification like PATCH
-* Demote links-json to an informative reference
+* Demote links-json to an informative reference, and removed them from exchange
+  examples
 * Reshuffling of sections: Move additional operations and endpoint lookup back
   from appendix
 * Lookup inteface tightened to not imply applicability for non link-format
