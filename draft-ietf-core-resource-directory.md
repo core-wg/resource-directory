@@ -645,8 +645,10 @@ application/link-format content format (ct=40).
 Resource Directories implementing this specification MAY support additional content formats.
 
 Any additional content format supported by a Resource Directory implementing this
-specification MUST have an equivalent serialization in the application/link-format
-content format.
+specification SHOULD be able to express all the information expressible in link-format.
+It MAY be able to express information that is inexpressible in link-format,
+but those expressions SHOULD be avoided where possible.
+
 
 ## URI Discovery {#discovery}
 
@@ -1337,9 +1339,9 @@ Those operations are out of scope of this document, and will require media types
 To discover the resources registered with the RD,
 a lookup interface must be provided. This lookup interface
 is defined as a default, and it is assumed that RDs may also support lookups
-to return resource descriptions in alternative formats (e.g. Atom or HTML
-Link) or using more advanced interfaces (e.g. supporting context or semantic
-based lookup).
+to return resource descriptions in alternative formats (e.g. JSON or CBOR link format {{I-D.ietf-core-links-json}})
+or using more advanced interfaces (e.g. supporting context or semantic
+based lookup) on different resources that are discovered indepenently.
 
 RD Lookup allows lookups for endpoints and resources
 using attributes defined in this document and for use with the CoRE
