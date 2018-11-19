@@ -2181,6 +2181,29 @@ originally developed.
 
 # Changelog
 
+changes from -17 to -18
+
+* Rather than re-specifying link format (Modernized Link Format), describe a
+  Limited Link Format that's the uncontested subset of Link Format
+* Acknowledging the -17 version as part of the draft
+* Move "Read endpoint links" operation to future specification like PATCH
+* Demote links-json to an informative reference
+* Reshuffling of sections: Move additional operations and endpoint lookup back
+  from appendix
+* Lookup inteface tightened to not imply applicability for non link-format
+  lookups (as those can have vastly different views on link cardinality)
+* Abstract and introduction reworded to avoid the impression that resources are
+  stored in full in the RD
+* Drop a figure that has become useless due to the chanegs of and -13 and -17
+* Wording consistency fixes: Use "Registrations" and "target attributes"
+* Fix incorrect use of content negotiation in discovery interface description
+  (Content-Format -> Accept)
+* State that the base attribute value is part of endpoint lookup even when
+  implicit in the registration
+* Update references from RFC5988 to its update RFC8288
+* Remove appendix on protocol-negotiation (which had a note to be removed
+  before publication)
+
 changes from -16 to -17
 
 (Note that -17 is published as a direct follow-up to -16, containing a single change to be discussed at IETF103)
