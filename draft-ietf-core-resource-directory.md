@@ -1553,18 +1553,6 @@ Req: GET /rd-lookup/res?et=oic.d.sensor
     anchor="coap://sensor2.example.com/sensors/temp"
 ~~~~
 
-The following example shows a client performing a lookup of all resources of all endpoints (groups) with et=core.rd-group.
-
-~~~~
-Req: GET /rd-lookup/res?et=core.rd-group
-
-<coap://[ff35:30:2001:db8::1]/light>;rt="light";if="core.a";
-     et="core.rd-group";anchor="coap://[ff35:30:2001:db8::1]",
-<coap://[ff35:30:2001:db8::1]/color-temperature>;if="core.p";u="K";
-     et="core.rd-group";
-     anchor="coap://[ff35:30:2001:db8::1]"
-~~~~
-
 ## Endpoint lookup {#ep-lookup}
 
 The endpoint lookup returns registration resources which can only be manipulated by the registering endpoint.
@@ -2497,6 +2485,18 @@ Payload:
                                    base="coap://[ff05::1]",
 </rd/12>;ep=lights&et=core.rd-group;
                          base="coap://[ff35:30:2001:db8::1]"
+~~~~
+
+The following example shows a client performing a lookup of all resources of all endpoints (groups) with et=core.rd-group.
+
+~~~~
+Req: GET /rd-lookup/res?et=core.rd-group
+
+<coap://[ff35:30:2001:db8::1]/light>;rt="light";if="core.a";
+     et="core.rd-group";anchor="coap://[ff35:30:2001:db8::1]",
+<coap://[ff35:30:2001:db8::1]/color-temperature>;if="core.p";u="K";
+     et="core.rd-group";
+     anchor="coap://[ff35:30:2001:db8::1]"
 ~~~~
 
 # Web links and the Resource Directory {#weblink}
