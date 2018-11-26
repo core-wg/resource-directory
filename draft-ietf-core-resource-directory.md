@@ -209,10 +209,10 @@ RDAO
 : Resource Directory Address Option.
 
 
-For several operations, interface descriptions are given in list form;
+For several operations, interface templates are given in list form;
 those describe the operation participants, request codes, URIs, content formats and outcomes.
-Those templates contain normative content in their
-Interaction, Method, URI Template and URI Template Variables sections
+Sections of those templates contain normative content about
+Interaction, Method, URI Template and URI Template Variables
 as well as the details of the Success condition.
 The additional sections
 on options like Content-Format and on Failure codes
@@ -231,7 +231,7 @@ efficient than querying /.well-known/core on all connected devices, or across
 boundaries that would be limiting those operations.
 
 It provides information about resources hosted by other devices that could otherwise only be obtained by
-directly querying the /.well-known/core resource on these other devicess, either by a unicast request or a multicast request.
+directly querying the /.well-known/core resource on these other devices, either by a unicast request or a multicast request.
 
 Only information SHOULD be stored in the resource
 directory that can be obtained by querying the described device's
@@ -293,7 +293,7 @@ if explicitly configured to do so,
 but that is not expected to be supported by typical EP implementations.
 Any such registrations are independent of each other.
 The usual expectation when multiple discovery mechanisms or addresses are configured
-is that they constitute a fallback path for a single registration.
+is that they constitute a fall-back path for a single registration.
 
 
 ## RD Content Model {#ER-model}
@@ -666,7 +666,7 @@ Upon success, the response will contain a payload with
 a link format entry for each RD function discovered, indicating the URI
 of the RD function returned and the corresponding Resource Type. When performing
 multicast discovery, the multicast IP address used will depend on the scope required
-and the multicast capabilities of the network (see {{mc-registration}}.
+and the multicast capabilities of the network (see {{mc-registration}}).
 
 A Resource Directory MAY provide hints about the content-formats it supports in the links it exposes or registers, using the "ct" target attribute, as shown in the example below. Clients MAY use these hints to select alternate content-formats for interaction with the Resource Directory.
 
@@ -816,7 +816,7 @@ They are resolved against the base URI of the registration,
 which is provided either explicitly in the `base` parameter or constructed implicitly from the requester's URI as constructed from its network address and scheme.
 
 For media types to which {{limitedlinkformat}} applies
-(ie. documents in application/link-format),
+(i.e. documents in application/link-format),
 the RD only needs to accept representations in Limited Link Format as described there.
 Its behavior with representations outside that subset is implementation defined.
 
@@ -845,8 +845,7 @@ URI Template Variables:
     that MUST be unique within a sector.  The maximum length of this
     parameter is 63 bytes.
 
-    If the RD is configured to recognize the endpoint (e.g. based on its security context),
-    the endpoint sets no endpoint name, and the RD assigns one based on a set of configuration parameter values.
+    If the RD is configured to recognize the endpoint (e.g. based on its security context), the RD assigns an endpoint name based on a set of configuration parameter values.
 
   d :=
   : Sector (optional). The sector to which this endpoint belongs. The maximum
@@ -869,7 +868,7 @@ URI Template Variables:
 
   : In the absence of this parameter the scheme of the protocol, source address
     and source port of the registration request are assumed.
-    That Base URI is constructed by concatenating the used protcol's scheme
+    The Base URI is consecutively constructed by concatenating the used protocol's scheme
     with the characters "://", the requester's source address as an address
     literal and ":" followed by its port (if it was not the protocol's default
     one) in analogy to {{RFC7252}} Section 6.5.
@@ -890,7 +889,7 @@ URI Template Variables:
     can not meaningfully use {{RFC6690}} Link Format due to its prevalence of
     the Origin concept in relative reference resolution.
     Those applications should use different representations of links to which {{limitedlinkformat}} is not applicable
-    (eg. {{?I-D.hartke-t2trg-coral}}).
+    (e.g. {{?I-D.hartke-t2trg-coral}}).
     <!-- or may use non-Limited-Link-Format documents on servers that share their necessarily-non6690 understanding of links – but we can't say that in an RFC, can we? -->
 
   extra-attrs :=
@@ -1337,7 +1336,7 @@ a lookup interface must be provided. This lookup interface
 is defined as a default, and it is assumed that RDs may also support lookups
 to return resource descriptions in alternative formats (e.g. JSON or CBOR link format {{I-D.ietf-core-links-json}})
 or using more advanced interfaces (e.g. supporting context or semantic
-based lookup) on different resources that are discovered indepenently.
+based lookup) on different resources that are discovered independently.
 
 RD Lookup allows lookups for endpoints and resources
 using attributes defined in this document and for use with the CoRE
@@ -1366,7 +1365,7 @@ The Resource Directory MAY replace the registration base URIs with a configured 
 
 ## Lookup filtering
 
-Using the Accept Option, the requester can control whether the returned list is returned in CoRE Link Format (`application/link-format`, default) or in alternate content-formats (eg. from {{I-D.ietf-core-links-json}}).
+Using the Accept Option, the requester can control whether the returned list is returned in CoRE Link Format (`application/link-format`, default) or in alternate content-formats (e.g. from {{I-D.ietf-core-links-json}}).
 
 The page and count parameters are used to obtain lookup results in specified increments using pagination, where count specifies how many links to return and page specifies which subset of links organized in sequential pages, each containing 'count' links, starting with link zero and page zero. Thus, specifying count of 10 and page of 0 will return the first 10 links in the result set (links 0-9). Count = 10 and page = 1 will return the next 'page' containing links 10-19, and so on.
 
@@ -1601,9 +1600,10 @@ In both cases, the nodes filling the RD should be authenticated and authorized t
 It can be imagined that an installation is divided in a set of security regions, each one with its own RD(s) to discover the endpoints that are part of a given security region. An endpoint that wants to discover an RD, responsible for a given region, needs to be authorized to learn the contents of a given RD. Within a region, for a given RD, a more fine-grained security division is possible based on the values of the endpoint registration parameters. Authorization to discover endpoints with a given set of filter values is recommended for those cases.
 
 When a node registers its endpoints, criteria are needed to authorize the node to enter them. An important aspect is the uniqueness of the (endpoint name, and optional sector) pair within the RD. Consider the two cases separately: (1) CT registers endpoints, and (2) the registering node registers its own endpoint(s).
+
    * A CT needs authorization to register a set of endpoints. This authorization can be based on the region, i.e. a given CT is authorized to register any endpoint (endpoint name, sector) into a given RD, or to register an endpoint with (endpoint name, sector) value pairs assigned by the AS, or can be more fine-grained, including a subset of registration parameter values.
    * A given endpoint that registers itself, needs to proof its possession of its unique (endpoint name, sector) value pair. Alternatively, the AS can authorize the endpoint to register with an (endpoint name, sector) value pair assigned by the AS.
-   *
+   
 A separate document needs to specify these aspects to ensure interoperability between registering nodes and RD. The subsections below give some hints how to handle a subset of the different aspects.
 
 ## Secure RD discovery
@@ -1632,7 +1632,7 @@ or TLS security requirements and references  -->.
 
 ## Endpoint Identification and Authentication {#endpoint_identification}
 
-An Endpoint (name, sector) pair is unique within the et of endpoints regsitered by the RD. An Endpoint MUST NOT be identified by its protocol, port or IP
+An Endpoint (name, sector) pair is unique within the et of endpoints registered by the RD. An Endpoint MUST NOT be identified by its protocol, port or IP
 address as these may change over the lifetime of an Endpoint.
 
 Every operation performed by an Endpoint on a resource directory
@@ -1819,7 +1819,7 @@ Two examples are presented: a Lighting Installation example in {{lt-ex}} and a L
 ## Lighting Installation {#lt-ex}
 
 This example shows a simplified lighting installation which makes use of
-the Resource Directory (RD) with a CoAP interface to facilitate the installation and start up of
+the Resource Directory (RD) with a CoAP interface to facilitate the installation and start-up of
 the application code in the lights and sensors. In particular, the example
 leads to the definition of a group and the enabling of the corresponding
 multicast address as described in {{groups}}. No conclusions must be drawn on the realization of actual
@@ -2158,11 +2158,11 @@ changes from -17 to -18
   examples
 * Reshuffling of sections: Move additional operations and endpoint lookup back
   from appendix
-* Lookup inteface tightened to not imply applicability for non link-format
+* Lookup interface tightened to not imply applicability for non link-format
   lookups (as those can have vastly different views on link cardinality)
 * Abstract and introduction reworded to avoid the impression that resources are
   stored in full in the RD
-* Drop a figure that has become useless due to the chanegs of and -13 and -17
+* Drop a figure that has become useless due to the changes of and -13 and -17
 * Wording consistency fixes: Use "Registrations" and "target attributes"
 * Fix incorrect use of content negotiation in discovery interface description
   (Content-Format -> Accept)
@@ -2474,7 +2474,7 @@ and the group registrations (along with any additional registration parameters)
 can be looked up using the endpoint lookup interface.
 
 
-The following example shows a client performing and enpoint lookup for all groups.
+The following example shows a client performing and endpoint lookup for all groups.
 
 ~~~~
 Req: GET /rd-lookup/ep?et=core.rd-group
@@ -2704,7 +2704,7 @@ The CoRE Link Format as described in {{RFC6690}}
 has been interpreted differently by implementers,
 and a strict implementation
 rules out some use cases of a Resource Directory
-(eg. base values with path components).
+(e.g. base values with path components).
 
 This appendix describes
 a subset of link format documents called Limited Link Format.
@@ -2719,12 +2719,12 @@ A link format representation is in Limited Link format if,
 for each link in it,
 the following applies:
 
-* All URI references either folllow the URI or the path-absolute ABNF rule of
-  RFC3986 (ie. target and anchor each either start with a scheme or with a
+* All URI references either follow the URI or the path-absolute ABNF rule of
+  RFC3986 (i.e. target and anchor each either start with a scheme or with a
   single slash),
 
 * if the anchor reference starts with a scheme, the target reference starts
-  with a scheme as well (ie. relative references in target cannot be used when
+  with a scheme as well (i.e. relative references in target cannot be used when
   the anchor is a full URI), and
 
 * the application does not care whether links without an explicitly given
