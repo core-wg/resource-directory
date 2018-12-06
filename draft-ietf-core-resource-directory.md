@@ -74,6 +74,7 @@ informative:
   RFC7252:
   RFC7390:
   RFC6775:
+  RFC6874:
   RFC7230:
   RFC8132:
 #  RFC3629: utf8
@@ -426,6 +427,10 @@ future documents are invited to extend the RD specification to support multiple 
 Its value is used as a Base URI when resolving URIs in the links contained in the endpoint.
 
 Links are modelled as they are in {{fig-ER-WKC}}.
+
+## scheme/authority restrictions {#authority}
+
+The scheme and authority of the registered URI's are stored in the base attribute of the registration. Its structure follows the specification of section 6.5 of {{RFC7252}}. It is possible to  extend the IP literal address with a zone extension preceded by a "%" character {{RFC6874}}. This extension is used mainly for link-local addresses. The zone extension MAY be removed from the adddress before the address is stored in the base attribute.
 
 ## Use Case: Cellular M2M {#cellular}
 
