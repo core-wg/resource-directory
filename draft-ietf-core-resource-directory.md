@@ -1582,9 +1582,9 @@ Req: GET /rd-lookup/ep?et=oic.d.sensor
 
 Res: 2.05 Content
 </rd/1234>;base="coap://[2001:db8:3::127]:61616";ep="node5";
-et="oic.d.sensor";ct="40",
+et="oic.d.sensor";ct="40";rt="core.rd-ep",
 </rd/4521>;base="coap://[2001:db8:3::129]:61616";ep="node7";
-et="oic.d.sensor";ct="40";d="floor-3"
+et="oic.d.sensor";ct="40";d="floor-3";rt="core.rd-ep"
 ~~~~
 
 
@@ -1973,7 +1973,7 @@ Req: GET coap://[2001:db8:4::ff]/rd-lookup/ep
 
 Res: 2.05 Content
 </rd/501>;ep="grp_R2-4-015";et="core.rd-group";
-                             base="coap://[ff05::1]"
+          base="coap://[ff05::1]";rt="core.rd-ep"
 ~~~~
 
 From the returned base parameter value, the luminary learns the multicast address
@@ -2489,7 +2489,7 @@ Payload:
 </rd/501>;ep="GRP_R2-4-015";et="core.rd-group";
                                    base="coap://[ff05::1]",
 </rd/12>;ep=lights&et=core.rd-group;
-                         base="coap://[ff35:30:2001:db8::1]"
+         base="coap://[ff35:30:2001:db8::1]";rt="core.rd-ep"
 ~~~~
 
 The following example shows a client performing a lookup of all resources of all endpoints (groups) with et=core.rd-group.
