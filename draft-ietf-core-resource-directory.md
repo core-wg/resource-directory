@@ -1069,7 +1069,7 @@ Failure:
 : 4.00 "Bad Request". Malformed request.
 
 Failure:
-: 4.04 "Not Found". /.well-known/core does not exist or is empty.
+: 4.04 "Not Found". /.well-known/core does not exist.
 
 Failure:
 : 5.03 "Service Unavailable". Service could not perform the operation.
