@@ -1006,9 +1006,14 @@ directory server to perform GET requests at the requesting registrant-ep's /.wel
 
 The registrant-ep includes the same registration parameters in the POST request as it would per {{registration}}. The registration base URI of the registration is taken from the registrant-ep's network address (as is default with regular registrations).
 
-The Resource Directory MUST NOT query the registrant-ep's data before sending the response; this is to accommodate very limited endpoints.
-The success condition only indicates that the request was valid (i.e. the passed parameters are valid per se),
-not that the link data could be obtained or parsed or was successfully registered into the RD.
+The Resource Directory needs to query the registrant-ep's discovery resource to determine the success of the operation.
+It SHOULD keep a cache of the discovery resource and not query it again as long as it is fresh.
+
+(This is to accomodate constrained registrant devices that can not process an incoming and outgoing request at the same time.
+Registrants MUST be able to serve a GET request to `/.well-known/core` after having requested registration.
+Constrained devices MAY regard the initial request as temporarily failed when a GET request comes in,
+and retry later when the RD already has a cached representation of their discovery resources.
+Then the RD can reply immediately.)
 
 The simple registration request interface is specified as follows:
 
@@ -1084,22 +1089,20 @@ The following example shows a registrant-ep using Simple Registration,
 by simply sending an empty POST to a resource directory.
 
 ~~~~
-Req:(to RD server from [2001:db8:2::1])
+Req: (to RD server from [2001:db8:2::1])
 POST /.well-known/core?lt=6000&ep=node1
 No payload
-
-Res: 2.04 Changed
-
-(later)
 
 Req: (from RD server to [2001:db8:2::1])
 GET /.well-known/core
 Accept: 40
 
-Res: 2.05 Content
+Res: (to the RD from [2001:db8:2::1] ) 2.05 Content
 Content-Format: 40
 Payload:
 </sen/temp>
+
+Res: (from the RD to [2001:db8:2::1]) 2.04 Changed
 ~~~~
 
 
