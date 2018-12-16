@@ -1207,7 +1207,7 @@ Failure:
 : 4.00 "Bad Request" or 400 "Bad Request". Malformed request.
 
 Failure:
-: 4.04 "Not Found" or 404 "Not Found". Registration does not exist (e.g. may have expired).
+: 4.04 "Not Found" or 404 "Not Found". Registration does not exist (e.g. may have been removed).
 
 Failure:
 : 5.03 "Service Unavailable" or 503 "Service Unavailable". Service could not perform the operation.
@@ -1308,7 +1308,7 @@ Failure:
 : 4.00 "Bad Request" or 400 "Bad Request". Malformed request.
 
 Failure:
-: 4.04 "Not Found" or 404 "Not Found". Registration does not exist (e.g. may have expired).
+: 4.04 "Not Found" or 404 "Not Found". Registration does not exist (e.g. may already have been removed).
 
 Failure:
 : 5.03 "Service Unavailable" or 503 "Service Unavailable". Service could not perform the operation.
