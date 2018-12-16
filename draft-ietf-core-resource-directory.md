@@ -1004,7 +1004,7 @@ The registrant-ep sends (and regularly refreshes with) a POST
 request to the `/.well-known/core` URI of the directory server of choice. The body of the POST request is empty, and triggers the resource
 directory server to perform GET requests at the requesting registrant-ep's /.well-known/core to obtain the link-format payload to register.
 
-The registrant-ep includes the same registration parameters in the POST request as it would per {{registration}}. The registration base URI of the registration is taken from the requesting server's URI.
+The registrant-ep includes the same registration parameters in the POST request as it would per {{registration}}. The registration base URI of the registration is taken from the registrant-ep's network address (as is default with regular registrations).
 
 The Resource Directory MUST NOT query the registrant-ep's data before sending the response; this is to accommodate very limited endpoints.
 The success condition only indicates that the request was valid (i.e. the passed parameters are valid per se),
