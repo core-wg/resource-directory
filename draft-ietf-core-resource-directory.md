@@ -428,9 +428,14 @@ Its value is used as a Base URI when resolving URIs in the links contained in th
 
 Links are modelled as they are in {{fig-ER-WKC}}.
 
-## scheme/authority restrictions {#authority}
+## Link-local addresses {#linklocal}
 
-The scheme and authority of the registered URI's are stored in the base attribute of the registration. Its structure follows the specification of section 6.5 of {{RFC7252}}. It is possible to  extend the IP literal address with a zone extension preceded by a "%" character {{RFC6874}}. This extension is used mainly for link-local addresses. The zone extension MAY be removed from the adddress before the address is stored in the base attribute.
+A URI referring to a link-local IP literal can carry a zone extension as defined in {{RFC6874}} Section 6.5 (e.g. the "enp1s0" in "coap://[fe80::1234%25enp1s0]/").
+The zone extension is necessary to dereference such a URI, but also limits its usability to a single host.
+
+RD setups SHOULD avoid the use of link-local URIs.
+In setups where the use of a single network link is coordinated among all participants,
+the RD MAY remove the zone extension from base URIs.
 
 ## Use Case: Cellular M2M {#cellular}
 
@@ -552,6 +557,10 @@ suggests a number of candidates:
   Format {{RFC6690}}: Sending a Multicast GET to
   `coap://[MCD1]/.well-known/core?rt=core.rd*`.  RDs within the
   multicast scope will answer the query.
+
+  When answering a link-local multicast request, the RD SHOULD NOT respond with their link-local addresses
+  but use a routable one; otherwise the registrant-ep would later need to pick an explicit base address
+  to avoid the issue of {{linklocal}}.
 
 As some of the RD addresses obtained by the methods listed here are
 just (more or less educated) guesses, endpoints MUST make use of any
@@ -889,6 +898,10 @@ URI Template Variables:
     Directory which is on the network service side of the NAT gateway, the endpoint MUST
     use a persistent port for the outgoing registration in order to provide the NAT
     gateway with a valid network address for replies and incoming requests.
+
+  : If the registrant-ep uses a link-local address to register,
+    it MUST give an explicit routable base address unless configured otherwise as per {{linklocal}}
+    (or just register from that address in the first place).
 
   : Endpoints that register with a base that contains a path component
     can not meaningfully use {{RFC6690}} Link Format due to its prevalence of
