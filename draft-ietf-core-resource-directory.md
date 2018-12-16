@@ -1159,7 +1159,7 @@ Method:
 : POST
 
 URI Template:
-: {+location}{?lt,con,extra-attrs\*}
+: {+location}{?lt,base,extra-attrs\*}
 
 
 URI Template Variables:
