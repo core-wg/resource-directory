@@ -430,12 +430,13 @@ Links are modelled as they are in {{fig-ER-WKC}}.
 
 ## Link-local addresses {#linklocal}
 
-A URI referring to a link-local IP literal can carry a zone extension as defined in {{RFC6874}} Section 6.5 (e.g. the "enp1s0" in "coap://[fe80::1234%25enp1s0]/").
-The zone extension is necessary to dereference such a URI, but also limits its usability to a single host.
+A URI referring to a link-local IP literal typically contains a zone identifier,
+and is not usable across hosts (see {{RFC6874}} Section 1).
 
-RD setups SHOULD avoid the use of link-local URIs.
+Therefore, RD setups SHOULD avoid the use of link-local URIs.
+
 In setups where the use of a single network link is coordinated among all participants,
-the RD MAY remove the zone extension from base URIs.
+clients can disregard any zone identifier and use their configured interfaces.
 
 ## Use Case: Cellular M2M {#cellular}
 
