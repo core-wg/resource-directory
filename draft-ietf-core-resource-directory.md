@@ -1025,9 +1025,9 @@ It SHOULD keep a cache of the discovery resource and not query it again as long 
 
 (This is to accomodate constrained registrant devices that can not process an incoming and outgoing request at the same time.
 Registrants MUST be able to serve a GET request to `/.well-known/core` after having requested registration.
-Constrained devices MAY regard the initial request as temporarily failed when a GET request comes in,
+Constrained devices MAY regard the initial request as temporarily failed when they need RAM occupied by their own request to serve the RD's GET,
 and retry later when the RD already has a cached representation of their discovery resources.
-Then the RD can reply immediately.)
+Then, the RD can reply immediately and the registrant can receive the response.)
 
 The simple registration request interface is specified as follows:
 
