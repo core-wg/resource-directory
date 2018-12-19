@@ -430,10 +430,12 @@ Links are modelled as they are in {{fig-ER-WKC}}.
 
 ## Link-local addresses {#linklocal}
 
-A URI referring to a link-local IP literal typically contains a zone identifier,
+Requests to the RD may arrive from link-local IP addresses.
+When resolving relative links against the source IP address,
+the resolved link-local IP literal typically contains a zone identifier of the RD,
 and is not usable across hosts (see {{RFC6874}} Section 1).
 
-Therefore, RD setups SHOULD avoid the use of link-local URIs.
+Therefore, RD setups SHOULD avoid the use of URIs resolved from link-local IP addresses.
 
 In setups where the use of a single network link is coordinated among all participants,
 clients can disregard any zone identifier and use their configured interfaces.
