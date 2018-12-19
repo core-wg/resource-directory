@@ -2179,12 +2179,18 @@ changes from -17 to -18
 * Move "Read endpoint links" operation to future specification like PATCH
 * Demote links-json to an informative reference, and removed them from exchange
   examples
+* Add note on unusability of link-local IP addresses, and describe mitigation.
 * Reshuffling of sections: Move additional operations and endpoint lookup back
-  from appendix
+  from appendix, and groups into one
 * Lookup interface tightened to not imply applicability for non link-format
   lookups (as those can have vastly different views on link cardinality)
+* Simple registration: Change sequence of GET and POST-response, ensuring
+  unsuccessful registrations are reported as such, and suggest how devices that
+  would have required the inverse behavior can still cope with it.
 * Abstract and introduction reworded to avoid the impression that resources are
   stored in full in the RD
+* Simplify the rules governing when a registration resource can or must be
+  changed.
 * Drop a figure that has become useless due to the changes of and -13 and -17
 * Wording consistency fixes: Use "Registrations" and "target attributes"
 * Fix incorrect use of content negotiation in discovery interface description
