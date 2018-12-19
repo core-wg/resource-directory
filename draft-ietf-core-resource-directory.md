@@ -436,10 +436,7 @@ When building a Registration Base URI from that source IP address
 its link-local IP literal typically contains a zone identifier of the RD,
 and is not usable across hosts (see {{RFC6874}} Section 1).
 
-Therefore, RD setups SHOULD avoid the use of URIs containing link-local IP addresses.
-
-In setups where the use of a single network link is coordinated among all participants,
-clients can disregard any zone identifier and use their configured interfaces.
+Therefore, RD servers SHOULD reject registrations which use of URIs containing link-local IP addresses.
 
 ## Use Case: Cellular M2M {#cellular}
 
