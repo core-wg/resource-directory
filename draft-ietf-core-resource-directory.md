@@ -430,7 +430,7 @@ Links are modelled as they are in {{fig-ER-WKC}}.
 
 ## Link-local addresses {#linklocal}
 
-Registrations at the RD may arrive from link-local IP addresses.
+Registration requests to the RD may arrive from link-local IP addresses.
 When building a Registration Base URI from that source IP address
 (which would become part of the resolved URIs in resource lookup),
 its link-local IP literal typically contains a zone identifier of the RD,
