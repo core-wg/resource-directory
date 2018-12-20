@@ -1,0 +1,69 @@
+\documentclass{beamer}
+
+% generic packages
+
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{url}
+
+% about the presentation
+\title{Resource Directory}
+\subtitle{\texttt{draft-ietf-core-resource-directory-18}}
+\author{Zach Shelby, Michael Koster, Carsten Bormann, Peter~van~der~Stok, \textit{Christian Amsüss}}
+\date{2018-12-20}
+
+% used commands
+
+\usepackage{soul} % \st
+\usepackage{verbatim}
+
+% attach self
+
+\usepackage{embedfile}
+\embedfile{\jobname.tex}
+
+\begin{document}
+
+\frame{\titlepage}
+
+\begin{frame}{Why -18?}
+	\begin{itemize}
+		\item Changes requested by WG\onslide<2->{: Limited Link Format}
+		\item Adapting to changed ecosystem\onslide<3->{: no dependency on links-json}
+		\item Reviewer comments\onslide<4->{: 2.04 on Simple now means all is well}
+		\item Findings from plugtest\onslide<5->{: link-local IPs make unportable URIs}
+		\item Editorial changes to remove ambiguities\onslide<6->{, Shuffling back sequence since groups are less text now}
+	\end{itemize}
+	\bigskip
+	\onslide<6->{\footnotesize … as always, see change log for a more detailed list}
+\end{frame}
+
+\begin{frame}{Next steps}\begin{center}\Huge
+	WGLC?
+\end{center}\end{frame}
+
+\begin{frame}{}
+\end{frame}
+
+\begin{frame}{How about CoRAL?}
+	-17 was inconsistent about allowed formats. Options:
+
+	\bigskip
+
+	\begin{itemize}
+		\item Describe lookup only for link-format (done in -18)\onslide<2->{
+
+			as we don't know what the other formats would be
+
+			{\footnotesize \url{https://github.com/core-wg/resource-directory/pull/180}}
+		}
+		\item Phrase it to allow CoRAL\onslide<2->{
+
+			interacts unsightly with pagination
+
+			{\footnotesize \url{https://github.com/core-wg/resource-directory/pull/177}}
+		}
+	\end{itemize}
+\end{frame}
+
+\end{document}
