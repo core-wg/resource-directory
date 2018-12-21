@@ -1150,7 +1150,7 @@ These operations are described below.
 The update interface is used by the registering endpoint to refresh or update its
 registration with an RD. To use the interface, the registering endpoint sends a POST request to the registration resource returned by the initial registration operation.
 
-An update MAY update the lifetime- or the context- registration parameters
+An update MAY update the lifetime or the base URI registration parameters
 "lt", "base" as in {{registration}}. Parameters that are not being changed SHOULD NOT
 be included in an update. Adding parameters that have not changed increases
 the size of the message but does not have any other implications.
@@ -1161,8 +1161,8 @@ A registration update resets the timeout of the registration to the (possibly
 updated) lifetime of the registration, independent of whether a `lt` parameter
 was given.
 
-If the context of the registration is changed in an update,
-relative references submitted in the original registration or later updates are resolved anew against the new context.
+If the base URI of the registration is changed in an update,
+relative references submitted in the original registration or later updates are resolved anew against the new base.
 
 The registration update operation only describes the use of POST with an empty payload.
 Future standards might describe the semantics of using content formats and payloads
