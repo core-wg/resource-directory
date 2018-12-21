@@ -428,15 +428,17 @@ Its value is used as a Base URI when resolving URIs in the links contained in th
 
 Links are modelled as they are in {{fig-ER-WKC}}.
 
-## Link-local addresses {#linklocal}
+## Link-local addresses and zone identifiers {#linklocal}
 
-Registration requests to the RD may arrive from link-local IP addresses.
-When building a Registration Base URI from that source IP address
-(which would become part of the resolved URIs in resource lookup),
-its link-local IP literal typically contains a zone identifier of the RD,
-and is not usable across hosts (see {{RFC6874}} Section 1).
+Registration Base URIs can contain link-local IP addresses.
+To be usable across hosts, those can not be serialized to contain zone identifiers (see {{RFC6874}} Section 1).
 
-Therefore, RD servers SHOULD reject registrations which use of URIs containing link-local IP addresses.
+Link-local addresses can only be used on a single link
+(therefore RD servers can not announce them when queried on a different link),
+and lookup clients using them need to keep track of which interface they got them from.
+
+Therefore, it is advisable in many scenarios
+to use addresses with larger scope if available.
 
 ## Use Case: Cellular M2M {#cellular}
 
@@ -559,9 +561,8 @@ suggests a number of candidates:
   `coap://[MCD1]/.well-known/core?rt=core.rd*`.  RDs within the
   multicast scope will answer the query.
 
-  When answering a link-local multicast request, the RD SHOULD NOT respond with their link-local addresses
-  but use a routable one; otherwise the registrant-ep would later need to pick an explicit base address
-  to avoid the issue of {{linklocal}}.
+  When answering a link-local multicast request, the RD may want to respond with a routable one;
+  thus, it makes it easier for registrants to use an own routable address for registration.
 
 As some of the RD addresses obtained by the methods listed here are
 just (more or less educated) guesses, endpoints MUST make use of any
@@ -901,9 +902,8 @@ URI Template Variables:
     use a persistent port for the outgoing registration in order to provide the NAT
     gateway with a valid network address for replies and incoming requests.
 
-  : If the registrant-ep uses a link-local address to register,
-    it MUST give an explicit routable base address unless configured otherwise as per {{linklocal}}
-    (or just register from that address in the first place).
+  : If Base URI contains a link-local IP literal, it MUST NOT contain a Zone Identifier,
+    and MUST be local to the link on which the registration request is received.
 
   : Endpoints that register with a base that contains a path component
     can not meaningfully use {{RFC6690}} Link Format due to its prevalence of
@@ -1385,6 +1385,10 @@ Links of which href or anchor was submitted as a (full) URI are returned with th
 Above rules allow the client to interpret the response as links without any further knowledge of the storage conventions of the RD.
 The Resource Directory MAY replace the registration base URIs with a configured intermediate proxy, e.g. in the case of an HTTP lookup interface for CoAP endpoints.
 
+If the base URI of a registration contains a link-local address,
+the RD MUST NOT show its links unless the lookup was made from the same zone,
+and MUST NOT include zone identifiers in the resolved URIs.
+
 
 ## Lookup filtering
 
@@ -1583,6 +1587,9 @@ Endpoint registration resources are annotated with their endpoint names (ep), se
 Additional endpoint attributes are added as target attributes to their endpoint link unless their specification says otherwise.
 
 Links to endpoints SHOULD be presented in path-absolute form or, if required, as absolute references. (This avoids the RFC6690 ambiguities.)
+
+Base addresses that contain link-local addresses MUST NOT include zone identifiers,
+and such registrations <!-- or "' base attributes" --> MUST NOT be show unless the lookup was made from the same zone.
 
 While Endpoint Lookup does expose the registration resources,
 the RD does not need to make them accessible to clients.
