@@ -561,8 +561,9 @@ suggests a number of candidates:
   `coap://[MCD1]/.well-known/core?rt=core.rd*`.  RDs within the
   multicast scope will answer the query.
 
-  When answering a link-local multicast request, the RD may want to respond with a routable one;
-  thus, it makes it easier for registrants to use an own routable address for registration.
+  When answering a multicast request directed at a link-local address,
+  the RD may want to respond from a routable address;
+  this makes it easier for registrants to use one of their own routable addresses for registration.
 
 As some of the RD addresses obtained by the methods listed here are
 just (more or less educated) guesses, endpoints MUST make use of any
@@ -585,7 +586,8 @@ as a starting point, the client should honor the SRV record's mechanisms -->
 The Resource Directory Address Option (RDAO) using IPv6 Neighbor Discovery (ND) carries
 information about the address of the Resource Directory (RD). This information is
 needed when endpoints cannot discover the Resource Directory with a link-local
-or realm-local scope multicast address because the endpoint and the RD are separated by a Border Router
+or realm-local scope multicast address, for instance because the
+endpoint and the RD are separated by a Border Router
 (6LBR). In many circumstances the availability of DHCP cannot be guaranteed either
 during commissioning of the network. The presence and the use of the RD is
 essential during commissioning.
@@ -902,7 +904,7 @@ URI Template Variables:
     use a persistent port for the outgoing registration in order to provide the NAT
     gateway with a valid network address for replies and incoming requests.
 
-  : If Base URI contains a link-local IP literal, it MUST NOT contain a Zone Identifier,
+  : If the Base URI contains a link-local IP literal, it MUST NOT contain a Zone Identifier,
     and MUST be local to the link on which the registration request is received.
 
   : Endpoints that register with a base that contains a path component
@@ -1386,8 +1388,9 @@ Above rules allow the client to interpret the response as links without any furt
 The Resource Directory MAY replace the registration base URIs with a configured intermediate proxy, e.g. in the case of an HTTP lookup interface for CoAP endpoints.
 
 If the base URI of a registration contains a link-local address,
-the RD MUST NOT show its links unless the lookup was made from the same zone,
-and MUST NOT include zone identifiers in the resolved URIs.
+the RD MUST NOT show its links unless the lookup was made from the
+same link.
+The RD MUST NOT include zone identifiers in the resolved URIs.
 
 
 ## Lookup filtering
@@ -1589,7 +1592,9 @@ Additional endpoint attributes are added as target attributes to their endpoint 
 Links to endpoints SHOULD be presented in path-absolute form or, if required, as absolute references. (This avoids the RFC6690 ambiguities.)
 
 Base addresses that contain link-local addresses MUST NOT include zone identifiers,
-and such registrations <!-- or "' base attributes" --> MUST NOT be show unless the lookup was made from the same zone.
+and such registrations <!-- or "' base attributes" --> MUST NOT be
+show unless the lookup was made from the same link from which the
+registration was made.
 
 While Endpoint Lookup does expose the registration resources,
 the RD does not need to make them accessible to clients.
