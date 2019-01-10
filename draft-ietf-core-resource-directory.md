@@ -84,11 +84,8 @@ informative:
   RFC7641:
   ER: DOI.10.1145/320434.320440
   RFC8288:
-  RFC8392:
   I-D.silverajan-core-coap-protocol-negotiation:
-  I-D.arkko-core-dev-urn:
   I-D.ietf-ace-oauth-authz:
-  I-D.ietf-anima-bootstrapping-keyinfra:
   I-D.ietf-core-links-json:
 
 --- abstract
