@@ -2180,6 +2180,12 @@ originally developed.
 
 # Changelog
 
+changes from -18 to -19
+
+* link-local addresses: allow but prescribe split-horizon fashion when used,
+  disallow zone identifiers
+* Remove informative references to documents not mentioned any more
+
 changes from -17 to -18
 
 * Rather than re-specifying link format (Modernized Link Format), describe a
