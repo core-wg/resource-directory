@@ -1735,7 +1735,7 @@ Target Attribute Values sub-registry of the Constrained Restful Environments
 
 This document registers one new ND option type under the sub-registry "IPv6 Neighbor Discovery Option Formats":
 
-* Resource Directory address Option (38)
+* Resource Directory Address Option (38)
 
 ## RD Parameter Registry {#iana-registry}
 
