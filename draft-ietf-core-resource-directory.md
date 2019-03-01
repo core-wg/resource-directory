@@ -359,7 +359,7 @@ A link has the following attributes (see {{RFC8288}}):
 
     In link-format serialization, it is expressed between angular brackets, and sometimes called the "href".
 
-* Other target attributes (e.g. resource type (rt), interface (if), or content-type (ct)).
+* Other target attributes (e.g. resource type (rt), interface (if), or content format (ct)).
   These provide additional information about the target URI.
 
 
@@ -2600,7 +2600,7 @@ from the Base URI (section 5.2 {{RFC3986}}) with the relative target URI "`/temp
 ### Interpreting attributes and relations
 
 Some more information but the record's target can be obtained from the payload:
-the resource type of the target is "temperature", and its content type is
+the resource type of the target is "temperature", and its content format is
 text/plain (ct=0).
 
 A relation in a web link is a three-part statement that specifies a named relation between the so-called "context resource"
