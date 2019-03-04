@@ -1011,24 +1011,49 @@ specified in {{RFC6690}}.
 The links in that document are subject to the same limitations as the payload of a registration
 (with respect to {{limitedlinkformat}}).
 
-The registrant-ep finds one or more addresses of the directory server as described in {{finding_an_rd}}.
+* The registrant-ep finds one or more addresses of the directory server as described in {{finding_an_rd}}.
 
-The registrant-ep asks the selected directory server to probe its /.well-known/core and publish the links as follows:
-
-The registrant-ep sends (and regularly refreshes with) a POST
+* The registrant-ep sends (and regularly refreshes with) a POST
 request to the `/.well-known/core` URI of the directory server of choice. The body of the POST request is empty, and triggers the resource
 directory server to perform GET requests at the requesting registrant-ep's /.well-known/core to obtain the link-format payload to register.
 
-The registrant-ep includes the same registration parameters in the POST request as it would per {{registration}}. The registration base URI of the registration is taken from the registrant-ep's network address (as is default with regular registrations).
+  The registrant-ep includes the same registration parameters in the POST request as it would per {{registration}}. The registration base URI of the registration is taken from the registrant-ep's network address (as is default with regular registrations).
 
-The Resource Directory needs to query the registrant-ep's discovery resource to determine the success of the operation.
+  Example:
+
+~~~~
+Req: (to RD server from [2001:db8:2::1])
+POST /.well-known/core?lt=6000&ep=node1
+No payload
+
+(No response yet)
+~~~~
+
+* The Resource Directory queries the registrant-ep's discovery resource to determine the success of the operation.
 It SHOULD keep a cache of the discovery resource and not query it again as long as it is fresh.
 
-(This is to accomodate constrained registrant devices that can not process an incoming and outgoing request at the same time.
+  Example:
+
+~~~~
+Req: (from RD server to [2001:db8:2::1])
+GET /.well-known/core
+Accept: 40
+
+Res: (to the RD from [2001:db8:2::1] ) 2.05 Content
+Content-Format: 40
+Payload:
+</sen/temp>
+
+Res: (from the RD to [2001:db8:2::1]) 2.04 Changed
+~~~~
+
+The sequence of fetching the registration content before sending a successful response
+was chosen to make responses reliable,
+and the caching item was chosen to still allow very constrained registrants.
 Registrants MUST be able to serve a GET request to `/.well-known/core` after having requested registration.
 Constrained devices MAY regard the initial request as temporarily failed when they need RAM occupied by their own request to serve the RD's GET,
 and retry later when the RD already has a cached representation of their discovery resources.
-Then, the RD can reply immediately and the registrant can receive the response.)
+Then, the RD can reply immediately and the registrant can receive the response.
 
 The simple registration request interface is specified as follows:
 
@@ -1098,27 +1123,7 @@ HTTP support:
 : NO
 
 
-The registration resources MUST be deleted after the expiration of their lifetime. Additional operations on the registration resource cannot be executed because no registration location is returned.
-
-The following example shows a registrant-ep using Simple Registration,
-by simply sending an empty POST to a resource directory.
-
-~~~~
-Req: (to RD server from [2001:db8:2::1])
-POST /.well-known/core?lt=6000&ep=node1
-No payload
-
-Req: (from RD server to [2001:db8:2::1])
-GET /.well-known/core
-Accept: 40
-
-Res: (to the RD from [2001:db8:2::1] ) 2.05 Content
-Content-Format: 40
-Payload:
-</sen/temp>
-
-Res: (from the RD to [2001:db8:2::1]) 2.04 Changed
-~~~~
+The RD MUST delete registrations created by simple registration after the expiration of their lifetime. Additional operations on the registration resource cannot be executed because no registration location is returned.
 
 
 ### Third-party registration {#third-party-registration}
