@@ -1019,32 +1019,32 @@ directory server to perform GET requests at the requesting registrant-ep's /.wel
 
   The registrant-ep includes the same registration parameters in the POST request as it would per {{registration}}. The registration base URI of the registration is taken from the registrant-ep's network address (as is default with regular registrations).
 
-  Example:
+  Example request from registrant-EP to RD (unanswered until the next step):
 
 ~~~~
-Req: (to RD server from [2001:db8:2::1])
-POST /.well-known/core?lt=6000&ep=node1
-No payload
-
-(No response yet)
+Req: POST /.well-known/core?lt=6000&ep=node1
+(No payload)
 ~~~~
 
 * The Resource Directory queries the registrant-ep's discovery resource to determine the success of the operation.
 It SHOULD keep a cache of the discovery resource and not query it again as long as it is fresh.
 
-  Example:
+  Example request from the RD to the registrant-EP:
 
 ~~~~
-Req: (from RD server to [2001:db8:2::1])
-GET /.well-known/core
+Req: GET /.well-known/core
 Accept: 40
 
-Res: (to the RD from [2001:db8:2::1] ) 2.05 Content
+Res: 2.05 Content
 Content-Format: 40
 Payload:
 </sen/temp>
+~~~~
 
-Res: (from the RD to [2001:db8:2::1]) 2.04 Changed
+  With this response, the RD would answer the previous step's request:
+
+~~~~
+Res: 2.04 Changed
 ~~~~
 
 The sequence of fetching the registration content before sending a successful response
