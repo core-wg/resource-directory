@@ -103,10 +103,11 @@ in conjunction with an RD are defined.
 
 # Introduction {#introduction}
 
-The work on Constrained RESTful Environments (CoRE) aims at realizing the
-REST architecture in a suitable form for the most constrained nodes (e.g.,
-8-bit microcontrollers with limited RAM and ROM) and networks (e.g. 6LoWPAN).
-CoRE is aimed at machine-to-machine (M2M) applications such as smart energy
+In the work on Constrained RESTful Environments (CoRE), a REST architecture
+suitable for constrained nodes (e.g. with limited RAM and ROM {{?RFC7228}})
+and networks (e.g. 6LoWPAN {{?RFC4944}})
+has been established and is used in
+machine-to-machine (M2M) applications such as smart energy
 and building automation.
 
 The discovery of resources offered by a constrained server is very important
