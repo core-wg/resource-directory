@@ -1591,7 +1591,7 @@ Links to endpoints SHOULD be presented in path-absolute form or, if required, as
 
 Base addresses that contain link-local addresses MUST NOT include zone identifiers,
 and such registrations <!-- or "' base attributes" --> MUST NOT be
-show unless the lookup was made from the same link from which the
+shown unless the lookup was made from the same link from which the
 registration was made.
 
 While Endpoint Lookup does expose the registration resources,
