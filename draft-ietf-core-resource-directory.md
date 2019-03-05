@@ -506,7 +506,7 @@ The additional features of Resource Directory allow sectors to be defined
 to enable access to a particular set of resources from particular applications.
 This provides isolation and protection of sensitive data when needed. Application groups with multicast addresses may be defined to support efficient data transport.
 
-# General Operation
+# RD discovery and other interface-independent components
 
 This and the following sections define the required set of REST interfaces between a Resource Directory
 (RD), endpoints and lookup clients. Although the examples throughout theses sections assume the use of
