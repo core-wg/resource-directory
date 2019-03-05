@@ -508,12 +508,12 @@ This provides isolation and protection of sensitive data when needed. Applicatio
 
 # General Operation
 
-This section defines the required set of REST interfaces between a Resource Directory
-(RD) and endpoints. Although the examples throughout this section assume the use of
+This and the following sections define the required set of REST interfaces between a Resource Directory
+(RD), endpoints and lookup clients. Although the examples throughout theses sections assume the use of
 CoAP {{RFC7252}}, these REST interfaces can also be realized using HTTP {{RFC7230}}.
-In all definitions in this section, both CoAP response codes (with dot notation) and HTTP response codes
+In all definitions in these sections, both CoAP response codes (with dot notation) and HTTP response codes
 (without dot notation) are shown. An RD implementing this specification MUST support
-the discovery, registration, update, lookup, and removal interfaces defined in this section.
+the discovery, registration, update, lookup, and removal interfaces.
 
 All operations on the contents of the Resource Directory MUST be atomic and idempotent.
 
