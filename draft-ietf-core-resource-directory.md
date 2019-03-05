@@ -205,6 +205,7 @@ Registrant-ep
 
 RDAO
 : Resource Directory Address Option.
+  A new IPv6 Neigbhbor Discovery option defined for announcing a Resource Directory's address.
 
 
 For several operations, interface templates are given in list form;
@@ -231,8 +232,8 @@ boundaries that would be limiting those operations.
 It provides information about resources hosted by other devices that could otherwise only be obtained by
 directly querying the /.well-known/core resource on these other devices, either by a unicast request or a multicast request.
 
-Only information SHOULD be stored in the resource
-directory that can be obtained by querying the described device's
+Information SHOULD only be stored in the resource directory
+if it can be obtained by querying the described device's
 /.well-known/core resource directly.
 
 Data in the resource directory can only be provided by the
@@ -279,7 +280,7 @@ provided using the CoRE Link Format.
   +----+          | ----|      |    |     +--------+
                 --|-    +------+    |
   +----+    ----  |                 |
-  | EP |----      |                 |
+  | CT |----      |                 |
   +----+
 
 ~~~~
@@ -358,7 +359,7 @@ A link has the following attributes (see {{RFC8288}}):
 
     In link-format serialization, it is expressed between angular brackets, and sometimes called the "href".
 
-* Other target attributes (e.g. resource type (rt), interface (if), or content-type (ct)).
+* Other target attributes (e.g. resource type (rt), interface (if), or content format (ct)).
   These provide additional information about the target URI.
 
 
@@ -1734,7 +1735,7 @@ Target Attribute Values sub-registry of the Constrained Restful Environments
 
 This document registers one new ND option type under the sub-registry "IPv6 Neighbor Discovery Option Formats":
 
-* Resource Directory address Option (38)
+* Resource Directory Address Option (38)
 
 ## RD Parameter Registry {#iana-registry}
 
@@ -2599,7 +2600,7 @@ from the Base URI (section 5.2 {{RFC3986}}) with the relative target URI "`/temp
 ### Interpreting attributes and relations
 
 Some more information but the record's target can be obtained from the payload:
-the resource type of the target is "temperature", and its content type is
+the resource type of the target is "temperature", and its content format is
 text/plain (ct=0).
 
 A relation in a web link is a three-part statement that specifies a named relation between the so-called "context resource"
