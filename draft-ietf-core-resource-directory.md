@@ -506,8 +506,23 @@ The additional features of Resource Directory allow sectors to be defined
 to enable access to a particular set of resources from particular applications.
 This provides isolation and protection of sensitive data when needed. Application groups with multicast addresses may be defined to support efficient data transport.
 
+# General Operation
 
-# Finding a Resource Directory {#finding_an_rd}
+This section defines the required set of REST interfaces between a Resource Directory
+(RD) and endpoints. Although the examples throughout this section assume the use of
+CoAP {{RFC7252}}, these REST interfaces can also be realized using HTTP {{RFC7230}}.
+In all definitions in this section, both CoAP response codes (with dot notation) and HTTP response codes
+(without dot notation) are shown. An RD implementing this specification MUST support
+the discovery, registration, update, lookup, and removal interfaces defined in this section.
+
+All operations on the contents of the Resource Directory MUST be atomic and idempotent.
+
+A resource directory MAY make the information submitted to it available to further
+directories, if it can ensure that a loop does not form.  The protocol used
+between directories to ensure loop-free operation is outside the scope of
+this document.
+
+## Finding a Resource Directory {#finding_an_rd}
 
 A (re-)starting device may want to find one or more resource directories
 for discovery purposes.
@@ -579,7 +594,7 @@ unless the discovery method indicates a more precise selection scheme.
 <!-- E.g. if a hypothetical coap+dns-sd://service.example.com is configured
 as a starting point, the client should honor the SRV record's mechanisms -->
 
-## Resource Directory Address Option (RDAO) {#rdao}
+### Resource Directory Address Option (RDAO) {#rdao}
 
 The Resource Directory Address Option (RDAO) using IPv6 Neighbor Discovery (ND) carries
 information about the address of the Resource Directory (RD). This information is
@@ -636,22 +651,6 @@ RD Address:             IPv6 address of the RD.
 ~~~~
 {: #fig-rdao title='Resource Directory Address Option' align="left"}
 
-
-# Resource Directory {#rd}
-
-This section defines the required set of REST interfaces between a Resource Directory
-(RD) and endpoints. Although the examples throughout this section assume the use of
-CoAP {{RFC7252}}, these REST interfaces can also be realized using HTTP {{RFC7230}}.
-In all definitions in this section, both CoAP response codes (with dot notation) and HTTP response codes
-(without dot notation) are shown. An RD implementing this specification MUST support
-the discovery, registration, update, lookup, and removal interfaces defined in this section.
-
-All operations on the contents of the Resource Directory MUST be atomic and idempotent.
-
-A resource directory MAY make the information submitted to it available to further
-directories, if it can ensure that a loop does not form.  The protocol used
-between directories to ensure loop-free operation is outside the scope of
-this document.
 
 ## Payload Content Formats
 
@@ -802,7 +801,7 @@ The latter is to be expected when different applications
 are run on the same server.
 
 
-## Registration {#registration}
+# Registration {#registration}
 
 After discovering the location of an RD, a registrant-ep or CT MAY
 register the resources of the registrant-ep using the registration interface. This interface
@@ -1000,7 +999,7 @@ Res: 201 Created
 Location: /rd/4521
 ~~~~
 
-### Simple Registration {#simple}
+## Simple Registration {#simple}
 
 Not all endpoints hosting resources are expected to know how to upload links to an RD as described in {{registration}}. Instead, simple endpoints can implement the Simple Registration approach described in this section. An RD implementing this specification MUST implement Simple Registration. However, there may
 be security reasons why this form of directory discovery would be disabled.
@@ -1126,7 +1125,7 @@ HTTP support:
 The RD MUST delete registrations created by simple registration after the expiration of their lifetime. Additional operations on the registration resource cannot be executed because no registration location is returned.
 
 
-### Third-party registration {#third-party-registration}
+## Third-party registration {#third-party-registration}
 
 For some applications, even Simple Registration may be too taxing
 for some very constrained devices, in particular if the security requirements
@@ -2102,7 +2101,7 @@ registration lifetime configured, in instance 0 of a type 1 object
 
 ### LWM2M Register Endpoint {#lwm2m-reg}
 
-LWM2M defines a registration interface based on the REST API, described in {{rd}}. The
+LWM2M defines a registration interface based on the REST API, described in {{registration}}. The
 RD registration URI path of the LWM2M Resource Directory is specified to be "/rd".
 
 LWM2M endpoints register object IDs, for example </1>, to indicate that a particular object type is supported, and register object instances, for example </1/0>, to indicate that a particular instance of that object type exists.
