@@ -509,7 +509,7 @@ This provides isolation and protection of sensitive data when needed. Applicatio
 # RD discovery and other interface-independent components
 
 This and the following sections define the required set of REST interfaces between a Resource Directory
-(RD), endpoints and lookup clients. Although the examples throughout theses sections assume the use of
+(RD), endpoints and lookup clients. Although the examples throughout these sections assume the use of
 CoAP {{RFC7252}}, these REST interfaces can also be realized using HTTP {{RFC7230}}.
 In all definitions in these sections, both CoAP response codes (with dot notation) and HTTP response codes
 (without dot notation) are shown. An RD implementing this specification MUST support
