@@ -2178,7 +2178,7 @@ LWM2M allows for de-registration using the delete method on the returned locatio
 
 Oscar Novo, Srdjan Krco, Szymon Sasin, Kerry Lynn, Esko Dijk, Anders
 Brandt, Matthieu Vial, Jim Schaad, Mohit Sethi, Hauke Petersen, Hannes Tschofenig, Sampo Ukkola, Linyi
-Tian, and Jan Newmarch have provided helpful comments, discussions and ideas to improve and
+Tian, Jan Newmarch, Matthias Kovatsch and Jaime Jimenez have provided helpful comments, discussions and ideas to improve and
 shape this document. Zach would also like to thank his colleagues from the
 EU FP7 SENSEI project, where many of the resource directory concepts were
 originally developed.
