@@ -904,10 +904,9 @@ URI Template Variables:
   : If the registrant-ep uses an ephemeral port to register with, it MUST include the base
     parameter in the registration to provide a valid network path.
 
-  : If the registrant-ep, located behind a NAT gateway, is registering with a Resource
-    Directory which is on the network service side of the NAT gateway, the endpoint MUST
-    use a persistent port for the outgoing registration in order to provide the NAT
-    gateway with a valid network address for replies and incoming requests.
+  : A registrant that can not be reached by potential lookup clients at the address it registers from
+     (e.g. because it is behind some form of Network Address Translation (NAT))
+     MUST provide a reachable base address with its registration.
 
   : If the Base URI contains a link-local IP literal, it MUST NOT contain a Zone Identifier,
     and MUST be local to the link on which the registration request is received.
