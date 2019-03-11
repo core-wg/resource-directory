@@ -414,11 +414,11 @@ The model shown in {{fig-ER-RD}} models the contents of the resource directory w
 
 A registration is associated with one endpoint. A registration defines a set of links as defined for /.well-known/core. A Registration has six types of attributes:
 
-* a unique endpoint name ("ep") within a sector
+* an endpoint name ("ep", a Unicode string) unique within a sector
 * a Registration Base URI ("base", a URI typically describing the scheme://authority part)
 * a lifetime ("lt"),
 * a registration resource location inside the RD ("href"),
-* optionally a sector ("d")
+* optionally a sector ("d", a Unicode string)
 * optional additional endpoint attributes (from {{iana-registry}})
 
 The cardinality of "base" is currently 1;
@@ -859,15 +859,22 @@ URI Template Variables:
 
   ep :=
   : Endpoint name (mostly mandatory). The endpoint name is an identifier
-    that MUST be unique within a sector.  The maximum length of this
-    parameter is 63 bytes.
+    that MUST be unique within a sector.
+
+    As the endpoint name is a Unicode string,
+    it is encoded in UTF-8 (and possibly pct-encoding) during variable expansion (see {{RFC6570}} Section 3.2.1).
+    The endpoint name MUST NOT contain any character in the inclusive ranges 0-31 or 127-159.
+
+    The maximum length of this parameter is 63 UTF-8 encoded bytes.
 
     If the RD is configured to recognize the endpoint (e.g. based on its security context), the RD assigns an endpoint name based on a set of configuration parameter values.
 
   d :=
-  : Sector (optional). The sector to which this endpoint belongs. The maximum
-    length of this parameter is 63 bytes. When this parameter is not present, the
+  : Sector (optional). The sector to which this endpoint belongs.
+    When this parameter is not present, the
     RD MAY associate the endpoint with a configured default sector or leave it empty.
+
+    The sector is encoded like the ep parameter, and is limited to 63 UTF-8 encoded bytes as well.
 
     The endpoint name and sector name are not set when one or both are set in an accompanying authorization token.
 
