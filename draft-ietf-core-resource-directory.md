@@ -209,18 +209,6 @@ RDAO
   A new IPv6 Neigbhbor Discovery option defined for announcing a Resource Directory's address.
 
 
-For several operations, interface templates are given in list form;
-those describe the operation participants, request codes, URIs, content formats and outcomes.
-Sections of those templates contain normative content about
-Interaction, Method, URI Template and URI Template Variables
-as well as the details of the Success condition.
-The additional sections
-on options like Content-Format and on Failure codes
-give typical cases that an implementation of the RD should deal with.
-Those serve to illustrate the typical responses
-to readers who are not yet familiar with all the details of CoAP based interfaces;
-they do not limit what a server may respond under atypical circumstances.
-
 
 # Architecture and Use Cases {#arch}
 
@@ -517,6 +505,18 @@ In all definitions in these sections, both CoAP response codes (with dot notatio
 the discovery, registration, update, lookup, and removal interfaces.
 
 All operations on the contents of the Resource Directory MUST be atomic and idempotent.
+
+For several operations, interface templates are given in list form;
+those describe the operation participants, request codes, URIs, content formats and outcomes.
+Sections of those templates contain normative content about
+Interaction, Method, URI Template and URI Template Variables
+as well as the details of the Success condition.
+The additional sections
+on options like Content-Format and on Failure codes
+give typical cases that an implementation of the RD should deal with.
+Those serve to illustrate the typical responses
+to readers who are not yet familiar with all the details of CoAP based interfaces;
+they do not limit what a server may respond under atypical circumstances.
 
 A resource directory MAY make the information submitted to it available to further
 directories, if it can ensure that a loop does not form.  The protocol used
