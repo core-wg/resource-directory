@@ -90,7 +90,7 @@ informative:
 
 --- abstract
 
-In many M2M applications, direct discovery of resources is not practical
+In many IoT applications, direct discovery of resources is not practical
 due to sleeping nodes, disperse networks, or networks where multicast traffic
 is inefficient. These problems can be solved by employing an entity called
 a Resource Directory (RD), which contains information about resources held on
@@ -107,6 +107,7 @@ In the work on Constrained RESTful Environments (CoRE), a REST architecture
 suitable for constrained nodes (e.g. with limited RAM and ROM {{?RFC7228}})
 and networks (e.g. 6LoWPAN {{?RFC4944}})
 has been established and is used in
+Internet-of-Things (IoT) or
 machine-to-machine (M2M) applications such as smart energy
 and building automation.
 
@@ -118,7 +119,7 @@ Web Linking for the description and discovery of resources hosted by
 constrained web servers is specified by the CoRE Link Format
 {{RFC6690}}. However, {{RFC6690}} only describes how to discover
 resources from the web server that hosts them by querying
-`/.well-known/core`. In many M2M scenarios, direct discovery of resources is
+`/.well-known/core`. In many constrained scenarios, direct discovery of resources is
 not practical due to sleeping nodes, disperse networks, or networks where
 multicast traffic is inefficient. These problems can be solved by employing
 an entity called a Resource Directory (RD), which contains information about resources held on
