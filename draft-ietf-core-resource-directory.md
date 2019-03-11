@@ -209,18 +209,6 @@ RDAO
   A new IPv6 Neigbhbor Discovery option defined for announcing a Resource Directory's address.
 
 
-For several operations, interface templates are given in list form;
-those describe the operation participants, request codes, URIs, content formats and outcomes.
-Sections of those templates contain normative content about
-Interaction, Method, URI Template and URI Template Variables
-as well as the details of the Success condition.
-The additional sections
-on options like Content-Format and on Failure codes
-give typical cases that an implementation of the RD should deal with.
-Those serve to illustrate the typical responses
-to readers who are not yet familiar with all the details of CoAP based interfaces;
-they do not limit what a server may respond under atypical circumstances.
-
 
 # Architecture and Use Cases {#arch}
 
@@ -512,11 +500,32 @@ This provides isolation and protection of sensitive data when needed. Applicatio
 This and the following sections define the required set of REST interfaces between a Resource Directory
 (RD), endpoints and lookup clients. Although the examples throughout these sections assume the use of
 CoAP {{RFC7252}}, these REST interfaces can also be realized using HTTP {{RFC7230}}.
+Only multicast discovery operations are not possible on HTTP, and Simple Registration can not be executed as base attribute (which is mandatory for HTTP) can not be used there.
 In all definitions in these sections, both CoAP response codes (with dot notation) and HTTP response codes
 (without dot notation) are shown. An RD implementing this specification MUST support
 the discovery, registration, update, lookup, and removal interfaces.
 
 All operations on the contents of the Resource Directory MUST be atomic and idempotent.
+
+For several operations, interface templates are given in list form;
+those describe the operation participants, request codes, URIs, content formats and outcomes.
+Sections of those templates contain normative content about
+Interaction, Method, URI Template and URI Template Variables
+as well as the details of the Success condition.
+The additional sections
+on options like Content-Format and on Failure codes
+give typical cases that an implementation of the RD should deal with.
+Those serve to illustrate the typical responses
+to readers who are not yet familiar with all the details of CoAP based interfaces;
+they do not limit what a server may respond under atypical circumstances.
+
+REST clients (registrant-EPs / CTs, lookup clients, RD servers during simple registrations)
+MUST be prepared to receive any unsuccessful code and act upon it
+according to its definition, options and/or payload to the best of their capabilities,
+falling back to failing the operation if recovery is not possible.
+In particular, they should retry the request upon 5.03 (Service Unavailable; 503 in HTTP)
+according to the Max-Age (Retry-After in HTTP) option,
+and fall back to link-format when receiving 4.15 (Unsupported Content Format; 415 in HTTP).
 
 A resource directory MAY make the information submitted to it available to further
 directories, if it can ensure that a loop does not form.  The protocol used
@@ -723,21 +732,11 @@ URI Template Variables:
 Accept:
 : absent, application/link-format or any other media type representing web links
 
-The following response codes are defined for this interface:
+The following response is expected on this interface:
 
 Success:
 : 2.05 "Content" or 200 "OK" with an
   application/link-format or other web link payload containing one or more matching entries for the RD resource.
-
-Failure:
-: 4.00 "Bad Request" or 400 "Bad Request" is returned in case of a malformed request for a unicast
-  request.
-
-Failure:
-: No error response to a multicast request.
-
-HTTP support :
-: YES (Unicast only)
 
 The following example shows an endpoint discovering an RD using this interface,
 thus learning that the directory resource location, in this example, is /rd, and that the
@@ -928,7 +927,7 @@ URI Template Variables:
 Content-Format:
 : application/link-format or any other indicated media type representing web links
 
-The following response codes are defined for this interface:
+The following response is expected on this interface:
 
 Success:
 : 2.01 "Created" or 201 "Created". The Location-Path option or Location header
@@ -947,21 +946,9 @@ Success:
   as that could conflict with query parameters during the Registration Update operation.
   Therefore, the Location-Query option MUST NOT be present in a successful response.
 
-Failure:
-: 4.00 "Bad Request" or 400 "Bad Request". Malformed request.
-
-Failure:
-: 5.03 "Service Unavailable" or 503 "Service Unavailable". Service could not perform the operation.
-
-HTTP support:
-: YES
-
-If the registration fails with a Service Unavailable response
-and a Max-Age option or Retry-After header,
-the registering endpoint SHOULD retry the operation after the time indicated.
-If the registration fails in another way, including request timeouts,
-or if the Service Unavailable error persists after several retries,
-or indicates a longer time than the endpoint is willing to wait,
+If the registration fails, including request timeouts,
+or if delays from Service Unavailable responses with Max-Age or Retry-After
+accumulate to exceed the registrant's configured timeouts,
 it SHOULD pick another registration URI from the "URI Discovery" step
 and if there is only one or the list is exhausted,
 pick other choices from the "Finding a Resource Directory" step.
@@ -1079,19 +1066,10 @@ URI Template Variables are as they are for registration in {{registration}}.
 The base attribute is not accepted to keep the registration interface simple;
 that rules out registration over CoAP-over-TCP or HTTP that would need to specify one.
 
-The following response codes are defined for this interface:
+The following response is expected on this interface:
 
 Success:
 : 2.04 "Changed".
-
-Failure:
-: 4.00 "Bad Request". Malformed request.
-
-Failure:
-: 5.03 "Service Unavailable". Service could not perform the operation.
-
-HTTP support:
-: NO
 
 
 For the second interaction triggered by the above, the registrant-ep takes the role of server and the RD the role of client.
@@ -1111,22 +1089,10 @@ URI Template:
 : /.well-known/core
 
 
-The following response codes are defined for this interface:
+The following response is expected on this interface:
 
 Success:
 : 2.05 "Content".
-
-Failure:
-: 4.00 "Bad Request". Malformed request.
-
-Failure:
-: 4.04 "Not Found". /.well-known/core does not exist.
-
-Failure:
-: 5.03 "Service Unavailable". Service could not perform the operation.
-
-HTTP support:
-: NO
 
 
 The RD MUST delete registrations created by simple registration after the expiration of their lifetime. Additional operations on the registration resource cannot be executed because no registration location is returned.
@@ -1227,28 +1193,16 @@ URI Template Variables:
 Content-Format:
 : none (no payload)
 
-The following response codes are defined for this interface:
+The following responses are expected on this interface:
 
 Success:
 : 2.04 "Changed" or 204 "No Content" if the update was successfully processed.
 
 Failure:
-: 4.00 "Bad Request" or 400 "Bad Request". Malformed request.
-
-Failure:
 : 4.04 "Not Found" or 404 "Not Found". Registration does not exist (e.g. may have been removed).
 
-Failure:
-: 5.03 "Service Unavailable" or 503 "Service Unavailable". Service could not perform the operation.
-
-HTTP support:
-: YES
-
-If the registration update fails with a "Service Unavailable" response
-and a Max-Age option or Retry-After header,
-the registering endpoint SHOULD retry the operation after the time indicated.
-If the registration fails in another way, including request timeouts,
-or if the time indicated exceeds the remaining lifetime,
+If the registration fails in any way, including "Not Found" and request timeouts,
+or if the time indicated in a Service Unabailable Max-Age/Retry-After exceeds the remaining lifetime,
 the registering endpoint SHOULD attempt registration again.
 
 
@@ -1328,21 +1282,13 @@ URI Template Variables:
   : This is the Location returned by the RD as a result of a successful
     earlier registration.
 
-The following response codes are defined for this interface:
+The following responses are expected on this interface:
 
 Success:
 : 2.02 "Deleted" or 204 "No Content" upon successful deletion
 
 Failure:
-: 4.00 "Bad Request" or 400 "Bad Request". Malformed request.
-
-Failure:
 : 4.04 "Not Found" or 404 "Not Found". Registration does not exist (e.g. may already have been removed).
-
-Failure:
-: 5.03 "Service Unavailable" or 503 "Service Unavailable". Service could not perform the operation.
-
-HTTP support: YES
 
 The following examples shows successful removal of the endpoint from the RD with example location value /rd/4521.
 
@@ -1473,18 +1419,6 @@ Success:
 
   The payload can contain zero links (which is an empty payload in {{RFC6690}} link format, but could also be `[]` in JSON based formats),
   indicating that no entities matched the request.
-
-Failure:
-: No error response to a multicast request.
-
-Failure:
-: 4.00 "Bad Request" or 400 "Bad Request". Malformed request.
-
-Failure:
-: 5.03 "Service Unavailable" or 503 "Service Unavailable". Service could not perform the operation.
-
-HTTP support:
-: YES
 
 
 ##  Resource lookup examples
