@@ -947,12 +947,9 @@ Success:
   as that could conflict with query parameters during the Registration Update operation.
   Therefore, the Location-Query option MUST NOT be present in a successful response.
 
-If the registration fails with a Service Unavailable response
-and a Max-Age option or Retry-After header,
-the registering endpoint SHOULD retry the operation after the time indicated.
-If the registration fails in another way, including request timeouts,
-or if the Service Unavailable error persists after several retries,
-or indicates a longer time than the endpoint is willing to wait,
+If the registration fails, including request timeouts,
+or if delays from Service Unavailable responses with Max-Age or Retry-After
+accumulate to exceed the registrant's configured timeouts,
 it SHOULD pick another registration URI from the "URI Discovery" step
 and if there is only one or the list is exhausted,
 pick other choices from the "Finding a Resource Directory" step.
@@ -1205,11 +1202,8 @@ Success:
 Failure:
 : 4.04 "Not Found" or 404 "Not Found". Registration does not exist (e.g. may have been removed).
 
-If the registration update fails with a "Service Unavailable" response
-and a Max-Age option or Retry-After header,
-the registering endpoint SHOULD retry the operation after the time indicated.
-If the registration fails in another way, including request timeouts,
-or if the time indicated exceeds the remaining lifetime,
+If the registration fails in any way, including "Not Found" and request timeouts,
+or if the time indicated in a Service Unabailable Max-Age/Retry-After exceeds the remaining lifetime,
 the registering endpoint SHOULD attempt registration again.
 
 
