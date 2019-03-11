@@ -2127,6 +2127,24 @@ originally developed.
 
 # Changelog
 
+changes from -19 to -20
+
+(Processing comments from the WG chair review)
+
+* Define the permissible characters in endpoint and sector names
+* Express requirements on NAT situations in more abstract terms
+* Shifted heading levels to have the interfaces on the same level
+* Group instructions for error handling into general section
+* Simple Registration: process reflowed into items list
+* Updated introduction to reflect state of CoRE in general, reference RFC7228
+  (defining "constrained") and use "IoT" term in addition to "M2M"
+* Update acknowledgements
+* Assorted editorial changes
+  - Unify examples style
+  - Terminology: RDAO defined and not only expanded
+  - Add CT to {{fig-arch}}
+  - Consistency in the use of the term "Content Format"
+
 changes from -18 to -19
 
 * link-local addresses: allow but prescribe split-horizon fashion when used,
