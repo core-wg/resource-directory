@@ -207,7 +207,7 @@ Registrant-ep
 
 RDAO
 : Resource Directory Address Option.
-  A new IPv6 Neigbhbor Discovery option defined for announcing a Resource Directory's address.
+  A new IPv6 Neighbor Discovery option defined for announcing a Resource Directory's address.
 
 
 
