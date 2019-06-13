@@ -1,6 +1,6 @@
 ---
 title: CoRE Resource Directory
-docname: draft-ietf-core-resource-directory-latest
+docname: draft-ietf-core-resource-directory-21
 stand_alone: true
 ipr: trust200902
 cat: std
@@ -87,6 +87,7 @@ informative:
   I-D.silverajan-core-coap-protocol-negotiation:
   I-D.ietf-ace-oauth-authz:
   I-D.ietf-core-links-json:
+  I-D.ietf-core-rd-dns-sd:
 
 --- abstract
 
@@ -467,6 +468,8 @@ commissioning and run-time discovery is used. Both home and building automation
 involve peer-to-peer interactions between endpoints, and involve battery-powered
 sleeping devices.
 
+Two phases can be discerned for a network servicing the system: (1) installation and (2) operation. During the operational phase, the network is connected to the Internet with a Border router (6LBR) and the nodes connected to the network can use the Internet services that are provided by the Internet Provider or the network administrator. During the installation phase, the network is completely stand-alone, no 6LBR is connected, and the network only supports the IP communication between the connected nodes. The installation phase is usually followed by the operational phase.
+
 
 ## Use Case: Link Catalogues {#usecase-catalogues}
 
@@ -536,7 +539,7 @@ this document.
 ## Finding a Resource Directory {#finding_an_rd}
 
 A (re-)starting device may want to find one or more resource directories
-for discovery purposes.
+for discovery purposes. Dependent on the operational conditions, one or more of the techniques below apply. The use of DNS-SD {{RFC6763}} is described in {{I-D.ietf-core-rd-dns-sd}}.
 
 The device may be pre-configured to exercise specific mechanisms for
 finding the resource directory:
@@ -550,22 +553,18 @@ finding the resource directory:
    an anycast address, a multicast address can also be preconfigured.
    The RD servers then need to configure one of their
    interfaces with this multicast address.)
-2. It may be configured with a DNS name for the RD and use DNS to return  the IP address of the RD; it can find a DNS server to perform the lookup using the usual mechanisms for finding DNS servers.
-3. It may be configured to use a service discovery mechanism such as
-  DNS-SD {{-dnssd}}.  The present specification suggests configuring
-  the service with name rd._sub._coap._udp, preferably within the
-  domain of the querying nodes.
-
+2. It may be configured with a DNS name for the RD and use DNS to return
+   the IP address of the RD; it can find a DNS server to perform the lookup using the usual mechanisms for finding DNS servers.
 
 For cases where the device is not specifically configured with a way
 to find a resource directory, the network may want to provide a
 suitable default.
 
-4. If the address configuration of the network is performed via SLAAC,
-  this is provided by the RDAO option {{rdao}}.
-5. If the address configuration of the network is performed via DHCP,
-  this could be provided via a DHCP option (no such option is defined
-  at the time of writing).
+3. If the address configuration of the network is performed via SLAAC,
+   this is provided by the RDAO option {{rdao}}.
+4. If the address configuration of the network is performed via DHCP,
+   this could be provided via a DHCP option (no such option is defined
+   at the time of writing).
 
 Finally, if neither the device nor the network offers any specific
 configuration, the device may want to employ heuristics to find a
@@ -574,18 +573,18 @@ suitable resource directory.
 The present specification does not fully define these heuristics, but
 suggests a number of candidates:
 
-6. In a 6LoWPAN, just assume the Border Router (6LBR) can act as a
-  resource directory (using the ABRO option to find that {{RFC6775}}).
-  Confirmation can be obtained by sending a Unicast to
-  `coap://[6LBR]/.well-known/core?rt=core.rd*`.
+5. In a 6LoWPAN, just assume the Border Router (6LBR) can act as a
+   resource directory (using the ABRO option to find that {{RFC6775}}).
+   Confirmation can be obtained by sending a Unicast to
+   `coap://[6LBR]/.well-known/core?rt=core.rd*`.
 
-7. In a network that supports multicast well, discovering the RD using
-  a multicast query for /.well-known/core as specified in CoRE Link
-  Format {{RFC6690}}: Sending a Multicast GET to
-  `coap://[MCD1]/.well-known/core?rt=core.rd*`.  RDs within the
-  multicast scope will answer the query.
+6. In a network that supports multicast well, discovering the RD using
+   a multicast query for /.well-known/core as specified in CoRE Link
+   Format {{RFC6690}}: Sending a Multicast GET to
+   `coap://[MCD1]/.well-known/core?rt=core.rd*`.  RDs within the
+   multicast scope will answer the query.
 
-  When answering a multicast request directed at a link-local address,
+ When answering a multicast request directed at a link-local address,
   the RD may want to respond from a routable address;
   this makes it easier for registrants to use one of their own routable addresses for registration.
 
@@ -599,11 +598,14 @@ host, or a CoAP error response code such as 4.05 "Method Not Allowed"
 may indicate unwillingness of a CoAP server to act as a directory
 server.
 
+The following RD discovery mechanisms are recommended:
 
-If multiple candidate addresses are discovered, the device may pick any of them initially,
-unless the discovery method indicates a more precise selection scheme.
-<!-- E.g. if a hypothetical coap+dns-sd://service.example.com is configured
-as a starting point, the client should honor the SRV record's mechanisms -->
+  * In managed networks with border routers that need stand-alone operation, the RDA0 option is recommended (e.g. operational phase described in {{automation}}).
+  * In managed networks without border router (no Internet services available), the use of a preconfigured anycast address is recommended (e.g. installation phase described in {{automation}}).
+  * The use of DNS facilities is described in {{I-D.ietf-core-rd-dns-sd}}.
+
+The use of multicast discovery in mesh networks is NOT recommended. 
+
 
 ### Resource Directory Address Option (RDAO) {#rdao}
 
