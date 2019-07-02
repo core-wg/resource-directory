@@ -2599,7 +2599,7 @@ have given some more records in the payload:
     </temp>;rt=temperature;ct=0,
     </light>;rt=light-lux;ct=0,
     </t>;anchor="/sensors/temp";rel=alternate,
-    <http://www.example.com/sensors/t123>;anchor="/sensors/temp";
+    <http://www.example.com/sensors/t123>;anchor="/temp";
         rel="describedby"
 
 Parsing the third record, the client encounters the "anchor" parameter. It is
