@@ -1715,7 +1715,7 @@ Initial entries in this sub-registry are as follows:
 | Registration Base URI | base  | URI                | RLA | The scheme, address and port and path at which this server is available |
 | Page                  | page  | Integer            |  L  | Used for pagination                                                     |
 | Count                 | count | Integer            |  L  | Used for pagination                                                     |
-| Endpoint Type         | et    | {{et-description}} | RLA | Semantic name of the endpoint (see {{et-registry}})                     |
+| Endpoint Type         | et    | {{et-description}} | RLA | Semantic type of the endpoint (see {{et-registry}})                     |
 {: #tab-registry title='RD Parameters' }
 
 (Short: Short name used in query parameters or target attributes. Validity: Unicode* = 63 Bytes of UTF-8 encoded Unicode, with no control characters as per {{registration}}. Use: R = used at registration, L = used at lookup, A = expressed in target attribute
