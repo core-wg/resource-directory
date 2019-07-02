@@ -2144,6 +2144,15 @@ originally developed.
 
 # Changelog
 
+changes from -21 to -22
+
+* Request a dedicated IPv4 address from IANA (rather than sharing with All CoAP nodes)
+* Fix erroneous examples
+* Editorial changes
+  * Add figure numbers to examples
+  * Update RD parameters table to reflect changes of earlier versions in the text
+  * Typos and minor wording
+
 changes from -20 to -21
 
 (Processing comments during WGLC)
