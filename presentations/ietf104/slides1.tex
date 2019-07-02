@@ -1,0 +1,53 @@
+\documentclass[aspectratio=169]{beamer}
+
+% generic packages
+
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+
+% about the presentation
+\title{Resource Directory}
+\subtitle{\texttt{draft-ietf-core-resource-directory}}
+\author{Zach Shelby, Michael Koster, Carsten Bormann, Peter~van~der~Stok, \textit{Christian~Amsüss}}
+\date{2019-03-29}
+
+% used commands
+
+\usepackage{verbatim}
+
+% attach self
+
+\usepackage{embedfile}
+\embedfile{\jobname.tex}
+
+\begin{document}
+
+\frame{\titlepage}
+
+\begin{frame}{Status}\Large
+	\texttt{-20} in WGLC since last Wednesday
+\end{frame}
+
+\begin{frame}{Comments coming in}\Large
+	\begin{itemize}
+		\item Additions to security considerations (Klaus)
+		\item Outdated references to other documents (Ted) \\
+			{\normalsize Removing RD discovery via not-yet-spec'd DNS-SD links}
+		\item Errors and inconsistencies in examples
+	\end{itemize}
+\end{frame}
+
+\begin{frame}{Interop status}\Large
+	\begin{itemize}
+		\item 2018-04-12 (-13): Jim's, ackl.io's, RIOT (-11), aiocoap.\\
+			Found several small ambiguities in RD.
+			% and found that not all underlying systems are shiny
+		\item 2018-10-10 (-15): RIOT, aiocoap, Jim's.\\
+			Found IPv6 zone identifier issue.
+		\item 2019-03-23 (-20): Jim's, aiocoap.\\
+			No issues with specification.\\
+			Lookup of link-format registered resources as CoRAL.
+	\end{itemize}
+\end{frame}
+
+\end{document}

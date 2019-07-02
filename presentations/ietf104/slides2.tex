@@ -1,0 +1,61 @@
+\documentclass[aspectratio=169]{beamer}
+
+% generic packages
+
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+
+% about the presentation
+\title{RD replication / rdlink}
+\subtitle{\texttt{draft-amsuess-core-rd-replication},\\\texttt{draft-amsuess-t2trg-rdlink}}
+\author{Christian~Amsüss}
+\date{2019-03-29}
+
+% used commands
+
+\usepackage{verbatim}
+
+% attach self
+
+\usepackage{embedfile}
+\embedfile{\jobname.tex}
+
+\begin{document}
+
+\frame{\titlepage}
+
+\begin{frame}{Recap: RD replication}\begin{center}
+	{\small \verbatiminput{../ietf101/cloud.txt}}
+\end{center}\end{frame}
+
+\begin{frame}{}\Large
+	Moved to T2TRG
+\end{frame}
+
+\begin{frame}{rdlink: Addresses}\begin{center}
+		\Large
+
+		\[
+		%\longoverbrace{\texttt{coap+at://}}{\footnotesize protocol negotiation}%
+		\overbrace{\texttt{coap+at}}^{\text{\hbox to 0cm{\hss \footnotesize coap+at being revived \hss}}}%
+		\texttt{://}%
+		\underbrace{\texttt{nbsw}\cdots{}\texttt{3de.ab}}_{\text{\hbox to 0cm{\hss \footnotesize base32-encoded raw public key or other cryptographic identifier \hss}}}%
+		\texttt{.}
+		\overbrace{\texttt{rdlink.arpa}}^{\text{\hbox to 0cm{\hss \footnotesize Plain hashes or hooking in under \texttt{.arpa}? \hss}}}%
+		\texttt{/green}
+		\]
+\end{center}\end{frame}
+
+\begin{frame}{\texttt{protocol-negotiation} and resumed \texttt{coap+at}}\Large
+	\begin{itemize}
+		\item Active work on \texttt{protocol-negotiation}; \texttt{coap+at} resumed
+		\item Requirements and challenges\begin{itemize}\large
+			\item URI aliasing: avoid
+			\item Trust model: required
+		\end{itemize}
+		\item Experimentation
+		\item Parts about to be moved to T2TRG due to experimental nature
+	\end{itemize}
+\end{frame}
+
+\end{document}
