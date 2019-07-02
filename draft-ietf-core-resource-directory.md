@@ -2121,13 +2121,21 @@ LWM2M allows for de-registration using the delete method on the returned locatio
 
 Oscar Novo, Srdjan Krco, Szymon Sasin, Kerry Lynn, Esko Dijk, Anders
 Brandt, Matthieu Vial, Jim Schaad, Mohit Sethi, Hauke Petersen, Hannes Tschofenig, Sampo Ukkola, Linyi
-Tian, Jan Newmarch, Matthias Kovatsch and Jaime Jimenez have provided helpful comments, discussions and ideas to improve and
+Tian, Jan Newmarch, Matthias Kovatsch, Jaime Jimenez and Ted Lemon have provided helpful comments, discussions and ideas to improve and
 shape this document. Zach would also like to thank his colleagues from the
 EU FP7 SENSEI project, where many of the resource directory concepts were
 originally developed.
 
 
 # Changelog
+
+changes from -20 to -21
+
+(Processing comments during WGLC)
+
+* Defer outdated description of using DNS-SD to find an RD to the defining document
+* Describe operational conditions in automation example
+* Recommend particular discovery mechanisms for some managed network scenarios
 
 changes from -19 to -20
 
