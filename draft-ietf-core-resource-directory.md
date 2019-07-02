@@ -1495,8 +1495,8 @@ Res: 2.05 Content
     anchor="coap://[2001:db8:3::123]:61616"
 ~~~~
 
-The following example shows a client performing a lookup of all resources from
-endpoints of all endpoints of a given endpoint type. It assumes that two endpoints (with endpoint
+The following example shows a client performing a lookup of all resources
+of all endpoints of a given endpoint type. It assumes that two endpoints (with endpoint
 names `sensor1` and `sensor2`) have previously registered with their respective
 addresses `coap://sensor1.example.com` and `coap://sensor2.example.com`, and
 posted the very payload of the 6th request of section 5 of {{RFC6690}}.
