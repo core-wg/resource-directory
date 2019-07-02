@@ -972,9 +972,9 @@ is an example RD location discovered in a request similar to {{example-discovery
 Req: POST coap://rd.example.com/rd?ep=node1
 Content-Format: 40
 Payload:
-</sensors/temp>;ct=41;rt="temperature-c";if="sensor";
-      anchor="coap://spurious.example.com:5683",
-</sensors/light>;ct=41;rt="light-lux";if="sensor"
+</sensors/temp>;ct=41;rt="temperature-c";if="sensor",
+<http://www.example.com/sensors/temp>;
+  anchor="/sensors/temp";rel="describedby"
 
 Res: 2.01 Created
 Location-Path: /rd/4521
@@ -988,9 +988,9 @@ Req: POST /rd?ep=node1&base=http://[2001:db8:1::1] HTTP/1.1
 Host: example.com
 Content-Type: application/link-format
 Payload:
-</sensors/temp>;ct=41;rt="temperature-c";if="sensor";
-      anchor="coap://spurious.example.com:5683",
-</sensors/light>;ct=41;rt="light-lux";if="sensor"
+</sensors/temp>;ct=41;rt="temperature-c";if="sensor",
+<http://www.example.com/sensors/temp>;
+  anchor="/sensors/temp";rel="describedby"
 
 Res: 201 Created
 Location: /rd/4521
@@ -1234,10 +1234,10 @@ Req: GET /rd-lookup/res?ep=endpoint1
 Res: 2.01 Content
 Payload:
 <coap://local-proxy-old.example.com:5683/sensors/temp>;ct=41;
- rt="temperature"; anchor="coap://spurious.example.com:5683",
-<coap://local-proxy-old.example.com:5683/sensors/light>;ct=41;
-  rt="light-lux"; if="sensor";
-  anchor="coap://local-proxy-old.example.com:5683"
+    rt="temperature-c";if="sensor";
+    anchor="coap://local-proxy-old.example.com:5683/",
+<http://www.example.com/sensors/temp>;
+    anchor="coap://local-proxy-old.example.com:5683/sensors/temp";rel="describedby"
 ~~~~
 
 The following example shows the registering endpoint changing the Base URI to `coaps://new.example.com:5684`:
@@ -1255,10 +1255,11 @@ Req: GET /rd-lookup/res?ep=endpoint1
 
 Res: 2.01 Content
 Payload:
-<coaps://new.example.com:5684/sensors/temp>;ct=41;rt="temperature";
-    anchor="coap://spurious.example.com:5683",
-<coaps://new.example.com:5684/sensors/light>;ct=41;rt="light-lux";
-    if="sensor"; anchor="coaps://new.example.com:5684",
+<coap://new.example.com:5684/sensors/temp>;ct=41;
+    rt="temperature-c";if="sensor";
+    anchor="coap://new.example.com:5684/",
+<http://www.example.com/sensors/temp>;
+    anchor="coap://new.example.com:5684/sensors/temp";rel="describedby"
 ~~~~
 
 ### Registration Removal {#removal}
