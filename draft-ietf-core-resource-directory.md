@@ -604,7 +604,7 @@ The following RD discovery mechanisms are recommended:
   * In managed networks without border router (no Internet services available), the use of a preconfigured anycast address is recommended (e.g. installation phase described in {{automation}}).
   * The use of DNS facilities is described in {{I-D.ietf-core-rd-dns-sd}}.
 
-The use of multicast discovery in mesh networks is NOT recommended. 
+The use of multicast discovery in mesh networks is NOT recommended.
 
 
 ### Resource Directory Address Option (RDAO) {#rdao}
