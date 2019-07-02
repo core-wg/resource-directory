@@ -766,9 +766,6 @@ indicated as well as a CBOR and JSON representation from {{I-D.ietf-core-links-j
 The RD resource locations /rd, and /rd-lookup are example values.
 The server in this example also indicates that it is capable of providing observation on resource lookups.
 
-\[ The RFC editor is asked to replace this and later occurrences of MCD1
-with the assigned IPv6 site-local address for "all CoRE Resource Directories". \]
-
 ~~~~
 Req: GET coap://[MCD1]/.well-known/core?rt=core.rd*
 
@@ -1794,11 +1791,12 @@ The registry initially contains one value:
 
 ## Multicast Address Registration {#mc-registration}
 
-   IANA has
-   assigned the following multicast addresses for use by CoAP nodes:
+   <!-- IANA has assigned -->
+   IANA is asked to assign
+   the following multicast addresses for use by CoAP nodes:
 
-   IPv4  -- "all CoRE resource directories" address, from the "IPv4
-      Multicast Address Space Registry" equal to "All CoAP Nodes", 224.0.1.187.  As the address is used for
+   IPv4  -- "all CoRE resource directories" address MCD2 (suggestion: 224.0.1.189), from the "IPv4
+      Multicast Address Space Registry".  As the address is used for
       discovery that may span beyond a single network, it has come from
       the Internetwork Control Block (224.0.1.x, RFC 5771).
 
@@ -1808,6 +1806,8 @@ The registry initially contains one value:
       multicast address for each scope that interested CoAP nodes should
       listen to; CoAP needs the Link-Local and Site-Local scopes only.
 
+\[ The RFC editor is asked to replace MCD1 and MCD2
+with the assigned addresses throughout the document. \]
 
 
 # Examples {#examples}
