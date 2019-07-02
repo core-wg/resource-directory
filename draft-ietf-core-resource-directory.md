@@ -777,6 +777,7 @@ Res: 2.05 Content
 </rd-lookup/res>;rt="core.rd-lookup-res";ct="40 TBD64 TBD504";obs,
 </rd-lookup/ep>;rt="core.rd-lookup-ep";ct="40 TBD64 TBD504",
 ~~~~
+{: #example-discovery-ct title="Exemple discovery exchange indicating additional content-formats" }
 
 From a management and maintenance perspective,
 it is necessary to identify the components that constitute the RD server.
@@ -795,6 +796,7 @@ Res: 2.05 Content
 <http://software.example.com/shiny-resource-directory/1.0beta1>;
     rel="impl-info"
 ~~~~
+{: #example-impl-discovery title="Exemple exchange of obtaining implementation information" }
 
 Note that depending on the particular server's architecture,
 such a link could be anchored at the RD server's root,
@@ -995,6 +997,7 @@ Payload:
 Res: 201 Created
 Location: /rd/4521
 ~~~~
+{: #example-payload-http title="Example registration payload as expressed using HTTP" }
 
 ## Simple Registration {#simple}
 
@@ -1021,6 +1024,7 @@ directory server to perform GET requests at the requesting registrant-ep's /.wel
 Req: POST /.well-known/core?lt=6000&ep=node1
 (No payload)
 ~~~~
+{: #example-simple1 title="First half example exchange of a simple registration" }
 
 * The Resource Directory queries the registrant-ep's discovery resource to determine the success of the operation.
 It SHOULD keep a cache of the discovery resource and not query it again as long as it is fresh.
@@ -1036,12 +1040,14 @@ Content-Format: 40
 Payload:
 </sen/temp>
 ~~~~
+{: #example-simple2 title="Example exchange of the RD querying the simple endpoint" }
 
   With this response, the RD would answer the previous step's request:
 
 ~~~~
 Res: 2.04 Changed
 ~~~~
+{: #example-simple3 title="Second half example exchange of a simple registration" }
 
 The sequence of fetching the registration content before sending a successful response
 was chosen to make responses reliable,
@@ -1217,6 +1223,7 @@ Req: POST /rd/4521
 
 Res: 2.04 Changed
 ~~~~
+{: #example-update title="Example update of a registration" }
 
 The following example shows the registering endpoint updating its registration resource at
 an RD using this interface with the example location value: /rd/4521. The initial registration by the registering endpoint set the following values:
@@ -1239,6 +1246,7 @@ Payload:
 <http://www.example.com/sensors/temp>;
     anchor="coap://local-proxy-old.example.com:5683/sensors/temp";rel="describedby"
 ~~~~
+{: #example-update-base-lookup-pre title="Example lookup before a change to the base address" }
 
 The following example shows the registering endpoint changing the Base URI to `coaps://new.example.com:5684`:
 
@@ -1247,6 +1255,7 @@ Req: POST /rd/4521?base=coaps://new.example.com:5684
 
 Res: 2.04 Changed
 ~~~~
+{: #example-update-base title="Example registration update that changes the base address" }
 
 The consecutive query returns:
 
@@ -1261,6 +1270,7 @@ Payload:
 <http://www.example.com/sensors/temp>;
     anchor="coap://new.example.com:5684/sensors/temp";rel="describedby"
 ~~~~
+{: #example-update-base-lookup-post title="Example lookup after a change to the base address" }
 
 ### Registration Removal {#removal}
 
@@ -1302,6 +1312,7 @@ Req: DELETE /rd/4521
 
 Res: 2.02 Deleted
 ~~~~
+{: #example-removal title="Example of a registration removal" }
 
 
 ### Further operations {#link-up}
@@ -1438,6 +1449,7 @@ Res: 2.05 Content
 <coap://[2001:db8:3::123]:61616/temp>;rt="temperature";
            anchor="coap://[2001:db8:3::123]:61616"
 ~~~~
+{: #example-lookup-res title="Example a resource lookup" }
 
 A client that wants to be notified of new resources as they show up can use
 observation:
@@ -1462,6 +1474,7 @@ Payload:
 <coap://[2001:db8:3::124]/east>;rt="light";
     anchor="coap://[2001:db8:3::124]"
 ~~~~
+{: #example-lookup-obs title="Example an observing resource lookup" }
 
 The following example shows a client performing a paginated resource lookup
 
@@ -1494,6 +1507,7 @@ Res: 2.05 Content
 <coap://[2001:db8:3::123]:61616/res/9>;rt=sensor;ct=60;
     anchor="coap://[2001:db8:3::123]:61616"
 ~~~~
+{: #example-lookup-page title="Examples of paginated resource lookup" }
 
 The following example shows a client performing a lookup of all resources
 of all endpoints of a given endpoint type. It assumes that two endpoints (with endpoint
@@ -1528,6 +1542,7 @@ Req: GET /rd-lookup/res?et=oic.d.sensor
 <coap://sensor2.example.com/t>;rel="alternate";
     anchor="coap://sensor2.example.com/sensors/temp"
 ~~~~
+{: #example-lookup-multiple title="Example of resource lookup from multiple endpoints" }
 
 ## Endpoint lookup {#ep-lookup}
 
@@ -1563,6 +1578,7 @@ et="oic.d.sensor";ct="40";rt="core.rd-ep",
 </rd/4521>;base="coap://[2001:db8:3::129]:61616";ep="node7";
 et="oic.d.sensor";ct="40";d="floor-3";rt="core.rd-ep"
 ~~~~
+{: #example-lookup-ep title="Examples of endpoint lookup" }
 
 
 # Security policies {#policies}
@@ -1891,10 +1907,7 @@ Payload:
 
 Res: 2.01 Created
 Location-Path: /rd/4521
-~~~~
 
-
-~~~~
 Req: POST coap://[2001:db8:4::ff]/rd
   ?ep=lm_R2-4-015_door&base=coap://[2001:db8:4::2]&d=R2-4-015
 Payload:
@@ -1904,10 +1917,7 @@ Payload:
 
 Res: 2.01 Created
 Location-Path: /rd/4522
-~~~~
 
-
-~~~~
 Req: POST coap://[2001:db8:4::ff]/rd
   ?ep=ps_R2-4-015_door&base=coap://[2001:db8:4::3]d&d=R2-4-015
 Payload:
@@ -1916,6 +1926,7 @@ Payload:
 Res: 2.01 Created
 Location-Path: /rd/4523
 ~~~~
+{: #example-lighting-1 title="Example of registrations a CT enters into an RD" }
 
 The sector name d=R2-4-015 has been added for an efficient lookup because
 filtering on "ep" name is more awkward. The same sector name is communicated to
@@ -1936,6 +1947,7 @@ Payload:
 Res: 2.01 Created
 Location-Path: /rd/501
 ~~~~
+{: #example-lighting-2 title="Example of a multicast group a CT enters into an RD" }
 
 After the filling of the RD by the CT, the application in the luminaries
 can learn to which groups they belong, and enable their interface for the
@@ -1952,6 +1964,7 @@ Res: 2.05 Content
 </rd/501>;ep="grp_R2-4-015";et="core.rd-group";
           base="coap://[ff05::1]";rt="core.rd-ep"
 ~~~~
+{: #example-lighting-3 title="Example of a lookup exchange to find suitable multicast addresses" }
 
 From the returned base parameter value, the luminary learns the multicast address
 of the multicast group.
@@ -1968,6 +1981,7 @@ Payload:
 Res: 2.01 Created
 Location-Path: /coap-group/1
 ~~~~
+{: #example-lighting-4 title="Example use of direct multicast address configuration" }
 
 Dependent on the situation, only the address, "a", or the name, "n", is specified
 in the coap-group resource.
@@ -2482,6 +2496,7 @@ Payload:
 Res: 2.01 Created
 Location-Path: /rd/12
 ~~~~
+{: #example-group-registration title="Example registration of a group"}
 
 In this example, the group manager can easily permit devices that have no
 writable color-temperature to join, as they would still respond to brightness
@@ -2506,6 +2521,7 @@ Payload:
 </rd/12>;ep=lights&et=core.rd-group;
          base="coap://[ff35:30:2001:db8::1]";rt="core.rd-ep"
 ~~~~
+{: #example-group-lookup title="Example lookup of groups"}
 
 The following example shows a client performing a lookup of all resources of all endpoints (groups) with et=core.rd-group.
 
@@ -2518,6 +2534,7 @@ Req: GET /rd-lookup/res?et=core.rd-group
      et="core.rd-group";
      anchor="coap://[ff35:30:2001:db8::1]"
 ~~~~
+{: #example-group-lookup-res title="Example lookup of resources inside groups"}
 
 # Web links and the Resource Directory {#weblink}
 
@@ -2548,6 +2565,7 @@ The client sends a link-local multicast:
 
     RES 2.05 Content
     </temp>;rt=temperature;ct=0
+{: #example-weblink-wkc title="Example of direct resource discovery"}
 
 where the response is sent by the server, `[2001:db8:f0::1]:5683`.
 
@@ -2602,6 +2620,7 @@ have given some more records in the payload:
     </t>;anchor="/sensors/temp";rel=alternate,
     <http://www.example.com/sensors/t123>;anchor="/temp";
         rel="describedby"
+{: #example-weblink-wkc-extended title="Extended example of direct resource discovery"}
 
 Parsing the third record, the client encounters the "anchor" parameter. It is
 a URI relative to the Base URI of the request and is thus resolved to
@@ -2625,6 +2644,7 @@ Registration to register at the resource directory that was announced to it,
 sending this request from its UDP port `[2001:db8:f0::1]:6553`:
 
     POST coap://[2001:db8:f01::ff]/.well-known/core?ep=simple-host1
+{: #example-weblink-simple title="Example request starting a simple registration"}
 
 The resource directory would have accepted the registration, and queried the
 simple host's `.well-known/core` by itself. As a result, the host is registered
@@ -2641,6 +2661,7 @@ receive the following data:
 
     <coap://[2001:db8:f0::1]/temp>;rt=temperature;ct=0;
         anchor="coap://[2001:db8:f0::1]"
+{: #example-weblink-lookup-result title="Example payload of a response to a resource lookup"}
 
 This is not *literally* the same response that it would have received from a
 multicast request, but it contains the equivalent statement:
@@ -2664,6 +2685,7 @@ the endpoint with the known endpoint name "simple-host1". A request to
         anchor="coap://[2001:db8:f0::1]/sensors/temp";rel=alternate,
     <http://www.example.com/sensors/t123>;
         anchor="coap://[2001:db8:f0::1]/sensors/temp";rel="describedby"
+{: #example-weblink-lookup-result-extended title="Extended example payload of a response to a resource lookup"}
 
 All the target and anchor references are already in absolute form there, which
 don't need to be resolved any further.
@@ -2674,6 +2696,7 @@ have been used to resolve the relative anchor values instead, giving
 
     <coap+tcp://simple-host1.example.com/temp>;rt=temperature;ct=0;
         anchor="coap+tcp://simple-host1.example.com"
+{: #example-weblink-lookup-result-base title="Example payload of a response to a resource lookup with a dedicated base URI"}
 
 and analogous records.
 
