@@ -1708,17 +1708,17 @@ The mechanisms around new RD parameters should be designed in such a way that th
 
 Initial entries in this sub-registry are as follows:
 
-| Full name             | Short | Validity      | Use | Description                                                             |
-| Endpoint Name         | ep    |               | RLA | Name of the endpoint, max 63 bytes                                      |
-| Lifetime              | lt    | 60-4294967295 | R   | Lifetime of the registration in seconds                                 |
-| Sector                | d     |               | RLA | Sector to which this endpoint belongs                                   |
-| Registration Base URI | base  | URI           | RLA | The scheme, address and port and path at which this server is available |
-| Page                  | page  | Integer       |  L  | Used for pagination                                                     |
-| Count                 | count | Integer       |  L  | Used for pagination                                                     |
-| Endpoint Type         | et    |               | RLA | Semantic name of the endpoint (see {{et-registry}})                     |
+| Full name             | Short | Validity           | Use | Description                                                             |
+| Endpoint Name         | ep    | Unicode*           | RLA | Name of the endpoint                                                    |
+| Lifetime              | lt    | 60-4294967295      | R   | Lifetime of the registration in seconds                                 |
+| Sector                | d     | Unicode*           | RLA | Sector to which this endpoint belongs                                   |
+| Registration Base URI | base  | URI                | RLA | The scheme, address and port and path at which this server is available |
+| Page                  | page  | Integer            |  L  | Used for pagination                                                     |
+| Count                 | count | Integer            |  L  | Used for pagination                                                     |
+| Endpoint Type         | et    | {{et-description}} | RLA | Semantic name of the endpoint (see {{et-registry}})                     |
 {: #tab-registry title='RD Parameters' }
 
-(Short: Short name used in query parameters or target attributes. Use: R = used at registration, L = used at lookup, A = expressed in target attribute
+(Short: Short name used in query parameters or target attributes. Validity: Unicode* = 63 Bytes of UTF-8 encoded Unicode, with no control characters as per {{registration}}. Use: R = used at registration, L = used at lookup, A = expressed in target attribute
 
 The descriptions for the options defined in this document are only summarized here.
 To which registrations they apply and when they are to be shown is described in the respective sections of this document.
