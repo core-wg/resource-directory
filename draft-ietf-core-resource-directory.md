@@ -2151,6 +2151,11 @@ originally developed.
 
 # Changelog
 
+changes from -22 to -23
+
+* Explain that updates can not remove attributes
+* Typo fixes
+
 changes from -21 to -22
 
 * Request a dedicated IPv4 address from IANA (rather than sharing with All CoAP nodes)
