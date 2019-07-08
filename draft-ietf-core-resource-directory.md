@@ -1196,6 +1196,13 @@ URI Template Variables:
     attributes are stored as endpoint attributes, overriding any previously
     stored endpoint attributes of the same key.
 
+  : Note that this default behavior does not allow removing an endpoint attribute in an update.
+    For attributes whose functionality depends on the endpoints' ability to remove them in an update,
+    it can make sense to define a value whose presence is equivalent to the absence of a value.
+    As an alternative, an extension can define different updating rules for their attributes.
+    That necessitates either discovery of whether the RD is aware of that extension,
+    or tolerating the default behavior.
+
 Content-Format:
 : none (no payload)
 
