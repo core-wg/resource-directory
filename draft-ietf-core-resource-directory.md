@@ -774,7 +774,7 @@ Res: 2.05 Content
 </rd-lookup/res>;rt="core.rd-lookup-res";ct="40 TBD64 TBD504";obs,
 </rd-lookup/ep>;rt="core.rd-lookup-ep";ct="40 TBD64 TBD504",
 ~~~~
-{: #example-discovery-ct title="Exemple discovery exchange indicating additional content-formats" }
+{: #example-discovery-ct title="Example discovery exchange indicating additional content-formats" }
 
 From a management and maintenance perspective,
 it is necessary to identify the components that constitute the RD server.
@@ -793,7 +793,7 @@ Res: 2.05 Content
 <http://software.example.com/shiny-resource-directory/1.0beta1>;
     rel="impl-info"
 ~~~~
-{: #example-impl-discovery title="Exemple exchange of obtaining implementation information" }
+{: #example-impl-discovery title="Example exchange of obtaining implementation information" }
 
 Note that depending on the particular server's architecture,
 such a link could be anchored at the RD server's root,
