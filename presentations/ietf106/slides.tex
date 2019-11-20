@@ -1,0 +1,57 @@
+\documentclass[aspectratio=169]{beamer}
+
+% generic packages
+
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+
+% about the presentation
+\title{Resource Directory}
+\subtitle{\texttt{draft-ietf-core-resource-directory}}
+\author{Zach Shelby, Michael Koster, Carsten Bormann, Peter~van~der~Stok, \textit{Christian~Amsüss}}
+\date{2019-11-22}
+
+% used commands
+
+\usepackage{verbatim}
+
+% attach self
+
+\usepackage{embedfile}
+\embedfile{\jobname.tex}
+
+\begin{document}
+
+\frame{\titlepage}
+
+\begin{frame}{Status}\Large
+	\texttt{-21} etc.\ addressed WGLC comments
+
+	\bigskip
+
+	\texttt{-23} just received AD review
+\end{frame}
+
+\begin{frame}[fragile]{Open points for \texttt{-24}}\Large
+	\begin{itemize}
+		\item Is RD-DNS-SD a normative reference?
+
+			\bigskip
+
+			\large
+
+			\begin{verbatim}
+The following RD discovery mechanisms are recommended:
+
+o In managed networks, [RDAO or anycast].
+
+o The use of DNS facilities is described in [RD-DNS-SD].
+			\end{verbatim}
+
+			\bigskip
+
+		\item Editorial and markup changes
+	\end{itemize}
+\end{frame}
+
+\end{document}
