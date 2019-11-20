@@ -84,16 +84,14 @@ informative:
   RFC7641:
   ER: DOI.10.1145/320434.320440
   RFC8288:
-  RFC8392:
   I-D.silverajan-core-coap-protocol-negotiation:
-  I-D.arkko-core-dev-urn:
   I-D.ietf-ace-oauth-authz:
-  I-D.ietf-anima-bootstrapping-keyinfra:
   I-D.ietf-core-links-json:
+  I-D.ietf-core-rd-dns-sd:
 
 --- abstract
 
-In many M2M applications, direct discovery of resources is not practical
+In many IoT applications, direct discovery of resources is not practical
 due to sleeping nodes, disperse networks, or networks where multicast traffic
 is inefficient. These problems can be solved by employing an entity called
 a Resource Directory (RD), which contains information about resources held on
@@ -106,10 +104,12 @@ in conjunction with an RD are defined.
 
 # Introduction {#introduction}
 
-The work on Constrained RESTful Environments (CoRE) aims at realizing the
-REST architecture in a suitable form for the most constrained nodes (e.g.,
-8-bit microcontrollers with limited RAM and ROM) and networks (e.g. 6LoWPAN).
-CoRE is aimed at machine-to-machine (M2M) applications such as smart energy
+In the work on Constrained RESTful Environments (CoRE), a REST architecture
+suitable for constrained nodes (e.g. with limited RAM and ROM {{?RFC7228}})
+and networks (e.g. 6LoWPAN {{?RFC4944}})
+has been established and is used in
+Internet-of-Things (IoT) or
+machine-to-machine (M2M) applications such as smart energy
 and building automation.
 
 The discovery of resources offered by a constrained server is very important
@@ -120,7 +120,7 @@ Web Linking for the description and discovery of resources hosted by
 constrained web servers is specified by the CoRE Link Format
 {{RFC6690}}. However, {{RFC6690}} only describes how to discover
 resources from the web server that hosts them by querying
-`/.well-known/core`. In many M2M scenarios, direct discovery of resources is
+`/.well-known/core`. In many constrained scenarios, direct discovery of resources is
 not practical due to sleeping nodes, disperse networks, or networks where
 multicast traffic is inefficient. These problems can be solved by employing
 an entity called a Resource Directory (RD), which contains information about resources held on
@@ -208,19 +208,8 @@ Registrant-ep
 
 RDAO
 : Resource Directory Address Option.
+  A new IPv6 Neighbor Discovery option defined for announcing a Resource Directory's address.
 
-
-For several operations, interface templates are given in list form;
-those describe the operation participants, request codes, URIs, content formats and outcomes.
-Sections of those templates contain normative content about
-Interaction, Method, URI Template and URI Template Variables
-as well as the details of the Success condition.
-The additional sections
-on options like Content-Format and on Failure codes
-give typical cases that an implementation of the RD should deal with.
-Those serve to illustrate the typical responses
-to readers who are not yet familiar with all the details of CoAP based interfaces;
-they do not limit what a server may respond under atypical circumstances.
 
 
 # Architecture and Use Cases {#arch}
@@ -234,8 +223,8 @@ boundaries that would be limiting those operations.
 It provides information about resources hosted by other devices that could otherwise only be obtained by
 directly querying the /.well-known/core resource on these other devices, either by a unicast request or a multicast request.
 
-Only information SHOULD be stored in the resource
-directory that can be obtained by querying the described device's
+Information SHOULD only be stored in the resource directory
+if it can be obtained by querying the described device's
 /.well-known/core resource directly.
 
 Data in the resource directory can only be provided by the
@@ -282,7 +271,7 @@ provided using the CoRE Link Format.
   +----+          | ----|      |    |     +--------+
                 --|-    +------+    |
   +----+    ----  |                 |
-  | EP |----      |                 |
+  | CT |----      |                 |
   +----+
 
 ~~~~
@@ -361,7 +350,7 @@ A link has the following attributes (see {{RFC8288}}):
 
     In link-format serialization, it is expressed between angular brackets, and sometimes called the "href".
 
-* Other target attributes (e.g. resource type (rt), interface (if), or content-type (ct)).
+* Other target attributes (e.g. resource type (rt), interface (if), or content format (ct)).
   These provide additional information about the target URI.
 
 
@@ -415,11 +404,11 @@ The model shown in {{fig-ER-RD}} models the contents of the resource directory w
 
 A registration is associated with one endpoint. A registration defines a set of links as defined for /.well-known/core. A Registration has six types of attributes:
 
-* a unique endpoint name ("ep") within a sector
+* an endpoint name ("ep", a Unicode string) unique within a sector
 * a Registration Base URI ("base", a URI typically describing the scheme://authority part)
 * a lifetime ("lt"),
 * a registration resource location inside the RD ("href"),
-* optionally a sector ("d")
+* optionally a sector ("d", a Unicode string)
 * optional additional endpoint attributes (from {{iana-registry}})
 
 The cardinality of "base" is currently 1;
@@ -428,15 +417,17 @@ Its value is used as a Base URI when resolving URIs in the links contained in th
 
 Links are modelled as they are in {{fig-ER-WKC}}.
 
-## Link-local addresses {#linklocal}
+## Link-local addresses and zone identifiers {#linklocal}
 
-Registration requests to the RD may arrive from link-local IP addresses.
-When building a Registration Base URI from that source IP address
-(which would become part of the resolved URIs in resource lookup),
-its link-local IP literal typically contains a zone identifier of the RD,
-and is not usable across hosts (see {{RFC6874}} Section 1).
+Registration Base URIs can contain link-local IP addresses.
+To be usable across hosts, those can not be serialized to contain zone identifiers (see {{RFC6874}} Section 1).
 
-Therefore, RD servers SHOULD reject registrations which use of URIs containing link-local IP addresses.
+Link-local addresses can only be used on a single link
+(therefore RD servers can not announce them when queried on a different link),
+and lookup clients using them need to keep track of which interface they got them from.
+
+Therefore, it is advisable in many scenarios
+to use addresses with larger scope if available.
 
 ## Use Case: Cellular M2M {#cellular}
 
@@ -477,6 +468,8 @@ commissioning and run-time discovery is used. Both home and building automation
 involve peer-to-peer interactions between endpoints, and involve battery-powered
 sleeping devices.
 
+Two phases can be discerned for a network servicing the system: (1) installation and (2) operation. During the operational phase, the network is connected to the Internet with a Border router (6LBR) and the nodes connected to the network can use the Internet services that are provided by the Internet Provider or the network administrator. During the installation phase, the network is completely stand-alone, no 6LBR is connected, and the network only supports the IP communication between the connected nodes. The installation phase is usually followed by the operational phase.
+
 
 ## Use Case: Link Catalogues {#usecase-catalogues}
 
@@ -506,11 +499,47 @@ The additional features of Resource Directory allow sectors to be defined
 to enable access to a particular set of resources from particular applications.
 This provides isolation and protection of sensitive data when needed. Application groups with multicast addresses may be defined to support efficient data transport.
 
+# RD discovery and other interface-independent components
 
-# Finding a Resource Directory {#finding_an_rd}
+This and the following sections define the required set of REST interfaces between a Resource Directory
+(RD), endpoints and lookup clients. Although the examples throughout these sections assume the use of
+CoAP {{RFC7252}}, these REST interfaces can also be realized using HTTP {{RFC7230}}.
+Only multicast discovery operations are not possible on HTTP, and Simple Registration can not be executed as base attribute (which is mandatory for HTTP) can not be used there.
+In all definitions in these sections, both CoAP response codes (with dot notation) and HTTP response codes
+(without dot notation) are shown. An RD implementing this specification MUST support
+the discovery, registration, update, lookup, and removal interfaces.
+
+All operations on the contents of the Resource Directory MUST be atomic and idempotent.
+
+For several operations, interface templates are given in list form;
+those describe the operation participants, request codes, URIs, content formats and outcomes.
+Sections of those templates contain normative content about
+Interaction, Method, URI Template and URI Template Variables
+as well as the details of the Success condition.
+The additional sections
+on options like Content-Format and on Failure codes
+give typical cases that an implementation of the RD should deal with.
+Those serve to illustrate the typical responses
+to readers who are not yet familiar with all the details of CoAP based interfaces;
+they do not limit what a server may respond under atypical circumstances.
+
+REST clients (registrant-EPs / CTs, lookup clients, RD servers during simple registrations)
+MUST be prepared to receive any unsuccessful code and act upon it
+according to its definition, options and/or payload to the best of their capabilities,
+falling back to failing the operation if recovery is not possible.
+In particular, they should retry the request upon 5.03 (Service Unavailable; 503 in HTTP)
+according to the Max-Age (Retry-After in HTTP) option,
+and fall back to link-format when receiving 4.15 (Unsupported Content Format; 415 in HTTP).
+
+A resource directory MAY make the information submitted to it available to further
+directories, if it can ensure that a loop does not form.  The protocol used
+between directories to ensure loop-free operation is outside the scope of
+this document.
+
+## Finding a Resource Directory {#finding_an_rd}
 
 A (re-)starting device may want to find one or more resource directories
-for discovery purposes.
+for discovery purposes. Dependent on the operational conditions, one or more of the techniques below apply. The use of DNS-SD {{RFC6763}} is described in {{I-D.ietf-core-rd-dns-sd}}.
 
 The device may be pre-configured to exercise specific mechanisms for
 finding the resource directory:
@@ -524,22 +553,18 @@ finding the resource directory:
    an anycast address, a multicast address can also be preconfigured.
    The RD servers then need to configure one of their
    interfaces with this multicast address.)
-2. It may be configured with a DNS name for the RD and use DNS to return  the IP address of the RD; it can find a DNS server to perform the lookup using the usual mechanisms for finding DNS servers.
-3. It may be configured to use a service discovery mechanism such as
-  DNS-SD {{-dnssd}}.  The present specification suggests configuring
-  the service with name rd._sub._coap._udp, preferably within the
-  domain of the querying nodes.
-
+2. It may be configured with a DNS name for the RD and use DNS to return
+   the IP address of the RD; it can find a DNS server to perform the lookup using the usual mechanisms for finding DNS servers.
 
 For cases where the device is not specifically configured with a way
 to find a resource directory, the network may want to provide a
 suitable default.
 
-4. If the address configuration of the network is performed via SLAAC,
-  this is provided by the RDAO option {{rdao}}.
-5. If the address configuration of the network is performed via DHCP,
-  this could be provided via a DHCP option (no such option is defined
-  at the time of writing).
+3. If the address configuration of the network is performed via SLAAC,
+   this is provided by the RDAO option {{rdao}}.
+4. If the address configuration of the network is performed via DHCP,
+   this could be provided via a DHCP option (no such option is defined
+   at the time of writing).
 
 Finally, if neither the device nor the network offers any specific
 configuration, the device may want to employ heuristics to find a
@@ -548,20 +573,20 @@ suitable resource directory.
 The present specification does not fully define these heuristics, but
 suggests a number of candidates:
 
-6. In a 6LoWPAN, just assume the Border Router (6LBR) can act as a
-  resource directory (using the ABRO option to find that {{RFC6775}}).
-  Confirmation can be obtained by sending a Unicast to
-  `coap://[6LBR]/.well-known/core?rt=core.rd*`.
+5. In a 6LoWPAN, just assume the Border Router (6LBR) can act as a
+   resource directory (using the ABRO option to find that {{RFC6775}}).
+   Confirmation can be obtained by sending a Unicast to
+   `coap://[6LBR]/.well-known/core?rt=core.rd*`.
 
-7. In a network that supports multicast well, discovering the RD using
-  a multicast query for /.well-known/core as specified in CoRE Link
-  Format {{RFC6690}}: Sending a Multicast GET to
-  `coap://[MCD1]/.well-known/core?rt=core.rd*`.  RDs within the
-  multicast scope will answer the query.
+6. In a network that supports multicast well, discovering the RD using
+   a multicast query for /.well-known/core as specified in CoRE Link
+   Format {{RFC6690}}: Sending a Multicast GET to
+   `coap://[MCD1]/.well-known/core?rt=core.rd*`.  RDs within the
+   multicast scope will answer the query.
 
-  When answering a link-local multicast request, the RD SHOULD NOT respond with their link-local addresses
-  but use a routable one; otherwise the registrant-ep would later need to pick an explicit base address
-  to avoid the issue of {{linklocal}}.
+ When answering a multicast request directed at a link-local address,
+  the RD may want to respond from a routable address;
+  this makes it easier for registrants to use one of their own routable addresses for registration.
 
 As some of the RD addresses obtained by the methods listed here are
 just (more or less educated) guesses, endpoints MUST make use of any
@@ -573,18 +598,22 @@ host, or a CoAP error response code such as 4.05 "Method Not Allowed"
 may indicate unwillingness of a CoAP server to act as a directory
 server.
 
+The following RD discovery mechanisms are recommended:
 
-If multiple candidate addresses are discovered, the device may pick any of them initially,
-unless the discovery method indicates a more precise selection scheme.
-<!-- E.g. if a hypothetical coap+dns-sd://service.example.com is configured
-as a starting point, the client should honor the SRV record's mechanisms -->
+  * In managed networks with border routers that need stand-alone operation, the RDAO option is recommended (e.g. operational phase described in {{automation}}).
+  * In managed networks without border router (no Internet services available), the use of a preconfigured anycast address is recommended (e.g. installation phase described in {{automation}}).
+  * The use of DNS facilities is described in {{I-D.ietf-core-rd-dns-sd}}.
 
-## Resource Directory Address Option (RDAO) {#rdao}
+The use of multicast discovery in mesh networks is NOT recommended.
+
+
+### Resource Directory Address Option (RDAO) {#rdao}
 
 The Resource Directory Address Option (RDAO) using IPv6 Neighbor Discovery (ND) carries
 information about the address of the Resource Directory (RD). This information is
 needed when endpoints cannot discover the Resource Directory with a link-local
-or realm-local scope multicast address because the endpoint and the RD are separated by a Border Router
+or realm-local scope multicast address, for instance because the
+endpoint and the RD are separated by a Border Router
 (6LBR). In many circumstances the availability of DHCP cannot be guaranteed either
 during commissioning of the network. The presence and the use of the RD is
 essential during commissioning.
@@ -635,22 +664,6 @@ RD Address:             IPv6 address of the RD.
 ~~~~
 {: #fig-rdao title='Resource Directory Address Option' align="left"}
 
-
-# Resource Directory {#rd}
-
-This section defines the required set of REST interfaces between a Resource Directory
-(RD) and endpoints. Although the examples throughout this section assume the use of
-CoAP {{RFC7252}}, these REST interfaces can also be realized using HTTP {{RFC7230}}.
-In all definitions in this section, both CoAP response codes (with dot notation) and HTTP response codes
-(without dot notation) are shown. An RD implementing this specification MUST support
-the discovery, registration, update, lookup, and removal interfaces defined in this section.
-
-All operations on the contents of the Resource Directory MUST be atomic and idempotent.
-
-A resource directory MAY make the information submitted to it available to further
-directories, if it can ensure that a loop does not form.  The protocol used
-between directories to ensure loop-free operation is outside the scope of
-this document.
 
 ## Payload Content Formats
 
@@ -722,21 +735,11 @@ URI Template Variables:
 Accept:
 : absent, application/link-format or any other media type representing web links
 
-The following response codes are defined for this interface:
+The following response is expected on this interface:
 
 Success:
 : 2.05 "Content" or 200 "OK" with an
   application/link-format or other web link payload containing one or more matching entries for the RD resource.
-
-Failure:
-: 4.00 "Bad Request" or 400 "Bad Request" is returned in case of a malformed request for a unicast
-  request.
-
-Failure:
-: No error response to a multicast request.
-
-HTTP support :
-: YES (Unicast only)
 
 The following example shows an endpoint discovering an RD using this interface,
 thus learning that the directory resource location, in this example, is /rd, and that the
@@ -763,9 +766,6 @@ indicated as well as a CBOR and JSON representation from {{I-D.ietf-core-links-j
 The RD resource locations /rd, and /rd-lookup are example values.
 The server in this example also indicates that it is capable of providing observation on resource lookups.
 
-\[ The RFC editor is asked to replace this and later occurrences of MCD1
-with the assigned IPv6 site-local address for "all CoRE Resource Directories". \]
-
 ~~~~
 Req: GET coap://[MCD1]/.well-known/core?rt=core.rd*
 
@@ -774,6 +774,7 @@ Res: 2.05 Content
 </rd-lookup/res>;rt="core.rd-lookup-res";ct="40 TBD64 TBD504";obs,
 </rd-lookup/ep>;rt="core.rd-lookup-ep";ct="40 TBD64 TBD504",
 ~~~~
+{: #example-discovery-ct title="Example discovery exchange indicating additional content-formats" }
 
 From a management and maintenance perspective,
 it is necessary to identify the components that constitute the RD server.
@@ -792,6 +793,7 @@ Res: 2.05 Content
 <http://software.example.com/shiny-resource-directory/1.0beta1>;
     rel="impl-info"
 ~~~~
+{: #example-impl-discovery title="Example exchange of obtaining implementation information" }
 
 Note that depending on the particular server's architecture,
 such a link could be anchored at the RD server's root,
@@ -801,7 +803,7 @@ The latter is to be expected when different applications
 are run on the same server.
 
 
-## Registration {#registration}
+# Registration {#registration}
 
 After discovering the location of an RD, a registrant-ep or CT MAY
 register the resources of the registrant-ep using the registration interface. This interface
@@ -858,15 +860,22 @@ URI Template Variables:
 
   ep :=
   : Endpoint name (mostly mandatory). The endpoint name is an identifier
-    that MUST be unique within a sector.  The maximum length of this
-    parameter is 63 bytes.
+    that MUST be unique within a sector.
+
+    As the endpoint name is a Unicode string,
+    it is encoded in UTF-8 (and possibly pct-encoding) during variable expansion (see {{RFC6570}} Section 3.2.1).
+    The endpoint name MUST NOT contain any character in the inclusive ranges 0-31 or 127-159.
+
+    The maximum length of this parameter is 63 UTF-8 encoded bytes.
 
     If the RD is configured to recognize the endpoint (e.g. based on its security context), the RD assigns an endpoint name based on a set of configuration parameter values.
 
   d :=
-  : Sector (optional). The sector to which this endpoint belongs. The maximum
-    length of this parameter is 63 bytes. When this parameter is not present, the
+  : Sector (optional). The sector to which this endpoint belongs.
+    When this parameter is not present, the
     RD MAY associate the endpoint with a configured default sector or leave it empty.
+
+    The sector is encoded like the ep parameter, and is limited to 63 UTF-8 encoded bytes as well.
 
     The endpoint name and sector name are not set when one or both are set in an accompanying authorization token.
 
@@ -896,14 +905,12 @@ URI Template Variables:
   : If the registrant-ep uses an ephemeral port to register with, it MUST include the base
     parameter in the registration to provide a valid network path.
 
-  : If the registrant-ep, located behind a NAT gateway, is registering with a Resource
-    Directory which is on the network service side of the NAT gateway, the endpoint MUST
-    use a persistent port for the outgoing registration in order to provide the NAT
-    gateway with a valid network address for replies and incoming requests.
+  : A registrant that can not be reached by potential lookup clients at the address it registers from
+     (e.g. because it is behind some form of Network Address Translation (NAT))
+     MUST provide a reachable base address with its registration.
 
-  : If the registrant-ep uses a link-local address to register,
-    it MUST give an explicit routable base address unless configured otherwise as per {{linklocal}}
-    (or just register from that address in the first place).
+  : If the Base URI contains a link-local IP literal, it MUST NOT contain a Zone Identifier,
+    and MUST be local to the link on which the registration request is received.
 
   : Endpoints that register with a base that contains a path component
     can not meaningfully use {{RFC6690}} Link Format due to its prevalence of
@@ -922,7 +929,7 @@ URI Template Variables:
 Content-Format:
 : application/link-format or any other indicated media type representing web links
 
-The following response codes are defined for this interface:
+The following response is expected on this interface:
 
 Success:
 : 2.01 "Created" or 201 "Created". The Location-Path option or Location header
@@ -941,21 +948,9 @@ Success:
   as that could conflict with query parameters during the Registration Update operation.
   Therefore, the Location-Query option MUST NOT be present in a successful response.
 
-Failure:
-: 4.00 "Bad Request" or 400 "Bad Request". Malformed request.
-
-Failure:
-: 5.03 "Service Unavailable" or 503 "Service Unavailable". Service could not perform the operation.
-
-HTTP support:
-: YES
-
-If the registration fails with a Service Unavailable response
-and a Max-Age option or Retry-After header,
-the registering endpoint SHOULD retry the operation after the time indicated.
-If the registration fails in another way, including request timeouts,
-or if the Service Unavailable error persists after several retries,
-or indicates a longer time than the endpoint is willing to wait,
+If the registration fails, including request timeouts,
+or if delays from Service Unavailable responses with Max-Age or Retry-After
+accumulate to exceed the registrant's configured timeouts,
 it SHOULD pick another registration URI from the "URI Discovery" step
 and if there is only one or the list is exhausted,
 pick other choices from the "Finding a Resource Directory" step.
@@ -976,9 +971,9 @@ is an example RD location discovered in a request similar to {{example-discovery
 Req: POST coap://rd.example.com/rd?ep=node1
 Content-Format: 40
 Payload:
-</sensors/temp>;ct=41;rt="temperature-c";if="sensor";
-      anchor="coap://spurious.example.com:5683",
-</sensors/light>;ct=41;rt="light-lux";if="sensor"
+</sensors/temp>;ct=41;rt="temperature-c";if="sensor",
+<http://www.example.com/sensors/temp>;
+  anchor="/sensors/temp";rel="describedby"
 
 Res: 2.01 Created
 Location-Path: /rd/4521
@@ -992,15 +987,16 @@ Req: POST /rd?ep=node1&base=http://[2001:db8:1::1] HTTP/1.1
 Host: example.com
 Content-Type: application/link-format
 Payload:
-</sensors/temp>;ct=41;rt="temperature-c";if="sensor";
-      anchor="coap://spurious.example.com:5683",
-</sensors/light>;ct=41;rt="light-lux";if="sensor"
+</sensors/temp>;ct=41;rt="temperature-c";if="sensor",
+<http://www.example.com/sensors/temp>;
+  anchor="/sensors/temp";rel="describedby"
 
 Res: 201 Created
 Location: /rd/4521
 ~~~~
+{: #example-payload-http title="Example registration payload as expressed using HTTP" }
 
-### Simple Registration {#simple}
+## Simple Registration {#simple}
 
 Not all endpoints hosting resources are expected to know how to upload links to an RD as described in {{registration}}. Instead, simple endpoints can implement the Simple Registration approach described in this section. An RD implementing this specification MUST implement Simple Registration. However, there may
 be security reasons why this form of directory discovery would be disabled.
@@ -1011,24 +1007,52 @@ specified in {{RFC6690}}.
 The links in that document are subject to the same limitations as the payload of a registration
 (with respect to {{limitedlinkformat}}).
 
-The registrant-ep finds one or more addresses of the directory server as described in {{finding_an_rd}}.
+* The registrant-ep finds one or more addresses of the directory server as described in {{finding_an_rd}}.
 
-The registrant-ep asks the selected directory server to probe its /.well-known/core and publish the links as follows:
-
-The registrant-ep sends (and regularly refreshes with) a POST
+* The registrant-ep sends (and regularly refreshes with) a POST
 request to the `/.well-known/core` URI of the directory server of choice. The body of the POST request is empty, and triggers the resource
 directory server to perform GET requests at the requesting registrant-ep's /.well-known/core to obtain the link-format payload to register.
 
-The registrant-ep includes the same registration parameters in the POST request as it would per {{registration}}. The registration base URI of the registration is taken from the registrant-ep's network address (as is default with regular registrations).
+  The registrant-ep includes the same registration parameters in the POST request as it would per {{registration}}. The registration base URI of the registration is taken from the registrant-ep's network address (as is default with regular registrations).
 
-The Resource Directory needs to query the registrant-ep's discovery resource to determine the success of the operation.
+  Example request from registrant-EP to RD (unanswered until the next step):
+
+~~~~
+Req: POST /.well-known/core?lt=6000&ep=node1
+(No payload)
+~~~~
+{: #example-simple1 title="First half example exchange of a simple registration" }
+
+* The Resource Directory queries the registrant-ep's discovery resource to determine the success of the operation.
 It SHOULD keep a cache of the discovery resource and not query it again as long as it is fresh.
 
-(This is to accomodate constrained registrant devices that can not process an incoming and outgoing request at the same time.
+  Example request from the RD to the registrant-EP:
+
+~~~~
+Req: GET /.well-known/core
+Accept: 40
+
+Res: 2.05 Content
+Content-Format: 40
+Payload:
+</sen/temp>
+~~~~
+{: #example-simple2 title="Example exchange of the RD querying the simple endpoint" }
+
+  With this response, the RD would answer the previous step's request:
+
+~~~~
+Res: 2.04 Changed
+~~~~
+{: #example-simple3 title="Second half example exchange of a simple registration" }
+
+The sequence of fetching the registration content before sending a successful response
+was chosen to make responses reliable,
+and the caching item was chosen to still allow very constrained registrants.
 Registrants MUST be able to serve a GET request to `/.well-known/core` after having requested registration.
 Constrained devices MAY regard the initial request as temporarily failed when they need RAM occupied by their own request to serve the RD's GET,
 and retry later when the RD already has a cached representation of their discovery resources.
-Then, the RD can reply immediately and the registrant can receive the response.)
+Then, the RD can reply immediately and the registrant can receive the response.
 
 The simple registration request interface is specified as follows:
 
@@ -1048,19 +1072,10 @@ URI Template Variables are as they are for registration in {{registration}}.
 The base attribute is not accepted to keep the registration interface simple;
 that rules out registration over CoAP-over-TCP or HTTP that would need to specify one.
 
-The following response codes are defined for this interface:
+The following response is expected on this interface:
 
 Success:
 : 2.04 "Changed".
-
-Failure:
-: 4.00 "Bad Request". Malformed request.
-
-Failure:
-: 5.03 "Service Unavailable". Service could not perform the operation.
-
-HTTP support:
-: NO
 
 
 For the second interaction triggered by the above, the registrant-ep takes the role of server and the RD the role of client.
@@ -1080,48 +1095,16 @@ URI Template:
 : /.well-known/core
 
 
-The following response codes are defined for this interface:
+The following response is expected on this interface:
 
 Success:
 : 2.05 "Content".
 
-Failure:
-: 4.00 "Bad Request". Malformed request.
 
-Failure:
-: 4.04 "Not Found". /.well-known/core does not exist.
-
-Failure:
-: 5.03 "Service Unavailable". Service could not perform the operation.
-
-HTTP support:
-: NO
+The RD MUST delete registrations created by simple registration after the expiration of their lifetime. Additional operations on the registration resource cannot be executed because no registration location is returned.
 
 
-The registration resources MUST be deleted after the expiration of their lifetime. Additional operations on the registration resource cannot be executed because no registration location is returned.
-
-The following example shows a registrant-ep using Simple Registration,
-by simply sending an empty POST to a resource directory.
-
-~~~~
-Req: (to RD server from [2001:db8:2::1])
-POST /.well-known/core?lt=6000&ep=node1
-No payload
-
-Req: (from RD server to [2001:db8:2::1])
-GET /.well-known/core
-Accept: 40
-
-Res: (to the RD from [2001:db8:2::1] ) 2.05 Content
-Content-Format: 40
-Payload:
-</sen/temp>
-
-Res: (from the RD to [2001:db8:2::1]) 2.04 Changed
-~~~~
-
-
-### Third-party registration {#third-party-registration}
+## Third-party registration {#third-party-registration}
 
 For some applications, even Simple Registration may be too taxing
 for some very constrained devices, in particular if the security requirements
@@ -1150,7 +1133,7 @@ These operations are described below.
 The update interface is used by the registering endpoint to refresh or update its
 registration with an RD. To use the interface, the registering endpoint sends a POST request to the registration resource returned by the initial registration operation.
 
-An update MAY update the lifetime- or the context- registration parameters
+An update MAY update the lifetime or the base URI registration parameters
 "lt", "base" as in {{registration}}. Parameters that are not being changed SHOULD NOT
 be included in an update. Adding parameters that have not changed increases
 the size of the message but does not have any other implications.
@@ -1161,8 +1144,8 @@ A registration update resets the timeout of the registration to the (possibly
 updated) lifetime of the registration, independent of whether a `lt` parameter
 was given.
 
-If the context of the registration is changed in an update,
-relative references submitted in the original registration or later updates are resolved anew against the new context.
+If the base URI of the registration is changed in an update,
+relative references submitted in the original registration or later updates are resolved anew against the new base.
 
 The registration update operation only describes the use of POST with an empty payload.
 Future standards might describe the semantics of using content formats and payloads
@@ -1213,31 +1196,26 @@ URI Template Variables:
     attributes are stored as endpoint attributes, overriding any previously
     stored endpoint attributes of the same key.
 
+  : Note that this default behavior does not allow removing an endpoint attribute in an update.
+    For attributes whose functionality depends on the endpoints' ability to remove them in an update,
+    it can make sense to define a value whose presence is equivalent to the absence of a value.
+    As an alternative, an extension can define different updating rules for their attributes.
+    That necessitates either discovery of whether the RD is aware of that extension,
+    or tolerating the default behavior.
+
 Content-Format:
 : none (no payload)
 
-The following response codes are defined for this interface:
+The following responses are expected on this interface:
 
 Success:
 : 2.04 "Changed" or 204 "No Content" if the update was successfully processed.
 
 Failure:
-: 4.00 "Bad Request" or 400 "Bad Request". Malformed request.
-
-Failure:
 : 4.04 "Not Found" or 404 "Not Found". Registration does not exist (e.g. may have been removed).
 
-Failure:
-: 5.03 "Service Unavailable" or 503 "Service Unavailable". Service could not perform the operation.
-
-HTTP support:
-: YES
-
-If the registration update fails with a "Service Unavailable" response
-and a Max-Age option or Retry-After header,
-the registering endpoint SHOULD retry the operation after the time indicated.
-If the registration fails in another way, including request timeouts,
-or if the time indicated exceeds the remaining lifetime,
+If the registration fails in any way, including "Not Found" and request timeouts,
+or if the time indicated in a Service Unabailable Max-Age/Retry-After exceeds the remaining lifetime,
 the registering endpoint SHOULD attempt registration again.
 
 
@@ -1249,6 +1227,7 @@ Req: POST /rd/4521
 
 Res: 2.04 Changed
 ~~~~
+{: #example-update title="Example update of a registration" }
 
 The following example shows the registering endpoint updating its registration resource at
 an RD using this interface with the example location value: /rd/4521. The initial registration by the registering endpoint set the following values:
@@ -1266,11 +1245,12 @@ Req: GET /rd-lookup/res?ep=endpoint1
 Res: 2.01 Content
 Payload:
 <coap://local-proxy-old.example.com:5683/sensors/temp>;ct=41;
- rt="temperature"; anchor="coap://spurious.example.com:5683",
-<coap://local-proxy-old.example.com:5683/sensors/light>;ct=41;
-  rt="light-lux"; if="sensor";
-  anchor="coap://local-proxy-old.example.com:5683"
+    rt="temperature-c";if="sensor";
+    anchor="coap://local-proxy-old.example.com:5683/",
+<http://www.example.com/sensors/temp>;
+    anchor="coap://local-proxy-old.example.com:5683/sensors/temp";rel="describedby"
 ~~~~
+{: #example-update-base-lookup-pre title="Example lookup before a change to the base address" }
 
 The following example shows the registering endpoint changing the Base URI to `coaps://new.example.com:5684`:
 
@@ -1279,6 +1259,7 @@ Req: POST /rd/4521?base=coaps://new.example.com:5684
 
 Res: 2.04 Changed
 ~~~~
+{: #example-update-base title="Example registration update that changes the base address" }
 
 The consecutive query returns:
 
@@ -1287,11 +1268,13 @@ Req: GET /rd-lookup/res?ep=endpoint1
 
 Res: 2.01 Content
 Payload:
-<coaps://new.example.com:5684/sensors/temp>;ct=41;rt="temperature";
-    anchor="coap://spurious.example.com:5683",
-<coaps://new.example.com:5684/sensors/light>;ct=41;rt="light-lux";
-    if="sensor"; anchor="coaps://new.example.com:5684",
+<coap://new.example.com:5684/sensors/temp>;ct=41;
+    rt="temperature-c";if="sensor";
+    anchor="coap://new.example.com:5684/",
+<http://www.example.com/sensors/temp>;
+    anchor="coap://new.example.com:5684/sensors/temp";rel="describedby"
 ~~~~
+{: #example-update-base-lookup-post title="Example lookup after a change to the base address" }
 
 ### Registration Removal {#removal}
 
@@ -1317,21 +1300,13 @@ URI Template Variables:
   : This is the Location returned by the RD as a result of a successful
     earlier registration.
 
-The following response codes are defined for this interface:
+The following responses are expected on this interface:
 
 Success:
 : 2.02 "Deleted" or 204 "No Content" upon successful deletion
 
 Failure:
-: 4.00 "Bad Request" or 400 "Bad Request". Malformed request.
-
-Failure:
 : 4.04 "Not Found" or 404 "Not Found". Registration does not exist (e.g. may already have been removed).
-
-Failure:
-: 5.03 "Service Unavailable" or 503 "Service Unavailable". Service could not perform the operation.
-
-HTTP support: YES
 
 The following examples shows successful removal of the endpoint from the RD with example location value /rd/4521.
 
@@ -1341,6 +1316,7 @@ Req: DELETE /rd/4521
 
 Res: 2.02 Deleted
 ~~~~
+{: #example-removal title="Example of a registration removal" }
 
 
 ### Further operations {#link-up}
@@ -1384,6 +1360,11 @@ Links of which href or anchor was submitted as a (full) URI are returned with th
 
 Above rules allow the client to interpret the response as links without any further knowledge of the storage conventions of the RD.
 The Resource Directory MAY replace the registration base URIs with a configured intermediate proxy, e.g. in the case of an HTTP lookup interface for CoAP endpoints.
+
+If the base URI of a registration contains a link-local address,
+the RD MUST NOT show its links unless the lookup was made from the
+same link.
+The RD MUST NOT include zone identifiers in the resolved URIs.
 
 
 ## Lookup filtering
@@ -1458,18 +1439,6 @@ Success:
   The payload can contain zero links (which is an empty payload in {{RFC6690}} link format, but could also be `[]` in JSON based formats),
   indicating that no entities matched the request.
 
-Failure:
-: No error response to a multicast request.
-
-Failure:
-: 4.00 "Bad Request" or 400 "Bad Request". Malformed request.
-
-Failure:
-: 5.03 "Service Unavailable" or 503 "Service Unavailable". Service could not perform the operation.
-
-HTTP support:
-: YES
-
 
 ##  Resource lookup examples
 
@@ -1484,6 +1453,7 @@ Res: 2.05 Content
 <coap://[2001:db8:3::123]:61616/temp>;rt="temperature";
            anchor="coap://[2001:db8:3::123]:61616"
 ~~~~
+{: #example-lookup-res title="Example a resource lookup" }
 
 A client that wants to be notified of new resources as they show up can use
 observation:
@@ -1508,6 +1478,7 @@ Payload:
 <coap://[2001:db8:3::124]/east>;rt="light";
     anchor="coap://[2001:db8:3::124]"
 ~~~~
+{: #example-lookup-obs title="Example an observing resource lookup" }
 
 The following example shows a client performing a paginated resource lookup
 
@@ -1540,9 +1511,10 @@ Res: 2.05 Content
 <coap://[2001:db8:3::123]:61616/res/9>;rt=sensor;ct=60;
     anchor="coap://[2001:db8:3::123]:61616"
 ~~~~
+{: #example-lookup-page title="Examples of paginated resource lookup" }
 
-The following example shows a client performing a lookup of all resources from
-endpoints of all endpoints of a given endpoint type. It assumes that two endpoints (with endpoint
+The following example shows a client performing a lookup of all resources
+of all endpoints of a given endpoint type. It assumes that two endpoints (with endpoint
 names `sensor1` and `sensor2`) have previously registered with their respective
 addresses `coap://sensor1.example.com` and `coap://sensor2.example.com`, and
 posted the very payload of the 6th request of section 5 of {{RFC6690}}.
@@ -1574,6 +1546,7 @@ Req: GET /rd-lookup/res?et=oic.d.sensor
 <coap://sensor2.example.com/t>;rel="alternate";
     anchor="coap://sensor2.example.com/sensors/temp"
 ~~~~
+{: #example-lookup-multiple title="Example of resource lookup from multiple endpoints" }
 
 ## Endpoint lookup {#ep-lookup}
 
@@ -1583,6 +1556,11 @@ Endpoint registration resources are annotated with their endpoint names (ep), se
 Additional endpoint attributes are added as target attributes to their endpoint link unless their specification says otherwise.
 
 Links to endpoints SHOULD be presented in path-absolute form or, if required, as absolute references. (This avoids the RFC6690 ambiguities.)
+
+Base addresses that contain link-local addresses MUST NOT include zone identifiers,
+and such registrations <!-- or "' base attributes" --> MUST NOT be
+shown unless the lookup was made from the same link from which the
+registration was made.
 
 While Endpoint Lookup does expose the registration resources,
 the RD does not need to make them accessible to clients.
@@ -1604,6 +1582,7 @@ et="oic.d.sensor";ct="40";rt="core.rd-ep",
 </rd/4521>;base="coap://[2001:db8:3::129]:61616";ep="node7";
 et="oic.d.sensor";ct="40";d="floor-3";rt="core.rd-ep"
 ~~~~
+{: #example-lookup-ep title="Examples of endpoint lookup" }
 
 
 # Security policies {#policies}
@@ -1725,7 +1704,7 @@ Target Attribute Values sub-registry of the Constrained Restful Environments
 
 This document registers one new ND option type under the sub-registry "IPv6 Neighbor Discovery Option Formats":
 
-* Resource Directory address Option (38)
+* Resource Directory Address Option (38)
 
 ## RD Parameter Registry {#iana-registry}
 
@@ -1750,17 +1729,17 @@ The mechanisms around new RD parameters should be designed in such a way that th
 
 Initial entries in this sub-registry are as follows:
 
-| Full name             | Short | Validity      | Use | Description                                                             |
-| Endpoint Name         | ep    |               | RLA | Name of the endpoint, max 63 bytes                                      |
-| Lifetime              | lt    | 60-4294967295 | R   | Lifetime of the registration in seconds                                 |
-| Sector                | d     |               | RLA | Sector to which this endpoint belongs                                   |
-| Registration Base URI | base  | URI           | RLA | The scheme, address and port and path at which this server is available |
-| Page                  | page  | Integer       |  L  | Used for pagination                                                     |
-| Count                 | count | Integer       |  L  | Used for pagination                                                     |
-| Endpoint Type         | et    |               | RLA | Semantic name of the endpoint (see {{et-registry}})                     |
+| Full name             | Short | Validity           | Use | Description                                                             |
+| Endpoint Name         | ep    | Unicode*           | RLA | Name of the endpoint                                                    |
+| Lifetime              | lt    | 60-4294967295      | R   | Lifetime of the registration in seconds                                 |
+| Sector                | d     | Unicode*           | RLA | Sector to which this endpoint belongs                                   |
+| Registration Base URI | base  | URI                | RLA | The scheme, address and port and path at which this server is available |
+| Page                  | page  | Integer            |  L  | Used for pagination                                                     |
+| Count                 | count | Integer            |  L  | Used for pagination                                                     |
+| Endpoint Type         | et    | {{et-description}} | RLA | Semantic type of the endpoint (see {{et-registry}})                     |
 {: #tab-registry title='RD Parameters' }
 
-(Short: Short name used in query parameters or target attributes. Use: R = used at registration, L = used at lookup, A = expressed in target attribute
+(Short: Short name used in query parameters or target attributes. Validity: Unicode* = 63 Bytes of UTF-8 encoded Unicode, with no control characters as per {{registration}}. Use: R = used at registration, L = used at lookup, A = expressed in target attribute
 
 The descriptions for the options defined in this document are only summarized here.
 To which registrations they apply and when they are to be shown is described in the respective sections of this document.
@@ -1819,11 +1798,12 @@ The registry initially contains one value:
 
 ## Multicast Address Registration {#mc-registration}
 
-   IANA has
-   assigned the following multicast addresses for use by CoAP nodes:
+   <!-- IANA has assigned -->
+   IANA is asked to assign
+   the following multicast addresses for use by CoAP nodes:
 
-   IPv4  -- "all CoRE resource directories" address, from the "IPv4
-      Multicast Address Space Registry" equal to "All CoAP Nodes", 224.0.1.187.  As the address is used for
+   IPv4  -- "all CoRE resource directories" address MCD2 (suggestion: 224.0.1.189), from the "IPv4
+      Multicast Address Space Registry".  As the address is used for
       discovery that may span beyond a single network, it has come from
       the Internetwork Control Block (224.0.1.x, RFC 5771).
 
@@ -1833,6 +1813,8 @@ The registry initially contains one value:
       multicast address for each scope that interested CoAP nodes should
       listen to; CoAP needs the Link-Local and Site-Local scopes only.
 
+\[ The RFC editor is asked to replace MCD1 and MCD2
+with the assigned addresses throughout the document. \]
 
 
 # Examples {#examples}
@@ -1932,10 +1914,7 @@ Payload:
 
 Res: 2.01 Created
 Location-Path: /rd/4521
-~~~~
 
-
-~~~~
 Req: POST coap://[2001:db8:4::ff]/rd
   ?ep=lm_R2-4-015_door&base=coap://[2001:db8:4::2]&d=R2-4-015
 Payload:
@@ -1945,10 +1924,7 @@ Payload:
 
 Res: 2.01 Created
 Location-Path: /rd/4522
-~~~~
 
-
-~~~~
 Req: POST coap://[2001:db8:4::ff]/rd
   ?ep=ps_R2-4-015_door&base=coap://[2001:db8:4::3]d&d=R2-4-015
 Payload:
@@ -1957,6 +1933,7 @@ Payload:
 Res: 2.01 Created
 Location-Path: /rd/4523
 ~~~~
+{: #example-lighting-1 title="Example of registrations a CT enters into an RD" }
 
 The sector name d=R2-4-015 has been added for an efficient lookup because
 filtering on "ep" name is more awkward. The same sector name is communicated to
@@ -1977,6 +1954,7 @@ Payload:
 Res: 2.01 Created
 Location-Path: /rd/501
 ~~~~
+{: #example-lighting-2 title="Example of a multicast group a CT enters into an RD" }
 
 After the filling of the RD by the CT, the application in the luminaries
 can learn to which groups they belong, and enable their interface for the
@@ -1993,6 +1971,7 @@ Res: 2.05 Content
 </rd/501>;ep="grp_R2-4-015";et="core.rd-group";
           base="coap://[ff05::1]";rt="core.rd-ep"
 ~~~~
+{: #example-lighting-3 title="Example of a lookup exchange to find suitable multicast addresses" }
 
 From the returned base parameter value, the luminary learns the multicast address
 of the multicast group.
@@ -2009,6 +1988,7 @@ Payload:
 Res: 2.01 Created
 Location-Path: /coap-group/1
 ~~~~
+{: #example-lighting-4 title="Example use of direct multicast address configuration" }
 
 Dependent on the situation, only the address, "a", or the name, "n", is specified
 in the coap-group resource.
@@ -2087,7 +2067,7 @@ registration lifetime configured, in instance 0 of a type 1 object
 
 ### LWM2M Register Endpoint {#lwm2m-reg}
 
-LWM2M defines a registration interface based on the REST API, described in {{rd}}. The
+LWM2M defines a registration interface based on the REST API, described in {{registration}}. The
 RD registration URI path of the LWM2M Resource Directory is specified to be "/rd".
 
 LWM2M endpoints register object IDs, for example </1>, to indicate that a particular object type is supported, and register object instances, for example </1/0>, to indicate that a particular instance of that object type exists.
@@ -2163,13 +2143,59 @@ LWM2M allows for de-registration using the delete method on the returned locatio
 
 Oscar Novo, Srdjan Krco, Szymon Sasin, Kerry Lynn, Esko Dijk, Anders
 Brandt, Matthieu Vial, Jim Schaad, Mohit Sethi, Hauke Petersen, Hannes Tschofenig, Sampo Ukkola, Linyi
-Tian, and Jan Newmarch have provided helpful comments, discussions and ideas to improve and
+Tian, Jan Newmarch, Matthias Kovatsch, Jaime Jimenez and Ted Lemon have provided helpful comments, discussions and ideas to improve and
 shape this document. Zach would also like to thank his colleagues from the
 EU FP7 SENSEI project, where many of the resource directory concepts were
 originally developed.
 
 
 # Changelog
+
+changes from -22 to -23
+
+* Explain that updates can not remove attributes
+* Typo fixes
+
+changes from -21 to -22
+
+* Request a dedicated IPv4 address from IANA (rather than sharing with All CoAP nodes)
+* Fix erroneous examples
+* Editorial changes
+  * Add figure numbers to examples
+  * Update RD parameters table to reflect changes of earlier versions in the text
+  * Typos and minor wording
+
+changes from -20 to -21
+
+(Processing comments during WGLC)
+
+* Defer outdated description of using DNS-SD to find an RD to the defining document
+* Describe operational conditions in automation example
+* Recommend particular discovery mechanisms for some managed network scenarios
+
+changes from -19 to -20
+
+(Processing comments from the WG chair review)
+
+* Define the permissible characters in endpoint and sector names
+* Express requirements on NAT situations in more abstract terms
+* Shifted heading levels to have the interfaces on the same level
+* Group instructions for error handling into general section
+* Simple Registration: process reflowed into items list
+* Updated introduction to reflect state of CoRE in general, reference RFC7228
+  (defining "constrained") and use "IoT" term in addition to "M2M"
+* Update acknowledgements
+* Assorted editorial changes
+  - Unify examples style
+  - Terminology: RDAO defined and not only expanded
+  - Add CT to {{fig-arch}}
+  - Consistency in the use of the term "Content Format"
+
+changes from -18 to -19
+
+* link-local addresses: allow but prescribe split-horizon fashion when used,
+  disallow zone identifiers
+* Remove informative references to documents not mentioned any more
 
 changes from -17 to -18
 
@@ -2491,6 +2517,7 @@ Payload:
 Res: 2.01 Created
 Location-Path: /rd/12
 ~~~~
+{: #example-group-registration title="Example registration of a group"}
 
 In this example, the group manager can easily permit devices that have no
 writable color-temperature to join, as they would still respond to brightness
@@ -2515,6 +2542,7 @@ Payload:
 </rd/12>;ep=lights&et=core.rd-group;
          base="coap://[ff35:30:2001:db8::1]";rt="core.rd-ep"
 ~~~~
+{: #example-group-lookup title="Example lookup of groups"}
 
 The following example shows a client performing a lookup of all resources of all endpoints (groups) with et=core.rd-group.
 
@@ -2527,6 +2555,7 @@ Req: GET /rd-lookup/res?et=core.rd-group
      et="core.rd-group";
      anchor="coap://[ff35:30:2001:db8::1]"
 ~~~~
+{: #example-group-lookup-res title="Example lookup of resources inside groups"}
 
 # Web links and the Resource Directory {#weblink}
 
@@ -2557,6 +2586,7 @@ The client sends a link-local multicast:
 
     RES 2.05 Content
     </temp>;rt=temperature;ct=0
+{: #example-weblink-wkc title="Example of direct resource discovery"}
 
 where the response is sent by the server, `[2001:db8:f0::1]:5683`.
 
@@ -2584,7 +2614,7 @@ from the Base URI (section 5.2 {{RFC3986}}) with the relative target URI "`/temp
 ### Interpreting attributes and relations
 
 Some more information but the record's target can be obtained from the payload:
-the resource type of the target is "temperature", and its content type is
+the resource type of the target is "temperature", and its content format is
 text/plain (ct=0).
 
 A relation in a web link is a three-part statement that specifies a named relation between the so-called "context resource"
@@ -2609,8 +2639,9 @@ have given some more records in the payload:
     </temp>;rt=temperature;ct=0,
     </light>;rt=light-lux;ct=0,
     </t>;anchor="/sensors/temp";rel=alternate,
-    <http://www.example.com/sensors/t123>;anchor="/sensors/temp";
+    <http://www.example.com/sensors/t123>;anchor="/temp";
         rel="describedby"
+{: #example-weblink-wkc-extended title="Extended example of direct resource discovery"}
 
 Parsing the third record, the client encounters the "anchor" parameter. It is
 a URI relative to the Base URI of the request and is thus resolved to
@@ -2634,6 +2665,7 @@ Registration to register at the resource directory that was announced to it,
 sending this request from its UDP port `[2001:db8:f0::1]:6553`:
 
     POST coap://[2001:db8:f01::ff]/.well-known/core?ep=simple-host1
+{: #example-weblink-simple title="Example request starting a simple registration"}
 
 The resource directory would have accepted the registration, and queried the
 simple host's `.well-known/core` by itself. As a result, the host is registered
@@ -2650,6 +2682,7 @@ receive the following data:
 
     <coap://[2001:db8:f0::1]/temp>;rt=temperature;ct=0;
         anchor="coap://[2001:db8:f0::1]"
+{: #example-weblink-lookup-result title="Example payload of a response to a resource lookup"}
 
 This is not *literally* the same response that it would have received from a
 multicast request, but it contains the equivalent statement:
@@ -2673,6 +2706,7 @@ the endpoint with the known endpoint name "simple-host1". A request to
         anchor="coap://[2001:db8:f0::1]/sensors/temp";rel=alternate,
     <http://www.example.com/sensors/t123>;
         anchor="coap://[2001:db8:f0::1]/sensors/temp";rel="describedby"
+{: #example-weblink-lookup-result-extended title="Extended example payload of a response to a resource lookup"}
 
 All the target and anchor references are already in absolute form there, which
 don't need to be resolved any further.
@@ -2683,6 +2717,7 @@ have been used to resolve the relative anchor values instead, giving
 
     <coap+tcp://simple-host1.example.com/temp>;rt=temperature;ct=0;
         anchor="coap+tcp://simple-host1.example.com"
+{: #example-weblink-lookup-result-base title="Example payload of a response to a resource lookup with a dedicated base URI"}
 
 and analogous records.
 
