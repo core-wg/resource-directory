@@ -1000,15 +1000,17 @@ Location-Path: /rd/4521
 A Resource Directory may optionally support HTTP. Here is an example of almost the same registration operation above, when done using HTTP.
 
 ~~~~
-Req: POST /rd?ep=node1&base=http://[2001:db8:1::1] HTTP/1.1
+Req:
+POST /rd?ep=node1&base=http://[2001:db8:1::1] HTTP/1.1
 Host: example.com
 Content-Type: application/link-format
-Payload:
+
 </sensors/temp>;ct=41;rt="temperature-c";if="sensor",
 <http://www.example.com/sensors/temp>;
   anchor="/sensors/temp";rel="describedby"
 
-Res: 201 Created
+Res:
+HTTP/1.1 201 Created
 Location: /rd/4521
 ~~~~
 {: #example-payload-http title="Example registration payload as expressed using HTTP" }
