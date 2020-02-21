@@ -492,7 +492,7 @@ Metadata in web link formats like {{RFC6690}} which may be internally stored as 
 pairs providing metadata about resource links, need to be supported by Resource Directories . External catalogues that are
 represented in other formats may be converted to common web linking formats for
 storage and access by Resource Directories. Since it is common practice for these
-to be URN encoded, simple and lossless structural transforms should
+to be encoded in URNs {{?RFC8141}}, simple and lossless structural transforms should
 generally be sufficient to store external metadata in Resource Directories.
 
 The additional features of Resource Directory allow sectors to be defined
