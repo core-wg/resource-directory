@@ -701,7 +701,7 @@ but those expressions SHOULD be avoided where possible.
 Before an endpoint can make use of an RD, it must first know the RD's address
 and port, and the URI path information for its REST APIs. This section defines
 discovery of the RD and its URIs using the well-known interface of the
-CoRE Link Format {{RFC6690}}. A complete set of RD discovery methods is described in {{finding_an_rd}}.
+CoRE Link Format {{RFC6690}} after having discovered a host as described in {{finding_an_rd}}.
 
 Discovery of the RD registration URI path is performed by sending either a multicast or
 unicast GET request to `/.well-known/core` and including a Resource Type (rt)
@@ -717,8 +717,7 @@ and the multicast capabilities of the network (see {{mc-registration}}).
 A Resource Directory MAY provide hints about the content-formats it supports in the links it exposes or registers, using the "ct" target attribute, as shown in the example below. Clients MAY use these hints to select alternate content-formats for interaction with the Resource Directory.
 
 HTTP does not support multicast and consequently only unicast discovery can be supported
-using HTTP.
-The well-known entry points SHOULD be provided to enable unicast discovery.
+at the using the HTTP `/.well-known/core` resource.
 
 An implementation of this  resource directory specification MUST support query filtering for
 the rt parameter as defined in {{RFC6690}}.
