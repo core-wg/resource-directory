@@ -644,7 +644,7 @@ The RDAO format is:
 
 Fields:
 
-Type:                   38
+Type:                   TBD38
 
 Length:                 8-bit unsigned integer.  The length of
                         the option in units of 8 bytes.
@@ -1722,7 +1722,11 @@ Target Attribute Values sub-registry of the Constrained Restful Environments
 
 This document registers one new ND option type under the sub-registry "IPv6 Neighbor Discovery Option Formats":
 
-* Resource Directory Address Option (38)
+* Resource Directory Address Option (TBD38)
+
+\[ The RFC editor is asked to replace TBD38
+with the assigned number in the document;
+the value 38 is suggested. \]
 
 ## RD Parameter Registry {#iana-registry}
 
