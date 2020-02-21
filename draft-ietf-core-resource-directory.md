@@ -529,7 +529,7 @@ according to its definition, options and/or payload to the best of their capabil
 falling back to failing the operation if recovery is not possible.
 In particular, they should retry the request upon 5.03 (Service Unavailable; 503 in HTTP)
 according to the Max-Age (Retry-After in HTTP) option,
-and fall back to link-format when receiving 4.15 (Unsupported Content Format; 415 in HTTP).
+and fall back to link-format when receiving 4.15 (Unsupported Content-Format; 415 in HTTP).
 
 A resource directory MAY make the information submitted to it available to further
 directories, if it can ensure that a loop does not form.  The protocol used
@@ -1261,7 +1261,7 @@ The initial state of the Resource Directory is reflected in the following reques
 ~~~~
 Req: GET /rd-lookup/res?ep=endpoint1
 
-Res: 2.01 Content
+Res: 2.05 Content
 Payload:
 <coap://local-proxy-old.example.com:5683/sensors/temp>;ct=41;
     rt="temperature-c";if="sensor";
@@ -1285,7 +1285,7 @@ The consecutive query returns:
 ~~~~
 Req: GET /rd-lookup/res?ep=endpoint1
 
-Res: 2.01 Content
+Res: 2.05 Content
 Payload:
 <coap://new.example.com:5684/sensors/temp>;ct=41;
     rt="temperature-c";if="sensor";
@@ -2570,7 +2570,7 @@ The following example shows a client performing and endpoint lookup for all grou
 ~~~~
 Req: GET /rd-lookup/ep?et=core.rd-group
 
-Res: 2.01 Content
+Res: 2.05 Content
 Payload:
 </rd/501>;ep="GRP_R2-4-015";et="core.rd-group";
                                    base="coap://[ff05::1]",
