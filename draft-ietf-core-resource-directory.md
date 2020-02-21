@@ -880,7 +880,7 @@ URI Template Variables:
     that MUST be unique within a sector.
 
     As the endpoint name is a Unicode string,
-    it is encoded in UTF-8 (and possibly pct-encoding) during variable expansion (see {{RFC6570}} Section 3.2.1).
+    it is encoded in UTF-8 (and possibly pct-encoded) during variable expansion (see {{RFC6570}} Section 3.2.1).
     The endpoint name MUST NOT contain any character in the inclusive ranges 0-31 or 127-159.
 
     The maximum length of this parameter is 63 UTF-8 encoded bytes.
