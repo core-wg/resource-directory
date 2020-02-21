@@ -539,7 +539,7 @@ this document.
 ## Finding a Resource Directory {#finding_an_rd}
 
 A (re-)starting device may want to find one or more resource directories
-for discovery purposes. Dependent on the operational conditions, one or more of the techniques below apply. The use of DNS-SD {{RFC6763}} is described in {{I-D.ietf-core-rd-dns-sd}}.
+for discovery purposes. Dependent on the operational conditions, one or more of the techniques below apply.
 
 The device may be pre-configured to exercise specific mechanisms for
 finding the resource directory:
@@ -555,6 +555,8 @@ finding the resource directory:
    interfaces with this multicast address.)
 2. It may be configured with a DNS name for the RD and use DNS to return
    the IP address of the RD; it can find a DNS server to perform the lookup using the usual mechanisms for finding DNS servers.
+3. It may be configured to use a service discovery mechanism such as
+   DNS-SD, as outlined in {{rd-using-dnssd}}.
 
 For cases where the device is not specifically configured with a way
 to find a resource directory, the network may want to provide a
@@ -664,6 +666,22 @@ RD Address:             IPv6 address of the RD.
 ~~~~
 {: #fig-rdao title='Resource Directory Address Option' align="left"}
 
+### Using DNS-SD to discover a resource directory {#rd-using-dnssd}
+
+A resource directory can advertise its resources in DNS-SD
+using the service names `_rd._udp`, `_rd-lookup-res._udp` and `_rd_lookup-ep._udp`
+for its Directory Resource, its resource lookup and endpoint lookup resource, respectively.
+A "path" key SHOULD be set, and indicate the path on the server (starting with a slash).
+
+By combining the protocol to use (CoAP is implied for those names)
+with the host name and port given in the SRV record
+and the path from the TXT record,
+the discovering client can perform RD and URI discovery in a single step.
+
+When the "path" key is absent, the client MUST discovery the URIs on the server according to {{discovery}}.
+
+This section is a concrete application of the more generic mechanism
+that is being developed as {{I-D.ietf-core-rd-dns-sd}}.
 
 ## Payload Content Formats
 
@@ -1816,6 +1834,18 @@ The registry initially contains one value:
 \[ The RFC editor is asked to replace MCD1 and MCD2
 with the assigned addresses throughout the document. \]
 
+## Service Names and Transport Protocol Port Number Registry
+
+IANA is asked to enter two new items into the Service Names and Transport Protocol Port Number Registry,
+all with this document as a reference:
+
+* Service name "rd" over protocol "udp", described as "Resource Directory Directory Resource accessed using CoAP"
+* Service name "rd-lookup-res" over protocol "udp", described as "Resource Directory resource lookup accessed using CoAP"
+* Service name "rd-lookup-ep" over protocol "udp", described as "Resource Directory endpoint lookup accessed using CoAP"
+
+All share the same assignment note:
+
+Defined TXT key: path (e.g. "path=/rd")
 
 # Examples {#examples}
 
