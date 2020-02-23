@@ -1816,6 +1816,14 @@ The registry initially contains one value:
 \[ The RFC editor is asked to replace MCD1 and MCD2
 with the assigned addresses throughout the document. \]
 
+## Well-Kown URIs
+
+IANA is asked to extend
+<!-- IANA has extended -->
+the reference for the "core" URI suffix
+in the "Well-Known URIs" registry
+to reference this document next to {{RFC6690}},
+as this defines the resource's behavior for POST requests.
 
 # Examples {#examples}
 
