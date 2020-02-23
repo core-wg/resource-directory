@@ -880,7 +880,7 @@ URI Template Variables:
     The endpoint name and sector name are not set when one or both are set in an accompanying authorization token.
 
   lt :=
-  : Lifetime (optional). Lifetime of the registration in seconds. Range of 60-4294967295.
+  : Lifetime (optional). Lifetime of the registration in seconds. Range of 1-4294967295.
     If no lifetime is included in the initial registration, a default value of
     90000 (25 hours) SHOULD be assumed.
 
@@ -1169,7 +1169,7 @@ URI Template Variables:
     earlier registration.
 
   lt :=
-  : Lifetime (optional). Lifetime of the registration in seconds. Range of 60-4294967295.
+  : Lifetime (optional). Lifetime of the registration in seconds. Range of 1-4294967295.
     If no lifetime is included, the previous last
   lifetime set on a previous update or the original registration
   (falling back to 90000) SHOULD be used.
@@ -1731,7 +1731,7 @@ Initial entries in this sub-registry are as follows:
 
 | Full name             | Short | Validity           | Use | Description                                                             |
 | Endpoint Name         | ep    | Unicode*           | RLA | Name of the endpoint                                                    |
-| Lifetime              | lt    | 60-4294967295      | R   | Lifetime of the registration in seconds                                 |
+| Lifetime              | lt    | 1-4294967295       | R   | Lifetime of the registration in seconds                                 |
 | Sector                | d     | Unicode*           | RLA | Sector to which this endpoint belongs                                   |
 | Registration Base URI | base  | URI                | RLA | The scheme, address and port and path at which this server is available |
 | Page                  | page  | Integer            |  L  | Used for pagination                                                     |
