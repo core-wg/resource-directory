@@ -1741,8 +1741,9 @@ Each entry in the registry must include
 * the human readable name of the parameter,
 * the short name as used in query parameters or target attributes,
 * indication of whether it can be passed as a query parameter at registration of endpoints, as a query parameter in lookups, or be expressed as a target attribute,
-* validity requirements if any, and
-* a description.
+* validity requirements if any,
+* a description,
+* and a link to reference documentation.
 
 The query parameter MUST be both a valid URI query key {{RFC3986}} and a token as used in {{RFC8288}}.
 
@@ -1766,6 +1767,7 @@ Initial entries in this sub-registry are as follows:
 
 The descriptions for the options defined in this document are only summarized here.
 To which registrations they apply and when they are to be shown is described in the respective sections of this document.
+All their reference documentation entries point to this document.
 
 The IANA policy for future additions to the sub-registry is "Expert Review"
 as described in {{RFC8126}}. The evaluation should consider
