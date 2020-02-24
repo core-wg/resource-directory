@@ -670,11 +670,13 @@ RD Address:             IPv6 address of the RD.
 
 A resource directory can advertise its resources in DNS-SD
 using the service names `_rd._udp`, `_rd-lookup-res._udp` and `_rd_lookup-ep._udp`
+defined in this document
 for its Directory Resource, its resource lookup and endpoint lookup resource, respectively.
 A "path" key SHOULD be set, and indicate the path on the server (starting with a slash).
 
-By combining the protocol to use (CoAP is implied for those names)
-with the host name and port given in the SRV record
+The use of those service names implies that CoAP-over-UDP is used.
+With that information,
+the host name and port given in the SRV record
 and the path from the TXT record,
 the discovering client can perform RD and URI discovery in a single step.
 
