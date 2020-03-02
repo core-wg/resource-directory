@@ -1448,8 +1448,8 @@ URI Template Variables:
     the count parameter is not present, then the response MUST return all matching
     links in the result set. Link numbering starts with zero.
 
-  Accept:
-  : absent, application/link-format or any other indicated media type representing web links
+Accept:
+: absent, application/link-format or any other indicated media type representing web links
 
 
 The following responses codes are defined for this interface:
