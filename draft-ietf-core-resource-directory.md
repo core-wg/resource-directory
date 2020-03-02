@@ -2210,6 +2210,7 @@ changes from -23 to -24
   * made RDAO option number a suggestion
   * added "reference" field to endpoint type registry
 * Terminology and example fixes
+* Layout fixes, esp. the use of non-ASCII characters in figures
 
 changes from -22 to -23
 
