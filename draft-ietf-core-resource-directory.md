@@ -492,7 +492,7 @@ Metadata in web link formats like {{RFC6690}} which may be internally stored as 
 pairs providing metadata about resource links, need to be supported by Resource Directories . External catalogues that are
 represented in other formats may be converted to common web linking formats for
 storage and access by Resource Directories. Since it is common practice for these
-to be URN encoded, simple and lossless structural transforms should
+to be encoded in URNs {{?RFC8141}}, simple and lossless structural transforms should
 generally be sufficient to store external metadata in Resource Directories.
 
 The additional features of Resource Directory allow sectors to be defined
@@ -529,7 +529,7 @@ according to its definition, options and/or payload to the best of their capabil
 falling back to failing the operation if recovery is not possible.
 In particular, they should retry the request upon 5.03 (Service Unavailable; 503 in HTTP)
 according to the Max-Age (Retry-After in HTTP) option,
-and fall back to link-format when receiving 4.15 (Unsupported Content Format; 415 in HTTP).
+and fall back to link-format when receiving 4.15 (Unsupported Content-Format; 415 in HTTP).
 
 A resource directory MAY make the information submitted to it available to further
 directories, if it can ensure that a loop does not form.  The protocol used
@@ -539,7 +539,7 @@ this document.
 ## Finding a Resource Directory {#finding_an_rd}
 
 A (re-)starting device may want to find one or more resource directories
-for discovery purposes. Dependent on the operational conditions, one or more of the techniques below apply. The use of DNS-SD {{RFC6763}} is described in {{I-D.ietf-core-rd-dns-sd}}.
+for discovery purposes. Dependent on the operational conditions, one or more of the techniques below apply.
 
 The device may be pre-configured to exercise specific mechanisms for
 finding the resource directory:
@@ -555,6 +555,8 @@ finding the resource directory:
    interfaces with this multicast address.)
 2. It may be configured with a DNS name for the RD and use DNS to return
    the IP address of the RD; it can find a DNS server to perform the lookup using the usual mechanisms for finding DNS servers.
+3. It may be configured to use a service discovery mechanism such as
+   DNS-SD, as outlined in {{rd-using-dnssd}}.
 
 For cases where the device is not specifically configured with a way
 to find a resource directory, the network may want to provide a
@@ -642,7 +644,7 @@ The RDAO format is:
 
 Fields:
 
-Type:                   38
+Type:                   TBD38
 
 Length:                 8-bit unsigned integer.  The length of
                         the option in units of 8 bytes.
@@ -664,6 +666,24 @@ RD Address:             IPv6 address of the RD.
 ~~~~
 {: #fig-rdao title='Resource Directory Address Option' align="left"}
 
+### Using DNS-SD to discover a resource directory {#rd-using-dnssd}
+
+A resource directory can advertise its resources in DNS-SD
+using the service names `_rd._udp`, `_rd-lookup-res._udp` and `_rd_lookup-ep._udp`
+defined in this document
+for its Directory Resource, its resource lookup and endpoint lookup resource, respectively.
+A "path" key SHOULD be set, and indicate the path on the server (starting with a slash).
+
+The use of those service names implies that CoAP-over-UDP is used.
+With that information,
+the host name and port given in the SRV record
+and the path from the TXT record,
+the discovering client can perform RD and URI discovery in a single step.
+
+When the "path" key is absent, the client MUST discovery the URIs on the server according to {{discovery}}.
+
+This section is a concrete application of the more generic mechanism
+that is being developed as {{I-D.ietf-core-rd-dns-sd}}.
 
 ## Payload Content Formats
 
@@ -683,7 +703,7 @@ but those expressions SHOULD be avoided where possible.
 Before an endpoint can make use of an RD, it must first know the RD's address
 and port, and the URI path information for its REST APIs. This section defines
 discovery of the RD and its URIs using the well-known interface of the
-CoRE Link Format {{RFC6690}}. A complete set of RD discovery methods is described in {{finding_an_rd}}.
+CoRE Link Format {{RFC6690}} after having discovered a host as described in {{finding_an_rd}}.
 
 Discovery of the RD registration URI path is performed by sending either a multicast or
 unicast GET request to `/.well-known/core` and including a Resource Type (rt)
@@ -699,8 +719,7 @@ and the multicast capabilities of the network (see {{mc-registration}}).
 A Resource Directory MAY provide hints about the content-formats it supports in the links it exposes or registers, using the "ct" target attribute, as shown in the example below. Clients MAY use these hints to select alternate content-formats for interaction with the Resource Directory.
 
 HTTP does not support multicast and consequently only unicast discovery can be supported
-using HTTP.
-The well-known entry points SHOULD be provided to enable unicast discovery.
+at the using the HTTP `/.well-known/core` resource.
 
 An implementation of this  resource directory specification MUST support query filtering for
 the rt parameter as defined in {{RFC6690}}.
@@ -863,7 +882,7 @@ URI Template Variables:
     that MUST be unique within a sector.
 
     As the endpoint name is a Unicode string,
-    it is encoded in UTF-8 (and possibly pct-encoding) during variable expansion (see {{RFC6570}} Section 3.2.1).
+    it is encoded in UTF-8 (and possibly pct-encoded) during variable expansion (see {{RFC6570}} Section 3.2.1).
     The endpoint name MUST NOT contain any character in the inclusive ranges 0-31 or 127-159.
 
     The maximum length of this parameter is 63 UTF-8 encoded bytes.
@@ -932,7 +951,7 @@ Content-Format:
 The following response is expected on this interface:
 
 Success:
-: 2.01 "Created" or 201 "Created". The Location-Path option or Location header
+: 2.01 "Created" or 201 "Created". The Location-Path option or Location header field
   MUST be included in the response. This location MUST be a stable identifier
   generated by the RD as it is used for all subsequent
   operations on this registration resource. The registration resource location thus returned is for the purpose of updating the lifetime
@@ -983,15 +1002,17 @@ Location-Path: /rd/4521
 A Resource Directory may optionally support HTTP. Here is an example of almost the same registration operation above, when done using HTTP.
 
 ~~~~
-Req: POST /rd?ep=node1&base=http://[2001:db8:1::1] HTTP/1.1
+Req:
+POST /rd?ep=node1&base=http://[2001:db8:1::1] HTTP/1.1
 Host: example.com
 Content-Type: application/link-format
-Payload:
+
 </sensors/temp>;ct=41;rt="temperature-c";if="sensor",
 <http://www.example.com/sensors/temp>;
   anchor="/sensors/temp";rel="describedby"
 
-Res: 201 Created
+Res:
+HTTP/1.1 201 Created
 Location: /rd/4521
 ~~~~
 {: #example-payload-http title="Example registration payload as expressed using HTTP" }
@@ -1215,7 +1236,7 @@ Failure:
 : 4.04 "Not Found" or 404 "Not Found". Registration does not exist (e.g. may have been removed).
 
 If the registration fails in any way, including "Not Found" and request timeouts,
-or if the time indicated in a Service Unabailable Max-Age/Retry-After exceeds the remaining lifetime,
+or if the time indicated in a Service Unavailable Max-Age/Retry-After exceeds the remaining lifetime,
 the registering endpoint SHOULD attempt registration again.
 
 
@@ -1242,7 +1263,7 @@ The initial state of the Resource Directory is reflected in the following reques
 ~~~~
 Req: GET /rd-lookup/res?ep=endpoint1
 
-Res: 2.01 Content
+Res: 2.05 Content
 Payload:
 <coap://local-proxy-old.example.com:5683/sensors/temp>;ct=41;
     rt="temperature-c";if="sensor";
@@ -1266,7 +1287,7 @@ The consecutive query returns:
 ~~~~
 Req: GET /rd-lookup/res?ep=endpoint1
 
-Res: 2.01 Content
+Res: 2.05 Content
 Payload:
 <coap://new.example.com:5684/sensors/temp>;ct=41;
     rt="temperature-c";if="sensor";
@@ -1555,7 +1576,7 @@ The endpoint lookup returns registration resources which can only be manipulated
 Endpoint registration resources are annotated with their endpoint names (ep), sectors (d, if present) and registration base URI (base; reports the registrant-ep's address if no explicit base was given) as well as a constant resource type (rt="core.rd-ep"); the lifetime (lt) is not reported.
 Additional endpoint attributes are added as target attributes to their endpoint link unless their specification says otherwise.
 
-Links to endpoints SHOULD be presented in path-absolute form or, if required, as absolute references. (This avoids the RFC6690 ambiguities.)
+Links to endpoints SHOULD be presented in path-absolute form or, if required, as (full) URIs. (This avoids the RFC6690 ambiguities.)
 
 Base addresses that contain link-local addresses MUST NOT include zone identifiers,
 and such registrations <!-- or "' base attributes" --> MUST NOT be
@@ -1704,7 +1725,11 @@ Target Attribute Values sub-registry of the Constrained Restful Environments
 
 This document registers one new ND option type under the sub-registry "IPv6 Neighbor Discovery Option Formats":
 
-* Resource Directory Address Option (38)
+* Resource Directory Address Option (TBD38)
+
+\[ The RFC editor is asked to replace TBD38
+with the assigned number in the document;
+the value 38 is suggested. \]
 
 ## RD Parameter Registry {#iana-registry}
 
@@ -1718,8 +1743,9 @@ Each entry in the registry must include
 * the human readable name of the parameter,
 * the short name as used in query parameters or target attributes,
 * indication of whether it can be passed as a query parameter at registration of endpoints, as a query parameter in lookups, or be expressed as a target attribute,
-* validity requirements if any, and
-* a description.
+* validity requirements if any,
+* a description,
+* and a link to reference documentation.
 
 The query parameter MUST be both a valid URI query key {{RFC3986}} and a token as used in {{RFC8288}}.
 
@@ -1743,6 +1769,7 @@ Initial entries in this sub-registry are as follows:
 
 The descriptions for the options defined in this document are only summarized here.
 To which registrations they apply and when they are to be shown is described in the respective sections of this document.
+All their reference documentation entries point to this document.
 
 The IANA policy for future additions to the sub-registry is "Expert Review"
 as described in {{RFC8126}}. The evaluation should consider
@@ -1824,6 +1851,19 @@ the reference for the "core" URI suffix
 in the "Well-Known URIs" registry
 to reference this document next to {{RFC6690}},
 as this defines the resource's behavior for POST requests.
+
+## Service Names and Transport Protocol Port Number Registry
+
+IANA is asked to enter two new items into the Service Names and Transport Protocol Port Number Registry,
+all with this document as a reference:
+
+* Service name "rd" over protocol "udp", described as "Resource Directory Directory Resource accessed using CoAP"
+* Service name "rd-lookup-res" over protocol "udp", described as "Resource Directory resource lookup accessed using CoAP"
+* Service name "rd-lookup-ep" over protocol "udp", described as "Resource Directory endpoint lookup accessed using CoAP"
+
+All share the same assignment note:
+
+Defined TXT key: path (e.g. "path=/rd")
 
 # Examples {#examples}
 
@@ -2543,7 +2583,7 @@ The following example shows a client performing and endpoint lookup for all grou
 ~~~~
 Req: GET /rd-lookup/ep?et=core.rd-group
 
-Res: 2.01 Content
+Res: 2.05 Content
 Payload:
 </rd/501>;ep="GRP_R2-4-015";et="core.rd-group";
                                    base="coap://[ff05::1]",
@@ -2569,7 +2609,7 @@ Req: GET /rd-lookup/res?et=core.rd-group
 
 Understanding the semantics of a link-format document and its URI references is
 a journey through different documents ({{RFC3986}} defining URIs, {{RFC6690}}
-defining link-format documents based on {{RFC8288}} which defines link headers,
+defining link-format documents based on {{RFC8288}} which defines Link header fields,
 and {{RFC7252}} providing the transport). This appendix summarizes
 the mechanisms and semantics at play from an entry in `.well-known/core` to a
 resource lookup.
@@ -2610,7 +2650,7 @@ The base
 URI <coap://[ff02::fd]:5683/.well-known/core> is used to resolve the
 reference /temp against.
 
-The Base URI of the requested resource can be composed from the header options of the CoAP GET request by following the steps of
+The Base URI of the requested resource can be composed from the options of the CoAP GET request by following the steps of
 {{RFC7252}} section 6.5 (with an addition at the end of 8.2) into
 "`coap://[2001:db8:f0::1]/.well-known/core`".
 
@@ -2729,9 +2769,9 @@ have been used to resolve the relative anchor values instead, giving
 
 and analogous records.
 
-## A note on differences between link-format and Link headers {#resolution-rules}
+## A note on differences between link-format and Link header fields {#resolution-rules}
 
-While link-format and Link headers look very similar and are based on the same
+While link-format and Link header fields look very similar and are based on the same
 model of typed links, there are some differences between {{RFC6690}} and
 {{RFC8288}}, which are dealt with differently:
 
@@ -2755,11 +2795,11 @@ model of typed links, there are some differences between {{RFC6690}} and
 * There is no percent encoding in link-format documents.
 
   A link-format document is a UTF-8 encoded string of Unicode characters and
-  does not have percent encoding, while Link headers are practically ASCII
+  does not have percent encoding, while Link header fields are practically ASCII
   strings that use percent encoding for non-ASCII characters, stating the
   encoding explicitly when required.
 
-  For example, while a Link header in a page about a Swedish city might read
+  For example, while a Link header field in a page about a Swedish city might read
 
   `Link: </temperature/Malm%C3%B6>;rel="live-environment-data"`
 
@@ -2767,7 +2807,7 @@ model of typed links, there are some differences between {{RFC6690}} and
 
   `</temperature/Malmö>;rel="live-environment-data"`
 
-  Parsers and producers of link-format and header data need to be aware of this
+  Parsers and producers of link-format and header fields need to be aware of this
   difference.
 
 # Limited Link Format {#limitedlinkformat}
