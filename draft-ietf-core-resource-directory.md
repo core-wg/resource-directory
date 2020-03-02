@@ -2813,11 +2813,15 @@ model of typed links, there are some differences between {{RFC6690}} and
 
   For example, while a Link header field in a page about a Swedish city might read
 
-  `Link: </temperature/Malm%C3%B6>;rel="live-environment-data"`
+  ~~~~
+  Link: </temperature/Malm%C3%B6>;rel="live-environment-data"
+  ~~~~
 
   a link-format document from the same source might describe the link as
 
-  `</temperature/Malmö>;rel="live-environment-data"`
+  ~~~~
+  </temperature/Malmö>;rel="live-environment-data"
+  ~~~~
 
   Parsers and producers of link-format and header fields need to be aware of this
   difference.
