@@ -2199,6 +2199,18 @@ originally developed.
 
 # Changelog
 
+changes from -23 to -24
+
+* Discovery using DNS-SD added again
+* Minimum lifetime (lt) reduced from 60 to 1
+* References added
+* IANA considerations
+  * added about .well-known/core resource
+  * added DNS-SD service names
+  * made RDAO option number a suggestion
+  * added "reference" field to endpoint type registry
+* Terminology and example fixes
+
 changes from -22 to -23
 
 * Explain that updates can not remove attributes
