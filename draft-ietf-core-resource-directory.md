@@ -668,22 +668,15 @@ RD Address:             IPv6 address of the RD.
 
 ### Using DNS-SD to discover a resource directory {#rd-using-dnssd}
 
-A resource directory can advertise its resources in DNS-SD
-using the service names `_rd._udp`, `_rd-lookup-res._udp` and `_rd_lookup-ep._udp`
-defined in this document
-for its Directory Resource, its resource lookup and endpoint lookup resource, respectively.
-A "path" key SHOULD be set, and indicate the path on the server (starting with a slash).
+A resource directory can advertise its presence in DNS-SD
+using the service name `_core-rd._udp`
+defined in this document.
 
-The use of those service names implies that CoAP-over-UDP is used.
-With that information,
-the host name and port given in the SRV record
-and the path from the TXT record,
-the discovering client can perform RD and URI discovery in a single step.
+The use of that service names implies that CoAP-over-UDP is used.
+The SRV record points the client to a host name and port to use as a starting point for the URI discovery steps of {{discovery}}.
 
-When the "path" key is absent, the client MUST discovery the URIs on the server according to {{discovery}}.
-
-This section is a concrete application of the more generic mechanism
-that is being developed as {{I-D.ietf-core-rd-dns-sd}}.
+This section is a simplified concrete application of the more generic mechanism
+specified in {{I-D.ietf-core-rd-dns-sd}}.
 
 ## Payload Content Formats
 
@@ -1854,16 +1847,12 @@ as this defines the resource's behavior for POST requests.
 
 ## Service Names and Transport Protocol Port Number Registry
 
-IANA is asked to enter two new items into the Service Names and Transport Protocol Port Number Registry,
-all with this document as a reference:
+IANA is asked to enter a new item into the Service Names and Transport Protocol Port Number Registry:
 
-* Service name "rd" over protocol "udp", described as "Resource Directory Directory Resource accessed using CoAP"
-* Service name "rd-lookup-res" over protocol "udp", described as "Resource Directory resource lookup accessed using CoAP"
-* Service name "rd-lookup-ep" over protocol "udp", described as "Resource Directory endpoint lookup accessed using CoAP"
-
-All share the same assignment note:
-
-Defined TXT key: path (e.g. "path=/rd")
+* Service name: "core-rd"
+* Protocol: "udp"
+* Description: "Resource Directory accessed using CoAP"
+* Reference: this document
 
 # Examples {#examples}
 
