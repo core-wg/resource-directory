@@ -1402,6 +1402,7 @@ A resource link also matches a search criterion if its endpoint would match the 
 
 Note that `href` is a valid search criterion and matches target references. Like all search criteria, on a resource lookup it can match the target reference of the resource link itself, but also the registration resource of the endpoint that registered it.
 Queries for resource link targets MUST be in URI form (i.e. not relative references) and are matched against a resolved link target. Queries for endpoints SHOULD be expressed in path-absolute form if possible and MUST be expressed in URI form otherwise; the RD SHOULD recognize either.
+The `anchor` attribute is usable for resource lookups, and MUST be queried for in URI form as well.
 
 Endpoints that are interested in a lookup result repeatedly or continuously can use
 mechanisms like ETag caching, resource observation ({{RFC7641}}),
