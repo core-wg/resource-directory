@@ -676,7 +676,7 @@ The use of that service names implies that CoAP-over-UDP is used.
 The SRV record points the client to a host name and port to use as a starting point for the URI discovery steps of {{discovery}}.
 
 This section is a simplified concrete application of the more generic mechanism
-that is being developed as {{I-D.ietf-core-rd-dns-sd}}.
+specified in {{I-D.ietf-core-rd-dns-sd}}.
 
 ## Payload Content Formats
 
