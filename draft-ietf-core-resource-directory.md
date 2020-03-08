@@ -2199,6 +2199,7 @@ changes from -23 to -24
   * added DNS-SD service names
   * made RDAO option number a suggestion
   * added "reference" field to endpoint type registry
+* Lookup: mention that anchor is a legitimate lookup attribute
 * Terminology and example fixes
 * Layout fixes, esp. the use of non-ASCII characters in figures
 
