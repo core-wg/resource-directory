@@ -673,7 +673,7 @@ using the service name `_core-rd._udp` (for CoAP), `_core-rd-dtls._udp` (for CoA
 `_core-rd._tcp` (for CoAP over TCP) or `_core-rd-tls._tcp` (for CoAP over TLS)`
 defined in this document.
 (For the WebSocket transports of CoAP, no service is defined
-as DNS-SD is typically unavailable in environments where CoAP over WebSockets).
+as DNS-SD is typically unavailable in environments where CoAP over WebSockets is used).
 
 The selection of the service indicates the protocol used, and
 the SRV record points the client to a host name and port to use as a starting point for the URI discovery steps of {{discovery}}.
