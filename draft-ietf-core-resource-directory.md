@@ -669,11 +669,14 @@ RD Address:             IPv6 address of the RD.
 ### Using DNS-SD to discover a resource directory {#rd-using-dnssd}
 
 A resource directory can advertise its presence in DNS-SD
-using the service name `_core-rd._udp`
+using the service name `_core-rd._udp` (for CoAP), `_core-rd-dtls._udp` (for CoAP over UDP),
+`_core-rd._tcp` (for CoAP over TCP) or `_core-rd-tls._tcp` (for CoAP over TLS)`
 defined in this document.
+(For the WebSocket transports of CoAP, no service is defined
+as DNS-SD is typically unavailable in environments where CoAP over WebSockets).
 
-The use of that service names implies that CoAP-over-UDP is used.
-The SRV record points the client to a host name and port to use as a starting point for the URI discovery steps of {{discovery}}.
+The selection of the service indicates the protocol used, and
+the SRV record points the client to a host name and port to use as a starting point for the URI discovery steps of {{discovery}}.
 
 This section is a simplified concrete application of the more generic mechanism
 specified in {{I-D.ietf-core-rd-dns-sd}}.
@@ -1848,12 +1851,14 @@ as this defines the resource's behavior for POST requests.
 
 ## Service Names and Transport Protocol Port Number Registry
 
-IANA is asked to enter a new item into the Service Names and Transport Protocol Port Number Registry:
+IANA is asked to enter four new items into the Service Names and Transport Protocol Port Number Registry:
 
-* Service name: "core-rd"
-* Protocol: "udp"
-* Description: "Resource Directory accessed using CoAP"
-* Reference: this document
+* Service name: "core-rd",  Protocol: "udp", Description: "Resource Directory accessed using CoAP"
+* Service name "core-rd-dtls", Protocol: "udp", Description: "Resource Directory accedded using CoAP over DTLS"
+* Service name: "core-rd",  Protocol: "tcp", Description: "Resource Directory accessed using CoAP over TCP"
+* Service name "core-rd-tls", Protocol: "tcp", Description: "Resource Directory accedded using CoAP over TLS"
+
+All in common have this document as their reference.
 
 # Examples {#examples}
 
