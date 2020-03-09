@@ -669,7 +669,7 @@ RD Address:             IPv6 address of the RD.
 ### Using DNS-SD to discover a resource directory {#rd-using-dnssd}
 
 A resource directory can advertise its presence in DNS-SD
-using the service name `_core-rd._udp` (for CoAP), `_core-rd-dtls._udp` (for CoAP over UDP),
+using the service name `_core-rd._udp` (for CoAP), `_core-rd-dtls._udp` (for CoAP over DTLS),
 `_core-rd._tcp` (for CoAP over TCP) or `_core-rd-tls._tcp` (for CoAP over TLS)`
 defined in this document.
 (For the WebSocket transports of CoAP, no service is defined
