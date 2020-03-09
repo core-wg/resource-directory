@@ -670,7 +670,7 @@ RD Address:             IPv6 address of the RD.
 
 A resource directory can advertise its presence in DNS-SD {{RFC6763}}
 using the service name `_core-rd._udp` (for CoAP), `_core-rd-dtls._udp` (for CoAP over DTLS),
-`_core-rd._tcp` (for CoAP over TCP) or `_core-rd-tls._tcp` (for CoAP over TLS)`
+`_core-rd._tcp` (for CoAP over TCP) or `_core-rd-tls._tcp` (for CoAP over TLS)
 defined in this document.
 (For the WebSocket transports of CoAP, no service is defined
 as DNS-SD is typically unavailable in environments where CoAP over WebSockets is used).
