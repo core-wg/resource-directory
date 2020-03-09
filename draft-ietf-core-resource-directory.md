@@ -671,6 +671,9 @@ RD Address:             IPv6 address of the RD.
 A resource directory can advertise its presence in DNS-SD
 using the service name `_core-rd._udp`
 defined in this document.
+(This method is currently only defined for CoAP over UDP.
+This is both for simplicity and because this is expected to be the common use case;
+analogous services for other transports can be registered once there is demand for them).
 
 The use of that service names implies that CoAP-over-UDP is used.
 The SRV record points the client to a host name and port to use as a starting point for the URI discovery steps of {{discovery}}.
