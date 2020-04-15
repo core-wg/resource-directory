@@ -1654,7 +1654,7 @@ or TLS security requirements and references  -->.
 
 ## Endpoint Identification and Authentication {#endpoint_identification}
 
-An Endpoint (name, sector) pair is unique within the et of endpoints registered by the RD. An Endpoint MUST NOT be identified by its protocol, port or IP
+An Endpoint (name, sector) pair is unique within the set of endpoints registered by the RD. An Endpoint MUST NOT be identified by its protocol, port or IP
 address as these may change over the lifetime of an Endpoint.
 
 Every operation performed by an Endpoint on a resource directory
