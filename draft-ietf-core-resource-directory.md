@@ -1831,7 +1831,7 @@ The registry initially contains one value:
    IPv4  -- "all CoRE resource directories" address MCD2 (suggestion: 224.0.1.189), from the "IPv4
       Multicast Address Space Registry".  As the address is used for
       discovery that may span beyond a single network, it has come from
-      the Internetwork Control Block (224.0.1.x, RFC 5771).
+      the Internetwork Control Block (224.0.1.x) {{?RFC5771}}.
 
    IPv6  -- "all CoRE resource directories" address MCD1 (suggestions FF0X::FE), from the "IPv6 Multicast
       Address Space Registry", in the "Variable Scope Multicast
