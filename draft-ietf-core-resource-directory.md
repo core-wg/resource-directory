@@ -328,7 +328,7 @@ These models provide an abstract view of the information expressed in link-forma
 
 
 ~~~~
-{: #fig-ER-WKC title='E-R Model of the content of /.well-known/core' align="left"}
+{: #fig-ER-WKC title='ER Model of the content of /.well-known/core' align="left"}
 
 The model shown in {{fig-ER-WKC}} models the contents of /.well-known/core which contains:
 
@@ -398,7 +398,7 @@ o  base o-------|  registration |
                                            +----o context o
                                                  ooooooooo
 ~~~~
-{: #fig-ER-RD title='E-R Model of the content of the Resource Directory' align="left"}
+{: #fig-ER-RD title='ER Model of the content of the Resource Directory' align="left"}
 
 The model shown in {{fig-ER-RD}} models the contents of the resource directory which contains in addition to /.well-known/core:
 
