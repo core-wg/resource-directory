@@ -1,0 +1,76 @@
+\documentclass[aspectratio=169]{beamer}
+
+% generic packages
+
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+
+% about the presentation
+\title{Resource Directory}
+\subtitle{\texttt{draft-ietf-core-resource-directory}}
+\author{Zach Shelby, Michael Koster, Carsten Bormann, Peter~van~der~Stok, \textit{Christian~Amsüss}}
+\date{2020-04-16}
+
+% used commands
+
+\usepackage{verbatim}
+
+% attach self
+
+\usepackage{embedfile}
+\embedfile{\jobname.tex}
+
+\begin{document}
+
+\frame{\titlepage}
+
+\begin{frame}{Status}\Large
+	\texttt{-24} processed IETF016 comments
+
+	\bigskip
+
+	{\normalsize\begin{itemize}
+		\item discovery via DNS-SD included explicitly for CoAP[S] over UDP and TCP
+		\item lifetime minimum 60 → 1
+		\item Explicit statement on anchor as lookup attribute
+		\item IANA, references, examples, layout
+	\end{itemize}}
+
+	\bigskip
+
+	Secdir: ready
+
+	Genart: not read
+
+	→ Revised I-D Needed
+\end{frame}
+
+\begin{frame}{Easy points}\Large
+	\begin{itemize}
+		\item Example errors
+		\item Language consistency
+		\item Dots and dashes
+	\end{itemize}
+
+	\bigskip
+
+	Text ready in PRs or will be soon
+\end{frame}
+
+\begin{frame}{Needs a bit of thought}\Large
+	\begin{itemize}
+		\item DDOS mitigation. Non-normatively mention recommendation-to-come for Echo in ERT?
+		\item Simple registration from fake sender as firewall bypass. Require client aliveness? When?
+		\item Random endpoint names picked by client. Guidance on size might suffice, but is it thought through?
+	\end{itemize}
+\end{frame}
+
+\begin{frame}{Input would help -- who knows X.509?}\Large
+	\begin{itemize}
+		\item {\texttt the certificate is uniquely identified by the CN field and the serial number}
+		\item What in a certificate {\em can} be used?
+		\item And how is it properly referenced?
+	\end{itemize}
+\end{frame}
+
+\end{document}
