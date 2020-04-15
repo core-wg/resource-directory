@@ -525,7 +525,7 @@ Those serve to illustrate the typical responses
 to readers who are not yet familiar with all the details of CoAP based interfaces;
 they do not limit what a server may respond under atypical circumstances.
 
-REST clients (registrant-EPs / CTs, lookup clients, RD servers during simple registrations)
+REST clients (registrant-EPs and CTs during registration and maintenance, lookup clients, RD servers during simple registrations)
 MUST be prepared to receive any unsuccessful code and act upon it
 according to its definition, options and/or payload to the best of their capabilities,
 falling back to failing the operation if recovery is not possible.
