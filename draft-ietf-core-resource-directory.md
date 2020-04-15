@@ -769,7 +769,7 @@ Req: GET coap://[MCD1]/.well-known/core?rt=core.rd*
 Res: 2.05 Content
 </rd>;rt="core.rd";ct=40,
 </rd-lookup/ep>;rt="core.rd-lookup-ep";ct=40,
-</rd-lookup/res>;rt="core.rd-lookup-res";ct=40,
+</rd-lookup/res>;rt="core.rd-lookup-res";ct=40
 ~~~~
 {: #example-discovery title="Example discovery exchange" }
 
@@ -789,7 +789,7 @@ Req: GET coap://[MCD1]/.well-known/core?rt=core.rd*
 Res: 2.05 Content
 </rd>;rt="core.rd";ct="40 65225",
 </rd-lookup/res>;rt="core.rd-lookup-res";ct="40 TBD64 TBD504";obs,
-</rd-lookup/ep>;rt="core.rd-lookup-ep";ct="40 TBD64 TBD504",
+</rd-lookup/ep>;rt="core.rd-lookup-ep";ct="40 TBD64 TBD504"
 ~~~~
 {: #example-discovery-ct title="Example discovery exchange indicating additional content-formats" }
 
