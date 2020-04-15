@@ -138,7 +138,8 @@ can be applied in an equivalent manner to HTTP {{RFC7230}}.
 The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
 "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and "OPTIONAL"
 in this
-document are to be interpreted as described in {{RFC2119}}.
+document are to be interpreted as described in BCP 14 {{RFC2119}} {{!RFC8174}}
+when, and only when, they appear in all capitals, as shown here.
 
 The term "byte" is used in its now customary sense as a synonym for "octet".
 
