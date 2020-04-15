@@ -1265,7 +1265,8 @@ Payload:
     rt="temperature-c";if="sensor";
     anchor="coap://local-proxy-old.example.com:5683/",
 <http://www.example.com/sensors/temp>;
-    anchor="coap://local-proxy-old.example.com:5683/sensors/temp";rel="describedby"
+    anchor="coap://local-proxy-old.example.com:5683/sensors/temp";
+    rel="describedby"
 ~~~~
 {: #example-update-base-lookup-pre title="Example lookup before a change to the base address" }
 
@@ -1289,7 +1290,8 @@ Payload:
     rt="temperature-c";if="sensor";
     anchor="coap://new.example.com:5684/",
 <http://www.example.com/sensors/temp>;
-    anchor="coap://new.example.com:5684/sensors/temp";rel="describedby"
+    anchor="coap://new.example.com:5684/sensors/temp";
+    rel="describedby"
 ~~~~
 {: #example-update-base-lookup-post title="Example lookup after a change to the base address" }
 
