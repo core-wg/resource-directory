@@ -441,7 +441,7 @@ view, the ambition is to design horizontal solutions that can enable utilization
 of machines in different applications depending on their current availability
 and capabilities as well as application requirements, thus avoiding silo
 like solutions. One of the crucial enablers of such design is the ability
-to discover resources (machines --- endpoints) capable of providing required
+to discover resources (and thus the endpoints they are hosted on) capable of providing required
 information at a given time or acting on instructions from the end users.
 
 Imagine a scenario where endpoints installed on vehicles enable
