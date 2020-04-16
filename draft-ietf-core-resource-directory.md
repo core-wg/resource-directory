@@ -1438,6 +1438,8 @@ URI Template Variables:
   search :=
   : Search criteria for limiting the number of results (optional).
 
+  : The search criteria are an associative array, expressed in a form-style query as per the URI template (see {{RFC6570}} Sections 2.4.2 and 3.2.8)
+
   page :=
   : Page (optional). Parameter cannot be used without the count
     parameter. Results are returned from result set in pages that contain
