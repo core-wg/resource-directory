@@ -1746,7 +1746,7 @@ Each entry in the registry must include
 * the human readable name of the parameter,
 * the short name as used in query parameters or target attributes,
 * indication of whether it can be passed as a query parameter at registration of endpoints, as a query parameter in lookups, or be expressed as a target attribute,
-* validity requirements if any,
+* syntax and validity requirements if any,
 * a description,
 * and a link to reference documentation.
 
