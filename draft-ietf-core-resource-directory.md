@@ -1776,7 +1776,6 @@ formal criteria,
 duplication of functionality (Is the new entry redundant with an existing one?),
 topical suitability (E.g. is the described property actually a property of the endpoint and not a property of a particular resource, in which case it should go into the payload of the registration and need not be registered?),
 and the potential for conflict with commonly used target attributes (For example, `if` could be used as a parameter for conditional registration if it were not to be used in lookup or attributes, but would make a bad parameter for lookup, because a resource lookup with an `if` query parameter could ambiguously filter by the registered endpoint property or the {{RFC6690}} target attribute).
-It is expected that the registry will receive between 5 and 50 registrations in total over the next years.
 
 ### Full description of the "Endpoint Type" Registration Parameter {#et-description}
 
