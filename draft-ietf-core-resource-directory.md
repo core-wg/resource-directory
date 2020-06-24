@@ -1615,6 +1615,66 @@ et="oic.d.sensor";ct="40";d="floor-3";rt="core.rd-ep"
 
 # Security policies {#policies}
 
+The security policies that are applicable to an RD strongly depend on the application,
+and are not set out normatively here.
+
+This section provides a list of aspects that applications should consider when describing their use of the RD,
+without claiming to cover all cases.
+It is using terminology of {{I-D.ietf-ace-oauth-authz}},
+in which the RD acts as the Resource Server (RS), and both registrant-eps and lookup clients act as Clients (C) with support from an Authorization Server (AS),
+without the intention of ruling out other (e.g. certificate / public-key infrastructure (PKI) based) schemes.
+
+Any, all or none of the below can apply to an application.
+Which are relevant depends on its protection objectives.
+
+## Endpoint name
+
+Whenever an RD needs to provide trustworthy results to clients doing endpoint lookup,
+or resource lookup with filtering on the endpoint name,
+the RD must ensure the correctness of that data.
+That is, it needs to verify that the registering client is authorized to use the given endpoint name,
+both on registration and on operations on the registration resource.
+It is immaterial there whether the client is the registrant-ep itself or a CT is doing the registration:
+The RD can not tell, and CT may use authorization credentials authorizing only operations on that particular endpoint name, or a wider range of endpoint names.
+
+When certificates are used as authorization credentials,
+the sector(s) and endpoint name(s) can be transported in the subject.
+In an ACE context, those are typically transported in a scope claim.
+
+## Entered resources
+
+When lookup clients expect that certain types of links can only originate from certain endpoints,
+then the RD is required to apply filtering to the links an endpoint may register.
+
+For example, if clients use an RD to find a server that provides firmware updates,
+then any registrant that wants to register (or update) links to firmware sources will need to provide suitable credentials to do so, immaterial of its endpoint name.
+
+Note that the impact of having undesirable links in the RD depends on the application:
+if the client requires the firmware server to present credentials as a firmware server,
+a fraudulent link's impact is limited to the client revealing its intention to obtain updates and slowing down the client until it finds a legitimate firmware server;
+if the client accepts any credentials from the server as long as they fit the provided URI, the impact is larger.
+
+## Link confidentiality
+
+* lookup client authentication
+
+* rd authentication
+
+## Segmentation
+
+Within a single RD, different security policies can apply.
+
+One example of this are multi-tenant deployments separated by the sector (d) parameter.
+Some sectors might apply limitations on the enpoint names available,
+while others use a random identifier approach to endpoint names and place limits on the entered links based on their attributes instead.
+
+Care must be taken in such setups to determine the applicable access control measures to each operation.
+One easy way to do that is to mandate the use of the sector parameter on all operations,
+as no credentials are suitable for operations across sector borders anyway.
+
+
+
+
 The RD provides assistance to applications situated on a selection of nodes to discover endpoints on connected nodes. This section discusses different security aspects of accessing the RD.
 
 The contents of the RD are inserted in two ways:
