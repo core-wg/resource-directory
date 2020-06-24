@@ -160,8 +160,8 @@ that resolving an empty URI reference gives the base URI without any fragment id
 
 Resource Directory
 :   A web entity that stores information about web resources and implements the
-REST interfaces defined in this specification for registration and lookup
-of those resources.
+REST interfaces defined in this specification for discovery, for the creation, the maintenance and the removal of registrations, and for lookup
+of the registered resources.
 
 Sector
 :   In the context of a Resource Directory, a sector is a
