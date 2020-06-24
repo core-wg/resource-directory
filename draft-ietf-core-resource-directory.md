@@ -2203,6 +2203,21 @@ originally developed.
 
 # Changelog
 
+changes from -24 to -25
+
+* Make "SHOULD" of not manipulating foreign registrations a "should" and explain how it is enforced
+* Clarify application of RFC6570 to search parameters
+* Syntactic fixes in examples
+* IANA:
+  * Don't announce expected number of registrations (goes to write-up)
+  * Include syntax as part of a field's validity in entry requirements
+* Editorial changes
+  * Align wording between abstract and introduction
+  * Abbreviation normalization: "ER model", "RD"
+  * RFC8174 boilerplate update
+  * Minor clarity fixes
+  * Markup and layouting
+
 changes from -23 to -24
 
 * Discovery using DNS-SD added again
