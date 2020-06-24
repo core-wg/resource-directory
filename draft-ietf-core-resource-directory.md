@@ -138,8 +138,10 @@ can be applied in an equivalent manner to HTTP {{RFC7230}}.
 The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
 "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and "OPTIONAL"
 in this
-document are to be interpreted as described in {{RFC2119}}. The
-term "byte" is used in its now customary sense as a synonym for "octet".
+document are to be interpreted as described in BCP 14 {{RFC2119}} {{!RFC8174}}
+when, and only when, they appear in all capitals, as shown here.
+
+The term "byte" is used in its now customary sense as a synonym for "octet".
 
 This specification requires readers to be familiar with all the terms and
 concepts that are discussed in {{RFC3986}}, {{RFC8288}} and {{RFC6690}}. Readers should
@@ -326,7 +328,7 @@ These models provide an abstract view of the information expressed in link-forma
 
 
 ~~~~
-{: #fig-ER-WKC title='E-R Model of the content of /.well-known/core' align="left"}
+{: #fig-ER-WKC title='ER Model of the content of /.well-known/core' align="left"}
 
 The model shown in {{fig-ER-WKC}} models the contents of /.well-known/core which contains:
 
@@ -396,7 +398,7 @@ o  base o-------|  registration |
                                            +----o context o
                                                  ooooooooo
 ~~~~
-{: #fig-ER-RD title='E-R Model of the content of the Resource Directory' align="left"}
+{: #fig-ER-RD title='ER Model of the content of the Resource Directory' align="left"}
 
 The model shown in {{fig-ER-RD}} models the contents of the resource directory which contains in addition to /.well-known/core:
 
@@ -523,7 +525,7 @@ Those serve to illustrate the typical responses
 to readers who are not yet familiar with all the details of CoAP based interfaces;
 they do not limit what a server may respond under atypical circumstances.
 
-REST clients (registrant-EPs / CTs, lookup clients, RD servers during simple registrations)
+REST clients (registrant-EPs and CTs during registration and maintenance, lookup clients, RD servers during simple registrations)
 MUST be prepared to receive any unsuccessful code and act upon it
 according to its definition, options and/or payload to the best of their capabilities,
 falling back to failing the operation if recovery is not possible.
@@ -767,7 +769,7 @@ Req: GET coap://[MCD1]/.well-known/core?rt=core.rd*
 Res: 2.05 Content
 </rd>;rt="core.rd";ct=40,
 </rd-lookup/ep>;rt="core.rd-lookup-ep";ct=40,
-</rd-lookup/res>;rt="core.rd-lookup-res";ct=40,
+</rd-lookup/res>;rt="core.rd-lookup-res";ct=40
 ~~~~
 {: #example-discovery title="Example discovery exchange" }
 
@@ -787,7 +789,7 @@ Req: GET coap://[MCD1]/.well-known/core?rt=core.rd*
 Res: 2.05 Content
 </rd>;rt="core.rd";ct="40 65225",
 </rd-lookup/res>;rt="core.rd-lookup-res";ct="40 TBD64 TBD504";obs,
-</rd-lookup/ep>;rt="core.rd-lookup-ep";ct="40 TBD64 TBD504",
+</rd-lookup/ep>;rt="core.rd-lookup-ep";ct="40 TBD64 TBD504"
 ~~~~
 {: #example-discovery-ct title="Example discovery exchange indicating additional content-formats" }
 
@@ -1654,7 +1656,7 @@ or TLS security requirements and references  -->.
 
 ## Endpoint Identification and Authentication {#endpoint_identification}
 
-An Endpoint (name, sector) pair is unique within the et of endpoints registered by the RD. An Endpoint MUST NOT be identified by its protocol, port or IP
+An Endpoint (name, sector) pair is unique within the set of endpoints registered by the RD. An Endpoint MUST NOT be identified by its protocol, port or IP
 address as these may change over the lifetime of an Endpoint.
 
 Every operation performed by an Endpoint on a resource directory
@@ -1830,7 +1832,7 @@ The registry initially contains one value:
    IPv4  -- "all CoRE resource directories" address MCD2 (suggestion: 224.0.1.189), from the "IPv4
       Multicast Address Space Registry".  As the address is used for
       discovery that may span beyond a single network, it has come from
-      the Internetwork Control Block (224.0.1.x, RFC 5771).
+      the Internetwork Control Block (224.0.1.x) {{?RFC5771}}.
 
    IPv6  -- "all CoRE resource directories" address MCD1 (suggestions FF0X::FE), from the "IPv6 Multicast
       Address Space Registry", in the "Variable Scope Multicast
