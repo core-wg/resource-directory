@@ -1631,11 +1631,10 @@ Which are relevant depends on its protection objectives.
 
 Whenever an RD needs to provide trustworthy results to clients doing endpoint lookup,
 or resource lookup with filtering on the endpoint name,
-the RD must ensure the correctness of that data.
-That is, it needs to verify that the registering client is authorized to use the given endpoint name,
-both on registration and on operations on the registration resource.
+the RD must ensure that the registrant is authorized to use the given endpoint name.
+This applies both to registration and later to operations on the registration resource.
 It is immaterial there whether the client is the registrant-ep itself or a CT is doing the registration:
-The RD can not tell, and CT may use authorization credentials authorizing only operations on that particular endpoint name, or a wider range of endpoint names.
+The RD can not tell the difference, and CTs may use authorization credentials authorizing only operations on that particular endpoint name, or a wider range of endpoint names.
 
 When certificates are used as authorization credentials,
 the sector(s) and endpoint name(s) can be transported in the subject.
@@ -1644,7 +1643,7 @@ In an ACE context, those are typically transported in a scope claim.
 ## Entered resources
 
 When lookup clients expect that certain types of links can only originate from certain endpoints,
-then the RD is required to apply filtering to the links an endpoint may register.
+then the RD needs to apply filtering to the links an endpoint may register.
 
 For example, if clients use an RD to find a server that provides firmware updates,
 then any registrant that wants to register (or update) links to firmware sources will need to provide suitable credentials to do so, immaterial of its endpoint name.
@@ -1656,9 +1655,15 @@ if the client accepts any credentials from the server as long as they fit the pr
 
 ## Link confidentiality
 
-* lookup client authentication
+When registrants publish information in the RD that is not available to any client that would query the registrant's .well-known/core interface,
+or when lookups to that interface are subject so stricter firewalling than lookups to the RD,
+the RD may need to limit which lookup clients may access the information.
 
-* rd authentication
+In those situations, the registrant needs to be careful to authenticate the RD as well.
+The registrant needs to know in advance which AS, audience and scope values indicate an RD it may trust for this purpose,
+and can not rely on the RD to provide AS address and token details.
+(In contrast, in the other scenarios it may try to register,
+and follow the pointers the RD gives it as to which credentials it needs to provide in order to perform its registration).
 
 ## Segmentation
 
@@ -1673,41 +1678,8 @@ One easy way to do that is to mandate the use of the sector parameter on all ope
 as no credentials are suitable for operations across sector borders anyway.
 
 
+@@@
 
-
-The RD provides assistance to applications situated on a selection of nodes to discover endpoints on connected nodes. This section discusses different security aspects of accessing the RD.
-
-The contents of the RD are inserted in two ways:
-
-1.  The node hosting the discoverable endpoint fills the RD with the contents of /.well-known/core by:
-     * Storing the contents directly into RD (see {{registration}})
-     * Requesting the RD to load the contents from /.well-known/core (see {{simple}})
-
-2.  A Commissioning Tool (CT) fills the RD with endpoint information for a set of discoverable nodes. (see {{registration}} with base=authority parameter value)
-
-In both cases, the nodes filling the RD should be authenticated and authorized to change the contents of the RD. An Authorization Server (AS) is responsible to assign a token to the registering node to authorize the node to discover or register endpoints in a given RD {{I-D.ietf-ace-oauth-authz}}.
-
-It can be imagined that an installation is divided in a set of security regions, each one with its own RD(s) to discover the endpoints that are part of a given security region. An endpoint that wants to discover an RD, responsible for a given region, needs to be authorized to learn the contents of a given RD. Within a region, for a given RD, a more fine-grained security division is possible based on the values of the endpoint registration parameters. Authorization to discover endpoints with a given set of filter values is recommended for those cases.
-
-When a node registers its endpoints, criteria are needed to authorize the node to enter them. An important aspect is the uniqueness of the (endpoint name, and optional sector) pair within the RD. Consider the two cases separately: (1) CT registers endpoints, and (2) the registering node registers its own endpoint(s).
-
-   * A CT needs authorization to register a set of endpoints. This authorization can be based on the region, i.e. a given CT is authorized to register any endpoint (endpoint name, sector) into a given RD, or to register an endpoint with (endpoint name, sector) value pairs assigned by the AS, or can be more fine-grained, including a subset of registration parameter values.
-   * A given endpoint that registers itself, needs to proof its possession of its unique (endpoint name, sector) value pair. Alternatively, the AS can authorize the endpoint to register with an (endpoint name, sector) value pair assigned by the AS.
-
-A separate document needs to specify these aspects to ensure interoperability between registering nodes and RD. The subsections below give some hints how to handle a subset of the different aspects.
-
-## Secure RD discovery
-
-The Resource Server (RS) discussed in {{I-D.ietf-ace-oauth-authz}} is equated to the RD. The client (C) needs to discover the RD as discussed in {{finding_an_rd}}. C can discover the related AS by sending a request to the RD. The RD denies the request by sending the address of the related AS, as discussed in section 5.1 of {{I-D.ietf-ace-oauth-authz}}.
-The client MUST send an authorization request to the AS. When appropriate, the AS returns a token that specifies the authorization permission which needs to be specified in a separate document.
-
-## Secure RD filtering
-
-The authorized parameter values for the queries by a given endpoint must be registered by the AS. The AS communicates the parameter values in the token. A separate document needs to specify the parameter value combinations and their storage in the token. The RD decodes the token and checks the validity of the queries of the client.
-
-## Secure endpoint Name assignment {#secure-ep}
-
-This section only considers the assignment of a name to the endpoint based on an automatic mechanism without use of AS. More elaborate protocols are out of scope. The registering endpoint is authorized by the AS to discover the RD and add registrations. A token is provided by the AS and communicated from registering endpoint to RD.  It is assumed that DTLS is used to secure the channel between registering endpoint and RD, where the registering endpoint is the DTLS client. Assuming that the client is provided by a certificate at manufacturing time, the certificate is uniquely identified by the CN field and the serial number (see {{?RFC5280}} Section 4.1.2.2). The RD can assign a unique endpoint name by using the certificate identifier as endpoint name. Proof of possession of the endpoint name by the registering endpoint is checked by encrypting the certificate identifier with the private key of the registering endpoint, which the RD can decrypt with the public key stored in the certificate.
 Even simpler, the authorized registering endpoint can generate a random number (or string) that identifies the endpoint. The RD can check for the improbable replication of the random value. The RD MUST check that registering endpoint uses only one random value for each authorized endpoint.
 
 
