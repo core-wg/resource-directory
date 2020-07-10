@@ -1640,6 +1640,15 @@ When certificates are used as authorization credentials,
 the sector(s) and endpoint name(s) can be transported in the subject.
 In an ACE context, those are typically transported in a scope claim.
 
+### Random endpoint names
+
+Conversely, in applications where the RD does not check the endpoint name,
+the authorized registering endpoint can generate a random number (or string) that identifies the endpoint.
+@@@ size?
+The RD should then remeber unique properties of the registrant,
+associate them with the registration for as long as its registration resource is active (which may be longer than the registration's lifetime),
+and require the same properties for operations on the registration resource.
+
 ## Entered resources
 
 When lookup clients expect that certain types of links can only originate from certain endpoints,
@@ -1676,11 +1685,6 @@ while others use a random identifier approach to endpoint names and place limits
 Care must be taken in such setups to determine the applicable access control measures to each operation.
 One easy way to do that is to mandate the use of the sector parameter on all operations,
 as no credentials are suitable for operations across sector borders anyway.
-
-
-@@@
-
-Even simpler, the authorized registering endpoint can generate a random number (or string) that identifies the endpoint. The RD can check for the improbable replication of the random value. The RD MUST check that registering endpoint uses only one random value for each authorized endpoint.
 
 
 # Security Considerations
