@@ -1644,10 +1644,12 @@ In an ACE context, those are typically transported in a scope claim.
 
 Conversely, in applications where the RD does not check the endpoint name,
 the authorized registering endpoint can generate a random number (or string) that identifies the endpoint.
-@@@ size?
 The RD should then remeber unique properties of the registrant,
 associate them with the registration for as long as its registration resource is active (which may be longer than the registration's lifetime),
 and require the same properties for operations on the registration resource.
+
+Registrants that are prepared to pick a different identifier when their initial attempt at registration is unauthorized should pick an identifier at least twice as long as the expected number of registrants;
+registrants without such a recovery options should pick significantly longer endpoint names (e.g. using UUID URNs {{?RFC4122}}).
 
 ## Entered resources
 
