@@ -1662,6 +1662,14 @@ if the client requires the firmware server to present credentials as a firmware 
 a fraudulent link's impact is limited to the client revealing its intention to obtain updates and slowing down the client until it finds a legitimate firmware server;
 if the client accepts any credentials from the server as long as they fit the provided URI, the impact is larger.
 
+An RD may also require that only links are registered on whose anchor (or even target) the RD recognizes as authoritative of.
+One way to do this is to demand that the registrant present the same credentials as a client that they'd need to present if contacted as a server at the resources' URI, which may include using the address and port that are part of the URI.
+Such a restriction places severe practical limitations on the links that can be registered.
+
+As above, the impact of undesirable links depends on the extent to which the lookup client relies on the RD.
+To avoid the limitations, RD applications should consider <!-- can we pull in RFC6919 to make this normative? --> prescribe that lookup clients only use the discovered information as hints,
+and describe which pieces of information need to be verified with the server because they impact the application's security.
+
 ## Link confidentiality
 
 When registrants publish information in the RD that is not available to any client that would query the registrant's .well-known/core interface,
