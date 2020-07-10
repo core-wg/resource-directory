@@ -2249,6 +2249,19 @@ originally developed.
 
 # Changelog
 
+changes in this branch
+
+* Large rework of section 7 (Security policies)
+
+  Rather than prescribing which data in the RD *is* authenticated (and how),
+  it now describes what applications built on an RD *can* choose to authenticate,
+  show possibilities on how to do it and outline what it means for clients.
+
+  This addresses Russ' Genart review points on details in the text in a rather broad fashion.
+  That is because the discussion on the topic inside the WG showed that that text on security has been driven more review-by-review than by the an architectural plan of the authors and WG.
+
+* Add concrete suggestions (twice as long as registrant number with retries, or UUIDs without) for random endpoint names
+
 changes from -23 to -24
 
 * Discovery using DNS-SD added again
