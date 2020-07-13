@@ -1615,40 +1615,86 @@ et="oic.d.sensor";ct="40";d="floor-3";rt="core.rd-ep"
 
 # Security policies {#policies}
 
-The RD provides assistance to applications situated on a selection of nodes to discover endpoints on connected nodes. This section discusses different security aspects of accessing the RD.
+The security policies that are applicable to an RD strongly depend on the application,
+and are not set out normatively here.
 
-The contents of the RD are inserted in two ways:
+This section provides a list of aspects that applications should consider when describing their use of the RD,
+without claiming to cover all cases.
+It is using terminology of {{I-D.ietf-ace-oauth-authz}},
+in which the RD acts as the Resource Server (RS), and both registrant-eps and lookup clients act as Clients (C) with support from an Authorization Server (AS),
+without the intention of ruling out other (e.g. certificate / public-key infrastructure (PKI) based) schemes.
 
-1.  The node hosting the discoverable endpoint fills the RD with the contents of /.well-known/core by:
-     * Storing the contents directly into RD (see {{registration}})
-     * Requesting the RD to load the contents from /.well-known/core (see {{simple}})
+Any, all or none of the below can apply to an application.
+Which are relevant depends on its protection objectives.
 
-2.  A Commissioning Tool (CT) fills the RD with endpoint information for a set of discoverable nodes. (see {{registration}} with base=authority parameter value)
+## Endpoint name {#secure-ep}
 
-In both cases, the nodes filling the RD should be authenticated and authorized to change the contents of the RD. An Authorization Server (AS) is responsible to assign a token to the registering node to authorize the node to discover or register endpoints in a given RD {{I-D.ietf-ace-oauth-authz}}.
+Whenever an RD needs to provide trustworthy results to clients doing endpoint lookup,
+or resource lookup with filtering on the endpoint name,
+the RD must ensure that the registrant is authorized to use the given endpoint name.
+This applies both to registration and later to operations on the registration resource.
+It is immaterial there whether the client is the registrant-ep itself or a CT is doing the registration:
+The RD can not tell the difference, and CTs may use authorization credentials authorizing only operations on that particular endpoint name, or a wider range of endpoint names.
 
-It can be imagined that an installation is divided in a set of security regions, each one with its own RD(s) to discover the endpoints that are part of a given security region. An endpoint that wants to discover an RD, responsible for a given region, needs to be authorized to learn the contents of a given RD. Within a region, for a given RD, a more fine-grained security division is possible based on the values of the endpoint registration parameters. Authorization to discover endpoints with a given set of filter values is recommended for those cases.
+When certificates are used as authorization credentials,
+the sector(s) and endpoint name(s) can be transported in the subject.
+In an ACE context, those are typically transported in a scope claim.
 
-When a node registers its endpoints, criteria are needed to authorize the node to enter them. An important aspect is the uniqueness of the (endpoint name, and optional sector) pair within the RD. Consider the two cases separately: (1) CT registers endpoints, and (2) the registering node registers its own endpoint(s).
+### Random endpoint names {#arbitrary-ep}
 
-   * A CT needs authorization to register a set of endpoints. This authorization can be based on the region, i.e. a given CT is authorized to register any endpoint (endpoint name, sector) into a given RD, or to register an endpoint with (endpoint name, sector) value pairs assigned by the AS, or can be more fine-grained, including a subset of registration parameter values.
-   * A given endpoint that registers itself, needs to proof its possession of its unique (endpoint name, sector) value pair. Alternatively, the AS can authorize the endpoint to register with an (endpoint name, sector) value pair assigned by the AS.
+Conversely, in applications where the RD does not check the endpoint name,
+the authorized registering endpoint can generate a random number (or string) that identifies the endpoint.
+The RD should then remeber unique properties of the registrant,
+associate them with the registration for as long as its registration resource is active (which may be longer than the registration's lifetime),
+and require the same properties for operations on the registration resource.
 
-A separate document needs to specify these aspects to ensure interoperability between registering nodes and RD. The subsections below give some hints how to handle a subset of the different aspects.
+Registrants that are prepared to pick a different identifier when their initial attempt at registration is unauthorized should pick an identifier at least twice as long as the expected number of registrants;
+registrants without such a recovery options should pick significantly longer endpoint names (e.g. using UUID URNs {{?RFC4122}}).
 
-## Secure RD discovery
+## Entered resources
 
-The Resource Server (RS) discussed in {{I-D.ietf-ace-oauth-authz}} is equated to the RD. The client (C) needs to discover the RD as discussed in {{finding_an_rd}}. C can discover the related AS by sending a request to the RD. The RD denies the request by sending the address of the related AS, as discussed in section 5.1 of {{I-D.ietf-ace-oauth-authz}}.
-The client MUST send an authorization request to the AS. When appropriate, the AS returns a token that specifies the authorization permission which needs to be specified in a separate document.
+When lookup clients expect that certain types of links can only originate from certain endpoints,
+then the RD needs to apply filtering to the links an endpoint may register.
 
-## Secure RD filtering
+For example, if clients use an RD to find a server that provides firmware updates,
+then any registrant that wants to register (or update) links to firmware sources will need to provide suitable credentials to do so, independently of its endpoint name.
 
-The authorized parameter values for the queries by a given endpoint must be registered by the AS. The AS communicates the parameter values in the token. A separate document needs to specify the parameter value combinations and their storage in the token. The RD decodes the token and checks the validity of the queries of the client.
+Note that the impact of having undesirable links in the RD depends on the application:
+if the client requires the firmware server to present credentials as a firmware server,
+a fraudulent link's impact is limited to the client revealing its intention to obtain updates and slowing down the client until it finds a legitimate firmware server;
+if the client accepts any credentials from the server as long as they fit the provided URI, the impact is larger.
 
-## Secure endpoint Name assignment {#secure-ep}
+An RD may also require that only links are registered on whose anchor (or even target) the RD recognizes as authoritative of.
+One way to do this is to demand that the registrant present the same credentials as a client that they'd need to present if contacted as a server at the resources' URI, which may include using the address and port that are part of the URI.
+Such a restriction places severe practical limitations on the links that can be registered.
 
-This section only considers the assignment of a name to the endpoint based on an automatic mechanism without use of AS. More elaborate protocols are out of scope. The registering endpoint is authorized by the AS to discover the RD and add registrations. A token is provided by the AS and communicated from registering endpoint to RD.  It is assumed that DTLS is used to secure the channel between registering endpoint and RD, where the registering endpoint is the DTLS client. Assuming that the client is provided by a certificate at manufacturing time, the certificate is uniquely identified by the CN field and the serial number (see {{?RFC5280}} Section 4.1.2.2). The RD can assign a unique endpoint name by using the certificate identifier as endpoint name. Proof of possession of the endpoint name by the registering endpoint is checked by encrypting the certificate identifier with the private key of the registering endpoint, which the RD can decrypt with the public key stored in the certificate.
-Even simpler, the authorized registering endpoint can generate a random number (or string) that identifies the endpoint. The RD can check for the improbable replication of the random value. The RD MUST check that registering endpoint uses only one random value for each authorized endpoint.
+As above, the impact of undesirable links depends on the extent to which the lookup client relies on the RD.
+To avoid the limitations, RD applications should consider <!-- can we pull in RFC6919 to make this normative? --> prescribe that lookup clients only use the discovered information as hints,
+and describe which pieces of information need to be verified with the server because they impact the application's security.
+
+## Link confidentiality
+
+When registrants publish information in the RD that is not available to any client that would query the registrant's .well-known/core interface,
+or when lookups to that interface are subject so stricter firewalling than lookups to the RD,
+the RD may need to limit which lookup clients may access the information.
+
+In those situations, the registrant needs to be careful to authenticate the RD as well.
+The registrant needs to know in advance which AS, audience and scope values indicate an RD it may trust for this purpose,
+and can not rely on the RD to provide AS address and token details.
+(In contrast, in the other scenarios it may try to register,
+and follow the pointers the RD gives it as to which credentials it needs to provide in order to perform its registration).
+
+## Segmentation
+
+Within a single RD, different security policies can apply.
+
+One example of this are multi-tenant deployments separated by the sector (d) parameter.
+Some sectors might apply limitations on the enpoint names available,
+while others use a random identifier approach to endpoint names and place limits on the entered links based on their attributes instead.
+
+Care must be taken in such setups to determine the applicable access control measures to each operation.
+One easy way to do that is to mandate the use of the sector parameter on all operations,
+as no credentials are suitable for operations across sector borders anyway.
 
 
 # Security Considerations
@@ -1677,7 +1723,9 @@ whether the identifier provided in the DTLS handshake matches the
 identifier used at the CoAP layer then it may be inclined to use the
 endpoint name for looking up what information to provision to the malicious device.
 
-{{secure-ep}} specifies an example that removes this threat for endpoints that have a certificate installed.
+Endpoint authentication needs to be checked
+independenlty of whether there are configured requirements on the credentials for a given endpoint name ({{secure-ep}})
+or whether arbitrary names are accepted ({{arbitrary-ep}}).
 
 
 ## Access Control
@@ -2204,6 +2252,18 @@ originally developed.
 # Changelog
 
 changes from -24 to -25
+
+
+* Large rework of section 7 (Security policies)
+
+  Rather than prescribing which data in the RD *is* authenticated (and how),
+  it now describes what applications built on an RD *can* choose to authenticate,
+  show possibilities on how to do it and outline what it means for clients.
+
+  This addresses Russ' Genart review points on details in the text in a rather broad fashion.
+  That is because the discussion on the topic inside the WG showed that that text on security has been driven more review-by-review than by the an architectural plan of the authors and WG.
+
+* Add concrete suggestions (twice as long as registrant number with retries, or UUIDs without) for random endpoint names
 
 * Make "SHOULD" of not manipulating foreign registrations a "should" and explain how it is enforced
 * Clarify application of RFC6570 to search parameters
