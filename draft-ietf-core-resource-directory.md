@@ -1120,6 +1120,11 @@ Success:
 : 2.05 "Content".
 
 
+When the RD is in a position to successfully execute this second interaction and other network participants that can reach it are not,
+it SHOULD verify that the apparent registrant-ep intends to register with the given registration parameters
+before revealing the obtained discovery information to lookup clients.
+An easy way to do that is to verify the simple registration request's sender address using the Echo option as described in {{?I-D.ietf-core-echo-request-tag}} Section 2.4.
+
 The RD MUST delete registrations created by simple registration after the expiration of their lifetime. Additional operations on the registration resource cannot be executed because no registration location is returned.
 
 
@@ -1727,6 +1732,10 @@ Endpoint authentication needs to be checked
 independenlty of whether there are configured requirements on the credentials for a given endpoint name ({{secure-ep}})
 or whether arbitrary names are accepted ({{arbitrary-ep}}).
 
+Simple registration could be used to circumvent address based access control:
+An attacker would send a simple registration request with the victim's address as source address,
+and later look up the victim's .well-known/core content in the RD.
+Mitigation for this is recommended in {{simple}}.
 
 ## Access Control
 
@@ -2264,6 +2273,10 @@ changes from -24 to -25
   That is because the discussion on the topic inside the WG showed that that text on security has been driven more review-by-review than by the an architectural plan of the authors and WG.
 
 * Add concrete suggestions (twice as long as registrant number with retries, or UUIDs without) for random endpoint names
+
+* Point out that simple registration can have faked origins,
+  RECOMMEND mitigation when applicable
+  and suggest the Echo mechanism to implement it.
 
 * Make "SHOULD" of not manipulating foreign registrations a "should" and explain how it is enforced
 * Clarify application of RFC6570 to search parameters
