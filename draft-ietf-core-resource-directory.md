@@ -1657,7 +1657,7 @@ When lookup clients expect that certain types of links can only originate from c
 then the RD needs to apply filtering to the links an endpoint may register.
 
 For example, if clients use an RD to find a server that provides firmware updates,
-then any registrant that wants to register (or update) links to firmware sources will need to provide suitable credentials to do so, immaterial of its endpoint name.
+then any registrant that wants to register (or update) links to firmware sources will need to provide suitable credentials to do so, independently of its endpoint name.
 
 Note that the impact of having undesirable links in the RD depends on the application:
 if the client requires the firmware server to present credentials as a firmware server,
