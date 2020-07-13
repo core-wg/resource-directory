@@ -1627,7 +1627,7 @@ without the intention of ruling out other (e.g. certificate / public-key infrast
 Any, all or none of the below can apply to an application.
 Which are relevant depends on its protection objectives.
 
-## Endpoint name
+## Endpoint name {#secure-ep}
 
 Whenever an RD needs to provide trustworthy results to clients doing endpoint lookup,
 or resource lookup with filtering on the endpoint name,
@@ -1640,7 +1640,7 @@ When certificates are used as authorization credentials,
 the sector(s) and endpoint name(s) can be transported in the subject.
 In an ACE context, those are typically transported in a scope claim.
 
-### Random endpoint names
+### Random endpoint names {#arbitrary-ep}
 
 Conversely, in applications where the RD does not check the endpoint name,
 the authorized registering endpoint can generate a random number (or string) that identifies the endpoint.
@@ -1723,7 +1723,9 @@ whether the identifier provided in the DTLS handshake matches the
 identifier used at the CoAP layer then it may be inclined to use the
 endpoint name for looking up what information to provision to the malicious device.
 
-{{secure-ep}} specifies an example that removes this threat for endpoints that have a certificate installed.
+Endpoint authentication needs to be checked
+independenlty of whether there are configured requirements on the credentials for a given endpoint name ({{secure-ep}})
+or whether arbitrary names are accepted ({{arbitrary-ep}}).
 
 
 ## Access Control
