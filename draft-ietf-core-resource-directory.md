@@ -1649,7 +1649,7 @@ In an ACE context, those are typically transported in a scope claim.
 
 Conversely, in applications where the RD does not check the endpoint name,
 the authorized registering endpoint can generate a random number (or string) that identifies the endpoint.
-The RD should then remeber unique properties of the registrant,
+The RD should then remember unique properties of the registrant,
 associate them with the registration for as long as its registration resource is active (which may be longer than the registration's lifetime),
 and require the same properties for operations on the registration resource.
 
@@ -1694,7 +1694,7 @@ and follow the pointers the RD gives it as to which credentials it needs to prov
 Within a single RD, different security policies can apply.
 
 One example of this are multi-tenant deployments separated by the sector (d) parameter.
-Some sectors might apply limitations on the enpoint names available,
+Some sectors might apply limitations on the endpoint names available,
 while others use a random identifier approach to endpoint names and place limits on the entered links based on their attributes instead.
 
 Care must be taken in such setups to determine the applicable access control measures to each operation.
@@ -1729,7 +1729,7 @@ identifier used at the CoAP layer then it may be inclined to use the
 endpoint name for looking up what information to provision to the malicious device.
 
 Endpoint authentication needs to be checked
-independenlty of whether there are configured requirements on the credentials for a given endpoint name ({{secure-ep}})
+independently of whether there are configured requirements on the credentials for a given endpoint name ({{secure-ep}})
 or whether arbitrary names are accepted ({{arbitrary-ep}}).
 
 Simple registration could be used to circumvent address based access control:
@@ -1772,7 +1772,7 @@ including some mitigation by using small block sizes in responses.
 The upcoming {{?I-D.ietf-core-echo-request-tag}} updates that
 by describing a source address verification mechanism using the Echo option.
 
-\[ If this document is published together with or after I-D.ioetf-core-echo-request-tag,
+\[ If this document is published together with or after I-D.ietf-core-echo-request-tag,
 the above paragraph is replaced with the following:
 
 {{RFC7252}} describes this at length in its Section 11.3,
@@ -1919,7 +1919,7 @@ The registry initially contains one value:
 \[ The RFC editor is asked to replace MCD1 and MCD2
 with the assigned addresses throughout the document. \]
 
-## Well-Kown URIs
+## Well-Known URIs
 
 IANA is asked to extend
 <!-- IANA has extended -->
@@ -1933,9 +1933,9 @@ as this defines the resource's behavior for POST requests.
 IANA is asked to enter four new items into the Service Names and Transport Protocol Port Number Registry:
 
 * Service name: "core-rd",  Protocol: "udp", Description: "Resource Directory accessed using CoAP"
-* Service name "core-rd-dtls", Protocol: "udp", Description: "Resource Directory accedded using CoAP over DTLS"
+* Service name "core-rd-dtls", Protocol: "udp", Description: "Resource Directory accessed using CoAP over DTLS"
 * Service name: "core-rd",  Protocol: "tcp", Description: "Resource Directory accessed using CoAP over TCP"
-* Service name "core-rd-tls", Protocol: "tcp", Description: "Resource Directory accedded using CoAP over TLS"
+* Service name "core-rd-tls", Protocol: "tcp", Description: "Resource Directory accessed using CoAP over TLS"
 
 All in common have this document as their reference.
 
@@ -2181,7 +2181,7 @@ example, a LWM2M URI might be:
 /1/0/1
 ~~~~
 
-The base uri is empty, the Object ID is 1, the instance ID is 0, the
+The base URI is empty, the Object ID is 1, the instance ID is 0, the
 resource ID is 1, and the resource instance is "undefined". This
 example URI points to internal resource 1, which represents the
 registration lifetime configured, in instance 0 of a type 1 object
@@ -2283,7 +2283,7 @@ changes from -24 to -25
   show possibilities on how to do it and outline what it means for clients.
 
   This addresses Russ' Genart review points on details in the text in a rather broad fashion.
-  That is because the discussion on the topic inside the WG showed that that text on security has been driven more review-by-review than by the an architectural plan of the authors and WG.
+  That is because the discussion on the topic inside the WG showed that that text on security has been driven more review-by-review than by an architectural plan of the authors and WG.
 
 * Add concrete suggestions (twice as long as registrant number with retries, or UUIDs without) for random endpoint names
 
