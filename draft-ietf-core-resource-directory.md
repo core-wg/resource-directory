@@ -2293,6 +2293,8 @@ changes from -24 to -25
 
 * Reference existing and upcoming specifications for DDOS mitigation in CoAP.
 
+* Explain the provenance of the example's multicast address.
+
 * Make "SHOULD" of not manipulating foreign registrations a "should" and explain how it is enforced
 * Clarify application of RFC6570 to search parameters
 * Syntactic fixes in examples
@@ -2674,6 +2676,7 @@ MAY be permissible if requests to them fail gracefully.
 The following example shows a CT registering a group with the name “lights” which provides two resources.
 The directory resource path /rd
 is an example RD location discovered in a request similar to {{example-discovery}}.
+The group address in the example is constructed from {{?RFC3849}}'s reserved 2001:db8:: prefix as a unicast-prefix based site-local address (see {{?RFC3306}}.
 
 ~~~~
 Req: POST coap://rd.example.com/rd?ep=lights&et=core.rd-group
