@@ -1767,6 +1767,19 @@ Since there is no return routability check and the responses can be significantl
 larger than requests, RDs can unknowingly become part of a DDoS amplification
 attack.
 
+{{RFC7252}} describes this at length in its Section 11.3,
+including some mitigation by using small block sizes in responses.
+The upcoming {{?I-D.ietf-core-echo-request-tag}} updates that
+by describing a source address verification mechanism using the Echo option.
+
+\[ If this document is published together with or after I-D.ioetf-core-echo-request-tag,
+the above paragraph is replaced with the following:
+
+{{RFC7252}} describes this at length in its Section 11.3,
+and {{?I-D.ietf-core-echo-request-tag}} (which updates the former)
+recommends using the Echo option to verify the request's source address.
+
+\]
 
 
 
@@ -2277,6 +2290,8 @@ changes from -24 to -25
 * Point out that simple registration can have faked origins,
   RECOMMEND mitigation when applicable
   and suggest the Echo mechanism to implement it.
+
+* Reference existing and upcoming specifications for DDOS mitigation in CoAP.
 
 * Make "SHOULD" of not manipulating foreign registrations a "should" and explain how it is enforced
 * Clarify application of RFC6570 to search parameters
