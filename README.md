@@ -1,8 +1,8 @@
-#  CoRE Resource Directory
+# CoRE Resource Directory
 
-This is the working area for the IETF [CORE Working Group](https://datatracker.ietf.org/wg/core/documents/) Internet-Draft, " CoRE Resource Directory".
+This is the working area for the IETF [CORE Working Group](https://datatracker.ietf.org/wg/core/documents/) Internet-Draft, "CoRE Resource Directory".
 
-* [Editor's Copy](https://core-wg.github.io/resource-directory/#go.draft-ietf-core-resource-directory.html) [![Build Status](https://travis-ci.org/core-wg/resource-directory.svg?branch=master)](https://travis-ci.org/core-wg/resource-directory)
+* [Editor's Copy](https://core-wg.github.io/resource-directory/#go.draft-ietf-core-resource-directory.html)
 * [Working Group Draft](https://tools.ietf.org/html/draft-ietf-core-resource-directory)
 * [Compare Editor's Copy to Working Group Draft](https://core-wg.github.io/resource-directory/#go.draft-ietf-core-resource-directory.diff)
 
@@ -20,5 +20,4 @@ This requires that you have the necessary software installed.  See
 
 ## Contributing
 
-See the
-[guidelines for contributions](https://github.com/core-wg/resource-directory/blob/master/CONTRIBUTING.md).
+See the [guidelines for contributions](https://github.com/core-wg/resource-directory/blob/master/CONTRIBUTING.md).
