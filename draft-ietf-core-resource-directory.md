@@ -1750,22 +1750,10 @@ or resource level.
 ## Denial of Service Attacks
 
 Services that run over UDP unprotected are vulnerable to unknowingly
-become part of a DDoS attack as UDP does not require return
-routability check. Therefore, an attacker can easily spoof the source
-IP of the target entity and send requests to such a service which
-would then respond to the target entity. This can be used for
-large-scale DDoS attacks on the target. Especially, if the service
-returns a response that is order of magnitudes larger than the
-request, the situation becomes even worse as now the attack can be
-amplified. DNS servers have been widely used for DDoS amplification
-attacks. There is also a danger that NTP Servers could become implicated in denial-of-service (DoS) attacks since they run on unprotected UDP, there
-is no return routability check, and they can have a large amplification factor.
-The responses from the NTP server were found to be
-19 times larger than the request. An RD which responds
-to wild-card lookups is potentially vulnerable if run with CoAP over UDP.
-Since there is no return routability check and the responses can be significantly
-larger than requests, RDs can unknowingly become part of a DDoS amplification
-attack.
+amplify and distribute a DoS attack as UDP does not require return
+routability check.
+Since RD lookup responses can be significantly
+larger than requests, RDs are prone to this.
 
 {{RFC7252}} describes this at length in its Section 11.3,
 including some mitigation by using small block sizes in responses.
@@ -2272,6 +2260,13 @@ originally developed.
 
 
 # Changelog
+
+changes from -25 to -26
+
+* Security considerations:
+  Shorten amplification mitigation by removing the references to earlier cases of DDoS amplification,
+  and by removing redundancies between the problem introduction and the description of how an RD could become part of the problem.
+
 
 changes from -24 to -25
 
