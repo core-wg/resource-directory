@@ -1707,9 +1707,11 @@ as no credentials are suitable for operations across sector borders anyway.
 The security considerations as described in Section 5 of {{RFC8288}} and
 Section 6 of {{RFC6690}} apply. The `/.well-known/core` resource may be
 protected e.g. using DTLS when hosted on a CoAP server as described in
-{{RFC7252}}. DTLS or TLS based security SHOULD be used on all resource
-directory interfaces defined in this document<!-- TODO: Improve the exact DTLS
-or TLS security requirements and references  -->.
+{{RFC7252}}.
+
+Access that is limited or affects sensitive data SHOULD be protected,
+e.g. using (D)TLS or OSCORE ({{?RFC8613}};
+which aspects of the RD this affects depends on the security policies of the application (see {{policies}}).
 
 ## Endpoint Identification and Authentication {#endpoint_identification}
 
@@ -1746,6 +1748,8 @@ control SHOULD be performed in as fine-grained a level as possible. For example
 access control for lookups could be performed either at the sector, endpoint
 or resource level.
 
+The precise access controls necessary (and the consequences of failure to enforce them)
+depend on the protection objectives of the application and the security policies ({{policies}}) derived from them.
 
 ## Denial of Service Attacks
 
@@ -2272,6 +2276,15 @@ originally developed.
 
 
 # Changelog
+
+changes from -25 to -26
+
+* Security considerations:
+  * List all current options for security layers usable with CoAP (OSCORE was
+    missing as the text predated RFC8613)
+  * Relax the previous SHOULD on secure access to SHOULD where protection is indicated by security policies
+    (bringing the text in line with the -25 changes)
+  * Point out that failure to follow the security considerations has implications depending on the protection objective described with the security policies
 
 changes from -24 to -25
 
