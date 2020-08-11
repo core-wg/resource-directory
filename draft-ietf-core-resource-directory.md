@@ -1653,7 +1653,9 @@ The RD should then remember unique properties of the registrant,
 associate them with the registration for as long as its registration resource is active (which may be longer than the registration's lifetime),
 and require the same properties for operations on the registration resource.
 
-Registrants that are prepared to pick a different identifier when their initial attempt at registration is unauthorized should pick an identifier at least twice as long as the expected number of registrants;
+Registrants that are prepared to pick a different identifier when their initial attempt
+(or attempts, in the unlikely case of two subsequent collisions)
+at registration is unauthorized should pick an identifier at least twice as long as the expected number of registrants;
 registrants without such a recovery options should pick significantly longer endpoint names (e.g. using UUID URNs {{?RFC4122}}).
 
 ## Entered resources
@@ -2272,6 +2274,13 @@ originally developed.
 
 
 # Changelog
+
+changes from -25 to -26
+
+* Random EP names: Point that multiple collisions are possible but unlikely.
+
+  (For background, in the first round of attempts there's a good chance that one of the random IDs will collide due to the birthday paradox;
+  the likelyhood for a second (or even third) collision in a row is way below that because only the colliding node(s) will retry).
 
 changes from -24 to -25
 
