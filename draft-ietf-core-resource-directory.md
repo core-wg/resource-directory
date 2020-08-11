@@ -2273,6 +2273,11 @@ originally developed.
 
 # Changelog
 
+changes from -25 to -26
+
+* Minor editorial fixes in response to Gen-ART review.
+
+
 changes from -24 to -25
 
 
