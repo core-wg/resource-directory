@@ -506,7 +506,7 @@ This provides isolation and protection of sensitive data when needed. Applicatio
 This and the following sections define the required set of REST interfaces between an RD,
 endpoints and lookup clients. Although the examples throughout these sections assume the use of
 CoAP {{RFC7252}}, these REST interfaces can also be realized using HTTP {{RFC7230}}.
-Only multicast discovery operations are not possible on HTTP, and Simple Registration can not be executed as base attribute (which is mandatory for HTTP) can not be used there.
+Only multicast discovery operations are not possible on HTTP, and Simple Registration can not be executed as the base attribute (which is mandatory for HTTP) can not be used there.
 In all definitions in these sections, both CoAP response codes (with dot notation) and HTTP response codes
 (without dot notation) are shown. An RD implementing this specification MUST support
 the discovery, registration, update, lookup, and removal interfaces.
@@ -608,7 +608,7 @@ The following RD discovery mechanisms are recommended:
   * In managed networks without border router (no Internet services available), the use of a preconfigured anycast address is recommended (e.g. installation phase described in {{automation}}).
   * In networks managed using DNS-SD, the use of DNS-SD for discovery as described in {{rd-using-dnssd}} is recommended.
 
-The use of multicast discovery in mesh networks is NOT recommended.
+The use of multicast discovery in mesh networks is NOT RECOMMENDED.
 
 
 ### Resource Directory Address Option (RDAO) {#rdao}
@@ -797,7 +797,7 @@ From a management and maintenance perspective,
 it is necessary to identify the components that constitute the RD server.
 The identification refers to information about for example client-server incompatibilities,
 supported features, required updates and other aspects.
-The URI discovery address, a described in section 4 of {{RFC6690}} can be used to find the identification.
+The URI discovery address, as described in section 4 of {{RFC6690}} can be used to find the identification.
 
 It
 would typically be stored in an implementation information link
@@ -1388,7 +1388,7 @@ except that the target and anchor references are fully resolved.
 Links that did not have an anchor attribute are therefore returned with the  base URI of the registration as the anchor.
 Links of which href or anchor was submitted as a (full) URI are returned with these attributes unmodified.
 
-Above rules allow the client to interpret the response as links without any further knowledge of the storage conventions of the RD.
+The above rules allow the client to interpret the response as links without any further knowledge of the storage conventions of the RD.
 The RD MAY replace the registration base URIs with a configured intermediate proxy, e.g. in the case of an HTTP lookup interface for CoAP endpoints.
 
 If the base URI of a registration contains a link-local address,
@@ -1411,7 +1411,7 @@ A resource link also matches a search criterion if its endpoint would match the 
 
 Note that `href` is a valid search criterion and matches target references. Like all search criteria, on a resource lookup it can match the target reference of the resource link itself, but also the registration resource of the endpoint that registered it.
 Queries for resource link targets MUST be in URI form (i.e. not relative references) and are matched against a resolved link target. Queries for endpoints SHOULD be expressed in path-absolute form if possible and MUST be expressed in URI form otherwise; the RD SHOULD recognize either.
-The `anchor` attribute is usable for resource lookups, and, if queried, MUST be for in URI form as well.
+The `anchor` attribute is usable for resource lookups, and, if queried, MUST be in URI form as well.
 
 Endpoints that are interested in a lookup result repeatedly or continuously can use
 mechanisms like ETag caching, resource observation ({{RFC7641}}),
@@ -1674,7 +1674,7 @@ One way to do this is to demand that the registrant present the same credentials
 Such a restriction places severe practical limitations on the links that can be registered.
 
 As above, the impact of undesirable links depends on the extent to which the lookup client relies on the RD.
-To avoid the limitations, RD applications should consider <!-- can we pull in RFC6919 to make this normative? --> prescribe that lookup clients only use the discovered information as hints,
+To avoid the limitations, RD applications should consider <!-- can we pull in RFC6919 to make this normative? --> prescribing that lookup clients only use the discovered information as hints,
 and describe which pieces of information need to be verified with the server because they impact the application's security.
 
 ## Link confidentiality
@@ -1980,7 +1980,7 @@ Before commissioning by the lighting manager, the network is installed and
 access to the interfaces is proven to work by the network manager.
 
 At the moment of installation, the network under installation is not necessarily
-connected to the DNS infra structure. Therefore, SLAAC IPv6 addresses are
+connected to the DNS infrastructure. Therefore, SLAAC IPv6 addresses are
 assigned to CT, RD, luminaries and sensor shown in {{interface-S}} below:
 
 | Name | IPv6 address |
