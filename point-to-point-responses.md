@@ -947,7 +947,7 @@ group.
 > 
 > Please expand MSISDN.
 
-@@@ who's keeping that example in here?
+@@@ who's keeping that example in here? also GENERIC-ODDEXAMPLES
 
 > Section 13.2
 > 
@@ -976,7 +976,7 @@ As DISCUSS:
 >   here, but the working group should have its chance to make an evaluation
 >   irrespective of my opinion.
 
-@@@
+see: GENERIC-6MAN
 
 >   If this is to be used when link-local methods don't work, another option
 >   would have been to add an RD PVD API key and recommend including a PVD
@@ -1036,33 +1036,28 @@ As DISCUSS:
 > well-written this write-up seems to indicate neither a large consensus nor a
 > deep interest by the CORE WG community. But, I am trusting the past and
 > current responsible ADs on this aspect.
-> 
+
+@@@
+
 > Did the authors check with 6MAN WG about the new RDAO option for IPv6 NDP ? I
 > was unable to find any 6MAN email related to this new NDP option and, after
 > checking with the 6MAN WG chairs, they also do not remember any discussion.
-> 
-> BTW, I appreciated the use of ASCII art to represent an entity-relationship
-> diagram !
-> 
-> Please find below a couple of non-blocking COMMENTs (and I would appreciate a
-> reply to each of my COMMENTs) and 2 blocking DISCUSS points (but only trivial
-> actions/fixes are required).
-> 
-> I hope that this helps to improve the document,
-> 
-> Regards,
-> 
-> -éric
-> 
+
+see: GENERIC-6MAN
+
 > == DISCUSS ==
 > 
 > -- Section 4.1 -- It will be trivial to fix, in IPv6 address configuration
 > (SLAAC vs. DHCP) is orthogonal to DHCP 'other-information'. E.g., even if
 > address is configured via SLAAC, DHCPv6 other-information can be used to
 > configure the Recursive DNS Server (or possibly the RD).
-> 
+
+@@@
+
 > -- Section 4.1.1 -- Another trivial DISCUSS to fix: in which message is this
 > RDAO sent ? I guess unicast Router Advertisement but this MUST be specified.
+
+@@@
 
 As COMMENT:
 
@@ -1072,55 +1067,131 @@ As COMMENT:
 > happened in the long history of this document with the DNSSD (DNS Service
 > Discovery) Working Group that has very similar constraints (sleeping nodes)
 > and same objectives.
-> 
+
+response:
+
+Discussion was primarily on the level of granularity of service description
+(what is announced in DNS-SD often corresponds to multiple resources in an RD),
+and on protocol negotiation (input which is more suitable for the
+protocol-negotiation work than it is going into RD).
+
 > -- Section 2 -- To be honest: I am not too much an APP person; therefore, I
 > was surprised to see "source address (URI)" used to identify the "anchor="...
 > I do not mind too much the use of "destination address (URI)" as it is really
 > a destination but the anchor does not appear to me as a "source address". Is
 > it common terminology ? If so, then ignore my COMMENT, else I suggest to
 > change to "destination URI" and simply "anchor" ?
-> 
+
+response:
+
+"Context" is the term that RFC8288 uses, and other than when defining the
+Context we don't use source address for that (as that term is used more
+commonly with CoAP/UDP messages).
+
+The "source" part in the definition has no clear lineage in RFC8288 (which does
+not introduce the term formally), it stems from a link going "from" somewhere
+(the context, or source) "to" somewhere (the target).
+
+@@@ better definition?
+
 > -- Section 3.3 -- Should the lifetime be specified in seconds at first use in
 > the text?
-> 
+
+response:
+
+The lifetime is thought of as a quantity of time, which is only expressed in
+multiples of a unit when serialized (and there, it is consistently used with
+seconds).
+
 > -- Section 3.6 -- Is the use of "M2M" still current? I would suggest to use
 > the word "IoT" esp when 6LBR (assuming it is 6LO Border Router) is cited
 > later.
-> 
+
+@@@ basically yes
+
 > Please expand and add reference for 6LBR.
-> 
+
+@@@
+
 > Using 'modern' technologies (cfr LP-WAN WG) could also add justification to
 > section 3.5.
-> 
+
+@@@
+
 > -- Section 4.1 -- About "coap://[MCD1]/.well-known/core?rt=core.rd*", what is
 > the value of MCD1 ? The IANA section discuss about it but it may help the
 > reader to give a hint before (or simply use TBDx that is common in I-D).
-> 
+
+response:
+
+TBDx would have been easier in hindight, but there's hope that until RFC editor
+replaces that, more people will be reading the diffs than new people that might
+stumble here will read the document, so it's kept that way.
+
 > Any reason to use "address" rather than "group" in "When answering a
 > multicast request directed at a link-local address" ?
-> 
+
+@@@ just change to group
+
 > Later "to use one of their own routable addresses for registration." but
 > there can be multiple configured prefixes... Which one should the RD select ?
 > Should this be specified ?
-> 
+
+@@@ could say "use its preferred routable", but does that really say something?
+
 > As a co-author of RFC 8801, I would have appreciated to read PvD option
 > mentionned to discover the RD. Any reason why PvD Option cannot be used ?
-> 
+
+response:
+
+Probably because 8801 was just published, and the RDAO predates even -pvd-00 by
+a year.
+
+Sassiness aside, as I understand the PvD option from a skim and the vague
+recollections of having had a look at this at some earlier time, this would be
+orthogonal to the RDAO: a router with multiple PvDs could forward the RDAO from
+either uplink inside PvD options, and pick a primary one to forward to
+PvD-unaware hosts.
+
+I don't see any conflict, but don't see much potential either (are there many
+constrained devices that benefit from becoming PvD-aware?) -- so I'd keep it as
+with any other RA option: They can be combined, but there's no particular
+reason to point that out on either side.
+
+It might, however, warrant a note where we say that it "MAY keep concurrent
+registrations if explicitly configured to do so", as receiving PvD RDAOs can be
+interpreted as that very configuration. @@@ discuss
+
+(This is slightly more interesting in cases when the RD picks the addresses; a
+note on that will appear in the next version of
+draft-amsuess-core-resource-directory-extensions).
+
 > -- Section 4.1.1 -- I suggest to swap the reserved and lifetime fields in
 > order to be able to use a lifetime in units of seconds (to be consistent with
 > other NDP options).
-> 
+
+@@@
+
 > -- Section 5 -- May be I missed it, but, can an end-point register multiple
 > base URI ? E.g., multiple IPv6 addresses.
-> 
+
+response:
+
+No, that is deferred to protocol-negotiation (where whatever comes out of it is
+expected to do multiple addresses on the same protocol just as well as
+different protocols).
+
 > -- Section 9.2 -- For information, value 38 is already assigned to RFC 8781.
-> 
-> 
-> 
+
+@@@ remove recommendation
+
+
 > == NITS ==
 > 
 > -- Section 2 -- The extra new lines when defining "Sector" are slighly
 > confusing. Same applies to "Target" and "Context". This is cosmetic only.
+
+Issue: https://github.com/core-wg/resource-directory/issues/252
 
 Martin Duke
 ===========
@@ -1134,6 +1205,8 @@ As COMMENT:
 > One nit: the sentence that contains “cannot be executed as a base attribute”
 > appears to have been mangled.
 
+@@@
+
 Murray Kucherawy
 ================
 
@@ -1146,12 +1219,16 @@ As COMMENT:
 > In Section 9.2, you might want to mention that you're talking about a
 > sub-registry under "Internet Control Message Protocol version 6 (ICMPv6)
 > Parameters".
-> 
+
+@@@
+
 > In Section 9.3, you enumerate six fields in each registration, but the
 > initial table of entries has only five columns.  It's obvious (I think) that
 > the sixth column would be "this document" for all entries, but I suggest that
 > you should either include the column or some prose making this explicit
 > (since everything else is).
+
+@@@
 
 Warren Kumari
 =============
@@ -1171,39 +1248,62 @@ As COMMENT:
 > these in the wild, and only have a vague idea about how they work. Does
 > "These CTs act on behalf of endpoints too constrained, or generally unable,
 > to present that information themselves. " work?
-> 
+
+@@@ yes
+
 > 2: "From the system design point of view, the ambition is to design
 > horizontal solutions that  can enable utilization of machines in different
 > applications depending on their current availability and capabilities as well
 > as application requirements, thus avoiding silo like solutions" - this is
 > very buzzwordy, and I have no idea what it is actually trying to say...
-> 
+
+@@@
+
 > 3: "  A (re-)starting device may want to find one or more RDs for discovery
 > purposes."
 >
 > Either I don't understand what this sentence is  trying to say, or "for
 > discovery purposes" should be dropped.... 
-> 
+
+@@@
+
 > 4: "As some of the RD addresses obtained by the methods listed here are just
 > (more or less educated) guesses, endpoints MUST make use of any error
 > messages to very strictly rate-limit requests to candidate IP addresses that
 > don't work out. " What happens if device A discovers RD X, and device B
 > discovers RD Y? Surely there has to be some sort of deterministic method so
 > that one doesn't end up in a "split brain" type outcome? 
-> 
-> 
-> Nits:
 
+response:
+
+There are various approaches that can apply depending on the actual application:
+
+* In managed networks, care can be taken to not make multiple RDs discoverable.
+* In larger setups, multiple RDs may be available but set up for federation as
+  it is being explored in draft-amsuess-core-rd-replication
+* RDs that are deployed without overarching coordination can opt for the
+  Opportunistic Resource Directory approach that is being explored in
+  draft-amsuess-core-resource-directory-extensions, where one RD yields to the
+  other. The above replication steps make that transition smooth.
+
+But long story short, this draft does not attempt to solve them.
+
+> Nits:
+>
 > 1: " The input to an RD is composed of links and the output is composed of
 > links constructed from the information stored in the RD." While  true, this
 > sentence doesn't actually communicate anything useful to the reader -- I'd
 > suggest removing it from the Abstract (note that this is just a nit).
-> 
+
+@@@
+
 > 2: "The RD is primarily a tool to make discovery operations more efficient
 > than querying /.well-known/core on all connected devices, or across
 > boundaries that would be limiting those operations."
 >
 > s/would be limiting those/that would limit those/
+
+@@@
 
 Robert Wilton
 =============
@@ -1315,3 +1415,8 @@ GENERIC-ODDEXAMPLES
 "the SLAAC addresses" or the luminaries that just so join groups based on URIs
 they happen to share (and that's not even explicit). who will fix that? my fix
 would be to rip out anything someone complains about the examples.
+
+GENERIC-6MAN
+------------
+
+@@@
