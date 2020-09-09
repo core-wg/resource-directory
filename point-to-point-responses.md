@@ -10,7 +10,7 @@ Tracking issue: https://github.com/core-wg/resource-directory/issues/247
 > you should say "subject field" or "subject name".  Do you mean to
 > exclude the subject alternative name?
 
-
+@@@
 
 > Section 7.1.1 says:
 > 
@@ -57,12 +57,7 @@ assigned address.
 
 respond:
 
-Yes, that's because there's a coverage gap between RFC3849 (defining example
-unicast addresses) and RFC3306 (defining unicast-prefix-based multicast
-addresses). For lack of an agreed-on example multicast address, the used ones
-were created by applying the unicast-prefix derivation process to the example
-address. The results (ff35:30:2001:db8::1) should be intuitively recognizable
-both as a multicast address and as an example address.
+see GENERIC-FFxxDB
 
 Valery for SecDir
 =================
@@ -105,7 +100,9 @@ As DISCUSS:
 > is permitted to register on behalf of end-points?  It seems like there is a
 > missing, simple statement to make that this is configured out of band with
 > the RD?  Or is that carrier somehow in a authentication credentials?	
-> 
+
+@@@
+
 > -- Is there are reason why there is not normative guidance requiring the RD
 > to check whether authentication clients are authorized to register particular
 > resources?  Section 7.1 covers the issue, but all of Section 7.* is
@@ -115,7 +112,9 @@ As DISCUSS:
 > whether arbitrary names are accepted (Section 7.1.1)” but this text seems to
 > frame it as authentication issue.  Section 8.2 seems to stress only the
 > distinction between the registration and lookup API.
-> 
+
+@@@
+
 > -- Section 8.1.  Per “If the server does not check whether the identifier
 > provided in the DTLS handshake matches the identifier used at the CoAP layer
 > then it may be inclined to use the endpoint name for looking up what
@@ -128,6 +127,8 @@ As DISCUSS:
 > Registration Base URI (i.e., which exact certificate fields should it compare
 > with the CoAP)?
 
+@@@
+
 And as COMMENT:
 
 > ** Section 3.5.  Per “When endpoints are not connected … a remote server is
@@ -135,46 +136,80 @@ And as COMMENT:
 > wasn’t entirely clear to me.  How can a proxy provide access to an endpoint
 > that isn’t connected?  Or is proxy meant as a substitute here or an
 > intermediary?
-> 
+
+@@@
+
 > ** Section 3.6.  The home and building automation use case doesn’t make any
 > reference to the RD architecture (like the other two use cases).
-> 
+
+@@@
+
 > ** Section 4.0.  Per “… falling back to failing the operations if recovery is
 > not possible”, can “failing the operation” be clarified?
-> 
+
+@@@
+
 > ** Per Section 4.0.  Per “An RD MAY make the information submitted to it
 > available to further directories”, are there circumstances where end points
 > would not want that?
-> 
+
+respond:
+
+If there is a security policy in place for link confidentiality, yes.
+
+@@@
+
+The paragraph has been amended to refer to the security policies applicable to
+lookups.
+
 > ** Section 4.1.  Per “2. In a network that supports multicast well, …”, what
 > does it mean to “support multicast _well_”?
-> 
+
+respond:
+
+It is meant to roughly summarize "efficiently" (when the multicast would be
+flooded over many individual links), "conveniently" (when it works but the
+tooling around it makes it hard to use for implementations), or even "at all"
+(when other CoAP transports than CoAP-over-UDP are involved).
+
 > ** Section 5.  Per the ep definition of the URI Template Variables, what does
 > it mean for the an endpoint to be “(mostly mandatory)?
-> 
+
+@@@
+
 > ** Section 7.1.  Per “When certificates are used as authorization
 > credentials, the sector(s) and endpoint name(s) can be transported in the
 > subject”, recommend being more precise on what exact X.509 field(s) you mean
 > when saying “subject”.
-> 
+
+@@@
+
 > ** Section 7.1.1. Per “Registrants that are prepared to pick a different
 > identifier when their initial attempt at registration is unauthorized should
 > pick an identifier at least twice as long as the expected number of
 > registrants”, how would a registrant know the population size?
-> 
+
+@@@
+
 > ** Section 7.2.  Per “To avoid the limitations, RD applications should
 > consider prescribe that lookup clients only use the discovered information as
 > hints, and describe which pieces of information need to be verified with the
 > server”, I wasn’t sure which verification this would be.
-> 
+
+@@@
+
 > ** Section 7.3.  This section cautions about the differences between the
 > registrant publishes itself vs. what is in the RD.  It might be worth
 > reiterating that the RD may also publish what it knows to others per Section
 > 4.0’s “An RD MAY make the information submitted to it available to further
 > directories”
-> 
+
+@@@
+
 > ** Editorial Nits -- Global.  s/can not/cannot/g
-> 
+
+@@@
+
 > -- Section 4.  Editorial.  Per “Only multicast discovery operations are not
 > possible on HTTP, and Simple Registration can not be executed as base
 > attribute … can not be used there”, this sentence didn’t parse.
@@ -202,7 +237,9 @@ As DISCUSS:
 > option that "does something reasonable in most cases" in addition.
 > Doing that by reference to some other existing thing would be fine, if
 > such a thing exists.)
-> 
+
+@@@ https://github.com/core-wg/resource-directory/issues/254
+
 > In particular, the current text seems to rely on the authorization
 > model including:
 > 
@@ -216,7 +253,9 @@ As DISCUSS:
 > advertisement mechanisms.  (* Yes, there may be some protection in the
 > network on subscribing to the relevant multicast address, DNS-SD, etc.,
 > but the client cannot a priori know that such protections are in place.)
-> 
+
+@@@
+
 > Relatedly, the naming model and naming authority should have some
 > clearer discussion.  We do mention in Section 7 the possibility for a
 > weak naming model where the RD is responsible for enforcing uniqueness
@@ -227,12 +266,32 @@ As DISCUSS:
 > naming model is to be selected (and, perhaps more importantly, that it
 > must be fixed as part of a given deployment) for a given network is
 > needed.
-> 
+
+@@@
+
 > If I understand correctly, we have some codepoint squatting going on in
 > the examples (e.g., for resource types).
-> 
+
+response:
+
+The rt=temperature-c, rt=light-lux and if=sensor are justified by their use in
+the example of RFC6690, which is used as a base example.
+
+The if=core.a and if=core.p use values from the expired and partially abandoned
+core-interfaces -- given its future is unclear, they've been replaced @@@ by
+more verbose example values.
+
+The values et=oic.d.sensor (which is registered only to rt), rt=temperature and
+rt=light were replaced @@@ by "example...." values -- not that that namepace
+would be explicitly reserved in the respective registries, but I trust readers
+to understand the meaning. (If that's still considered squatting, RFC5226
+should be updated to recommend that registries have example/documentation
+entries).
+
 > We should talk about the security properties of the various RD discovery
 > mechanisms that are defined.
+
+@@@
 
 As COMMENT:
 
@@ -256,7 +315,9 @@ As COMMENT:
 > (Even when the resources themselves are authenticated, a hostile RD can
 > still deny existence of a given resource, so by choosing to use an RD
 > there is some level of trust involved.)
-> 
+
+@@@
+
 > Section 2
 > 
 >    Resource Directory (RD)
@@ -268,7 +329,9 @@ As COMMENT:
 > nit: the list structure is not parallel here.  Maybe "for discovery,
 > creation, maintenance, and removal of registrations, and for lookup of
 > the registered resources"?
-> 
+
+@@@
+
 >    Commissioning Tool
 >       Commissioning Tool (CT) is a device that assists during the
 >       installation of the network by assigning values to parameters,
@@ -277,14 +340,18 @@ As COMMENT:
 > 
 > Is "the installation of the network" a one-time event?   (Might a CT be
 > involved when adding a new device to a network at a later time?)
-> 
+
+@@@
+
 > Section 3.1
 > 
 >    Information SHOULD only be stored in the RD if it can be obtained by
 >    querying the described device's /.well-known/core resource directly.
 > 
 > When might that not be the case?
-> 
+
+@@@
+
 > Section 3.2
 > 
 >    The RD architecture is illustrated in Figure 1.  An RD is used as a
@@ -296,7 +363,9 @@ As COMMENT:
 > likely to be associated with a DNS name than an IP address, in common
 > usage.  Also, we later go on to assert that the endpoint's name has
 > primacy and that the IP address/port can be ephemeral.
-> 
+
+@@@
+
 >    An endpoint uses specific interfaces to register, update and remove a
 >    registration.  It is also possible for an RD to fetch Web Links from
 >    endpoints and add their contents to its registrations.
@@ -311,7 +380,9 @@ As COMMENT:
 > two statements are consistent with each other, and a naive reading
 > admits the possibility that a given endpoint could be "locked out" of
 > the ability to manage the contents of its registrations.
-> 
+
+@@@
+
 > Section 4
 > 
 >    REST clients (registrant-EPs and CTs during registration and
@@ -325,7 +396,9 @@ As COMMENT:
 > non-actionable.  The stuff after "In particular", on the other hand, is
 > actual concrete guidance that could be mandated using normative
 > language.
-> 
+
+@@@
+
 > Section 4.1
 > 
 >    1.  In a 6LoWPAN, just assume the Border Router (6LBR) can act as an
@@ -334,7 +407,9 @@ As COMMENT:
 >        known/core?rt=core.rd*".
 > 
 > nit(?): I was unaware that "Unicast" was a proper noun.
-> 
+
+@@@
+
 > Section 4.3
 > 
 >    "core.rd" in the query string.  Likewise, a Resource Type parameter
@@ -344,7 +419,9 @@ As COMMENT:
 > 
 > Is the distinction between URIs (for RD Lookup) and URI paths (for RD)
 > important here?
-> 
+
+@@@
+
 >    While the link targets in this discovery step are often expressed in
 >    path-absolute form, this is not a requirement.  Clients of the RD
 >    SHOULD therefore accept URIs of all schemes they support, both as
@@ -356,7 +433,9 @@ As COMMENT:
 > expression of the link-targets from discovery in path-absolute form.
 > (Given the ability to send the discovery query to a multicast address,
 > the guidance seems okay; it's just the "therefore" that is puzzling me.)
-> 
+
+@@@
+
 >    It would typically be stored in an implementation information link
 >    (as described in [I-D.bormann-t2trg-rel-impl]):
 > 
@@ -366,14 +445,18 @@ As COMMENT:
 > at https://www.iana.org/assignments/link-relations/link-relations.xhtml
 > , i.e., codepoint squatting.  Please put in a stronger disclaimer that
 > this is an example link relation type, not just an example exchange.
-> 
+
+@@@ not so much example but work-in-progress
+
 > Section 5
 > 
 > These first few paragraphs give the impression that this is
 > first-come-first-served with minimal authentication or authorization
 > checking.  Mentioning that there are authorization checks, with a
 > forward-reference, might be helpful.
-> 
+
+@@@
+
 >    further parameters (see Section 9.3).  The RD then creates a new
 >    registration resource in the RD and returns its location.  The
 > 
@@ -382,19 +465,27 @@ As COMMENT:
 > need to contain an appropriate amount of entropy to be reasonably
 > unguessable by parties other than the registrant-ep/CT responsible for
 > it?
-> 
+
+response:
+
+No. Especially, it will be discoverable through the endpoint lookup interface.
+
 >    The registration request interface is specified as follows:
 > 
 >    Interaction:  EP -> RD
 > 
 > I thought that the CT could be a requestor as well as the EP.
-> 
+
+@@@
+
 >          well.  The endpoint name and sector name are not set when one
 >          or both are set in an accompanying authorization token.
 > 
 > What should the RD do if they are set but also present in the
 > accompanying authorization token?
-> 
+
+@@@
+
 >    Req: POST coap://rd.example.com/rd?ep=node1
 >    Content-Format: 40
 >    Payload:
@@ -402,7 +493,12 @@ As COMMENT:
 > 
 > (side note) XML for the sensors, not SenML?  With Carsten as an author,
 > even? ;)
-> 
+
+response:
+
+This is clearly a mistake, and got @@@ replaced with 112 application/senml+cbor in
+an emergency update.
+
 >    An RD may optionally support HTTP.  Here is an example of almost the
 >    same registration operation above, when done using HTTP.
 > 
@@ -412,21 +508,33 @@ As COMMENT:
 > 
 > Wouldn't "Host: rd.example.com" be closer to "almost the same
 > registration"?
-> 
+
+response:
+
+Thanks, fixed. @@@
+
+(I had brief qualms about introducing a protocol-negotiation situation here,
+but performing "almost the same registration" over two protocols already
+necessarily does that).
+
 > Section 5.1
 > 
 > I'm a little uneasy about specifying new behavior for POST to the
 > existin /.well-known/core that was defined by RFC 6690 for other uses.
 > What factors go into using the same well-known URI vs. defining a new
 > one for this usage?
-> 
+
+@@@ Any deployment of simple? Otherwise, /.well-known/rd would be fine with me
+
 >    The sequence of fetching the registration content before sending a
 >    successful response was chosen to make responses reliable, and the
 >    caching item was chosen to still allow very constrained registrants.
 > 
 > I'm not sure what "the caching item" is supposed to be (if it's not a
 > typo/misordering of words).
-> 
+
+@@@ meant bullet, "point about"
+
 > Section 5.3
 > 
 >    queries concerning this endpoint.  The RD SHOULD continue to provide
@@ -439,7 +547,14 @@ As COMMENT:
 > 
 > (This MAY is actually a MUST for the simple registration case, per §5.1,
 > right?)
-> 
+
+response:
+
+No, it's a choice there as well. One server may keep them around forever, and
+when the simple client comes back it'll show with the same registration
+resource in the resource lookup. Another server may GC it and assign a
+different registration resource when it returns.
+
 > Section 5.3.1
 > 
 >    An update MAY update the lifetime or the base URI registration
@@ -447,7 +562,9 @@ As COMMENT:
 > 
 > What about the "extra-attrs"; are they inherently forbidden from
 > updates?
-> 
+
+@@@ "MAY update some of the parameters"
+
 >                             base :=  Base URI (optional).  This
 >          parameter updates the Base URI established in the original
 >          registration to a new value.  If the parameter is set in an
@@ -459,7 +576,9 @@ As COMMENT:
 > nit: is it the interpretation of relative links that is following the
 > same restrictions as in the registration, or the new value of the
 > parameter being supplied in the update?
-> 
+
+@@@
+
 >    The following example shows how the registering endpoint updates its
 >    registration resource at an RD using this interface with the example
 >    location value: /rd/4521.
@@ -469,17 +588,25 @@ As COMMENT:
 > locations, as for capability URLs.  (Throughout the document, of
 > course.)  See also draft-gont-numeric-ids-sec-considerations, that I'm
 > AD sponsoring, though I do not see any clear issues on first glance.
+
+response:
+
+See comment on the original capability URL question -- they are not.
 > 
 > (Also, it might be worth another sentence that this update is serving
 > just to reset the lifetime, making no other changes, since this might be
 > expected to be a common usage.)
-> 
+
+@@@
+
 > Section 6
 > 
 > With "Resource Lookup" and "Endpoint Lookup" as (apparent) top-level
 > siblings, would it make sense to put 6.2, or at least 6.3, as
 > subsections under 6.1?
-> 
+
+@@@
+
 > Section 6.1
 > 
 >    Resource lookup results in links that are semantically equivalent to
@@ -490,27 +617,35 @@ As COMMENT:
 > Are the "submitted ones" the submissions at registration time, or during
 > the lookup query itself?  (I assume registration-time, but being
 > explicit costs little.)
-> 
+
+@@@
+
 >    If the base URI of a registration contains a link-local address, the
 >    RD MUST NOT show its links unless the lookup was made from the same
 >    link.  The RD MUST NOT include zone identifiers in the resolved URIs.
 > 
 > Same link as what?
-> 
+
+@@@
+
 > Section 6.2
 > 
 >    The page and count parameters are used to obtain lookup results in
 >    specified increments using pagination, where count specifies how many
 > 
 > (We haven't introduced the page and count parameters yet.)
-> 
+
+@@@
+
 >    operator as in Section 4.1 of [RFC6690].  Attributes that are defined
 >    as "link-type" match if the search value matches any of their values
 > 
 > Where is it specified how an attribute might be "defined as
 > 'link-type'"?  This is the only instance of the string "link-type" in
 > this document, and it does not appear in RFC 6690 at all...
-> 
+
+@@@ should have been relation-types
+
 >    references) and are matched against a resolved link target.  Queries
 >    for endpoints SHOULD be expressed in path-absolute form if possible
 >    and MUST be expressed in URI form otherwise; the RD SHOULD recognize
@@ -519,7 +654,27 @@ As COMMENT:
 > 
 > I don't see how it can be only a SHOULD to recognize either given these
 > generation criteria.
-> 
+
+response:
+
+If the URI is on a different scheme/host, I assert things are clear. (Just to
+ensure I didn't get your point wrong.)
+
+Otherwise, in practice there can happen mistakes where server and client
+disagree about the default values of the Uri-Scheme, Uri-Host and Uri-Port
+options -- as anyone who's ever tried to set up an HTTP reverse proxy for a
+WebDAV server can attest to. We're trying to avoid creating these situations,
+but when they do happen. We don't automatically declare the offending party
+broken by putting a MUST here, but encourage the peer to assist it. The client
+can help by providing the relative reference (for then, disagreement passses
+unnoticed), and the server by recognizing the full URI (for the client may have
+obtained it and not know that it'd match what the server thinks is its Uri-Host
+name).
+
+(The "and MUST be expressed in URI form otherwise" sounds like a factual
+necessity, but it is here to rule out the corner case of a client handing out
+//hostname/path style references).
+
 > Section 6.3
 > 
 >    The following example shows a client performing a lookup of all
@@ -531,7 +686,9 @@ As COMMENT:
 > 
 > Er, the 6th request is a GET; do we mean to say the response to the 6th
 > request?
-> 
+
+Yes. @@@
+
 > Section 6.4
 > 
 >    The endpoint lookup returns registration resources which can only be
@@ -540,18 +697,34 @@ As COMMENT:
 > This seems to leave it unclear whether the endpoint lookup is expected
 > to return resources that the requestor will not have permission to
 > manipulate (in addition to those it does have permission for).
-> 
+
+@@@
+
 >    While Endpoint Lookup does expose the registration resources, the RD
 >    does not need to make them accessible to clients.  Clients SHOULD NOT
 >    attempt to dereference or manipulate them.
 > 
 > But why expose them at all if they're not going to be accessible?
-> 
+
+response:
+
+They serve as identifiers (think URI rather than URL), and may additionally be
+used in implementation defined operations on the resource that could be allowed
+for administrators.
+
+Also, without them, we'd need to come up with a collection data format.
+
+(I do see the point, and if we started RD anew with the benefit of having
+CoRAL, chances are this would look a bit different, and the names would not be
+exposed to just any lookup client).
+
 >    An RD can report endpoints in lookup that are not hosted at the same
 >    address.  [...]
 > 
 > The "same address" as what?
-> 
+
+@@@ as the RD itself
+
 > Section 7.1
 > 
 >    Whenever an RD needs to provide trustworthy results to clients doing
@@ -559,7 +732,19 @@ As COMMENT:
 > 
 > How will the RD know whether the client is expecting trustworthy
 > results?  (When would a client *not* expect trustworthy results?)
-> 
+
+response:
+
+It won't. The client can only expect any level of trustworthiness if there is a
+claim to that in the RD's credentials. Typically, though, that claim will not
+be encoded there, but implied. For example, when configuring an application
+that relies authenticated endpoint names, then telling the application to use
+the RD authenticated via PKI as coaps://rd.example.com should only be done if
+the configurator is sure that rd.example.com will do the required checks on
+endpoint names.
+
+@@@ how do we get that across better in the text?
+
 >    name, the RD must ensure that the registrant is authorized to use the
 >    given endpoint name.  This applies both to registration and later to
 >    operations on the registration resource.  It is immaterial there
@@ -571,7 +756,22 @@ As COMMENT:
 > use that address as an endpoint name, in which case the RD can tell the
 > difference between a registrant-ep and a CT attempting to act on its
 > behalf.
-> 
+
+response:
+
+The RD might do such checks, but then again the EP might just be using
+different network interfaces simultaneously. At that point where the EP uses a
+different (and usually dormant) network interface for registration, the line
+between EP and the CT gets blurry; we tolerate that blurriness because the
+distinction is not so much a technical one (the REST server does not care
+whether the request originates at its network peer, is proxied through there or
+sent from there on behalf of someone completely different) as long as the
+credentials are good.
+
+Frankly, I'm personally not too happy with distinguishing CTs in the first
+place; it is more reflective of what I understand to be an industry practice
+than a distinction in this CoAP application.
+
 >    When certificates are used as authorization credentials, the
 >    sector(s) and endpoint name(s) can be transported in the subject.  In
 >    an ACE context, those are typically transported in a scope claim.
@@ -582,7 +782,9 @@ As COMMENT:
 > certified in the certificate is generally considered authorized to act
 > on behalf of any identities (including endpoint names) contained in the
 > certificate's subject name.
-> 
+
+@@@
+
 > Section 7.1.1
 > 
 >    Conversely, in applications where the RD does not check the endpoint
@@ -593,7 +795,9 @@ As COMMENT:
 > be used?  (I do see the follow-up about doubling the length in case of
 > failure or starting with a UUID if that's not possible, but some
 > guidance on where to start still seems appropriate.)
-> 
+
+@@@ no hard requirement, complete lack of entropy will just make the retry process very tedious as you crank through all the used names; any bit halves that, and when push comes to shove start with ep="a" and append the LSB of response latency to the name ;-)
+
 > Section 7.2
 > 
 >    When lookup clients expect that certain types of links can only
@@ -601,13 +805,23 @@ As COMMENT:
 >    filtering to the links an endpoint may register.
 > 
 > As before, how will the RD know what behavior clients are relying on?
-> 
+
+response:
+
+It will not. It may, however, advertise it explicitly. If, for example, an
+application like LwM2M always ensures trusted endpoint names, the RD may
+advertise as rt="core.rd-lokup-ep example.lwm2m", and then clients that trust
+that metadatum (which they'll want to verify from some claim) know they can
+trust the RD to have checked ep names.
+
 >    An RD may also require that only links are registered on whose anchor
 >    (or even target) the RD recognizes as authoritative of.  One way to
 > 
 > I don't think I can parse this sentence (especially "the RD recognizes
 > as authoritative of").
-> 
+
+@@@
+
 > Section 8
 > 
 > In contexts where we discuss DTLS and TLS as being generally comparable,
@@ -621,19 +835,25 @@ As COMMENT:
 > can occur even when access to those resources will not be permitted.  (I
 > think some of this overlaps with 8288 and 6690, but don't mind repeating
 > it.)
-> 
+
+@@@
+
 > Section 8.1
 > 
 > It's probably worth reiterating that all name comparisons must be done
 > at sector scope (since failing to do so can lead to attacks).
-> 
+
+@@@
+
 >    Endpoint authentication needs to be checked independently of whether
 >    there are configured requirements on the credentials for a given
 >    endpoint name (Section 7.1) or whether arbitrary names are accepted
 >    (Section 7.1.1).
 > 
 > I think this is more properly authorization than authentication.
-> 
+
+@@@
+
 > Section 8.3
 > 
 >    attacks.  There is also a danger that NTP Servers could become
@@ -644,16 +864,31 @@ As COMMENT:
 > 
 > (It's not clear to me why the specific discussion of NTP numbers is
 > relevant here, since RD is not NTP.)
-> 
+
+PR: https://github.com/core-wg/resource-directory/pull/249
+
 > Section 9.3
 > 
 > Should we also include "rt" in the initial entries?  I see it is used as
 > a query parameter for resource lookup in the examples in Section 6.3.
-> 
+
+response:
+
+It's used as is any other link attribute. There's no registry for them, and
+while there's been talk over ond over that it would be nice, I don't think
+there will be any until linkformat-CoRAL conversion is defined (and even then
+it may not be comprehensive). Selectively picking some distinguished common
+link attributes into this registry won't make things less messy.
+
+The prime line of defense against this getting messy is the expert guidance
+that for some types of parameters their short names should be checked against
+"commonly used target attributes".
+
+
 >    *  indication of whether it can be passed as a query parameter at
 >       registration of endpoints, as a query parameter in lookups, or be
 >       expressed as a target attribute,
-> 
+>
 > (Since this text does not clarify about lookup of endpoints vs.
 > resources...
 > 
@@ -675,29 +910,53 @@ As COMMENT:
 >    endpoint property or the [RFC6690] target attribute).
 > 
 > Then why do we use it as an example of lookup filtering in Section 6.2?
-> 
+
+response:
+
+The text suggests that target attributes for registered resources need not be
+registered. These unregistered wild-west attribute names can be used both with
+resource lookups (matching only resources which), and in endpoint lookups
+(matching endpoints that contain any resource which).
+
+If `if` were to be put in for use in an RD parameter used with lookup, that
+would not per se create ambiguous queries (the rules would still say "matches
+either"), but the results would be prone to causing confusion.
+
 > Section 10.1.2
 > 
 > Should we really be using unregistered resource types (i.e., codepoint
 > squatting) in the examples?
-> 
+
+addressed (see previous point about squatting) @@@
+
 >    After the filling of the RD by the CT, the application in the
 >    luminaries can learn to which groups they belong, and enable their
 >    interface for the multicast address.
 > 
 > Just to check: the luminaries are learning their own group membership by
 > querying the resource directory?
-> 
+
+response:
+
+Not directly. They (in this very particular example that seems to be based on
+industry process but which I'd not necessarily recommend for imitation) use a
+heuristic to find any multicast URI they might possibly provide, and join that
+group.
+
 > Section 10.2.2
 > 
 > Please expand MSISDN.
-> 
+
+@@@ who's keeping that example in here?
+
 > Section 13.2
 > 
 > I think RFC 7252 should probably be normative.
 > 
 > Likewise for RFC 8288 ("the query parameter MUST be [...] a token as
 > used in [RFC8288]").
+
+@@@ agree based on guidance I read for ERT that it's normative even when required for an optional part; might even hit 7230
 
 Erik Kline
 ==========
@@ -716,18 +975,22 @@ As DISCUSS:
 >   I feel confident that there would be no objection to the option as described
 >   here, but the working group should have its chance to make an evaluation
 >   irrespective of my opinion.
-> 
->   ---
-> 
+
+@@@
+
 >   If this is to be used when link-local methods don't work, another option
 >   would have been to add an RD PVD API key and recommend including a PVD
 >   option.
-> 
+
+@@@
+
 > [ section 4.1.1 & 9.2 ]
 > 
 > * Please clarify which ND messages can carry an RDAO.  I suspect they should
 >   only appear in RAs, but it would be good to state the expectation explicitly.
-> 
+
+@@@
+
 > [ Appendix A. ]
 > 
 > * Can you explain the ff35:30:2001:db8:1 construction?  RFC 3306 section 4
@@ -736,12 +999,18 @@ As DISCUSS:
 >   describing this vis. RFC 3307 section 4.*, perhaps it's worth dropping a
 >   reference in here.
 
+response:
+
+See GENERIC-FFxxDB
+
 As COMMENT:
 
 > [ section 1 ]
 > 
 > * I'm unclear on what "disperse networks" might mean.
-> 
+
+@@@
+
 > [ section 10.1.1 ]
 > 
 > * What is meant by "therefore SLAAC addresses are assigned..." followed by this
@@ -749,6 +1018,8 @@ As COMMENT:
 > 
 >   Is the assumption that there might not be some off-network DNS server but
 >   there is some RA with a /64 A=1 PIO?
+
+@@@ see GENERIC-ODDEXAMPLES
 
 Éric Vyncke
 ===========
@@ -1023,3 +1294,24 @@ As COMMENT:
 > Just to check, is it correct that the anchor in the http link is also to
 > coap://?  If this is wrong then there is a second example in the same section
 > that also needs to be fixed.
+
+Answers to repeated points
+==========================
+
+GENERIC-FFxxDB
+--------------
+
+There's a coverage gap between RFC3849 (defining example unicast addresses) and
+RFC3306 (defining unicast-prefix-based multicast addresses). For lack of an
+agreed-on example multicast address, the used ones were created by applying the
+unicast-prefix derivation process to the example address. The results
+(ff35:30:2001:db8::1) should be intuitively recognizable both as a multicast
+address and as an example address.
+
+GENERIC-ODDEXAMPLES
+-------------------
+
+@@@ many examples contain bewildering and possibly irrelevant stuff like LWM2M,
+"the SLAAC addresses" or the luminaries that just so join groups based on URIs
+they happen to share (and that's not even explicit). who will fix that? my fix
+would be to rip out anything someone complains about the examples.
