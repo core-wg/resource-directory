@@ -1638,7 +1638,7 @@ Whenever an RD needs to provide trustworthy results to clients doing endpoint lo
 or resource lookup with filtering on the endpoint name,
 the RD must ensure that the registrant is authorized to use the given endpoint name.
 This applies both to registration and later to operations on the registration resource.
-It is immaterial there whether the client is the registrant-ep itself or a CT is doing the registration:
+It is immaterial whether the client is the registrant-ep itself or a CT is doing the registration:
 The RD can not tell the difference, and CTs may use authorization credentials authorizing only operations on that particular endpoint name, or a wider range of endpoint names.
 
 When certificates are used as authorization credentials,
@@ -1732,7 +1732,7 @@ Endpoint authentication needs to be checked
 independently of whether there are configured requirements on the credentials for a given endpoint name ({{secure-ep}})
 or whether arbitrary names are accepted ({{arbitrary-ep}}).
 
-Simple registration could be used to circumvent address based access control:
+Simple registration could be used to circumvent address-based access control:
 An attacker would send a simple registration request with the victim's address as source address,
 and later look up the victim's .well-known/core content in the RD.
 Mitigation for this is recommended in {{simple}}.
@@ -2272,6 +2272,11 @@ originally developed.
 
 
 # Changelog
+
+changes from -25 to -26
+
+* Minor editorial fixes in response to Gen-ART review.
+
 
 changes from -24 to -25
 
