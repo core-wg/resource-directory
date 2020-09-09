@@ -1154,7 +1154,7 @@ After the initial registration, the registering endpoint retains the returned lo
 
 The Registration Resource may also be used cancel the registration using DELETE, and to perform further operations beyond the scope of this specification.
 
-These operations are described below.
+The operations on the Registration Resource are described below.
 
 ### Registration Update {#update}
 
