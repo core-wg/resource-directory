@@ -220,7 +220,7 @@ RDAO
 
 The RD is primarily a tool to make discovery operations more
 efficient than querying /.well-known/core on all connected devices, or across
-boundaries that would be limiting those operations.
+boundaries that would limit those operations.
 
 It provides information about resources hosted by other devices that could otherwise only be obtained by
 directly querying the /.well-known/core resource on these other devices, either by a unicast request or a multicast request.
