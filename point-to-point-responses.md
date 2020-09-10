@@ -10,7 +10,7 @@ Tracking issue: https://github.com/core-wg/resource-directory/issues/247
 > you should say "subject field" or "subject name".  Do you mean to
 > exclude the subject alternative name?
 
-@@@
+Issue: https://github.com/core-wg/resource-directory/issues/255
 
 > Section 7.1.1 says:
 > 
@@ -101,7 +101,12 @@ As DISCUSS:
 > missing, simple statement to make that this is configured out of band with
 > the RD?  Or is that carrier somehow in a authentication credentials?	
 
-@@@
+response:
+
+The RD does not distinguish between endpoints and CTs; both are just clients
+that have to present suitable credentials.
+
+The first mention of CTs in the security policies has some text to that.
 
 > -- Is there are reason why there is not normative guidance requiring the RD
 > to check whether authentication clients are authorized to register particular
@@ -113,7 +118,7 @@ As DISCUSS:
 > frame it as authentication issue.  Section 8.2 seems to stress only the
 > distinction between the registration and lookup API.
 
-@@@
+Issue: https://github.com/core-wg/resource-directory/issues/254
 
 > -- Section 8.1.  Per “If the server does not check whether the identifier
 > provided in the DTLS handshake matches the identifier used at the CoAP layer
@@ -127,7 +132,7 @@ As DISCUSS:
 > Registration Base URI (i.e., which exact certificate fields should it compare
 > with the CoAP)?
 
-@@@
+Issue: https://github.com/core-wg/resource-directory/issues/255
 
 And as COMMENT:
 
@@ -137,7 +142,14 @@ And as COMMENT:
 > that isn’t connected?  Or is proxy meant as a substitute here or an
 > intermediary?
 
-@@@
+response:
+
+There have been different approaches to the sleepy nodes problem. None has
+resulted in a WG document even, but the awake helper being a proxy is a common
+theme. Note that a proxy does not need to contact the origin server to serve
+all requests as it may have a fresh representation. The different approaches to
+sleepy result in "beefed up" proxies that have better chances of being able to
+serve some kind of cached response.
 
 > ** Section 3.6.  The home and building automation use case doesn’t make any
 > reference to the RD architecture (like the other two use cases).
@@ -147,7 +159,18 @@ And as COMMENT:
 > ** Section 4.0.  Per “… falling back to failing the operations if recovery is
 > not possible”, can “failing the operation” be clarified?
 
-@@@
+response:
+
+Not without growing the text a lot. A failed operation's meaning depends on the
+operation: In steps from finding an RD to registration, it means stopping
+whatever was just tried and continuing with other options, and eventually
+running out of them notifying the user. In regstration updates, it means that a
+new registration is started. In lookups, the application may fall back to
+methods outside the specification (eg. doing multicast discovery when no RD is
+around or usable) or just report to the user.
+
+For where there is something to say, sections contain (recently fixed @@@
+4093132d) paragraphs starting "If the ... fails".
 
 > ** Per Section 4.0.  Per “An RD MAY make the information submitted to it
 > available to further directories”, are there circumstances where end points
@@ -175,28 +198,35 @@ tooling around it makes it hard to use for implementations), or even "at all"
 > ** Section 5.  Per the ep definition of the URI Template Variables, what does
 > it mean for the an endpoint to be “(mostly mandatory)?
 
-@@@
+@@@ keep "mostly mandatory" but rephrase text to explicitly state that it is not mandatory if...
 
 > ** Section 7.1.  Per “When certificates are used as authorization
 > credentials, the sector(s) and endpoint name(s) can be transported in the
 > subject”, recommend being more precise on what exact X.509 field(s) you mean
 > when saying “subject”.
 
-@@@
+Issue: https://github.com/core-wg/resource-directory/issues/255
 
 > ** Section 7.1.1. Per “Registrants that are prepared to pick a different
 > identifier when their initial attempt at registration is unauthorized should
 > pick an identifier at least twice as long as the expected number of
 > registrants”, how would a registrant know the population size?
 
-@@@
+response:
+
+Applications can describe typical sizes of their deployments; for example, in a
+single-tenant home automation system, 256 is a sane upper bound for the size
+estimate, so 4 hex digits would suffice.
+
+Where there's no such estimates available, the UUID way is universally
+applicable.
 
 > ** Section 7.2.  Per “To avoid the limitations, RD applications should
 > consider prescribe that lookup clients only use the discovered information as
 > hints, and describe which pieces of information need to be verified with the
 > server”, I wasn’t sure which verification this would be.
 
-@@@
+@@@ group: Are we aligned on "don't just blindly POST empty stuff with your permission unless you're sure the server is what you think it is?" otherwise respond "depends too much on the non-RD application's policies that we could make any more precise statement"
 
 > ** Section 7.3.  This section cautions about the differences between the
 > registrant publishes itself vs. what is in the RD.  It might be worth
@@ -204,16 +234,17 @@ tooling around it makes it hard to use for implementations), or even "at all"
 > 4.0’s “An RD MAY make the information submitted to it available to further
 > directories”
 
-@@@
+@@@ just-do-it
 
 > ** Editorial Nits -- Global.  s/can not/cannot/g
 
-@@@
+addressed: https://github.com/core-wg/resource-directory/pull/253
 
 > -- Section 4.  Editorial.  Per “Only multicast discovery operations are not
 > possible on HTTP, and Simple Registration can not be executed as base
 > attribute … can not be used there”, this sentence didn’t parse.
 
+@@@ reword
 
 Benjamin Kaduk
 ==============
@@ -238,7 +269,7 @@ As DISCUSS:
 > Doing that by reference to some other existing thing would be fine, if
 > such a thing exists.)
 
-@@@ https://github.com/core-wg/resource-directory/issues/254
+Issue: https://github.com/core-wg/resource-directory/issues/254
 
 > In particular, the current text seems to rely on the authorization
 > model including:
@@ -254,7 +285,13 @@ As DISCUSS:
 > network on subscribing to the relevant multicast address, DNS-SD, etc.,
 > but the client cannot a priori know that such protections are in place.)
 
-@@@
+respond:
+
+The responsibilities are the other way around. The RD does not need to know the
+clients' expectations, the clients may only expect things they know to be true
+of the RD.
+
+See GENERIC-WHOPICKSMODEL.
 
 > Relatedly, the naming model and naming authority should have some
 > clearer discussion.  We do mention in Section 7 the possibility for a
@@ -735,13 +772,7 @@ exposed to just any lookup client).
 
 response:
 
-It won't. The client can only expect any level of trustworthiness if there is a
-claim to that in the RD's credentials. Typically, though, that claim will not
-be encoded there, but implied. For example, when configuring an application
-that relies authenticated endpoint names, then telling the application to use
-the RD authenticated via PKI as coaps://rd.example.com should only be done if
-the configurator is sure that rd.example.com will do the required checks on
-endpoint names.
+It won't per-client, it is configured for one. See GENERIC-WHOPICKSMODEL.
 
 @@@ how do we get that across better in the text?
 
@@ -783,7 +814,7 @@ than a distinction in this CoAP application.
 > on behalf of any identities (including endpoint names) contained in the
 > certificate's subject name.
 
-@@@
+Issue: https://github.com/core-wg/resource-directory/issues/255
 
 > Section 7.1.1
 > 
@@ -1328,7 +1359,17 @@ As COMMENT:
 > easier deploy.  Defining a common management model (or API) would potentially
 > also make administration of the service easier, I don't know if that had been
 > considered, and if useful could be done as a separate document.
-> 
+
+response:
+
+The wide variety of possible deployments and associated security policies make
+it hard to say anything generic on operations. We do, however, plan to add a
+section that describes one assumed-to-be-widespread application variety, and
+for those cases something will be said on Operations, Administration and
+Management (that'll be short though as it's a simple setup).
+
+@@@
+
 > A few other comments:
 > 
 >     5.3.  Operations on the Registration Resource
@@ -1337,12 +1378,23 @@ As COMMENT:
 >        did not create.  This is usually enforced by security policies, which
 >        in general require equivalent credentials for creation of and
 >        operations on a registration.
-> 
+>
 > What happens if an endpoint is managing the registration and is upgraded to
 > new hardware with a different certificate?  Would the updated endpoint expect
 > to be able to update the registration?  Or would it have to wait for the
 > existing registration to timeout (which could be a long time)?
-> 
+
+response:
+
+Generally registrations are short-lived soft state, so if a device is upgraded
+it does not need to remember its registration resource and can just register
+anew.
+
+In scenarios with controlled names, the new certificate will match the new name
+(no matter whether it's the same or a new one); where names are picked at
+random and persisted, the device will pick a new name just as well @@@ but the
+detailed new section may say more here.
+
 >     5.3.  Operations on the Registration Resource
 > 
 >        The Registration Resource may also be used cancel the registration
@@ -1353,7 +1405,9 @@ As COMMENT:
 >    
 > Nit: Perhaps reword the second sentence.  Otherwise it seems to conflict with
 > the last sentence of the prior paragraph.
-> 
+
+PR: https://github.com/core-wg/resource-directory/pull/253
+
 >     5.3.1.  Registration Update
 > 
 >        The update interface is used by the registering endpoint to refresh
@@ -1375,7 +1429,9 @@ As COMMENT:
 > where from an endpoint perspective it may want to keep the update small, but
 > if I was doing this from a CT, I think that I would rather just resend the
 > entire configuration, if it is not large.
-> 
+
+@@@
+
 >     5.3.1.  Registration Update
 > 
 >        Req: GET /rd-lookup/res?ep=endpoint1
@@ -1394,6 +1450,13 @@ As COMMENT:
 > Just to check, is it correct that the anchor in the http link is also to
 > coap://?  If this is wrong then there is a second example in the same section
 > that also needs to be fixed.
+
+response:
+
+This is correct. The link's context was originally </sensors/temp> relative to
+the endpoint's base, and while this is being changed from
+<coap://local-proxy-old.e.c> to <coaps://new.e.c>, the link always points from
+the resource on the EP to the description hosted on HTTP.
 
 Answers to repeated points
 ==========================
@@ -1420,3 +1483,16 @@ GENERIC-6MAN
 ------------
 
 @@@
+
+GENERIC-WHOPICKSMODEL
+---------------------
+
+The client can only expect any level of trustworthiness if there is a
+claim to that in the RD's credentials. Typically, though, that claim will not
+be encoded there, but implied. For example, when configuring an application
+that relies authenticated endpoint names, then telling the application to use
+the RD authenticated via PKI as coaps://rd.example.com should only be done if
+the configurator is sure that rd.example.com will do the required checks on
+endpoint names.
+
+@@@ where can this be made more explicit?
