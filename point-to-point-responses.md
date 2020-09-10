@@ -1,3 +1,18 @@
+Lines 1440ff are unclassified
+
+Not all points get invidiual issues, most are to be eventually responded to and
+/ or resolved in PRs.
+
+Points are classified by priority for WG discussion as WGF-9 (WG input is
+crucial) to WGF-0 (any editor's fix can do this without further discussion).
+Points with open issues, PRs or even resolved in merged PRs without further
+comment are not assigned a WGF level here, as that's reflected in the issue
+tracker.
+
+In general, @@@ markers indicate that something is not filed into the right
+worlfklows yet, including text parts in responses that can't refer to a PR yet
+because it's not yet written (but the response text's language indicate it is).
+
 Russ for Gen-ART
 ================
 
@@ -36,6 +51,7 @@ addressed: https://github.com/core-wg/resource-directory/pull/246
 >  == There are 3 instances of lines with non-ascii characters in the
 >     document.
 
+WGF-1
 respond:
 
 Two of them are in an author's name, the third is in an example and relevant
@@ -46,6 +62,7 @@ charactes).
 >     document.  If these are generic example addresses, they should be
 >     changed to use the 233.252.0.x range defined in RFC 5771
 
+WGF-1
 respond:
 
 That instance is a suggestion to IANA, it will be replaced with the actually
@@ -89,7 +106,7 @@ Roman Danyliw
 
 Original: https://datatracker.ietf.org/doc/draft-ietf-core-resource-directory/ballot/#roman-danyliw
 
-Tracking issue: @@@
+Tracking issue: https://github.com/core-wg/resource-directory/issues/257
 
 As DISCUSS:
 
@@ -101,6 +118,7 @@ As DISCUSS:
 > missing, simple statement to make that this is configured out of band with
 > the RD?  Or is that carrier somehow in a authentication credentials?	
 
+WGF-6
 response:
 
 The RD does not distinguish between endpoints and CTs; both are just clients
@@ -142,6 +160,7 @@ And as COMMENT:
 > that isn’t connected?  Or is proxy meant as a substitute here or an
 > intermediary?
 
+WGF-8 (because no sleepy nodes document was even alive when I got active here)
 response:
 
 There have been different approaches to the sleepy nodes problem. None has
@@ -154,11 +173,12 @@ serve some kind of cached response.
 > ** Section 3.6.  The home and building automation use case doesn’t make any
 > reference to the RD architecture (like the other two use cases).
 
-@@@
+WGF-8 @@@ can sure sprinkle some keywords but what does it contribute?
 
 > ** Section 4.0.  Per “… falling back to failing the operations if recovery is
 > not possible”, can “failing the operation” be clarified?
 
+WGF-4
 response:
 
 Not without growing the text a lot. A failed operation's meaning depends on the
@@ -176,18 +196,18 @@ For where there is something to say, sections contain (recently fixed @@@
 > available to further directories”, are there circumstances where end points
 > would not want that?
 
+WGF-3
 respond:
 
 If there is a security policy in place for link confidentiality, yes.
 
-@@@
-
-The paragraph has been amended to refer to the security policies applicable to
+The paragraph has @@@ been amended to refer to the security policies applicable to
 lookups.
 
 > ** Section 4.1.  Per “2. In a network that supports multicast well, …”, what
 > does it mean to “support multicast _well_”?
 
+WGF-7 (because there might be better ideas to pull in here)
 respond:
 
 It is meant to roughly summarize "efficiently" (when the multicast would be
@@ -197,6 +217,8 @@ tooling around it makes it hard to use for implementations), or even "at all"
 
 > ** Section 5.  Per the ep definition of the URI Template Variables, what does
 > it mean for the an endpoint to be “(mostly mandatory)?
+
+WGF-5
 
 @@@ keep "mostly mandatory" but rephrase text to explicitly state that it is not mandatory if...
 
@@ -212,6 +234,7 @@ Issue: https://github.com/core-wg/resource-directory/issues/255
 > pick an identifier at least twice as long as the expected number of
 > registrants”, how would a registrant know the population size?
 
+WGF-5
 response:
 
 Applications can describe typical sizes of their deployments; for example, in a
@@ -226,6 +249,8 @@ applicable.
 > hints, and describe which pieces of information need to be verified with the
 > server”, I wasn’t sure which verification this would be.
 
+WGF-9
+
 @@@ group: Are we aligned on "don't just blindly POST empty stuff with your permission unless you're sure the server is what you think it is?" otherwise respond "depends too much on the non-RD application's policies that we could make any more precise statement"
 
 > ** Section 7.3.  This section cautions about the differences between the
@@ -233,6 +258,8 @@ applicable.
 > reiterating that the RD may also publish what it knows to others per Section
 > 4.0’s “An RD MAY make the information submitted to it available to further
 > directories”
+
+WGF-3
 
 @@@ just-do-it
 
@@ -244,6 +271,7 @@ addressed: https://github.com/core-wg/resource-directory/pull/253
 > possible on HTTP, and Simple Registration can not be executed as base
 > attribute … can not be used there”, this sentence didn’t parse.
 
+WGF-2
 @@@ reword
 
 Benjamin Kaduk
@@ -251,7 +279,7 @@ Benjamin Kaduk
 
 Original: https://datatracker.ietf.org/doc/draft-ietf-core-resource-directory/ballot/#benjamin-kaduk
 
-Tracking issue: @@@
+Tracking issue: https://github.com/core-wg/resource-directory/issues/257
 
 As DISCUSS:
 
@@ -304,11 +332,12 @@ See GENERIC-WHOPICKSMODEL.
 > must be fixed as part of a given deployment) for a given network is
 > needed.
 
-@@@
+WGF-8 @@@ just as I don't even know what to respond
 
 > If I understand correctly, we have some codepoint squatting going on in
 > the examples (e.g., for resource types).
 
+WGF-7 (primarily to notify everyone that core-interfaces examples will go away)
 response:
 
 The rt=temperature-c, rt=light-lux and if=sensor are justified by their use in
@@ -328,7 +357,11 @@ entries).
 > We should talk about the security properties of the various RD discovery
 > mechanisms that are defined.
 
-@@@
+WGF-6
+
+@@@ yeah, but only to the extent that the discovery process leaks info; the RD
+itself needs to authenticate itself, and then the way there got meaningless
+except for DOS / possibly downgrades
 
 As COMMENT:
 
@@ -353,7 +386,9 @@ As COMMENT:
 > still deny existence of a given resource, so by choosing to use an RD
 > there is some level of trust involved.)
 
-@@@
+WGF-6
+
+@@@ "possibly trusted entity"?
 
 > Section 2
 > 
@@ -367,7 +402,21 @@ As COMMENT:
 > creation, maintenance, and removal of registrations, and for lookup of
 > the registered resources"?
 
-@@@
+WGF-2
+respond:
+
+The intended structure that's linearized into the sadly untreeish structure of
+written language was
+
+* discovery
+* of registrations
+  - creation
+  - maintenance
+  - removal
+* lookup
+
+I think this is what the current text expresses, whereas the proposed one
+groups discovery with "of registrations", while it's more a top-level thing.
 
 >    Commissioning Tool
 >       Commissioning Tool (CT) is a device that assists during the
@@ -378,7 +427,8 @@ As COMMENT:
 > Is "the installation of the network" a one-time event?   (Might a CT be
 > involved when adding a new device to a network at a later time?)
 
-@@@
+WGF-6
+@@@ dunno, is it?
 
 > Section 3.1
 > 
@@ -387,7 +437,16 @@ As COMMENT:
 > 
 > When might that not be the case?
 
-@@@
+WGF-4
+respond:
+
+The prime example here is with devices that don't even have a copy of what they
+might want to (but can't for resource constraints) express there.
+
+The second example I can come up with is when devices have confidentiality
+requirements on the links, but rely on the RD and thus publish data to an
+authorized RD of which they don't even know who precisely might be authorized
+to read them.
 
 > Section 3.2
 > 
@@ -401,7 +460,10 @@ As COMMENT:
 > usage.  Also, we later go on to assert that the endpoint's name has
 > primacy and that the IP address/port can be ephemeral.
 
-@@@
+WGF-6
+@@@ generalize to network address, as we really serve both points
+@@@ the bad part here is that we're using RFC7252 endpoint terminology without
+really meaning it
 
 >    An endpoint uses specific interfaces to register, update and remove a
 >    registration.  It is also possible for an RD to fetch Web Links from
@@ -418,7 +480,13 @@ As COMMENT:
 > admits the possibility that a given endpoint could be "locked out" of
 > the ability to manage the contents of its registrations.
 
-@@@
+WGF-4
+respond:
+
+The act of the endpoint triggering the RD to fetch links from it is the
+creation. And the "locking out" is the correct reading -- a client that uses
+simple client has no way of managing the contents. If it were capable enough to
+do that, it'd go the regular registration route.
 
 > Section 4
 > 
@@ -434,7 +502,8 @@ As COMMENT:
 > actual concrete guidance that could be mandated using normative
 > language.
 
-@@@
+WGF-6
+@@@ just-do-it
 
 > Section 4.1
 > 
@@ -445,7 +514,8 @@ As COMMENT:
 > 
 > nit(?): I was unaware that "Unicast" was a proper noun.
 
-@@@
+WGF-0
+@@@ just-do-it (it ain't)
 
 > Section 4.3
 > 
@@ -457,7 +527,8 @@ As COMMENT:
 > Is the distinction between URIs (for RD Lookup) and URI paths (for RD)
 > important here?
 
-@@@
+WGF-0
+@@@ just-do-it (should all be 'discover URIs', esp as all may be references in URI form)
 
 >    While the link targets in this discovery step are often expressed in
 >    path-absolute form, this is not a requirement.  Clients of the RD
@@ -471,7 +542,14 @@ As COMMENT:
 > (Given the ability to send the discovery query to a multicast address,
 > the guidance seems okay; it's just the "therefore" that is puzzling me.)
 
-@@@
+WGF-2
+
+response:
+
+If it was a requirement on the server, the clients could rely on it and thus
+implicitly limit the set by failing to parse the full URIs.
+
+(It could say "explicitly or implicitly limit", but only the "implicitly limit" case justifies the "therefore".)
 
 >    It would typically be stored in an implementation information link
 >    (as described in [I-D.bormann-t2trg-rel-impl]):
@@ -483,7 +561,9 @@ As COMMENT:
 > , i.e., codepoint squatting.  Please put in a stronger disclaimer that
 > this is an example link relation type, not just an example exchange.
 
-@@@ not so much example but work-in-progress
+WGF-6
+@@@ not so much example but work-in-progress; can we start making early allocs?
+@@@ add to figure: ", using the type currently proposed in the work-in-progress document"
 
 > Section 5
 > 
@@ -492,7 +572,9 @@ As COMMENT:
 > checking.  Mentioning that there are authorization checks, with a
 > forward-reference, might be helpful.
 
-@@@
+WGF-2
+@@@ it's more latest-overrides-older, and only pertains to registrations; one needs still be authorized to do that
+(probably add a few words or tweak ambigous parts)
 
 >    further parameters (see Section 9.3).  The RD then creates a new
 >    registration resource in the RD and returns its location.  The
@@ -503,6 +585,7 @@ As COMMENT:
 > unguessable by parties other than the registrant-ep/CT responsible for
 > it?
 
+WGF-7 (primarily to bring to attention, not so much asking acutal feedback)
 response:
 
 No. Especially, it will be discoverable through the endpoint lookup interface.
@@ -513,7 +596,8 @@ No. Especially, it will be discoverable through the endpoint lookup interface.
 > 
 > I thought that the CT could be a requestor as well as the EP.
 
-@@@
+WGF-6 because it's "we're using RFC7252 endpoint terminology"
+@@@ do we have a term for who does the registration?
 
 >          well.  The endpoint name and sector name are not set when one
 >          or both are set in an accompanying authorization token.
@@ -521,7 +605,8 @@ No. Especially, it will be discoverable through the endpoint lookup interface.
 > What should the RD do if they are set but also present in the
 > accompanying authorization token?
 
-@@@
+WGF-4
+@@@ conflicts are rejected as unauthorized, empty is only accepted if only one is authorized
 
 >    Req: POST coap://rd.example.com/rd?ep=node1
 >    Content-Format: 40
@@ -531,6 +616,7 @@ No. Especially, it will be discoverable through the endpoint lookup interface.
 > (side note) XML for the sensors, not SenML?  With Carsten as an author,
 > even? ;)
 
+WGF-3
 response:
 
 This is clearly a mistake, and got @@@ replaced with 112 application/senml+cbor in
@@ -546,6 +632,7 @@ an emergency update.
 > Wouldn't "Host: rd.example.com" be closer to "almost the same
 > registration"?
 
+WGF-2
 response:
 
 Thanks, fixed. @@@
@@ -561,6 +648,7 @@ necessarily does that).
 > What factors go into using the same well-known URI vs. defining a new
 > one for this usage?
 
+WGF-9
 @@@ Any deployment of simple? Otherwise, /.well-known/rd would be fine with me
 
 >    The sequence of fetching the registration content before sending a
@@ -570,6 +658,7 @@ necessarily does that).
 > I'm not sure what "the caching item" is supposed to be (if it's not a
 > typo/misordering of words).
 
+WGF-2
 @@@ meant bullet, "point about"
 
 > Section 5.3
@@ -585,6 +674,7 @@ necessarily does that).
 > (This MAY is actually a MUST for the simple registration case, per §5.1,
 > right?)
 
+WGF-2
 response:
 
 No, it's a choice there as well. One server may keep them around forever, and
@@ -600,6 +690,7 @@ different registration resource when it returns.
 > What about the "extra-attrs"; are they inherently forbidden from
 > updates?
 
+WGF-1
 @@@ "MAY update some of the parameters"
 
 >                             base :=  Base URI (optional).  This
@@ -614,6 +705,7 @@ different registration resource when it returns.
 > same restrictions as in the registration, or the new value of the
 > parameter being supplied in the update?
 
+WGF-2 (not fuly understood right now but probably just editorial)
 @@@
 
 >    The following example shows how the registering endpoint updates its
@@ -626,15 +718,17 @@ different registration resource when it returns.
 > course.)  See also draft-gont-numeric-ids-sec-considerations, that I'm
 > AD sponsoring, though I do not see any clear issues on first glance.
 
+WGF-2
 response:
 
 See comment on the original capability URL question -- they are not.
-> 
+
 > (Also, it might be worth another sentence that this update is serving
 > just to reset the lifetime, making no other changes, since this might be
 > expected to be a common usage.)
 
-@@@
+WGF-2
+@@@ probably yes
 
 > Section 6
 > 
@@ -642,7 +736,8 @@ See comment on the original capability URL question -- they are not.
 > siblings, would it make sense to put 6.2, or at least 6.3, as
 > subsections under 6.1?
 
-@@@
+WGF-6
+@@@ yeah could do that
 
 > Section 6.1
 > 
@@ -655,7 +750,8 @@ See comment on the original capability URL question -- they are not.
 > the lookup query itself?  (I assume registration-time, but being
 > explicit costs little.)
 
-@@@
+WGF-1
+@@@ editorial
 
 >    If the base URI of a registration contains a link-local address, the
 >    RD MUST NOT show its links unless the lookup was made from the same
@@ -663,7 +759,8 @@ See comment on the original capability URL question -- they are not.
 > 
 > Same link as what?
 
-@@@
+WGF-1
+@@@ editorial
 
 > Section 6.2
 > 
@@ -672,7 +769,8 @@ See comment on the original capability URL question -- they are not.
 > 
 > (We haven't introduced the page and count parameters yet.)
 
-@@@
+WGF-3
+@@@ just introduce them (but i never liked it up there anyway so can i move it down to after filtering? it's not like that's the most important, and it comes last sequentially in impls as well)
 
 >    operator as in Section 4.1 of [RFC6690].  Attributes that are defined
 >    as "link-type" match if the search value matches any of their values
@@ -681,7 +779,8 @@ See comment on the original capability URL question -- they are not.
 > 'link-type'"?  This is the only instance of the string "link-type" in
 > this document, and it does not appear in RFC 6690 at all...
 
-@@@ should have been relation-types
+WGF-2
+@@@ should have been relation-types (but ref 6690 ABNF)
 
 >    references) and are matched against a resolved link target.  Queries
 >    for endpoints SHOULD be expressed in path-absolute form if possible
@@ -692,6 +791,7 @@ See comment on the original capability URL question -- they are not.
 > I don't see how it can be only a SHOULD to recognize either given these
 > generation criteria.
 
+WGF-6
 response:
 
 If the URI is on a different scheme/host, I assert things are clear. (Just to
@@ -724,6 +824,7 @@ necessity, but it is here to rule out the corner case of a client handing out
 > Er, the 6th request is a GET; do we mean to say the response to the 6th
 > request?
 
+WGF-1
 Yes. @@@
 
 > Section 6.4
@@ -735,7 +836,8 @@ Yes. @@@
 > to return resources that the requestor will not have permission to
 > manipulate (in addition to those it does have permission for).
 
-@@@
+WGF-3
+@@@ editorial (point out that)
 
 >    While Endpoint Lookup does expose the registration resources, the RD
 >    does not need to make them accessible to clients.  Clients SHOULD NOT
@@ -743,6 +845,7 @@ Yes. @@@
 > 
 > But why expose them at all if they're not going to be accessible?
 
+WGF-7
 response:
 
 They serve as identifiers (think URI rather than URL), and may additionally be
@@ -760,6 +863,7 @@ exposed to just any lookup client).
 > 
 > The "same address" as what?
 
+WGF-1
 @@@ as the RD itself
 
 > Section 7.1
@@ -774,8 +878,6 @@ response:
 
 It won't per-client, it is configured for one. See GENERIC-WHOPICKSMODEL.
 
-@@@ how do we get that across better in the text?
-
 >    name, the RD must ensure that the registrant is authorized to use the
 >    given endpoint name.  This applies both to registration and later to
 >    operations on the registration resource.  It is immaterial there
@@ -788,6 +890,7 @@ It won't per-client, it is configured for one. See GENERIC-WHOPICKSMODEL.
 > difference between a registrant-ep and a CT attempting to act on its
 > behalf.
 
+WGF-6
 response:
 
 The RD might do such checks, but then again the EP might just be using
@@ -827,7 +930,16 @@ Issue: https://github.com/core-wg/resource-directory/issues/255
 > failure or starting with a UUID if that's not possible, but some
 > guidance on where to start still seems appropriate.)
 
-@@@ no hard requirement, complete lack of entropy will just make the retry process very tedious as you crank through all the used names; any bit halves that, and when push comes to shove start with ep="a" and append the LSB of response latency to the name ;-)
+WGF-4
+@@@ change to "(not necessarily secure) random", and add that if you rely on colls
+
+respond:
+
+There is no requirement here as collisions only result in retries. (For those
+cases where the client implementer thinks they can get away with not
+implementing retry, lack of entropy can be a DOS vector).
+
+The respective sections in the text were @@@ amended.
 
 > Section 7.2
 > 
@@ -845,20 +957,32 @@ advertise as rt="core.rd-lokup-ep example.lwm2m", and then clients that trust
 that metadatum (which they'll want to verify from some claim) know they can
 trust the RD to have checked ep names.
 
+See also GENERAL-WHOPICKSMODEL
+
 >    An RD may also require that only links are registered on whose anchor
 >    (or even target) the RD recognizes as authoritative of.  One way to
 > 
 > I don't think I can parse this sentence (especially "the RD recognizes
 > as authoritative of").
 
-@@@
+WGF-1
+@@@ editorial
 
 > Section 8
 > 
 > In contexts where we discuss DTLS and TLS as being generally comparable,
 > we typically will state that DTLS replay protection is required in order
 > to provide equivalent levels of protection.
-> 
+
+WGF-8 (yeah but CoAP in general)
+@@@ WHAT, that's optional and CoAPS does not pull it in? I'd be surprised if
+any implementer of CoAP who isn't working on DTLS but just using it as
+described in 7252 is aware they must only implement long-term idempotent
+resource handlers, and that that's a security requirement.
+
+@@@ is there any part in RD that's not long-term replay safe? changes to lt,
+and DELETE but who'll DELETE to later reuptake?
+
 > We might also want to reiterate or refer back to the previous discussion
 > of the potential for attributes or resource/endpoint names, link
 > relations, etc. that may need to be confidential, the relevant access
@@ -867,14 +991,16 @@ trust the RD to have checked ep names.
 > think some of this overlaps with 8288 and 6690, but don't mind repeating
 > it.)
 
-@@@
+WGF-3
+@@@ just-do-it backreference to 7.3 and if 6690/8288 has something ref there from 7.2
 
 > Section 8.1
 > 
 > It's probably worth reiterating that all name comparisons must be done
 > at sector scope (since failing to do so can lead to attacks).
 
-@@@
+WGF-2
+@@@ just-do-it "given endpoint name" -> "given endpoint name (and sector)"
 
 >    Endpoint authentication needs to be checked independently of whether
 >    there are configured requirements on the credentials for a given
@@ -883,7 +1009,8 @@ trust the RD to have checked ep names.
 > 
 > I think this is more properly authorization than authentication.
 
-@@@
+WGF-1
+@@@ just-do-it
 
 > Section 8.3
 > 
@@ -903,6 +1030,7 @@ PR: https://github.com/core-wg/resource-directory/pull/249
 > Should we also include "rt" in the initial entries?  I see it is used as
 > a query parameter for resource lookup in the examples in Section 6.3.
 
+WGF-4
 response:
 
 It's used as is any other link attribute. There's no registry for them, and
@@ -942,6 +1070,7 @@ that for some types of parameters their short names should be checked against
 > 
 > Then why do we use it as an example of lookup filtering in Section 6.2?
 
+WGF-4
 response:
 
 The text suggests that target attributes for registered resources need not be
@@ -967,6 +1096,7 @@ addressed (see previous point about squatting) @@@
 > Just to check: the luminaries are learning their own group membership by
 > querying the resource directory?
 
+WGF-7
 response:
 
 Not directly. They (in this very particular example that seems to be based on
@@ -974,10 +1104,13 @@ industry process but which I'd not necessarily recommend for imitation) use a
 heuristic to find any multicast URI they might possibly provide, and join that
 group.
 
+(also GENERIC-ODDEXAMPLES)
+
 > Section 10.2.2
 > 
 > Please expand MSISDN.
 
+WGF-8
 @@@ who's keeping that example in here? also GENERIC-ODDEXAMPLES
 
 > Section 13.2
@@ -987,6 +1120,7 @@ group.
 > Likewise for RFC 8288 ("the query parameter MUST be [...] a token as
 > used in [RFC8288]").
 
+WGF-6
 @@@ agree based on guidance I read for ERT that it's normative even when required for an optional part; might even hit 7230
 
 Erik Kline
@@ -994,7 +1128,7 @@ Erik Kline
 
 Original: https://datatracker.ietf.org/doc/draft-ietf-core-resource-directory/ballot/#erik-kline
 
-Tracking issue: @@@
+Tracking issue: https://github.com/core-wg/resource-directory/issues/257
 
 As DISCUSS:
 
@@ -1013,14 +1147,16 @@ see: GENERIC-6MAN
 >   would have been to add an RD PVD API key and recommend including a PVD
 >   option.
 
-@@@
+WGF-6
+@@@ gotta look that up
 
 > [ section 4.1.1 & 9.2 ]
 > 
 > * Please clarify which ND messages can carry an RDAO.  I suspect they should
 >   only appear in RAs, but it would be good to state the expectation explicitly.
 
-@@@
+WGF-8
+@@@ just-do-it
 
 > [ Appendix A. ]
 > 
@@ -1040,7 +1176,8 @@ As COMMENT:
 > 
 > * I'm unclear on what "disperse networks" might mean.
 
-@@@
+WGF-7
+@@@ neither do I
 
 > [ section 10.1.1 ]
 > 
@@ -1057,7 +1194,7 @@ As COMMENT:
 
 Original: https://datatracker.ietf.org/doc/draft-ietf-core-resource-directory/ballot/#eric-vyncke
 
-Tracking issue: @@@
+Tracking issue: https://github.com/core-wg/resource-directory/issues/257
 
 As DISCUSS:
 
@@ -1068,6 +1205,7 @@ As DISCUSS:
 > deep interest by the CORE WG community. But, I am trusting the past and
 > current responsible ADs on this aspect.
 
+WGF-7 (just to alert shepherd)
 @@@
 
 > Did the authors check with 6MAN WG about the new RDAO option for IPv6 NDP ? I
@@ -1083,11 +1221,13 @@ see: GENERIC-6MAN
 > address is configured via SLAAC, DHCPv6 other-information can be used to
 > configure the Recursive DNS Server (or possibly the RD).
 
-@@@
+WGF-8
+@@@ could use some help here
 
 > -- Section 4.1.1 -- Another trivial DISCUSS to fix: in which message is this
 > RDAO sent ? I guess unicast Router Advertisement but this MUST be specified.
 
+WGF-8 (but duplicate somewhere)
 @@@
 
 As COMMENT:
@@ -1099,6 +1239,7 @@ As COMMENT:
 > Discovery) Working Group that has very similar constraints (sleeping nodes)
 > and same objectives.
 
+WGF-5
 response:
 
 Discussion was primarily on the level of granularity of service description
@@ -1113,6 +1254,7 @@ protocol-negotiation work than it is going into RD).
 > it common terminology ? If so, then ignore my COMMENT, else I suggest to
 > change to "destination URI" and simply "anchor" ?
 
+WGF-4
 response:
 
 "Context" is the term that RFC8288 uses, and other than when defining the
@@ -1128,6 +1270,7 @@ not introduce the term formally), it stems from a link going "from" somewhere
 > -- Section 3.3 -- Should the lifetime be specified in seconds at first use in
 > the text?
 
+WGF-3
 response:
 
 The lifetime is thought of as a quantity of time, which is only expressed in
@@ -1138,21 +1281,25 @@ seconds).
 > the word "IoT" esp when 6LBR (assuming it is 6LO Border Router) is cited
 > later.
 
+WGF-6
 @@@ basically yes
 
 > Please expand and add reference for 6LBR.
 
+WGF-1
 @@@
 
 > Using 'modern' technologies (cfr LP-WAN WG) could also add justification to
 > section 3.5.
 
+WGF-6 see IoT above
 @@@
 
 > -- Section 4.1 -- About "coap://[MCD1]/.well-known/core?rt=core.rd*", what is
 > the value of MCD1 ? The IANA section discuss about it but it may help the
 > reader to give a hint before (or simply use TBDx that is common in I-D).
 
+WGF-5
 response:
 
 TBDx would have been easier in hindight, but there's hope that until RFC editor
@@ -1162,17 +1309,20 @@ stumble here will read the document, so it's kept that way.
 > Any reason to use "address" rather than "group" in "When answering a
 > multicast request directed at a link-local address" ?
 
+WGF-2
 @@@ just change to group
 
 > Later "to use one of their own routable addresses for registration." but
 > there can be multiple configured prefixes... Which one should the RD select ?
 > Should this be specified ?
 
+WGF-6
 @@@ could say "use its preferred routable", but does that really say something?
 
 > As a co-author of RFC 8801, I would have appreciated to read PvD option
 > mentionned to discover the RD. Any reason why PvD Option cannot be used ?
 
+WGF-5
 response:
 
 Probably because 8801 was just published, and the RDAO predates even -pvd-00 by
@@ -1201,11 +1351,13 @@ draft-amsuess-core-resource-directory-extensions).
 > order to be able to use a lifetime in units of seconds (to be consistent with
 > other NDP options).
 
-@@@
+WGF-6
+@@@ dunno
 
 > -- Section 5 -- May be I missed it, but, can an end-point register multiple
 > base URI ? E.g., multiple IPv6 addresses.
 
+WGF-3
 response:
 
 No, that is deferred to protocol-negotiation (where whatever comes out of it is
@@ -1214,6 +1366,7 @@ different protocols).
 
 > -- Section 9.2 -- For information, value 38 is already assigned to RFC 8781.
 
+WGF-1
 @@@ remove recommendation
 
 
@@ -1229,13 +1382,14 @@ Martin Duke
 
 Original: https://datatracker.ietf.org/doc/draft-ietf-core-resource-directory/ballot/#martin-duke
 
-Tracking issue: @@@
+Tracking issue: https://github.com/core-wg/resource-directory/issues/257
 
 As COMMENT:
 
 > One nit: the sentence that contains “cannot be executed as a base attribute”
 > appears to have been mangled.
 
+WGF-1
 @@@
 
 Murray Kucherawy
@@ -1243,7 +1397,7 @@ Murray Kucherawy
 
 Original: https://datatracker.ietf.org/doc/draft-ietf-core-resource-directory/ballot/#murray-kucherawy
 
-Tracking issue: @@@
+Tracking issue: https://github.com/core-wg/resource-directory/issues/257
 
 As COMMENT:
 
@@ -1266,7 +1420,7 @@ Warren Kumari
 
 Original: https://datatracker.ietf.org/doc/draft-ietf-core-resource-directory/ballot/#warren-kumari
 
-Tracking issue: @@@
+Tracking issue: https://github.com/core-wg/resource-directory/issues/257
 
 As COMMENT:
 
@@ -1341,7 +1495,7 @@ Robert Wilton
 
 Original: https://datatracker.ietf.org/doc/draft-ietf-core-resource-directory/ballot/#robert-wilton
 
-Tracking issue: @@@
+Tracking issue: https://github.com/core-wg/resource-directory/issues/257
 
 As COMMENT:
 
@@ -1464,6 +1618,8 @@ Answers to repeated points
 GENERIC-FFxxDB
 --------------
 
+WGF-6
+
 There's a coverage gap between RFC3849 (defining example unicast addresses) and
 RFC3306 (defining unicast-prefix-based multicast addresses). For lack of an
 agreed-on example multicast address, the used ones were created by applying the
@@ -1474,6 +1630,8 @@ address and as an example address.
 GENERIC-ODDEXAMPLES
 -------------------
 
+WGF-7
+
 @@@ many examples contain bewildering and possibly irrelevant stuff like LWM2M,
 "the SLAAC addresses" or the luminaries that just so join groups based on URIs
 they happen to share (and that's not even explicit). who will fix that? my fix
@@ -1482,10 +1640,14 @@ would be to rip out anything someone complains about the examples.
 GENERIC-6MAN
 ------------
 
+WGF-7
+
 @@@
 
 GENERIC-WHOPICKSMODEL
 ---------------------
+
+WGF-8 (see referrers)
 
 The client can only expect any level of trustworthiness if there is a
 claim to that in the RD's credentials. Typically, though, that claim will not
@@ -1495,4 +1657,4 @@ the RD authenticated via PKI as coaps://rd.example.com should only be done if
 the configurator is sure that rd.example.com will do the required checks on
 endpoint names.
 
-@@@ where can this be made more explicit?
+@@@ text to security policies: ~"are a (possibly configurable) property of the server; clients may assume none unless RD is authenticated and authorized to serve as an RD with these properties"
