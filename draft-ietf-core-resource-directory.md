@@ -220,7 +220,7 @@ RDAO
 
 The RD is primarily a tool to make discovery operations more
 efficient than querying /.well-known/core on all connected devices, or across
-boundaries that would be limiting those operations.
+boundaries that would limit those operations.
 
 It provides information about resources hosted by other devices that could otherwise only be obtained by
 directly querying the /.well-known/core resource on these other devices, either by a unicast request or a multicast request.
@@ -422,10 +422,10 @@ Links are modelled as they are in {{fig-ER-WKC}}.
 ## Link-local addresses and zone identifiers {#linklocal}
 
 Registration Base URIs can contain link-local IP addresses.
-To be usable across hosts, those can not be serialized to contain zone identifiers (see {{RFC6874}} Section 1).
+To be usable across hosts, those cannot be serialized to contain zone identifiers (see {{RFC6874}} Section 1).
 
 Link-local addresses can only be used on a single link
-(therefore RD servers can not announce them when queried on a different link),
+(therefore RD servers cannot announce them when queried on a different link),
 and lookup clients using them need to keep track of which interface they got them from.
 
 Therefore, it is advisable in many scenarios
@@ -506,7 +506,7 @@ This provides isolation and protection of sensitive data when needed. Applicatio
 This and the following sections define the required set of REST interfaces between an RD,
 endpoints and lookup clients. Although the examples throughout these sections assume the use of
 CoAP {{RFC7252}}, these REST interfaces can also be realized using HTTP {{RFC7230}}.
-Only multicast discovery operations are not possible on HTTP, and Simple Registration can not be executed as the base attribute (which is mandatory for HTTP) can not be used there.
+Only multicast discovery operations are not possible on HTTP, and Simple Registration cannot be executed as the base attribute (which is mandatory for HTTP) cannot be used there.
 In all definitions in these sections, both CoAP response codes (with dot notation) and HTTP response codes
 (without dot notation) are shown. An RD implementing this specification MUST support
 the discovery, registration, update, lookup, and removal interfaces.
@@ -922,7 +922,7 @@ URI Template Variables:
   : If the registrant-ep uses an ephemeral port to register with, it MUST include the base
     parameter in the registration to provide a valid network path.
 
-  : A registrant that can not be reached by potential lookup clients at the address it registers from
+  : A registrant that cannot be reached by potential lookup clients at the address it registers from
      (e.g. because it is behind some form of Network Address Translation (NAT))
      MUST provide a reachable base address with its registration.
 
@@ -930,7 +930,7 @@ URI Template Variables:
     and MUST be local to the link on which the registration request is received.
 
   : Endpoints that register with a base that contains a path component
-    can not meaningfully use {{RFC6690}} Link Format due to its prevalence of
+    cannot meaningfully use {{RFC6690}} Link Format due to its prevalence of
     the Origin concept in relative reference resolution.
     Those applications should use different representations of links to which {{limitedlinkformat}} is not applicable
     (e.g. {{?I-D.hartke-t2trg-coral}}).
@@ -1154,7 +1154,7 @@ After the initial registration, the registering endpoint retains the returned lo
 
 The Registration Resource may also be used cancel the registration using DELETE, and to perform further operations beyond the scope of this specification.
 
-These operations are described below.
+The operations on the Registration Resource are described below.
 
 ### Registration Update {#update}
 
@@ -1639,7 +1639,7 @@ or resource lookup with filtering on the endpoint name,
 the RD must ensure that the registrant is authorized to use the given endpoint name.
 This applies both to registration and later to operations on the registration resource.
 It is immaterial whether the client is the registrant-ep itself or a CT is doing the registration:
-The RD can not tell the difference, and CTs may use authorization credentials authorizing only operations on that particular endpoint name, or a wider range of endpoint names.
+The RD cannot tell the difference, and CTs may use authorization credentials authorizing only operations on that particular endpoint name, or a wider range of endpoint names.
 
 When certificates are used as authorization credentials,
 the sector(s) and endpoint name(s) can be transported in the subject.
@@ -1685,7 +1685,7 @@ the RD may need to limit which lookup clients may access the information.
 
 In those situations, the registrant needs to be careful to authenticate the RD as well.
 The registrant needs to know in advance which AS, audience and scope values indicate an RD it may trust for this purpose,
-and can not rely on the RD to provide AS address and token details.
+and cannot rely on the RD to provide AS address and token details.
 (In contrast, in the other scenarios it may try to register,
 and follow the pointers the RD gives it as to which credentials it needs to provide in order to perform its registration).
 
