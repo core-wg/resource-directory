@@ -1633,6 +1633,10 @@ without the intention of ruling out other (e.g. certificate / public-key infrast
 Any, all or none of the below can apply to an application.
 Which are relevant depends on its protection objectives.
 
+Security policies are set by configuration of the RD, or by choice of the implementation.
+Lookup clients (and, where relevant, endpoints) can only trust an RD to uphold them if it is authenticated,
+and authorized to serve as an RD according to the application's requirements.
+
 ## Endpoint name {#secure-ep}
 
 Whenever an RD needs to provide trustworthy results to clients doing endpoint lookup,
@@ -1686,11 +1690,7 @@ When registrants publish information in the RD that is not available to any clie
 or when lookups to that interface are subject so stricter firewalling than lookups to the RD,
 the RD may need to limit which lookup clients may access the information.
 
-In those situations, the registrant needs to be careful to authenticate the RD as well.
-The registrant needs to know in advance which AS, audience and scope values indicate an RD it may trust for this purpose,
-and cannot rely on the RD to provide AS address and token details.
-(In contrast, in the other scenarios it may try to register,
-and follow the pointers the RD gives it as to which credentials it needs to provide in order to perform its registration).
+In this case, the endpoint (and not the lookup clients) needs to be careful to check the RD's authorization.
 
 ## Segmentation
 
@@ -2287,6 +2287,11 @@ changes from -25 to -26
     and by removing redundancies between the problem introduction and the description of how an RD could become part of the problem.
 
 * RDAO: Clarify that it is an option for RAs and not other ND messages.
+
+* Security policies:
+
+  * Clarify that with all security policies, clients must verify the authorization of the RD.
+  * Remove speculation about how in detail ACE scopes are obtained.
 
 changes from -24 to -25
 
