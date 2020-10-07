@@ -1557,7 +1557,7 @@ It demonstrates how absolute link targets stay unmodified, while relative ones
 are resolved:
 
 ~~~~
-Req: GET /rd-lookup/res?et=oic.d.sensor
+Req: GET /rd-lookup/res?et=tag:example.com,2020:platform
 
 <coap://sensor1.example.com/sensors>;ct=40;title="Sensor Index";
     anchor="coap://sensor1.example.com",
@@ -1605,16 +1605,16 @@ Lookup clients MUST be prepared to see arbitrary URIs as registration resources 
 and treat them as opaque identifiers;
 the precise semantics of such links are left to future specifications.
 
-The following example shows a client performing an endpoint type (et) lookup with  the value oic.d.sensor (which is currently a registered rt value):
+The following example shows a client performing an endpoint lookup limited to endpoints of endpoint type `tag:example.com,2020:platform`:
 
 ~~~~
-Req: GET /rd-lookup/ep?et=oic.d.sensor
+Req: GET /rd-lookup/ep?et=tag:example.com,2020:platform
 
 Res: 2.05 Content
 </rd/1234>;base="coap://[2001:db8:3::127]:61616";ep="node5";
-et="oic.d.sensor";ct="40";rt="core.rd-ep",
+et="tag:example.com,2020:platform";ct="40";rt="core.rd-ep",
 </rd/4521>;base="coap://[2001:db8:3::129]:61616";ep="node7";
-et="oic.d.sensor";ct="40";d="floor-3";rt="core.rd-ep"
+et="tag:example.com,2020:platform";ct="40";d="floor-3";rt="core.rd-ep"
 ~~~~
 {: #example-lookup-ep title="Examples of endpoint lookup" }
 
