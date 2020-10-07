@@ -2092,23 +2092,6 @@ Res: 2.05 Content
 From the returned base parameter value, the luminary learns the multicast address
 of the multicast group.
 
-Alternatively, the CT can communicate the multicast address directly to the
-luminaries by using the "coap-group" resource specified in {{RFC7390}}.
-
-~~~~
-Req: POST coap://[2001:db8:4::1]/coap-group
-Content-Format: application/coap-group+json
-Payload:
-{ "a": "[ff05::1]", "n": "grp_R2-4-015"}
-
-Res: 2.01 Created
-Location-Path: /coap-group/1
-~~~~
-{: #example-lighting-4 title="Example use of direct multicast address configuration" }
-
-Dependent on the situation, only the address, "a", or the name, "n", is specified
-in the coap-group resource.
-
 The presence sensor can learn the presence of groups that support resources with rt=light in its own sector by sending the same request, as used by the luminary. The presence sensor learns the multicast address to use for sending messages to the luminaries.
 
 ## OMA Lightweight M2M (LWM2M) Example {#lwm2m-ex}
