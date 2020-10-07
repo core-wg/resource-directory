@@ -614,7 +614,7 @@ The use of multicast discovery in mesh networks is NOT RECOMMENDED.
 ### Resource Directory Address Option (RDAO) {#rdao}
 
 The Resource Directory Address Option (RDAO) carries
-information about the address of the RD in RAs (Route Announcements) of IPv6 Neighbor Discovery (ND). This information is
+information about the address of the RD in RAs (Route Advertisements) of IPv6 Neighbor Discovery (ND). This information is
 needed when endpoints cannot discover the RD with a link-local
 or realm-local scope multicast address, for instance because the
 endpoint and the RD are separated by a Border Router
