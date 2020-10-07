@@ -1658,7 +1658,7 @@ Registrants that are prepared to pick a different identifier when their initial 
 at registration is unauthorized should pick an identifier at least twice as long as the expected number of registrants;
 registrants without such a recovery options should pick significantly longer endpoint names (e.g. using UUID URNs {{?RFC4122}}).
 
-## Entered resources
+## Entered resources {#entered-resources}
 
 When lookup clients expect that certain types of links can only originate from certain endpoints,
 then the RD needs to apply filtering to the links an endpoint may register.
@@ -1679,7 +1679,7 @@ As above, the impact of undesirable links depends on the extent to which the loo
 To avoid the limitations, RD applications should consider <!-- can we pull in RFC6919 to make this normative? --> prescribing that lookup clients only use the discovered information as hints,
 and describe which pieces of information need to be verified with the server because they impact the application's security.
 
-## Link confidentiality
+## Link confidentiality {#link-confidentiality}
 
 When registrants publish information in the RD that is not available to any client that would query the registrant's .well-known/core interface,
 or when lookups to that interface are subject so stricter firewalling than lookups to the RD,
@@ -1703,6 +1703,43 @@ Care must be taken in such setups to determine the applicable access control mea
 One easy way to do that is to mandate the use of the sector parameter on all operations,
 as no credentials are suitable for operations across sector borders anyway.
 
+## First-Come-First-Remembered: A default policy
+
+The Fist-Come-First-Remembered policy is provided both as a reference example for a security policy definition,
+and as a policy that implementations may choose to use as default policy in absence of other configuration.
+It is designed to enable efficient discovery operations even in ad-hoc settings.
+
+Under this policy, the RD accepts registrations for any endpoint name that is not assigned to an active registration resource,
+and only accepts registration updates from the same endpoint.
+The policy is minimal in that towards lookup clients it does not make any of the claims of {{entered-resources}} and {{link-confidentiality}},
+and its claims on {{secure-ep}} are limited to the lifetime of that endpoint's registration.
+It does, however, guarantee towards any endpoint that for the duration of its registration, its links will be discoverable on the RD.
+
+When a registration or operation is attempted, the RD MUST determine the client's subject name or public key:
+
+* If the client's credentials indicate a subject name certified by an authority the RD recognizes (which may be the system's trust anchor store), that subject name is stored.
+  With COSE based credentials (like in ACE), the name is taken from the Subject (sub) claim; this step fails if no Subject claim is part of the token.
+  With X.509 certificates, the Common Name (CN) and the complete list of SubjectAltName entries are stored.
+  In both cases, the authority that certified the claim is stored along the subject, as the latter may only be locally unique.
+* Otherwise, if the client's credentials contain a public key, that public key is stored.
+  With (D)TLS, this applies both to raw public keys and to the public keys indicated in certificates that are not recognized by the RD.
+* If neither is present, a reference to the security session itself is stored.
+  With (D)TLS, that is the connection itself, or the session resumption information if available.
+  With OSCORE, that is the security context.
+
+As part of the registration operation, that information is stored along the registration resource.
+
+The RD MUST accept all registrations that do not conflict with an already active registration resource,
+as long as they are made using a security layer supported by the RD.
+
+Any operation on a registration resource,
+including registrations that lead to an existing registration resource,
+MUST be rejected by the RD unless the credentials information is identical to (or, in case of SubjectAltNames, a superset of) the stored information.
+
+It is an accepted shortcoming of this approach that the endpoint has no indication of whether the RD remembers it by its subject name or public key;
+recognition by subject happens on a best-effort base (given the RD may not recognize any authority).
+Clients MUST be prepared to pick a different endpoint name when rejected by the RD after a change in their credentials;
+picking an endpoint name as per {{arbitrary-ep}} is an easy option for that.
 
 # Security Considerations
 
