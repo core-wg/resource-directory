@@ -2322,6 +2322,9 @@ changes from -25 to -26
   * Shorten amplification mitigation by removing the references to earlier cases of DDoS amplification,
     and by removing redundancies between the problem introduction and the description of how an RD could become part of the problem.
 
+* Security policies:
+  * The First-Come-First-Remembered policy is added as an example and a potential default behavior.
+
 changes from -24 to -25
 
 
