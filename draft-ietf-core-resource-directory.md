@@ -1029,7 +1029,7 @@ The links in that document are subject to the same limitations as the payload of
 * The registrant-ep finds one or more addresses of the directory server as described in {{finding_an_rd}}.
 
 * The registrant-ep sends (and regularly refreshes with) a POST
-request to the `/.well-known/core` URI of the directory server of choice. The body of the POST request is empty, and triggers the resource
+request to the `/.well-known/rd` URI of the directory server of choice. The body of the POST request is empty, and triggers the resource
 directory server to perform GET requests at the requesting registrant-ep's /.well-known/core to obtain the link-format payload to register.
 
   The registrant-ep includes the same registration parameters in the POST request as it would per {{registration}}. The registration base URI of the registration is taken from the registrant-ep's network address (as is default with regular registrations).
@@ -1037,7 +1037,7 @@ directory server to perform GET requests at the requesting registrant-ep's /.wel
   Example request from registrant-EP to RD (unanswered until the next step):
 
 ~~~~
-Req: POST /.well-known/core?lt=6000&ep=node1
+Req: POST /.well-known/rd?lt=6000&ep=node1
 (No payload)
 ~~~~
 {: #example-simple1 title="First half example exchange of a simple registration" }
@@ -1084,12 +1084,12 @@ Method:
 
 
 URI Template:
-: /.well-known/core{?ep,d,lt,extra-attrs\*}
-
+: /.well-known/rd{?ep,d,lt,extra-attrs\*}
 
 URI Template Variables are as they are for registration in {{registration}}.
 The base attribute is not accepted to keep the registration interface simple;
 that rules out registration over CoAP-over-TCP or HTTP that would need to specify one.
+For some time during this document's development, the URI template `/.well-known/core{?ep,...}` has been in use instead.
 
 The following response is expected on this interface:
 
@@ -1915,12 +1915,12 @@ with the assigned addresses throughout the document. \]
 
 ## Well-Known URIs
 
-IANA is asked to extend
-<!-- IANA has extended -->
-the reference for the "core" URI suffix
-in the "Well-Known URIs" registry
-to reference this document next to {{RFC6690}},
-as this defines the resource's behavior for POST requests.
+IANA is asked to permanently register
+<!-- IANA has permanently registered -->
+the URI suffix "rd"
+in the "Well-Known URIs" registry.
+The change controller is the IETF,
+this document is the reference.
 
 ## Service Names and Transport Protocol Port Number Registry
 
@@ -2284,6 +2284,9 @@ changes from -25 to -26
   * Point out that failure to follow the security considerations has implications depending on the protection objective described with the security policies
   * Shorten amplification mitigation by removing the references to earlier cases of DDoS amplification,
     and by removing redundancies between the problem introduction and the description of how an RD could become part of the problem.
+
+* Simple registration: Rather than coopting POSTs to /.well-known/core, a new resource /.well-known/rd is registered.
+  A historical note in the text documents the change.
 
 changes from -24 to -25
 
@@ -2848,7 +2851,7 @@ For the following queries, we will assume that the simple host has used Simple
 Registration to register at the RD that was announced to it,
 sending this request from its UDP port `[2001:db8:f0::1]:6553`:
 
-    POST coap://[2001:db8:f01::ff]/.well-known/core?ep=simple-host1
+    POST coap://[2001:db8:f01::ff]/.well-known/rd?ep=simple-host1
 {: #example-weblink-simple title="Example request starting a simple registration"}
 
 The RD would have accepted the registration, and queried the
