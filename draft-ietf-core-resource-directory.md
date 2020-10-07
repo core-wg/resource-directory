@@ -469,8 +469,12 @@ the system, whereas in building automation a combination of professional
 commissioning and run-time discovery is used. Both home and building automation
 involve peer-to-peer interactions between endpoints, and involve battery-powered
 sleeping devices.
+Both can use the common RD infrastructure to establish device interactions efficiently,
+but can pick security policies suitable for their needs.
 
 Two phases can be discerned for a network servicing the system: (1) installation and (2) operation. During the operational phase, the network is connected to the Internet with a Border router (6LBR) and the nodes connected to the network can use the Internet services that are provided by the Internet Provider or the network administrator. During the installation phase, the network is completely stand-alone, no 6LBR is connected, and the network only supports the IP communication between the connected nodes. The installation phase is usually followed by the operational phase.
+As an RD's operations work without hard dependencies on names or addresses,
+it can be used for discovery across both phases.
 
 
 ## Use Case: Link Catalogues {#usecase-catalogues}
@@ -2284,6 +2288,8 @@ changes from -25 to -26
   * Point out that failure to follow the security considerations has implications depending on the protection objective described with the security policies
   * Shorten amplification mitigation by removing the references to earlier cases of DDoS amplification,
     and by removing redundancies between the problem introduction and the description of how an RD could become part of the problem.
+
+* Home and building automation use case: Tie in with RD
 
 changes from -24 to -25
 
