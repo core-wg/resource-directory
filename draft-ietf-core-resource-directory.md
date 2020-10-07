@@ -1715,6 +1715,9 @@ Access that is limited or affects sensitive data SHOULD be protected,
 e.g. using (D)TLS or OSCORE ({{?RFC8613}};
 which aspects of the RD this affects depends on the security policies of the application (see {{policies}}).
 
+As registration updates alter a registration's state without further synchronization,
+RDs that use DTLS are REQUIRED to use its replay protection.
+
 ## Endpoint Identification and Authentication {#endpoint_identification}
 
 An Endpoint (name, sector) pair is unique within the set of endpoints registered by the RD. An Endpoint MUST NOT be identified by its protocol, port or IP
@@ -2284,6 +2287,7 @@ changes from -25 to -26
   * Point out that failure to follow the security considerations has implications depending on the protection objective described with the security policies
   * Shorten amplification mitigation by removing the references to earlier cases of DDoS amplification,
     and by removing redundancies between the problem introduction and the description of how an RD could become part of the problem.
+  * Add requirement of replay protection for DTLS.
 
 changes from -24 to -25
 
