@@ -566,7 +566,7 @@ suitable default.
 
 3. If the address configuration of the network is performed via SLAAC,
    this is provided by the RDAO option {{rdao}}.
-4. If the address configuration of the network is performed via DHCP,
+4. When DHCP is in use,
    this could be provided via a DHCP option (no such option is defined
    at the time of writing).
 
