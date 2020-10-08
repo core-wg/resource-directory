@@ -2290,6 +2290,8 @@ changes from -25 to -26
 
 * RDAO: Clarify that it is an option for RAs and not other ND messages.
 
+* Examples: Use example URIs rather than unclear reg names (unless it's RFC6690 examples, which were kept for continuity)
+
 changes from -24 to -25
 
 
