@@ -1484,8 +1484,9 @@ The following example shows a client performing a resource lookup with the examp
 Req: GET /rd-lookup/res?rt=tag:example.org,2020:temperature
 
 Res: 2.05 Content
-<coap://[2001:db8:3::123]:61616/temp>;rt="tag:example.org,2020:temperature";
-           anchor="coap://[2001:db8:3::123]:61616"
+<coap://[2001:db8:3::123]:61616/temp>;
+    rt="tag:example.org,2020:temperature";
+    anchor="coap://[2001:db8:3::123]:61616"
 ~~~~
 {: #example-lookup-res title="Example a resource lookup" }
 
@@ -1612,9 +1613,10 @@ Req: GET /rd-lookup/ep?et=tag:example.com,2020:platform
 
 Res: 2.05 Content
 </rd/1234>;base="coap://[2001:db8:3::127]:61616";ep="node5";
-et="tag:example.com,2020:platform";ct="40";rt="core.rd-ep",
+    et="tag:example.com,2020:platform";ct="40";rt="core.rd-ep",
 </rd/4521>;base="coap://[2001:db8:3::129]:61616";ep="node7";
-et="tag:example.com,2020:platform";ct="40";d="floor-3";rt="core.rd-ep"
+    et="tag:example.com,2020:platform";ct="40";d="floor-3";
+    rt="core.rd-ep"
 ~~~~
 {: #example-lookup-ep title="Examples of endpoint lookup" }
 
@@ -2698,7 +2700,8 @@ Req: POST coap://rd.example.com/rd?ep=lights&et=core.rd-group
                                   &base=coap://[ff35:30:2001:db8::1]
 Content-Format: 40
 Payload:
-</light>;rt="tag:example.com,2020:light";if="tag:example.net,2020:actuator",
+</light>;rt="tag:example.com,2020:light";
+     if="tag:example.net,2020:actuator",
 </color-temperature>;if="tag:example.net,2020:parameter";u="K"
 
 Res: 2.01 Created
@@ -2736,9 +2739,11 @@ The following example shows a client performing a lookup of all resources of all
 ~~~~
 Req: GET /rd-lookup/res?et=core.rd-group
 
-<coap://[ff35:30:2001:db8::1]/light>;rt="tag:example.com,2020:light";if="tag:example.net,2020:actuator";
+<coap://[ff35:30:2001:db8::1]/light>;rt="tag:example.com,2020:light";
+     if="tag:example.net,2020:actuator";
      anchor="coap://[ff35:30:2001:db8::1]",
-<coap://[ff35:30:2001:db8::1]/color-temperature>;if="tag:example.net,2020:parameter";u="K";
+<coap://[ff35:30:2001:db8::1]/color-temperature>;
+     if="tag:example.net,2020:parameter";u="K";
      anchor="coap://[ff35:30:2001:db8::1]"
 ~~~~
 {: #example-group-lookup-res title="Example lookup of resources inside groups"}
