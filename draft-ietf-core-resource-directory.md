@@ -2153,6 +2153,8 @@ changes from -25 to -26
   * Use example URIs rather than unclear reg names (unless it's RFC6690 examples, which were kept for continuity)
   * The LwM2M example was reduced from an outdated explanation of the complete LwM2M model to a summary of how RD is used in there, with a reference to the current specification.
 
+* Registration: Wording around "mostly mandatory" has been improved, and conflicts clarified.
+
 changes from -24 to -25
 
 
