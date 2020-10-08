@@ -995,7 +995,7 @@ is an example RD location discovered in a request similar to {{example-discovery
 Req: POST coap://rd.example.com/rd?ep=node1
 Content-Format: 40
 Payload:
-</sensors/temp>;ct=41;rt="temperature-c";if="sensor",
+</sensors/temp>;rt="temperature-c";if="sensor",
 <http://www.example.com/sensors/temp>;
   anchor="/sensors/temp";rel="describedby"
 
@@ -1012,7 +1012,7 @@ POST /rd?ep=node1&base=http://[2001:db8:1::1] HTTP/1.1
 Host: example.com
 Content-Type: application/link-format
 
-</sensors/temp>;ct=41;rt="temperature-c";if="sensor",
+</sensors/temp>;rt="temperature-c";if="sensor",
 <http://www.example.com/sensors/temp>;
   anchor="/sensors/temp";rel="describedby"
 
@@ -1279,7 +1279,7 @@ Req: GET /rd-lookup/res?ep=endpoint1
 
 Res: 2.05 Content
 Payload:
-<coap://local-proxy-old.example.com:5683/sensors/temp>;ct=41;
+<coap://local-proxy-old.example.com:5683/sensors/temp>;
     rt="temperature-c";if="sensor";
     anchor="coap://local-proxy-old.example.com:5683/",
 <http://www.example.com/sensors/temp>;
@@ -1304,7 +1304,7 @@ Req: GET /rd-lookup/res?ep=endpoint1
 
 Res: 2.05 Content
 Payload:
-<coap://new.example.com:5684/sensors/temp>;ct=41;
+<coap://new.example.com:5684/sensors/temp>;
     rt="temperature-c";if="sensor";
     anchor="coap://new.example.com:5684/",
 <http://www.example.com/sensors/temp>;
