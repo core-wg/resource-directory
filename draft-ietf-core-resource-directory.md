@@ -1705,7 +1705,7 @@ as no credentials are suitable for operations across sector borders anyway.
 
 ## First-Come-First-Remembered: A default policy
 
-The Fist-Come-First-Remembered policy is provided both as a reference example for a security policy definition,
+The First-Come-First-Remembered policy is provided both as a reference example for a security policy definition,
 and as a policy that implementations may choose to use as default policy in absence of other configuration.
 It is designed to enable efficient discovery operations even in ad-hoc settings.
 
