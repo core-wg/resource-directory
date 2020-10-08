@@ -1074,7 +1074,7 @@ Res: 2.04 Changed
 
 The sequence of fetching the registration content before sending a successful response
 was chosen to make responses reliable,
-and the caching item was chosen to still allow very constrained registrants.
+and the point about caching was chosen to still allow very constrained registrants.
 Registrants MUST be able to serve a GET request to `/.well-known/core` after having requested registration.
 Constrained devices MAY regard the initial request as temporarily failed when they need RAM occupied by their own request to serve the RD's GET,
 and retry later when the RD already has a cached representation of their discovery resources.
