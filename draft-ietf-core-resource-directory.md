@@ -1736,10 +1736,18 @@ Any operation on a registration resource,
 including registrations that lead to an existing registration resource,
 MUST be rejected by the RD unless the credentials information is identical to (or, in case of SubjectAltNames, a superset of) the stored information.
 
+Note that even though subject names are compared in this policy,
+they are never directly compared to endpoint names,
+and an endpoint can not expect to "own" any particular endpoint name outside of an acive registration --
+even if a certificate says so.
 It is an accepted shortcoming of this approach that the endpoint has no indication of whether the RD remembers it by its subject name or public key;
 recognition by subject happens on a best-effort base (given the RD may not recognize any authority).
-Clients MUST be prepared to pick a different endpoint name when rejected by the RD after a change in their credentials;
+Clients MUST be prepared to pick a different endpoint name when rejected by the RD initially or after a change in their credentials;
 picking an endpoint name as per {{arbitrary-ep}} is an easy option for that.
+
+For this policy to be usable without configuration, clients should not set a sector name in their registrations.
+An RD can set a default sector name for registrations accepted under this policy,
+which is useful especially in a segmented setup where different policies apply to different sectors.
 
 # Security Considerations
 
