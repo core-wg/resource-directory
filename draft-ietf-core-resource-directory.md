@@ -2724,7 +2724,7 @@ Req: GET /rd-lookup/ep?et=core.rd-group
 
 Res: 2.05 Content
 Payload:
-</rd/501>;ep="GRP_R2-4-015";et="core.rd-group";
+</rd/501>;ep="grp_R2-4-015";et="core.rd-group";
                                    base="coap://[ff05::1]",
 </rd/12>;ep=lights&et=core.rd-group;
          base="coap://[ff35:30:2001:db8::1]";rt="core.rd-ep"
@@ -2737,9 +2737,8 @@ The following example shows a client performing a lookup of all resources of all
 Req: GET /rd-lookup/res?et=core.rd-group
 
 <coap://[ff35:30:2001:db8::1]/light>;rt="light";if="tag:example.net,2020:actuator";
-     et="core.rd-group";anchor="coap://[ff35:30:2001:db8::1]",
+     anchor="coap://[ff35:30:2001:db8::1]",
 <coap://[ff35:30:2001:db8::1]/color-temperature>;if="tag:example.net,2020:parameter";u="K";
-     et="core.rd-group";
      anchor="coap://[ff35:30:2001:db8::1]"
 ~~~~
 {: #example-group-lookup-res title="Example lookup of resources inside groups"}
