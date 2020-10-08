@@ -2291,6 +2291,7 @@ changes from -25 to -26
   * Point out that failure to follow the security considerations has implications depending on the protection objective described with the security policies
   * Shorten amplification mitigation by removing the references to earlier cases of DDoS amplification,
     and by removing redundancies between the problem introduction and the description of how an RD could become part of the problem.
+  * Add note about information in Registration Resource path.
 
 * RDAO: Clarify that it is an option for RAs and not other ND messages.
 
