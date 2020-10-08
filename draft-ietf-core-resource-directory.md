@@ -585,7 +585,7 @@ suggests a number of candidates:
 
 5. In a 6LoWPAN, just assume the Border Router (6LBR) can act as an
    RD (using the ABRO option to find that {{RFC6775}}).
-   Confirmation can be obtained by sending a Unicast to
+   Confirmation can be obtained by sending a unicast to
    `coap://[6LBR]/.well-known/core?rt=core.rd*`.
 
 6. In a network that supports multicast well, discovering the RD using
