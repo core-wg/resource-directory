@@ -540,7 +540,8 @@ according to the Max-Age (Retry-After in HTTP) option,
 and fall back to link-format when receiving 4.15 (Unsupported Content-Format; 415 in HTTP).
 
 An RD MAY make the information submitted to it available to further
-directories, if it can ensure that a loop does not form.  The protocol used
+directories (subject to security policies on link confidentiality),
+if it can ensure that a loop does not form.  The protocol used
 between directories to ensure loop-free operation is outside the scope of
 this document.
 
@@ -2150,6 +2151,8 @@ changes from -25 to -26
 * Examples:
   * Use example URIs rather than unclear reg names (unless it's RFC6690 examples, which were kept for continuity)
   * The LwM2M example was reduced from an outdated explanation of the complete LwM2M model to a summary of how RD is used in there, with a reference to the current specification.
+
+* RD replication: Point out that security policies may limit that.
 
 changes from -24 to -25
 
