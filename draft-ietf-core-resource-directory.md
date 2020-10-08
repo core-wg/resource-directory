@@ -892,7 +892,9 @@ URI Template Variables:
 
     The maximum length of this parameter is 63 UTF-8 encoded bytes.
 
-    If the RD is configured to recognize the endpoint (e.g. based on its security context), the RD assigns an endpoint name based on a set of configuration parameter values.
+    If the RD is configured to recognize the endpoint to be authorized to use exactly one endpoint name, the RD assigns that name.
+    In that case, giving the endpoint name becomes optional for the client;
+    if the client gives any other endpoint name, it is not authorized to perform the registration.
 
   d :=
   : Sector (optional). The sector to which this endpoint belongs.
