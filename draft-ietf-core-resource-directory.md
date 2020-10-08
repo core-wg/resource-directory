@@ -1984,14 +1984,15 @@ access to the interfaces is proven to work by the network manager.
 
 At the moment of installation, the network under installation is not necessarily
 connected to the DNS infrastructure. Therefore, SLAAC IPv6 addresses are
-assigned to CT, RD, luminaries and sensor shown in {{interface-S}} below:
+assigned to CT, RD, luminaries and the sensor.
+The addresses shown in {{interface-S}} below stand in for these in the following examples.
 
 | Name | IPv6 address |
 | luminary1 | 2001:db8:4::1 |
 | luminary2 | 2001:db8:4::2 |
 | Presence sensor | 2001:db8:4::3 |
 | RD | 2001:db8:4::ff |
-{: #interface-S title='interface SLAAC addresses'}
+{: #interface-S title='Addresses used in the examples'}
 
 In {{rd-en}} the use of RD during installation is
 presented.
