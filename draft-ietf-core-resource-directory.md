@@ -2025,9 +2025,9 @@ using the registration base URI parameter (base) to specify the interface addres
 Req: POST coap://[2001:db8:4::ff]/rd
   ?ep=lm_R2-4-015_wndw&base=coap://[2001:db8:4::1]&d=R2-4-015
 Payload:
-</light/left>;rt="light",
-</light/middle>;rt="light",
-</light/right>;rt="light"
+</light/left>;rt="tag:example.com,2020:light",
+</light/middle>;rt="tag:example.com,2020:light",
+</light/right>;rt="tag:example.com,2020:light"
 
 Res: 2.01 Created
 Location-Path: /rd/4521
@@ -2035,9 +2035,9 @@ Location-Path: /rd/4521
 Req: POST coap://[2001:db8:4::ff]/rd
   ?ep=lm_R2-4-015_door&base=coap://[2001:db8:4::2]&d=R2-4-015
 Payload:
-</light/left>;rt="light",
-</light/middle>;rt="light",
-</light/right>;rt="light"
+</light/left>;rt="tag:example.com,2020:light",
+</light/middle>;rt="tag:example.com,2020:light",
+</light/right>;rt="tag:example.com,2020:light"
 
 Res: 2.01 Created
 Location-Path: /rd/4522
@@ -2064,9 +2064,9 @@ In the POST in the example below, the resources supported by all group members a
 Req: POST coap://[2001:db8:4::ff]/rd
 ?ep=grp_R2-4-015&et=core.rd-group&base=coap://[ff05::1]
 Payload:
-</light/left>;rt="light",
-</light/middle>;rt="light",
-</light/right>;rt="light"
+</light/left>;rt="tag:example.com,2020:light",
+</light/middle>;rt="tag:example.com,2020:light",
+</light/right>;rt="tag:example.com,2020:light"
 
 Res: 2.01 Created
 Location-Path: /rd/501
@@ -2110,7 +2110,7 @@ Location-Path: /coap-group/1
 Dependent on the situation, only the address, "a", or the name, "n", is specified
 in the coap-group resource.
 
-The presence sensor can learn the presence of groups that support resources with rt=light in its own sector by sending the same request, as used by the luminary. The presence sensor learns the multicast address to use for sending messages to the luminaries.
+The presence sensor can learn the presence of groups that support resources with rt=tag:example.com,2020:light in its own sector by sending the same request, as used by the luminary. The presence sensor learns the multicast address to use for sending messages to the luminaries.
 
 ## OMA Lightweight M2M (LWM2M) Example {#lwm2m-ex}
 
@@ -2698,7 +2698,7 @@ Req: POST coap://rd.example.com/rd?ep=lights&et=core.rd-group
                                   &base=coap://[ff35:30:2001:db8::1]
 Content-Format: 40
 Payload:
-</light>;rt="light";if="tag:example.net,2020:actuator",
+</light>;rt="tag:example.com,2020:light";if="tag:example.net,2020:actuator",
 </color-temperature>;if="tag:example.net,2020:parameter";u="K"
 
 Res: 2.01 Created
@@ -2736,7 +2736,7 @@ The following example shows a client performing a lookup of all resources of all
 ~~~~
 Req: GET /rd-lookup/res?et=core.rd-group
 
-<coap://[ff35:30:2001:db8::1]/light>;rt="light";if="tag:example.net,2020:actuator";
+<coap://[ff35:30:2001:db8::1]/light>;rt="tag:example.com,2020:light";if="tag:example.net,2020:actuator";
      anchor="coap://[ff35:30:2001:db8::1]",
 <coap://[ff35:30:2001:db8::1]/color-temperature>;if="tag:example.net,2020:parameter";u="K";
      anchor="coap://[ff35:30:2001:db8::1]"
