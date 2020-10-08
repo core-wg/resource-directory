@@ -710,11 +710,11 @@ and port, and the URI path information for its REST APIs. This section defines
 discovery of the RD and its URIs using the well-known interface of the
 CoRE Link Format {{RFC6690}} after having discovered a host as described in {{finding_an_rd}}.
 
-Discovery of the RD registration URI path is performed by sending either a multicast or
+Discovery of the RD registration URI is performed by sending either a multicast or
 unicast GET request to `/.well-known/core` and including a Resource Type (rt)
 parameter {{RFC6690}} with the value "core.rd" in the query string. Likewise, a
 Resource Type parameter value of "core.rd-lookup\*" is used to discover the
-URIs for RD Lookup operations, core.rd\* is used to discover all URI paths for RD operations.
+URIs for RD Lookup operations, core.rd\* is used to discover all URIs for RD operations.
 Upon success, the response will contain a payload with
 a link format entry for each RD function discovered, indicating the URI
 of the RD function returned and the corresponding Resource Type. When performing
