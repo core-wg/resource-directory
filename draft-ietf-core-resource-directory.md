@@ -2022,8 +2022,7 @@ relevant to the RD are shown in {{endpoint}} below:
 | Presence sensor | ps_R2-4-015_door  | /ps  |  tag:example.com,2020:p-sensor  |
 {: #endpoint title='RD identifiers'}
 
-It is assumed that the CT knows the RD's address, and has performed URI
-discovery on it that returned a response like the one in the {{discovery}} example.
+It is assumed that the CT has performed RD discovery and has received a response like the one in the {{discovery}} example.
 
 The CT inserts the endpoints of the luminaries and the sensor in the RD
 using the registration base URI parameter (base) to specify the interface address:
