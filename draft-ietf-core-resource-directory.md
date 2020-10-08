@@ -899,11 +899,11 @@ URI Template Variables:
   d :=
   : Sector (optional). The sector to which this endpoint belongs.
     When this parameter is not present, the
-    RD MAY associate the endpoint with a configured default sector or leave it empty.
+    RD MAY associate the endpoint with a configured default sector
+    (possibly based on the endpoint's authorization)
+    or leave it empty.
 
     The sector is encoded like the ep parameter, and is limited to 63 UTF-8 encoded bytes as well.
-
-    The endpoint name and sector name are not set when one or both are set in an accompanying authorization token.
 
   lt :=
   : Lifetime (optional). Lifetime of the registration in seconds. Range of 1-4294967295.
@@ -2153,7 +2153,7 @@ changes from -25 to -26
   * Use example URIs rather than unclear reg names (unless it's RFC6690 examples, which were kept for continuity)
   * The LwM2M example was reduced from an outdated explanation of the complete LwM2M model to a summary of how RD is used in there, with a reference to the current specification.
 
-* Registration: Wording around "mostly mandatory" has been improved, and conflicts clarified.
+* Registration: Wording around "mostly mandatory" has been improved, conflicts clarified and sector default selection adjusted.
 
 changes from -24 to -25
 
