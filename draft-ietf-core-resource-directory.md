@@ -98,7 +98,7 @@ informative:
 --- abstract
 
 In many IoT applications, direct discovery of resources is not practical
-due to sleeping nodes, disperse networks, or networks where multicast traffic
+due to sleeping nodes, or networks where multicast traffic
 is inefficient. These problems can be solved by employing an entity called
 a Resource Directory (RD), which contains information about resources held on
 other servers, allowing lookups to be performed for those resources. The input to an RD is composed of links and the output is composed of links constructed from the information stored in the RD. This
@@ -127,7 +127,7 @@ constrained web servers is specified by the CoRE Link Format
 {{RFC6690}}. However, {{RFC6690}} only describes how to discover
 resources from the web server that hosts them by querying
 `/.well-known/core`. In many constrained scenarios, direct discovery of resources is
-not practical due to sleeping nodes, disperse networks, or networks where
+not practical due to sleeping nodes, or networks where
 multicast traffic is inefficient. These problems can be solved by employing
 an entity called a Resource Directory (RD), which contains information about resources held on
 other servers, allowing lookups to be performed for those resources.
@@ -2150,6 +2150,8 @@ changes from -25 to -26
 * Examples:
   * Use example URIs rather than unclear reg names (unless it's RFC6690 examples, which were kept for continuity)
   * The LwM2M example was reduced from an outdated explanation of the complete LwM2M model to a summary of how RD is used in there, with a reference to the current specification.
+
+* Abstract, introduction: removed "or disperse networks"
 
 changes from -24 to -25
 
