@@ -1009,7 +1009,7 @@ An RD may optionally support HTTP. Here is an example of almost the same registr
 ~~~~
 Req:
 POST /rd?ep=node1&base=http://[2001:db8:1::1] HTTP/1.1
-Host: example.com
+Host: rd.example.com
 Content-Type: application/link-format
 
 </sensors/temp>;ct=41;rt="temperature-c";if="sensor",
