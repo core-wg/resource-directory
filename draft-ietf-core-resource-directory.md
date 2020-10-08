@@ -88,6 +88,12 @@ informative:
   I-D.ietf-ace-oauth-authz:
   I-D.ietf-core-links-json:
   I-D.ietf-core-rd-dns-sd:
+  LwM2M:
+      author:
+          org: Open Mobile Alliance
+      date: 2018-06-12
+      title: "Lightweight Machine to Machine Technical Specification: Transport Bindings (Candidate Version 1.1)"
+      target: https://openmobilealliance.org/RELEASE/LightweightM2M/V1_1-20180612-C/OMA-TS-LightweightM2M_Transport-V1_1-20180612-C.pdf
 
 --- abstract
 
@@ -1938,7 +1944,7 @@ All in common have this document as their reference.
 
 # Examples {#examples}
 
-Two examples are presented: a Lighting Installation example in {{lt-ex}} and a LWM2M example in {{lwm2m-ex}}.
+Two examples are presented: a Lighting Installation example in {{lt-ex}} and a LwM2M example in {{lwm2m-ex}}.
 
 ## Lighting Installation {#lt-ex}
 
@@ -2095,167 +2101,18 @@ Res: 2.05 Content
 From the returned base parameter value, the luminary learns the multicast address
 of the multicast group.
 
-Alternatively, the CT can communicate the multicast address directly to the
-luminaries by using the "coap-group" resource specified in {{RFC7390}}.
-
-~~~~
-Req: POST coap://[2001:db8:4::1]/coap-group
-Content-Format: application/coap-group+json
-Payload:
-{ "a": "[ff05::1]", "n": "grp_R2-4-015"}
-
-Res: 2.01 Created
-Location-Path: /coap-group/1
-~~~~
-{: #example-lighting-4 title="Example use of direct multicast address configuration" }
-
-Dependent on the situation, only the address, "a", or the name, "n", is specified
-in the coap-group resource.
-
 The presence sensor can learn the presence of groups that support resources with rt=tag:example.com,2020:light in its own sector by sending the same request, as used by the luminary. The presence sensor learns the multicast address to use for sending messages to the luminaries.
 
-## OMA Lightweight M2M (LWM2M) Example {#lwm2m-ex}
+## OMA Lightweight M2M (LwM2M) {#lwm2m-ex}
 
-This example shows how the OMA LWM2M specification makes use of RDs.
+OMA LwM2M is a profile for device services based on CoAP, providing interfaces and operations for device management and device service enablement.
 
-OMA LWM2M is a profile for device services based on CoAP(OMA Name Authority). LWM2M defines a simple object model and a number of abstract interfaces and operations for device management and device service enablement.
+An LwM2M server is an instance of an LwM2M middleware service layer, containing an RD ({{LwM2M}} page 36f).
 
-An LWM2M server is an instance of an LWM2M middleware service layer, containing an RD along with other LWM2M interfaces defined by the LWM2M specification.
+That RD only implements the registration interface, and no lookup is implemented.
+Instead, the LwM2M server provides access to the registered resources, in a similar way to a reverse proxy.
 
-The registration interface of this specification is used to provide the LWM2M Registration interface.
-
-LWM2M does not provide for registration sectors and does not currently
-use the rd-lookup interface.
-
-The LWM2M specification describes a set of interfaces and a resource model used between a LWM2M device and an LWM2M server. Other interfaces, proxies, and applications are currently out of scope for LWM2M.
-
-The location of the LWM2M Server and RD URI path is provided by the LWM2M Bootstrap process, so no dynamic discovery of the RD is used. LWM2M Servers and endpoints are not required to implement the /.well-known/core resource.
-
-### The LWM2M Object Model {#lwm2m-obj}
-
-The OMA LWM2M object model is based on a simple 2 level class hierarchy consisting of Objects and Resources.
-
-An LWM2M Resource is a REST endpoint, allowed to be a single value or an array of values of the same data type.
-
-An LWM2M Object is a resource template and container type that encapsulates a set of related resources. An LWM2M Object represents a specific type of information source; for example, there is a LWM2M Device Management object that represents a network connection, containing resources that represent individual properties like radio signal strength.
-
-Since there may potentially be more than one of a given type object, for example more than one network connection, LWM2M defines instances of objects that contain the resources that represent a specific physical thing.
-
-The URI template for LWM2M consists of a base URI followed by Object, Instance, and Resource IDs:
-
-{/base-uri}{/object-id}{/object-instance}{/resource-id}{/resource-instance}
-
-The five variables given here are strings.  base-uri can also have the
-special value "undefined" (sometimes called "null" in RFC 6570).
-Each of the variables object-instance, resource-id, and
-resource-instance can be the special value "undefined" only if the
-values behind it in this sequence also are "undefined".  As a special
-case, object-instance can be "empty" (which is different from
-"undefined") if resource-id is not "undefined".
-
-<!--
-[^_TEMPLATE_TODO]
-
-[^_TEMPLATE_TODO]: This text needs some help from an RFC 6570 expert.
- -->
-
-base-uri := Base URI for LWM2M resources or "undefined" for default (empty) base URI
-
-object-id := OMNA (OMA Name Authority) registered object ID (0-65535)
-
-object-instance := Object instance identifier (0-65535) or
-"undefined"/"empty" (see above)) to refer to all instances of an object ID
-
-resource-id := OMNA (OMA Name Authority) registered resource ID (0-65535) or "undefined" to refer to all resources within an instance
-
-resource-instance := Resource instance identifier or "undefined" to refer to single instance of a resource
-
-LWM2M IDs are 16 bit unsigned integers represented in decimal (no
-leading zeroes except for the value 0) by URI format strings. For
-example, a LWM2M URI might be:
-
-~~~~
-/1/0/1
-~~~~
-
-The base URI is empty, the Object ID is 1, the instance ID is 0, the
-resource ID is 1, and the resource instance is "undefined". This
-example URI points to internal resource 1, which represents the
-registration lifetime configured, in instance 0 of a type 1 object
-(LWM2M Server Object).
-
-### LWM2M Register Endpoint {#lwm2m-reg}
-
-LWM2M defines a registration interface based on the REST API, described in {{registration}}. The
-RD registration URI path of the LWM2M RD is specified to be "/rd".
-
-LWM2M endpoints register object IDs, for example </1>, to indicate that a particular object type is supported, and register object instances, for example </1/0>, to indicate that a particular instance of that object type exists.
-
-Resources within the LWM2M object instance are not registered with the RD, but may be discovered by reading the resource links from the object instance using GET with a CoAP Content-Format of application/link-format. Resources may also be read as a structured object by performing a GET to the object instance with a Content-Format of senml+json.
-
-When an LWM2M object or instance is registered, this indicates to the LWM2M server that the object and its resources are available for management and service enablement (REST API) operations.
-
-LWM2M endpoints may use the following RD registration parameters as defined in {{tab-registry}} :
-
-
-~~~~
-ep - Endpoint Name
-lt - registration lifetime
-~~~~
-
-Endpoint Name, Lifetime, and LWM2M Version are mandatory parameters for the register operation, all other registration parameters are optional.
-
-Additional optional LWM2M registration parameters are defined:
-
-
-|       Name       | Query |           Validity           | Description                                                    |
-| Binding Mode     | b     | {"U",UQ","S","SQ","US","UQS"}| Available Protocols                                            |
-|
-| LWM2M Version    | ver   | 1.0                          | Spec Version
-|
-| SMS Number       | sms   |                              | MSISDN
-{: #tab-lwm2m-registry title='LWM2M Additional Registration Parameters'}
-
-
-The following RD registration parameters are not currently specified for use in LWM2M:
-
-
-~~~~
-et - Endpoint Type
-base - Registration Base URI
-~~~~
-
-The endpoint registration must include a payload containing links to all supported objects and existing object instances, optionally including the appropriate link-format relations.
-
-Here is an example LWM2M registration payload:
-
-
-~~~~ linkformat
-</1>,</1/0>,</3/0>,</5>
-~~~~
-
-This link format payload indicates that object ID 1 (LWM2M Server Object) is supported, with a single instance 0 existing, object ID 3 (LWM2M Device object) is supported, with a single instance 0 existing, and object 5 (LWM2M Firmware Object) is supported, with no existing instances.
-
-### LWM2M Update Endpoint Registration {#lwm2m-regupdate}
-
-The LwM2M update is really very similar to the registration update as described in {{update}}, with
-the only difference that there are more parameters defined and
-available. All the parameters listed in that section are also available
-with the initial registration but are all optional:
-
-
-~~~~
-lt - Registration Lifetime
-b - Protocol Binding
-sms - MSISDN
-link payload - new or modified links
-~~~~
-
-A Registration update is also specified to be used to update the LWM2M server whenever the endpoint's UDP port or IP address are changed.
-
-### LWM2M De-Register Endpoint {#lwm2m-dereg}
-
-LWM2M allows for de-registration using the delete method on the returned location from the initial registration operation. LWM2M de-registration proceeds as described in {{removal}}.
+The location of the LwM2M Server and RD URI path is provided by the LwM2M Bootstrap process, so no dynamic discovery of the RD is used. LwM2M Servers and endpoints are not required to implement the /.well-known/core resource.
 
 
 # Acknowledgments
@@ -2290,7 +2147,9 @@ changes from -25 to -26
 
 * RDAO: Clarify that it is an option for RAs and not other ND messages.
 
-* Examples: Use example URIs rather than unclear reg names (unless it's RFC6690 examples, which were kept for continuity)
+* Examples:
+  * Use example URIs rather than unclear reg names (unless it's RFC6690 examples, which were kept for continuity)
+  * The LwM2M example was reduced from an outdated explanation of the complete LwM2M model to a summary of how RD is used in there, with a reference to the current specification.
 
 changes from -24 to -25
 
