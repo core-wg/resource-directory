@@ -1724,6 +1724,18 @@ Access that is limited or affects sensitive data SHOULD be protected,
 e.g. using (D)TLS or OSCORE ({{?RFC8613}};
 which aspects of the RD this affects depends on the security policies of the application (see {{policies}}).
 
+## Discovery {#seccons-discovery}
+
+Most steps in discovery of the RD, and possibly its resources, are not covered by CoAP's security mechanisms.
+This will not endanger the security properties of the registrations and lookup itself
+(where the client requires authorization of the RD if it expects any security properties of the operation),
+but may leak the client's intention to third parties,
+and allow them to slow down the process.
+
+To mitigate that, clients can retain the RD's address,
+use secure discovery options like configured addresses,
+and send queries for RDs in a very general form (`?rt=core.rd*` rather than `?rt=core.rd-lookup-ep`).
+
 ## Endpoint Identification and Authentication {#endpoint_identification}
 
 An Endpoint (name, sector) pair is unique within the set of endpoints registered by the RD. An Endpoint MUST NOT be identified by its protocol, port or IP
@@ -2144,6 +2156,7 @@ changes from -25 to -26
   * Point out that failure to follow the security considerations has implications depending on the protection objective described with the security policies
   * Shorten amplification mitigation by removing the references to earlier cases of DDoS amplification,
     and by removing redundancies between the problem introduction and the description of how an RD could become part of the problem.
+  * Acknowledge that most discovery operations are not secured; mention consequences and mitigation.
 
 * RDAO: Clarify that it is an option for RAs and not other ND messages.
 
