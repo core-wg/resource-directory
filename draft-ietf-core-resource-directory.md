@@ -1407,7 +1407,7 @@ The page and count parameters are used to obtain lookup results in specified inc
 Multiple search criteria MAY be included in a lookup. All included criteria MUST match for a link to be returned. The RD MUST support matching with multiple search criteria.
 
 A link matches a search criterion if it has an attribute of the same name and the same value, allowing for a trailing "\*" wildcard operator as in Section 4.1 of {{RFC6690}}.
-Attributes that are defined as "link-type" match if the search value matches any of their values (see Section 4.1 of {{RFC6690}}; e.g. `?if=core.s` matches `;if="abc core.s";`).
+Attributes that are defined as "link-type" match if the search value matches any of their values (see Section 4.1 of {{RFC6690}}; e.g. `?if=tag:example.net,2020:sensor` matches `;if="example.regname tag:example.net,2020:sensor";`).
 A resource link also matches a search criterion if its endpoint would match the criterion, and vice versa, an endpoint link matches a search criterion if any of its resource links matches it.
 
 Note that `href` is a valid search criterion and matches target references. Like all search criteria, on a resource lookup it can match the target reference of the resource link itself, but also the registration resource of the endpoint that registered it.
@@ -1481,11 +1481,12 @@ The examples in this section assume the existence of CoAP hosts with a default C
 The following example shows a client performing a resource lookup with the example resource look-up locations discovered in {{example-discovery}}:
 
 ~~~~
-Req: GET /rd-lookup/res?rt=temperature
+Req: GET /rd-lookup/res?rt=tag:example.org,2020:temperature
 
 Res: 2.05 Content
-<coap://[2001:db8:3::123]:61616/temp>;rt="temperature";
-           anchor="coap://[2001:db8:3::123]:61616"
+<coap://[2001:db8:3::123]:61616/temp>;
+    rt="tag:example.org,2020:temperature";
+    anchor="coap://[2001:db8:3::123]:61616"
 ~~~~
 {: #example-lookup-res title="Example a resource lookup" }
 
@@ -1493,7 +1494,7 @@ A client that wants to be notified of new resources as they show up can use
 observation:
 
 ~~~~
-Req: GET /rd-lookup/res?rt=light
+Req: GET /rd-lookup/res?rt=tag:example.org,2020:light
 Observe: 0
 
 Res: 2.05 Content
@@ -1505,11 +1506,11 @@ Payload: empty
 Res: 2.05 Content
 Observe: 24
 Payload:
-<coap://[2001:db8:3::124]/west>;rt="light";
+<coap://[2001:db8:3::124]/west>;rt="tag:example.org,2020:light";
     anchor="coap://[2001:db8:3::124]",
-<coap://[2001:db8:3::124]/south>;rt="light";
+<coap://[2001:db8:3::124]/south>;rt="tag:example.org,2020:light";
     anchor="coap://[2001:db8:3::124]",
-<coap://[2001:db8:3::124]/east>;rt="light";
+<coap://[2001:db8:3::124]/east>;rt="tag:example.org,2020:light";
     anchor="coap://[2001:db8:3::124]"
 ~~~~
 {: #example-lookup-obs title="Example an observing resource lookup" }
@@ -1520,29 +1521,29 @@ The following example shows a client performing a paginated resource lookup
 Req: GET /rd-lookup/res?page=0&count=5
 
 Res: 2.05 Content
-<coap://[2001:db8:3::123]:61616/res/0>;rt=sensor;ct=60;
+<coap://[2001:db8:3::123]:61616/res/0>;ct=60;
     anchor="coap://[2001:db8:3::123]:61616",
-<coap://[2001:db8:3::123]:61616/res/1>;rt=sensor;ct=60;
+<coap://[2001:db8:3::123]:61616/res/1>;ct=60;
     anchor="coap://[2001:db8:3::123]:61616",
-<coap://[2001:db8:3::123]:61616/res/2>;rt=sensor;ct=60;
+<coap://[2001:db8:3::123]:61616/res/2>;ct=60;
     anchor="coap://[2001:db8:3::123]:61616",
-<coap://[2001:db8:3::123]:61616/res/3>;rt=sensor;ct=60;
+<coap://[2001:db8:3::123]:61616/res/3>;ct=60;
     anchor="coap://[2001:db8:3::123]:61616",
-<coap://[2001:db8:3::123]:61616/res/4>;rt=sensor;ct=60;
+<coap://[2001:db8:3::123]:61616/res/4>;ct=60;
     anchor="coap://[2001:db8:3::123]:61616"
 
 Req: GET /rd-lookup/res?page=1&count=5
 
 Res: 2.05 Content
-<coap://[2001:db8:3::123]:61616/res/5>;rt=sensor;ct=60;
+<coap://[2001:db8:3::123]:61616/res/5>;ct=60;
     anchor="coap://[2001:db8:3::123]:61616",
-<coap://[2001:db8:3::123]:61616/res/6>;rt=sensor;ct=60;
+<coap://[2001:db8:3::123]:61616/res/6>;ct=60;
     anchor="coap://[2001:db8:3::123]:61616",
-<coap://[2001:db8:3::123]:61616/res/7>;rt=sensor;ct=60;
+<coap://[2001:db8:3::123]:61616/res/7>;ct=60;
     anchor="coap://[2001:db8:3::123]:61616",
-<coap://[2001:db8:3::123]:61616/res/8>;rt=sensor;ct=60;
+<coap://[2001:db8:3::123]:61616/res/8>;ct=60;
     anchor="coap://[2001:db8:3::123]:61616",
-<coap://[2001:db8:3::123]:61616/res/9>;rt=sensor;ct=60;
+<coap://[2001:db8:3::123]:61616/res/9>;ct=60;
     anchor="coap://[2001:db8:3::123]:61616"
 ~~~~
 {: #example-lookup-page title="Examples of paginated resource lookup" }
@@ -1557,7 +1558,7 @@ It demonstrates how absolute link targets stay unmodified, while relative ones
 are resolved:
 
 ~~~~
-Req: GET /rd-lookup/res?et=oic.d.sensor
+Req: GET /rd-lookup/res?et=tag:example.com,2020:platform
 
 <coap://sensor1.example.com/sensors>;ct=40;title="Sensor Index";
     anchor="coap://sensor1.example.com",
@@ -1605,16 +1606,17 @@ Lookup clients MUST be prepared to see arbitrary URIs as registration resources 
 and treat them as opaque identifiers;
 the precise semantics of such links are left to future specifications.
 
-The following example shows a client performing an endpoint type (et) lookup with  the value oic.d.sensor (which is currently a registered rt value):
+The following example shows a client performing an endpoint lookup limited to endpoints of endpoint type `tag:example.com,2020:platform`:
 
 ~~~~
-Req: GET /rd-lookup/ep?et=oic.d.sensor
+Req: GET /rd-lookup/ep?et=tag:example.com,2020:platform
 
 Res: 2.05 Content
 </rd/1234>;base="coap://[2001:db8:3::127]:61616";ep="node5";
-et="oic.d.sensor";ct="40";rt="core.rd-ep",
+    et="tag:example.com,2020:platform";ct="40";rt="core.rd-ep",
 </rd/4521>;base="coap://[2001:db8:3::129]:61616";ep="node7";
-et="oic.d.sensor";ct="40";d="floor-3";rt="core.rd-ep"
+    et="tag:example.com,2020:platform";ct="40";d="floor-3";
+    rt="core.rd-ep"
 ~~~~
 {: #example-lookup-ep title="Examples of endpoint lookup" }
 
@@ -2025,9 +2027,9 @@ using the registration base URI parameter (base) to specify the interface addres
 Req: POST coap://[2001:db8:4::ff]/rd
   ?ep=lm_R2-4-015_wndw&base=coap://[2001:db8:4::1]&d=R2-4-015
 Payload:
-</light/left>;rt="light",
-</light/middle>;rt="light",
-</light/right>;rt="light"
+</light/left>;rt="tag:example.com,2020:light",
+</light/middle>;rt="tag:example.com,2020:light",
+</light/right>;rt="tag:example.com,2020:light"
 
 Res: 2.01 Created
 Location-Path: /rd/4521
@@ -2035,9 +2037,9 @@ Location-Path: /rd/4521
 Req: POST coap://[2001:db8:4::ff]/rd
   ?ep=lm_R2-4-015_door&base=coap://[2001:db8:4::2]&d=R2-4-015
 Payload:
-</light/left>;rt="light",
-</light/middle>;rt="light",
-</light/right>;rt="light"
+</light/left>;rt="tag:example.com,2020:light",
+</light/middle>;rt="tag:example.com,2020:light",
+</light/right>;rt="tag:example.com,2020:light"
 
 Res: 2.01 Created
 Location-Path: /rd/4522
@@ -2064,9 +2066,9 @@ In the POST in the example below, the resources supported by all group members a
 Req: POST coap://[2001:db8:4::ff]/rd
 ?ep=grp_R2-4-015&et=core.rd-group&base=coap://[ff05::1]
 Payload:
-</light/left>;rt="light",
-</light/middle>;rt="light",
-</light/right>;rt="light"
+</light/left>;rt="tag:example.com,2020:light",
+</light/middle>;rt="tag:example.com,2020:light",
+</light/right>;rt="tag:example.com,2020:light"
 
 Res: 2.01 Created
 Location-Path: /rd/501
@@ -2110,7 +2112,7 @@ Location-Path: /coap-group/1
 Dependent on the situation, only the address, "a", or the name, "n", is specified
 in the coap-group resource.
 
-The presence sensor can learn the presence of groups that support resources with rt=light in its own sector by sending the same request, as used by the luminary. The presence sensor learns the multicast address to use for sending messages to the luminaries.
+The presence sensor can learn the presence of groups that support resources with rt=tag:example.com,2020:light in its own sector by sending the same request, as used by the luminary. The presence sensor learns the multicast address to use for sending messages to the luminaries.
 
 ## OMA Lightweight M2M (LWM2M) Example {#lwm2m-ex}
 
@@ -2287,6 +2289,8 @@ changes from -25 to -26
     and by removing redundancies between the problem introduction and the description of how an RD could become part of the problem.
 
 * RDAO: Clarify that it is an option for RAs and not other ND messages.
+
+* Examples: Use example URIs rather than unclear reg names (unless it's RFC6690 examples, which were kept for continuity)
 
 changes from -24 to -25
 
@@ -2698,8 +2702,9 @@ Req: POST coap://rd.example.com/rd?ep=lights&et=core.rd-group
                                   &base=coap://[ff35:30:2001:db8::1]
 Content-Format: 40
 Payload:
-</light>;rt="light";if="core.a",
-</color-temperature>;if="core.p";u="K"
+</light>;rt="tag:example.com,2020:light";
+     if="tag:example.net,2020:actuator",
+</color-temperature>;if="tag:example.net,2020:parameter";u="K"
 
 Res: 2.01 Created
 Location-Path: /rd/12
@@ -2724,7 +2729,7 @@ Req: GET /rd-lookup/ep?et=core.rd-group
 
 Res: 2.05 Content
 Payload:
-</rd/501>;ep="GRP_R2-4-015";et="core.rd-group";
+</rd/501>;ep="grp_R2-4-015";et="core.rd-group";
                                    base="coap://[ff05::1]",
 </rd/12>;ep=lights&et=core.rd-group;
          base="coap://[ff35:30:2001:db8::1]";rt="core.rd-ep"
@@ -2736,10 +2741,11 @@ The following example shows a client performing a lookup of all resources of all
 ~~~~
 Req: GET /rd-lookup/res?et=core.rd-group
 
-<coap://[ff35:30:2001:db8::1]/light>;rt="light";if="core.a";
-     et="core.rd-group";anchor="coap://[ff35:30:2001:db8::1]",
-<coap://[ff35:30:2001:db8::1]/color-temperature>;if="core.p";u="K";
-     et="core.rd-group";
+<coap://[ff35:30:2001:db8::1]/light>;rt="tag:example.com,2020:light";
+     if="tag:example.net,2020:actuator";
+     anchor="coap://[ff35:30:2001:db8::1]",
+<coap://[ff35:30:2001:db8::1]/color-temperature>;
+     if="tag:example.net,2020:parameter";u="K";
      anchor="coap://[ff35:30:2001:db8::1]"
 ~~~~
 {: #example-group-lookup-res title="Example lookup of resources inside groups"}
