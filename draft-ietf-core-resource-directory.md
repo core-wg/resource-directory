@@ -2051,7 +2051,7 @@ Res: 2.01 Created
 Location-Path: /rd/4522
 
 Req: POST coap://[2001:db8:4::ff]/rd
-  ?ep=ps_R2-4-015_door&base=coap://[2001:db8:4::3]d&d=R2-4-015
+  ?ep=ps_R2-4-015_door&base=coap://[2001:db8:4::3]&d=R2-4-015
 Payload:
 </ps>;rt="p-sensor"
 
