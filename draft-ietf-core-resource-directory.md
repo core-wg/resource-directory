@@ -1717,28 +1717,28 @@ It does, however, guarantee towards any endpoint that for the duration of its re
 
 When a registration or operation is attempted, the RD MUST determine the client's subject name or public key:
 
-* If the client's credentials indicate a subject name certified by an authority the RD recognizes (which may be the system's trust anchor store), that subject name is stored.
-  With COSE based credentials (like in ACE), the name is taken from the Subject (sub) claim; this step fails if no Subject claim is part of the token.
+* If the client's credentials indicate a subject name that is certified by any authority which the RD recognizes (which may be the system's trust anchor store), that subject name is stored.
+  With CWT or JWT based credentials (as common with ACE), the name is taken from the Subject (sub) claim; this step fails if no Subject claim is part of the token.
   With X.509 certificates, the Common Name (CN) and the complete list of SubjectAltName entries are stored.
-  In both cases, the authority that certified the claim is stored along the subject, as the latter may only be locally unique.
-* Otherwise, if the client's credentials contain a public key, that public key is stored.
-  With (D)TLS, this applies both to raw public keys and to the public keys indicated in certificates that are not recognized by the RD.
+  In both cases, the authority that certified the claim is stored along with the subject, as the latter may only be locally unique.
+* Otherwise, if the client proves possession of a private key, the matching public key is stored.
+  With (D)TLS, this applies both to raw public keys and to the public keys indicated in certificates that failed the above authority check.
 * If neither is present, a reference to the security session itself is stored.
   With (D)TLS, that is the connection itself, or the session resumption information if available.
   With OSCORE, that is the security context.
 
-As part of the registration operation, that information is stored along the registration resource.
+As part of the registration operation, that information is stored along with the registration resource.
 
-The RD MUST accept all registrations that do not conflict with an already active registration resource,
+The RD MUST accept all registrations whose registration resource is not already active,
 as long as they are made using a security layer supported by the RD.
 
 Any operation on a registration resource,
 including registrations that lead to an existing registration resource,
-MUST be rejected by the RD unless the credentials information is identical to (or, in case of SubjectAltNames, a superset of) the stored information.
+MUST be rejected by the RD unless all the stored information is found in the new request's credentials.
 
 Note that even though subject names are compared in this policy,
 they are never directly compared to endpoint names,
-and an endpoint can not expect to "own" any particular endpoint name outside of an acive registration --
+and an endpoint can not expect to "own" any particular endpoint name outside of an active registration --
 even if a certificate says so.
 It is an accepted shortcoming of this approach that the endpoint has no indication of whether the RD remembers it by its subject name or public key;
 recognition by subject happens on a best-effort base (given the RD may not recognize any authority).
