@@ -1717,8 +1717,8 @@ It does, however, guarantee towards any endpoint that for the duration of its re
 
 When a registration or operation is attempted, the RD MUST determine the client's subject name or public key:
 
-* If the client's credentials indicate a subject name that is certified by any authority which the RD recognizes (which may be the system's trust anchor store), that subject name is stored.
-  With CWT or JWT based credentials (as common with ACE), the name is taken from the Subject (sub) claim; this step fails if no Subject claim is part of the token.
+* If the client's credentials indicate any subject name that is certified by any authority which the RD recognizes (which may be the system's trust anchor store), all those subject names are stored.
+  With CWT or JWT based credentials (as common with ACE), the Subject (sub) claim is stored as a single name, if it exists.
   With X.509 certificates, the Common Name (CN) and the complete list of SubjectAltName entries are stored.
   In both cases, the authority that certified the claim is stored along with the subject, as the latter may only be locally unique.
 * Otherwise, if the client proves possession of a private key, the matching public key is stored.
