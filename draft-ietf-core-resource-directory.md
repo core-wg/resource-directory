@@ -1722,7 +1722,7 @@ When a registration or operation is attempted, the RD MUST determine the client'
   With X.509 certificates, the Common Name (CN) and the complete list of SubjectAltName entries are stored.
   In both cases, the authority that certified the claim is stored along with the subject, as the latter may only be locally unique.
 * Otherwise, if the client proves possession of a private key, the matching public key is stored.
-  With (D)TLS, this applies both to raw public keys and to the public keys indicated in certificates that failed the above authority check.
+  This applies both to raw public keys and to the public keys indicated in certificates that failed the above authority check.
 * If neither is present, a reference to the security session itself is stored.
   With (D)TLS, that is the connection itself, or the session resumption information if available.
   With OSCORE, that is the security context.
