@@ -1168,6 +1168,9 @@ After the initial registration, the registering endpoint retains the returned lo
 
 The Registration Resource may also be used cancel the registration using DELETE, and to perform further operations beyond the scope of this specification.
 
+Some operations on the registration resource are sensitive to long-term reordering;
+{{freshness}} describes mechanisms against that.
+
 The operations on the Registration Resource are described below.
 
 ### Registration Update {#update}
@@ -1371,6 +1374,65 @@ Additional operations on the registration can be specified in future documents, 
 * Use GET to read the currently stored set of links in a registration resource.
 
 Those operations are out of scope of this document, and will require media types suitable for modifying sets of links.
+
+### Freshness {#freshness}
+
+Many security mechanisms usable with an RD employ replay windows,
+or do not even mandate replay protection at all.
+
+To ensure that no client operations are performed outside the client's intended sequence,
+the RD can employ any of the following measures:
+
+* The ETag option can be set in a response to a registration
+  <!-- thanks to whoever invented the term "tagged representation" in coap-13 -->
+  or a registration update.
+  A registrant remembering that value can set it on subsequent requests as an If-Match option.
+  <!-- This is preferable when the RD uses Echo for other purposes with stricter freshness requirements as well to keep the chance of needlessly rejected requests low -->
+
+* The Echo option {{?I-D.ietf-core-echo-request-tag}} can be set in any response from the RD to the registrant,
+  A registrant remembering that option can set it on subsequent requests.
+
+* The underlying security mechanism may provide an ordering on requests.
+  The RD can refuse to process operations that arrive out of order.
+
+* The RD can ensure that a Registration Resource path is only used once as long as any security session usable with it is still valid.
+  This is only sufficient as long as no changes to registration content or parameters occur.
+
+Both for Echo and ETag, it is advisable to keep the turnover rate to the minimum required for the application.
+(With Echo, this is referred to as event-based freshness).
+One way to do that is to associate a counter with the Registration Resource,
+and durign a refresh operation increment it if either
+the registration's content or any parameter change,
+or a configured time interval has elapsed since the last incrementation.
+
+As a compatible minimum, RDs and registrants SHOULD support freshness using the Echo option.
+This is chosen because handling Echo is already recommended for simple registration,
+and because it can be initiated by the server when it deems it necessary
+and the client has chosen not to send any value with the latest request.
+<!-- If a constrained client can only store one of ETag and Echo,
+it ... really doesn't matter which it stores,
+as the server obviously supports both. -->
+
+Failure to ensure freshness of requests opens up three attack scenarios:
+
+* Registration changes can be reordered:
+  If a registrant changes its base address,
+  an attacker can reinject a change to an old address.
+
+* When a registrant repeatedly registers and deletes its registration,
+  and is always assigned the same Registration Resource,
+  an attacker can reinject the deletions,
+  thus denying the registrant visibility in the RD.
+
+* An attacker can reinject plain registration updates,
+  thus making the endpoint appear visible in the RD even though it should have timed out already.
+  This can often be acceptable in the trade-off against sending Echo or ETag values with all registration updates;
+  the configured time interval in the counter example limits the amount of the extension.
+
+(The difficulty of that reinjection depends on the security layer:
+In DTLS without replay protection it is a plain replay.
+In DTLS with replay protection it requires intercepting and blocking a single packet.
+In OSCORE, it requires intercepting and blocking all retransmission attempts of a single request.)
 
 # RD Lookup {#lookup}
 
@@ -1808,6 +1870,9 @@ endpoint name for looking up what information to provision to the malicious devi
 Endpoint authorization needs to be checked on registration and registration resource operations
 independently of whether there are configured requirements on the credentials for a given endpoint name ({{secure-ep}})
 or whether arbitrary names are accepted ({{arbitrary-ep}}).
+
+Operations on Registration Resources need to be ordered when the security mechanism does not provide freshness guarantees.
+{{freshness}} outlines ways to do that and consequences of accepting stale requests.
 
 Simple registration could be used to circumvent address-based access control:
 An attacker would send a simple registration request with the victim's address as source address,
