@@ -161,7 +161,7 @@ https://github.com/core-wg/resource-directory/pull/271).
 The First-Come-First-Remembered policy that is now provided should help the
 reader to understand how a policy can come to an authorization decision even
 with arbitrary endpoint names (see
-https://github.com/core-wg/resource-directory/pull/258 @@@merge).
+https://github.com/core-wg/resource-directory/pull/258).
 
 > -- Section 8.1.  Per “If the server does not check whether the identifier
 > provided in the DTLS handshake matches the identifier used at the CoAP layer
@@ -206,10 +206,10 @@ CB: patent sticken territory; proxies are safest
 
 response:
 
-They do now (as per https://github.com/core-wg/resource-directory/pull/264 @@@merge).
+They do now (as per https://github.com/core-wg/resource-directory/pull/264).
 
 <!--
-WGF-8 @@@ can sure sprinkle some keywords but what does it contribute?
+can sure sprinkle some keywords but what does it contribute?
 
 maybe examples, tradfri?
 -->
@@ -244,7 +244,7 @@ expected to happen like that in managed installations.
 
 The paragraph has been amended to refer to the security policies applicable to
 lookups. (Concrete change in
-https://github.com/core-wg/resource-directory/pull/272 @@@merge).
+https://github.com/core-wg/resource-directory/pull/272).
 
 > ** Section 4.1.  Per “2. In a network that supports multicast well, …”, what
 > does it mean to “support multicast _well_”?
@@ -308,7 +308,7 @@ response:
 A reference has been added in the other direction, as that is where the care
 must be taken -- the "MAY make [...] available" now cautions about any link
 confidentiality policies (change in
-https://github.com/core-wg/resource-directory/pull/272 @@@merge).
+https://github.com/core-wg/resource-directory/pull/272).
 
 > ** Editorial Nits -- Global.  s/can not/cannot/g
 
@@ -322,7 +322,7 @@ Addressed in https://github.com/core-wg/resource-directory/pull/253
 
 response:
 
-Understandable; it was changed in https://github.com/core-wg/resource-directory/pull/274 @@@merge.
+Understandable; it was changed in https://github.com/core-wg/resource-directory/pull/274.
 
 Benjamin Kaduk
 ==============
@@ -355,7 +355,7 @@ were considered for this role, and was picked because unlike its "endpoint name
 comes from the certificate" it is a mode which an implementation can use
 without any further configuration whatsoever.
 
-The related changes can be viewed in https://github.com/core-wg/resource-directory/issues/258 @@@merge.
+The related changes can be viewed in https://github.com/core-wg/resource-directory/issues/258.
 
 > In particular, the current text seems to rely on the authorization
 > model including:
@@ -407,7 +407,7 @@ examples with tag URIs, as has the et=oic.d.sensor (a value that's registered,
 but not to for et but for rt) and rt="light"; rt=sensor was dropped as it was
 not essential to the example.
 
-The individual changes are listed in https://github.com/core-wg/resource-directory/pull/266 @@@merge.
+The individual changes are listed in https://github.com/core-wg/resource-directory/pull/266.
 
 <!--
 CB: ensure unit names SenML compatible
@@ -422,7 +422,7 @@ stuff there b/c well yeah coap://box123.example.com/rd *would* be authorized
 response:
 
 A section was added in the security considerations on this topic (see
-https://github.com/core-wg/resource-directory/pull/275 @@@merge for text
+https://github.com/core-wg/resource-directory/pull/275 for text
 changes). It does not go into the properties of each mechanism, as most
 discovery steps are generally unprotected; instead, it emphasizes the
 importance of checking the RD's authorization for any security properties the
@@ -568,7 +568,7 @@ do that, it'd go the regular registration route.
 
 response:
 
-Right; fixed in https://github.com/core-wg/resource-directory/pull/276 @@@merge.
+Right; fixed in https://github.com/core-wg/resource-directory/pull/276.
 
 > Section 4.1
 > 
@@ -581,7 +581,7 @@ Right; fixed in https://github.com/core-wg/resource-directory/pull/276 @@@merge.
 
 response:
 
-Addressed in https://github.com/core-wg/resource-directory/pull/277 @@@merge.
+Addressed in https://github.com/core-wg/resource-directory/pull/277.
 
 > Section 4.3
 > 
@@ -595,7 +595,7 @@ Addressed in https://github.com/core-wg/resource-directory/pull/277 @@@merge.
 
 response:
 
-No, it isn't. Fixed in https://github.com/core-wg/resource-directory/pull/277 @@@merge.
+No, it isn't. Fixed in https://github.com/core-wg/resource-directory/pull/277.
 
 >    While the link targets in this discovery step are often expressed in
 >    path-absolute form, this is not a requirement.  Clients of the RD
@@ -629,7 +629,7 @@ implicitly limit the set by failing to parse the full URIs.
 response:
 
 A note has been added that the type is just proposed in a WIP document (in
-https://github.com/core-wg/resource-directory/pull/278 @@@merge).
+https://github.com/core-wg/resource-directory/pull/278).
 
 > Section 5
 > 
@@ -679,7 +679,7 @@ WGF-6 because it's "we're using RFC7252 endpoint terminology"
 response:
 
 The wording has been updated in
-https://github.com/core-wg/resource-directory/pull/273 @@@merge; it now (by
+https://github.com/core-wg/resource-directory/pull/273; it now (by
 construction, but also explicitly) explains conflict handling.
 
 >    Req: POST coap://rd.example.com/rd?ep=node1
@@ -711,7 +711,7 @@ thing.
 
 response:
 
-Fixed in https://github.com/core-wg/resource-directory/pull/277 @@@merge.
+Fixed in https://github.com/core-wg/resource-directory/pull/277.
 
 (I had brief qualms about introducing a protocol-negotiation situation here,
 but performing "almost the same registration" over two protocols already
@@ -728,7 +728,7 @@ response:
 
 It-always-having-been-that-way, primarily. As no large deployments are known,
 this is fixed in https://github.com/core-wg/resource-directory/pull/259
-@@@merge by switching to a standalone /.well-known/rd.
+by switching to a standalone /.well-known/rd.
 
 <!-- From discussion:
 
@@ -749,7 +749,7 @@ let's take /.well-known/rd (with note; "implementations may")
 response:
 
 Now phrased as "the point about caching" (in
-https://github.com/core-wg/resource-directory/pull/277 @@@merge) which should
+https://github.com/core-wg/resource-directory/pull/277) which should
 be easier to read. A few lines up we recommend that the RD caches the .wk/c,
 and this provides the rationale.
 
@@ -1299,9 +1299,9 @@ As COMMENT:
 
 response:
 
-Well how do I phrase this ... so are we. As the term does not provide
+Well how do I phrase this ... so were we. As the term does not provide
 justification for using an RD, it was removed from abstract and introduction in
-https://github.com/core-wg/resource-directory/pull/269 @@@merge.
+https://github.com/core-wg/resource-directory/pull/269.
 
 > [ section 10.1.1 ]
 > 
@@ -1321,7 +1321,7 @@ installation.
 The 2001:db8:: addresses are indeed not what one would get out of SLAAC, but
 full random addresses would make the examples hard to read. Where the addresses
 are introduced, they are now called stand-in addresses for the examples (see
-https://github.com/core-wg/resource-directory/pull/268 @@@merge for full
+https://github.com/core-wg/resource-directory/pull/268 for full
 change).
 
 <!--
@@ -1344,8 +1344,9 @@ As DISCUSS:
 > deep interest by the CORE WG community. But, I am trusting the past and
 > current responsible ADs on this aspect.
 
-WGF-7 (just to alert shepherd)
-@@@
+response:
+
+The shepherd write-up has been updated.
 
 > Did the authors check with 6MAN WG about the new RDAO option for IPv6 NDP ? I
 > was unable to find any 6MAN email related to this new NDP option and, after
@@ -1362,12 +1363,11 @@ see: GENERIC-6MAN
 
 response:
 
-Thanks, fixed in https://github.com/core-wg/resource-directory/pull/263 @@@merge.
+Thanks, fixed in https://github.com/core-wg/resource-directory/pull/263.
+
+Conversely, the RDAO's applicability is now phrased more generally as well.
 
 <!--
-WGF-8
-@@@ could use some help here
-
 CB: can provide DHCP even when using SLAAC. then that option could be used as well.
 
 "When DHCP is in use,"
@@ -1376,8 +1376,9 @@ CB: can provide DHCP even when using SLAAC. then that option could be used as we
 > -- Section 4.1.1 -- Another trivial DISCUSS to fix: in which message is this
 > RDAO sent ? I guess unicast Router Advertisement but this MUST be specified.
 
-WGF-8 (but duplicate somewhere)
-@@@
+response:
+
+Indeed; fixed in https://github.com/core-wg/resource-directory/pull/262.
 
 As COMMENT:
 
@@ -1784,8 +1785,7 @@ The generated address did, however, fail to follow the guidance of RFC 3307 and
 set the first bit of the Group ID. Consequently, the addresses were changed
 from ff35:30:2001:db8::x to ff35:30:2001:db8::8000:x, which should finally be a
 legal choice of a group address for anyone operating the 2001:db8:: site. (The
-changes can be viewed at https://github.com/core-wg/resource-directory/pull/270
-@@@merge).
+changes can be viewed at https://github.com/core-wg/resource-directory/pull/270).
 
 GENERIC-ODDEXAMPLES
 -------------------
@@ -1829,12 +1829,12 @@ the RD authenticated via PKI as coaps://rd.example.com should only be done if
 the configurator is sure that rd.example.com will do the required checks on
 endpoint names.
 
-Some clarification has been added in https://github.com/core-wg/resource-directory/pull/265 @@@merge.
+Some clarification has been added in https://github.com/core-wg/resource-directory/pull/265.
 
 <!--
 
 CB: trusted 3rd party needs to set that; we don't provide way to do that (ACE could)
 
-@@@ text to security policies: ~"are a (possibly configurable) property of the server; clients may assume none unless RD is authenticated and authorized to serve as an RD with these properties"
+text to security policies: ~"are a (possibly configurable) property of the server; clients may assume none unless RD is authenticated and authorized to serve as an RD with these properties"
 
 -->
