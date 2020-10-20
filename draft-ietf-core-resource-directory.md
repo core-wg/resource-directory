@@ -564,8 +564,7 @@ For cases where the device is not specifically configured with a way
 to find an RD, the network may want to provide a
 suitable default.
 
-3. If the address configuration of the network is performed via SLAAC,
-   this is provided by the RDAO option {{rdao}}.
+3. The IPv6 Neighbor Discovery option RDAO {{rdao}} can do that.
 4. When DHCP is in use,
    this could be provided via a DHCP option (no such option is defined
    at the time of writing).
