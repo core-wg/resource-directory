@@ -512,7 +512,8 @@ This provides isolation and protection of sensitive data when needed. Applicatio
 This and the following sections define the required set of REST interfaces between an RD,
 endpoints and lookup clients. Although the examples throughout these sections assume the use of
 CoAP {{RFC7252}}, these REST interfaces can also be realized using HTTP {{RFC7230}}.
-Only multicast discovery operations are not possible on HTTP, and Simple Registration cannot be executed as the base attribute (which is mandatory for HTTP) cannot be used there.
+The multicast discovery and simple registration operations are exceptions to that,
+as they rely on mechanisms unavailable in HTTP.
 In all definitions in these sections, both CoAP response codes (with dot notation) and HTTP response codes
 (without dot notation) are shown. An RD implementing this specification MUST support
 the discovery, registration, update, lookup, and removal interfaces.
