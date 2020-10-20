@@ -2284,6 +2284,8 @@ changes from -25 to -26
   * Shorten amplification mitigation by removing the references to earlier cases of DDoS amplification,
     and by removing redundancies between the problem introduction and the description of how an RD could become part of the problem.
 
+* RD discovery: Drop the previously stated assumption that RDAO and any DHCP options would only be used together with SLAAC and DHCP for address configuration, respectivly.
+
 changes from -24 to -25
 
 
