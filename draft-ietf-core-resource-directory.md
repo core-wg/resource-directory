@@ -576,9 +576,8 @@ For cases where the device is not specifically configured with a way
 to find an RD, the network may want to provide a
 suitable default.
 
-3. If the address configuration of the network is performed via SLAAC,
-   this is provided by the RDAO option {{rdao}}.
-4. If the address configuration of the network is performed via DHCP,
+3. The IPv6 Neighbor Discovery option RDAO {{rdao}} can do that.
+4. When DHCP is in use,
    this could be provided via a DHCP option (no such option is defined
    at the time of writing).
 
@@ -2240,6 +2239,8 @@ changes from -25 to -26
 
 * Security policies:
   * The First-Come-First-Remembered policy is added as an example and a potential default behavior.
+
+* RD discovery: Drop the previously stated assumption that RDAO and any DHCP options would only be used together with SLAAC and DHCP for address configuration, respectivly.
 
 changes from -24 to -25
 
