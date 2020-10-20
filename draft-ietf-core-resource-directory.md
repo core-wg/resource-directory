@@ -1992,14 +1992,15 @@ access to the interfaces is proven to work by the network manager.
 
 At the moment of installation, the network under installation is not necessarily
 connected to the DNS infrastructure. Therefore, SLAAC IPv6 addresses are
-assigned to CT, RD, luminaries and sensor shown in {{interface-S}} below:
+assigned to CT, RD, luminaries and the sensor.
+The addresses shown in {{interface-S}} below stand in for these in the following examples.
 
 | Name | IPv6 address |
 | luminary1 | 2001:db8:4::1 |
 | luminary2 | 2001:db8:4::2 |
 | Presence sensor | 2001:db8:4::3 |
 | RD | 2001:db8:4::ff |
-{: #interface-S title='interface SLAAC addresses'}
+{: #interface-S title='Addresses used in the examples'}
 
 In {{rd-en}} the use of RD during installation is
 presented.
@@ -2011,7 +2012,7 @@ It is assumed that access to the DNS infrastructure is not always possible
 during installation. Therefore, the SLAAC addresses are used in this section.
 
 For discovery, the resource types (rt) of the devices are important. The
-lamps in the luminaries have rt: light, and the presence sensor has rt: p-sensor.
+lamps in the luminaries have rt=tag:example.com,2020:light, and the presence sensor has rt=tag:example.com,2020:p-sensor.
 The endpoints have names which are relevant to the light installation manager.
 In this case luminary1, luminary2, and the presence sensor are located in
 room 2-4-015, where luminary1 is located at the window and luminary2 and
@@ -2021,17 +2022,16 @@ path /light/middle, /light/left, and /light/right respectively. The identifiers
 relevant to the RD are shown in {{endpoint}} below:
 
 | Name | endpoint | resource path | resource type |
-| luminary1 | lm_R2-4-015_wndw  | /light/left  |  light  |
-| luminary1 | lm_R2-4-015_wndw  | /light/middle  |  light  |
-| luminary1 | lm_R2-4-015_wndw  | /light/right  |  light  |
-| luminary2 | lm_R2-4-015_door  | /light/left  |  light  |
-| luminary2 | lm_R2-4-015_door  | /light/middle  |  light  |
-| luminary2 | lm_R2-4-015_door  | /light/right  |  light  |
-| Presence sensor | ps_R2-4-015_door  | /ps  |  p-sensor  |
+| luminary1 | lm_R2-4-015_wndw  | /light/left  |  tag:example.com,2020:light  |
+| luminary1 | lm_R2-4-015_wndw  | /light/middle  |  tag:example.com,2020:light  |
+| luminary1 | lm_R2-4-015_wndw  | /light/right  |  tag:example.com,2020:light  |
+| luminary2 | lm_R2-4-015_door  | /light/left  |  tag:example.com,2020:light  |
+| luminary2 | lm_R2-4-015_door  | /light/middle  |  tag:example.com,2020:light  |
+| luminary2 | lm_R2-4-015_door  | /light/right  |  tag:example.com,2020:light  |
+| Presence sensor | ps_R2-4-015_door  | /ps  |  tag:example.com,2020:p-sensor  |
 {: #endpoint title='RD identifiers'}
 
-It is assumed that the CT knows the RD's address, and has performed URI
-discovery on it that returned a response like the one in the {{discovery}} example.
+It is assumed that the CT has performed RD discovery and has received a response like the one in the {{discovery}} example.
 
 The CT inserts the endpoints of the luminaries and the sensor in the RD
 using the registration base URI parameter (base) to specify the interface address:
@@ -2061,7 +2061,7 @@ Location-Path: /rd/4522
 Req: POST coap://[2001:db8:4::ff]/rd
   ?ep=ps_R2-4-015_door&base=coap://[2001:db8:4::3]&d=R2-4-015
 Payload:
-</ps>;rt="p-sensor"
+</ps>;rt="tag:example.com,2020:p-sensor"
 
 Res: 2.01 Created
 Location-Path: /rd/4523
@@ -2158,6 +2158,7 @@ changes from -25 to -26
 * Examples:
   * Use example URIs rather than unclear reg names (unless it's RFC6690 examples, which were kept for continuity)
   * The LwM2M example was reduced from an outdated explanation of the complete LwM2M model to a summary of how RD is used in there, with a reference to the current specification.
+  * Luminary example: Explain example addresses
 
 * impl-info: Add note about the type being WIP
 
