@@ -2581,7 +2581,7 @@ and the group registrations (along with any additional registration parameters)
 can be looked up using the endpoint lookup interface.
 
 
-The following example shows a client performing and endpoint lookup for all groups.
+The following example shows a client performing an endpoint lookup for all groups.
 
 ~~~~
 Req: GET /rd-lookup/ep?et=core.rd-group
