@@ -1256,7 +1256,7 @@ Success:
 Failure:
 : 4.04 "Not Found" or 404 "Not Found". Registration does not exist (e.g. may have been removed).
 
-If the registration fails in any way, including "Not Found" and request timeouts,
+If the registration update fails in any way, including "Not Found" and request timeouts,
 or if the time indicated in a Service Unavailable Max-Age/Retry-After exceeds the remaining lifetime,
 the registering endpoint SHOULD attempt registration again.
 
