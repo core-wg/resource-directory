@@ -817,7 +817,7 @@ Res: 2.05 Content
 <http://software.example.com/shiny-resource-directory/1.0beta1>;
     rel="impl-info"
 ~~~~
-{: #example-impl-discovery title="Example exchange of obtaining implementation information" }
+{: #example-impl-discovery title="Example exchange of obtaining implementation information, using the relation type currently proposed in the work-in-progress document" }
 
 Note that depending on the particular server's architecture,
 such a link could be anchored at the RD server's root,
@@ -2150,6 +2150,8 @@ changes from -25 to -26
 * Examples:
   * Use example URIs rather than unclear reg names (unless it's RFC6690 examples, which were kept for continuity)
   * The LwM2M example was reduced from an outdated explanation of the complete LwM2M model to a summary of how RD is used in there, with a reference to the current specification.
+
+* impl-info: Add note about the type being WIP
 
 changes from -24 to -25
 
