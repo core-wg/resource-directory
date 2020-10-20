@@ -893,16 +893,18 @@ URI Template Variables:
 
     The maximum length of this parameter is 63 UTF-8 encoded bytes.
 
-    If the RD is configured to recognize the endpoint (e.g. based on its security context), the RD assigns an endpoint name based on a set of configuration parameter values.
+    If the RD is configured to recognize the endpoint to be authorized to use exactly one endpoint name, the RD assigns that name.
+    In that case, giving the endpoint name becomes optional for the client;
+    if the client gives any other endpoint name, it is not authorized to perform the registration.
 
   d :=
   : Sector (optional). The sector to which this endpoint belongs.
     When this parameter is not present, the
-    RD MAY associate the endpoint with a configured default sector or leave it empty.
+    RD MAY associate the endpoint with a configured default sector
+    (possibly based on the endpoint's authorization)
+    or leave it empty.
 
     The sector is encoded like the ep parameter, and is limited to 63 UTF-8 encoded bytes as well.
-
-    The endpoint name and sector name are not set when one or both are set in an accompanying authorization token.
 
   lt :=
   : Lifetime (optional). Lifetime of the registration in seconds. Range of 1-4294967295.
@@ -2155,6 +2157,8 @@ changes from -25 to -26
 * impl-info: Add note about the type being WIP
 
 * Error handling: Place a SHOULD around the likely cases, and make the previous "MUST to the best of their capabilities" a "must".
+
+* Registration: Wording around "mostly mandatory" has been improved, conflicts clarified and sector default selection adjusted.
 
 changes from -24 to -25
 
