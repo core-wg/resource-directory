@@ -2216,6 +2216,7 @@ changes from -25 to -26
   * Use example URIs rather than unclear reg names (unless it's RFC6690 examples, which were kept for continuity)
   * The LwM2M example was reduced from an outdated explanation of the complete LwM2M model to a summary of how RD is used in there, with a reference to the current specification.
   * Luminary example: Explain example addresses
+  * Multicast addresses in the examples were changed from ff35:30:2001:db8::x to ff35:30:2001:db8:f1::8000:x; the 8000 is to follow RFC 3307, and the f1 is for consistency with all the other example addresses where 2001:db8::/32 is subnetted to 2001:db8:x::/48 by groups of internally consistent examples.
 
 * impl-info: Add note about the type being WIP
 
@@ -2649,7 +2650,7 @@ The group address in the example is constructed from {{?RFC3849}}'s reserved 200
 
 ~~~~
 Req: POST coap://rd.example.com/rd?ep=lights&et=core.rd-group
-                                  &base=coap://[ff35:30:2001:db8::1]
+                           &base=coap://[ff35:30:2001:db8:f1::8000:1]
 Content-Format: 40
 Payload:
 </light>;rt="tag:example.com,2020:light";
@@ -2682,7 +2683,7 @@ Payload:
 </rd/501>;ep="grp_R2-4-015";et="core.rd-group";
                                    base="coap://[ff05::1]",
 </rd/12>;ep=lights&et=core.rd-group;
-         base="coap://[ff35:30:2001:db8::1]";rt="core.rd-ep"
+         base="coap://[ff35:30:2001:f1:db8::8000:1]";rt="core.rd-ep"
 ~~~~
 {: #example-group-lookup title="Example lookup of groups"}
 
@@ -2691,12 +2692,13 @@ The following example shows a client performing a lookup of all resources of all
 ~~~~
 Req: GET /rd-lookup/res?et=core.rd-group
 
-<coap://[ff35:30:2001:db8::1]/light>;rt="tag:example.com,2020:light";
+<coap://[ff35:30:2001:db8:f1::8000:1]/light>;
+     rt="tag:example.com,2020:light";
      if="tag:example.net,2020:actuator";
-     anchor="coap://[ff35:30:2001:db8::1]",
-<coap://[ff35:30:2001:db8::1]/color-temperature>;
+     anchor="coap://[ff35:30:2001:db8:f1::8000:1]",
+<coap://[ff35:30:2001:db8:f1::8000:1]/color-temperature>;
      if="tag:example.net,2020:parameter";u="K";
-     anchor="coap://[ff35:30:2001:db8::1]"
+     anchor="coap://[ff35:30:2001:db8:f1::8000:1]"
 ~~~~
 {: #example-group-lookup-res title="Example lookup of resources inside groups"}
 
