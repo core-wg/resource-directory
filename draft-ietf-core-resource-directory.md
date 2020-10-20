@@ -545,7 +545,8 @@ according to the Max-Age (Retry-After in HTTP) option,
 and SHOULD fall back to link-format when receiving 4.15 (Unsupported Content-Format; 415 in HTTP).
 
 An RD MAY make the information submitted to it available to further
-directories, if it can ensure that a loop does not form.  The protocol used
+directories (subject to security policies on link confidentiality),
+if it can ensure that a loop does not form.  The protocol used
 between directories to ensure loop-free operation is outside the scope of
 this document.
 
@@ -2168,6 +2169,8 @@ changes from -25 to -26
 
 * Simple registration: Rather than coopting POSTs to /.well-known/core, a new resource /.well-known/rd is registered.
   A historical note in the text documents the change.
+
+* RD replication: Point out that security policies may limit that.
 
 changes from -24 to -25
 
