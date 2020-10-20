@@ -1761,7 +1761,7 @@ whether the identifier provided in the DTLS handshake matches the
 identifier used at the CoAP layer then it may be inclined to use the
 endpoint name for looking up what information to provision to the malicious device.
 
-Endpoint authentication needs to be checked
+Endpoint authorization needs to be checked on registration and registration resource operations
 independently of whether there are configured requirements on the credentials for a given endpoint name ({{secure-ep}})
 or whether arbitrary names are accepted ({{arbitrary-ep}}).
 
