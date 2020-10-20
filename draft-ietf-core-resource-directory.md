@@ -585,7 +585,7 @@ suggests a number of candidates:
 
 5. In a 6LoWPAN, just assume the Border Router (6LBR) can act as an
    RD (using the ABRO option to find that {{RFC6775}}).
-   Confirmation can be obtained by sending a Unicast to
+   Confirmation can be obtained by sending a unicast to
    `coap://[6LBR]/.well-known/core?rt=core.rd*`.
 
 6. In a network that supports multicast well, discovering the RD using
@@ -710,11 +710,11 @@ and port, and the URI path information for its REST APIs. This section defines
 discovery of the RD and its URIs using the well-known interface of the
 CoRE Link Format {{RFC6690}} after having discovered a host as described in {{finding_an_rd}}.
 
-Discovery of the RD registration URI path is performed by sending either a multicast or
+Discovery of the RD registration URI is performed by sending either a multicast or
 unicast GET request to `/.well-known/core` and including a Resource Type (rt)
 parameter {{RFC6690}} with the value "core.rd" in the query string. Likewise, a
 Resource Type parameter value of "core.rd-lookup\*" is used to discover the
-URIs for RD Lookup operations, core.rd\* is used to discover all URI paths for RD operations.
+URIs for RD Lookup operations, core.rd\* is used to discover all URIs for RD operations.
 Upon success, the response will contain a payload with
 a link format entry for each RD function discovered, indicating the URI
 of the RD function returned and the corresponding Resource Type. When performing
@@ -1009,7 +1009,7 @@ An RD may optionally support HTTP. Here is an example of almost the same registr
 ~~~~
 Req:
 POST /rd?ep=node1&base=http://[2001:db8:1::1] HTTP/1.1
-Host: example.com
+Host: rd.example.com
 Content-Type: application/link-format
 
 </sensors/temp>;ct=41;rt="temperature-c";if="sensor",
@@ -1074,7 +1074,7 @@ Res: 2.04 Changed
 
 The sequence of fetching the registration content before sending a successful response
 was chosen to make responses reliable,
-and the caching item was chosen to still allow very constrained registrants.
+and the point about caching was chosen to still allow very constrained registrants.
 Registrants MUST be able to serve a GET request to `/.well-known/core` after having requested registration.
 Constrained devices MAY regard the initial request as temporarily failed when they need RAM occupied by their own request to serve the RD's GET,
 and retry later when the RD already has a cached representation of their discovery resources.
