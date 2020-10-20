@@ -533,12 +533,12 @@ to readers who are not yet familiar with all the details of CoAP based interface
 they do not limit what a server may respond under atypical circumstances.
 
 REST clients (registrant-EPs and CTs during registration and maintenance, lookup clients, RD servers during simple registrations)
-MUST be prepared to receive any unsuccessful code and act upon it
+must be prepared to receive any unsuccessful code and act upon it
 according to its definition, options and/or payload to the best of their capabilities,
 falling back to failing the operation if recovery is not possible.
-In particular, they should retry the request upon 5.03 (Service Unavailable; 503 in HTTP)
+In particular, they SHOULD retry the request upon 5.03 (Service Unavailable; 503 in HTTP)
 according to the Max-Age (Retry-After in HTTP) option,
-and fall back to link-format when receiving 4.15 (Unsupported Content-Format; 415 in HTTP).
+and SHOULD fall back to link-format when receiving 4.15 (Unsupported Content-Format; 415 in HTTP).
 
 An RD MAY make the information submitted to it available to further
 directories, if it can ensure that a loop does not form.  The protocol used
@@ -2153,6 +2153,8 @@ changes from -25 to -26
   * The LwM2M example was reduced from an outdated explanation of the complete LwM2M model to a summary of how RD is used in there, with a reference to the current specification.
 
 * impl-info: Add note about the type being WIP
+
+* Error handling: Place a SHOULD around the likely cases, and make the previous "MUST to the best of their capabilities" a "must".
 
 changes from -24 to -25
 
