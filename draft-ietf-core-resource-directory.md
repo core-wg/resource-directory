@@ -1219,11 +1219,12 @@ URI Template Variables:
 
   base :=
   : Base URI (optional). This parameter updates the Base URI established in the
-    original registration to a new value.
+    original registration to a new value,
+    and is subject to
+    the same restrictions as in the registration.
 
     If the parameter is set in an update, it is stored by the RD as the new
-    Base URI under which to interpret the relative links present in the payload of the original registration, following
-    the same restrictions as in the registration.
+    Base URI under which to interpret the relative links present in the payload of the original registration.
 
     If the parameter is not set in the request but was set before, the previous
     Base URI value is kept unmodified.
