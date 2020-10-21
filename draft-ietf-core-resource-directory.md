@@ -1416,8 +1416,6 @@ The RD MUST NOT include zone identifiers in the resolved URIs.
 
 Using the Accept Option, the requester can control whether the returned list is returned in CoRE Link Format (`application/link-format`, default) or in alternate content-formats (e.g. from {{I-D.ietf-core-links-json}}).
 
-Additional query parameters "page" and "count" are used to obtain lookup results in specified increments using pagination, where count specifies how many links to return and page specifies which subset of links organized in sequential pages, each containing 'count' links, starting with link zero and page zero. Thus, specifying count of 10 and page of 0 will return the first 10 links in the result set (links 0-9). Count = 10 and page = 1 will return the next 'page' containing links 10-19, and so on.
-
 Multiple search criteria MAY be included in a lookup. All included criteria MUST match for a link to be returned. The RD MUST support matching with multiple search criteria.
 
 A link matches a search criterion if it has an attribute of the same name and the same value, allowing for a trailing "\*" wildcard operator as in Section 4.1 of {{RFC6690}}.
@@ -1427,6 +1425,8 @@ A resource link also matches a search criterion if its endpoint would match the 
 Note that `href` is a valid search criterion and matches target references. Like all search criteria, on a resource lookup it can match the target reference of the resource link itself, but also the registration resource of the endpoint that registered it.
 Queries for resource link targets MUST be in URI form (i.e. not relative references) and are matched against a resolved link target. Queries for endpoints SHOULD be expressed in path-absolute form if possible and MUST be expressed in URI form otherwise; the RD SHOULD recognize either.
 The `anchor` attribute is usable for resource lookups, and, if queried, MUST be in URI form as well.
+
+Additional query parameters "page" and "count" are used to obtain lookup results in specified increments using pagination, where count specifies how many links to return and page specifies which subset of links organized in sequential pages, each containing 'count' links, starting with link zero and page zero. Thus, specifying count of 10 and page of 0 will return the first 10 links in the result set (links 0-9). Count = 10 and page = 1 will return the next 'page' containing links 10-19, and so on.
 
 Endpoints that are interested in a lookup result repeatedly or continuously can use
 mechanisms like ETag caching, resource observation ({{RFC7641}}),
