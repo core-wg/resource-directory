@@ -2195,7 +2195,7 @@ originally developed.
 
 changes from -25 to -26
 
-* Minor editorial fixes in response to Gen-ART review.
+* Various editorial fixes in response to Gen-ART and IESG reviews.
 
 * Random EP names: Point that multiple collisions are possible but unlikely.
 
