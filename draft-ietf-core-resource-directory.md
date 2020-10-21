@@ -1693,7 +1693,7 @@ if the client requires the firmware server to present credentials as a firmware 
 a fraudulent link's impact is limited to the client revealing its intention to obtain updates and slowing down the client until it finds a legitimate firmware server;
 if the client accepts any credentials from the server as long as they fit the provided URI, the impact is larger.
 
-An RD may also require that only links are registered on whose anchor (or even target) the RD recognizes as authoritative of.
+An RD may also require that links are only registered if the registrant is authorized to publish information about the anchor (or even target) of the link.
 One way to do this is to demand that the registrant present the same credentials as a client that they'd need to present if contacted as a server at the resources' URI, which may include using the address and port that are part of the URI.
 Such a restriction places severe practical limitations on the links that can be registered.
 
