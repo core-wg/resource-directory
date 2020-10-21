@@ -1599,7 +1599,8 @@ Req: GET /rd-lookup/res?et=tag:example.com,2020:platform
 
 ## Endpoint lookup {#ep-lookup}
 
-The endpoint lookup returns registration resources which can only be manipulated by the registering endpoint.
+The endpoint lookup returns links to and information about registration resources,
+which themselves can only be manipulated by the registering endpoint.
 
 Endpoint registration resources are annotated with their endpoint names (ep), sectors (d, if present) and registration base URI (base; reports the registrant-ep's address if no explicit base was given) as well as a constant resource type (rt="core.rd-ep"); the lifetime (lt) is not reported.
 Additional endpoint attributes are added as target attributes to their endpoint link unless their specification says otherwise.
