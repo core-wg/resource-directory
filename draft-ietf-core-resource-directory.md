@@ -1566,7 +1566,7 @@ The following example shows a client performing a lookup of all resources
 of all endpoints of a given endpoint type. It assumes that two endpoints (with endpoint
 names `sensor1` and `sensor2`) have previously registered with their respective
 addresses `coap://sensor1.example.com` and `coap://sensor2.example.com`, and
-posted the very payload of the 6th request of section 5 of {{RFC6690}}.
+posted the very payload of the 6th response of section 5 of {{RFC6690}}.
 
 It demonstrates how absolute link targets stay unmodified, while relative ones
 are resolved:
