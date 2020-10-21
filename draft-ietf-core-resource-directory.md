@@ -1419,7 +1419,7 @@ Using the Accept Option, the requester can control whether the returned list is 
 Multiple search criteria MAY be included in a lookup. All included criteria MUST match for a link to be returned. The RD MUST support matching with multiple search criteria.
 
 A link matches a search criterion if it has an attribute of the same name and the same value, allowing for a trailing "\*" wildcard operator as in Section 4.1 of {{RFC6690}}.
-Attributes that are defined as "link-type" match if the search value matches any of their values (see Section 4.1 of {{RFC6690}}; e.g. `?if=tag:example.net,2020:sensor` matches `;if="example.regname tag:example.net,2020:sensor";`).
+Attributes that are defined as `relation-types` (in the link-format ABNF) match if the search value matches any of their values (see Section 4.1 of {{RFC6690}}; e.g. `?if=tag:example.net,2020:sensor` matches `;if="example.regname tag:example.net,2020:sensor";`).
 A resource link also matches a search criterion if its endpoint would match the criterion, and vice versa, an endpoint link matches a search criterion if any of its resource links matches it.
 
 Note that `href` is a valid search criterion and matches target references. Like all search criteria, on a resource lookup it can match the target reference of the resource link itself, but also the registration resource of the endpoint that registered it.
