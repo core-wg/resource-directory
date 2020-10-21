@@ -1396,8 +1396,8 @@ The lookup type is selected by a URI endpoint, which is indicated by a Resource 
 
 ## Resource lookup
 
-Resource lookup results in links that are semantically equivalent to the links submitted to the RD.
-The links and link parameters returned by the lookup are equal to the submitted ones,
+Resource lookup results in links that are semantically equivalent to the links submitted to the RD by the registrant.
+The links and link parameters returned by the lookup are equal to the originally submitted ones,
 except that the target and anchor references are fully resolved.
 
 Links that did not have an anchor attribute are therefore returned with the  base URI of the registration as the anchor.
