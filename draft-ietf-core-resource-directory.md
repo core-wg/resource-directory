@@ -1175,8 +1175,8 @@ The operations on the Registration Resource are described below.
 The update interface is used by the registering endpoint to refresh or update its
 registration with an RD. To use the interface, the registering endpoint sends a POST request to the registration resource returned by the initial registration operation.
 
-An update MAY update the lifetime or the base URI registration parameters
-"lt", "base" as in {{registration}}. Parameters that are not being changed SHOULD NOT
+An update MAY update registration parameters like lifetime, base URI or others.
+Parameters that are not being changed SHOULD NOT
 be included in an update. Adding parameters that have not changed increases
 the size of the message but does not have any other implications.
 Parameters MUST be included as query parameters in an update operation as
