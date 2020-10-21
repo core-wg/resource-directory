@@ -1408,7 +1408,7 @@ The RD MAY replace the registration base URIs with a configured intermediate pro
 
 If the base URI of a registration contains a link-local address,
 the RD MUST NOT show its links unless the lookup was made from the
-same link.
+link on which the registered endpoint can be reached.
 The RD MUST NOT include zone identifiers in the resolved URIs.
 
 
