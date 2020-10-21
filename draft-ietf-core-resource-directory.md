@@ -1616,7 +1616,7 @@ While Endpoint Lookup does expose the registration resources,
 the RD does not need to make them accessible to clients.
 Clients SHOULD NOT attempt to dereference or manipulate them.
 
-An RD can report endpoints in lookup that are not hosted at the same address.
+An RD can report registrations in lookup whose URI scheme and authority differ from the lookup resource's.
 Lookup clients MUST be prepared to see arbitrary URIs as registration resources in the results
 and treat them as opaque identifiers;
 the precise semantics of such links are left to future specifications.
