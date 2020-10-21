@@ -1262,7 +1262,7 @@ or if the time indicated in a Service Unavailable Max-Age/Retry-After exceeds th
 the registering endpoint SHOULD attempt registration again.
 
 
-The following example shows how the registering endpoint updates its registration resource at
+The following example shows how the registering endpoint resets the timeout on its registration resource at
 an RD using this interface with the example location value: /rd/4521.
 
 ~~~~
