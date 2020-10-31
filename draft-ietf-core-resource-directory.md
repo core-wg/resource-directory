@@ -469,7 +469,7 @@ the vehicles the application is responsible for.
 ## Use Case: Home and Building Automation {#automation}
 
 Home and commercial building automation systems can benefit from the use
-of M2M web services.  The discovery requirements of these applications are
+of IoT web services.  The discovery requirements of these applications are
 demanding. Home automation usually relies on run-time discovery to commission
 the system, whereas in building automation a combination of professional
 commissioning and run-time discovery is used. Both home and building automation
