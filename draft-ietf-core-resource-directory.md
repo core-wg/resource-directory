@@ -599,7 +599,7 @@ suggests a number of candidates:
    `coap://[MCD1]/.well-known/core?rt=core.rd*`.  RDs within the
    multicast scope will answer the query.
 
- When answering a multicast request directed at a link-local address,
+ When answering a multicast request directed at a link-local group,
   the RD may want to respond from a routable address;
   this makes it easier for registrants to use one of their own routable addresses for registration.
 
