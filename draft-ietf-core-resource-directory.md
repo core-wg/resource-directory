@@ -602,6 +602,10 @@ suggests a number of candidates:
  When answering a multicast request directed at a link-local address,
   the RD may want to respond from a routable address;
   this makes it easier for registrants to use one of their own routable addresses for registration.
+When {{?RFC6724}} is used for source address selection,
+this can be achieved by applying the changes of its Section 10.4,
+picking public addresses in its Section 5 Rule 7,
+and superseding rule 8 with preferring the source address's precedence.
 
 As some of the RD addresses obtained by the methods listed here are
 just (more or less educated) guesses, endpoints MUST make use of any
@@ -2253,7 +2257,9 @@ changes from -25 to -26
 * Security policies:
   * The First-Come-First-Remembered policy is added as an example and a potential default behavior.
 
-* RD discovery: Drop the previously stated assumption that RDAO and any DHCP options would only be used together with SLAAC and DHCP for address configuration, respectivly.
+* RD discovery:
+  * Drop the previously stated assumption that RDAO and any DHCP options would only be used together with SLAAC and DHCP for address configuration, respectivly.
+  * Give concrete guidance for address selection based on RFC6724
 
 changes from -24 to -25
 
