@@ -1814,6 +1814,12 @@ An attacker would send a simple registration request with the victim's address a
 and later look up the victim's .well-known/core content in the RD.
 Mitigation for this is recommended in {{simple}}.
 
+The Registration Resource path is visible to any client that is allowed endpoint lookup,
+and can be extracted by resource lookup clients as well.
+The same goes for registration attributes that are shown as target attributes or lookup attributes.
+The RD needs to consider this in the choice of Registration Resource paths,
+and administrators or endpoint in their choice of attributes.
+
 ## Access Control
 
 Access control SHOULD be performed separately for the RD registration and Lookup
@@ -2209,6 +2215,7 @@ changes from -25 to -26
   * Shorten amplification mitigation by removing the references to earlier cases of DDoS amplification,
     and by removing redundancies between the problem introduction and the description of how an RD could become part of the problem.
   * Acknowledge that most discovery operations are not secured; mention consequences and mitigation.
+  * Add note about information in Registration Resource path.
 
 * RDAO: Clarify that it is an option for RAs and not other ND messages.
 
