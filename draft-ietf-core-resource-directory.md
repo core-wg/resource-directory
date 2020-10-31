@@ -1175,8 +1175,8 @@ The operations on the Registration Resource are described below.
 The update interface is used by the registering endpoint to refresh or update its
 registration with an RD. To use the interface, the registering endpoint sends a POST request to the registration resource returned by the initial registration operation.
 
-An update MAY update the lifetime or the base URI registration parameters
-"lt", "base" as in {{registration}}. Parameters that are not being changed SHOULD NOT
+An update MAY update registration parameters like lifetime, base URI or others.
+Parameters that are not being changed SHOULD NOT
 be included in an update. Adding parameters that have not changed increases
 the size of the message but does not have any other implications.
 Parameters MUST be included as query parameters in an update operation as
@@ -1219,11 +1219,12 @@ URI Template Variables:
 
   base :=
   : Base URI (optional). This parameter updates the Base URI established in the
-    original registration to a new value.
+    original registration to a new value,
+    and is subject to
+    the same restrictions as in the registration.
 
     If the parameter is set in an update, it is stored by the RD as the new
-    Base URI under which to interpret the relative links present in the payload of the original registration, following
-    the same restrictions as in the registration.
+    Base URI under which to interpret the relative links present in the payload of the original registration.
 
     If the parameter is not set in the request but was set before, the previous
     Base URI value is kept unmodified.
@@ -1261,7 +1262,7 @@ or if the time indicated in a Service Unavailable Max-Age/Retry-After exceeds th
 the registering endpoint SHOULD attempt registration again.
 
 
-The following example shows how the registering endpoint updates its registration resource at
+The following example shows how the registering endpoint resets the timeout on its registration resource at
 an RD using this interface with the example location value: /rd/4521.
 
 ~~~~
@@ -1395,8 +1396,8 @@ The lookup type is selected by a URI endpoint, which is indicated by a Resource 
 
 ## Resource lookup
 
-Resource lookup results in links that are semantically equivalent to the links submitted to the RD.
-The links and link parameters returned by the lookup are equal to the submitted ones,
+Resource lookup results in links that are semantically equivalent to the links submitted to the RD by the registrant.
+The links and link parameters returned by the lookup are equal to the originally submitted ones,
 except that the target and anchor references are fully resolved.
 
 Links that did not have an anchor attribute are therefore returned with the  base URI of the registration as the anchor.
@@ -1407,7 +1408,7 @@ The RD MAY replace the registration base URIs with a configured intermediate pro
 
 If the base URI of a registration contains a link-local address,
 the RD MUST NOT show its links unless the lookup was made from the
-same link.
+link on which the registered endpoint can be reached.
 The RD MUST NOT include zone identifiers in the resolved URIs.
 
 
@@ -1415,17 +1416,17 @@ The RD MUST NOT include zone identifiers in the resolved URIs.
 
 Using the Accept Option, the requester can control whether the returned list is returned in CoRE Link Format (`application/link-format`, default) or in alternate content-formats (e.g. from {{I-D.ietf-core-links-json}}).
 
-The page and count parameters are used to obtain lookup results in specified increments using pagination, where count specifies how many links to return and page specifies which subset of links organized in sequential pages, each containing 'count' links, starting with link zero and page zero. Thus, specifying count of 10 and page of 0 will return the first 10 links in the result set (links 0-9). Count = 10 and page = 1 will return the next 'page' containing links 10-19, and so on.
-
 Multiple search criteria MAY be included in a lookup. All included criteria MUST match for a link to be returned. The RD MUST support matching with multiple search criteria.
 
 A link matches a search criterion if it has an attribute of the same name and the same value, allowing for a trailing "\*" wildcard operator as in Section 4.1 of {{RFC6690}}.
-Attributes that are defined as "link-type" match if the search value matches any of their values (see Section 4.1 of {{RFC6690}}; e.g. `?if=tag:example.net,2020:sensor` matches `;if="example.regname tag:example.net,2020:sensor";`).
+Attributes that are defined as `relation-types` (in the link-format ABNF) match if the search value matches any of their values (see Section 4.1 of {{RFC6690}}; e.g. `?if=tag:example.net,2020:sensor` matches `;if="example.regname tag:example.net,2020:sensor";`).
 A resource link also matches a search criterion if its endpoint would match the criterion, and vice versa, an endpoint link matches a search criterion if any of its resource links matches it.
 
 Note that `href` is a valid search criterion and matches target references. Like all search criteria, on a resource lookup it can match the target reference of the resource link itself, but also the registration resource of the endpoint that registered it.
 Queries for resource link targets MUST be in URI form (i.e. not relative references) and are matched against a resolved link target. Queries for endpoints SHOULD be expressed in path-absolute form if possible and MUST be expressed in URI form otherwise; the RD SHOULD recognize either.
 The `anchor` attribute is usable for resource lookups, and, if queried, MUST be in URI form as well.
+
+Additional query parameters "page" and "count" are used to obtain lookup results in specified increments using pagination, where count specifies how many links to return and page specifies which subset of links organized in sequential pages, each containing 'count' links, starting with link zero and page zero. Thus, specifying count of 10 and page of 0 will return the first 10 links in the result set (links 0-9). Count = 10 and page = 1 will return the next 'page' containing links 10-19, and so on.
 
 Endpoints that are interested in a lookup result repeatedly or continuously can use
 mechanisms like ETag caching, resource observation ({{RFC7641}}),
@@ -1565,7 +1566,7 @@ The following example shows a client performing a lookup of all resources
 of all endpoints of a given endpoint type. It assumes that two endpoints (with endpoint
 names `sensor1` and `sensor2`) have previously registered with their respective
 addresses `coap://sensor1.example.com` and `coap://sensor2.example.com`, and
-posted the very payload of the 6th request of section 5 of {{RFC6690}}.
+posted the very payload of the 6th response of section 5 of {{RFC6690}}.
 
 It demonstrates how absolute link targets stay unmodified, while relative ones
 are resolved:
@@ -1598,7 +1599,8 @@ Req: GET /rd-lookup/res?et=tag:example.com,2020:platform
 
 ## Endpoint lookup {#ep-lookup}
 
-The endpoint lookup returns registration resources which can only be manipulated by the registering endpoint.
+The endpoint lookup returns links to and information about registration resources,
+which themselves can only be manipulated by the registering endpoint.
 
 Endpoint registration resources are annotated with their endpoint names (ep), sectors (d, if present) and registration base URI (base; reports the registrant-ep's address if no explicit base was given) as well as a constant resource type (rt="core.rd-ep"); the lifetime (lt) is not reported.
 Additional endpoint attributes are added as target attributes to their endpoint link unless their specification says otherwise.
@@ -1614,7 +1616,7 @@ While Endpoint Lookup does expose the registration resources,
 the RD does not need to make them accessible to clients.
 Clients SHOULD NOT attempt to dereference or manipulate them.
 
-An RD can report endpoints in lookup that are not hosted at the same address.
+An RD can report registrations in lookup whose URI scheme and authority differ from the lookup resource's.
 Lookup clients MUST be prepared to see arbitrary URIs as registration resources in the results
 and treat them as opaque identifiers;
 the precise semantics of such links are left to future specifications.
@@ -1691,7 +1693,7 @@ if the client requires the firmware server to present credentials as a firmware 
 a fraudulent link's impact is limited to the client revealing its intention to obtain updates and slowing down the client until it finds a legitimate firmware server;
 if the client accepts any credentials from the server as long as they fit the provided URI, the impact is larger.
 
-An RD may also require that only links are registered on whose anchor (or even target) the RD recognizes as authoritative of.
+An RD may also require that links are only registered if the registrant is authorized to publish information about the anchor (or even target) of the link.
 One way to do this is to demand that the registrant present the same credentials as a client that they'd need to present if contacted as a server at the resources' URI, which may include using the address and port that are part of the URI.
 Such a restriction places severe practical limitations on the links that can be registered.
 
@@ -2199,7 +2201,7 @@ originally developed.
 
 changes from -25 to -26
 
-* Minor editorial fixes in response to Gen-ART review.
+* Various editorial fixes in response to Gen-ART and IESG reviews.
 
 * Random EP names: Point that multiple collisions are possible but unlikely.
 
