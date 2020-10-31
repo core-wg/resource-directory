@@ -2223,7 +2223,9 @@ changes from -25 to -26
 
 * Error handling: Place a SHOULD around the likely cases, and make the previous "MUST to the best of their capabilities" a "must".
 
-* Registration: Wording around "mostly mandatory" has been improved, conflicts clarified and sector default selection adjusted.
+* Registration:
+  * Point to security policies when (ep, d) mapping to a previous registration's resource could have been read as another endpoint taking over an existing registration.
+  * Wording around "mostly mandatory" has been improved, conflicts clarified and sector default selection adjusted.
 
 * Home and building automation use case: Tie in with RD
 
