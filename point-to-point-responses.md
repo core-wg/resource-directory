@@ -657,7 +657,7 @@ It's more a last-come-longest-remembered, but even the most minimal security
 policies would ensure that the registration resources belong to the "same"
 device (for whatever the policy defines as same).
 
-Clarified in https://github.com/core-wg/resource-directory/pull/292 @@@merge.
+Clarified in https://github.com/core-wg/resource-directory/pull/292.
 
 >    further parameters (see Section 9.3).  The RD then creates a new
 >    registration resource in the RD and returns its location.  The
@@ -800,7 +800,7 @@ different registration resource when it returns.
 
 response:
 
-The introduction paragraph was overly specific and fixed in https://github.com/core-wg/resource-directory/pull/294 @@@merge.
+The introduction paragraph was overly specific and fixed in https://github.com/core-wg/resource-directory/pull/294.
 
 >                             base :=  Base URI (optional).  This
 >          parameter updates the Base URI established in the original
@@ -816,7 +816,7 @@ The introduction paragraph was overly specific and fixed in https://github.com/c
 
 response:
 
-The restrictions apply to the new value, and were moved up there in https://github.com/core-wg/resource-directory/pull/294 @@@merge.
+The restrictions apply to the new value, and were moved up there in https://github.com/core-wg/resource-directory/pull/294.
 
 >    The following example shows how the registering endpoint updates its
 >    registration resource at an RD using this interface with the example
@@ -863,7 +863,7 @@ WGF-6
 
 response:
 
-Some words added for clarity in https://github.com/core-wg/resource-directory/pull/294 @@@merge.
+Some words added for clarity in https://github.com/core-wg/resource-directory/pull/294.
 
 >    If the base URI of a registration contains a link-local address, the
 >    RD MUST NOT show its links unless the lookup was made from the same
@@ -873,7 +873,7 @@ Some words added for clarity in https://github.com/core-wg/resource-directory/pu
 
 response:
 
-The link the endpoint sits on; clarified in https://github.com/core-wg/resource-directory/pull/294 @@@merge.
+The link the endpoint sits on; clarified in https://github.com/core-wg/resource-directory/pull/294.
 
 > Section 6.2
 > 
@@ -884,7 +884,7 @@ The link the endpoint sits on; clarified in https://github.com/core-wg/resource-
 
 response:
 
-Wording has been enhanced in https://github.com/core-wg/resource-directory/pull/294 @@@merge.
+Wording has been enhanced in https://github.com/core-wg/resource-directory/pull/294.
 
 <!--
 
@@ -902,7 +902,7 @@ just introduce them (but i never liked it up there anyway so can i move it down 
 
 response:
 
-That should have said "relation-types"; it does now, and also refers to the 6690 ABNF (since https://github.com/core-wg/resource-directory/pull/294 @@@merge).
+That should have said "relation-types"; it does now, and also refers to the 6690 ABNF (since https://github.com/core-wg/resource-directory/pull/294.
 
 >    references) and are matched against a resolved link target.  Queries
 >    for endpoints SHOULD be expressed in path-absolute form if possible
@@ -947,7 +947,7 @@ necessity, but it is here to rule out the corner case of a client handing out
 
 response:
 
-Yes. Fixed in https://github.com/core-wg/resource-directory/pull/294 @@@merge.
+Yes. Fixed in https://github.com/core-wg/resource-directory/pull/294.
 
 > Section 6.4
 > 
@@ -960,7 +960,7 @@ Yes. Fixed in https://github.com/core-wg/resource-directory/pull/294 @@@merge.
 
 response:
 
-Clarified in https://github.com/core-wg/resource-directory/pull/294 @@@merge.
+Clarified in https://github.com/core-wg/resource-directory/pull/294.
 
 >    While Endpoint Lookup does expose the registration resources, the RD
 >    does not need to make them accessible to clients.  Clients SHOULD NOT
@@ -980,7 +980,7 @@ CoRAL, chances are this would look a bit different, and the names would not be
 exposed to just any lookup client).
 
 The WG discussion of this did, however, lead to a point added to the security
-considerations about the RD's choice of what to put in there (change in https://github.com/core-wg/resource-directory/pull/267 @@@merge).
+considerations about the RD's choice of what to put in there (change in https://github.com/core-wg/resource-directory/pull/267).
 
 <!--
 CB: but information disclosure problem -> bycatch section
@@ -993,7 +993,7 @@ CB: but information disclosure problem -> bycatch section
 
 response:
 
-Sharpened in https://github.com/core-wg/resource-directory/pull/294 @@@merge.
+Sharpened in https://github.com/core-wg/resource-directory/pull/294.
 
 > Section 7.1
 > 
@@ -1099,7 +1099,7 @@ response:
 
 Rephrased to "require that links are only registered if the registrant is
 authorized to publish information about the anchor [...] of the link." in
-https://github.com/core-wg/resource-directory/pull/294 @@@merge.
+https://github.com/core-wg/resource-directory/pull/294.
 
 > Section 8
 > 
