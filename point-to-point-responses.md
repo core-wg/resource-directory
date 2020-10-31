@@ -506,7 +506,16 @@ groups discovery with "of registrations", while it's more a top-level thing.
 > Is "the installation of the network" a one-time event?   (Might a CT be
 > involved when adding a new device to a network at a later time?)
 
-@@@ tracked at https://github.com/core-wg/resource-directory/issues/290
+response:
+
+CTs can come back to help new devices into the network; the text has been
+clarified to that point in
+https://github.com/core-wg/resource-directory/pull/295 @@@merge.
+
+There are remaining questions about how long a network can operate autonomously
+while the CT is absent and can thus not refresh registrations, but those exceed
+the scope of the document. (Discussed at
+https://github.com/core-wg/resource-directory/issues/290).
 
 > Section 3.1
 > 
@@ -1137,16 +1146,20 @@ enforce on RD (and make a note in const-corr)
 > think some of this overlaps with 8288 and 6690, but don't mind repeating
 > it.)
 
-WGF-3
-@@@ just-do-it backreference to 7.3 and if 6690/8288 has something ref there from 7.2
+response:
+
+There is a pointer back saying that the necessary access control depends on the
+protection objectives set in the policies (since
+https://github.com/core-wg/resource-directory/pull/250).
 
 > Section 8.1
 > 
 > It's probably worth reiterating that all name comparisons must be done
 > at sector scope (since failing to do so can lead to attacks).
 
-WGF-2
-@@@ just-do-it "given endpoint name" -> "given endpoint name (and sector)"
+response:
+
+It is; fixed since https://github.com/core-wg/resource-directory/pull/296 @@@merge.
 
 >    Endpoint authentication needs to be checked independently of whether
 >    there are configured requirements on the credentials for a given
@@ -1252,9 +1265,9 @@ industry process but which I'd not necessarily recommend for imitation) use a
 heuristic to find any multicast URI they might possibly provide, and join that
 group.
 
-(also GENERIC-ODDEXAMPLES)
+@@@ maybe even remove that
 
-@@@ "alternatively," remove as well
+(also GENERIC-ODDEXAMPLES)
 
 > Section 10.2.2
 > 
@@ -1301,8 +1314,12 @@ see: GENERIC-6MAN
 >   would have been to add an RD PVD API key and recommend including a PVD
 >   option.
 
-WGF-6
-@@@ gotta look that up
+response:
+
+The RDAO should compose well with PvD based options without further measures,
+but does not receive explicit treatment here as no use of PvDs is known with
+constrained devices yet. Please see the more comprehensive discussion of PvD in
+the comment Éric Vyncke raised.
 
 > [ section 4.1.1 & 9.2 ]
 > 
@@ -1473,25 +1490,33 @@ seconds).
 > the word "IoT" esp when 6LBR (assuming it is 6LO Border Router) is cited
 > later.
 
-WGF-6
-@@@ basically yes
+response:
+
+For Home and Industrial Automation, IoT is indeed used more commonly these
+days. Updated in https://github.com/core-wg/resource-directory/pull/297
+@@@merge.
 
 > Please expand and add reference for 6LBR.
 
-WGF-1
-@@@
+response:
+
+Done (in https://github.com/core-wg/resource-directory/pull/297 @@@merge).
 
 > Using 'modern' technologies (cfr LP-WAN WG) could also add justification to
 > section 3.5.
 
-WGF-6 see IoT above
-@@@
+response:
+
+At least with the currently available setups, the cellular applications have
+the "advantage" (from the perspective of motivating the RD) that they are less
+integrated with typical application deployments, and thus have a more
+pronounced need for discovery in networks that are not under full control of
+the device operator.
 
 > -- Section 4.1 -- About "coap://[MCD1]/.well-known/core?rt=core.rd*", what is
 > the value of MCD1 ? The IANA section discuss about it but it may help the
 > reader to give a hint before (or simply use TBDx that is common in I-D).
 
-WGF-5
 response:
 
 TBDx would have been easier in hindight, but there's hope that until RFC editor
@@ -1501,20 +1526,25 @@ stumble here will read the document, so it's kept that way.
 > Any reason to use "address" rather than "group" in "When answering a
 > multicast request directed at a link-local address" ?
 
-WGF-2
-@@@ just change to group
+No, and 'group' should reduce the chances of readers overlooking that this is
+about multicasts. (Changed in
+https://github.com/core-wg/resource-directory/pull/297).
 
 > Later "to use one of their own routable addresses for registration." but
 > there can be multiple configured prefixes... Which one should the RD select ?
 > Should this be specified ?
 
-WGF-6
-@@@ could say "use its preferred routable", but does that really say something?
+response:
+
+I don't think it needs to be fully specified out (especially as this is merely
+a suggestion), but the terms of RFC6724 seem to be helpful and were added in
+https://github.com/core-wg/resource-directory/pull/298 @@merge.
+
+A review from this has been requested in the review request to 6MAN @@@.
 
 > As a co-author of RFC 8801, I would have appreciated to read PvD option
 > mentionned to discover the RD. Any reason why PvD Option cannot be used ?
 
-WGF-5
 response:
 
 Probably because 8801 was just published, and the RDAO predates even -pvd-00 by
@@ -1858,6 +1888,8 @@ WGF-7
 
 @@@
 
+@@@ point out https://github.com/core-wg/resource-directory/pull/298
+
 GENERIC-WHOPICKSMODEL
 ---------------------
 
@@ -1880,3 +1912,4 @@ CB: trusted 3rd party needs to set that; we don't provide way to do that (ACE co
 text to security policies: ~"are a (possibly configurable) property of the server; clients may assume none unless RD is authenticated and authorized to serve as an RD with these properties"
 
 -->
+
