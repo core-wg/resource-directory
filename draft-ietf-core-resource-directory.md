@@ -553,7 +553,7 @@ this document.
 ## Finding a Resource Directory {#finding_an_rd}
 
 A (re-)starting device may want to find one or more RDs
-for discovery purposes. Dependent on the operational conditions, one or more of the techniques below apply.
+before it can discover their URIs. Dependent on the operational conditions, one or more of the techniques below apply.
 
 The device may be pre-configured to exercise specific mechanisms for
 finding the RD:
