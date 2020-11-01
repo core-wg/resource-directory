@@ -643,9 +643,9 @@ The RDAO format is:
 0                   1                   2                   3
 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
 +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-|     Type      |  Length = 3   |       Valid Lifetime          |
+|     Type      |  Length = 3   |          Reserved             |
 +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-|                           Reserved                            |
+|                        Valid Lifetime                         |
 +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 |                                                               |
 +                                                               +
@@ -664,17 +664,17 @@ Length:                 8-bit unsigned integer.  The length of
                         the option in units of 8 bytes.
                         Always 3.
 
-Valid Lifetime:         16-bit unsigned integer.  The length of
-                        time in units of 60 seconds (relative to
+Reserved:               This field is unused.  It MUST be
+                        initialized to zero by the sender and
+                        MUST be ignored by the receiver.
+
+Valid Lifetime:         32-bit unsigned integer.  The length of
+                        time in seconds (relative to
                         the time the packet is received) that
                         this RD address is valid.
                         A value of all zero bits (0x0) indicates
                         that this RD address
                         is not valid anymore.
-
-Reserved:               This field is unused.  It MUST be
-                        initialized to zero by the sender and
-                        MUST be ignored by the receiver.
 
 RD Address:             IPv6 address of the RD.
 ~~~~
@@ -2220,7 +2220,9 @@ changes from -25 to -26
   * Acknowledge that most discovery operations are not secured; mention consequences and mitigation.
   * Add note about information in Registration Resource path.
 
-* RDAO: Clarify that it is an option for RAs and not other ND messages.
+* RDAO:
+  * Clarify that it is an option for RAs and not other ND messages.
+  * Change Lifetime from 16-bit minutes to 32-bit seconds and swap it with Reserved (aligning it with RDNSS which it shares other properties as well).
 
 * Examples:
   * Use example URIs rather than unclear reg names (unless it's RFC6690 examples, which were kept for continuity)
