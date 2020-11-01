@@ -237,7 +237,7 @@ if it can be obtained by querying the described device's
 
 Data in the RD can only be provided by the
 device which hosts those data or a dedicated Commissioning Tool (CT).
-These CTs are thought to act on behalf of endpoints too constrained, or generally
+These CTs act on behalf of endpoints too constrained, or generally
 unable, to present that information themselves. No other client can modify data
 in the RD. Changes to the information in the RD do not propagate automatically back to the web servers from where the information originated.
 
