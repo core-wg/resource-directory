@@ -752,7 +752,7 @@ The discovery request interface is specified as follows
 with the additional requirement that the server MUST support query filtering):
 
 Interaction:
-: EP and Client -> RD
+: EP, CT or Client -> RD
 
 Method:
 : GET
@@ -875,7 +875,7 @@ Its behavior with representations outside that subset is implementation defined.
 The registration request interface is specified as follows:
 
 Interaction:
-: EP -> RD
+: EP or CT -> RD
 
 
 Method:
@@ -1201,7 +1201,7 @@ with the POST method to update the links of a registration (see {{link-up}}).
 The update registration request interface is specified as follows:
 
 Interaction:
-: EP -> RD
+: EP or CT -> RD
 
 Method:
 : POST
@@ -1337,7 +1337,7 @@ the endpoint resource.
 The removal request interface is specified as follows:
 
 Interaction:
-: EP -> RD
+: EP or CT -> RD
 
 Method:
 : DELETE
@@ -2271,6 +2271,8 @@ changes from -25 to -26
   * Clarify that the CTs' installation events can occur multiple times.
 
 * Moved Christian Amsüss to first author
+
+* Interaction tables: list CTs as possible initiators where applicable
 
 changes from -24 to -25
 
