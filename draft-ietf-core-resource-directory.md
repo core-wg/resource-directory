@@ -469,7 +469,7 @@ the vehicles the application is responsible for.
 ## Use Case: Home and Building Automation {#automation}
 
 Home and commercial building automation systems can benefit from the use
-of M2M web services.  The discovery requirements of these applications are
+of IoT web services.  The discovery requirements of these applications are
 demanding. Home automation usually relies on run-time discovery to commission
 the system, whereas in building automation a combination of professional
 commissioning and run-time discovery is used. Both home and building automation
@@ -478,7 +478,7 @@ sleeping devices.
 Both can use the common RD infrastructure to establish device interactions efficiently,
 but can pick security policies suitable for their needs.
 
-Two phases can be discerned for a network servicing the system: (1) installation and (2) operation. During the operational phase, the network is connected to the Internet with a Border router (6LBR) and the nodes connected to the network can use the Internet services that are provided by the Internet Provider or the network administrator. During the installation phase, the network is completely stand-alone, no 6LBR is connected, and the network only supports the IP communication between the connected nodes. The installation phase is usually followed by the operational phase.
+Two phases can be discerned for a network servicing the system: (1) installation and (2) operation. During the operational phase, the network is connected to the Internet with a Border Router (e.g. a 6LoWPAN Border Router (6LBR), see {{RFC6775}) and the nodes connected to the network can use the Internet services that are provided by the Internet Provider or the network administrator. During the installation phase, the network is completely stand-alone, no Border Router is connected, and the network only supports the IP communication between the connected nodes. The installation phase is usually followed by the operational phase.
 As an RD's operations work without hard dependencies on names or addresses,
 it can be used for discovery across both phases.
 
@@ -599,7 +599,7 @@ suggests a number of candidates:
    `coap://[MCD1]/.well-known/core?rt=core.rd*`.  RDs within the
    multicast scope will answer the query.
 
- When answering a multicast request directed at a link-local address,
+ When answering a multicast request directed at a link-local group,
   the RD may want to respond from a routable address;
   this makes it easier for registrants to use one of their own routable addresses for registration.
 
