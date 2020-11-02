@@ -744,6 +744,12 @@ Clients of the RD SHOULD therefore accept URIs of all schemes they support,
 both as URIs and relative references,
 and not limit the set of discovered URIs to those hosted at the address used for URI discovery.
 
+With security policies where the client requires the RD to be authorized to act as an RD,
+that authorization may be limited to resources on which the authorized RD advertises the adequate resource types.
+Clients that have obtained links they can not rely on yet
+can repeat the URI discovery step at the /.well-known/core resource of the indicated host
+to obtain the resource type information from an authorized source.
+
 The URI Discovery operation can yield multiple URIs of a given resource type.
 The client of the RD can use any of the discovered addresses initially.
 
@@ -1704,7 +1710,9 @@ Such a restriction places severe practical limitations on the links that can be 
 
 As above, the impact of undesirable links depends on the extent to which the lookup client relies on the RD.
 To avoid the limitations, RD applications should consider <!-- can we pull in RFC6919 to make this normative? --> prescribing that lookup clients only use the discovered information as hints,
-and describe which pieces of information need to be verified with the server because they impact the application's security.
+and describe which pieces of information need to be verified because they impact the application's security.
+A straightforward way to verify such information is to request it again from an authorized server, typically the one that hosts the target resource.
+That similar to what happens in {{discovery}} when the URI discovery step is repeated.
 
 ## Link confidentiality {#link-confidentiality}
 
