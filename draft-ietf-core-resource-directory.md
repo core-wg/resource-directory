@@ -1181,10 +1181,10 @@ The update interface is used by the registering endpoint to refresh or update it
 registration with an RD. To use the interface, the registering endpoint sends a POST request to the registration resource returned by the initial registration operation.
 
 An update MAY update registration parameters like lifetime, base URI or others.
-Parameters that are not being changed SHOULD NOT
+Parameters that are not being changed should not
 be included in an update. Adding parameters that have not changed increases
 the size of the message but does not have any other implications.
-Parameters MUST be included as query parameters in an update operation as
+Parameters are included as query parameters in an update operation as
 in {{registration}}.
 
 A registration update resets the timeout of the registration to the (possibly
