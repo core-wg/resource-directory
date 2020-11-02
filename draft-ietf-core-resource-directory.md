@@ -744,6 +744,12 @@ Clients of the RD SHOULD therefore accept URIs of all schemes they support,
 both as URIs and relative references,
 and not limit the set of discovered URIs to those hosted at the address used for URI discovery.
 
+With security policies where the client requires the RD to be authorized to act as an RD,
+that authorization may be limited to resources on which the authorized RD advertises the adequate resource types.
+Clients that have obtained links they can not rely on yet
+can repeat the URI discovery step at the /.well-known/core resource of the indicated host
+to obtain the resource type information from an authorized source.
+
 The URI Discovery operation can yield multiple URIs of a given resource type.
 The client of the RD can use any of the discovered addresses initially.
 
