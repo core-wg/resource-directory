@@ -19,6 +19,14 @@ area: Internet
 wg: CoRE
 kw: CoRE, Web Linking, Resource Discovery, Resource Directory
 author:
+- ins: C. Amsüss
+  name: Christian Amsüss
+  street: Hollandstr. 12/4
+  code: '1020'
+  country: Austria
+  phone: "+43-664-9790639"
+  email: christian@amsuess.com
+  role: editor
 - ins: Z. Shelby
   name: Zach Shelby
   org: ARM
@@ -53,14 +61,6 @@ author:
   phone: "+31-492474673 (Netherlands), +33-966015248 (France)"
   email: consultancy@vanderstok.org
   uri: www.vanderstok.org
-- ins: C. Amsüss
-  name: Christian Amsüss
-  street: Hollandstr. 12/4
-  code: '1020'
-  country: Austria
-  phone: "+43-664-9790639"
-  email: christian@amsuess.com
-  role: editor
 normative:
   RFC6690:
   RFC2119:
@@ -2269,6 +2269,8 @@ changes from -25 to -26
 
 * Terminology:
   * Clarify that the CTs' installation events can occur multiple times.
+
+* Moved Christian Amsüss to first author
 
 changes from -24 to -25
 
