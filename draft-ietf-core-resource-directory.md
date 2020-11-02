@@ -207,8 +207,8 @@ Registration Resource
 :  A resource in the RD that contains information about an Endpoint and its links.
 
 Commissioning Tool
-: Commissioning Tool (CT) is a device that assists during the installation of the
-network by assigning values to parameters, naming endpoints and groups, or adapting
+: Commissioning Tool (CT) is a device that assists during installation events
+by assigning values to parameters, naming endpoints and groups, or adapting
 the installation to the needs of the applications.
 
 Registrant-ep
@@ -2254,6 +2254,9 @@ changes from -25 to -26
   * The First-Come-First-Remembered policy is added as an example and a potential default behavior.
 
 * RD discovery: Drop the previously stated assumption that RDAO and any DHCP options would only be used together with SLAAC and DHCP for address configuration, respectivly.
+
+* Terminology:
+  * Clarify that the CTs' installation events can occur multiple times.
 
 changes from -24 to -25
 
