@@ -2218,27 +2218,42 @@ originally developed.
 
 changes from -25 to -26
 
-* Various editorial fixes in response to Gen-ART and IESG reviews.
-
-* Random EP names: Point that multiple collisions are possible but unlikely.
-
-  (For background, in the first round of attempts there's a good chance that one of the random IDs will collide due to the birthday paradox;
-  the likelyhood for a second (or even third) collision in a row is way below that because only the colliding node(s) will retry).
+* Security policies:
+  * The First-Come-First-Remembered policy is added as an example and a potential default behavior.
+  * Clarify that the mapping between endpoint names and subject fields is up to a policy that defines reliance on names, and give an example.
+  * Random EP names: Point that multiple collisions are possible but unlikely.
+  * Add pointers to policies:
+    * RD replication: Point out that policies may limit that.
+    * Registration: Reword (ep, d) mapping to a previous registration's resource that could have been read as another endpoint taking over an existing registration.
+  * Clarify that the security policy is a property of the RD the any client may need to verify by checking the RD's authorization.
+  * Clarify how information from an untrusted RD can be verified
+  * Remove speculation about how in detail ACE scopes are obtained.
 
 * Security considerations:
-  * List all current options for security layers usable with CoAP (OSCORE was
+  * Generalize to all current options for security layers usable with CoAP (OSCORE was
     missing as the text predated RFC8613)
   * Relax the previous SHOULD on secure access to SHOULD where protection is indicated by security policies
     (bringing the text in line with the -25 changes)
   * Point out that failure to follow the security considerations has implications depending on the protection objective described with the security policies
-  * Shorten amplification mitigation by removing the references to earlier cases of DDoS amplification,
-    and by removing redundancies between the problem introduction and the description of how an RD could become part of the problem.
-  * Acknowledge that most discovery operations are not secured; mention consequences and mitigation.
+  * Shorten amplification mitigation
   * Add note about information in Registration Resource path.
+  * Acknowledge that most host discovery operations are not secured; mention consequences and mitigation.
 
-* RDAO:
-  * Clarify that it is an option for RAs and not other ND messages.
-  * Change Lifetime from 16-bit minutes to 32-bit seconds and swap it with Reserved (aligning it with RDNSS which it shares other properties as well).
+* Abstract, introduction: removed "or disperse networks"
+
+* RD discovery:
+  * Drop the previously stated assumption that RDAO and any DHCP options would only be used together with SLAAC and DHCP for address configuration, respectivly.
+  * Give concrete guidance for address selection based on RFC6724 when responding to multicasts
+  * RDAO:
+    * Clarify that it is an option for RAs and not other ND messages.
+    * Change Lifetime from 16-bit minutes to 32-bit seconds and swap it with Reserved (aligning it with RDNSS which it shares other properties as well).
+  * Point out that clients may need to check RD authorization already in last discovery step
+
+* Registration:
+  * Wording around "mostly mandatory" has been improved, conflicts clarified and sector default selection adjusted.
+
+* Simple registration: Rather than coopting POSTs to /.well-known/core, a new resource /.well-known/rd is registered.
+  A historical note in the text documents the change.
 
 * Examples:
   * Use example URIs rather than unclear reg names (unless it's RFC6690 examples, which were kept for continuity)
@@ -2246,53 +2261,26 @@ changes from -25 to -26
   * Luminary example: Explain example addresses
   * Multicast addresses in the examples were changed from ff35:30:2001:db8::x to ff35:30:2001:db8:f1::8000:x; the 8000 is to follow RFC 3307, and the f1 is for consistency with all the other example addresses where 2001:db8::/32 is subnetted to 2001:db8:x::/48 by groups of internally consistent examples.
 
-* impl-info: Add note about the type being WIP
+* Use case text enhancements
+  * Home and building automation: Tie in with RD
+  * M2M: Move system design paragraph towards the topic of reusability.
+
+* Various editorial fixes in response to Gen-ART and IESG reviews.
 
 * Error handling: Place a SHOULD around the likely cases, and make the previous "MUST to the best of their capabilities" a "must".
 
-* Registration:
-  * Point to security policies when (ep, d) mapping to a previous registration's resource could have been read as another endpoint taking over an existing registration.
-  * Wording around "mostly mandatory" has been improved, conflicts clarified and sector default selection adjusted.
-
-* Home and building automation use case: Tie in with RD
-
-* M2M use case: Move system design paragraph towards the topic of reusability.
-
-* Simple registration: Rather than coopting POSTs to /.well-known/core, a new resource /.well-known/rd is registered.
-  A historical note in the text documents the change.
-
-* RD replication: Point out that security policies may limit that.
-
-* Abstract, introduction: removed "or disperse networks"
-
-* Security policies:
-
-  * Clarify that with all security policies, clients must verify the authorization of the RD.
-  * Remove speculation about how in detail ACE scopes are obtained.
-  * Clarify how information from an untrusted RD can be verified
-
-* Security policies:
-  * The First-Come-First-Remembered policy is added as an example and a potential default behavior.
-  * Clarify that the mapping between endpoint names and subject fields is up to a policy that defines reliance on names, and give an example.
-
-* RD discovery:
-  * Drop the previously stated assumption that RDAO and any DHCP options would only be used together with SLAAC and DHCP for address configuration, respectivly.
-  * Give concrete guidance for address selection based on RFC6724
-
-* Terminology:
-  * Clarify that the CTs' installation events can occur multiple times.
-
-* Moved Christian Amsüss to first author
+* impl-info: Add note about the type being WIP
 
 * Interaction tables: list CTs as possible initiators where applicable
 
-* Add "or CT" in interaction tables
+* Registration update: Relax requirement to not send parameters needlessly
+
+* Terminology: Clarify that the CTs' installation events can occur multiple times.
 
 * Promote RFCs 7252, 7230 and 8288 to normative references
 
-* Discovery: Point out that clients may need to check RD authorization already in last discovery step
+* Moved Christian Amsüss to first author
 
-* Registration update: Relax requirement to not send parameters needlessly
 
 changes from -24 to -25
 
