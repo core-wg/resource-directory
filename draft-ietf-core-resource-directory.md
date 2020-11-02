@@ -1710,7 +1710,9 @@ Such a restriction places severe practical limitations on the links that can be 
 
 As above, the impact of undesirable links depends on the extent to which the lookup client relies on the RD.
 To avoid the limitations, RD applications should consider <!-- can we pull in RFC6919 to make this normative? --> prescribing that lookup clients only use the discovered information as hints,
-and describe which pieces of information need to be verified with the server because they impact the application's security.
+and describe which pieces of information need to be verified because they impact the application's security.
+A straightforward way to verify such information is to request it again from an authorized server, typically the one that hosts the target resource.
+That similar to what happens in {{discovery}} when the URI discovery step is repeated.
 
 ## Link confidentiality {#link-confidentiality}
 
