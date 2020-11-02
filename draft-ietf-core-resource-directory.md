@@ -2269,6 +2269,7 @@ changes from -25 to -26
 
   * Clarify that with all security policies, clients must verify the authorization of the RD.
   * Remove speculation about how in detail ACE scopes are obtained.
+  * Clarify how information from an untrusted RD can be verified
 
 * Security policies:
   * The First-Come-First-Remembered policy is added as an example and a potential default behavior.
@@ -2284,6 +2285,14 @@ changes from -25 to -26
 * Moved Christian Amsüss to first author
 
 * Interaction tables: list CTs as possible initiators where applicable
+
+* Add "or CT" in interaction tables
+
+* Promote RFCs 7252, 7230 and 8288 to normative references
+
+* Discovery: Point out that clients may need to check RD authorization already in last discovery step
+
+* Registration update: Relax requirement to not send parameters needlessly
 
 changes from -24 to -25
 
