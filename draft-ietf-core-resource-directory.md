@@ -1771,6 +1771,9 @@ picking an endpoint name as per {{arbitrary-ep}} is an easy option for that.
 For this policy to be usable without configuration, clients should not set a sector name in their registrations.
 An RD can set a default sector name for registrations accepted under this policy,
 which is useful especially in a segmented setup where different policies apply to different sectors.
+The configuration of such a behavior, as well as any other configuration applicable to such an RD
+(i.e. the set of recognized authorities)
+is out of scope for this document.
 
 # Security Considerations
 
