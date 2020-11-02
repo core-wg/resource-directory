@@ -522,7 +522,7 @@ response:
 
 CTs can come back to help new devices into the network; the text has been
 clarified to that point in
-https://github.com/core-wg/resource-directory/pull/295 @@@merge.
+https://github.com/core-wg/resource-directory/pull/295.
 
 There are remaining questions about how long a network can operate autonomously
 while the CT is absent and can thus not refresh registrations, but those exceed
@@ -1171,7 +1171,7 @@ https://github.com/core-wg/resource-directory/pull/250).
 
 response:
 
-It is; fixed since https://github.com/core-wg/resource-directory/pull/296 @@@merge.
+It is; fixed since https://github.com/core-wg/resource-directory/pull/296.
 
 >    Endpoint authentication needs to be checked independently of whether
 >    there are configured requirements on the credentials for a given
@@ -1505,14 +1505,13 @@ seconds).
 response:
 
 For Home and Industrial Automation, IoT is indeed used more commonly these
-days. Updated in https://github.com/core-wg/resource-directory/pull/297
-@@@merge.
+days. Updated in https://github.com/core-wg/resource-directory/pull/297.
 
 > Please expand and add reference for 6LBR.
 
 response:
 
-Done (in https://github.com/core-wg/resource-directory/pull/297 @@@merge).
+Done (in https://github.com/core-wg/resource-directory/pull/297).
 
 > Using 'modern' technologies (cfr LP-WAN WG) could also add justification to
 > section 3.5.
@@ -1682,7 +1681,7 @@ As COMMENT:
 response:
 
 Yes that works. (Fixed in
-https://github.com/core-wg/resource-directory/pull/301 @@@merge).
+https://github.com/core-wg/resource-directory/pull/301).
 
 > 2: "From the system design point of view, the ambition is to design
 > horizontal solutions that  can enable utilization of machines in different
@@ -1696,8 +1695,7 @@ What it was trying to say was that parts of the complete system should not be
 specific to an application. The sentence has been replaced with something that
 is less keyword oriented and more descriptive.
 
-(See https://github.com/core-wg/resource-directory/pull/302 @@@merge for
-precise text).
+(See https://github.com/core-wg/resource-directory/pull/302 for precise text).
 
 > 3: "  A (re-)starting device may want to find one or more RDs for discovery
 > purposes."
@@ -1709,7 +1707,7 @@ response:
 
 The intention here was to express that some host must be found before the
 further URI discovery steps can take place. Enhanced in
-https://github.com/core-wg/resource-directory/pull/301 @@@merge.
+https://github.com/core-wg/resource-directory/pull/301.
 
 > 4: "As some of the RD addresses obtained by the methods listed here are just
 > (more or less educated) guesses, endpoints MUST make use of any error
@@ -1787,7 +1785,7 @@ exemplary and potentially default security model (based on Ben's suggestion, in
 https://github.com/core-wg/resource-directory/issues/258).
 
 The configuration options for such an RD are listed at its end (since
-https://github.com/core-wg/resource-directory/pull/303 @@@merge), but how to
+https://github.com/core-wg/resource-directory/pull/303), but how to
 set them is out of scope here. (CORECONF would be a good candidate, but too
 little exploration has gone into RD configuration using that yet to warrant a
 reference).
@@ -1866,7 +1864,7 @@ response:
 
 This is indeed not a compatibility but a quality-of-implementation
 recommendation, and was changed to a lower-case 'should not' (in
-https://github.com/core-wg/resource-directory/pull/304 @@@merge).
+https://github.com/core-wg/resource-directory/pull/304).
 
 >     5.3.1.  Registration Update
 > 
