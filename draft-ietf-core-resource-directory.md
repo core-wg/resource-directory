@@ -340,7 +340,7 @@ The model shown in {{fig-ER-WKC}} models the contents of /.well-known/core which
 
 * a set of links belonging to the hosting web server
 
-The web server is free to choose links it deems appropriate to be exposed in its `.well-known/core`.
+The web server is free to choose links it deems appropriate to be exposed in its `/.well-known/core`.
 Typically, the links describe resources that are served by the host, but the set can also contain links to resources on other servers (see examples in {{RFC6690}} page 14).
 The set does not necessarily contain links to all resources served by the host.
 
@@ -1716,7 +1716,7 @@ That similar to what happens in {{discovery}} when the URI discovery step is rep
 
 ## Link confidentiality {#link-confidentiality}
 
-When registrants publish information in the RD that is not available to any client that would query the registrant's .well-known/core interface,
+When registrants publish information in the RD that is not available to any client that would query the registrant's /.well-known/core interface,
 or when lookups to that interface are subject so stricter firewalling than lookups to the RD,
 the RD may need to limit which lookup clients may access the information.
 
@@ -1829,7 +1829,7 @@ or whether arbitrary names are accepted ({{arbitrary-ep}}).
 
 Simple registration could be used to circumvent address-based access control:
 An attacker would send a simple registration request with the victim's address as source address,
-and later look up the victim's .well-known/core content in the RD.
+and later look up the victim's /.well-known/core content in the RD.
 Mitigation for this is recommended in {{simple}}.
 
 The Registration Resource path is visible to any client that is allowed endpoint lookup,
@@ -2747,7 +2747,7 @@ Understanding the semantics of a link-format document and its URI references is
 a journey through different documents ({{RFC3986}} defining URIs, {{RFC6690}}
 defining link-format documents based on {{RFC8288}} which defines Link header fields,
 and {{RFC7252}} providing the transport). This appendix summarizes
-the mechanisms and semantics at play from an entry in `.well-known/core` to a
+the mechanisms and semantics at play from an entry in `/.well-known/core` to a
 resource lookup.
 
 This text is primarily aimed at people entering the field of Constrained
@@ -2852,7 +2852,7 @@ sending this request from its UDP port `[2001:db8:f0::1]:6553`:
 {: #example-weblink-simple title="Example request starting a simple registration"}
 
 The RD would have accepted the registration, and queried the
-simple host's `.well-known/core` by itself. As a result, the host is registered
+simple host's `/.well-known/core` by itself. As a result, the host is registered
 as an endpoint in the RD with the name "simple-host1". The registration is
 active for 90000 seconds, and the endpoint registration Base URI is
 "`coap://[2001:db8:f0::1]`" following the resolution steps described in {{resolveURI}}. It should be remarked that the Base URI constructed that way always yields a URI of the form: scheme://authority without path suffix.
