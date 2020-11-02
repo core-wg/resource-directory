@@ -70,12 +70,13 @@ normative:
   RFC6570:
   RFC6763: dnssd
 #  RFC7396:
-informative:
+  RFC7230:
   RFC7252:
+  RFC8288:
+informative:
   RFC7390:
   RFC6775:
   RFC6874:
-  RFC7230:
   RFC8132:
 #  RFC3629: utf8
 #  RFC5198: nvt-utf8
@@ -83,7 +84,6 @@ informative:
 #  RFC1034: dns1
   RFC7641:
   ER: DOI.10.1145/320434.320440
-  RFC8288:
   I-D.silverajan-core-coap-protocol-negotiation:
   I-D.ietf-ace-oauth-authz:
   I-D.ietf-core-links-json:
