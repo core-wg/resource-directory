@@ -13,6 +13,18 @@ In general, @@@ markers indicate that something is not filed into the right
 worlfklows yet, including text parts in responses that can't refer to a PR yet
 because it's not yet written (but the response text's language indicate it is).
 
+Preface
+=======
+
+These responses answer each comment point by point with the exception of
+occasionally aggregated nits.
+
+References into the issue tracker are primarily intended for bookkeeping and to
+give you access to the altered text if you're curious -- but for general review
+purposes, the responses are self-contained.
+
+@@@ summary of unaddressed
+
 Russ for Gen-ART
 ================
 
@@ -1573,13 +1585,14 @@ draft-amsuess-core-resource-directory-extensions).
 > order to be able to use a lifetime in units of seconds (to be consistent with
 > other NDP options).
 
-WGF-6
-@@@ dunno
+response:
+
+Implementors will appreciate that; done in
+https://github.com/core-wg/resource-directory/pull/299 @@@wait-and-merge.
 
 > -- Section 5 -- May be I missed it, but, can an end-point register multiple
 > base URI ? E.g., multiple IPv6 addresses.
 
-WGF-3
 response:
 
 No, that is deferred to protocol-negotiation (where whatever comes out of it is
@@ -1588,14 +1601,21 @@ different protocols).
 
 > -- Section 9.2 -- For information, value 38 is already assigned to RFC 8781.
 
-WGF-1
-@@@ remove recommendation
+response:
 
+Leaving it in the draft as-is, anticipting that IANA just picking the next
+available number will create less total cognitive load than another set changed
+lines in the diffs.
 
 > == NITS ==
 > 
 > -- Section 2 -- The extra new lines when defining "Sector" are slighly
 > confusing. Same applies to "Target" and "Context". This is cosmetic only.
+
+response:
+
+We're having issues with the tooling here; if it can't be ironed out before the
+final version, this will be fixed manually during the handover to RFC editor.
 
 Issue: https://github.com/core-wg/resource-directory/issues/252
 
@@ -1611,8 +1631,9 @@ As COMMENT:
 > One nit: the sentence that contains “cannot be executed as a base attribute”
 > appears to have been mangled.
 
-WGF-1
-@@@
+response:
+
+The paragraph has been reworded (in https://github.com/core-wg/resource-directory/pull/274).
 
 Murray Kucherawy
 ================
@@ -1627,7 +1648,7 @@ As COMMENT:
 > sub-registry under "Internet Control Message Protocol version 6 (ICMPv6)
 > Parameters".
 
-@@@
+Expanded (in https://github.com/core-wg/resource-directory/pull/300).
 
 > In Section 9.3, you enumerate six fields in each registration, but the
 > initial table of entries has only five columns.  It's obvious (I think) that
@@ -1635,7 +1656,9 @@ As COMMENT:
 > you should either include the column or some prose making this explicit
 > (since everything else is).
 
-@@@
+response:
+
+There is a sentence in the paragraph below the figure to that respect.
 
 Warren Kumari
 =============
@@ -1656,7 +1679,10 @@ As COMMENT:
 > "These CTs act on behalf of endpoints too constrained, or generally unable,
 > to present that information themselves. " work?
 
-@@@ yes
+response:
+
+Yes that works. (Fixed in
+https://github.com/core-wg/resource-directory/pull/301 @@@merge).
 
 > 2: "From the system design point of view, the ambition is to design
 > horizontal solutions that  can enable utilization of machines in different
@@ -1664,11 +1690,14 @@ As COMMENT:
 > as application requirements, thus avoiding silo like solutions" - this is
 > very buzzwordy, and I have no idea what it is actually trying to say...
 
-TODAY
+response:
 
-drop it (and align next sentence)
+What it was trying to say was that parts of the complete system should not be
+specific to an application. The sentence has been replaced with something that
+is less keyword oriented and more descriptive.
 
-@@@
+(See https://github.com/core-wg/resource-directory/pull/302 @@@merge for
+precise text).
 
 > 3: "  A (re-)starting device may want to find one or more RDs for discovery
 > purposes."
@@ -1676,7 +1705,11 @@ drop it (and align next sentence)
 > Either I don't understand what this sentence is  trying to say, or "for
 > discovery purposes" should be dropped.... 
 
-@@@
+response:
+
+The intention here was to express that some host must be found before the
+further URI discovery steps can take place. Enhanced in
+https://github.com/core-wg/resource-directory/pull/301 @@@merge.
 
 > 4: "As some of the RD addresses obtained by the methods listed here are just
 > (more or less educated) guesses, endpoints MUST make use of any error
@@ -1695,7 +1728,7 @@ There are various approaches that can apply depending on the actual application:
 * RDs that are deployed without overarching coordination can opt for the
   Opportunistic Resource Directory approach that is being explored in
   draft-amsuess-core-resource-directory-extensions, where one RD yields to the
-  other. The above replication steps make that transition smooth.
+  other. The error handling steps in RD make that transition smooth.
 
 But long story short, this draft does not attempt to solve them.
 
@@ -1706,7 +1739,11 @@ But long story short, this draft does not attempt to solve them.
 > sentence doesn't actually communicate anything useful to the reader -- I'd
 > suggest removing it from the Abstract (note that this is just a nit).
 
-@@@
+response:
+
+There has been repeated confusion about what an RD stores, with people
+understanding it to store resources. This sentence serves to visibly emphasise
+that only links go in and out.
 
 > 2: "The RD is primarily a tool to make discovery operations more efficient
 > than querying /.well-known/core on all connected devices, or across
@@ -1714,7 +1751,9 @@ But long story short, this draft does not attempt to solve them.
 >
 > s/would be limiting those/that would limit those/
 
-@@@
+response:
+
+Fixed in https://github.com/core-wg/resource-directory/pull/253.
 
 Robert Wilton
 =============
@@ -1743,12 +1782,15 @@ As COMMENT:
 response:
 
 The wide variety of possible deployments and associated security policies make
-it hard to say anything generic on operations. We do, however, plan to add a
-section that describes one assumed-to-be-widespread application variety, and
-for those cases something will be said on Operations, Administration and
-Management (that'll be short though as it's a simple setup).
+it hard to say anything generic on operations. We did, however, add an
+exemplary and potentially default security model (based on Ben's suggestion, in
+https://github.com/core-wg/resource-directory/issues/258).
 
-@@@
+The configuration options for such an RD are listed at its end (since
+https://github.com/core-wg/resource-directory/pull/303 @@@merge), but how to
+set them is out of scope here. (CORECONF would be a good candidate, but too
+little exploration has gone into RD configuration using that yet to warrant a
+reference).
 
 > A few other comments:
 > 
@@ -1766,14 +1808,22 @@ Management (that'll be short though as it's a simple setup).
 
 response:
 
-Generally registrations are short-lived soft state, so if a device is upgraded
-it does not need to remember its registration resource and can just register
-anew.
+Certificates are not compared by literal comparison of the certificate, but by
+whether their claims are sufficient for the resource (which in the end
+establish an identity).
 
-In scenarios with controlled names, the new certificate will match the new name
-(no matter whether it's the same or a new one); where names are picked at
-random and persisted, the device will pick a new name just as well @@@ but the
-detailed new section may say more here.
+With unmanaged setups like the newly introduced First-Come-First-Remembered
+policy, a device with a new certificate might become uneligible for accessing
+its previous registration resource (and likewise for reregistering with the
+same endpoint name and sector), but in such a setup the endpoint is prepared to
+switch names anyway when it comes up with the new certificate. (Although it
+should rarely come to that -- when the certificate is updated with the same
+subject claims by an authority the RD recognizes, the new one is good for
+continuation).
+
+In managed setups, it is up to the managers to configure EPs with certificates
+matching their endpoint names, and when the name does not change, the new
+certificate is good for continuation as well.
 
 >     5.3.  Operations on the Registration Resource
 > 
@@ -1786,7 +1836,9 @@ detailed new section may say more here.
 > Nit: Perhaps reword the second sentence.  Otherwise it seems to conflict with
 > the last sentence of the prior paragraph.
 
-PR: https://github.com/core-wg/resource-directory/pull/253
+response:
+
+This has been resolved (in https://github.com/core-wg/resource-directory/pull/253).
 
 >     5.3.1.  Registration Update
 > 
@@ -1810,7 +1862,11 @@ PR: https://github.com/core-wg/resource-directory/pull/253
 > if I was doing this from a CT, I think that I would rather just resend the
 > entire configuration, if it is not large.
 
-@@@
+response:
+
+This is indeed not a compatibility but a quality-of-implementation
+recommendation, and was changed to a lower-case 'should not' (in
+https://github.com/core-wg/resource-directory/pull/304 @@@merge).
 
 >     5.3.1.  Registration Update
 > 
