@@ -2267,6 +2267,8 @@ changes from -25 to -26
 
 * Various editorial fixes in response to Gen-ART and IESG reviews.
 
+* Rename 'Full description of the "Endpoint Type" Registration Parameter' section to '... RD Parameter'
+
 * Error handling: Place a SHOULD around the likely cases, and make the previous "MUST to the best of their capabilities" a "must".
 
 * impl-info: Add note about the type being WIP
