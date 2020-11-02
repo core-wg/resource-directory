@@ -2270,6 +2270,8 @@ changes from -25 to -26
 * Terminology:
   * Clarify that the CTs' installation events can occur multiple times.
 
+* Interaction tables: list CTs as possible initiators where applicable
+
 changes from -24 to -25
 
 
