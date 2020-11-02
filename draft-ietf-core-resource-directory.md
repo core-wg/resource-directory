@@ -1880,7 +1880,8 @@ Target Attribute Values sub-registry of the Constrained Restful Environments
 
 ## IPv6 ND Resource Directory Address Option
 
-This document registers one new ND option type under the sub-registry "IPv6 Neighbor Discovery Option Formats":
+This document registers one new ND option type under the sub-registry "IPv6 Neighbor Discovery Option Formats"
+of the "Internet Control Message Protocol version 6 (ICMPv6) Parameters" registry:
 
 * Resource Directory Address Option (TBD38)
 
