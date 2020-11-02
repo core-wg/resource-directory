@@ -444,12 +444,12 @@ have focused on development of M2M solutions in order to
 expand the business to the new type of users: machines. The
 machines are connected directly to a mobile network using an appropriate
 embedded wireless interface (GSM/GPRS, WCDMA, LTE) or via a gateway providing
-short and wide range wireless interfaces. From the system design point of
-view, the ambition is to design horizontal solutions that can enable utilization
-of machines in different applications depending on their current availability
-and capabilities as well as application requirements, thus avoiding silo
-like solutions. One of the crucial enablers of such design is the ability
-to discover resources (and thus the endpoints they are hosted on) capable of providing required
+short and wide range wireless interfaces.
+The ambition in such systems is to build them from reusable components.
+These speed up development and deployment,
+and enable shared use of machines across different applications.
+One crucial component of such systems
+is the discovery of resources (and thus the endpoints they are hosted on) capable of providing required
 information at a given time or acting on instructions from the end users.
 
 Imagine a scenario where endpoints installed on vehicles enable
@@ -2245,6 +2245,8 @@ changes from -25 to -26
   * Wording around "mostly mandatory" has been improved, conflicts clarified and sector default selection adjusted.
 
 * Home and building automation use case: Tie in with RD
+
+* M2M use case: Move system design paragraph towards the topic of reusability.
 
 * Simple registration: Rather than coopting POSTs to /.well-known/core, a new resource /.well-known/rd is registered.
   A historical note in the text documents the change.
