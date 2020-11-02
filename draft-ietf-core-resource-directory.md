@@ -74,7 +74,6 @@ normative:
   RFC7252:
   RFC8288:
 informative:
-  RFC7390:
   RFC6775:
   RFC6874:
   RFC8132:
@@ -2259,6 +2258,7 @@ changes from -25 to -26
   * Use example URIs rather than unclear reg names (unless it's RFC6690 examples, which were kept for continuity)
   * The LwM2M example was reduced from an outdated explanation of the complete LwM2M model to a summary of how RD is used in there, with a reference to the current specification.
   * Luminary example: Explain example addresses
+  * Luminary example: Drop reference to coap-group mechanism that's becoming obsolete, and thus also to RFC7390
   * Multicast addresses in the examples were changed from ff35:30:2001:db8::x to ff35:30:2001:db8:f1::8000:x; the 8000 is to follow RFC 3307, and the f1 is for consistency with all the other example addresses where 2001:db8::/32 is subnetted to 2001:db8:x::/48 by groups of internally consistent examples.
 
 * Use case text enhancements
