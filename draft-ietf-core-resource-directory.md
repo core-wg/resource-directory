@@ -1668,9 +1668,9 @@ This applies both to registration and later to operations on the registration re
 It is immaterial whether the client is the registrant-ep itself or a CT is doing the registration:
 The RD cannot tell the difference, and CTs may use authorization credentials authorizing only operations on that particular endpoint name, or a wider range of endpoint names.
 
-When certificates are used as authorization credentials,
-the sector(s) and endpoint name(s) can be transported in the subject.
-In an ACE context, those are typically transported in a scope claim.
+It is up to the concrete security policy to describe
+how endpoint name and sector are transported when certificates are used.
+For example, it may describe how SubjectAltName dNSName entries are mapped to endpoint and domain names.
 
 ### Random endpoint names {#arbitrary-ep}
 
@@ -2262,6 +2262,7 @@ changes from -25 to -26
 
 * Security policies:
   * The First-Come-First-Remembered policy is added as an example and a potential default behavior.
+  * Clarify that the mapping between endpoint names and subject fields is up to a policy that defines reliance on names, and give an example.
 
 * RD discovery:
   * Drop the previously stated assumption that RDAO and any DHCP options would only be used together with SLAAC and DHCP for address configuration, respectivly.
