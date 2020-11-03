@@ -26,7 +26,7 @@ the other comments, so that the remaining work can be focused and swift:
   I-D.ietf-core-echo-request-tag in event freshness mode) is planned, but the
   text is not complete yet.
 
-* Necessity of the `anchor` value
+* Necessity of the `anchor` value in all responses
 
   The requirements around Limited Link Format and the necessity to express all
   looked up links in fully resolved form have stemmed from different ways
@@ -57,9 +57,14 @@ the other comments, so that the remaining work can be focused and swift:
   RD.
 
   While steps have been taken to address the issue both on the RD discovery and
-  the applications side (https://github.com/core-wg/resource-directory/pull/306
-  @@@merge), the ongoing discussions in the working group may turn up with a
-  less cumbersome phrasing for these parts.
+  the applications side
+  (https://github.com/core-wg/resource-directory/pull/306), the ongoing
+  discussions in the working group may turn up with a less cumbersome phrasing
+  for these parts.
+
+* There's a few small open issues Esko brought up on the issue tracker that
+  could not be addressed in time; most of them are about enhancing the
+  examples, which best happens after the anchor cleanup anyway.
 
 A few common topics came up in multiple reviews, and are addressed in the
 following section; the individual responses can be found further down the text,
@@ -93,7 +98,7 @@ changes can be viewed at https://github.com/core-wg/resource-directory/pull/270)
 GENERIC-ODDEXAMPLES
 - - - - - - - - - -
 
-@@@ many examples contain bewildering and possibly irrelevant stuff like LWM2M,
+many examples contain bewildering and possibly irrelevant stuff like LWM2M,
 "the SLAAC addresses" or the luminaries that just so join groups based on URIs
 they happen to share (and that's not even explicit). who will fix that? my fix
 would be to rip out anything someone complains about the examples.
@@ -119,16 +124,9 @@ GENERIC-6MAN
 
 response:
 
-A request for an additional review was sent, pointing out the RDAO option as
-well as the now more precisely specified response address construction (of
-https://github.com/core-wg/resource-directory/pull/298).
+Not yet; a request for feedback was sent out recently.
 
-@@@ just mail them
-
-Items:
-
-* The RDAO option, especially with the changes from https://github.com/core-wg/resource-directory/pull/299
-* The address selection mechanism from https://github.com/core-wg/resource-directory/pull/298
+(Mail at https://mailarchive.ietf.org/arch/msg/ipv6/xY0AqPvbja45gxgW02GU3oWPTwc/).
 
 GENERIC-WHOPICKSMODEL
 ---------------------
@@ -169,7 +167,7 @@ It has been made more explicit that this is merely setting the task for the
 policies. As an example, some more precision is given by referring to
 SubjectAltName dNSName entries.
 
-Changes in https://github.com/core-wg/resource-directory/pull/308 @@@merge.
+Changes in https://github.com/core-wg/resource-directory/pull/308.
 
 Russ for Gen-ART
 ================
@@ -467,7 +465,7 @@ This became part of a larger discussion around server authorization at
 and while there is hope that what comes of this will be useful to CoRE (or even
 web) applications in general, the changes to the text ("to request it again
 from an authorized server, typically the one that hosts the target resource",
-https://github.com/core-wg/resource-directory/pull/306 @@@merge) should make the
+https://github.com/core-wg/resource-directory/pull/306) should make the
 paragraph itself clear enough.
 
 <!--
@@ -865,7 +863,7 @@ response:
 Yes it can be. The expression in the interaction tables is an artifact of the
 CTs being a not-even-special case of EPs, but as we have both of them in the
 rest of the text, so do we now in those lists. (Changes in
-https://github.com/core-wg/resource-directory/pull/309 @@@merge).
+https://github.com/core-wg/resource-directory/pull/309).
 
 >          well.  The endpoint name and sector name are not set when one
 >          or both are set in an accompanying authorization token.
@@ -1018,7 +1016,8 @@ See comment on the original capability URL question -- they are not.
 
 response:
 
-Stating purpose rather than mechanism now since @@small-editorials.
+Stating purpose rather than mechanism now (since
+https://github.com/core-wg/resource-directory/pull/294).
 
 > Section 6
 > 
@@ -1463,16 +1462,16 @@ See also GENERIC-ODDEXAMPLES
 response:
 
 RFC7252 (CoAP) and RFC7230 (HTTP) were promoted to a normative reference.
-(RFC7390 (CoAP groupcomm) and RFC7641 (CoAP observe) were left as informative
-because while they are optional components, RD is not so much specified using
-them but more happens to combine with them).
+(RFC7641 (CoAP observe) wasc left as informative because while they are
+optional components, RD is not so much specified using them but more happens to
+combine with them).
 
 RFC8288 was also promoted, but not due to the quoted line (that's not
 implementation relevant but merely setting out rules for the registry
 operation), but because we explicitly pull it in in terminology and the
 information model.
 
-(Changes in https://github.com/core-wg/resource-directory/pull/307 @@@merge).
+(Changes in https://github.com/core-wg/resource-directory/pull/307).
 
 Erik Kline
 ==========
@@ -1595,7 +1594,9 @@ The shepherd write-up has been updated.
 > was unable to find any 6MAN email related to this new NDP option and, after
 > checking with the 6MAN WG chairs, they also do not remember any discussion.
 
-see: GENERIC-6MAN
+response:
+
+Just recently (see GENERIC-6MAN).
 
 > == DISCUSS ==
 > 
@@ -1718,9 +1719,10 @@ response:
 
 I don't think it needs to be fully specified out (especially as this is merely
 a suggestion), but the terms of RFC6724 seem to be helpful and were added in
-https://github.com/core-wg/resource-directory/pull/298 @@merge.
+https://github.com/core-wg/resource-directory/pull/298.
 
-A review from this has been requested in the review request to 6MAN @@@.
+A review from this has been requested in the review request to 6MAN (see
+GENERIC-6MAN).
 
 > As a co-author of RFC 8801, I would have appreciated to read PvD option
 > mentionned to discover the RD. Any reason why PvD Option cannot be used ?
@@ -1756,7 +1758,7 @@ draft-amsuess-core-resource-directory-extensions).
 response:
 
 Implementors will appreciate that; done in
-https://github.com/core-wg/resource-directory/pull/299 @@@wait-and-merge.
+https://github.com/core-wg/resource-directory/pull/299.
 
 > -- Section 5 -- May be I missed it, but, can an end-point register multiple
 > base URI ? E.g., multiple IPv6 addresses.
