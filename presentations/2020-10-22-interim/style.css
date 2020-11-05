@@ -1,0 +1,22 @@
+body {
+	font-size: 350%;
+	font-family: sans;
+	text-align: center;
+}
+
+pre {
+	text-align: left;
+}
+
+ul {
+	text-align: left;
+}
+
+/* hovercraft arbitrarily sets that to 800 in hovercraft.css, which practically
+ * clips slides to a square on a regular display.
+ *
+ * This changes things to allow all the screen except some margin */
+.step { width: 90vw }
+
+#networks-need-participation { font-size: 150%; }
+.tiny { font-size: 50%; }
