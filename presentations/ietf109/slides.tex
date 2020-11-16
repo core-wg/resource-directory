@@ -1,0 +1,159 @@
+\documentclass[aspectratio=169]{beamer}
+
+% generic packages
+
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{abraces}
+
+% about the presentation
+\title{Resource Directory}
+\subtitle{\texttt{draft-ietf-core-resource-directory}}
+\author{\textit{Christian~Amsüss}, Zach Shelby, Michael Koster, Carsten Bormann, Peter~van~der~Stok}
+\date{2020-11-17}
+
+% used commands
+
+\usepackage{verbatim}
+
+% attach self
+
+\usepackage{embedfile}
+\embedfile{\jobname.tex}
+
+\begin{document}
+
+\frame{\titlepage}
+
+\begin{frame}{Since IETF108}\Large
+	\framesubtitle{Processing IESG review}
+
+	Picking highlights here; full changelog is detailed.
+
+	\bigskip
+
+	\begin{itemize}
+		\item “First Come First Remembered”: example policy; implementatons may choose as default
+		\item Host discovery {\em is not} secured, path discovery {\em is} if needed
+		\item Move simple registration from \texttt{/.well-known/core} to \texttt{/.well-known/rd}
+		\item More care for \texttt{rt} registered values
+	\end{itemize}
+\end{frame}
+
+\begin{frame}{But treating them raised questions}\Large
+	“When DTLS is used like TLS, replay protection should be considered”
+
+	\bigskip
+
+	\begin{tabular}{lll}
+		Event & Reqeust & Response \\ \hline
+		Power on & \texttt{POST /rd?ep=node1} & \texttt{/reg/reg1} \\
+		Power off & \texttt{DELETE /reg/1}\footnote{sniff sniff} & Deleted\\
+		Power on & \texttt{POST /rd?ep=node1} & \texttt{/reg/reg1} \\
+		Replayed message & \texttt{DELETE /reg/1} & on but gone \\
+	\end{tabular}
+
+	\bigskip
+
+	Works with and without replay protection, even in OSCORE
+\end{frame}
+
+\begin{frame}{Step to be taken}\Large
+	Server ensures freshness using Echo.
+
+	\bigskip
+
+	Mechanism already referenced for Simple Registration and amplification mitigation.
+
+	\bigskip
+
+	WIP text is in \href{https://github.com/core-wg/resource-directory/pull/291}{\#291}\footnote{See there for explored alternatives.}.
+\end{frame}
+
+\begin{frame}{Server authorization}\Large
+	Q: “How much can you trust links from the RD?”
+
+	\bigskip
+
+	A: “As far as this is allowed by security policies.”
+
+	\vspace{1cm}
+	\pause
+	\hrule
+	\vspace{1cm}
+
+	\onslide<2>{
+	$\textsf{Intention} \qquad\rightarrow\qquad \textsf{Request} \qquad\rightarrow\qquad \textsf{Effect / Response}$
+	}
+	\pause
+	\vspace{-1cm}
+
+	$\textsf{Create a topic} \quad\aoverbrace[]{\rightarrow}^{\texttt{rt=topics}}\quad \underbrace{\texttt{POST /tpcs} \quad\rightarrow\quad \textsf{Topic gets created}}_{\textsf{security layers}}$
+
+	\bigskip
+
+	Trust an authorized RD that checks, or verify before use.
+
+	\bigskip
+
+	\footnotesize And this can be way more powerful with forms, or when the RS sets the ACE scope.
+\end{frame}
+
+\begin{frame}{Possibilities to be explored}\Large
+	\framesubtitle{on the long term -- outside RD}
+
+	\begin{itemize}
+		\item Single-use servers: “If it's on this host, it's the PubSub server.”
+
+			Security contexts multiply.
+
+			\bigskip
+
+		\item Deposited verifiable statments in the RD.
+
+			Granularity? Audience?
+
+			\bigskip
+
+		\item Finer grained authorization: “\ldots is authorized to provide the PubSub service at its \texttt{/tpcs} resource.”
+
+			Linking to requests without multiplying contexts?
+	\end{itemize}
+\end{frame}
+
+\begin{frame}{And by the way, your examples are needlessly large}\Large
+
+	Yes. RFC6690, ambiguity, different readings\ldots
+
+	\bigskip
+	\pause
+
+	\ldots but turned out mine was the worst.
+
+	\bigskip
+
+	\begin{itemize}
+		\item In many resource lookup results, \texttt{anchor} is superfluous.
+		\item TBD: Give precise rules when anchor must still be set, \\ rewrite examples.
+		\item Existing RD servers stay compliant (just verbose).
+		\item Pending recheck of the RFC6690 implementations.
+	\end{itemize}
+\end{frame}
+
+\begin{frame}{Outlook}\Large
+	\texttt{-27} around start of December:
+
+	\bigskip
+
+	Freshness on registration updates.
+
+	\bigskip
+
+	Relaxed anchor setting.
+
+	\bigskip
+
+	Continued exploration of protecting intention?
+\end{frame}
+
+\end{document}
