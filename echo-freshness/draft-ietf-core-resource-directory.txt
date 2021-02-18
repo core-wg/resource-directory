@@ -2,16 +2,17 @@
 
 
 
-CoRE                                                           Z. Shelby
-Internet-Draft                                                       ARM
-Intended status: Standards Track                               M. Koster
-Expires: 5 May 2021                                          SmartThings
+CoRE                                                      C. Amsüss, Ed.
+Internet-Draft                                                          
+Intended status: Standards Track                               Z. Shelby
+Expires: 22 August 2021                                              ARM
+                                                               M. Koster
+                                                             SmartThings
                                                               C. Bormann
                                                  Universitaet Bremen TZI
                                                          P. van der Stok
                                                               consultant
-                                                          C. Amsüss, Ed.
-                                                         1 November 2020
+                                                        18 February 2021
 
 
                         CoRE Resource Directory
@@ -52,10 +53,9 @@ Status of This Memo
 
 
 
-
-Shelby, et al.             Expires 5 May 2021                   [Page 1]
+Amsüss, et al.           Expires 22 August 2021                 [Page 1]
 
-Internet-Draft           CoRE Resource Directory           November 2020
+Internet-Draft           CoRE Resource Directory           February 2021
 
 
    Internet-Drafts are working documents of the Internet Engineering
@@ -68,11 +68,11 @@ Internet-Draft           CoRE Resource Directory           November 2020
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 5 May 2021.
+   This Internet-Draft will expire on 22 August 2021.
 
 Copyright Notice
 
-   Copyright (c) 2020 IETF Trust and the persons identified as the
+   Copyright (c) 2021 IETF Trust and the persons identified as the
    document authors.  All rights reserved.
 
    This document is subject to BCP 78 and the IETF Trust's Legal
@@ -96,84 +96,86 @@ Table of Contents
      3.5.  Use Case: Cellular M2M  . . . . . . . . . . . . . . . . .  12
      3.6.  Use Case: Home and Building Automation  . . . . . . . . .  13
      3.7.  Use Case: Link Catalogues . . . . . . . . . . . . . . . .  14
-   4.  RD discovery and other interface-independent components . . .  15
-     4.1.  Finding a Resource Directory  . . . . . . . . . . . . . .  16
+   4.  RD discovery and other interface-independent components . . .  14
+     4.1.  Finding a Resource Directory  . . . . . . . . . . . . . .  15
        4.1.1.  Resource Directory Address Option (RDAO)  . . . . . .  17
        4.1.2.  Using DNS-SD to discover a Resource Directory . . . .  19
      4.2.  Payload Content Formats . . . . . . . . . . . . . . . . .  19
      4.3.  URI Discovery . . . . . . . . . . . . . . . . . . . . . .  19
    5.  Registration  . . . . . . . . . . . . . . . . . . . . . . . .  22
-     5.1.  Simple Registration . . . . . . . . . . . . . . . . . . .  26
+     5.1.  Simple Registration . . . . . . . . . . . . . . . . . . .  27
      5.2.  Third-party registration  . . . . . . . . . . . . . . . .  29
-     5.3.  Operations on the Registration Resource . . . . . . . . .  29
+     5.3.  Operations on the Registration Resource . . . . . . . . .  30
 
 
 
-Shelby, et al.             Expires 5 May 2021                   [Page 2]
+Amsüss, et al.           Expires 22 August 2021                 [Page 2]
 
-Internet-Draft           CoRE Resource Directory           November 2020
+Internet-Draft           CoRE Resource Directory           February 2021
 
 
        5.3.1.  Registration Update . . . . . . . . . . . . . . . . .  30
-       5.3.2.  Registration Removal  . . . . . . . . . . . . . . . .  33
+       5.3.2.  Registration Removal  . . . . . . . . . . . . . . . .  34
        5.3.3.  Further operations  . . . . . . . . . . . . . . . . .  34
-   6.  RD Lookup . . . . . . . . . . . . . . . . . . . . . . . . . .  34
-     6.1.  Resource lookup . . . . . . . . . . . . . . . . . . . . .  35
-     6.2.  Lookup filtering  . . . . . . . . . . . . . . . . . . . .  35
-     6.3.  Resource lookup examples  . . . . . . . . . . . . . . . .  37
-     6.4.  Endpoint lookup . . . . . . . . . . . . . . . . . . . . .  40
-   7.  Security policies . . . . . . . . . . . . . . . . . . . . . .  41
-     7.1.  Endpoint name . . . . . . . . . . . . . . . . . . . . . .  42
-       7.1.1.  Random endpoint names . . . . . . . . . . . . . . . .  42
-     7.2.  Entered resources . . . . . . . . . . . . . . . . . . . .  42
-     7.3.  Link confidentiality  . . . . . . . . . . . . . . . . . .  43
-     7.4.  Segmentation  . . . . . . . . . . . . . . . . . . . . . .  43
-     7.5.  First-Come-First-Remembered: A default policy . . . . . .  44
-   8.  Security Considerations . . . . . . . . . . . . . . . . . . .  45
-     8.1.  Discovery . . . . . . . . . . . . . . . . . . . . . . . .  45
-     8.2.  Endpoint Identification and Authentication  . . . . . . .  46
-     8.3.  Access Control  . . . . . . . . . . . . . . . . . . . . .  47
-     8.4.  Denial of Service Attacks . . . . . . . . . . . . . . . .  47
-   9.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .  47
-     9.1.  Resource Types  . . . . . . . . . . . . . . . . . . . . .  47
-     9.2.  IPv6 ND Resource Directory Address Option . . . . . . . .  48
-     9.3.  RD Parameter Registry . . . . . . . . . . . . . . . . . .  48
-       9.3.1.  Full description of the "Endpoint Type" Registration
-               Parameter . . . . . . . . . . . . . . . . . . . . . .  51
-     9.4.  "Endpoint Type" (et=) RD Parameter values . . . . . . . .  51
-     9.5.  Multicast Address Registration  . . . . . . . . . . . . .  52
-     9.6.  Well-Known URIs . . . . . . . . . . . . . . . . . . . . .  52
+       5.3.4.  Freshness . . . . . . . . . . . . . . . . . . . . . .  35
+   6.  RD Lookup . . . . . . . . . . . . . . . . . . . . . . . . . .  37
+     6.1.  Resource lookup . . . . . . . . . . . . . . . . . . . . .  37
+     6.2.  Lookup filtering  . . . . . . . . . . . . . . . . . . . .  38
+     6.3.  Resource lookup examples  . . . . . . . . . . . . . . . .  40
+     6.4.  Endpoint lookup . . . . . . . . . . . . . . . . . . . . .  43
+   7.  Security policies . . . . . . . . . . . . . . . . . . . . . .  44
+     7.1.  Endpoint name . . . . . . . . . . . . . . . . . . . . . .  45
+       7.1.1.  Random endpoint names . . . . . . . . . . . . . . . .  45
+     7.2.  Entered resources . . . . . . . . . . . . . . . . . . . .  45
+     7.3.  Link confidentiality  . . . . . . . . . . . . . . . . . .  46
+     7.4.  Segmentation  . . . . . . . . . . . . . . . . . . . . . .  46
+     7.5.  First-Come-First-Remembered: A default policy . . . . . .  47
+   8.  Security Considerations . . . . . . . . . . . . . . . . . . .  48
+     8.1.  Discovery . . . . . . . . . . . . . . . . . . . . . . . .  49
+     8.2.  Endpoint Identification and Authentication  . . . . . . .  49
+     8.3.  Access Control  . . . . . . . . . . . . . . . . . . . . .  50
+     8.4.  Denial of Service Attacks . . . . . . . . . . . . . . . .  50
+     8.5.  Foregone freshness checks . . . . . . . . . . . . . . . .  51
+   9.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .  51
+     9.1.  Resource Types  . . . . . . . . . . . . . . . . . . . . .  51
+     9.2.  IPv6 ND Resource Directory Address Option . . . . . . . .  52
+     9.3.  RD Parameter Registry . . . . . . . . . . . . . . . . . .  52
+       9.3.1.  Full description of the "Endpoint Type" RD
+               Parameter . . . . . . . . . . . . . . . . . . . . . .  55
+     9.4.  "Endpoint Type" (et=) RD Parameter values . . . . . . . .  55
+     9.5.  Multicast Address Registration  . . . . . . . . . . . . .  56
+     9.6.  Well-Known URIs . . . . . . . . . . . . . . . . . . . . .  56
      9.7.  Service Names and Transport Protocol Port Number
-           Registry  . . . . . . . . . . . . . . . . . . . . . . . .  52
-   10. Examples  . . . . . . . . . . . . . . . . . . . . . . . . . .  53
-     10.1.  Lighting Installation  . . . . . . . . . . . . . . . . .  53
-       10.1.1.  Installation Characteristics . . . . . . . . . . . .  53
-       10.1.2.  RD entries . . . . . . . . . . . . . . . . . . . . .  54
-     10.2.  OMA Lightweight M2M (LwM2M)  . . . . . . . . . . . . . .  57
-   11. Acknowledgments . . . . . . . . . . . . . . . . . . . . . . .  58
-   12. Changelog . . . . . . . . . . . . . . . . . . . . . . . . . .  58
-   13. References  . . . . . . . . . . . . . . . . . . . . . . . . .  71
-     13.1.  Normative References . . . . . . . . . . . . . . . . . .  71
-     13.2.  Informative References . . . . . . . . . . . . . . . . .  72
-   Appendix A.  Groups Registration and Lookup . . . . . . . . . . .  75
-   Appendix B.  Web links and the Resource Directory . . . . . . . .  77
-     B.1.  A simple example  . . . . . . . . . . . . . . . . . . . .  77
-       B.1.1.  Resolving the URIs  . . . . . . . . . . . . . . . . .  78
-       B.1.2.  Interpreting attributes and relations . . . . . . . .  78
-     B.2.  A slightly more complex example . . . . . . . . . . . . .  78
-     B.3.  Enter the Resource Directory  . . . . . . . . . . . . . .  79
+           Registry  . . . . . . . . . . . . . . . . . . . . . . . .  56
+   10. Examples  . . . . . . . . . . . . . . . . . . . . . . . . . .  57
+     10.1.  Lighting Installation  . . . . . . . . . . . . . . . . .  57
+       10.1.1.  Installation Characteristics . . . . . . . . . . . .  57
+       10.1.2.  RD entries . . . . . . . . . . . . . . . . . . . . .  58
+     10.2.  OMA Lightweight M2M (LwM2M)  . . . . . . . . . . . . . .  61
+   11. Acknowledgments . . . . . . . . . . . . . . . . . . . . . . .  62
+   12. Changelog . . . . . . . . . . . . . . . . . . . . . . . . . .  62
+   13. References  . . . . . . . . . . . . . . . . . . . . . . . . .  76
+     13.1.  Normative References . . . . . . . . . . . . . . . . . .  76
+     13.2.  Informative References . . . . . . . . . . . . . . . . .  77
+   Appendix A.  Groups Registration and Lookup . . . . . . . . . . .  80
+   Appendix B.  Web links and the Resource Directory . . . . . . . .  82
+     B.1.  A simple example  . . . . . . . . . . . . . . . . . . . .  82
+       B.1.1.  Resolving the URIs  . . . . . . . . . . . . . . . . .  83
+       B.1.2.  Interpreting attributes and relations . . . . . . . .  83
 
 
 
-Shelby, et al.             Expires 5 May 2021                   [Page 3]
+Amsüss, et al.           Expires 22 August 2021                 [Page 3]
 
-Internet-Draft           CoRE Resource Directory           November 2020
+Internet-Draft           CoRE Resource Directory           February 2021
 
 
+     B.2.  A slightly more complex example . . . . . . . . . . . . .  83
+     B.3.  Enter the Resource Directory  . . . . . . . . . . . . . .  84
      B.4.  A note on differences between link-format and Link header
-           fields  . . . . . . . . . . . . . . . . . . . . . . . . .  81
-   Appendix C.  Limited Link Format  . . . . . . . . . . . . . . . .  82
-   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  82
+           fields  . . . . . . . . . . . . . . . . . . . . . . . . .  86
+   Appendix C.  Limited Link Format  . . . . . . . . . . . . . . . .  87
+   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  87
 
 1.  Introduction
 
@@ -216,15 +218,16 @@ Internet-Draft           CoRE Resource Directory           November 2020
    14 [RFC2119] [RFC8174] when, and only when, they appear in all
    capitals, as shown here.
 
+
+
+
+Amsüss, et al.           Expires 22 August 2021                 [Page 4]
+
+Internet-Draft           CoRE Resource Directory           February 2021
+
+
    The term "byte" is used in its now customary sense as a synonym for
    "octet".
-
-
-
-Shelby, et al.             Expires 5 May 2021                   [Page 4]
-
-Internet-Draft           CoRE Resource Directory           November 2020
-
 
    This specification requires readers to be familiar with all the terms
    and concepts that are discussed in [RFC3986], [RFC8288] and
@@ -274,12 +277,9 @@ Internet-Draft           CoRE Resource Directory           November 2020
 
 
 
-
-
-
-Shelby, et al.             Expires 5 May 2021                   [Page 5]
+Amsüss, et al.           Expires 22 August 2021                 [Page 5]
 
-Internet-Draft           CoRE Resource Directory           November 2020
+Internet-Draft           CoRE Resource Directory           February 2021
 
 
    Target
@@ -310,10 +310,10 @@ Internet-Draft           CoRE Resource Directory           November 2020
       and its links.
 
    Commissioning Tool
-      Commissioning Tool (CT) is a device that assists during the
-      installation of the network by assigning values to parameters,
-      naming endpoints and groups, or adapting the installation to the
-      needs of the applications.
+      Commissioning Tool (CT) is a device that assists during
+      installation events by assigning values to parameters, naming
+      endpoints and groups, or adapting the installation to the needs of
+      the applications.
 
    Registrant-ep
       Registrant-ep is the endpoint that is registered into the RD.  The
@@ -333,9 +333,9 @@ Internet-Draft           CoRE Resource Directory           November 2020
 
 
 
-Shelby, et al.             Expires 5 May 2021                   [Page 6]
+Amsüss, et al.           Expires 22 August 2021                 [Page 6]
 
-Internet-Draft           CoRE Resource Directory           November 2020
+Internet-Draft           CoRE Resource Directory           February 2021
 
 
 3.1.  Principles
@@ -353,12 +353,11 @@ Internet-Draft           CoRE Resource Directory           November 2020
    querying the described device's /.well-known/core resource directly.
 
    Data in the RD can only be provided by the device which hosts those
-   data or a dedicated Commissioning Tool (CT).  These CTs are thought
-   to act on behalf of endpoints too constrained, or generally unable,
-   to present that information themselves.  No other client can modify
-   data in the RD.  Changes to the information in the RD do not
-   propagate automatically back to the web servers from where the
-   information originated.
+   data or a dedicated Commissioning Tool (CT).  These CTs act on behalf
+   of endpoints too constrained, or generally unable, to present that
+   information themselves.  No other client can modify data in the RD.
+   Changes to the information in the RD do not propagate automatically
+   back to the web servers from where the information originated.
 
 3.2.  Architecture
 
@@ -389,9 +388,10 @@ Internet-Draft           CoRE Resource Directory           November 2020
 
 
 
-Shelby, et al.             Expires 5 May 2021                   [Page 7]
+
+Amsüss, et al.           Expires 22 August 2021                 [Page 7]
 
-Internet-Draft           CoRE Resource Directory           November 2020
+Internet-Draft           CoRE Resource Directory           February 2021
 
 
    A lookup interface for discovering any of the Web Links stored in the
@@ -445,9 +445,9 @@ Internet-Draft           CoRE Resource Directory           November 2020
 
 
 
-Shelby, et al.             Expires 5 May 2021                   [Page 8]
+Amsüss, et al.           Expires 22 August 2021                 [Page 8]
 
-Internet-Draft           CoRE Resource Directory           November 2020
+Internet-Draft           CoRE Resource Directory           February 2021
 
 
                        +----------------------+
@@ -485,7 +485,7 @@ Internet-Draft           CoRE Resource Directory           November 2020
    *  a set of links belonging to the hosting web server
 
    The web server is free to choose links it deems appropriate to be
-   exposed in its ".well-known/core".  Typically, the links describe
+   exposed in its "/.well-known/core".  Typically, the links describe
    resources that are served by the host, but the set can also contain
    links to resources on other servers (see examples in [RFC6690] page
    14).  The set does not necessarily contain links to all resources
@@ -501,9 +501,9 @@ Internet-Draft           CoRE Resource Directory           November 2020
 
 
 
-Shelby, et al.             Expires 5 May 2021                   [Page 9]
+Amsüss, et al.           Expires 22 August 2021                 [Page 9]
 
-Internet-Draft           CoRE Resource Directory           November 2020
+Internet-Draft           CoRE Resource Directory           February 2021
 
 
    *  A link context URI: It defines the source of the relation, e.g.
@@ -557,9 +557,9 @@ Internet-Draft           CoRE Resource Directory           November 2020
 
 
 
-Shelby, et al.             Expires 5 May 2021                  [Page 10]
+Amsüss, et al.           Expires 22 August 2021                [Page 10]
 
-Internet-Draft           CoRE Resource Directory           November 2020
+Internet-Draft           CoRE Resource Directory           February 2021
 
 
                     +--------------+
@@ -613,9 +613,9 @@ Internet-Draft           CoRE Resource Directory           November 2020
 
 
 
-Shelby, et al.             Expires 5 May 2021                  [Page 11]
+Amsüss, et al.           Expires 22 August 2021                [Page 11]
 
-Internet-Draft           CoRE Resource Directory           November 2020
+Internet-Draft           CoRE Resource Directory           February 2021
 
 
    A registration is associated with one endpoint.  A registration
@@ -664,23 +664,21 @@ Internet-Draft           CoRE Resource Directory           November 2020
    business to the new type of users: machines.  The machines are
    connected directly to a mobile network using an appropriate embedded
    wireless interface (GSM/GPRS, WCDMA, LTE) or via a gateway providing
-   short and wide range wireless interfaces.  From the system design
-   point of view, the ambition is to design horizontal solutions that
+   short and wide range wireless interfaces.  The ambition in such
+   systems is to build them from reusable components.  These speed up
 
 
 
-Shelby, et al.             Expires 5 May 2021                  [Page 12]
+Amsüss, et al.           Expires 22 August 2021                [Page 12]
 
-Internet-Draft           CoRE Resource Directory           November 2020
+Internet-Draft           CoRE Resource Directory           February 2021
 
 
-   can enable utilization of machines in different applications
-   depending on their current availability and capabilities as well as
-   application requirements, thus avoiding silo like solutions.  One of
-   the crucial enablers of such design is the ability to discover
-   resources (and thus the endpoints they are hosted on) capable of
-   providing required information at a given time or acting on
-   instructions from the end users.
+   development and deployment, and enable shared use of machines across
+   different applications.  One crucial component of such systems is the
+   discovery of resources (and thus the endpoints they are hosted on)
+   capable of providing required information at a given time or acting
+   on instructions from the end users.
 
    Imagine a scenario where endpoints installed on vehicles enable
    tracking of the position of these vehicles for fleet management
@@ -705,7 +703,7 @@ Internet-Draft           CoRE Resource Directory           November 2020
 3.6.  Use Case: Home and Building Automation
 
    Home and commercial building automation systems can benefit from the
-   use of M2M web services.  The discovery requirements of these
+   use of IoT web services.  The discovery requirements of these
    applications are demanding.  Home automation usually relies on run-
    time discovery to commission the system, whereas in building
    automation a combination of professional commissioning and run-time
@@ -717,20 +715,21 @@ Internet-Draft           CoRE Resource Directory           November 2020
 
    Two phases can be discerned for a network servicing the system: (1)
    installation and (2) operation.  During the operational phase, the
-   network is connected to the Internet with a Border router (6LBR) and
-   the nodes connected to the network can use the Internet services that
-   are provided by the Internet Provider or the network administrator.
-   During the installation phase, the network is completely stand-alone,
-   no 6LBR is connected, and the network only supports the IP
-
-
-
-Shelby, et al.             Expires 5 May 2021                  [Page 13]
-
-Internet-Draft           CoRE Resource Directory           November 2020
-
-
+   network is connected to the Internet with a Border Router (e.g. a
+   6LoWPAN Border Router (6LBR), see [RFC6775]) and the nodes connected
+   to the network can use the Internet services that are provided by the
+   Internet Provider or the network administrator.  During the
+   installation phase, the network is completely stand-alone, no Border
+   Router is connected, and the network only supports the IP
    communication between the connected nodes.  The installation phase is
+
+
+
+Amsüss, et al.           Expires 22 August 2021                [Page 13]
+
+Internet-Draft           CoRE Resource Directory           February 2021
+
+
    usually followed by the operational phase.  As an RD's operations
    work without hard dependencies on names or addresses, it can be used
    for discovery across both phases.
@@ -767,25 +766,6 @@ Internet-Draft           CoRE Resource Directory           November 2020
    data when needed.  Application groups with multicast addresses may be
    defined to support efficient data transport.
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Shelby, et al.             Expires 5 May 2021                  [Page 14]
-
-Internet-Draft           CoRE Resource Directory           November 2020
-
-
 4.  RD discovery and other interface-independent components
 
    This and the following sections define the required set of REST
@@ -798,6 +778,13 @@ Internet-Draft           CoRE Resource Directory           November 2020
    notation) and HTTP response codes (without dot notation) are shown.
    An RD implementing this specification MUST support the discovery,
    registration, update, lookup, and removal interfaces.
+
+
+
+Amsüss, et al.           Expires 22 August 2021                [Page 14]
+
+Internet-Draft           CoRE Resource Directory           February 2021
+
 
    All operations on the contents of the RD MUST be atomic and
    idempotent.
@@ -830,26 +817,30 @@ Internet-Draft           CoRE Resource Directory           November 2020
    between directories to ensure loop-free operation is outside the
    scope of this document.
 
-
-
-
-
-
-
-
-Shelby, et al.             Expires 5 May 2021                  [Page 15]
-
-Internet-Draft           CoRE Resource Directory           November 2020
-
-
 4.1.  Finding a Resource Directory
 
-   A (re-)starting device may want to find one or more RDs for discovery
-   purposes.  Dependent on the operational conditions, one or more of
-   the techniques below apply.
+   A (re-)starting device may want to find one or more RDs before it can
+   discover their URIs.  Dependent on the operational conditions, one or
+   more of the techniques below apply.
 
    The device may be pre-configured to exercise specific mechanisms for
    finding the RD:
+
+
+
+
+
+
+
+
+
+
+
+
+Amsüss, et al.           Expires 22 August 2021                [Page 15]
+
+Internet-Draft           CoRE Resource Directory           February 2021
+
 
    1.  It may be configured with a specific IP address for the RD.  That
        IP address may also be an anycast address, allowing the network
@@ -890,24 +881,27 @@ Internet-Draft           CoRE Resource Directory           November 2020
        can be obtained by sending a unicast to "coap://[6LBR]/.well-
        known/core?rt=core.rd*".
 
-
-
-
-Shelby, et al.             Expires 5 May 2021                  [Page 16]
-
-Internet-Draft           CoRE Resource Directory           November 2020
-
-
    2.  In a network that supports multicast well, discovering the RD
        using a multicast query for /.well-known/core as specified in
        CoRE Link Format [RFC6690]: Sending a Multicast GET to
        "coap://[MCD1]/.well-known/core?rt=core.rd*".  RDs within the
        multicast scope will answer the query.
 
-   When answering a multicast request directed at a link-local address,
+   When answering a multicast request directed at a link-local group,
    the RD may want to respond from a routable address; this makes it
    easier for registrants to use one of their own routable addresses for
-   registration.
+
+
+
+Amsüss, et al.           Expires 22 August 2021                [Page 16]
+
+Internet-Draft           CoRE Resource Directory           February 2021
+
+
+   registration.  When [RFC6724] is used for source address selection,
+   this can be achieved by applying the changes of its Section 10.4,
+   picking public addresses in its Section 5 Rule 7, and superseding
+   rule 8 with preferring the source address's precedence.
 
    As some of the RD addresses obtained by the methods listed here are
    just (more or less educated) guesses, endpoints MUST make use of any
@@ -946,25 +940,26 @@ Internet-Draft           CoRE Resource Directory           November 2020
    be guaranteed either during commissioning of the network.  The
    presence and the use of the RD is essential during commissioning.
 
-
-
-
-Shelby, et al.             Expires 5 May 2021                  [Page 17]
-
-Internet-Draft           CoRE Resource Directory           November 2020
-
-
    It is possible to send multiple RDAO options in one message,
    indicating as many RD addresses.
 
    The RDAO format is:
 
+
+
+
+
+Amsüss, et al.           Expires 22 August 2021                [Page 17]
+
+Internet-Draft           CoRE Resource Directory           February 2021
+
+
    0                   1                   2                   3
    0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
    +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-   |     Type      |  Length = 3   |       Valid Lifetime          |
+   |     Type      |  Length = 3   |          Reserved             |
    +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-   |                           Reserved                            |
+   |                        Valid Lifetime                         |
    +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
    |                                                               |
    +                                                               +
@@ -983,17 +978,17 @@ Internet-Draft           CoRE Resource Directory           November 2020
                            the option in units of 8 bytes.
                            Always 3.
 
-   Valid Lifetime:         16-bit unsigned integer.  The length of
-                           time in units of 60 seconds (relative to
+   Reserved:               This field is unused.  It MUST be
+                           initialized to zero by the sender and
+                           MUST be ignored by the receiver.
+
+   Valid Lifetime:         32-bit unsigned integer.  The length of
+                           time in seconds (relative to
                            the time the packet is received) that
                            this RD address is valid.
                            A value of all zero bits (0x0) indicates
                            that this RD address
                            is not valid anymore.
-
-   Reserved:               This field is unused.  It MUST be
-                           initialized to zero by the sender and
-                           MUST be ignored by the receiver.
 
    RD Address:             IPv6 address of the RD.
 
@@ -1005,9 +1000,14 @@ Internet-Draft           CoRE Resource Directory           November 2020
 
 
 
-Shelby, et al.             Expires 5 May 2021                  [Page 18]
+
+
+
+
+
+Amsüss, et al.           Expires 22 August 2021                [Page 18]
 
-Internet-Draft           CoRE Resource Directory           November 2020
+Internet-Draft           CoRE Resource Directory           February 2021
 
 
 4.1.2.  Using DNS-SD to discover a Resource Directory
@@ -1061,9 +1061,9 @@ Internet-Draft           CoRE Resource Directory           November 2020
 
 
 
-Shelby, et al.             Expires 5 May 2021                  [Page 19]
+Amsüss, et al.           Expires 22 August 2021                [Page 19]
 
-Internet-Draft           CoRE Resource Directory           November 2020
+Internet-Draft           CoRE Resource Directory           February 2021
 
 
    performing multicast discovery, the multicast IP address used will
@@ -1088,6 +1088,14 @@ Internet-Draft           CoRE Resource Directory           November 2020
    URIs and relative references, and not limit the set of discovered
    URIs to those hosted at the address used for URI discovery.
 
+   With security policies where the client requires the RD to be
+   authorized to act as an RD, that authorization may be limited to
+   resources on which the authorized RD advertises the adequate resource
+   types.  Clients that have obtained links they can not rely on yet can
+   repeat the URI discovery step at the /.well-known/core resource of
+   the indicated host to obtain the resource type information from an
+   authorized source.
+
    The URI Discovery operation can yield multiple URIs of a given
    resource type.  The client of the RD can use any of the discovered
    addresses initially.
@@ -1096,7 +1104,7 @@ Internet-Draft           CoRE Resource Directory           November 2020
    exactly the Well-Known Interface of [RFC6690] Section 4, with the
    additional requirement that the server MUST support query filtering):
 
-   Interaction:  EP and Client -> RD
+   Interaction:  EP, CT or Client -> RD
 
    Method:  GET
 
@@ -1106,6 +1114,14 @@ Internet-Draft           CoRE Resource Directory           November 2020
          the values "core.rd", "core.rd-lookup*", "core.rd-lookup-res",
          "core.rd-lookup-ep", or "core.rd*"
 
+
+
+
+Amsüss, et al.           Expires 22 August 2021                [Page 20]
+
+Internet-Draft           CoRE Resource Directory           February 2021
+
+
    Accept:  absent, application/link-format or any other media type
       representing web links
 
@@ -1114,13 +1130,6 @@ Internet-Draft           CoRE Resource Directory           November 2020
    Success:  2.05 "Content" or 200 "OK" with an application/link-format
       or other web link payload containing one or more matching entries
       for the RD resource.
-
-
-
-Shelby, et al.             Expires 5 May 2021                  [Page 20]
-
-Internet-Draft           CoRE Resource Directory           November 2020
-
 
    The following example shows an endpoint discovering an RD using this
    interface, thus learning that the directory resource location, in
@@ -1159,6 +1168,16 @@ Internet-Draft           CoRE Resource Directory           November 2020
          Figure 6: Example discovery exchange indicating additional
                               content-formats
 
+
+
+
+
+
+Amsüss, et al.           Expires 22 August 2021                [Page 21]
+
+Internet-Draft           CoRE Resource Directory           February 2021
+
+
    From a management and maintenance perspective, it is necessary to
    identify the components that constitute the RD server.  The
    identification refers to information about for example client-server
@@ -1168,15 +1187,6 @@ Internet-Draft           CoRE Resource Directory           November 2020
 
    It would typically be stored in an implementation information link
    (as described in [I-D.bormann-t2trg-rel-impl]):
-
-
-
-
-
-Shelby, et al.             Expires 5 May 2021                  [Page 21]
-
-Internet-Draft           CoRE Resource Directory           November 2020
-
 
    Req: GET /.well-known/core?rel=impl-info
 
@@ -1216,6 +1226,14 @@ Internet-Draft           CoRE Resource Directory           November 2020
    parameters ep and d (sector) does not create multiple registration
    resources.
 
+
+
+
+Amsüss, et al.           Expires 22 August 2021                [Page 22]
+
+Internet-Draft           CoRE Resource Directory           February 2021
+
+
    The following rules apply for a registration request targeting a
    given (ep, d) value pair:
 
@@ -1226,14 +1244,6 @@ Internet-Draft           CoRE Resource Directory           November 2020
    *  When the (ep, d) value pair of the registration-request is equal
       to an existing registration, the content and parameters of the
       existing registration are replaced with the content of the
-
-
-
-Shelby, et al.             Expires 5 May 2021                  [Page 22]
-
-Internet-Draft           CoRE Resource Directory           November 2020
-
-
       registration request.  Like the later changes to registration
       resources, security policies (Section 7) usually require such
       requests to come from the same device.
@@ -1254,7 +1264,7 @@ Internet-Draft           CoRE Resource Directory           November 2020
 
    The registration request interface is specified as follows:
 
-   Interaction:  EP -> RD
+   Interaction:  EP or CT -> RD
 
    Method:  POST
 
@@ -1265,36 +1275,37 @@ Internet-Draft           CoRE Resource Directory           November 2020
 
                             ep :=  Endpoint name (mostly mandatory).
          The endpoint name is an identifier that MUST be unique within a
-         sector.  As the endpoint name is a Unicode string, it is
-         encoded in UTF-8 (and possibly pct-encoded) during variable
-         expansion (see [RFC6570] Section 3.2.1).  The endpoint name
-         MUST NOT contain any character in the inclusive ranges 0-31 or
-         127-159.  The maximum length of this parameter is 63 UTF-8
-         encoded bytes.  If the RD is configured to recognize the
-         endpoint to be authorized to use exactly one endpoint name, the
-         RD assigns that name.  In that case, giving the endpoint name
-         becomes optional for the client; if the client gives any other
-         endpoint name, it is not authorized to perform the
-         registration.
+         sector.
+
+         As the endpoint name is a Unicode string, it is encoded in
+         UTF-8 (and possibly pct-encoded) during variable expansion (see
+         [RFC6570] Section 3.2.1).  The endpoint name MUST NOT contain
+         any character in the inclusive ranges 0-31 or 127-159.
+
+
+
+
+Amsüss, et al.           Expires 22 August 2021                [Page 23]
+
+Internet-Draft           CoRE Resource Directory           February 2021
+
+
+         The maximum length of this parameter is 63 UTF-8 encoded bytes.
+
+         If the RD is configured to recognize the endpoint to be
+         authorized to use exactly one endpoint name, the RD assigns
+         that name.  In that case, giving the endpoint name becomes
+         optional for the client; if the client gives any other endpoint
+         name, it is not authorized to perform the registration.
 
                             d :=  Sector (optional).  The sector to
-
-
-
-
-
-
-
-Shelby, et al.             Expires 5 May 2021                  [Page 23]
-
-Internet-Draft           CoRE Resource Directory           November 2020
-
-
          which this endpoint belongs.  When this parameter is not
          present, the RD MAY associate the endpoint with a configured
          default sector (possibly based on the endpoint's authorization)
-         or leave it empty.  The sector is encoded like the ep
-         parameter, and is limited to 63 UTF-8 encoded bytes as well.
+         or leave it empty.
+
+         The sector is encoded like the ep parameter, and is limited to
+         63 UTF-8 encoded bytes as well.
 
                             lt :=  Lifetime (optional).  Lifetime of the
          registration in seconds.  Range of 1-4294967295.  If no
@@ -1327,6 +1338,14 @@ Internet-Draft           CoRE Resource Directory           November 2020
          it MUST include the base parameter in the registration to
          provide a valid network path.
 
+
+
+
+Amsüss, et al.           Expires 22 August 2021                [Page 24]
+
+Internet-Draft           CoRE Resource Directory           February 2021
+
+
          A registrant that cannot be reached by potential lookup clients
          at the address it registers from (e.g. because it is behind
          some form of Network Address Translation (NAT)) MUST provide a
@@ -1337,15 +1356,6 @@ Internet-Draft           CoRE Resource Directory           November 2020
          which the registration request is received.
 
          Endpoints that register with a base that contains a path
-
-
-
-
-Shelby, et al.             Expires 5 May 2021                  [Page 24]
-
-Internet-Draft           CoRE Resource Directory           November 2020
-
-
          component cannot meaningfully use [RFC6690] Link Format due to
          its prevalence of the Origin concept in relative reference
          resolution.  Those applications should use different
@@ -1383,6 +1393,15 @@ Internet-Draft           CoRE Resource Directory           November 2020
       Update operation.  Therefore, the Location-Query option MUST NOT
       be present in a successful response.
 
+
+
+
+
+Amsüss, et al.           Expires 22 August 2021                [Page 25]
+
+Internet-Draft           CoRE Resource Directory           February 2021
+
+
    If the registration fails, including request timeouts, or if delays
    from Service Unavailable responses with Max-Age or Retry-After
    accumulate to exceed the registrant's configured timeouts, it SHOULD
@@ -1394,13 +1413,6 @@ Internet-Draft           CoRE Resource Directory           November 2020
    option and of DNS responses.  Any rate limits and persistent errors
    from the "Finding a Resource Directory" step must be considered for
    the whole registration time, not only for a single operation.
-
-
-
-Shelby, et al.             Expires 5 May 2021                  [Page 25]
-
-Internet-Draft           CoRE Resource Directory           November 2020
-
 
    The following example shows a registrant-ep with the name "node1"
    registering two resources to an RD using this interface.  The
@@ -1437,6 +1449,15 @@ Internet-Draft           CoRE Resource Directory           November 2020
 
        Figure 9: Example registration payload as expressed using HTTP
 
+
+
+
+
+Amsüss, et al.           Expires 22 August 2021                [Page 26]
+
+Internet-Draft           CoRE Resource Directory           February 2021
+
+
 5.1.  Simple Registration
 
    Not all endpoints hosting resources are expected to know how to
@@ -1445,18 +1466,6 @@ Internet-Draft           CoRE Resource Directory           November 2020
    this section.  An RD implementing this specification MUST implement
    Simple Registration.  However, there may be security reasons why this
    form of directory discovery would be disabled.
-
-
-
-
-
-
-
-
-Shelby, et al.             Expires 5 May 2021                  [Page 26]
-
-Internet-Draft           CoRE Resource Directory           November 2020
-
 
    This approach requires that the registrant-ep makes available the
    hosted resources that it wants to be discovered, as links on its
@@ -1493,6 +1502,18 @@ Internet-Draft           CoRE Resource Directory           November 2020
 
       Example request from the RD to the registrant-EP:
 
+
+
+
+
+
+
+
+Amsüss, et al.           Expires 22 August 2021                [Page 27]
+
+Internet-Draft           CoRE Resource Directory           February 2021
+
+
    Req: GET /.well-known/core
    Accept: 40
 
@@ -1506,13 +1527,6 @@ Internet-Draft           CoRE Resource Directory           November 2020
    With this response, the RD would answer the previous step's request:
 
    Res: 2.04 Changed
-
-
-
-Shelby, et al.             Expires 5 May 2021                  [Page 27]
-
-Internet-Draft           CoRE Resource Directory           November 2020
-
 
       Figure 12: Second half example exchange of a simple registration
 
@@ -1546,6 +1560,16 @@ Internet-Draft           CoRE Resource Directory           November 2020
 
    Success:  2.04 "Changed".
 
+
+
+
+
+
+Amsüss, et al.           Expires 22 August 2021                [Page 28]
+
+Internet-Draft           CoRE Resource Directory           February 2021
+
+
    For the second interaction triggered by the above, the registrant-ep
    takes the role of server and the RD the role of client.  (Note that
    this is exactly the Well-Known Interface of [RFC6690] Section 4):
@@ -1559,16 +1583,6 @@ Internet-Draft           CoRE Resource Directory           November 2020
    The following response is expected on this interface:
 
    Success:  2.05 "Content".
-
-
-
-
-
-
-Shelby, et al.             Expires 5 May 2021                  [Page 28]
-
-Internet-Draft           CoRE Resource Directory           November 2020
-
 
    When the RD is in a position to successfully execute this second
    interaction and other network participants that can reach it are not,
@@ -1603,6 +1617,15 @@ Internet-Draft           CoRE Resource Directory           November 2020
    eventual (currently non-existing) "base" attribute of the link is not
    affected by the value of "base" parameter in the registration.
 
+
+
+
+
+Amsüss, et al.           Expires 22 August 2021                [Page 29]
+
+Internet-Draft           CoRE Resource Directory           February 2021
+
+
 5.3.  Operations on the Registration Resource
 
    This section describes how the registering endpoint can maintain the
@@ -1618,14 +1641,6 @@ Internet-Draft           CoRE Resource Directory           November 2020
    returned location of the Registration Resource for further
    operations, including refreshing the registration in order to extend
    the lifetime and "keep-alive" the registration.  When the lifetime of
-
-
-
-Shelby, et al.             Expires 5 May 2021                  [Page 29]
-
-Internet-Draft           CoRE Resource Directory           November 2020
-
-
    the registration has expired, the RD SHOULD NOT respond to discovery
    queries concerning this endpoint.  The RD SHOULD continue to provide
    access to the Registration Resource after a registration time-out
@@ -1639,6 +1654,9 @@ Internet-Draft           CoRE Resource Directory           November 2020
    using DELETE, and to perform further operations beyond the scope of
    this specification.
 
+   Some operations on the registration resource are sensitive to long-
+   term reordering; Section 5.3.4 describes mechanisms against that.
+
    The operations on the Registration Resource are described below.
 
 5.3.1.  Registration Update
@@ -1649,11 +1667,20 @@ Internet-Draft           CoRE Resource Directory           November 2020
    resource returned by the initial registration operation.
 
    An update MAY update registration parameters like lifetime, base URI
-   or others.  Parameters that are not being changed SHOULD NOT be
+   or others.  Parameters that are not being changed should not be
    included in an update.  Adding parameters that have not changed
    increases the size of the message but does not have any other
-   implications.  Parameters MUST be included as query parameters in an
+   implications.  Parameters are included as query parameters in an
    update operation as in Section 5.
+
+
+
+
+
+Amsüss, et al.           Expires 22 August 2021                [Page 30]
+
+Internet-Draft           CoRE Resource Directory           February 2021
+
 
    A registration update resets the timeout of the registration to the
    (possibly updated) lifetime of the registration, independent of
@@ -1670,17 +1697,9 @@ Internet-Draft           CoRE Resource Directory           November 2020
 
    The update registration request interface is specified as follows:
 
-   Interaction:  EP -> RD
+   Interaction:  EP or CT -> RD
 
    Method:  POST
-
-
-
-
-Shelby, et al.             Expires 5 May 2021                  [Page 30]
-
-Internet-Draft           CoRE Resource Directory           November 2020
-
 
    URI Template:  {+location}{?lt,base,extra-attrs*}
 
@@ -1696,16 +1715,29 @@ Internet-Draft           CoRE Resource Directory           November 2020
                             base :=  Base URI (optional).  This
          parameter updates the Base URI established in the original
          registration to a new value, and is subject to the same
-         restrictions as in the registration.  If the parameter is set
-         in an update, it is stored by the RD as the new Base URI under
-         which to interpret the relative links present in the payload of
-         the original registration.  If the parameter is not set in the
-         request but was set before, the previous Base URI value is kept
-         unmodified.  If the parameter is not set in the request and was
-         not set before either, the source address and source port of
-         the update request are stored as the Base URI.
+         restrictions as in the registration.
+
+         If the parameter is set in an update, it is stored by the RD as
+         the new Base URI under which to interpret the relative links
+         present in the payload of the original registration.
+
+         If the parameter is not set in the request but was set before,
+         the previous Base URI value is kept unmodified.
+
+         If the parameter is not set in the request and was not set
+         before either, the source address and source port of the update
+         request are stored as the Base URI.
 
                             extra-attrs :=  Additional registration
+
+
+
+
+Amsüss, et al.           Expires 22 August 2021                [Page 31]
+
+Internet-Draft           CoRE Resource Directory           February 2021
+
+
          attributes (optional).  As with the registration, the RD
          processes them if it knows their semantics.  Otherwise, unknown
          attributes are stored as endpoint attributes, overriding any
@@ -1731,13 +1763,6 @@ Internet-Draft           CoRE Resource Directory           November 2020
    Failure:  4.04 "Not Found" or 404 "Not Found".  Registration does not
       exist (e.g. may have been removed).
 
-
-
-Shelby, et al.             Expires 5 May 2021                  [Page 31]
-
-Internet-Draft           CoRE Resource Directory           November 2020
-
-
    If the registration update fails in any way, including "Not Found"
    and request timeouts, or if the time indicated in a Service
    Unavailable Max-Age/Retry-After exceeds the remaining lifetime, the
@@ -1762,6 +1787,13 @@ Internet-Draft           CoRE Resource Directory           November 2020
 
    *  lifetime (lt)=500
 
+
+
+Amsüss, et al.           Expires 22 August 2021                [Page 32]
+
+Internet-Draft           CoRE Resource Directory           February 2021
+
+
    *  Base URI (base)=coap://local-proxy-old.example.com:5683
 
    *  payload of Figure 8
@@ -1784,16 +1816,6 @@ Internet-Draft           CoRE Resource Directory           November 2020
    The following example shows the registering endpoint changing the
    Base URI to "coaps://new.example.com:5684":
 
-
-
-
-
-
-Shelby, et al.             Expires 5 May 2021                  [Page 32]
-
-Internet-Draft           CoRE Resource Directory           November 2020
-
-
    Req: POST /rd/4521?base=coaps://new.example.com:5684
 
    Res: 2.04 Changed
@@ -1815,6 +1837,19 @@ Internet-Draft           CoRE Resource Directory           November 2020
 
         Figure 16: Example lookup after a change to the base address
 
+
+
+
+
+
+
+
+
+Amsüss, et al.           Expires 22 August 2021                [Page 33]
+
+Internet-Draft           CoRE Resource Directory           February 2021
+
+
 5.3.2.  Registration Removal
 
    Although RD registrations have soft state and will eventually timeout
@@ -1826,7 +1861,7 @@ Internet-Draft           CoRE Resource Directory           November 2020
 
    The removal request interface is specified as follows:
 
-   Interaction:  EP -> RD
+   Interaction:  EP or CT -> RD
 
    Method:  DELETE
 
@@ -1841,14 +1876,6 @@ Internet-Draft           CoRE Resource Directory           November 2020
 
    Failure:  4.04 "Not Found" or 404 "Not Found".  Registration does not
       exist (e.g. may already have been removed).
-
-
-
-
-Shelby, et al.             Expires 5 May 2021                  [Page 33]
-
-Internet-Draft           CoRE Resource Directory           November 2020
-
 
    The following examples shows successful removal of the endpoint from
    the RD with example location value /rd/4521.
@@ -1870,8 +1897,126 @@ Internet-Draft           CoRE Resource Directory           November 2020
    *  Use GET to read the currently stored set of links in a
       registration resource.
 
+
+
+
+
+Amsüss, et al.           Expires 22 August 2021                [Page 34]
+
+Internet-Draft           CoRE Resource Directory           February 2021
+
+
    Those operations are out of scope of this document, and will require
    media types suitable for modifying sets of links.
+
+5.3.4.  Freshness
+
+   Many security mechanisms usable with an RD employ replay windows, or
+   do not even mandate replay protection at all.  The RD ensures that
+   operations on the registration resource are executed in an order that
+   does not distort the client's intentions.
+
+   This ordering of operations is expressed in terms of freshness as
+   defined in [I-D.ietf-core-echo-request-tag].  Requests that alter a
+   resource's state need to be fresh relative to the latest request that
+   altered that state in a conflicting way.
+
+   An RD SHOULD use the Echo option if it can not determine the
+   request's freshness in any other way.  An endpoint MUST support the
+   use of the Echo option.  (One reason why an RD would not need to use
+   freshness is if no relevant properties are covered by is security
+   policies; one other way it can determine freshness is when all
+   operations on the resource happen on a single security mechanism that
+   provides some order).
+
+5.3.4.1.  Efficient use of Echo by an RD
+
+   To keep latency and traffic added by the freshness requirements to a
+   minimum, RDs should avoid naive (sufficient but inefficient)
+   freshness criteria.
+
+   Some simple mechanisms the RD can employ are:
+
+   *  State counter.  The RD can keep a monotonous counter that
+      increments whenever a registration changes.  For every
+      registration resource, it stores the post-increment value of its
+      last change.  Requests need to have at least that value encoded in
+      their Echo option, and are otherwise rejected with a 4.01
+      Unauthorized and the current counter value as the Echo value.  If
+      other applications on the same server use Echo as well, that
+      encoding may include a prefix indicating that it pertains to the
+      RD's time scale.
+
+      The value associated with a resource needs to be kept across the
+      removal of registrations if the same registration resource is to
+      be reused.
+
+      The counter can be reset (and the values of removed resources
+      forgotten) when all previous security associations are reset.
+
+
+
+
+Amsüss, et al.           Expires 22 August 2021                [Page 35]
+
+Internet-Draft           CoRE Resource Directory           February 2021
+
+
+      This is the "Persistent Counter" method of
+      [I-D.ietf-core-echo-request-tag] Appendix A.
+
+   *  Preemptive Echo values.  The current state counter can be sent in
+      an Echo option not only when requests are rejected with 4.01
+      Unauthorized, but also with successful responses.  Thus, clients
+      can be provided with Echo values sufficient for their next request
+      on a regular basis.
+
+      While endpoints may discard received Echo values at leisure
+      between requests, they are encouraged to retain these values for
+      the next request to avoid additional round trips.
+
+5.3.4.2.  Examples of Echo usage
+
+   Figure 18 shows the interactions of an endpoint that has forgotten
+   the server's latest Echo value and temporarily reduces its
+   registration lifetime:
+
+   Req: POST /rd/4521?lt=7200
+
+   Res: 4.01 Changed
+   Echo: 0x0123
+
+   (EP tries again immediately)
+
+   Req: POST /rd/4521?lt=7200
+   Echo: 0x0123
+
+   Res: 2.04 Changed
+   Echo: 0x0124
+
+   (Later the EP regains its confidence in its long-term reachability)
+
+   Req: POST /rd/4521?lt=90000
+   Echo: 0x0124
+
+   Res: 2.04 Changed
+   Echo: 0x0247
+
+                Figure 18: Example update of a registration
+
+
+
+
+
+
+
+
+
+
+Amsüss, et al.           Expires 22 August 2021                [Page 36]
+
+Internet-Draft           CoRE Resource Directory           February 2021
+
 
 6.  RD Lookup
 
@@ -1892,19 +2037,6 @@ Internet-Draft           CoRE Resource Directory           November 2020
 
    The lookup type is selected by a URI endpoint, which is indicated by
    a Resource Type as per Table 1 below:
-
-
-
-
-
-
-
-
-
-Shelby, et al.             Expires 5 May 2021                  [Page 34]
-
-Internet-Draft           CoRE Resource Directory           November 2020
-
 
              +=============+====================+===========+
              | Lookup Type | Resource Type      | Mandatory |
@@ -1935,6 +2067,13 @@ Internet-Draft           CoRE Resource Directory           November 2020
    intermediate proxy, e.g. in the case of an HTTP lookup interface for
    CoAP endpoints.
 
+
+
+Amsüss, et al.           Expires 22 August 2021                [Page 37]
+
+Internet-Draft           CoRE Resource Directory           February 2021
+
+
    If the base URI of a registration contains a link-local address, the
    RD MUST NOT show its links unless the lookup was made from the link
    on which the registered endpoint can be reached.  The RD MUST NOT
@@ -1954,14 +2093,6 @@ Internet-Draft           CoRE Resource Directory           November 2020
    A link matches a search criterion if it has an attribute of the same
    name and the same value, allowing for a trailing "*" wildcard
    operator as in Section 4.1 of [RFC6690].  Attributes that are defined
-
-
-
-Shelby, et al.             Expires 5 May 2021                  [Page 35]
-
-Internet-Draft           CoRE Resource Directory           November 2020
-
-
    as "relation-types" (in the link-format ABNF) match if the search
    value matches any of their values (see Section 4.1 of [RFC6690]; e.g.
    "?if=tag:example.net,2020:sensor" matches ";if="example.regname
@@ -1990,6 +2121,15 @@ Internet-Draft           CoRE Resource Directory           November 2020
    0-9).  Count = 10 and page = 1 will return the next 'page' containing
    links 10-19, and so on.
 
+
+
+
+
+Amsüss, et al.           Expires 22 August 2021                [Page 38]
+
+Internet-Draft           CoRE Resource Directory           February 2021
+
+
    Endpoints that are interested in a lookup result repeatedly or
    continuously can use mechanisms like ETag caching, resource
    observation ([RFC7641]), or any future mechanism that might allow
@@ -2009,14 +2149,6 @@ Internet-Draft           CoRE Resource Directory           November 2020
    Interaction:  Client -> RD
 
    Method:  GET
-
-
-
-
-Shelby, et al.             Expires 5 May 2021                  [Page 36]
-
-Internet-Draft           CoRE Resource Directory           November 2020
-
 
    URI Template:  {+type-lookup-location}{?page,count,search*}
 
@@ -2047,13 +2179,22 @@ Internet-Draft           CoRE Resource Directory           November 2020
    Accept:  absent, application/link-format or any other indicated media
       type representing web links
 
+
+
+Amsüss, et al.           Expires 22 August 2021                [Page 39]
+
+Internet-Draft           CoRE Resource Directory           February 2021
+
+
    The following responses codes are defined for this interface:
 
    Success:  2.05 "Content" or 200 "OK" with an "application/link-
       format" or other web link payload containing matching entries for
-      the lookup.  The payload can contain zero links (which is an empty
-      payload in [RFC6690] link format, but could also be "[]" in JSON
-      based formats), indicating that no entities matched the request.
+      the lookup.
+
+      The payload can contain zero links (which is an empty payload in
+      [RFC6690] link format, but could also be "[]" in JSON based
+      formats), indicating that no entities matched the request.
 
 6.3.  Resource lookup examples
 
@@ -2064,16 +2205,6 @@ Internet-Draft           CoRE Resource Directory           November 2020
    The following example shows a client performing a resource lookup
    with the example resource look-up locations discovered in Figure 5:
 
-
-
-
-
-
-Shelby, et al.             Expires 5 May 2021                  [Page 37]
-
-Internet-Draft           CoRE Resource Directory           November 2020
-
-
    Req: GET /rd-lookup/res?rt=tag:example.org,2020:temperature
 
    Res: 2.05 Content
@@ -2081,10 +2212,35 @@ Internet-Draft           CoRE Resource Directory           November 2020
        rt="tag:example.org,2020:temperature";
        anchor="coap://[2001:db8:3::123]:61616"
 
-                    Figure 18: Example a resource lookup
+                    Figure 19: Example a resource lookup
 
    A client that wants to be notified of new resources as they show up
    can use observation:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Amsüss, et al.           Expires 22 August 2021                [Page 40]
+
+Internet-Draft           CoRE Resource Directory           February 2021
+
 
    Req: GET /rd-lookup/res?rt=tag:example.org,2020:light
    Observe: 0
@@ -2105,7 +2261,7 @@ Internet-Draft           CoRE Resource Directory           November 2020
    <coap://[2001:db8:3::124]/east>;rt="tag:example.org,2020:light";
        anchor="coap://[2001:db8:3::124]"
 
-              Figure 19: Example an observing resource lookup
+              Figure 20: Example an observing resource lookup
 
    The following example shows a client performing a paginated resource
    lookup
@@ -2125,9 +2281,21 @@ Internet-Draft           CoRE Resource Directory           November 2020
 
 
 
-Shelby, et al.             Expires 5 May 2021                  [Page 38]
+
+
+
+
+
+
+
+
+
+
+
+
+Amsüss, et al.           Expires 22 August 2021                [Page 41]
 
-Internet-Draft           CoRE Resource Directory           November 2020
+Internet-Draft           CoRE Resource Directory           February 2021
 
 
    Req: GET /rd-lookup/res?page=0&count=5
@@ -2158,7 +2326,7 @@ Internet-Draft           CoRE Resource Directory           November 2020
    <coap://[2001:db8:3::123]:61616/res/9>;ct=60;
        anchor="coap://[2001:db8:3::123]:61616"
 
-              Figure 20: Examples of paginated resource lookup
+              Figure 21: Examples of paginated resource lookup
 
    The following example shows a client performing a lookup of all
    resources of all endpoints of a given endpoint type.  It assumes that
@@ -2181,9 +2349,9 @@ Internet-Draft           CoRE Resource Directory           November 2020
 
 
 
-Shelby, et al.             Expires 5 May 2021                  [Page 39]
+Amsüss, et al.           Expires 22 August 2021                [Page 42]
 
-Internet-Draft           CoRE Resource Directory           November 2020
+Internet-Draft           CoRE Resource Directory           February 2021
 
 
    Req: GET /rd-lookup/res?et=tag:example.com,2020:platform
@@ -2209,7 +2377,7 @@ Internet-Draft           CoRE Resource Directory           November 2020
    <coap://sensor2.example.com/t>;rel="alternate";
        anchor="coap://sensor2.example.com/sensors/temp"
 
-       Figure 21: Example of resource lookup from multiple endpoints
+       Figure 22: Example of resource lookup from multiple endpoints
 
 6.4.  Endpoint lookup
 
@@ -2237,9 +2405,9 @@ Internet-Draft           CoRE Resource Directory           November 2020
 
 
 
-Shelby, et al.             Expires 5 May 2021                  [Page 40]
+Amsüss, et al.           Expires 22 August 2021                [Page 43]
 
-Internet-Draft           CoRE Resource Directory           November 2020
+Internet-Draft           CoRE Resource Directory           February 2021
 
 
    While Endpoint Lookup does expose the registration resources, the RD
@@ -2265,7 +2433,7 @@ Internet-Draft           CoRE Resource Directory           November 2020
        et="tag:example.com,2020:platform";ct="40";d="floor-3";
        rt="core.rd-ep"
 
-                   Figure 22: Examples of endpoint lookup
+                   Figure 23: Examples of endpoint lookup
 
 7.  Security policies
 
@@ -2293,9 +2461,9 @@ Internet-Draft           CoRE Resource Directory           November 2020
 
 
 
-Shelby, et al.             Expires 5 May 2021                  [Page 41]
+Amsüss, et al.           Expires 22 August 2021                [Page 44]
 
-Internet-Draft           CoRE Resource Directory           November 2020
+Internet-Draft           CoRE Resource Directory           February 2021
 
 
 7.1.  Endpoint name
@@ -2310,9 +2478,10 @@ Internet-Draft           CoRE Resource Directory           November 2020
    authorization credentials authorizing only operations on that
    particular endpoint name, or a wider range of endpoint names.
 
-   When certificates are used as authorization credentials, the
-   sector(s) and endpoint name(s) can be transported in the subject.  In
-   an ACE context, those are typically transported in a scope claim.
+   It is up to the concrete security policy to describe how endpoint
+   name and sector are transported when certificates are used.  For
+   example, it may describe how SubjectAltName dNSName entries are
+   mapped to endpoint and domain names.
 
 7.1.1.  Random endpoint names
 
@@ -2345,15 +2514,15 @@ Internet-Draft           CoRE Resource Directory           November 2020
    Note that the impact of having undesirable links in the RD depends on
    the application: if the client requires the firmware server to
    present credentials as a firmware server, a fraudulent link's impact
-   is limited to the client revealing its intention to obtain updates
 
 
 
-Shelby, et al.             Expires 5 May 2021                  [Page 42]
+Amsüss, et al.           Expires 22 August 2021                [Page 45]
 
-Internet-Draft           CoRE Resource Directory           November 2020
+Internet-Draft           CoRE Resource Directory           February 2021
 
 
+   is limited to the client revealing its intention to obtain updates
    and slowing down the client until it finds a legitimate firmware
    server; if the client accepts any credentials from the server as long
    as they fit the provided URI, the impact is larger.
@@ -2371,13 +2540,16 @@ Internet-Draft           CoRE Resource Directory           November 2020
    which the lookup client relies on the RD.  To avoid the limitations,
    RD applications should consider prescribing that lookup clients only
    use the discovered information as hints, and describe which pieces of
-   information need to be verified with the server because they impact
-   the application's security.
+   information need to be verified because they impact the application's
+   security.  A straightforward way to verify such information is to
+   request it again from an authorized server, typically the one that
+   hosts the target resource.  That similar to what happens in
+   Section 4.3 when the URI discovery step is repeated.
 
 7.3.  Link confidentiality
 
    When registrants publish information in the RD that is not available
-   to any client that would query the registrant's .well-known/core
+   to any client that would query the registrant's /.well-known/core
    interface, or when lookups to that interface are subject so stricter
    firewalling than lookups to the RD, the RD may need to limit which
    lookup clients may access the information.
@@ -2395,20 +2567,21 @@ Internet-Draft           CoRE Resource Directory           November 2020
    approach to endpoint names and place limits on the entered links
    based on their attributes instead.
 
+
+
+
+
+
+
+Amsüss, et al.           Expires 22 August 2021                [Page 46]
+
+Internet-Draft           CoRE Resource Directory           February 2021
+
+
    Care must be taken in such setups to determine the applicable access
    control measures to each operation.  One easy way to do that is to
    mandate the use of the sector parameter on all operations, as no
    credentials are suitable for operations across sector borders anyway.
-
-
-
-
-
-
-Shelby, et al.             Expires 5 May 2021                  [Page 43]
-
-Internet-Draft           CoRE Resource Directory           November 2020
-
 
 7.5.  First-Come-First-Remembered: A default policy
 
@@ -2453,18 +2626,17 @@ Internet-Draft           CoRE Resource Directory           November 2020
    As part of the registration operation, that information is stored
    along with the registration resource.
 
+
+
+
+Amsüss, et al.           Expires 22 August 2021                [Page 47]
+
+Internet-Draft           CoRE Resource Directory           February 2021
+
+
    The RD MUST accept all registrations whose registration resource is
    not already active, as long as they are made using a security layer
    supported by the RD.
-
-
-
-
-
-Shelby, et al.             Expires 5 May 2021                  [Page 44]
-
-Internet-Draft           CoRE Resource Directory           November 2020
-
 
    Any operation on a registration resource, including registrations
    that lead to an existing registration resource, MUST be rejected by
@@ -2474,7 +2646,7 @@ Internet-Draft           CoRE Resource Directory           November 2020
    Note that even though subject names are compared in this policy, they
    are never directly compared to endpoint names, and an endpoint can
    not expect to "own" any particular endpoint name outside of an active
-   registration - even if a certificate says so.  It is an accepted
+   registration -- even if a certificate says so.  It is an accepted
    shortcoming of this approach that the endpoint has no indication of
    whether the RD remembers it by its subject name or public key;
    recognition by subject happens on a best-effort base (given the RD
@@ -2487,7 +2659,10 @@ Internet-Draft           CoRE Resource Directory           November 2020
    not set a sector name in their registrations.  An RD can set a
    default sector name for registrations accepted under this policy,
    which is useful especially in a segmented setup where different
-   policies apply to different sectors.
+   policies apply to different sectors.  The configuration of such a
+   behavior, as well as any other configuration applicable to such an RD
+   (i.e. the set of recognized authorities) is out of scope for this
+   document.
 
 8.  Security Considerations
 
@@ -2500,6 +2675,20 @@ Internet-Draft           CoRE Resource Directory           November 2020
    e.g. using (D)TLS or OSCORE ([RFC8613]; which aspects of the RD this
    affects depends on the security policies of the application (see
    Section 7).
+
+
+
+
+
+
+
+
+
+
+Amsüss, et al.           Expires 22 August 2021                [Page 48]
+
+Internet-Draft           CoRE Resource Directory           February 2021
+
 
 8.1.  Discovery
 
@@ -2514,13 +2703,6 @@ Internet-Draft           CoRE Resource Directory           November 2020
    discovery options like configured addresses, and send queries for RDs
    in a very general form ("?rt=core.rd*" rather than "?rt=core.rd-
    lookup-ep").
-
-
-
-Shelby, et al.             Expires 5 May 2021                  [Page 45]
-
-Internet-Draft           CoRE Resource Directory           November 2020
-
 
 8.2.  Endpoint Identification and Authentication
 
@@ -2549,13 +2731,25 @@ Internet-Draft           CoRE Resource Directory           November 2020
    Endpoint authorization needs to be checked on registration and
    registration resource operations independently of whether there are
    configured requirements on the credentials for a given endpoint name
-   (Section 7.1) or whether arbitrary names are accepted
+   (and sector; Section 7.1) or whether arbitrary names are accepted
    (Section 7.1.1).
+
+   Operations on Registration Resources need to be ordered when the
+   security mechanism does not provide freshness guarantees.
+   Section 5.3.4 outlines ways to do that and consequences of accepting
+   stale requests.
+
+
+
+Amsüss, et al.           Expires 22 August 2021                [Page 49]
+
+Internet-Draft           CoRE Resource Directory           February 2021
+
 
    Simple registration could be used to circumvent address-based access
    control: An attacker would send a simple registration request with
    the victim's address as source address, and later look up the
-   victim's .well-known/core content in the RD.  Mitigation for this is
+   victim's /.well-known/core content in the RD.  Mitigation for this is
    recommended in Section 5.1.
 
    The Registration Resource path is visible to any client that is
@@ -2564,19 +2758,6 @@ Internet-Draft           CoRE Resource Directory           November 2020
    shown as target attributes or lookup attributes.  The RD needs to
    consider this in the choice of Registration Resource paths, and
    administrators or endpoint in their choice of attributes.
-
-
-
-
-
-
-
-
-
-Shelby, et al.             Expires 5 May 2021                  [Page 46]
-
-Internet-Draft           CoRE Resource Directory           November 2020
-
 
 8.3.  Access Control
 
@@ -2613,6 +2794,38 @@ Internet-Draft           CoRE Resource Directory           November 2020
 
    ]
 
+
+
+
+Amsüss, et al.           Expires 22 August 2021                [Page 50]
+
+Internet-Draft           CoRE Resource Directory           February 2021
+
+
+8.5.  Foregone freshness checks
+
+   When deploying an RD setup in which freshness checks registration
+   resource operations are forgone, these concerns need to be balanced:
+
+   *  When alterations to registration attributes are reordered, an
+      attacker may create any combination of attributes ever set, with
+      the attack difficulty determined by the security layer's replay
+      properties.
+
+      For example, if Figure 18 were conducted without freshness
+      assurances, an attacker could later reset the lifetime back to
+      7200.  Thus, the device is made unreachable to lookup clients.
+
+   *  When registration updates without query parameters (which just
+      serve to restart the lifetime) can be reordered, an attacker can
+      use intercepted messages to give the appearance of the device
+      being alive to the RD.
+
+      This is unacceptable when when the RD's security policy promises
+      reachability of endpoints (e.g. when disappearing devices would
+      trigger further investigation), but may be acceptable with other
+      policies.
+
 9.  IANA Considerations
 
 9.1.  Resource Types
@@ -2629,9 +2842,20 @@ Internet-Draft           CoRE Resource Directory           November 2020
 
 
 
-Shelby, et al.             Expires 5 May 2021                  [Page 47]
+
+
+
+
+
+
+
+
+
+
+
+Amsüss, et al.           Expires 22 August 2021                [Page 51]
 
-Internet-Draft           CoRE Resource Directory           November 2020
+Internet-Draft           CoRE Resource Directory           February 2021
 
 
     +====================+=============================+=============+
@@ -2685,9 +2909,9 @@ Internet-Draft           CoRE Resource Directory           November 2020
 
 
 
-Shelby, et al.             Expires 5 May 2021                  [Page 48]
+Amsüss, et al.           Expires 22 August 2021                [Page 52]
 
-Internet-Draft           CoRE Resource Directory           November 2020
+Internet-Draft           CoRE Resource Directory           February 2021
 
 
    *  a description,
@@ -2741,9 +2965,9 @@ Internet-Draft           CoRE Resource Directory           November 2020
 
 
 
-Shelby, et al.             Expires 5 May 2021                  [Page 49]
+Amsüss, et al.           Expires 22 August 2021                [Page 53]
 
-Internet-Draft           CoRE Resource Directory           November 2020
+Internet-Draft           CoRE Resource Directory           February 2021
 
 
     +==============+=======+==============+=====+=====================+
@@ -2779,7 +3003,7 @@ Internet-Draft           CoRE Resource Directory           November 2020
    (Short: Short name used in query parameters or target attributes.
    Validity: Unicode* = 63 Bytes of UTF-8 encoded Unicode, with no
    control characters as per Section 5.  Use: R = used at registration,
-   L = used at lookup, A = expressed in target attribute
+   L = used at lookup, A = expressed in target attribute.)
 
    The descriptions for the options defined in this document are only
    summarized here.  To which registrations they apply and when they are
@@ -2797,9 +3021,9 @@ Internet-Draft           CoRE Resource Directory           November 2020
 
 
 
-Shelby, et al.             Expires 5 May 2021                  [Page 50]
+Amsüss, et al.           Expires 22 August 2021                [Page 54]
 
-Internet-Draft           CoRE Resource Directory           November 2020
+Internet-Draft           CoRE Resource Directory           February 2021
 
 
    example, "if" could be used as a parameter for conditional
@@ -2808,7 +3032,7 @@ Internet-Draft           CoRE Resource Directory           November 2020
    an "if" query parameter could ambiguously filter by the registered
    endpoint property or the [RFC6690] target attribute).
 
-9.3.1.  Full description of the "Endpoint Type" Registration Parameter
+9.3.1.  Full description of the "Endpoint Type" RD Parameter
 
    An endpoint registering at an RD can describe itself with endpoint
    types, similar to how resources are described with Resource Types in
@@ -2853,9 +3077,9 @@ Internet-Draft           CoRE Resource Directory           November 2020
 
 
 
-Shelby, et al.             Expires 5 May 2021                  [Page 51]
+Amsüss, et al.           Expires 22 August 2021                [Page 55]
 
-Internet-Draft           CoRE Resource Directory           November 2020
+Internet-Draft           CoRE Resource Directory           February 2021
 
 
    *  "core.rd-group": An application group as described in Appendix A.
@@ -2865,13 +3089,13 @@ Internet-Draft           CoRE Resource Directory           November 2020
    IANA is asked to assign the following multicast addresses for use by
    CoAP nodes:
 
-   IPv4 - "all CoRE Resource Directories" address MCD2 (suggestion:
+   IPv4 -- "all CoRE Resource Directories" address MCD2 (suggestion:
    224.0.1.189), from the "IPv4 Multicast Address Space Registry".  As
    the address is used for discovery that may span beyond a single
    network, it has come from the Internetwork Control Block (224.0.1.x)
    [RFC5771].
 
-   IPv6 - "all CoRE Resource Directories" address MCD1 (suggestions
+   IPv6 -- "all CoRE Resource Directories" address MCD1 (suggestions
    FF0X::FE), from the "IPv6 Multicast Address Space Registry", in the
    "Variable Scope Multicast Addresses" space (RFC 3307).  Note that
    there is a distinct multicast address for each scope that interested
@@ -2909,9 +3133,9 @@ Internet-Draft           CoRE Resource Directory           November 2020
 
 
 
-Shelby, et al.             Expires 5 May 2021                  [Page 52]
+Amsüss, et al.           Expires 22 August 2021                [Page 56]
 
-Internet-Draft           CoRE Resource Directory           November 2020
+Internet-Draft           CoRE Resource Directory           February 2021
 
 
 10.  Examples
@@ -2965,9 +3189,9 @@ Internet-Draft           CoRE Resource Directory           November 2020
 
 
 
-Shelby, et al.             Expires 5 May 2021                  [Page 53]
+Amsüss, et al.           Expires 22 August 2021                [Page 57]
 
-Internet-Draft           CoRE Resource Directory           November 2020
+Internet-Draft           CoRE Resource Directory           February 2021
 
 
    At the moment of installation, the network under installation is not
@@ -3021,9 +3245,9 @@ Internet-Draft           CoRE Resource Directory           November 2020
 
 
 
-Shelby, et al.             Expires 5 May 2021                  [Page 54]
+Amsüss, et al.           Expires 22 August 2021                [Page 58]
 
-Internet-Draft           CoRE Resource Directory           November 2020
+Internet-Draft           CoRE Resource Directory           February 2021
 
 
    +=========+================+========+===============================+
@@ -3077,9 +3301,9 @@ Internet-Draft           CoRE Resource Directory           November 2020
 
 
 
-Shelby, et al.             Expires 5 May 2021                  [Page 55]
+Amsüss, et al.           Expires 22 August 2021                [Page 59]
 
-Internet-Draft           CoRE Resource Directory           November 2020
+Internet-Draft           CoRE Resource Directory           February 2021
 
 
    Req: POST coap://[2001:db8:4::ff]/rd
@@ -3110,7 +3334,7 @@ Internet-Draft           CoRE Resource Directory           November 2020
    Res: 2.01 Created
    Location-Path: /rd/4523
 
-         Figure 23: Example of registrations a CT enters into an RD
+         Figure 24: Example of registrations a CT enters into an RD
 
    The sector name d=R2-4-015 has been added for an efficient lookup
    because filtering on "ep" name is more awkward.  The same sector name
@@ -3133,9 +3357,9 @@ Internet-Draft           CoRE Resource Directory           November 2020
 
 
 
-Shelby, et al.             Expires 5 May 2021                  [Page 56]
+Amsüss, et al.           Expires 22 August 2021                [Page 60]
 
-Internet-Draft           CoRE Resource Directory           November 2020
+Internet-Draft           CoRE Resource Directory           February 2021
 
 
    Req: POST coap://[2001:db8:4::ff]/rd
@@ -3148,7 +3372,7 @@ Internet-Draft           CoRE Resource Directory           November 2020
    Res: 2.01 Created
    Location-Path: /rd/501
 
-       Figure 24: Example of a multicast group a CT enters into an RD
+       Figure 25: Example of a multicast group a CT enters into an RD
 
    After the filling of the RD by the CT, the application in the
    luminaries can learn to which groups they belong, and enable their
@@ -3165,7 +3389,7 @@ Internet-Draft           CoRE Resource Directory           November 2020
    </rd/501>;ep="grp_R2-4-015";et="core.rd-group";
              base="coap://[ff05::1]";rt="core.rd-ep"
 
-          Figure 25: Example of a lookup exchange to find suitable
+          Figure 26: Example of a lookup exchange to find suitable
                             multicast addresses
 
    From the returned base parameter value, the luminary learns the
@@ -3189,9 +3413,9 @@ Internet-Draft           CoRE Resource Directory           November 2020
 
 
 
-Shelby, et al.             Expires 5 May 2021                  [Page 57]
+Amsüss, et al.           Expires 22 August 2021                [Page 61]
 
-Internet-Draft           CoRE Resource Directory           November 2020
+Internet-Draft           CoRE Resource Directory           February 2021
 
 
    That RD only implements the registration interface, and no lookup is
@@ -3217,21 +3441,45 @@ Internet-Draft           CoRE Resource Directory           November 2020
 
    changes from -25 to -26
 
-   *  Various editorial fixes in response to Gen-ART and IESG reviews.
+   *  Security policies:
 
-   *  Random EP names: Point that multiple collisions are possible but
-      unlikely.
+      -  The First-Come-First-Remembered policy is added as an example
+         and a potential default behavior.
 
-      (For background, in the first round of attempts there's a good
-      chance that one of the random IDs will collide due to the birthday
-      paradox; the likelyhood for a second (or even third) collision in
-      a row is way below that because only the colliding node(s) will
-      retry).
+      -  Clarify that the mapping between endpoint names and subject
+         fields is up to a policy that defines reliance on names, and
+         give an example.
+
+      -  Random EP names: Point that multiple collisions are possible
+         but unlikely.
+
+      -  Add pointers to policies:
+
+         o  RD replication: Point out that policies may limit that.
+
+         o  Registration: Reword (ep, d) mapping to a previous
+            registration's resource that could have been read as another
+            endpoint taking over an existing registration.
+
+      -  Clarify that the security policy is a property of the RD the
+         any client may need to verify by checking the RD's
+         authorization.
+
+      -  Clarify how information from an untrusted RD can be verified
+
+
+
+Amsüss, et al.           Expires 22 August 2021                [Page 62]
+
+Internet-Draft           CoRE Resource Directory           February 2021
+
+
+      -  Remove speculation about how in detail ACE scopes are obtained.
 
    *  Security considerations:
 
-      -  List all current options for security layers usable with CoAP
-         (OSCORE was missing as the text predated RFC8613)
+      -  Generalize to all current options for security layers usable
+         with CoAP (OSCORE was missing as the text predated RFC8613)
 
       -  Relax the previous SHOULD on secure access to SHOULD where
          protection is indicated by security policies (bringing the text
@@ -3241,27 +3489,53 @@ Internet-Draft           CoRE Resource Directory           November 2020
          has implications depending on the protection objective
          described with the security policies
 
-
-
-
-
-Shelby, et al.             Expires 5 May 2021                  [Page 58]
-
-Internet-Draft           CoRE Resource Directory           November 2020
-
-
-      -  Shorten amplification mitigation by removing the references to
-         earlier cases of DDoS amplification, and by removing
-         redundancies between the problem introduction and the
-         description of how an RD could become part of the problem.
-
-      -  Acknowledge that most discovery operations are not secured;
-         mention consequences and mitigation.
+      -  Shorten amplification mitigation
 
       -  Add note about information in Registration Resource path.
 
-   *  RDAO: Clarify that it is an option for RAs and not other ND
-      messages.
+      -  Acknowledge that most host discovery operations are not
+         secured; mention consequences and mitigation.
+
+   *  Abstract, introduction: removed "or disperse networks"
+
+   *  RD discovery:
+
+      -  Drop the previously stated assumption that RDAO and any DHCP
+         options would only be used together with SLAAC and DHCP for
+         address configuration, respectivly.
+
+      -  Give concrete guidance for address selection based on RFC6724
+         when responding to multicasts
+
+      -  RDAO:
+
+         o  Clarify that it is an option for RAs and not other ND
+            messages.
+
+         o  Change Lifetime from 16-bit minutes to 32-bit seconds and
+            swap it with Reserved (aligning it with RDNSS which it
+            shares other properties as well).
+
+      -  Point out that clients may need to check RD authorization
+         already in last discovery step
+
+   *  Registration:
+
+
+
+
+
+Amsüss, et al.           Expires 22 August 2021                [Page 63]
+
+Internet-Draft           CoRE Resource Directory           February 2021
+
+
+      -  Wording around "mostly mandatory" has been improved, conflicts
+         clarified and sector default selection adjusted.
+
+   *  Simple registration: Rather than coopting POSTs to /.well-known/
+      core, a new resource /.well-known/rd is registered.  A historical
+      note in the text documents the change.
 
    *  Examples:
 
@@ -3274,61 +3548,53 @@ Internet-Draft           CoRE Resource Directory           November 2020
 
       -  Luminary example: Explain example addresses
 
+      -  Luminary example: Drop reference to coap-group mechanism that's
+         becoming obsolete, and thus also to RFC7390
+
       -  Multicast addresses in the examples were changed from
          ff35:30:2001:db8::x to ff35:30:2001:db8:f1::8000:x; the 8000 is
          to follow RFC 3307, and the f1 is for consistency with all the
          other example addresses where 2001:db8::/32 is subnetted to
          2001:db8:x::/48 by groups of internally consistent examples.
 
-   *  impl-info: Add note about the type being WIP
+   *  Use case text enhancements
+
+      -  Home and building automation: Tie in with RD
+
+      -  M2M: Move system design paragraph towards the topic of
+         reusability.
+
+   *  Various editorial fixes in response to Gen-ART and IESG reviews.
+
+   *  Rename 'Full description of the "Endpoint Type" Registration
+      Parameter' section to '... RD Parameter'
 
    *  Error handling: Place a SHOULD around the likely cases, and make
       the previous "MUST to the best of their capabilities" a "must".
 
-   *  Registration:
+   *  impl-info: Add note about the type being WIP
 
-      -  Point to security policies when (ep, d) mapping to a previous
-         registration's resource could have been read as another
-         endpoint taking over an existing registration.
-
-      -  Wording around "mostly mandatory" has been improved, conflicts
-         clarified and sector default selection adjusted.
-
-   *  Home and building automation use case: Tie in with RD
+   *  Interaction tables: list CTs as possible initiators where
+      applicable
 
 
 
 
 
-
-Shelby, et al.             Expires 5 May 2021                  [Page 59]
+Amsüss, et al.           Expires 22 August 2021                [Page 64]
 
-Internet-Draft           CoRE Resource Directory           November 2020
+Internet-Draft           CoRE Resource Directory           February 2021
 
 
-   *  Simple registration: Rather than coopting POSTs to /.well-known/
-      core, a new resource /.well-known/rd is registered.  A historical
-      note in the text documents the change.
+   *  Registration update: Relax requirement to not send parameters
+      needlessly
 
-   *  RD replication: Point out that security policies may limit that.
+   *  Terminology: Clarify that the CTs' installation events can occur
+      multiple times.
 
-   *  Abstract, introduction: removed "or disperse networks"
+   *  Promote RFCs 7252, 7230 and 8288 to normative references
 
-   *  Security policies:
-
-      -  Clarify that with all security policies, clients must verify
-         the authorization of the RD.
-
-      -  Remove speculation about how in detail ACE scopes are obtained.
-
-   *  Security policies:
-
-      -  The First-Come-First-Remembered policy is added as an example
-         and a potential default behavior.
-
-   *  RD discovery: Drop the previously stated assumption that RDAO and
-      any DHCP options would only be used together with SLAAC and DHCP
-      for address configuration, respectivly.
+   *  Moved Christian Amsuess to first author
 
    changes from -24 to -25
 
@@ -3355,13 +3621,6 @@ Internet-Draft           CoRE Resource Directory           November 2020
    *  Reference existing and upcoming specifications for DDOS mitigation
       in CoAP.
 
-
-
-Shelby, et al.             Expires 5 May 2021                  [Page 60]
-
-Internet-Draft           CoRE Resource Directory           November 2020
-
-
    *  Explain the provenance of the example's multicast address.
 
    *  Make "SHOULD" of not manipulating foreign registrations a "should"
@@ -3375,6 +3634,13 @@ Internet-Draft           CoRE Resource Directory           November 2020
 
       -  Don't announce expected number of registrations (goes to write-
          up)
+
+
+
+Amsüss, et al.           Expires 22 August 2021                [Page 65]
+
+Internet-Draft           CoRE Resource Directory           February 2021
+
 
       -  Include syntax as part of a field's validity in entry
          requirements
@@ -3411,13 +3677,6 @@ Internet-Draft           CoRE Resource Directory           November 2020
 
    *  Lookup: mention that anchor is a legitimate lookup attribute
 
-
-
-Shelby, et al.             Expires 5 May 2021                  [Page 61]
-
-Internet-Draft           CoRE Resource Directory           November 2020
-
-
    *  Terminology and example fixes
 
    *  Layout fixes, esp. the use of non-ASCII characters in figures
@@ -3429,6 +3688,15 @@ Internet-Draft           CoRE Resource Directory           November 2020
    *  Typo fixes
 
    changes from -21 to -22
+
+
+
+
+
+Amsüss, et al.           Expires 22 August 2021                [Page 66]
+
+Internet-Draft           CoRE Resource Directory           February 2021
+
 
    *  Request a dedicated IPv4 address from IANA (rather than sharing
       with All CoAP nodes)
@@ -3466,14 +3734,6 @@ Internet-Draft           CoRE Resource Directory           November 2020
 
    *  Shifted heading levels to have the interfaces on the same level
 
-
-
-
-Shelby, et al.             Expires 5 May 2021                  [Page 62]
-
-Internet-Draft           CoRE Resource Directory           November 2020
-
-
    *  Group instructions for error handling into general section
 
    *  Simple Registration: process reflowed into items list
@@ -3485,6 +3745,14 @@ Internet-Draft           CoRE Resource Directory           November 2020
    *  Update acknowledgements
 
    *  Assorted editorial changes
+
+
+
+
+Amsüss, et al.           Expires 22 August 2021                [Page 67]
+
+Internet-Draft           CoRE Resource Directory           February 2021
+
 
       -  Unify examples style
 
@@ -3521,15 +3789,6 @@ Internet-Draft           CoRE Resource Directory           November 2020
    *  Reshuffling of sections: Move additional operations and endpoint
       lookup back from appendix, and groups into one
 
-
-
-
-
-Shelby, et al.             Expires 5 May 2021                  [Page 63]
-
-Internet-Draft           CoRE Resource Directory           November 2020
-
-
    *  Lookup interface tightened to not imply applicability for non
       link-format lookups (as those can have vastly different views on
       link cardinality)
@@ -3541,6 +3800,15 @@ Internet-Draft           CoRE Resource Directory           November 2020
 
    *  Abstract and introduction reworded to avoid the impression that
       resources are stored in full in the RD
+
+
+
+
+
+Amsüss, et al.           Expires 22 August 2021                [Page 68]
+
+Internet-Draft           CoRE Resource Directory           February 2021
+
 
    *  Simplify the rules governing when a registration resource can or
       must be changed.
@@ -3579,13 +3847,6 @@ Internet-Draft           CoRE Resource Directory           November 2020
 
    *  Clarified use of multicast group in lighting example
 
-
-
-Shelby, et al.             Expires 5 May 2021                  [Page 64]
-
-Internet-Draft           CoRE Resource Directory           November 2020
-
-
    *  Add note on concurrent registrations from one EP being possible
       but not expected
 
@@ -3597,6 +3858,13 @@ Internet-Draft           CoRE Resource Directory           November 2020
    *  Editorial changes
 
    changes from -14 to -15
+
+
+
+Amsüss, et al.           Expires 22 August 2021                [Page 69]
+
+Internet-Draft           CoRE Resource Directory           February 2021
+
 
    *  Rewrite of section "Security policies"
 
@@ -3634,14 +3902,6 @@ Internet-Draft           CoRE Resource Directory           November 2020
 
       -  Rewording of Simple Registration
 
-
-
-
-Shelby, et al.             Expires 5 May 2021                  [Page 65]
-
-Internet-Draft           CoRE Resource Directory           November 2020
-
-
    *  Simple registration carries no error information and succeeds
       immediately (previously, sequence was unspecified)
 
@@ -3654,6 +3914,13 @@ Internet-Draft           CoRE Resource Directory           November 2020
 
    *  Registration resource locations can not have query or fragment
       parts
+
+
+
+Amsüss, et al.           Expires 22 August 2021                [Page 70]
+
+Internet-Draft           CoRE Resource Directory           February 2021
+
 
    *  Default life time extended to 25 hours
 
@@ -3689,15 +3956,6 @@ Internet-Draft           CoRE Resource Directory           November 2020
 
    *  added Content Model section, including ER diagram
 
-
-
-
-
-Shelby, et al.             Expires 5 May 2021                  [Page 66]
-
-Internet-Draft           CoRE Resource Directory           November 2020
-
-
    *  removed domain lookup interface; domains are now plain attributes
       of groups and endpoints
 
@@ -3711,6 +3969,14 @@ Internet-Draft           CoRE Resource Directory           November 2020
 
    *  clarified where relative references are resolved, and how context
       and anchor interact
+
+
+
+
+Amsüss, et al.           Expires 22 August 2021                [Page 71]
+
+Internet-Draft           CoRE Resource Directory           February 2021
+
 
    *  new appendix on the interaction with RFCs 6690, 5988 and 3986
 
@@ -3746,14 +4012,6 @@ Internet-Draft           CoRE Resource Directory           November 2020
 
    *  moved simple registration to registration section
 
-
-
-
-Shelby, et al.             Expires 5 May 2021                  [Page 67]
-
-Internet-Draft           CoRE Resource Directory           November 2020
-
-
    changes from -08 to -09
 
    *  clarified the "example use" of the base RD resource values /rd,
@@ -3766,6 +4024,15 @@ Internet-Draft           CoRE Resource Directory           November 2020
    *  clarifications for RDAO
 
    changes from -07 to -08
+
+
+
+
+
+Amsüss, et al.           Expires 22 August 2021                [Page 72]
+
+Internet-Draft           CoRE Resource Directory           February 2021
+
 
    *  removed link target value returned from domain and group lookup
       types
@@ -3803,13 +4070,6 @@ Internet-Draft           CoRE Resource Directory           November 2020
 
    Changes from -05 to -06
 
-
-
-Shelby, et al.             Expires 5 May 2021                  [Page 68]
-
-Internet-Draft           CoRE Resource Directory           November 2020
-
-
    *  added note that the PATCH section is contingent on the progress of
       the PATCH method
 
@@ -3822,6 +4082,13 @@ Internet-Draft           CoRE Resource Directory           November 2020
    *  Added http examples
 
    Changes from -03 to -04:
+
+
+
+Amsüss, et al.           Expires 22 August 2021                [Page 73]
+
+Internet-Draft           CoRE Resource Directory           February 2021
+
 
    *  Added http response codes
 
@@ -3859,13 +4126,6 @@ Internet-Draft           CoRE Resource Directory           November 2020
    *  Made 63 bytes a SHOULD rather than a MUST for endpoint name and
       resource type parameters.
 
-
-
-Shelby, et al.             Expires 5 May 2021                  [Page 69]
-
-Internet-Draft           CoRE Resource Directory           November 2020
-
-
    Changes from -00 to -01:
 
    *  Removed the ETag validation feature.
@@ -3877,6 +4137,14 @@ Internet-Draft           CoRE Resource Directory           November 2020
    *  New registry for RD parameters.
 
    *  Added support for the JSON Link Format.
+
+
+
+
+Amsüss, et al.           Expires 22 August 2021                [Page 74]
+
+Internet-Draft           CoRE Resource Directory           February 2021
+
 
    *  Added reference to the Groupcomm WG draft.
 
@@ -3913,15 +4181,6 @@ Internet-Draft           CoRE Resource Directory           November 2020
    *  Changed the endpoint name back to a single registration parameter
       ep= and removed the h= and ins= parameters.
 
-
-
-
-
-Shelby, et al.             Expires 5 May 2021                  [Page 70]
-
-Internet-Draft           CoRE Resource Directory           November 2020
-
-
    *  Updated REST interface descriptions to use RFC6570 URI Template
       format.
 
@@ -3935,6 +4194,13 @@ Internet-Draft           CoRE Resource Directory           November 2020
    Changes from -01 to -02:
 
    *  Added a terminology section.
+
+
+
+Amsüss, et al.           Expires 22 August 2021                [Page 75]
+
+Internet-Draft           CoRE Resource Directory           February 2021
+
 
    *  Changed the inclusion of an ETag in registration or update to a
       MAY.
@@ -3968,16 +4234,6 @@ Internet-Draft           CoRE Resource Directory           November 2020
               DOI 10.17487/RFC6570, March 2012,
               <https://www.rfc-editor.org/info/rfc6570>.
 
-
-
-
-
-
-Shelby, et al.             Expires 5 May 2021                  [Page 71]
-
-Internet-Draft           CoRE Resource Directory           November 2020
-
-
    [RFC6690]  Shelby, Z., "Constrained RESTful Environments (CoRE) Link
               Format", RFC 6690, DOI 10.17487/RFC6690, August 2012,
               <https://www.rfc-editor.org/info/rfc6690>.
@@ -3985,6 +4241,27 @@ Internet-Draft           CoRE Resource Directory           November 2020
    [RFC6763]  Cheshire, S. and M. Krochmal, "DNS-Based Service
               Discovery", RFC 6763, DOI 10.17487/RFC6763, February 2013,
               <https://www.rfc-editor.org/info/rfc6763>.
+
+   [RFC7230]  Fielding, R., Ed. and J. Reschke, Ed., "Hypertext Transfer
+              Protocol (HTTP/1.1): Message Syntax and Routing",
+              RFC 7230, DOI 10.17487/RFC7230, June 2014,
+              <https://www.rfc-editor.org/info/rfc7230>.
+
+
+
+
+
+
+
+Amsüss, et al.           Expires 22 August 2021                [Page 76]
+
+Internet-Draft           CoRE Resource Directory           February 2021
+
+
+   [RFC7252]  Shelby, Z., Hartke, K., and C. Bormann, "The Constrained
+              Application Protocol (CoAP)", RFC 7252,
+              DOI 10.17487/RFC7252, June 2014,
+              <https://www.rfc-editor.org/info/rfc7252>.
 
    [RFC8126]  Cotton, M., Leiba, B., and T. Narten, "Guidelines for
               Writing an IANA Considerations Section in RFCs", BCP 26,
@@ -3994,6 +4271,10 @@ Internet-Draft           CoRE Resource Directory           November 2020
    [RFC8174]  Leiba, B., "Ambiguity of Uppercase vs Lowercase in RFC
               2119 Key Words", BCP 14, RFC 8174, DOI 10.17487/RFC8174,
               May 2017, <https://www.rfc-editor.org/info/rfc8174>.
+
+   [RFC8288]  Nottingham, M., "Web Linking", RFC 8288,
+              DOI 10.17487/RFC8288, October 2017,
+              <https://www.rfc-editor.org/info/rfc8288>.
 
 13.2.  Informative References
 
@@ -4006,62 +4287,61 @@ Internet-Draft           CoRE Resource Directory           November 2020
               Bormann, C., "impl-info: A link relation type for
               disclosing implementation information", Work in Progress,
               Internet-Draft, draft-bormann-t2trg-rel-impl-02, 27
-              September 2020, <http://www.ietf.org/internet-drafts/
-              draft-bormann-t2trg-rel-impl-02.txt>.
+              September 2020, <https://www.ietf.org/archive/id/draft-
+              bormann-t2trg-rel-impl-02.txt>.
 
    [I-D.hartke-t2trg-coral]
               Hartke, K., "The Constrained RESTful Application Language
               (CoRAL)", Work in Progress, Internet-Draft, draft-hartke-
-              t2trg-coral-09, 8 July 2019, <http://www.ietf.org/
-              internet-drafts/draft-hartke-t2trg-coral-09.txt>.
+              t2trg-coral-09, 8 July 2019,
+              <https://www.ietf.org/archive/id/draft-hartke-t2trg-coral-
+              09.txt>.
 
    [I-D.ietf-ace-oauth-authz]
               Seitz, L., Selander, G., Wahlstroem, E., Erdtman, S., and
               H. Tschofenig, "Authentication and Authorization for
               Constrained Environments (ACE) using the OAuth 2.0
               Framework (ACE-OAuth)", Work in Progress, Internet-Draft,
-              draft-ietf-ace-oauth-authz-35, 24 June 2020,
-              <http://www.ietf.org/internet-drafts/draft-ietf-ace-oauth-
-              authz-35.txt>.
+              draft-ietf-ace-oauth-authz-37, 4 February 2021,
+              <https://www.ietf.org/archive/id/draft-ietf-ace-oauth-
+              authz-37.txt>.
 
 
 
 
-
-
-Shelby, et al.             Expires 5 May 2021                  [Page 72]
+Amsüss, et al.           Expires 22 August 2021                [Page 77]
 
-Internet-Draft           CoRE Resource Directory           November 2020
+Internet-Draft           CoRE Resource Directory           February 2021
 
 
    [I-D.ietf-core-echo-request-tag]
-              Amsuess, C., Mattsson, J., and G. Selander, "CoAP: Echo,
+              Amsüss, C., Mattsson, J. P., and G. Selander, "CoAP: Echo,
               Request-Tag, and Token Processing", Work in Progress,
-              Internet-Draft, draft-ietf-core-echo-request-tag-10, 13
-              July 2020, <http://www.ietf.org/internet-drafts/draft-
-              ietf-core-echo-request-tag-10.txt>.
+              Internet-Draft, draft-ietf-core-echo-request-tag-12, 1
+              February 2021, <https://www.ietf.org/archive/id/draft-
+              ietf-core-echo-request-tag-12.txt>.
 
    [I-D.ietf-core-links-json]
-              Li, K., Rahman, A., and C. Bormann, "Representing
+              LI, K., Rahman, A., and C. Bormann, "Representing
               Constrained RESTful Environments (CoRE) Link Format in
               JSON and CBOR", Work in Progress, Internet-Draft, draft-
               ietf-core-links-json-10, 26 February 2018,
-              <http://www.ietf.org/internet-drafts/draft-ietf-core-
-              links-json-10.txt>.
+              <https://www.ietf.org/archive/id/draft-ietf-core-links-
+              json-10.txt>.
 
    [I-D.ietf-core-rd-dns-sd]
-              Stok, P., Koster, M., and C. Amsuess, "CoRE Resource
+              Stok, P. V. D., Koster, M., and C. Amsüss, "CoRE Resource
               Directory: DNS-SD mapping", Work in Progress, Internet-
               Draft, draft-ietf-core-rd-dns-sd-05, 7 July 2019,
-              <http://www.ietf.org/internet-drafts/draft-ietf-core-rd-
-              dns-sd-05.txt>.
+              <https://www.ietf.org/archive/id/draft-ietf-core-rd-dns-
+              sd-05.txt>.
 
    [I-D.silverajan-core-coap-protocol-negotiation]
               Silverajan, B. and M. Ocak, "CoAP Protocol Negotiation",
               Work in Progress, Internet-Draft, draft-silverajan-core-
               coap-protocol-negotiation-09, 2 July 2018,
-              <http://www.ietf.org/internet-drafts/draft-silverajan-
-              core-coap-protocol-negotiation-09.txt>.
+              <https://www.ietf.org/archive/id/draft-silverajan-core-
+              coap-protocol-negotiation-09.txt>.
 
    [LwM2M]    Open Mobile Alliance, "Lightweight Machine to Machine
               Technical Specification: Transport Bindings (Candidate
@@ -4085,9 +4365,9 @@ Internet-Draft           CoRE Resource Directory           November 2020
 
 
 
-Shelby, et al.             Expires 5 May 2021                  [Page 73]
+Amsüss, et al.           Expires 22 August 2021                [Page 78]
 
-Internet-Draft           CoRE Resource Directory           November 2020
+Internet-Draft           CoRE Resource Directory           February 2021
 
 
    [RFC4122]  Leach, P., Mealling, M., and R. Salz, "A Universally
@@ -4105,6 +4385,11 @@ Internet-Draft           CoRE Resource Directory           November 2020
               DOI 10.17487/RFC5771, March 2010,
               <https://www.rfc-editor.org/info/rfc5771>.
 
+   [RFC6724]  Thaler, D., Ed., Draves, R., Matsumoto, A., and T. Chown,
+              "Default Address Selection for Internet Protocol Version 6
+              (IPv6)", RFC 6724, DOI 10.17487/RFC6724, September 2012,
+              <https://www.rfc-editor.org/info/rfc6724>.
+
    [RFC6775]  Shelby, Z., Ed., Chakrabarti, S., Nordmark, E., and C.
               Bormann, "Neighbor Discovery Optimization for IPv6 over
               Low-Power Wireless Personal Area Networks (6LoWPANs)",
@@ -4121,31 +4406,6 @@ Internet-Draft           CoRE Resource Directory           November 2020
               DOI 10.17487/RFC7228, May 2014,
               <https://www.rfc-editor.org/info/rfc7228>.
 
-   [RFC7230]  Fielding, R., Ed. and J. Reschke, Ed., "Hypertext Transfer
-              Protocol (HTTP/1.1): Message Syntax and Routing",
-              RFC 7230, DOI 10.17487/RFC7230, June 2014,
-              <https://www.rfc-editor.org/info/rfc7230>.
-
-   [RFC7252]  Shelby, Z., Hartke, K., and C. Bormann, "The Constrained
-              Application Protocol (CoAP)", RFC 7252,
-              DOI 10.17487/RFC7252, June 2014,
-              <https://www.rfc-editor.org/info/rfc7252>.
-
-   [RFC7390]  Rahman, A., Ed. and E. Dijk, Ed., "Group Communication for
-              the Constrained Application Protocol (CoAP)", RFC 7390,
-              DOI 10.17487/RFC7390, October 2014,
-              <https://www.rfc-editor.org/info/rfc7390>.
-
-
-
-
-
-
-Shelby, et al.             Expires 5 May 2021                  [Page 74]
-
-Internet-Draft           CoRE Resource Directory           November 2020
-
-
    [RFC7641]  Hartke, K., "Observing Resources in the Constrained
               Application Protocol (CoAP)", RFC 7641,
               DOI 10.17487/RFC7641, September 2015,
@@ -4156,6 +4416,16 @@ Internet-Draft           CoRE Resource Directory           November 2020
               RFC 8106, DOI 10.17487/RFC8106, March 2017,
               <https://www.rfc-editor.org/info/rfc8106>.
 
+
+
+
+
+
+Amsüss, et al.           Expires 22 August 2021                [Page 79]
+
+Internet-Draft           CoRE Resource Directory           February 2021
+
+
    [RFC8132]  van der Stok, P., Bormann, C., and A. Sehgal, "PATCH and
               FETCH Methods for the Constrained Application Protocol
               (CoAP)", RFC 8132, DOI 10.17487/RFC8132, April 2017,
@@ -4164,10 +4434,6 @@ Internet-Draft           CoRE Resource Directory           November 2020
    [RFC8141]  Saint-Andre, P. and J. Klensin, "Uniform Resource Names
               (URNs)", RFC 8141, DOI 10.17487/RFC8141, April 2017,
               <https://www.rfc-editor.org/info/rfc8141>.
-
-   [RFC8288]  Nottingham, M., "Web Linking", RFC 8288,
-              DOI 10.17487/RFC8288, October 2017,
-              <https://www.rfc-editor.org/info/rfc8288>.
 
    [RFC8613]  Selander, G., Mattsson, J., Palombini, F., and L. Seitz,
               "Object Security for Constrained RESTful Environments
@@ -4192,22 +4458,29 @@ Appendix A.  Groups Registration and Lookup
    the group.  Depending on the application, members that lack some
    resource MAY be permissible if requests to them fail gracefully.
 
-
-
-
-
-
-Shelby, et al.             Expires 5 May 2021                  [Page 75]
-
-Internet-Draft           CoRE Resource Directory           November 2020
-
-
    The following example shows a CT registering a group with the name
    "lights" which provides two resources.  The directory resource path
    /rd is an example RD location discovered in a request similar to
    Figure 5.  The group address in the example is constructed from
    [RFC3849]'s reserved 2001:db8:: prefix as a unicast-prefix based
    site-local address (see [RFC3306].
+
+
+
+
+
+
+
+
+
+
+
+
+
+Amsüss, et al.           Expires 22 August 2021                [Page 80]
+
+Internet-Draft           CoRE Resource Directory           February 2021
+
 
    Req: POST coap://rd.example.com/rd?ep=lights&et=core.rd-group
                               &base=coap://[ff35:30:2001:db8:f1::8000:1]
@@ -4220,7 +4493,7 @@ Internet-Draft           CoRE Resource Directory           November 2020
    Res: 2.01 Created
    Location-Path: /rd/12
 
-                 Figure 26: Example registration of a group
+                 Figure 27: Example registration of a group
 
    In this example, the group manager can easily permit devices that
    have no writable color-temperature to join, as they would still
@@ -4245,7 +4518,7 @@ Internet-Draft           CoRE Resource Directory           November 2020
    </rd/12>;ep=lights&et=core.rd-group;
             base="coap://[ff35:30:2001:f1:db8::8000:1]";rt="core.rd-ep"
 
-                    Figure 27: Example lookup of groups
+                    Figure 28: Example lookup of groups
 
    The following example shows a client performing a lookup of all
    resources of all endpoints (groups) with et=core.rd-group.
@@ -4253,9 +4526,16 @@ Internet-Draft           CoRE Resource Directory           November 2020
 
 
 
-Shelby, et al.             Expires 5 May 2021                  [Page 76]
+
+
+
+
+
+
+
+Amsüss, et al.           Expires 22 August 2021                [Page 81]
 
-Internet-Draft           CoRE Resource Directory           November 2020
+Internet-Draft           CoRE Resource Directory           February 2021
 
 
    Req: GET /rd-lookup/res?et=core.rd-group
@@ -4268,7 +4548,7 @@ Internet-Draft           CoRE Resource Directory           November 2020
         if="tag:example.net,2020:parameter";u="K";
         anchor="coap://[ff35:30:2001:db8:f1::8000:1]"
 
-            Figure 28: Example lookup of resources inside groups
+            Figure 29: Example lookup of resources inside groups
 
 Appendix B.  Web links and the Resource Directory
 
@@ -4277,7 +4557,7 @@ Appendix B.  Web links and the Resource Directory
    defining URIs, [RFC6690] defining link-format documents based on
    [RFC8288] which defines Link header fields, and [RFC7252] providing
    the transport).  This appendix summarizes the mechanisms and
-   semantics at play from an entry in ".well-known/core" to a resource
+   semantics at play from an entry in "/.well-known/core" to a resource
    lookup.
 
    This text is primarily aimed at people entering the field of
@@ -4302,22 +4582,22 @@ B.1.  A simple example
    RES 2.05 Content
    </temp>;rt=temperature;ct=0
 
-              Figure 29: Example of direct resource discovery
+              Figure 30: Example of direct resource discovery
 
    where the response is sent by the server, "[2001:db8:f0::1]:5683".
 
 
 
 
-Shelby, et al.             Expires 5 May 2021                  [Page 77]
+Amsüss, et al.           Expires 22 August 2021                [Page 82]
 
-Internet-Draft           CoRE Resource Directory           November 2020
+Internet-Draft           CoRE Resource Directory           February 2021
 
 
-   While the client - on the practical or implementation side - can just
-   go ahead and create a new request to "[2001:db8:f0::1]:5683" with
-   Uri-Path: "temp", the full resolution steps for insertion into and
-   retrieval from the RD without any shortcuts are:
+   While the client -- on the practical or implementation side -- can
+   just go ahead and create a new request to "[2001:db8:f0::1]:5683"
+   with Uri-Path: "temp", the full resolution steps for insertion into
+   and retrieval from the RD without any shortcuts are:
 
 B.1.1.  Resolving the URIs
 
@@ -4365,9 +4645,9 @@ B.2.  A slightly more complex example
 
 
 
-Shelby, et al.             Expires 5 May 2021                  [Page 78]
+Amsüss, et al.           Expires 22 August 2021                [Page 83]
 
-Internet-Draft           CoRE Resource Directory           November 2020
+Internet-Draft           CoRE Resource Directory           February 2021
 
 
    GET coap://[ff02::fd]:5683/.well-known/core
@@ -4379,7 +4659,7 @@ Internet-Draft           CoRE Resource Directory           November 2020
    <http://www.example.com/sensors/t123>;anchor="/temp";
        rel="describedby"
 
-          Figure 30: Extended example of direct resource discovery
+          Figure 31: Extended example of direct resource discovery
 
    Parsing the third record, the client encounters the "anchor"
    parameter.  It is a URI relative to the Base URI of the request and
@@ -4406,10 +4686,10 @@ B.3.  Enter the Resource Directory
 
    POST coap://[2001:db8:f01::ff]/.well-known/rd?ep=simple-host1
 
-         Figure 31: Example request starting a simple registration
+         Figure 32: Example request starting a simple registration
 
    The RD would have accepted the registration, and queried the simple
-   host's ".well-known/core" by itself.  As a result, the host is
+   host's "/.well-known/core" by itself.  As a result, the host is
    registered as an endpoint in the RD with the name "simple-host1".
    The registration is active for 90000 seconds, and the endpoint
    registration Base URI is ""coap://[2001:db8:f0::1]"" following the
@@ -4421,9 +4701,9 @@ B.3.  Enter the Resource Directory
 
 
 
-Shelby, et al.             Expires 5 May 2021                  [Page 79]
+Amsüss, et al.           Expires 22 August 2021                [Page 84]
 
-Internet-Draft           CoRE Resource Directory           November 2020
+Internet-Draft           CoRE Resource Directory           February 2021
 
 
    If the client now queries the RD as it would previously have issued a
@@ -4437,7 +4717,7 @@ Internet-Draft           CoRE Resource Directory           November 2020
    <coap://[2001:db8:f0::1]/temp>;rt=temperature;ct=0;
        anchor="coap://[2001:db8:f0::1]"
 
-       Figure 32: Example payload of a response to a resource lookup
+       Figure 33: Example payload of a response to a resource lookup
 
    This is not _literally_ the same response that it would have received
    from a multicast request, but it contains the equivalent statement:
@@ -4467,7 +4747,7 @@ Internet-Draft           CoRE Resource Directory           November 2020
    <http://www.example.com/sensors/t123>;
        anchor="coap://[2001:db8:f0::1]/sensors/temp";rel="describedby"
 
-      Figure 33: Extended example payload of a response to a resource
+      Figure 34: Extended example payload of a response to a resource
                                    lookup
 
    All the target and anchor references are already in absolute form
@@ -4477,9 +4757,9 @@ Internet-Draft           CoRE Resource Directory           November 2020
 
 
 
-Shelby, et al.             Expires 5 May 2021                  [Page 80]
+Amsüss, et al.           Expires 22 August 2021                [Page 85]
 
-Internet-Draft           CoRE Resource Directory           November 2020
+Internet-Draft           CoRE Resource Directory           February 2021
 
 
    Had the simple host done an equivalent full registration with a base=
@@ -4490,7 +4770,7 @@ Internet-Draft           CoRE Resource Directory           November 2020
    <coap+tcp://simple-host1.example.com/temp>;rt=temperature;ct=0;
        anchor="coap+tcp://simple-host1.example.com"
 
-       Figure 34: Example payload of a response to a resource lookup
+       Figure 35: Example payload of a response to a resource lookup
                          with a dedicated base URI
 
    and analogous records.
@@ -4533,9 +4813,9 @@ B.4.  A note on differences between link-format and Link header fields
 
 
 
-Shelby, et al.             Expires 5 May 2021                  [Page 81]
+Amsüss, et al.           Expires 22 August 2021                [Page 86]
 
-Internet-Draft           CoRE Resource Directory           November 2020
+Internet-Draft           CoRE Resource Directory           February 2021
 
 
       Link: </temperature/Malm%C3%B6>;rel="live-environment-data"
@@ -4556,8 +4836,8 @@ Appendix C.  Limited Link Format
 
    This appendix describes a subset of link format documents called
    Limited Link Format.  The rules herein are not very limiting in
-   practice - all examples in RFC6690, and all deployments the authors
-   are aware of already stick to them - but ease the implementation of
+   practice -- all examples in RFC6690, and all deployments the authors
+   are aware of already stick to them -- but ease the implementation of
    RD servers.
 
    It is applicable to representations in the application/link-format
@@ -4581,17 +4861,21 @@ Appendix C.  Limited Link Format
 
 Authors' Addresses
 
+   Christian Amsüss (editor)
+   Hollandstr. 12/4
+   1020
+   Austria
 
 
 
 
-
-
-
-
-Shelby, et al.             Expires 5 May 2021                  [Page 82]
+Amsüss, et al.           Expires 22 August 2021                [Page 87]
 
-Internet-Draft           CoRE Resource Directory           November 2020
+Internet-Draft           CoRE Resource Directory           February 2021
+
+
+   Phone: +43-664-9790639
+   Email: christian@amsuess.com
 
 
    Zach Shelby
@@ -4632,17 +4916,13 @@ Internet-Draft           CoRE Resource Directory           November 2020
    URI:   www.vanderstok.org
 
 
-   Christian Amsüss (editor)
-   Hollandstr. 12/4
-   1020
-   Austria
-
-   Phone: +43-664-9790639
-   Email: christian@amsuess.com
 
 
 
 
 
 
-Shelby, et al.             Expires 5 May 2021                  [Page 83]
+
+
+
+Amsüss, et al.           Expires 22 August 2021                [Page 88]
