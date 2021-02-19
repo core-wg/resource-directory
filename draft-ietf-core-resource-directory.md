@@ -2215,6 +2215,19 @@ originally developed.
 
 # Changelog
 
+changes from -26 to -27
+
+* Relaxation of the serialization rules for link-format
+
+  The interpretations and implementations of RFC6690 have been revisited,
+  and a class of interpretations that only affected one (easy-to-upgrade) implementation was removed from consideration.
+
+  As a consequence, the prescribed serialization of RD output can be roughly halved in bytes.
+
+  There might be additional usage patterns that are possible with the new set of constraints,
+  but there is insufficient implementation and deployment experience with them to warrant a change changes on that front at this point.
+  The specification can later be extended compatibly to allow these cases.
+
 changes from -25 to -26
 
 * Security policies:
