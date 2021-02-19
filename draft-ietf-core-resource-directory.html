@@ -20,26 +20,26 @@ document specifies the web interfaces that an RD supports for web servers to dis
 and remove information on resources. Furthermore, new target attributes useful
 in conjunction with an RD are defined. 
     " name="description">
-<meta content="xml2rfc 3.3.0" name="generator">
+<meta content="xml2rfc 3.5.0" name="generator">
 <meta content="CoRE, Web Linking, Resource Discovery, Resource Directory" name="keyword">
 <meta content="draft-ietf-core-resource-directory-latest" name="ietf.draft">
 <!-- Generator version information:
-  xml2rfc 3.3.0
-    Python 3.8.5
+  xml2rfc 3.5.0
+    Python 3.8.7
     appdirs 1.4.4
     ConfigArgParse 1.2.3
     google-i18n-address 2.4.0
     html5lib 1.1
-    intervaltree 3.0.2
+    intervaltree 3.1.0
     Jinja2 2.11.2
     kitchen 1.2.6
-    lxml 4.5.0
-    pycountry 19.8.18
-    pyflakes 2.1.1
-    PyYAML 5.3.1
-    requests 2.22.0
-    setuptools 45.2.0
-    six 1.14.0
+    lxml 4.6.2
+    pycountry 20.7.3
+    pyflakes 2.2.0
+    PyYAML 5.4.1
+    requests 2.25.1
+    setuptools 51.3.3
+    six 1.15.0
 -->
 <link href="draft-ietf-core-resource-directory.xml" rel="alternate" type="application/rfc+xml">
 <link href="#copyright" rel="license">
@@ -829,11 +829,11 @@ address div.right {
 <thead><tr>
 <td class="left">Internet-Draft</td>
 <td class="center">CoRE Resource Directory</td>
-<td class="right">November 2020</td>
+<td class="right">February 2021</td>
 </tr></thead>
 <tfoot><tr>
 <td class="left">Amsüss, et al.</td>
-<td class="center">Expires 9 May 2021</td>
+<td class="center">Expires 23 August 2021</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -846,12 +846,12 @@ address div.right {
 <dd class="internet-draft">draft-ietf-core-resource-directory-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2020-11-05" class="published">5 November 2020</time>
+<time datetime="2021-02-19" class="published">19 February 2021</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2021-05-09">9 May 2021</time></dd>
+<dd class="expires"><time datetime="2021-08-23">23 August 2021</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -918,7 +918,7 @@ in conjunction with an RD are defined.<a href="#section-abstract-1" class="pilcr
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 9 May 2021.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 23 August 2021.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -927,7 +927,7 @@ in conjunction with an RD are defined.<a href="#section-abstract-1" class="pilcr
 <a href="#name-copyright-notice" class="section-name selfRef">Copyright Notice</a>
         </h2>
 <p id="section-boilerplate.2-1">
-            Copyright (c) 2020 IETF Trust and the persons identified as the
+            Copyright (c) 2021 IETF Trust and the persons identified as the
             document authors. All rights reserved.<a href="#section-boilerplate.2-1" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.2-2">
             This document is subject to BCP 78 and the IETF Trust's Legal
@@ -1022,6 +1022,9 @@ in conjunction with an RD are defined.<a href="#section-abstract-1" class="pilcr
                   <li class="toc compact ulEmpty" id="section-toc.1-1.5.2.3.2.3">
                     <p id="section-toc.1-1.5.2.3.2.3.1"><a href="#section-5.3.3" class="xref">5.3.3</a>.  <a href="#name-further-operations" class="xref">Further operations</a><a href="#section-toc.1-1.5.2.3.2.3.1" class="pilcrow">¶</a></p>
 </li>
+                  <li class="toc compact ulEmpty" id="section-toc.1-1.5.2.3.2.4">
+                    <p id="section-toc.1-1.5.2.3.2.4.1"><a href="#section-5.3.4" class="xref">5.3.4</a>.  <a href="#name-request-freshness" class="xref">Request freshness</a><a href="#section-toc.1-1.5.2.3.2.4.1" class="pilcrow">¶</a></p>
+</li>
                 </ul>
 </li>
             </ul>
@@ -1082,6 +1085,9 @@ in conjunction with an RD are defined.<a href="#section-abstract-1" class="pilcr
 </li>
               <li class="toc compact ulEmpty" id="section-toc.1-1.8.2.4">
                 <p id="section-toc.1-1.8.2.4.1"><a href="#section-8.4" class="xref">8.4</a>.  <a href="#name-denial-of-service-attacks" class="xref">Denial of Service Attacks</a><a href="#section-toc.1-1.8.2.4.1" class="pilcrow">¶</a></p>
+</li>
+              <li class="toc compact ulEmpty" id="section-toc.1-1.8.2.5">
+                <p id="section-toc.1-1.8.2.5.1"><a href="#section-8.5" class="xref">8.5</a>.  <a href="#name-skipping-freshness-checks" class="xref">Skipping freshness checks</a><a href="#section-toc.1-1.8.2.5.1" class="pilcrow">¶</a></p>
 </li>
             </ul>
 </li>
@@ -1240,94 +1246,109 @@ describe the REST interfaces defined in this specification, the URI Template
 format is used <span>[<a href="#RFC6570" class="xref">RFC6570</a>]</span>.<a href="#section-2-3" class="pilcrow">¶</a></p>
 <p id="section-2-4">This specification makes use of the following additional terminology:<a href="#section-2-4" class="pilcrow">¶</a></p>
 <span class="break"></span><dl class="dlNewline" id="section-2-5">
-        <dt id="section-2-5.1">resolve against</dt>
+        <dt id="section-2-5.1">
+resolve against  </dt>
         <dd style="margin-left: 1.5em" id="section-2-5.2">
-  The expression "a URI-reference is <em>resolved against</em> a base URI" is used
+          <p id="section-2-5.2.1">The expression "a URI-reference is <em>resolved against</em> a base URI" is used
 to describe the process of <span>[<a href="#RFC3986" class="xref">RFC3986</a>]</span> Section 5.2. Noteworthy corner cases are
 that if the URI-reference is a (full) URI and resolved  against any base URI, that gives the original full URI, and
-that resolving an empty URI reference gives the base URI without any fragment identifier.<a href="#section-2-5.2" class="pilcrow">¶</a>
+that resolving an empty URI reference gives the base URI without any fragment identifier.<a href="#section-2-5.2.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-2-5.3">Resource Directory (RD)</dt>
+<dt id="section-2-5.3">
+Resource Directory (RD)  </dt>
         <dd style="margin-left: 1.5em" id="section-2-5.4">
-  A web entity that stores information about web resources and implements the
+          <p id="section-2-5.4.1">A web entity that stores information about web resources and implements the
 REST interfaces defined in this specification for discovery, for the creation, the maintenance and the removal of registrations, and for lookup
-of the registered resources.<a href="#section-2-5.4" class="pilcrow">¶</a>
+of the registered resources.<a href="#section-2-5.4.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-2-5.5">Sector</dt>
+<dt id="section-2-5.5">
+Sector  </dt>
         <dd style="margin-left: 1.5em" id="section-2-5.6">
-  In the context of an RD, a sector is a
-logical grouping of endpoints.<a href="#section-2-5.6" class="pilcrow">¶</a>
+          <p id="section-2-5.6.1">In the context of an RD, a sector is a
+logical grouping of endpoints.<a href="#section-2-5.6.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
 <dt id="section-2-5.7"></dt>
-        <dd style="margin-left: 1.5em" id="section-2-5.8">The abbreviation "d=" is used for the sector in query parameters for
-compatibility with deployed implementations.<a href="#section-2-5.8" class="pilcrow">¶</a>
+        <dd style="margin-left: 1.5em" id="section-2-5.8">
+          <p id="section-2-5.8.1">The abbreviation "d=" is used for the sector in query parameters for
+compatibility with deployed implementations.<a href="#section-2-5.8.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-2-5.9">Endpoint</dt>
+<dt id="section-2-5.9">
+Endpoint  </dt>
         <dd style="margin-left: 1.5em" id="section-2-5.10">
-  Endpoint (EP) is a term used to describe a web server or client in <span>[<a href="#RFC7252" class="xref">RFC7252</a>]</span>.
+          <p id="section-2-5.10.1">Endpoint (EP) is a term used to describe a web server or client in <span>[<a href="#RFC7252" class="xref">RFC7252</a>]</span>.
 In the context of this specification an endpoint is used to describe a
 web server that registers resources to the RD. An endpoint
 is identified by its endpoint name, which is included during registration,
-and has a unique name within the associated sector of the registration.<a href="#section-2-5.10" class="pilcrow">¶</a>
+and has a unique name within the associated sector of the registration.<a href="#section-2-5.10.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-2-5.11">Registration Base URI</dt>
+<dt id="section-2-5.11">
+Registration Base URI  </dt>
         <dd style="margin-left: 1.5em" id="section-2-5.12">
-  The Base URI of a Registration is a URI that typically gives scheme and
+          <p id="section-2-5.12.1">The Base URI of a Registration is a URI that typically gives scheme and
 authority information about an Endpoint. The Registration Base URI is provided at registration time, and is used by the RD to
-resolve relative references of the registration into URIs.<a href="#section-2-5.12" class="pilcrow">¶</a>
+resolve relative references of the registration into URIs.<a href="#section-2-5.12.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-2-5.13">Target</dt>
+<dt id="section-2-5.13">
+Target  </dt>
         <dd style="margin-left: 1.5em" id="section-2-5.14">
-  The target of a link is the destination address (URI) of the link. It is sometimes identified with "href=", or displayed as <code>&lt;target&gt;</code>. Relative targets need resolving with respect to the Base URI (section 5.2 of <span>[<a href="#RFC3986" class="xref">RFC3986</a>]</span>).<a href="#section-2-5.14" class="pilcrow">¶</a>
+          <p id="section-2-5.14.1">The target of a link is the destination address (URI) of the link. It is sometimes identified with "href=", or displayed as <code>&lt;target&gt;</code>. Relative targets need resolving with respect to the Base URI (section 5.2 of <span>[<a href="#RFC3986" class="xref">RFC3986</a>]</span>).<a href="#section-2-5.14.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
 <dt id="section-2-5.15"></dt>
-        <dd style="margin-left: 1.5em" id="section-2-5.16">This use of the term Target is consistent with <span>[<a href="#RFC8288" class="xref">RFC8288</a>]</span>'s use of the term.<a href="#section-2-5.16" class="pilcrow">¶</a>
+        <dd style="margin-left: 1.5em" id="section-2-5.16">
+          <p id="section-2-5.16.1">This use of the term Target is consistent with <span>[<a href="#RFC8288" class="xref">RFC8288</a>]</span>'s use of the term.<a href="#section-2-5.16.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-2-5.17">Context</dt>
+<dt id="section-2-5.17">
+Context  </dt>
         <dd style="margin-left: 1.5em" id="section-2-5.18">
-  The context of a link is the source address (URI) of the link,
+          <p id="section-2-5.18.1">The context of a link is the source address (URI) of the link,
 and describes which resource is linked to the target.
-A link's context is made explicit in serialized links as the "anchor=" attribute.<a href="#section-2-5.18" class="pilcrow">¶</a>
+A link's context is made explicit in serialized links as the "anchor=" attribute.<a href="#section-2-5.18.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
 <dt id="section-2-5.19"></dt>
-        <dd style="margin-left: 1.5em" id="section-2-5.20">This use of the term Context is consistent with <span>[<a href="#RFC8288" class="xref">RFC8288</a>]</span>'s use of the term.<a href="#section-2-5.20" class="pilcrow">¶</a>
+        <dd style="margin-left: 1.5em" id="section-2-5.20">
+          <p id="section-2-5.20.1">This use of the term Context is consistent with <span>[<a href="#RFC8288" class="xref">RFC8288</a>]</span>'s use of the term.<a href="#section-2-5.20.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-2-5.21">Directory Resource</dt>
+<dt id="section-2-5.21">
+Directory Resource  </dt>
         <dd style="margin-left: 1.5em" id="section-2-5.22">
-  A resource in the RD containing registration resources.<a href="#section-2-5.22" class="pilcrow">¶</a>
+          <p id="section-2-5.22.1">A resource in the RD containing registration resources.<a href="#section-2-5.22.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-2-5.23">Registration Resource</dt>
+<dt id="section-2-5.23">
+Registration Resource  </dt>
         <dd style="margin-left: 1.5em" id="section-2-5.24">
-  A resource in the RD that contains information about an Endpoint and its links.<a href="#section-2-5.24" class="pilcrow">¶</a>
+          <p id="section-2-5.24.1">A resource in the RD that contains information about an Endpoint and its links.<a href="#section-2-5.24.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-2-5.25">Commissioning Tool</dt>
+<dt id="section-2-5.25">
+Commissioning Tool  </dt>
         <dd style="margin-left: 1.5em" id="section-2-5.26">
-  Commissioning Tool (CT) is a device that assists during installation events
+          <p id="section-2-5.26.1">Commissioning Tool (CT) is a device that assists during installation events
 by assigning values to parameters, naming endpoints and groups, or adapting
-the installation to the needs of the applications.<a href="#section-2-5.26" class="pilcrow">¶</a>
+the installation to the needs of the applications.<a href="#section-2-5.26.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-2-5.27">Registrant-ep</dt>
+<dt id="section-2-5.27">
+Registrant-ep  </dt>
         <dd style="margin-left: 1.5em" id="section-2-5.28">
-  Registrant-ep is the endpoint that is registered into the RD. The registrant-ep can register itself, or a CT registers the registrant-ep.<a href="#section-2-5.28" class="pilcrow">¶</a>
+          <p id="section-2-5.28.1">Registrant-ep is the endpoint that is registered into the RD. The registrant-ep can register itself, or a CT registers the registrant-ep.<a href="#section-2-5.28.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-2-5.29">RDAO</dt>
+<dt id="section-2-5.29">
+RDAO  </dt>
         <dd style="margin-left: 1.5em" id="section-2-5.30">
-  Resource Directory Address Option.
-A new IPv6 Neighbor Discovery option defined for announcing an RD's address.<a href="#section-2-5.30" class="pilcrow">¶</a>
+          <p id="section-2-5.30.1">Resource Directory Address Option.
+A new IPv6 Neighbor Discovery option defined for announcing an RD's address.<a href="#section-2-5.30.1" class="pilcrow">¶</a></p>
 </dd>
       <dd class="break"></dd>
 </dl>
@@ -1918,45 +1939,52 @@ The client of the RD can use any of the discovered addresses initially.<a href="
 (this is exactly the Well-Known Interface of <span>[<a href="#RFC6690" class="xref">RFC6690</a>]</span> Section 4,
 with the additional requirement that the server MUST support query filtering):<a href="#section-4.3-9" class="pilcrow">¶</a></p>
 <span class="break"></span><dl class="dlParallel" id="section-4.3-10">
-          <dt id="section-4.3-10.1">Interaction:</dt>
+          <dt id="section-4.3-10.1">
+Interaction:  </dt>
           <dd style="margin-left: 1.5em" id="section-4.3-10.2">
-  EP, CT or Client -&gt; RD<a href="#section-4.3-10.2" class="pilcrow">¶</a>
+            <p id="section-4.3-10.2.1">EP, CT or Client -&gt; RD<a href="#section-4.3-10.2.1" class="pilcrow">¶</a></p>
 </dd>
           <dd class="break"></dd>
-<dt id="section-4.3-10.3">Method:</dt>
+<dt id="section-4.3-10.3">
+Method:  </dt>
           <dd style="margin-left: 1.5em" id="section-4.3-10.4">
-  GET<a href="#section-4.3-10.4" class="pilcrow">¶</a>
+            <p id="section-4.3-10.4.1">GET<a href="#section-4.3-10.4.1" class="pilcrow">¶</a></p>
 </dd>
           <dd class="break"></dd>
-<dt id="section-4.3-10.5">URI Template:</dt>
+<dt id="section-4.3-10.5">
+URI Template:  </dt>
           <dd style="margin-left: 1.5em" id="section-4.3-10.6">
-  /.well-known/core{?rt}<a href="#section-4.3-10.6" class="pilcrow">¶</a>
+            <p id="section-4.3-10.6.1">/.well-known/core{?rt}<a href="#section-4.3-10.6.1" class="pilcrow">¶</a></p>
 </dd>
           <dd class="break"></dd>
-<dt id="section-4.3-10.7">URI Template Variables:</dt>
+<dt id="section-4.3-10.7">
+URI Template Variables:  </dt>
           <dd style="margin-left: 1.5em" id="section-4.3-10.8">
             <span class="break"></span><dl class="dlParallel" id="section-4.3-10.8.1">
-              <dt id="section-4.3-10.8.1.1">rt :=</dt>
+              <dt id="section-4.3-10.8.1.1">
+rt :=      </dt>
               <dd style="margin-left: 1.5em" id="section-4.3-10.8.1.2">
-        Resource Type. SHOULD contain one of the values "core.rd", "core.rd-lookup*",
-"core.rd-lookup-res", "core.rd-lookup-ep", or "core.rd*"<a href="#section-4.3-10.8.1.2" class="pilcrow">¶</a>
+                <p id="section-4.3-10.8.1.2.1">Resource Type. SHOULD contain one of the values "core.rd", "core.rd-lookup*",
+"core.rd-lookup-res", "core.rd-lookup-ep", or "core.rd*"<a href="#section-4.3-10.8.1.2.1" class="pilcrow">¶</a></p>
 </dd>
             <dd class="break"></dd>
 </dl>
 </dd>
           <dd class="break"></dd>
-<dt id="section-4.3-10.9">Accept:</dt>
+<dt id="section-4.3-10.9">
+Accept:  </dt>
           <dd style="margin-left: 1.5em" id="section-4.3-10.10">
-  absent, application/link-format or any other media type representing web links<a href="#section-4.3-10.10" class="pilcrow">¶</a>
+            <p id="section-4.3-10.10.1">absent, application/link-format or any other media type representing web links<a href="#section-4.3-10.10.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
 </dl>
 <p id="section-4.3-11">The following response is expected on this interface:<a href="#section-4.3-11" class="pilcrow">¶</a></p>
 <span class="break"></span><dl class="dlParallel" id="section-4.3-12">
-          <dt id="section-4.3-12.1">Success:</dt>
+          <dt id="section-4.3-12.1">
+Success:  </dt>
           <dd style="margin-left: 1.5em" id="section-4.3-12.2">
-  2.05 "Content" or 200 "OK" with an
-application/link-format or other web link payload containing one or more matching entries for the RD resource.<a href="#section-4.3-12.2" class="pilcrow">¶</a>
+            <p id="section-4.3-12.2.1">2.05 "Content" or 200 "OK" with an
+application/link-format or other web link payload containing one or more matching entries for the RD resource.<a href="#section-4.3-12.2.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
 </dl>
@@ -2078,152 +2106,170 @@ the RD only needs to accept representations in Limited Link Format as described 
 Its behavior with representations outside that subset is implementation defined.<a href="#section-5-5" class="pilcrow">¶</a></p>
 <p id="section-5-6">The registration request interface is specified as follows:<a href="#section-5-6" class="pilcrow">¶</a></p>
 <span class="break"></span><dl class="dlParallel" id="section-5-7">
-        <dt id="section-5-7.1">Interaction:</dt>
+        <dt id="section-5-7.1">
+Interaction:  </dt>
         <dd style="margin-left: 1.5em" id="section-5-7.2">
-  EP or CT -&gt; RD<a href="#section-5-7.2" class="pilcrow">¶</a>
+          <p id="section-5-7.2.1">EP or CT -&gt; RD<a href="#section-5-7.2.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-5-7.3">Method:</dt>
+<dt id="section-5-7.3">
+Method:  </dt>
         <dd style="margin-left: 1.5em" id="section-5-7.4">
-  POST<a href="#section-5-7.4" class="pilcrow">¶</a>
+          <p id="section-5-7.4.1">POST<a href="#section-5-7.4.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-5-7.5">URI Template:</dt>
+<dt id="section-5-7.5">
+URI Template:  </dt>
         <dd style="margin-left: 1.5em" id="section-5-7.6">
-  {+rd}{?ep,d,lt,base,extra-attrs*}<a href="#section-5-7.6" class="pilcrow">¶</a>
+          <p id="section-5-7.6.1">{+rd}{?ep,d,lt,base,extra-attrs*}<a href="#section-5-7.6.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-5-7.7">URI Template Variables:</dt>
+<dt id="section-5-7.7">
+URI Template Variables:  </dt>
         <dd style="margin-left: 1.5em" id="section-5-7.8">
           <span class="break"></span><dl class="dlParallel" id="section-5-7.8.1">
-            <dt id="section-5-7.8.1.1">rd :=</dt>
+            <dt id="section-5-7.8.1.1">
+rd :=      </dt>
             <dd style="margin-left: 1.5em" id="section-5-7.8.1.2">
-        RD registration URI
+              <p id="section-5-7.8.1.2.1">RD registration URI
 (mandatory). This is the location of
-the RD, as obtained from discovery.<a href="#section-5-7.8.1.2" class="pilcrow">¶</a>
+the RD, as obtained from discovery.<a href="#section-5-7.8.1.2.1" class="pilcrow">¶</a></p>
 </dd>
             <dd class="break"></dd>
-<dt id="section-5-7.8.1.3">ep :=</dt>
+<dt id="section-5-7.8.1.3">
+ep :=      </dt>
             <dd style="margin-left: 1.5em" id="section-5-7.8.1.4">
-        Endpoint name (mostly mandatory). The endpoint name is an identifier
-that MUST be unique within a sector.
-
-As the endpoint name is a Unicode string,
+              <p id="section-5-7.8.1.4.1">Endpoint name (mostly mandatory). The endpoint name is an identifier
+that MUST be unique within a sector.<a href="#section-5-7.8.1.4.1" class="pilcrow">¶</a></p>
+<p id="section-5-7.8.1.4.2">As the endpoint name is a Unicode string,
 it is encoded in UTF-8 (and possibly pct-encoded) during variable expansion (see <span>[<a href="#RFC6570" class="xref">RFC6570</a>]</span> Section 3.2.1).
-The endpoint name MUST NOT contain any character in the inclusive ranges 0-31 or 127-159.
-The maximum length of this parameter is 63 UTF-8 encoded bytes.
-If the RD is configured to recognize the endpoint to be authorized to use exactly one endpoint name, the RD assigns that name.
+The endpoint name MUST NOT contain any character in the inclusive ranges 0-31 or 127-159.<a href="#section-5-7.8.1.4.2" class="pilcrow">¶</a></p>
+<p id="section-5-7.8.1.4.3">The maximum length of this parameter is 63 UTF-8 encoded bytes.<a href="#section-5-7.8.1.4.3" class="pilcrow">¶</a></p>
+<p id="section-5-7.8.1.4.4">If the RD is configured to recognize the endpoint to be authorized to use exactly one endpoint name, the RD assigns that name.
 In that case, giving the endpoint name becomes optional for the client;
-if the client gives any other endpoint name, it is not authorized to perform the registration.<a href="#section-5-7.8.1.4" class="pilcrow">¶</a>
+if the client gives any other endpoint name, it is not authorized to perform the registration.<a href="#section-5-7.8.1.4.4" class="pilcrow">¶</a></p>
 </dd>
             <dd class="break"></dd>
-<dt id="section-5-7.8.1.5">d :=</dt>
+<dt id="section-5-7.8.1.5">
+d :=      </dt>
             <dd style="margin-left: 1.5em" id="section-5-7.8.1.6">
-        Sector (optional). The sector to which this endpoint belongs.
+              <p id="section-5-7.8.1.6.1">Sector (optional). The sector to which this endpoint belongs.
 When this parameter is not present, the
 RD MAY associate the endpoint with a configured default sector
 (possibly based on the endpoint's authorization)
-or leave it empty.
-
-The sector is encoded like the ep parameter, and is limited to 63 UTF-8 encoded bytes as well.<a href="#section-5-7.8.1.6" class="pilcrow">¶</a>
+or leave it empty.<a href="#section-5-7.8.1.6.1" class="pilcrow">¶</a></p>
+<p id="section-5-7.8.1.6.2">The sector is encoded like the ep parameter, and is limited to 63 UTF-8 encoded bytes as well.<a href="#section-5-7.8.1.6.2" class="pilcrow">¶</a></p>
 </dd>
             <dd class="break"></dd>
-<dt id="section-5-7.8.1.7">lt :=</dt>
+<dt id="section-5-7.8.1.7">
+lt :=      </dt>
             <dd style="margin-left: 1.5em" id="section-5-7.8.1.8">
-        Lifetime (optional). Lifetime of the registration in seconds. Range of 1-4294967295.
+              <p id="section-5-7.8.1.8.1">Lifetime (optional). Lifetime of the registration in seconds. Range of 1-4294967295.
 If no lifetime is included in the initial registration, a default value of
-90000 (25 hours) SHOULD be assumed.<a href="#section-5-7.8.1.8" class="pilcrow">¶</a>
+90000 (25 hours) SHOULD be assumed.<a href="#section-5-7.8.1.8.1" class="pilcrow">¶</a></p>
 </dd>
             <dd class="break"></dd>
-<dt id="section-5-7.8.1.9">base :=</dt>
+<dt id="section-5-7.8.1.9">
+base :=      </dt>
             <dd style="margin-left: 1.5em" id="section-5-7.8.1.10">
-        Base URI (optional). This parameter sets the base URI of the registration, under which
+              <p id="section-5-7.8.1.10.1">Base URI (optional). This parameter sets the base URI of the registration, under which
 the relative links in the payload are to be interpreted. The specified URI typically does not have a path component of its own, and MUST be suitable as a base URI to resolve any relative references given in the registration. The parameter is therefore usually of the shape "scheme://authority" for
 HTTP and CoAP URIs.
 The URI SHOULD NOT have a query or fragment component
-as any non-empty relative part in a reference would remove those parts from the resulting URI.<a href="#section-5-7.8.1.10" class="pilcrow">¶</a>
+as any non-empty relative part in a reference would remove those parts from the resulting URI.<a href="#section-5-7.8.1.10.1" class="pilcrow">¶</a></p>
 </dd>
             <dd class="break"></dd>
 <dt id="section-5-7.8.1.11"></dt>
-            <dd style="margin-left: 1.5em" id="section-5-7.8.1.12">In the absence of this parameter the scheme of the protocol, source address
+            <dd style="margin-left: 1.5em" id="section-5-7.8.1.12">
+              <p id="section-5-7.8.1.12.1">In the absence of this parameter the scheme of the protocol, source address
 and source port of the registration request are assumed.
 The Base URI is consecutively constructed by concatenating the used protocol's scheme
 with the characters "://", the requester's source address as an address
 literal and ":" followed by its port (if it was not the protocol's default
-one) in analogy to <span>[<a href="#RFC7252" class="xref">RFC7252</a>]</span> Section 6.5.<a href="#section-5-7.8.1.12" class="pilcrow">¶</a>
+one) in analogy to <span>[<a href="#RFC7252" class="xref">RFC7252</a>]</span> Section 6.5.<a href="#section-5-7.8.1.12.1" class="pilcrow">¶</a></p>
 </dd>
             <dd class="break"></dd>
 <dt id="section-5-7.8.1.13"></dt>
-            <dd style="margin-left: 1.5em" id="section-5-7.8.1.14">This parameter is
+            <dd style="margin-left: 1.5em" id="section-5-7.8.1.14">
+              <p id="section-5-7.8.1.14.1">This parameter is
 mandatory when the directory is filled by a third party such as an
-commissioning tool.<a href="#section-5-7.8.1.14" class="pilcrow">¶</a>
+commissioning tool.<a href="#section-5-7.8.1.14.1" class="pilcrow">¶</a></p>
 </dd>
             <dd class="break"></dd>
 <dt id="section-5-7.8.1.15"></dt>
-            <dd style="margin-left: 1.5em" id="section-5-7.8.1.16">If the registrant-ep uses an ephemeral port to register with, it MUST include the base
-parameter in the registration to provide a valid network path.<a href="#section-5-7.8.1.16" class="pilcrow">¶</a>
+            <dd style="margin-left: 1.5em" id="section-5-7.8.1.16">
+              <p id="section-5-7.8.1.16.1">If the registrant-ep uses an ephemeral port to register with, it MUST include the base
+parameter in the registration to provide a valid network path.<a href="#section-5-7.8.1.16.1" class="pilcrow">¶</a></p>
 </dd>
             <dd class="break"></dd>
 <dt id="section-5-7.8.1.17"></dt>
-            <dd style="margin-left: 1.5em" id="section-5-7.8.1.18">A registrant that cannot be reached by potential lookup clients at the address it registers from
+            <dd style="margin-left: 1.5em" id="section-5-7.8.1.18">
+              <p id="section-5-7.8.1.18.1">A registrant that cannot be reached by potential lookup clients at the address it registers from
  (e.g. because it is behind some form of Network Address Translation (NAT))
- MUST provide a reachable base address with its registration.<a href="#section-5-7.8.1.18" class="pilcrow">¶</a>
+ MUST provide a reachable base address with its registration.<a href="#section-5-7.8.1.18.1" class="pilcrow">¶</a></p>
 </dd>
             <dd class="break"></dd>
 <dt id="section-5-7.8.1.19"></dt>
-            <dd style="margin-left: 1.5em" id="section-5-7.8.1.20">If the Base URI contains a link-local IP literal, it MUST NOT contain a Zone Identifier,
-and MUST be local to the link on which the registration request is received.<a href="#section-5-7.8.1.20" class="pilcrow">¶</a>
+            <dd style="margin-left: 1.5em" id="section-5-7.8.1.20">
+              <p id="section-5-7.8.1.20.1">If the Base URI contains a link-local IP literal, it MUST NOT contain a Zone Identifier,
+and MUST be local to the link on which the registration request is received.<a href="#section-5-7.8.1.20.1" class="pilcrow">¶</a></p>
 </dd>
             <dd class="break"></dd>
 <dt id="section-5-7.8.1.21"></dt>
-            <dd style="margin-left: 1.5em" id="section-5-7.8.1.22">Endpoints that register with a base that contains a path component
+            <dd style="margin-left: 1.5em" id="section-5-7.8.1.22">
+              <p id="section-5-7.8.1.22.1">Endpoints that register with a base that contains a path component
 cannot meaningfully use <span>[<a href="#RFC6690" class="xref">RFC6690</a>]</span> Link Format due to its prevalence of
 the Origin concept in relative reference resolution.
 Those applications should use different representations of links to which <a href="#limitedlinkformat" class="xref">Appendix C</a> is not applicable
-(e.g. <span>[<a href="#I-D.hartke-t2trg-coral" class="xref">I-D.hartke-t2trg-coral</a>]</span>).<a href="#section-5-7.8.1.22" class="pilcrow">¶</a>
+(e.g. <span>[<a href="#I-D.hartke-t2trg-coral" class="xref">I-D.hartke-t2trg-coral</a>]</span>).<a href="#section-5-7.8.1.22.1" class="pilcrow">¶</a></p>
 </dd>
             <dd class="break"></dd>
-<dt id="section-5-7.8.1.23">extra-attrs :=</dt>
+<dt id="section-5-7.8.1.23">
+extra-attrs :=      </dt>
             <dd style="margin-left: 1.5em" id="section-5-7.8.1.24">
-        Additional registration attributes (optional). The endpoint can pass any
+              <p id="section-5-7.8.1.24.1">Additional registration attributes (optional). The endpoint can pass any
 parameter registered at <a href="#iana-registry" class="xref">Section 9.3</a> to the directory. If the RD is
 aware of the parameter's specified semantics, it processes it accordingly.
 Otherwise, it MUST store the unknown key and its value(s) as an endpoint
-attribute for further lookup.<a href="#section-5-7.8.1.24" class="pilcrow">¶</a>
+attribute for further lookup.<a href="#section-5-7.8.1.24.1" class="pilcrow">¶</a></p>
 </dd>
           <dd class="break"></dd>
 </dl>
 </dd>
         <dd class="break"></dd>
-<dt id="section-5-7.9">Content-Format:</dt>
+<dt id="section-5-7.9">
+Content-Format:  </dt>
         <dd style="margin-left: 1.5em" id="section-5-7.10">
-  application/link-format or any other indicated media type representing web links<a href="#section-5-7.10" class="pilcrow">¶</a>
+          <p id="section-5-7.10.1">application/link-format or any other indicated media type representing web links<a href="#section-5-7.10.1" class="pilcrow">¶</a></p>
 </dd>
       <dd class="break"></dd>
 </dl>
 <p id="section-5-8">The following response is expected on this interface:<a href="#section-5-8" class="pilcrow">¶</a></p>
 <span class="break"></span><dl class="dlParallel" id="section-5-9">
-        <dt id="section-5-9.1">Success:</dt>
+        <dt id="section-5-9.1">
+Success:  </dt>
         <dd style="margin-left: 1.5em" id="section-5-9.2">
-  2.01 "Created" or 201 "Created". The Location-Path option or Location header field
+          <p id="section-5-9.2.1">2.01 "Created" or 201 "Created". The Location-Path option or Location header field
 MUST be included in the response. This location MUST be a stable identifier
 generated by the RD as it is used for all subsequent
 operations on this registration resource. The registration resource location thus returned is for the purpose of updating the lifetime
 of the registration and for maintaining the content of the
-registered links, including updating and deleting links.<a href="#section-5-9.2" class="pilcrow">¶</a>
+registered links, including updating and deleting links.<a href="#section-5-9.2.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
 <dt id="section-5-9.3"></dt>
-        <dd style="margin-left: 1.5em" id="section-5-9.4">A registration with an already registered ep and d value pair
+        <dd style="margin-left: 1.5em" id="section-5-9.4">
+          <p id="section-5-9.4.1">A registration with an already registered ep and d value pair
 responds with the same success code and location as the original registration;
 the set of links registered with the endpoint is replaced with the links
-from the payload.<a href="#section-5-9.4" class="pilcrow">¶</a>
+from the payload.<a href="#section-5-9.4.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
 <dt id="section-5-9.5"></dt>
-        <dd style="margin-left: 1.5em" id="section-5-9.6">The location MUST NOT have a query or fragment component,
+        <dd style="margin-left: 1.5em" id="section-5-9.6">
+          <p id="section-5-9.6.1">The location MUST NOT have a query or fragment component,
 as that could conflict with query parameters during the Registration Update operation.
-Therefore, the Location-Query option MUST NOT be present in a successful response.<a href="#section-5-9.6" class="pilcrow">¶</a>
+Therefore, the Location-Query option MUST NOT be present in a successful response.<a href="#section-5-9.6.1" class="pilcrow">¶</a></p>
 </dd>
       <dd class="break"></dd>
 </dl>
@@ -2368,19 +2414,22 @@ and retry later when the RD already has a cached representation of their discove
 Then, the RD can reply immediately and the registrant can receive the response.<a href="#section-5.1-9" class="pilcrow">¶</a></p>
 <p id="section-5.1-10">The simple registration request interface is specified as follows:<a href="#section-5.1-10" class="pilcrow">¶</a></p>
 <span class="break"></span><dl class="dlParallel" id="section-5.1-11">
-          <dt id="section-5.1-11.1">Interaction:</dt>
+          <dt id="section-5.1-11.1">
+Interaction:  </dt>
           <dd style="margin-left: 1.5em" id="section-5.1-11.2">
-  EP -&gt; RD<a href="#section-5.1-11.2" class="pilcrow">¶</a>
+            <p id="section-5.1-11.2.1">EP -&gt; RD<a href="#section-5.1-11.2.1" class="pilcrow">¶</a></p>
 </dd>
           <dd class="break"></dd>
-<dt id="section-5.1-11.3">Method:</dt>
+<dt id="section-5.1-11.3">
+Method:  </dt>
           <dd style="margin-left: 1.5em" id="section-5.1-11.4">
-  POST<a href="#section-5.1-11.4" class="pilcrow">¶</a>
+            <p id="section-5.1-11.4.1">POST<a href="#section-5.1-11.4.1" class="pilcrow">¶</a></p>
 </dd>
           <dd class="break"></dd>
-<dt id="section-5.1-11.5">URI Template:</dt>
+<dt id="section-5.1-11.5">
+URI Template:  </dt>
           <dd style="margin-left: 1.5em" id="section-5.1-11.6">
-  /.well-known/rd{?ep,d,lt,extra-attrs*}<a href="#section-5.1-11.6" class="pilcrow">¶</a>
+            <p id="section-5.1-11.6.1">/.well-known/rd{?ep,d,lt,extra-attrs*}<a href="#section-5.1-11.6.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
 </dl>
@@ -2390,36 +2439,41 @@ that rules out registration over CoAP-over-TCP or HTTP that would need to specif
 For some time during this document's development, the URI template <code>/.well-known/core{?ep,...}</code> has been in use instead.<a href="#section-5.1-12" class="pilcrow">¶</a></p>
 <p id="section-5.1-13">The following response is expected on this interface:<a href="#section-5.1-13" class="pilcrow">¶</a></p>
 <span class="break"></span><dl class="dlParallel" id="section-5.1-14">
-          <dt id="section-5.1-14.1">Success:</dt>
+          <dt id="section-5.1-14.1">
+Success:  </dt>
           <dd style="margin-left: 1.5em" id="section-5.1-14.2">
-  2.04 "Changed".<a href="#section-5.1-14.2" class="pilcrow">¶</a>
+            <p id="section-5.1-14.2.1">2.04 "Changed".<a href="#section-5.1-14.2.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
 </dl>
 <p id="section-5.1-15">For the second interaction triggered by the above, the registrant-ep takes the role of server and the RD the role of client.
 (Note that this is exactly the Well-Known Interface of <span>[<a href="#RFC6690" class="xref">RFC6690</a>]</span> Section 4):<a href="#section-5.1-15" class="pilcrow">¶</a></p>
 <span class="break"></span><dl class="dlParallel" id="section-5.1-16">
-          <dt id="section-5.1-16.1">Interaction:</dt>
+          <dt id="section-5.1-16.1">
+Interaction:  </dt>
           <dd style="margin-left: 1.5em" id="section-5.1-16.2">
-  RD -&gt; EP<a href="#section-5.1-16.2" class="pilcrow">¶</a>
+            <p id="section-5.1-16.2.1">RD -&gt; EP<a href="#section-5.1-16.2.1" class="pilcrow">¶</a></p>
 </dd>
           <dd class="break"></dd>
-<dt id="section-5.1-16.3">Method:</dt>
+<dt id="section-5.1-16.3">
+Method:  </dt>
           <dd style="margin-left: 1.5em" id="section-5.1-16.4">
-  GET<a href="#section-5.1-16.4" class="pilcrow">¶</a>
+            <p id="section-5.1-16.4.1">GET<a href="#section-5.1-16.4.1" class="pilcrow">¶</a></p>
 </dd>
           <dd class="break"></dd>
-<dt id="section-5.1-16.5">URI Template:</dt>
+<dt id="section-5.1-16.5">
+URI Template:  </dt>
           <dd style="margin-left: 1.5em" id="section-5.1-16.6">
-  /.well-known/core<a href="#section-5.1-16.6" class="pilcrow">¶</a>
+            <p id="section-5.1-16.6.1">/.well-known/core<a href="#section-5.1-16.6.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
 </dl>
 <p id="section-5.1-17">The following response is expected on this interface:<a href="#section-5.1-17" class="pilcrow">¶</a></p>
 <span class="break"></span><dl class="dlParallel" id="section-5.1-18">
-          <dt id="section-5.1-18.1">Success:</dt>
+          <dt id="section-5.1-18.1">
+Success:  </dt>
           <dd style="margin-left: 1.5em" id="section-5.1-18.2">
-  2.05 "Content".<a href="#section-5.1-18.2" class="pilcrow">¶</a>
+            <p id="section-5.1-18.2.1">2.05 "Content".<a href="#section-5.1-18.2.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
 </dl>
@@ -2457,7 +2511,9 @@ This is usually enforced by security policies,
 which in general require equivalent credentials for creation of and operations on a registration.<a href="#section-5.3-2" class="pilcrow">¶</a></p>
 <p id="section-5.3-3">After the initial registration, the registering endpoint retains the returned location of the Registration Resource for further operations, including refreshing the registration in order to extend the lifetime and "keep-alive" the registration. When the lifetime of the registration has expired, the RD SHOULD NOT respond to discovery queries concerning this endpoint. The RD SHOULD continue to provide access to the Registration Resource after a registration time-out occurs in order to enable the registering endpoint to eventually refresh the registration. The RD MAY eventually remove the registration resource for the purpose of garbage collection. If the Registration Resource is removed, the corresponding endpoint will need to be re-registered.<a href="#section-5.3-3" class="pilcrow">¶</a></p>
 <p id="section-5.3-4">The Registration Resource may also be used cancel the registration using DELETE, and to perform further operations beyond the scope of this specification.<a href="#section-5.3-4" class="pilcrow">¶</a></p>
-<p id="section-5.3-5">The operations on the Registration Resource are described below.<a href="#section-5.3-5" class="pilcrow">¶</a></p>
+<p id="section-5.3-5">Some operations on the registration resource are sensitive to long-term reordering;
+<a href="#freshness" class="xref">Section 5.3.4</a> describes mechanisms against that.<a href="#section-5.3-5" class="pilcrow">¶</a></p>
+<p id="section-5.3-6">The operations on the Registration Resource are described below.<a href="#section-5.3-6" class="pilcrow">¶</a></p>
 <div id="update">
 <section id="section-5.3.1">
           <h4 id="name-registration-update">
@@ -2481,90 +2537,101 @@ Future standards might describe the semantics of using content formats and paylo
 with the POST method to update the links of a registration (see <a href="#link-up" class="xref">Section 5.3.3</a>).<a href="#section-5.3.1-5" class="pilcrow">¶</a></p>
 <p id="section-5.3.1-6">The update registration request interface is specified as follows:<a href="#section-5.3.1-6" class="pilcrow">¶</a></p>
 <span class="break"></span><dl class="dlParallel" id="section-5.3.1-7">
-            <dt id="section-5.3.1-7.1">Interaction:</dt>
+            <dt id="section-5.3.1-7.1">
+Interaction:  </dt>
             <dd style="margin-left: 1.5em" id="section-5.3.1-7.2">
-  EP or CT -&gt; RD<a href="#section-5.3.1-7.2" class="pilcrow">¶</a>
+              <p id="section-5.3.1-7.2.1">EP or CT -&gt; RD<a href="#section-5.3.1-7.2.1" class="pilcrow">¶</a></p>
 </dd>
             <dd class="break"></dd>
-<dt id="section-5.3.1-7.3">Method:</dt>
+<dt id="section-5.3.1-7.3">
+Method:  </dt>
             <dd style="margin-left: 1.5em" id="section-5.3.1-7.4">
-  POST<a href="#section-5.3.1-7.4" class="pilcrow">¶</a>
+              <p id="section-5.3.1-7.4.1">POST<a href="#section-5.3.1-7.4.1" class="pilcrow">¶</a></p>
 </dd>
             <dd class="break"></dd>
-<dt id="section-5.3.1-7.5">URI Template:</dt>
+<dt id="section-5.3.1-7.5">
+URI Template:  </dt>
             <dd style="margin-left: 1.5em" id="section-5.3.1-7.6">
-  {+location}{?lt,base,extra-attrs*}<a href="#section-5.3.1-7.6" class="pilcrow">¶</a>
+              <p id="section-5.3.1-7.6.1">{+location}{?lt,base,extra-attrs*}<a href="#section-5.3.1-7.6.1" class="pilcrow">¶</a></p>
 </dd>
             <dd class="break"></dd>
-<dt id="section-5.3.1-7.7">URI Template Variables:</dt>
+<dt id="section-5.3.1-7.7">
+URI Template Variables:  </dt>
             <dd style="margin-left: 1.5em" id="section-5.3.1-7.8">
               <span class="break"></span><dl class="dlParallel" id="section-5.3.1-7.8.1">
-                <dt id="section-5.3.1-7.8.1.1">location :=</dt>
+                <dt id="section-5.3.1-7.8.1.1">
+location :=      </dt>
                 <dd style="margin-left: 1.5em" id="section-5.3.1-7.8.1.2">
-        This is the Location returned by the RD as a result of a successful
-earlier registration.<a href="#section-5.3.1-7.8.1.2" class="pilcrow">¶</a>
+                  <p id="section-5.3.1-7.8.1.2.1">This is the Location returned by the RD as a result of a successful
+earlier registration.<a href="#section-5.3.1-7.8.1.2.1" class="pilcrow">¶</a></p>
 </dd>
                 <dd class="break"></dd>
-<dt id="section-5.3.1-7.8.1.3">lt :=</dt>
+<dt id="section-5.3.1-7.8.1.3">
+lt :=      </dt>
                 <dd style="margin-left: 1.5em" id="section-5.3.1-7.8.1.4">
-        Lifetime (optional). Lifetime of the registration in seconds. Range of 1-4294967295.
+                  <p id="section-5.3.1-7.8.1.4.1">Lifetime (optional). Lifetime of the registration in seconds. Range of 1-4294967295.
 If no lifetime is included, the previous last
 lifetime set on a previous update or the original registration
-(falling back to 90000) SHOULD be used.<a href="#section-5.3.1-7.8.1.4" class="pilcrow">¶</a>
+(falling back to 90000) SHOULD be used.<a href="#section-5.3.1-7.8.1.4.1" class="pilcrow">¶</a></p>
 </dd>
                 <dd class="break"></dd>
-<dt id="section-5.3.1-7.8.1.5">base :=</dt>
+<dt id="section-5.3.1-7.8.1.5">
+base :=      </dt>
                 <dd style="margin-left: 1.5em" id="section-5.3.1-7.8.1.6">
-        Base URI (optional). This parameter updates the Base URI established in the
+                  <p id="section-5.3.1-7.8.1.6.1">Base URI (optional). This parameter updates the Base URI established in the
 original registration to a new value,
 and is subject to
-the same restrictions as in the registration.
-
-If the parameter is set in an update, it is stored by the RD as the new
-Base URI under which to interpret the relative links present in the payload of the original registration.
-If the parameter is not set in the request but was set before, the previous
-Base URI value is kept unmodified.
-If the parameter is not set in the request and was not set before either, the
+the same restrictions as in the registration.<a href="#section-5.3.1-7.8.1.6.1" class="pilcrow">¶</a></p>
+<p id="section-5.3.1-7.8.1.6.2">If the parameter is set in an update, it is stored by the RD as the new
+Base URI under which to interpret the relative links present in the payload of the original registration.<a href="#section-5.3.1-7.8.1.6.2" class="pilcrow">¶</a></p>
+<p id="section-5.3.1-7.8.1.6.3">If the parameter is not set in the request but was set before, the previous
+Base URI value is kept unmodified.<a href="#section-5.3.1-7.8.1.6.3" class="pilcrow">¶</a></p>
+<p id="section-5.3.1-7.8.1.6.4">If the parameter is not set in the request and was not set before either, the
 source address and source port of the update request are stored as the
-Base URI.<a href="#section-5.3.1-7.8.1.6" class="pilcrow">¶</a>
+Base URI.<a href="#section-5.3.1-7.8.1.6.4" class="pilcrow">¶</a></p>
 </dd>
                 <dd class="break"></dd>
-<dt id="section-5.3.1-7.8.1.7">extra-attrs :=</dt>
+<dt id="section-5.3.1-7.8.1.7">
+extra-attrs :=      </dt>
                 <dd style="margin-left: 1.5em" id="section-5.3.1-7.8.1.8">
-        Additional registration attributes (optional). As with the registration,
+                  <p id="section-5.3.1-7.8.1.8.1">Additional registration attributes (optional). As with the registration,
 the RD processes them if it knows their semantics. Otherwise, unknown
 attributes are stored as endpoint attributes, overriding any previously
-stored endpoint attributes of the same key.<a href="#section-5.3.1-7.8.1.8" class="pilcrow">¶</a>
+stored endpoint attributes of the same key.<a href="#section-5.3.1-7.8.1.8.1" class="pilcrow">¶</a></p>
 </dd>
                 <dd class="break"></dd>
 <dt id="section-5.3.1-7.8.1.9"></dt>
-                <dd style="margin-left: 1.5em" id="section-5.3.1-7.8.1.10">Note that this default behavior does not allow removing an endpoint attribute in an update.
+                <dd style="margin-left: 1.5em" id="section-5.3.1-7.8.1.10">
+                  <p id="section-5.3.1-7.8.1.10.1">Note that this default behavior does not allow removing an endpoint attribute in an update.
 For attributes whose functionality depends on the endpoints' ability to remove them in an update,
 it can make sense to define a value whose presence is equivalent to the absence of a value.
 As an alternative, an extension can define different updating rules for their attributes.
 That necessitates either discovery of whether the RD is aware of that extension,
-or tolerating the default behavior.<a href="#section-5.3.1-7.8.1.10" class="pilcrow">¶</a>
+or tolerating the default behavior.<a href="#section-5.3.1-7.8.1.10.1" class="pilcrow">¶</a></p>
 </dd>
               <dd class="break"></dd>
 </dl>
 </dd>
             <dd class="break"></dd>
-<dt id="section-5.3.1-7.9">Content-Format:</dt>
+<dt id="section-5.3.1-7.9">
+Content-Format:  </dt>
             <dd style="margin-left: 1.5em" id="section-5.3.1-7.10">
-  none (no payload)<a href="#section-5.3.1-7.10" class="pilcrow">¶</a>
+              <p id="section-5.3.1-7.10.1">none (no payload)<a href="#section-5.3.1-7.10.1" class="pilcrow">¶</a></p>
 </dd>
           <dd class="break"></dd>
 </dl>
 <p id="section-5.3.1-8">The following responses are expected on this interface:<a href="#section-5.3.1-8" class="pilcrow">¶</a></p>
 <span class="break"></span><dl class="dlParallel" id="section-5.3.1-9">
-            <dt id="section-5.3.1-9.1">Success:</dt>
+            <dt id="section-5.3.1-9.1">
+Success:  </dt>
             <dd style="margin-left: 1.5em" id="section-5.3.1-9.2">
-  2.04 "Changed" or 204 "No Content" if the update was successfully processed.<a href="#section-5.3.1-9.2" class="pilcrow">¶</a>
+              <p id="section-5.3.1-9.2.1">2.04 "Changed" or 204 "No Content" if the update was successfully processed.<a href="#section-5.3.1-9.2.1" class="pilcrow">¶</a></p>
 </dd>
             <dd class="break"></dd>
-<dt id="section-5.3.1-9.3">Failure:</dt>
+<dt id="section-5.3.1-9.3">
+Failure:  </dt>
             <dd style="margin-left: 1.5em" id="section-5.3.1-9.4">
-  4.04 "Not Found" or 404 "Not Found". Registration does not exist (e.g. may have been removed).<a href="#section-5.3.1-9.4" class="pilcrow">¶</a>
+              <p id="section-5.3.1-9.4.1">4.04 "Not Found" or 404 "Not Found". Registration does not exist (e.g. may have been removed).<a href="#section-5.3.1-9.4.1" class="pilcrow">¶</a></p>
 </dd>
           <dd class="break"></dd>
 </dl>
@@ -2668,28 +2735,33 @@ accomplished using a removal interface on the RD by performing a DELETE on
 the endpoint resource.<a href="#section-5.3.2-1" class="pilcrow">¶</a></p>
 <p id="section-5.3.2-2">The removal request interface is specified as follows:<a href="#section-5.3.2-2" class="pilcrow">¶</a></p>
 <span class="break"></span><dl class="dlParallel" id="section-5.3.2-3">
-            <dt id="section-5.3.2-3.1">Interaction:</dt>
+            <dt id="section-5.3.2-3.1">
+Interaction:  </dt>
             <dd style="margin-left: 1.5em" id="section-5.3.2-3.2">
-  EP or CT -&gt; RD<a href="#section-5.3.2-3.2" class="pilcrow">¶</a>
+              <p id="section-5.3.2-3.2.1">EP or CT -&gt; RD<a href="#section-5.3.2-3.2.1" class="pilcrow">¶</a></p>
 </dd>
             <dd class="break"></dd>
-<dt id="section-5.3.2-3.3">Method:</dt>
+<dt id="section-5.3.2-3.3">
+Method:  </dt>
             <dd style="margin-left: 1.5em" id="section-5.3.2-3.4">
-  DELETE<a href="#section-5.3.2-3.4" class="pilcrow">¶</a>
+              <p id="section-5.3.2-3.4.1">DELETE<a href="#section-5.3.2-3.4.1" class="pilcrow">¶</a></p>
 </dd>
             <dd class="break"></dd>
-<dt id="section-5.3.2-3.5">URI Template:</dt>
+<dt id="section-5.3.2-3.5">
+URI Template:  </dt>
             <dd style="margin-left: 1.5em" id="section-5.3.2-3.6">
-  {+location}<a href="#section-5.3.2-3.6" class="pilcrow">¶</a>
+              <p id="section-5.3.2-3.6.1">{+location}<a href="#section-5.3.2-3.6.1" class="pilcrow">¶</a></p>
 </dd>
             <dd class="break"></dd>
-<dt id="section-5.3.2-3.7">URI Template Variables:</dt>
+<dt id="section-5.3.2-3.7">
+URI Template Variables:  </dt>
             <dd style="margin-left: 1.5em" id="section-5.3.2-3.8">
               <span class="break"></span><dl class="dlParallel" id="section-5.3.2-3.8.1">
-                <dt id="section-5.3.2-3.8.1.1">location :=</dt>
+                <dt id="section-5.3.2-3.8.1.1">
+location :=      </dt>
                 <dd style="margin-left: 1.5em" id="section-5.3.2-3.8.1.2">
-        This is the Location returned by the RD as a result of a successful
-earlier registration.<a href="#section-5.3.2-3.8.1.2" class="pilcrow">¶</a>
+                  <p id="section-5.3.2-3.8.1.2.1">This is the Location returned by the RD as a result of a successful
+earlier registration.<a href="#section-5.3.2-3.8.1.2.1" class="pilcrow">¶</a></p>
 </dd>
               <dd class="break"></dd>
 </dl>
@@ -2698,14 +2770,16 @@ earlier registration.<a href="#section-5.3.2-3.8.1.2" class="pilcrow">¶</a>
 </dl>
 <p id="section-5.3.2-4">The following responses are expected on this interface:<a href="#section-5.3.2-4" class="pilcrow">¶</a></p>
 <span class="break"></span><dl class="dlParallel" id="section-5.3.2-5">
-            <dt id="section-5.3.2-5.1">Success:</dt>
+            <dt id="section-5.3.2-5.1">
+Success:  </dt>
             <dd style="margin-left: 1.5em" id="section-5.3.2-5.2">
-  2.02 "Deleted" or 204 "No Content" upon successful deletion<a href="#section-5.3.2-5.2" class="pilcrow">¶</a>
+              <p id="section-5.3.2-5.2.1">2.02 "Deleted" or 204 "No Content" upon successful deletion<a href="#section-5.3.2-5.2.1" class="pilcrow">¶</a></p>
 </dd>
             <dd class="break"></dd>
-<dt id="section-5.3.2-5.3">Failure:</dt>
+<dt id="section-5.3.2-5.3">
+Failure:  </dt>
             <dd style="margin-left: 1.5em" id="section-5.3.2-5.4">
-  4.04 "Not Found" or 404 "Not Found". Registration does not exist (e.g. may already have been removed).<a href="#section-5.3.2-5.4" class="pilcrow">¶</a>
+              <p id="section-5.3.2-5.4.1">4.04 "Not Found" or 404 "Not Found". Registration does not exist (e.g. may already have been removed).<a href="#section-5.3.2-5.4.1" class="pilcrow">¶</a></p>
 </dd>
           <dd class="break"></dd>
 </dl>
@@ -2738,6 +2812,108 @@ Res: 2.02 Deleted
 </li>
           </ul>
 <p id="section-5.3.3-3">Those operations are out of scope of this document, and will require media types suitable for modifying sets of links.<a href="#section-5.3.3-3" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="freshness">
+<section id="section-5.3.4">
+          <h4 id="name-request-freshness">
+<a href="#section-5.3.4" class="section-number selfRef">5.3.4. </a><a href="#name-request-freshness" class="section-name selfRef">Request freshness</a>
+          </h4>
+<p id="section-5.3.4-1">Some security mechanisms usable with an RD allow out of order request processing,
+or do not even mandate replay protection at all.
+The RD needs to ensure that operations on the registration resource
+are executed in an order that does not distort the client's intentions.<a href="#section-5.3.4-1" class="pilcrow">¶</a></p>
+<p id="section-5.3.4-2">This ordering of operations is expressed in terms of freshness as defined in <span>[<a href="#I-D.ietf-core-echo-request-tag" class="xref">I-D.ietf-core-echo-request-tag</a>]</span>.
+Requests that alter a resource's state need to be fresh relative to the latest request
+that altered that state in a conflicting way.<a href="#section-5.3.4-2" class="pilcrow">¶</a></p>
+<p id="section-5.3.4-3">An RD SHOULD determine a request's freshness,
+and MUST use the Echo option if it requires request freshness and can not determine the it in any other way.
+An endpoint MUST support the use of the Echo option.
+(One reason why an RD would not require freshness is when no relevant registration properties are covered by is security policies.)<a href="#section-5.3.4-3" class="pilcrow">¶</a></p>
+<div id="efficient-use-of-echo-by-an-rd">
+<section id="section-5.3.4.1">
+            <h5 id="name-efficient-use-of-echo-by-an">
+<a href="#section-5.3.4.1" class="section-number selfRef">5.3.4.1. </a><a href="#name-efficient-use-of-echo-by-an" class="section-name selfRef">Efficient use of Echo by an RD</a>
+            </h5>
+<p id="section-5.3.4.1-1">To keep latency and traffic added by the freshness requirements to a minimum,
+RDs should avoid naive (sufficient but inefficient) freshness criteria.<a href="#section-5.3.4.1-1" class="pilcrow">¶</a></p>
+<p id="section-5.3.4.1-2">Some simple mechanisms the RD can employ are:<a href="#section-5.3.4.1-2" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-5.3.4.1-3.1">
+                <p id="section-5.3.4.1-3.1.1">State counter.
+The RD can keep a monotonous counter that increments whenever a registration changes.
+For every registration resource, it stores the post-increment value of that resource's last change.
+Requests altering them need to have at least that value encoded in their Echo option,
+and are otherwise rejected with a 4.01 Unauthorized and the current counter value as the Echo value.
+If other applications on the same server use Echo as well,
+that encoding may include a prefix indicating that it pertains to the RD's counter.<a href="#section-5.3.4.1-3.1.1" class="pilcrow">¶</a></p>
+<p id="section-5.3.4.1-3.1.2">
+The value associated with a resource needs to be kept across the removal of registrations
+if the same registration resource is to be reused.<a href="#section-5.3.4.1-3.1.2" class="pilcrow">¶</a></p>
+<p id="section-5.3.4.1-3.1.3">
+The counter can be reset (and the values of removed resources forgotten)
+when all previous security associations are reset.<a href="#section-5.3.4.1-3.1.3" class="pilcrow">¶</a></p>
+<p id="section-5.3.4.1-3.1.4">
+This is the "Persistent Counter" method of <span>[<a href="#I-D.ietf-core-echo-request-tag" class="xref">I-D.ietf-core-echo-request-tag</a>]</span> Appendix A.<a href="#section-5.3.4.1-3.1.4" class="pilcrow">¶</a></p>
+</li>
+              <li class="normal" id="section-5.3.4.1-3.2">
+                <p id="section-5.3.4.1-3.2.1">Preemptive Echo values.
+The current state counter can be sent in an Echo option not only when requests are rejected with 4.01 Unauthorized,
+but also with successful responses.
+Thus, clients can be provided with Echo values sufficient for their next request on a regular basis.<a href="#section-5.3.4.1-3.2.1" class="pilcrow">¶</a></p>
+<p id="section-5.3.4.1-3.2.2">
+While endpoints may discard received Echo values at leisure between requests,
+they are encouraged to retain these values for the next request to avoid additional round trips.<a href="#section-5.3.4.1-3.2.2" class="pilcrow">¶</a></p>
+</li>
+              <li class="normal" id="section-5.3.4.1-3.3">If the RD can ensure that only one security association has modifying access to any registration at any given time,
+and that security association provides order on the requests,
+that order is sufficient to show request freshness.<a href="#section-5.3.4.1-3.3" class="pilcrow">¶</a>
+</li>
+            </ul>
+</section>
+</div>
+<div id="examples-of-echo-usage">
+<section id="section-5.3.4.2">
+            <h5 id="name-examples-of-echo-usage">
+<a href="#section-5.3.4.2" class="section-number selfRef">5.3.4.2. </a><a href="#name-examples-of-echo-usage" class="section-name selfRef">Examples of Echo usage</a>
+            </h5>
+<p id="section-5.3.4.2-1"><a href="#example-freshness" class="xref">Figure 18</a> shows the interactions of an endpoint
+that has forgotten the server's latest Echo value
+and temporarily reduces its registration lifetime:<a href="#section-5.3.4.2-1" class="pilcrow">¶</a></p>
+<span id="name-example-update-of-a-registra"></span><div id="example-freshness">
+<figure id="figure-18">
+              <div class="artwork art-text alignLeft" id="section-5.3.4.2-2.1">
+<pre>
+Req: POST /rd/4521?lt=7200
+
+Res: 4.01 Unauthorized
+Echo: 0x0123
+
+(EP tries again immediately)
+
+Req: POST /rd/4521?lt=7200
+Echo: 0x0123
+
+Res: 2.04 Changed
+Echo: 0x0124
+
+(Later the EP regains its confidence in its long-term reachability)
+
+Req: POST /rd/4521?lt=90000
+Echo: 0x0124
+
+Res: 2.04 Changed
+Echo: 0x0247
+</pre>
+</div>
+<figcaption><a href="#figure-18" class="selfRef">Figure 18</a>:
+<a href="#name-example-update-of-a-registra" class="selfRef">Example update of a registration</a>
+              </figcaption></figure>
+</div>
+<p id="section-5.3.4.2-3">The other examples do not show Echo options for simplicity,
+and because they lack the context for any example values to have meaning.<a href="#section-5.3.4.2-3" class="pilcrow">¶</a></p>
+</section>
+</div>
 </section>
 </div>
 </section>
@@ -2831,73 +3007,83 @@ especially with respect to representing zero matching links
 (see "Success" item below).<a href="#section-6.2-7" class="pilcrow">¶</a></p>
 <p id="section-6.2-8">The lookup interface is specified as follows:<a href="#section-6.2-8" class="pilcrow">¶</a></p>
 <span class="break"></span><dl class="dlParallel" id="section-6.2-9">
-          <dt id="section-6.2-9.1">Interaction:</dt>
+          <dt id="section-6.2-9.1">
+Interaction:  </dt>
           <dd style="margin-left: 1.5em" id="section-6.2-9.2">
-  Client -&gt; RD<a href="#section-6.2-9.2" class="pilcrow">¶</a>
+            <p id="section-6.2-9.2.1">Client -&gt; RD<a href="#section-6.2-9.2.1" class="pilcrow">¶</a></p>
 </dd>
           <dd class="break"></dd>
-<dt id="section-6.2-9.3">Method:</dt>
+<dt id="section-6.2-9.3">
+Method:  </dt>
           <dd style="margin-left: 1.5em" id="section-6.2-9.4">
-  GET<a href="#section-6.2-9.4" class="pilcrow">¶</a>
+            <p id="section-6.2-9.4.1">GET<a href="#section-6.2-9.4.1" class="pilcrow">¶</a></p>
 </dd>
           <dd class="break"></dd>
-<dt id="section-6.2-9.5">URI Template:</dt>
+<dt id="section-6.2-9.5">
+URI Template:  </dt>
           <dd style="margin-left: 1.5em" id="section-6.2-9.6">
-  {+type-lookup-location}{?page,count,search*}<a href="#section-6.2-9.6" class="pilcrow">¶</a>
+            <p id="section-6.2-9.6.1">{+type-lookup-location}{?page,count,search*}<a href="#section-6.2-9.6.1" class="pilcrow">¶</a></p>
 </dd>
           <dd class="break"></dd>
-<dt id="section-6.2-9.7">URI Template Variables:</dt>
+<dt id="section-6.2-9.7">
+URI Template Variables:  </dt>
           <dd style="margin-left: 1.5em" id="section-6.2-9.8">
             <span class="break"></span><dl class="dlParallel" id="section-6.2-9.8.1">
-              <dt id="section-6.2-9.8.1.1">type-lookup-location :=</dt>
+              <dt id="section-6.2-9.8.1.1">
+type-lookup-location :=      </dt>
               <dd style="margin-left: 1.5em" id="section-6.2-9.8.1.2">
-        RD Lookup URI for a given lookup type (mandatory). The address is
-discovered as described in <a href="#discovery" class="xref">Section 4.3</a>.<a href="#section-6.2-9.8.1.2" class="pilcrow">¶</a>
+                <p id="section-6.2-9.8.1.2.1">RD Lookup URI for a given lookup type (mandatory). The address is
+discovered as described in <a href="#discovery" class="xref">Section 4.3</a>.<a href="#section-6.2-9.8.1.2.1" class="pilcrow">¶</a></p>
 </dd>
               <dd class="break"></dd>
-<dt id="section-6.2-9.8.1.3">search :=</dt>
+<dt id="section-6.2-9.8.1.3">
+search :=      </dt>
               <dd style="margin-left: 1.5em" id="section-6.2-9.8.1.4">
-        Search criteria for limiting the number of results (optional).<a href="#section-6.2-9.8.1.4" class="pilcrow">¶</a>
+                <p id="section-6.2-9.8.1.4.1">Search criteria for limiting the number of results (optional).<a href="#section-6.2-9.8.1.4.1" class="pilcrow">¶</a></p>
 </dd>
               <dd class="break"></dd>
 <dt id="section-6.2-9.8.1.5"></dt>
-              <dd style="margin-left: 1.5em" id="section-6.2-9.8.1.6">The search criteria are an associative array, expressed in a form-style query as per the URI template (see <span>[<a href="#RFC6570" class="xref">RFC6570</a>]</span> Sections 2.4.2 and 3.2.8)<a href="#section-6.2-9.8.1.6" class="pilcrow">¶</a>
+              <dd style="margin-left: 1.5em" id="section-6.2-9.8.1.6">
+                <p id="section-6.2-9.8.1.6.1">The search criteria are an associative array, expressed in a form-style query as per the URI template (see <span>[<a href="#RFC6570" class="xref">RFC6570</a>]</span> Sections 2.4.2 and 3.2.8)<a href="#section-6.2-9.8.1.6.1" class="pilcrow">¶</a></p>
 </dd>
               <dd class="break"></dd>
-<dt id="section-6.2-9.8.1.7">page :=</dt>
+<dt id="section-6.2-9.8.1.7">
+page :=      </dt>
               <dd style="margin-left: 1.5em" id="section-6.2-9.8.1.8">
-        Page (optional). Parameter cannot be used without the count
+                <p id="section-6.2-9.8.1.8.1">Page (optional). Parameter cannot be used without the count
 parameter. Results are returned from result set in pages that contain
 'count' links starting from index (page * count). Page numbering starts
-with zero.<a href="#section-6.2-9.8.1.8" class="pilcrow">¶</a>
+with zero.<a href="#section-6.2-9.8.1.8.1" class="pilcrow">¶</a></p>
 </dd>
               <dd class="break"></dd>
-<dt id="section-6.2-9.8.1.9">count :=</dt>
+<dt id="section-6.2-9.8.1.9">
+count :=      </dt>
               <dd style="margin-left: 1.5em" id="section-6.2-9.8.1.10">
-        Count (optional). Number of results is limited to this parameter value. If
+                <p id="section-6.2-9.8.1.10.1">Count (optional). Number of results is limited to this parameter value. If
 the page parameter is also present, the response MUST only include 'count'
 links starting with the (page * count) link in the result set from the query. If
 the count parameter is not present, then the response MUST return all matching
-links in the result set. Link numbering starts with zero.<a href="#section-6.2-9.8.1.10" class="pilcrow">¶</a>
+links in the result set. Link numbering starts with zero.<a href="#section-6.2-9.8.1.10.1" class="pilcrow">¶</a></p>
 </dd>
             <dd class="break"></dd>
 </dl>
 </dd>
           <dd class="break"></dd>
-<dt id="section-6.2-9.9">Accept:</dt>
+<dt id="section-6.2-9.9">
+Accept:  </dt>
           <dd style="margin-left: 1.5em" id="section-6.2-9.10">
-  absent, application/link-format or any other indicated media type representing web links<a href="#section-6.2-9.10" class="pilcrow">¶</a>
+            <p id="section-6.2-9.10.1">absent, application/link-format or any other indicated media type representing web links<a href="#section-6.2-9.10.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
 </dl>
 <p id="section-6.2-10">The following responses codes are defined for this interface:<a href="#section-6.2-10" class="pilcrow">¶</a></p>
 <span class="break"></span><dl class="dlParallel" id="section-6.2-11">
-          <dt id="section-6.2-11.1">Success:</dt>
+          <dt id="section-6.2-11.1">
+Success:  </dt>
           <dd style="margin-left: 1.5em" id="section-6.2-11.2">
-  2.05 "Content" or 200 "OK" with an <code>application/link-format</code> or other web link payload containing matching entries for the lookup.
-
-The payload can contain zero links (which is an empty payload in <span>[<a href="#RFC6690" class="xref">RFC6690</a>]</span> link format, but could also be <code>[]</code> in JSON based formats),
-indicating that no entities matched the request.<a href="#section-6.2-11.2" class="pilcrow">¶</a>
+            <p id="section-6.2-11.2.1">2.05 "Content" or 200 "OK" with an <code>application/link-format</code> or other web link payload containing matching entries for the lookup.<a href="#section-6.2-11.2.1" class="pilcrow">¶</a></p>
+<p id="section-6.2-11.2.2">The payload can contain zero links (which is an empty payload in <span>[<a href="#RFC6690" class="xref">RFC6690</a>]</span> link format, but could also be <code>[]</code> in JSON based formats),
+indicating that no entities matched the request.<a href="#section-6.2-11.2.2" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
 </dl>
@@ -2911,7 +3097,7 @@ indicating that no entities matched the request.<a href="#section-6.2-11.2" clas
 <p id="section-6.3-1">The examples in this section assume the existence of CoAP hosts with a default CoAP port 61616. HTTP hosts are possible and do not change the nature of the examples.<a href="#section-6.3-1" class="pilcrow">¶</a></p>
 <p id="section-6.3-2">The following example shows a client performing a resource lookup with the example resource look-up locations discovered in <a href="#example-discovery" class="xref">Figure 5</a>:<a href="#section-6.3-2" class="pilcrow">¶</a></p>
 <span id="name-example-a-resource-lookup"></span><div id="example-lookup-res">
-<figure id="figure-18">
+<figure id="figure-19">
           <div class="artwork art-text alignLeft" id="section-6.3-3.1">
 <pre>
 Req: GET /rd-lookup/res?rt=tag:example.org,2020:temperature
@@ -2922,14 +3108,14 @@ Res: 2.05 Content
     anchor="coap://[2001:db8:3::123]:61616"
 </pre>
 </div>
-<figcaption><a href="#figure-18" class="selfRef">Figure 18</a>:
+<figcaption><a href="#figure-19" class="selfRef">Figure 19</a>:
 <a href="#name-example-a-resource-lookup" class="selfRef">Example a resource lookup</a>
           </figcaption></figure>
 </div>
 <p id="section-6.3-4">A client that wants to be notified of new resources as they show up can use
 observation:<a href="#section-6.3-4" class="pilcrow">¶</a></p>
 <span id="name-example-an-observing-resour"></span><div id="example-lookup-obs">
-<figure id="figure-19">
+<figure id="figure-20">
           <div class="artwork art-text alignLeft" id="section-6.3-5.1">
 <pre>
 Req: GET /rd-lookup/res?rt=tag:example.org,2020:light
@@ -2952,13 +3138,13 @@ Payload:
     anchor="coap://[2001:db8:3::124]"
 </pre>
 </div>
-<figcaption><a href="#figure-19" class="selfRef">Figure 19</a>:
+<figcaption><a href="#figure-20" class="selfRef">Figure 20</a>:
 <a href="#name-example-an-observing-resour" class="selfRef">Example an observing resource lookup</a>
           </figcaption></figure>
 </div>
 <p id="section-6.3-6">The following example shows a client performing a paginated resource lookup<a href="#section-6.3-6" class="pilcrow">¶</a></p>
 <span id="name-examples-of-paginated-resou"></span><div id="example-lookup-page">
-<figure id="figure-20">
+<figure id="figure-21">
           <div class="artwork art-text alignLeft" id="section-6.3-7.1">
 <pre>
 Req: GET /rd-lookup/res?page=0&amp;count=5
@@ -2990,7 +3176,7 @@ Res: 2.05 Content
     anchor="coap://[2001:db8:3::123]:61616"
 </pre>
 </div>
-<figcaption><a href="#figure-20" class="selfRef">Figure 20</a>:
+<figcaption><a href="#figure-21" class="selfRef">Figure 21</a>:
 <a href="#name-examples-of-paginated-resou" class="selfRef">Examples of paginated resource lookup</a>
           </figcaption></figure>
 </div>
@@ -3002,7 +3188,7 @@ posted the very payload of the 6th response of section 5 of <span>[<a href="#RFC
 <p id="section-6.3-9">It demonstrates how absolute link targets stay unmodified, while relative ones
 are resolved:<a href="#section-6.3-9" class="pilcrow">¶</a></p>
 <span id="name-example-of-resource-lookup-"></span><div id="example-lookup-multiple">
-<figure id="figure-21">
+<figure id="figure-22">
           <div class="artwork art-text alignLeft" id="section-6.3-10.1">
 <pre>
 Req: GET /rd-lookup/res?et=tag:example.com,2020:platform
@@ -3029,7 +3215,7 @@ Req: GET /rd-lookup/res?et=tag:example.com,2020:platform
     anchor="coap://sensor2.example.com/sensors/temp"
 </pre>
 </div>
-<figcaption><a href="#figure-21" class="selfRef">Figure 21</a>:
+<figcaption><a href="#figure-22" class="selfRef">Figure 22</a>:
 <a href="#name-example-of-resource-lookup-" class="selfRef">Example of resource lookup from multiple endpoints</a>
           </figcaption></figure>
 </div>
@@ -3058,7 +3244,7 @@ and treat them as opaque identifiers;
 the precise semantics of such links are left to future specifications.<a href="#section-6.4-6" class="pilcrow">¶</a></p>
 <p id="section-6.4-7">The following example shows a client performing an endpoint lookup limited to endpoints of endpoint type <code>tag:example.com,2020:platform</code>:<a href="#section-6.4-7" class="pilcrow">¶</a></p>
 <span id="name-examples-of-endpoint-lookup"></span><div id="example-lookup-ep">
-<figure id="figure-22">
+<figure id="figure-23">
           <div class="artwork art-text alignLeft" id="section-6.4-8.1">
 <pre>
 Req: GET /rd-lookup/ep?et=tag:example.com,2020:platform
@@ -3071,7 +3257,7 @@ Res: 2.05 Content
     rt="core.rd-ep"
 </pre>
 </div>
-<figcaption><a href="#figure-22" class="selfRef">Figure 22</a>:
+<figcaption><a href="#figure-23" class="selfRef">Figure 23</a>:
 <a href="#name-examples-of-endpoint-lookup" class="selfRef">Examples of endpoint lookup</a>
           </figcaption></figure>
 </div>
@@ -3212,7 +3398,7 @@ including registrations that lead to an existing registration resource,
 MUST be rejected by the RD unless all the stored information is found in the new request's credentials.<a href="#section-7.5-7" class="pilcrow">¶</a></p>
 <p id="section-7.5-8">Note that even though subject names are compared in this policy,
 they are never directly compared to endpoint names,
-and an endpoint can not expect to "own" any particular endpoint name outside of an active registration -
+and an endpoint can not expect to "own" any particular endpoint name outside of an active registration --
 even if a certificate says so.
 It is an accepted shortcoming of this approach that the endpoint has no indication of whether the RD remembers it by its subject name or public key;
 recognition by subject happens on a best-effort base (given the RD may not recognize any authority).
@@ -3274,15 +3460,17 @@ endpoint name for looking up what information to provision to the malicious devi
 <p id="section-8.2-5">Endpoint authorization needs to be checked on registration and registration resource operations
 independently of whether there are configured requirements on the credentials for a given endpoint name (and sector; <a href="#secure-ep" class="xref">Section 7.1</a>)
 or whether arbitrary names are accepted (<a href="#arbitrary-ep" class="xref">Section 7.1.1</a>).<a href="#section-8.2-5" class="pilcrow">¶</a></p>
-<p id="section-8.2-6">Simple registration could be used to circumvent address-based access control:
+<p id="section-8.2-6">Operations on Registration Resources need to be ordered when the security mechanism does not provide freshness guarantees.
+<a href="#freshness" class="xref">Section 5.3.4</a> outlines ways to do that and consequences of accepting stale requests.<a href="#section-8.2-6" class="pilcrow">¶</a></p>
+<p id="section-8.2-7">Simple registration could be used to circumvent address-based access control:
 An attacker would send a simple registration request with the victim's address as source address,
 and later look up the victim's /.well-known/core content in the RD.
-Mitigation for this is recommended in <a href="#simple" class="xref">Section 5.1</a>.<a href="#section-8.2-6" class="pilcrow">¶</a></p>
-<p id="section-8.2-7">The Registration Resource path is visible to any client that is allowed endpoint lookup,
+Mitigation for this is recommended in <a href="#simple" class="xref">Section 5.1</a>.<a href="#section-8.2-7" class="pilcrow">¶</a></p>
+<p id="section-8.2-8">The Registration Resource path is visible to any client that is allowed endpoint lookup,
 and can be extracted by resource lookup clients as well.
 The same goes for registration attributes that are shown as target attributes or lookup attributes.
 The RD needs to consider this in the choice of Registration Resource paths,
-and administrators or endpoint in their choice of attributes.<a href="#section-8.2-7" class="pilcrow">¶</a></p>
+and administrators or endpoint in their choice of attributes.<a href="#section-8.2-8" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="access-control">
@@ -3320,6 +3508,37 @@ the above paragraph is replaced with the following:<a href="#section-8.4-3" clas
 and <span>[<a href="#I-D.ietf-core-echo-request-tag" class="xref">I-D.ietf-core-echo-request-tag</a>]</span> (which updates the former)
 recommends using the Echo option to verify the request's source address.<a href="#section-8.4-4" class="pilcrow">¶</a></p>
 <p id="section-8.4-5">]<a href="#section-8.4-5" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="skipping-freshness-checks">
+<section id="section-8.5">
+        <h3 id="name-skipping-freshness-checks">
+<a href="#section-8.5" class="section-number selfRef">8.5. </a><a href="#name-skipping-freshness-checks" class="section-name selfRef">Skipping freshness checks</a>
+        </h3>
+<p id="section-8.5-1">When RD based applications are built in which request freshness checks are not performed,
+these concerns need to be balanced:<a href="#section-8.5-1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-8.5-2.1">
+            <p id="section-8.5-2.1.1">When alterations to registration attributes are reordered,
+an attacker may create any combination of attributes ever set,
+with the attack difficulty determined by the security layer's replay properties.<a href="#section-8.5-2.1.1" class="pilcrow">¶</a></p>
+<p id="section-8.5-2.1.2">
+For example, if <a href="#example-freshness" class="xref">Figure 18</a> were conducted without freshness assurances,
+an attacker could later reset the lifetime back to 7200.
+
+Thus, the device is made unreachable to lookup clients.<a href="#section-8.5-2.1.2" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-8.5-2.2">
+            <p id="section-8.5-2.2.1">When registration updates without query parameters
+(which just serve to restart the lifetime)
+can be reordered,
+an attacker can use intercepted messages to give the appearance of the device being alive to the RD.<a href="#section-8.5-2.2.1" class="pilcrow">¶</a></p>
+<p id="section-8.5-2.2.2">
+This is unacceptable when when the RD's security policy promises reachability of endpoints
+(e.g. when disappearing devices would trigger further investigation),
+but may be acceptable with other policies.<a href="#section-8.5-2.2.2" class="pilcrow">¶</a></p>
+</li>
+        </ul>
 </section>
 </div>
 </section>
@@ -3560,11 +3779,11 @@ Specification Required for others.<a href="#section-9.4-2" class="pilcrow">¶</a
 <p id="section-9.5-1">
    IANA is asked to assign
    the following multicast addresses for use by CoAP nodes:<a href="#section-9.5-1" class="pilcrow">¶</a></p>
-<p id="section-9.5-2">IPv4  - "all CoRE Resource Directories" address MCD2 (suggestion: 224.0.1.189), from the "IPv4
+<p id="section-9.5-2">IPv4  -- "all CoRE Resource Directories" address MCD2 (suggestion: 224.0.1.189), from the "IPv4
       Multicast Address Space Registry".  As the address is used for
       discovery that may span beyond a single network, it has come from
       the Internetwork Control Block (224.0.1.x) <span>[<a href="#RFC5771" class="xref">RFC5771</a>]</span>.<a href="#section-9.5-2" class="pilcrow">¶</a></p>
-<p id="section-9.5-3">IPv6  - "all CoRE Resource Directories" address MCD1 (suggestions FF0X::FE), from the "IPv6 Multicast
+<p id="section-9.5-3">IPv6  -- "all CoRE Resource Directories" address MCD1 (suggestions FF0X::FE), from the "IPv6 Multicast
       Address Space Registry", in the "Variable Scope Multicast
       Addresses" space (RFC 3307).  Note that there is a distinct
       multicast address for each scope that interested CoAP nodes should
@@ -3770,7 +3989,7 @@ relevant to the RD are shown in <a href="#endpoint" class="xref">Table 5</a> bel
 <p id="section-10.1.2-5">The CT inserts the endpoints of the luminaries and the sensor in the RD
 using the registration base URI parameter (base) to specify the interface address:<a href="#section-10.1.2-5" class="pilcrow">¶</a></p>
 <span id="name-example-of-registrations-a-"></span><div id="example-lighting-1">
-<figure id="figure-23">
+<figure id="figure-24">
             <div class="artwork art-text alignLeft" id="section-10.1.2-6.1">
 <pre>
 Req: POST coap://[2001:db8:4::ff]/rd
@@ -3802,7 +4021,7 @@ Res: 2.01 Created
 Location-Path: /rd/4523
 </pre>
 </div>
-<figcaption><a href="#figure-23" class="selfRef">Figure 23</a>:
+<figcaption><a href="#figure-24" class="selfRef">Figure 24</a>:
 <a href="#name-example-of-registrations-a-" class="selfRef">Example of registrations a CT enters into an RD</a>
             </figcaption></figure>
 </div>
@@ -3813,7 +4032,7 @@ the two luminaries and the presence sensor by the CT.<a href="#section-10.1.2-7"
 multicast address allocated to the group.
 In the POST in the example below, the resources supported by all group members are published.<a href="#section-10.1.2-8" class="pilcrow">¶</a></p>
 <span id="name-example-of-a-multicast-grou"></span><div id="example-lighting-2">
-<figure id="figure-24">
+<figure id="figure-25">
             <div class="artwork art-text alignLeft" id="section-10.1.2-9.1">
 <pre>
 Req: POST coap://[2001:db8:4::ff]/rd
@@ -3827,7 +4046,7 @@ Res: 2.01 Created
 Location-Path: /rd/501
 </pre>
 </div>
-<figcaption><a href="#figure-24" class="selfRef">Figure 24</a>:
+<figcaption><a href="#figure-25" class="selfRef">Figure 25</a>:
 <a href="#name-example-of-a-multicast-grou" class="selfRef">Example of a multicast group a CT enters into an RD</a>
             </figcaption></figure>
 </div>
@@ -3837,7 +4056,7 @@ multicast address.<a href="#section-10.1.2-10" class="pilcrow">¶</a></p>
 <p id="section-10.1.2-11">The luminary, knowing its sector and being configured to join any group
 containing lights, searches for candidate groups and joins them:<a href="#section-10.1.2-11" class="pilcrow">¶</a></p>
 <span id="name-example-of-a-lookup-exchang"></span><div id="example-lighting-3">
-<figure id="figure-25">
+<figure id="figure-26">
             <div class="artwork art-text alignLeft" id="section-10.1.2-12.1">
 <pre>
 Req: GET coap://[2001:db8:4::ff]/rd-lookup/ep
@@ -3848,7 +4067,7 @@ Res: 2.05 Content
           base="coap://[ff05::1]";rt="core.rd-ep"
 </pre>
 </div>
-<figcaption><a href="#figure-25" class="selfRef">Figure 25</a>:
+<figcaption><a href="#figure-26" class="selfRef">Figure 26</a>:
 <a href="#name-example-of-a-lookup-exchang" class="selfRef">Example of a lookup exchange to find suitable multicast addresses</a>
             </figcaption></figure>
 </div>
@@ -4602,31 +4821,31 @@ the PATCH method<a href="#section-12-43.1" class="pilcrow">¶</a>
 <dd class="break"></dd>
 <dt id="I-D.bormann-t2trg-rel-impl">[I-D.bormann-t2trg-rel-impl]</dt>
         <dd>
-<span class="refAuthor">Bormann, C.</span>, <span class="refTitle">"impl-info: A link relation type for disclosing implementation information"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-bormann-t2trg-rel-impl-02</span>, <time datetime="2020-09-27" class="refDate">27 September 2020</time>, <span>&lt;<a href="http://www.ietf.org/internet-drafts/draft-bormann-t2trg-rel-impl-02.txt">http://www.ietf.org/internet-drafts/draft-bormann-t2trg-rel-impl-02.txt</a>&gt;</span>. </dd>
+<span class="refAuthor">Bormann, C.</span>, <span class="refTitle">"impl-info: A link relation type for disclosing implementation information"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-bormann-t2trg-rel-impl-02</span>, <time datetime="2020-09-27" class="refDate">27 September 2020</time>, <span>&lt;<a href="https://www.ietf.org/archive/id/draft-bormann-t2trg-rel-impl-02.txt">https://www.ietf.org/archive/id/draft-bormann-t2trg-rel-impl-02.txt</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="I-D.hartke-t2trg-coral">[I-D.hartke-t2trg-coral]</dt>
         <dd>
-<span class="refAuthor">Hartke, K.</span>, <span class="refTitle">"The Constrained RESTful Application Language (CoRAL)"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-hartke-t2trg-coral-09</span>, <time datetime="2019-07-08" class="refDate">8 July 2019</time>, <span>&lt;<a href="http://www.ietf.org/internet-drafts/draft-hartke-t2trg-coral-09.txt">http://www.ietf.org/internet-drafts/draft-hartke-t2trg-coral-09.txt</a>&gt;</span>. </dd>
+<span class="refAuthor">Hartke, K.</span>, <span class="refTitle">"The Constrained RESTful Application Language (CoRAL)"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-hartke-t2trg-coral-09</span>, <time datetime="2019-07-08" class="refDate">8 July 2019</time>, <span>&lt;<a href="https://www.ietf.org/archive/id/draft-hartke-t2trg-coral-09.txt">https://www.ietf.org/archive/id/draft-hartke-t2trg-coral-09.txt</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="I-D.ietf-ace-oauth-authz">[I-D.ietf-ace-oauth-authz]</dt>
         <dd>
-<span class="refAuthor">Seitz, L.</span><span class="refAuthor">, Selander, G.</span><span class="refAuthor">, Wahlstroem, E.</span><span class="refAuthor">, Erdtman, S.</span><span class="refAuthor">, and H. Tschofenig</span>, <span class="refTitle">"Authentication and Authorization for Constrained Environments (ACE) using the OAuth 2.0 Framework (ACE-OAuth)"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-ace-oauth-authz-35</span>, <time datetime="2020-06-24" class="refDate">24 June 2020</time>, <span>&lt;<a href="http://www.ietf.org/internet-drafts/draft-ietf-ace-oauth-authz-35.txt">http://www.ietf.org/internet-drafts/draft-ietf-ace-oauth-authz-35.txt</a>&gt;</span>. </dd>
+<span class="refAuthor">Seitz, L.</span><span class="refAuthor">, Selander, G.</span><span class="refAuthor">, Wahlstroem, E.</span><span class="refAuthor">, Erdtman, S.</span><span class="refAuthor">, and H. Tschofenig</span>, <span class="refTitle">"Authentication and Authorization for Constrained Environments (ACE) using the OAuth 2.0 Framework (ACE-OAuth)"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-ace-oauth-authz-37</span>, <time datetime="2021-02-04" class="refDate">4 February 2021</time>, <span>&lt;<a href="https://www.ietf.org/archive/id/draft-ietf-ace-oauth-authz-37.txt">https://www.ietf.org/archive/id/draft-ietf-ace-oauth-authz-37.txt</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="I-D.ietf-core-echo-request-tag">[I-D.ietf-core-echo-request-tag]</dt>
         <dd>
-<span class="refAuthor">Amsuess, C.</span><span class="refAuthor">, Mattsson, J.</span><span class="refAuthor">, and G. Selander</span>, <span class="refTitle">"CoAP: Echo, Request-Tag, and Token Processing"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-core-echo-request-tag-11</span>, <time datetime="2020-11-02" class="refDate">2 November 2020</time>, <span>&lt;<a href="http://www.ietf.org/internet-drafts/draft-ietf-core-echo-request-tag-11.txt">http://www.ietf.org/internet-drafts/draft-ietf-core-echo-request-tag-11.txt</a>&gt;</span>. </dd>
+<span class="refAuthor">Amsüss, C.</span><span class="refAuthor">, Mattsson, J. P.</span><span class="refAuthor">, and G. Selander</span>, <span class="refTitle">"CoAP: Echo, Request-Tag, and Token Processing"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-core-echo-request-tag-12</span>, <time datetime="2021-02-01" class="refDate">1 February 2021</time>, <span>&lt;<a href="https://www.ietf.org/archive/id/draft-ietf-core-echo-request-tag-12.txt">https://www.ietf.org/archive/id/draft-ietf-core-echo-request-tag-12.txt</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="I-D.ietf-core-links-json">[I-D.ietf-core-links-json]</dt>
         <dd>
-<span class="refAuthor">Li, K.</span><span class="refAuthor">, Rahman, A.</span><span class="refAuthor">, and C. Bormann</span>, <span class="refTitle">"Representing Constrained RESTful Environments (CoRE) Link Format in JSON and CBOR"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-core-links-json-10</span>, <time datetime="2018-02-26" class="refDate">26 February 2018</time>, <span>&lt;<a href="http://www.ietf.org/internet-drafts/draft-ietf-core-links-json-10.txt">http://www.ietf.org/internet-drafts/draft-ietf-core-links-json-10.txt</a>&gt;</span>. </dd>
+<span class="refAuthor">LI, K.</span><span class="refAuthor">, Rahman, A.</span><span class="refAuthor">, and C. Bormann</span>, <span class="refTitle">"Representing Constrained RESTful Environments (CoRE) Link Format in JSON and CBOR"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-core-links-json-10</span>, <time datetime="2018-02-26" class="refDate">26 February 2018</time>, <span>&lt;<a href="https://www.ietf.org/archive/id/draft-ietf-core-links-json-10.txt">https://www.ietf.org/archive/id/draft-ietf-core-links-json-10.txt</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="I-D.ietf-core-rd-dns-sd">[I-D.ietf-core-rd-dns-sd]</dt>
         <dd>
-<span class="refAuthor">Stok, P.</span><span class="refAuthor">, Koster, M.</span><span class="refAuthor">, and C. Amsuess</span>, <span class="refTitle">"CoRE Resource Directory: DNS-SD mapping"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-core-rd-dns-sd-05</span>, <time datetime="2019-07-07" class="refDate">7 July 2019</time>, <span>&lt;<a href="http://www.ietf.org/internet-drafts/draft-ietf-core-rd-dns-sd-05.txt">http://www.ietf.org/internet-drafts/draft-ietf-core-rd-dns-sd-05.txt</a>&gt;</span>. </dd>
+<span class="refAuthor">Stok, P. V. D.</span><span class="refAuthor">, Koster, M.</span><span class="refAuthor">, and C. Amsüss</span>, <span class="refTitle">"CoRE Resource Directory: DNS-SD mapping"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-core-rd-dns-sd-05</span>, <time datetime="2019-07-07" class="refDate">7 July 2019</time>, <span>&lt;<a href="https://www.ietf.org/archive/id/draft-ietf-core-rd-dns-sd-05.txt">https://www.ietf.org/archive/id/draft-ietf-core-rd-dns-sd-05.txt</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="I-D.silverajan-core-coap-protocol-negotiation">[I-D.silverajan-core-coap-protocol-negotiation]</dt>
         <dd>
-<span class="refAuthor">Silverajan, B.</span><span class="refAuthor"> and M. Ocak</span>, <span class="refTitle">"CoAP Protocol Negotiation"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-silverajan-core-coap-protocol-negotiation-09</span>, <time datetime="2018-07-02" class="refDate">2 July 2018</time>, <span>&lt;<a href="http://www.ietf.org/internet-drafts/draft-silverajan-core-coap-protocol-negotiation-09.txt">http://www.ietf.org/internet-drafts/draft-silverajan-core-coap-protocol-negotiation-09.txt</a>&gt;</span>. </dd>
+<span class="refAuthor">Silverajan, B.</span><span class="refAuthor"> and M. Ocak</span>, <span class="refTitle">"CoAP Protocol Negotiation"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-silverajan-core-coap-protocol-negotiation-09</span>, <time datetime="2018-07-02" class="refDate">2 July 2018</time>, <span>&lt;<a href="https://www.ietf.org/archive/id/draft-silverajan-core-coap-protocol-negotiation-09.txt">https://www.ietf.org/archive/id/draft-silverajan-core-coap-protocol-negotiation-09.txt</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="LwM2M">[LwM2M]</dt>
         <dd>
@@ -4712,7 +4931,7 @@ The directory resource path /rd
 is an example RD location discovered in a request similar to <a href="#example-discovery" class="xref">Figure 5</a>.
 The group address in the example is constructed from <span>[<a href="#RFC3849" class="xref">RFC3849</a>]</span>'s reserved 2001:db8:: prefix as a unicast-prefix based site-local address (see <span>[<a href="#RFC3306" class="xref">RFC3306</a>]</span>.<a href="#section-appendix.a-5" class="pilcrow">¶</a></p>
 <span id="name-example-registration-of-a-g"></span><div id="example-group-registration">
-<figure id="figure-26">
+<figure id="figure-27">
         <div class="artwork art-text alignLeft" id="section-appendix.a-6.1">
 <pre>
 Req: POST coap://rd.example.com/rd?ep=lights&amp;et=core.rd-group
@@ -4727,7 +4946,7 @@ Res: 2.01 Created
 Location-Path: /rd/12
 </pre>
 </div>
-<figcaption><a href="#figure-26" class="selfRef">Figure 26</a>:
+<figcaption><a href="#figure-27" class="selfRef">Figure 27</a>:
 <a href="#name-example-registration-of-a-g" class="selfRef">Example registration of a group</a>
         </figcaption></figure>
 </div>
@@ -4741,7 +4960,7 @@ and the group registrations (along with any additional registration parameters)
 can be looked up using the endpoint lookup interface.<a href="#section-appendix.a-8" class="pilcrow">¶</a></p>
 <p id="section-appendix.a-9">The following example shows a client performing an endpoint lookup for all groups.<a href="#section-appendix.a-9" class="pilcrow">¶</a></p>
 <span id="name-example-lookup-of-groups"></span><div id="example-group-lookup">
-<figure id="figure-27">
+<figure id="figure-28">
         <div class="artwork art-text alignLeft" id="section-appendix.a-10.1">
 <pre>
 Req: GET /rd-lookup/ep?et=core.rd-group
@@ -4754,13 +4973,13 @@ Payload:
          base="coap://[ff35:30:2001:f1:db8::8000:1]";rt="core.rd-ep"
 </pre>
 </div>
-<figcaption><a href="#figure-27" class="selfRef">Figure 27</a>:
+<figcaption><a href="#figure-28" class="selfRef">Figure 28</a>:
 <a href="#name-example-lookup-of-groups" class="selfRef">Example lookup of groups</a>
         </figcaption></figure>
 </div>
 <p id="section-appendix.a-11">The following example shows a client performing a lookup of all resources of all endpoints (groups) with et=core.rd-group.<a href="#section-appendix.a-11" class="pilcrow">¶</a></p>
 <span id="name-example-lookup-of-resources"></span><div id="example-group-lookup-res">
-<figure id="figure-28">
+<figure id="figure-29">
         <div class="artwork art-text alignLeft" id="section-appendix.a-12.1">
 <pre>
 Req: GET /rd-lookup/res?et=core.rd-group
@@ -4774,7 +4993,7 @@ Req: GET /rd-lookup/res?et=core.rd-group
      anchor="coap://[ff35:30:2001:db8:f1::8000:1]"
 </pre>
 </div>
-<figcaption><a href="#figure-28" class="selfRef">Figure 28</a>:
+<figcaption><a href="#figure-29" class="selfRef">Figure 29</a>:
 <a href="#name-example-lookup-of-resources" class="selfRef">Example lookup of resources inside groups</a>
         </figcaption></figure>
 </div>
@@ -4807,7 +5026,7 @@ following multicast request to learn about neighbours supporting resources with
 resource-type "temperature".<a href="#section-b.1-1" class="pilcrow">¶</a></p>
 <p id="section-b.1-2">The client sends a link-local multicast:<a href="#section-b.1-2" class="pilcrow">¶</a></p>
 <span id="name-example-of-direct-resource-"></span><div id="example-weblink-wkc">
-<figure id="figure-29">
+<figure id="figure-30">
           <div class="artwork art-text alignLeft" id="section-b.1-3.1">
 <pre>
 GET coap://[ff02::fd]:5683/.well-known/core?rt=temperature
@@ -4816,12 +5035,12 @@ RES 2.05 Content
 &lt;/temp&gt;;rt=temperature;ct=0
 </pre>
 </div>
-<figcaption><a href="#figure-29" class="selfRef">Figure 29</a>:
+<figcaption><a href="#figure-30" class="selfRef">Figure 30</a>:
 <a href="#name-example-of-direct-resource-" class="selfRef">Example of direct resource discovery</a>
           </figcaption></figure>
 </div>
 <p id="section-b.1-4">where the response is sent by the server, <code>[2001:db8:f0::1]:5683</code>.<a href="#section-b.1-4" class="pilcrow">¶</a></p>
-<p id="section-b.1-5">While the client - on the practical or implementation side - can just go
+<p id="section-b.1-5">While the client -- on the practical or implementation side -- can just go
 ahead and create a new request to <code>[2001:db8:f0::1]:5683</code> with Uri-Path:
 <code>temp</code>, the full resolution steps for insertion into and retrieval from the RD without any shortcuts are:<a href="#section-b.1-5" class="pilcrow">¶</a></p>
 <div id="resolveURI">
@@ -4871,7 +5090,7 @@ can be accessed using the text/plain content format.'<a href="#section-b.1.2-4" 
 <p id="section-b.2-1">Omitting the <code>rt=temperature</code> filter, the discovery query would
 have given some more records in the payload:<a href="#section-b.2-1" class="pilcrow">¶</a></p>
 <span id="name-extended-example-of-direct-"></span><div id="example-weblink-wkc-extended">
-<figure id="figure-30">
+<figure id="figure-31">
           <div class="artwork art-text alignLeft" id="section-b.2-2.1">
 <pre>
 GET coap://[ff02::fd]:5683/.well-known/core
@@ -4884,7 +5103,7 @@ RES 2.05 Content
     rel="describedby"
 </pre>
 </div>
-<figcaption><a href="#figure-30" class="selfRef">Figure 30</a>:
+<figcaption><a href="#figure-31" class="selfRef">Figure 31</a>:
 <a href="#name-extended-example-of-direct-" class="selfRef">Extended example of direct resource discovery</a>
           </figcaption></figure>
 </div>
@@ -4911,13 +5130,13 @@ CoAP discovery over to the resource lookup interface as faithfully as possible.<
 Registration to register at the RD that was announced to it,
 sending this request from its UDP port <code>[2001:db8:f0::1]:6553</code>:<a href="#section-b.3-2" class="pilcrow">¶</a></p>
 <span id="name-example-request-starting-a-"></span><div id="example-weblink-simple">
-<figure id="figure-31">
+<figure id="figure-32">
           <div class="artwork art-text alignLeft" id="section-b.3-3.1">
 <pre>
 POST coap://[2001:db8:f01::ff]/.well-known/rd?ep=simple-host1
 </pre>
 </div>
-<figcaption><a href="#figure-31" class="selfRef">Figure 31</a>:
+<figcaption><a href="#figure-32" class="selfRef">Figure 32</a>:
 <a href="#name-example-request-starting-a-" class="selfRef">Example request starting a simple registration</a>
           </figcaption></figure>
 </div>
@@ -4933,14 +5152,14 @@ request, it would go through the RD discovery steps by fetching
 issue a request to <code>coap://[2001:db8:f0::ff]/rd-lookup/res?rt=temperature</code> to
 receive the following data:<a href="#section-b.3-5" class="pilcrow">¶</a></p>
 <span id="name-example-payload-of-a-respon"></span><div id="example-weblink-lookup-result">
-<figure id="figure-32">
+<figure id="figure-33">
           <div class="artwork art-text alignLeft" id="section-b.3-6.1">
 <pre>
 &lt;coap://[2001:db8:f0::1]/temp&gt;;rt=temperature;ct=0;
     anchor="coap://[2001:db8:f0::1]"
 </pre>
 </div>
-<figcaption><a href="#figure-32" class="selfRef">Figure 32</a>:
+<figcaption><a href="#figure-33" class="selfRef">Figure 33</a>:
 <a href="#name-example-payload-of-a-respon" class="selfRef">Example payload of a response to a resource lookup</a>
           </figcaption></figure>
 </div>
@@ -4955,7 +5174,7 @@ which does not matter in this application; if it did, the endpoint would have be
 the endpoint with the known endpoint name "simple-host1". A request to
 <code>coap://[2001:db8:f0::ff]/rd-lookup/res?ep=simple-host1</code> would return<a href="#section-b.3-10" class="pilcrow">¶</a></p>
 <span id="name-extended-example-payload-of"></span><div id="example-weblink-lookup-result-extended">
-<figure id="figure-33">
+<figure id="figure-34">
           <div class="artwork art-text alignLeft" id="section-b.3-11.1">
 <pre>
 &lt;coap://[2001:db8:f0::1]/temp&gt;;rt=temperature;ct=0;
@@ -4968,7 +5187,7 @@ the endpoint with the known endpoint name "simple-host1". A request to
     anchor="coap://[2001:db8:f0::1]/sensors/temp";rel="describedby"
 </pre>
 </div>
-<figcaption><a href="#figure-33" class="selfRef">Figure 33</a>:
+<figcaption><a href="#figure-34" class="selfRef">Figure 34</a>:
 <a href="#name-extended-example-payload-of" class="selfRef">Extended example payload of a response to a resource lookup</a>
           </figcaption></figure>
 </div>
@@ -4978,14 +5197,14 @@ don't need to be resolved any further.<a href="#section-b.3-12" class="pilcrow">
 <code>?ep=simple-host1&amp;base=coap+tcp://simple-host1.example.com</code>), that context would
 have been used to resolve the relative anchor values instead, giving<a href="#section-b.3-13" class="pilcrow">¶</a></p>
 <span id="name-example-payload-of-a-respons"></span><div id="example-weblink-lookup-result-base">
-<figure id="figure-34">
+<figure id="figure-35">
           <div class="artwork art-text alignLeft" id="section-b.3-14.1">
 <pre>
 &lt;coap+tcp://simple-host1.example.com/temp&gt;;rt=temperature;ct=0;
     anchor="coap+tcp://simple-host1.example.com"
 </pre>
 </div>
-<figcaption><a href="#figure-34" class="selfRef">Figure 34</a>:
+<figcaption><a href="#figure-35" class="selfRef">Figure 35</a>:
 <a href="#name-example-payload-of-a-respons" class="selfRef">Example payload of a response to a resource lookup with a dedicated base URI</a>
           </figcaption></figure>
 </div>
@@ -5061,8 +5280,8 @@ rules out some use cases of an RD
 (e.g. base values with path components).<a href="#section-appendix.c-1" class="pilcrow">¶</a></p>
 <p id="section-appendix.c-2">This appendix describes
 a subset of link format documents called Limited Link Format.
-The rules herein are not very limiting in practice -
-all examples in RFC6690, and all deployments the authors are aware of already stick to them -
+The rules herein are not very limiting in practice --
+all examples in RFC6690, and all deployments the authors are aware of already stick to them --
 but ease the implementation of RD servers.<a href="#section-appendix.c-2" class="pilcrow">¶</a></p>
 <p id="section-appendix.c-3">It is applicable to representations in the application/link-format media type,
 and any other media types that inherit <span>[<a href="#RFC6690" class="xref">RFC6690</a>]</span> Section 2.1.<a href="#section-appendix.c-3" class="pilcrow">¶</a></p>
