@@ -1654,8 +1654,8 @@ Internet-Draft           CoRE Resource Directory           February 2021
    using DELETE, and to perform further operations beyond the scope of
    this specification.
 
-   Some operations on the registration resource are sensitive to long-
-   term reordering; Section 5.3.4 describes mechanisms against that.
+   Operations on the Registration Resource are sensitive to reordering;
+   Section 5.3.4 describes how order is restored.
 
    The operations on the Registration Resource are described below.
 
