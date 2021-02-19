@@ -1407,10 +1407,11 @@ The lookup type is selected by a URI endpoint, which is indicated by a Resource 
 
 Resource lookup results in links that are semantically equivalent to the links submitted to the RD by the registrant.
 The links and link parameters returned by the lookup are equal to the originally submitted ones,
-except that the target and anchor references are fully resolved.
+except that the target reference is fully resolved,
+and that the anchor reference is fully resolved if it is present in the lookup result at all.
 
-Links that did not have an anchor attribute are therefore returned with the  base URI of the registration as the anchor.
-Links of which href or anchor was submitted as a (full) URI are returned with these attributes unmodified.
+Links that did not have an anchor attribute in the registration are returned without an anchor attribute.
+Links of which href or anchor was submitted as a (full) URI are returned with the respective attribute unmodified.
 
 The above rules allow the client to interpret the response as links without any further knowledge of the storage conventions of the RD.
 The RD MAY replace the registration base URIs with a configured intermediate proxy, e.g. in the case of an HTTP lookup interface for CoAP endpoints.
