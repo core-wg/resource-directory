@@ -351,7 +351,7 @@ A link has the following attributes (see {{RFC8288}}):
 
 * A link context URI: It defines the source of the relation, e.g. *who* "hosts" something.
 
-  In link-format serialization, it is expressed in the "anchor" attribute. It defaults to that document's URI.
+  In link-format serialization, it is expressed in the "anchor" attribute and defaults to the Origin of the target (practically: the target with its path and later components removed)
 
 * A link target URI: It defines the destination of the relation (e.g. *what* is hosted), and is the topic of all target attributes.
 
@@ -834,8 +834,8 @@ Res: 2.05 Content
 {: #example-impl-discovery title="Example exchange of obtaining implementation information, using the relation type currently proposed in the work-in-progress document" }
 
 Note that depending on the particular server's architecture,
-such a link could be anchored at the RD server's root,
-at the discovery site (as in this example) or
+such a link could be anchored at the RD server's root
+(as in this example), or
 at individual RD components.
 The latter is to be expected when different applications
 are run on the same server.
@@ -953,11 +953,10 @@ URI Template Variables:
     and MUST be local to the link on which the registration request is received.
 
   : Endpoints that register with a base that contains a path component
-    cannot meaningfully use {{RFC6690}} Link Format due to its prevalence of
-    the Origin concept in relative reference resolution.
+    cannot efficiently express their registrations in Limited Link Format ({{limitedlinkformat}}).
     Those applications should use different representations of links to which {{limitedlinkformat}} is not applicable
     (e.g. {{?I-D.hartke-t2trg-coral}}).
-    <!-- or may use non-Limited-Link-Format documents on servers that share their necessarily-non6690 understanding of links – but we can't say that in an RFC, can we? -->
+    <!-- or may just use unlimited link format if there is indication that the server is not strict about it -->
 
   extra-attrs :=
   : Additional registration attributes (optional). The endpoint can pass any
@@ -1615,7 +1614,7 @@ which themselves can only be manipulated by the registering endpoint.
 Endpoint registration resources are annotated with their endpoint names (ep), sectors (d, if present) and registration base URI (base; reports the registrant-ep's address if no explicit base was given) as well as a constant resource type (rt="core.rd-ep"); the lifetime (lt) is not reported.
 Additional endpoint attributes are added as target attributes to their endpoint link unless their specification says otherwise.
 
-Links to endpoints SHOULD be presented in path-absolute form or, if required, as (full) URIs. (This avoids the RFC6690 ambiguities.)
+Links to endpoints SHOULD be presented in path-absolute form or, if required, as (full) URIs. (This ensures that the output conforms to Limited Link Format as described in {{limitedlinkformat}}.)
 
 Base addresses that contain link-local addresses MUST NOT include zone identifiers,
 and such registrations <!-- or "' base attributes" --> MUST NOT be
