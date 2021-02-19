@@ -1386,21 +1386,21 @@ Additional operations on the registration can be specified in future documents, 
 
 Those operations are out of scope of this document, and will require media types suitable for modifying sets of links.
 
-### Freshness {#freshness}
+### Request freshness {#freshness}
 
-Many security mechanisms usable with an RD employ replay windows,
+Some security mechanisms usable with an RD allow out of order request processing,
 or do not even mandate replay protection at all.
-The RD ensures that operations on the registration resource
+The RD needs to ensure that operations on the registration resource
 are executed in an order that does not distort the client's intentions.
 
 This ordering of operations is expressed in terms of freshness as defined in {{I-D.ietf-core-echo-request-tag}}.
 Requests that alter a resource's state need to be fresh relative to the latest request
 that altered that state in a conflicting way.
 
-An RD SHOULD use the Echo option if it can not determine the request's freshness in any other way.
+An RD SHOULD determine a request's freshness,
+and MUST use the Echo option if it requires request freshness and can not determine the it in any other way.
 An endpoint MUST support the use of the Echo option.
-(One reason why an RD would not need to use freshness is if no relevant properties are covered by is security policies;
-one other way it can determine freshness is when all operations on the resource happen on a single security mechanism that provides some order).
+(One reason why an RD would not require freshness is when no relevant registration properties are covered by is security policies.)
 
 #### Efficient use of Echo by an RD
 
@@ -1411,17 +1411,18 @@ Some simple mechanisms the RD can employ are:
 
 * State counter.
   The RD can keep a monotonous counter that increments whenever a registration changes.
-  For every registration resource, it stores the post-increment value of its last change.
-  Requests need to have at least that value encoded in their Echo option,
+  For every registration resource, it stores the post-increment value of that resource's last change.
+  Requests altering them need to have at least that value encoded in their Echo option,
   and are otherwise rejected with a 4.01 Unauthorized and the current counter value as the Echo value.
   If other applications on the same server use Echo as well,
-  that encoding may include a prefix indicating that it pertains to the RD's time scale.
+  that encoding may include a prefix indicating that it pertains to the RD's counter.
 
   The value associated with a resource needs to be kept across the removal of registrations
   if the same registration resource is to be reused.
 
   The counter can be reset (and the values of removed resources forgotten)
   when all previous security associations are reset.
+  <!-- It can *also* be reset more frequently in an epoch based scheme, but that description is too large to fit in the margin. -->
 
   This is the "Persistent Counter" method of {{I-D.ietf-core-echo-request-tag}} Appendix A.
 
@@ -1433,6 +1434,10 @@ Some simple mechanisms the RD can employ are:
   While endpoints may discard received Echo values at leisure between requests,
   they are encouraged to retain these values for the next request to avoid additional round trips.
 
+* If the RD can ensure that only one security association has modifying access to any registration at any given time,
+  and that security association provides order on the requests,
+  that order is sufficient to show request freshness.
+
 #### Examples of Echo usage
 
 {{example-freshness}} shows the interactions of an endpoint
@@ -1442,7 +1447,7 @@ and temporarily reduces its registration lifetime:
 ~~~~
 Req: POST /rd/4521?lt=7200
 
-Res: 4.01 Changed
+Res: 4.01 Unauthorized
 Echo: 0x0123
 
 (EP tries again immediately)
@@ -1462,6 +1467,9 @@ Res: 2.04 Changed
 Echo: 0x0247
 ~~~~
 {: #example-freshness title="Example update of a registration" }
+
+The other examples do not show Echo options for simplicity,
+and because they lack the context for any example values to have meaning.
 
 # RD Lookup {#lookup}
 
@@ -1954,9 +1962,9 @@ recommends using the Echo option to verify the request's source address.
 
 \]
 
-## Foregone freshness checks
+## Skipping freshness checks
 
-When deploying an RD setup in which freshness checks registration resource operations are forgone,
+When RD based applications are built in which request freshness checks are not performed,
 these concerns need to be balanced:
 
 * When alterations to registration attributes are reordered,
