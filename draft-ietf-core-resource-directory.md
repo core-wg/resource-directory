@@ -1914,9 +1914,6 @@ Endpoint authorization needs to be checked on registration and registration reso
 independently of whether there are configured requirements on the credentials for a given endpoint name (and sector; {{secure-ep}})
 or whether arbitrary names are accepted ({{arbitrary-ep}}).
 
-Operations on Registration Resources need to be ordered when the security mechanism does not provide freshness guarantees.
-{{freshness}} outlines ways to do that and consequences of accepting stale requests.
-
 Simple registration could be used to circumvent address-based access control:
 An attacker would send a simple registration request with the victim's address as source address,
 and later look up the victim's /.well-known/core content in the RD.
