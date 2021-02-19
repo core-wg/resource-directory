@@ -874,8 +874,7 @@ which is provided either explicitly in the `base` parameter or constructed impli
 
 For media types to which {{limitedlinkformat}} applies
 (i.e. documents in application/link-format),
-the RD only needs to accept representations in Limited Link Format as described there.
-Its behavior with representations outside that subset is implementation defined.
+request bodies MUST be expressed in Limited Link Format.
 
 The registration request interface is specified as follows:
 
