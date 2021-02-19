@@ -1178,8 +1178,8 @@ After the initial registration, the registering endpoint retains the returned lo
 
 The Registration Resource may also be used cancel the registration using DELETE, and to perform further operations beyond the scope of this specification.
 
-Some operations on the registration resource are sensitive to long-term reordering;
-{{freshness}} describes mechanisms against that.
+Operations on the Registration Resource are sensitive to reordering;
+{{freshness}} describes how order is restored.
 
 The operations on the Registration Resource are described below.
 
