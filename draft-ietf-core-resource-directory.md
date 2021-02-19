@@ -2988,10 +2988,7 @@ the following applies:
 * All URI references either follow the URI or the path-absolute ABNF rule of
   RFC3986 (i.e. target and anchor each either start with a scheme or with a
   single slash),
-
-* if the anchor reference starts with a scheme, the target reference starts
-  with a scheme as well (i.e. relative references in target cannot be used when
-  the anchor is a full URI), and
+  and
 
 * the application does not care whether links without an explicitly given
   anchor have the origin's "/" or "/.well-known/core" resource as their link
