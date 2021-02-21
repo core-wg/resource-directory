@@ -2939,7 +2939,7 @@ rules out some use cases of an RD
 
 This appendix describes
 a subset of link format documents called Limited Link Format.
-The rules herein are not very limiting in practice --
+The one rule herein is not very limiting in practice --
 all examples in RFC6690, and all deployments the authors are aware of already stick to them --
 but ease the implementation of RD servers.
 
@@ -2950,14 +2950,9 @@ A link format representation is in Limited Link format if,
 for each link in it,
 the following applies:
 
-* All URI references either follow the URI or the path-absolute ABNF rule of
+All URI references either follow the URI or the path-absolute ABNF rule of
   RFC3986 (i.e. target and anchor each either start with a scheme or with a
-  single slash),
-  and
-
-* the application does not care whether links without an explicitly given
-  anchor have the origin's "/" or "/.well-known/core" resource as their link
-  context.
+  single slash).
 
 
 <!--  LocalWords:  lookups multicast lookup RESTful CoRE LoWPAN CoAP
