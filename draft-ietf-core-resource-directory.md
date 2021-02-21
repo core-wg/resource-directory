@@ -2742,9 +2742,6 @@ This text is primarily aimed at people entering the field of Constrained
 Restful Environments from applications that previously did not use web
 mechanisms.
 
-The explanation of the steps makes some shortcuts in the more confusing details of {{RFC6690}},
-which are justified as all examples being in Limited Link Format.
-
 ## A simple example
 
 Let's start this example with a very simple host, `2001:db8:f0::1`. A client
@@ -2794,9 +2791,11 @@ and the target resource, like "*This page* has *its table
 of contents* at */toc.html*". In link format documents,
 there is an implicit "host relation" specified with default parameter: rel="hosts".
 
-In our example, the context resource of the link is the URI specified in the GET request "coap:://[2001:db8:f0::1]/.well-known/core". A full English expression of the "host relation" is:
+In our example, the context resource of the link is implied to be "coap:://[2001:db8:f0::1]"
+by the default value of the anchor (see {{resolution-rules}}).
+A full English expression of the "host relation" is:
 
-'`coap://[2001:db8:f0::1]/.well-known/core` is hosting the resource
+'`coap://[2001:db8:f0::1]` is hosting the resource
 `coap://[2001:db8:f0::1]/sensors/temp`, which is of the resource type "temperature" and
 can be accessed using the text/plain content format.'
 
@@ -2861,9 +2860,6 @@ multicast request, but it contains the equivalent statement:
 '`coap://[2001:db8:f0::1]` is hosting the resource
 `coap://[2001:db8:f0::1]/sensors/temp`, which is of the resource type "temperature" and
 can be accessed using the text/plain content format.'
-
-(The difference is whether `/` or `/.well-known/core` hosts the resources,
-which does not matter in this application; if it did, the endpoint would have been more explicit. Actually, /.well-known/core does NOT host the resource but stores a URI reference to the resource.)
 
 To complete the examples, the client could also query all resources hosted at
 the endpoint with the known endpoint name "simple-host1". A request to
