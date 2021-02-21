@@ -2893,24 +2893,26 @@ and analogous records.
 
 While link-format and Link header fields look very similar and are based on the same
 model of typed links, there are some differences between {{RFC6690}} and
-{{RFC8288}}, which are dealt with differently:
+{{RFC8288}}.
+When implementing an RD or interacting with an RD,
+care must be taken to follow the {{RFC6690}} behavior
+whenever application/link-format representations are used.
 
-* "Resolving the target against the anchor":
-  {{RFC6690}} Section 2.1 states that the anchor of a link is used as the Base URI
-  against which the term inside the angle brackets (the target) is resolved,
-  falling back to the resource's URI with paths stripped off (its "Origin").
-  In contrast to that,
-  {{RFC8288}} Section B.2 describes that the anchor is immaterial to the
-  resolution of the target reference.
+* "Default value of anchor":
+  Both under {{RFC6690}} and {{RFC8288},
+  relative references in the term inside the angle brackets (the target)
+  and the anchor attribute are resolved against the relevant base URI
+  (which usually is the URI used to retrieve the entity),
+  and independent of each other.
 
-  RFC6690, in the same section, also states that absent anchors set the context of
-  the link to the target's URI with its path stripped off, while according to
-  {{RFC8288}} Section 3.2, the context is the resource's base URI.
+  When, in an {{RFC8288}} Link header, the anchor attribute is absent,
+  the link's context is the URI of the selected representation
+  (and usually equal to the base URI).
 
-  The rules introduced in {{limitedlinkformat}} ensure
-  that an RD does not need to deal with those differences
-  when processing input data.
-  Lookup results are required to be absolute references for the same reason.
+  In {{RFC6690}} links, if the anchor attribute is absent,
+  the default value is the Origin of
+  (for all relevant cases: the URI reference `/` resolved against)
+  the link's target.
 
 * There is no percent encoding in link-format documents.
 
@@ -2931,16 +2933,13 @@ model of typed links, there are some differences between {{RFC6690}} and
   </temperature/Malmö>;rel=live-environment-data
   ~~~~
 
-  Parsers and producers of link-format and header fields need to be aware of this
-  difference.
-
 # Limited Link Format {#limitedlinkformat}
 
 The CoRE Link Format as described in {{RFC6690}}
 has been interpreted differently by implementers,
 and a strict implementation
 rules out some use cases of an RD
-(e.g. base values with path components).
+(e.g. base values with path components in combination with absent anchors).
 
 This appendix describes
 a subset of link format documents called Limited Link Format.
