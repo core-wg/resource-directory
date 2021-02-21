@@ -510,7 +510,8 @@ Internet-Draft           CoRE Resource Directory           February 2021
       _who_ "hosts" something.
 
       In link-format serialization, it is expressed in the "anchor"
-      attribute and defaults to the root resource of the target.
+      attribute and defaults to the Origin of the target (practically:
+      the target with its path and later components removed)
 
    *  A link target URI: It defines the destination of the relation
       (e.g. _what_ is hosted), and is the topic of all target
@@ -522,7 +523,6 @@ Internet-Draft           CoRE Resource Directory           February 2021
    *  Other target attributes (e.g. resource type (rt), interface (if),
       or content format (ct)).  These provide additional information
       about the target URI.
-
 
 
 
@@ -1067,7 +1067,7 @@ Internet-Draft           CoRE Resource Directory           February 2021
 
 
    performing multicast discovery, the multicast IP address used will
-   depend on the scope required And the multicast capabilities of the
+   depend on the scope required and the multicast capabilities of the
    network (see Section 9.5).
 
    An RD MAY provide hints about the content-formats it supports in the
@@ -1199,7 +1199,7 @@ Internet-Draft           CoRE Resource Directory           February 2021
                          work-in-progress document
 
    Note that depending on the particular server's architecture, such a
-   link could be anchored at the RD server's root, (as in this example)
+   link could be anchored at the RD server's root (as in this example),
    or at individual RD components.  The latter is to be expected when
    different applications are run on the same server.
 
