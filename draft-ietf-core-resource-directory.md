@@ -2196,14 +2196,17 @@ changes from -26 to -27
 
 * Relaxation of the serialization rules for link-format
 
-  The interpretations and implementations of RFC6690 have been revisited,
-  and a class of interpretations that only affected one (easy-to-upgrade) implementation was removed from consideration.
+  The interpretation of RFC6690 used in {{resolution-rules}} was shown to be faulty.
+  Along with a correction, the common implementations of link-format were surveyed again
+  and it was found that the only one that employed the faulty interpretation can still safely be upgraded.
+  These were removed from the set considered for Limited Link Format,
+  making the set of valid Limited Link Format documents larger.
 
   As a consequence, the prescribed serialization of RD output can be roughly halved in bytes.
 
   There might be additional usage patterns that are possible with the new set of constraints,
   but there is insufficient implementation and deployment experience with them to warrant a change changes on that front at this point.
-  The specification can later be extended compatibly to allow these cases.
+  The specification can later be extended compatibly to allow these cases and drop the requirement of Limited Link Format.
 
 changes from -25 to -26
 
