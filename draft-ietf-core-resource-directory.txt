@@ -5,14 +5,14 @@
 CoRE                                                      C. Amsüss, Ed.
 Internet-Draft                                                          
 Intended status: Standards Track                               Z. Shelby
-Expires: 23 August 2021                                              ARM
+Expires: 25 August 2021                                              ARM
                                                                M. Koster
                                                              SmartThings
                                                               C. Bormann
                                                  Universitaet Bremen TZI
                                                          P. van der Stok
                                                               consultant
-                                                        19 February 2021
+                                                        21 February 2021
 
 
                         CoRE Resource Directory
@@ -53,7 +53,7 @@ Status of This Memo
 
 
 
-Amsüss, et al.           Expires 23 August 2021                 [Page 1]
+Amsüss, et al.           Expires 25 August 2021                 [Page 1]
 
 Internet-Draft           CoRE Resource Directory           February 2021
 
@@ -68,7 +68,7 @@ Internet-Draft           CoRE Resource Directory           February 2021
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 23 August 2021.
+   This Internet-Draft will expire on 25 August 2021.
 
 Copyright Notice
 
@@ -109,7 +109,7 @@ Table of Contents
 
 
 
-Amsüss, et al.           Expires 23 August 2021                 [Page 2]
+Amsüss, et al.           Expires 25 August 2021                 [Page 2]
 
 Internet-Draft           CoRE Resource Directory           February 2021
 
@@ -117,63 +117,63 @@ Internet-Draft           CoRE Resource Directory           February 2021
        5.3.1.  Registration Update . . . . . . . . . . . . . . . . .  30
        5.3.2.  Registration Removal  . . . . . . . . . . . . . . . .  33
        5.3.3.  Further operations  . . . . . . . . . . . . . . . . .  34
-   6.  RD Lookup . . . . . . . . . . . . . . . . . . . . . . . . . .  35
+   6.  RD Lookup . . . . . . . . . . . . . . . . . . . . . . . . . .  34
      6.1.  Resource lookup . . . . . . . . . . . . . . . . . . . . .  35
      6.2.  Lookup filtering  . . . . . . . . . . . . . . . . . . . .  36
      6.3.  Resource lookup examples  . . . . . . . . . . . . . . . .  38
-     6.4.  Endpoint lookup . . . . . . . . . . . . . . . . . . . . .  41
-   7.  Security policies . . . . . . . . . . . . . . . . . . . . . .  42
-     7.1.  Endpoint name . . . . . . . . . . . . . . . . . . . . . .  43
-       7.1.1.  Random endpoint names . . . . . . . . . . . . . . . .  43
-     7.2.  Entered resources . . . . . . . . . . . . . . . . . . . .  43
-     7.3.  Link confidentiality  . . . . . . . . . . . . . . . . . .  44
-     7.4.  Segmentation  . . . . . . . . . . . . . . . . . . . . . .  44
-     7.5.  First-Come-First-Remembered: A default policy . . . . . .  45
-   8.  Security Considerations . . . . . . . . . . . . . . . . . . .  46
-     8.1.  Discovery . . . . . . . . . . . . . . . . . . . . . . . .  47
-     8.2.  Endpoint Identification and Authentication  . . . . . . .  47
-     8.3.  Access Control  . . . . . . . . . . . . . . . . . . . . .  48
-     8.4.  Denial of Service Attacks . . . . . . . . . . . . . . . .  48
-   9.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .  49
-     9.1.  Resource Types  . . . . . . . . . . . . . . . . . . . . .  49
-     9.2.  IPv6 ND Resource Directory Address Option . . . . . . . .  49
-     9.3.  RD Parameter Registry . . . . . . . . . . . . . . . . . .  49
+     6.4.  Endpoint lookup . . . . . . . . . . . . . . . . . . . . .  40
+   7.  Security policies . . . . . . . . . . . . . . . . . . . . . .  41
+     7.1.  Endpoint name . . . . . . . . . . . . . . . . . . . . . .  41
+       7.1.1.  Random endpoint names . . . . . . . . . . . . . . . .  42
+     7.2.  Entered resources . . . . . . . . . . . . . . . . . . . .  42
+     7.3.  Link confidentiality  . . . . . . . . . . . . . . . . . .  43
+     7.4.  Segmentation  . . . . . . . . . . . . . . . . . . . . . .  43
+     7.5.  First-Come-First-Remembered: A default policy . . . . . .  43
+   8.  Security Considerations . . . . . . . . . . . . . . . . . . .  45
+     8.1.  Discovery . . . . . . . . . . . . . . . . . . . . . . . .  45
+     8.2.  Endpoint Identification and Authentication  . . . . . . .  46
+     8.3.  Access Control  . . . . . . . . . . . . . . . . . . . . .  47
+     8.4.  Denial of Service Attacks . . . . . . . . . . . . . . . .  47
+   9.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .  47
+     9.1.  Resource Types  . . . . . . . . . . . . . . . . . . . . .  47
+     9.2.  IPv6 ND Resource Directory Address Option . . . . . . . .  48
+     9.3.  RD Parameter Registry . . . . . . . . . . . . . . . . . .  48
        9.3.1.  Full description of the "Endpoint Type" RD
-               Parameter . . . . . . . . . . . . . . . . . . . . . .  52
-     9.4.  "Endpoint Type" (et=) RD Parameter values . . . . . . . .  52
-     9.5.  Multicast Address Registration  . . . . . . . . . . . . .  53
-     9.6.  Well-Known URIs . . . . . . . . . . . . . . . . . . . . .  53
+               Parameter . . . . . . . . . . . . . . . . . . . . . .  51
+     9.4.  "Endpoint Type" (et=) RD Parameter values . . . . . . . .  51
+     9.5.  Multicast Address Registration  . . . . . . . . . . . . .  52
+     9.6.  Well-Known URIs . . . . . . . . . . . . . . . . . . . . .  52
      9.7.  Service Names and Transport Protocol Port Number
-           Registry  . . . . . . . . . . . . . . . . . . . . . . . .  53
-   10. Examples  . . . . . . . . . . . . . . . . . . . . . . . . . .  54
-     10.1.  Lighting Installation  . . . . . . . . . . . . . . . . .  54
-       10.1.1.  Installation Characteristics . . . . . . . . . . . .  54
-       10.1.2.  RD entries . . . . . . . . . . . . . . . . . . . . .  55
-     10.2.  OMA Lightweight M2M (LwM2M)  . . . . . . . . . . . . . .  58
-   11. Acknowledgments . . . . . . . . . . . . . . . . . . . . . . .  59
-   12. Changelog . . . . . . . . . . . . . . . . . . . . . . . . . .  59
-   13. References  . . . . . . . . . . . . . . . . . . . . . . . . .  73
-     13.1.  Normative References . . . . . . . . . . . . . . . . . .  73
-     13.2.  Informative References . . . . . . . . . . . . . . . . .  74
-   Appendix A.  Groups Registration and Lookup . . . . . . . . . . .  77
-   Appendix B.  Web links and the Resource Directory . . . . . . . .  79
-     B.1.  A simple example  . . . . . . . . . . . . . . . . . . . .  79
-       B.1.1.  Resolving the URIs  . . . . . . . . . . . . . . . . .  80
-       B.1.2.  Interpreting attributes and relations . . . . . . . .  80
-     B.2.  A slightly more complex example . . . . . . . . . . . . .  80
-     B.3.  Enter the Resource Directory  . . . . . . . . . . . . . .  81
+           Registry  . . . . . . . . . . . . . . . . . . . . . . . .  52
+   10. Examples  . . . . . . . . . . . . . . . . . . . . . . . . . .  53
+     10.1.  Lighting Installation  . . . . . . . . . . . . . . . . .  53
+       10.1.1.  Installation Characteristics . . . . . . . . . . . .  53
+       10.1.2.  RD entries . . . . . . . . . . . . . . . . . . . . .  54
+     10.2.  OMA Lightweight M2M (LwM2M)  . . . . . . . . . . . . . .  57
+   11. Acknowledgments . . . . . . . . . . . . . . . . . . . . . . .  58
+   12. Changelog . . . . . . . . . . . . . . . . . . . . . . . . . .  58
+   13. References  . . . . . . . . . . . . . . . . . . . . . . . . .  72
+     13.1.  Normative References . . . . . . . . . . . . . . . . . .  72
+     13.2.  Informative References . . . . . . . . . . . . . . . . .  73
+   Appendix A.  Groups Registration and Lookup . . . . . . . . . . .  76
+   Appendix B.  Web links and the Resource Directory . . . . . . . .  78
+     B.1.  A simple example  . . . . . . . . . . . . . . . . . . . .  78
+       B.1.1.  Resolving the URIs  . . . . . . . . . . . . . . . . .  78
+       B.1.2.  Interpreting attributes and relations . . . . . . . .  79
+     B.2.  A slightly more complex example . . . . . . . . . . . . .  79
+     B.3.  Enter the Resource Directory  . . . . . . . . . . . . . .  80
 
 
 
-Amsüss, et al.           Expires 23 August 2021                 [Page 3]
+Amsüss, et al.           Expires 25 August 2021                 [Page 3]
 
 Internet-Draft           CoRE Resource Directory           February 2021
 
 
      B.4.  A note on differences between link-format and Link header
-           fields  . . . . . . . . . . . . . . . . . . . . . . . . .  83
-   Appendix C.  Limited Link Format  . . . . . . . . . . . . . . . .  84
-   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  84
+           fields  . . . . . . . . . . . . . . . . . . . . . . . . .  82
+   Appendix C.  Limited Link Format  . . . . . . . . . . . . . . . .  83
+   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  83
 
 1.  Introduction
 
@@ -221,7 +221,7 @@ Internet-Draft           CoRE Resource Directory           February 2021
 
 
 
-Amsüss, et al.           Expires 23 August 2021                 [Page 4]
+Amsüss, et al.           Expires 25 August 2021                 [Page 4]
 
 Internet-Draft           CoRE Resource Directory           February 2021
 
@@ -277,7 +277,7 @@ Internet-Draft           CoRE Resource Directory           February 2021
 
 
 
-Amsüss, et al.           Expires 23 August 2021                 [Page 5]
+Amsüss, et al.           Expires 25 August 2021                 [Page 5]
 
 Internet-Draft           CoRE Resource Directory           February 2021
 
@@ -333,7 +333,7 @@ Internet-Draft           CoRE Resource Directory           February 2021
 
 
 
-Amsüss, et al.           Expires 23 August 2021                 [Page 6]
+Amsüss, et al.           Expires 25 August 2021                 [Page 6]
 
 Internet-Draft           CoRE Resource Directory           February 2021
 
@@ -389,7 +389,7 @@ Internet-Draft           CoRE Resource Directory           February 2021
 
 
 
-Amsüss, et al.           Expires 23 August 2021                 [Page 7]
+Amsüss, et al.           Expires 25 August 2021                 [Page 7]
 
 Internet-Draft           CoRE Resource Directory           February 2021
 
@@ -445,7 +445,7 @@ Internet-Draft           CoRE Resource Directory           February 2021
 
 
 
-Amsüss, et al.           Expires 23 August 2021                 [Page 8]
+Amsüss, et al.           Expires 25 August 2021                 [Page 8]
 
 Internet-Draft           CoRE Resource Directory           February 2021
 
@@ -501,7 +501,7 @@ Internet-Draft           CoRE Resource Directory           February 2021
 
 
 
-Amsüss, et al.           Expires 23 August 2021                 [Page 9]
+Amsüss, et al.           Expires 25 August 2021                 [Page 9]
 
 Internet-Draft           CoRE Resource Directory           February 2021
 
@@ -557,7 +557,7 @@ Internet-Draft           CoRE Resource Directory           February 2021
 
 
 
-Amsüss, et al.           Expires 23 August 2021                [Page 10]
+Amsüss, et al.           Expires 25 August 2021                [Page 10]
 
 Internet-Draft           CoRE Resource Directory           February 2021
 
@@ -613,7 +613,7 @@ Internet-Draft           CoRE Resource Directory           February 2021
 
 
 
-Amsüss, et al.           Expires 23 August 2021                [Page 11]
+Amsüss, et al.           Expires 25 August 2021                [Page 11]
 
 Internet-Draft           CoRE Resource Directory           February 2021
 
@@ -669,7 +669,7 @@ Internet-Draft           CoRE Resource Directory           February 2021
 
 
 
-Amsüss, et al.           Expires 23 August 2021                [Page 12]
+Amsüss, et al.           Expires 25 August 2021                [Page 12]
 
 Internet-Draft           CoRE Resource Directory           February 2021
 
@@ -725,7 +725,7 @@ Internet-Draft           CoRE Resource Directory           February 2021
 
 
 
-Amsüss, et al.           Expires 23 August 2021                [Page 13]
+Amsüss, et al.           Expires 25 August 2021                [Page 13]
 
 Internet-Draft           CoRE Resource Directory           February 2021
 
@@ -781,7 +781,7 @@ Internet-Draft           CoRE Resource Directory           February 2021
 
 
 
-Amsüss, et al.           Expires 23 August 2021                [Page 14]
+Amsüss, et al.           Expires 25 August 2021                [Page 14]
 
 Internet-Draft           CoRE Resource Directory           February 2021
 
@@ -837,7 +837,7 @@ Internet-Draft           CoRE Resource Directory           February 2021
 
 
 
-Amsüss, et al.           Expires 23 August 2021                [Page 15]
+Amsüss, et al.           Expires 25 August 2021                [Page 15]
 
 Internet-Draft           CoRE Resource Directory           February 2021
 
@@ -893,7 +893,7 @@ Internet-Draft           CoRE Resource Directory           February 2021
 
 
 
-Amsüss, et al.           Expires 23 August 2021                [Page 16]
+Amsüss, et al.           Expires 25 August 2021                [Page 16]
 
 Internet-Draft           CoRE Resource Directory           February 2021
 
@@ -949,7 +949,7 @@ Internet-Draft           CoRE Resource Directory           February 2021
 
 
 
-Amsüss, et al.           Expires 23 August 2021                [Page 17]
+Amsüss, et al.           Expires 25 August 2021                [Page 17]
 
 Internet-Draft           CoRE Resource Directory           February 2021
 
@@ -1005,7 +1005,7 @@ Internet-Draft           CoRE Resource Directory           February 2021
 
 
 
-Amsüss, et al.           Expires 23 August 2021                [Page 18]
+Amsüss, et al.           Expires 25 August 2021                [Page 18]
 
 Internet-Draft           CoRE Resource Directory           February 2021
 
@@ -1061,13 +1061,13 @@ Internet-Draft           CoRE Resource Directory           February 2021
 
 
 
-Amsüss, et al.           Expires 23 August 2021                [Page 19]
+Amsüss, et al.           Expires 25 August 2021                [Page 19]
 
 Internet-Draft           CoRE Resource Directory           February 2021
 
 
    performing multicast discovery, the multicast IP address used will
-   depend on the scope required and the multicast capabilities of the
+   depend on the scope required And the multicast capabilities of the
    network (see Section 9.5).
 
    An RD MAY provide hints about the content-formats it supports in the
@@ -1117,7 +1117,7 @@ Internet-Draft           CoRE Resource Directory           February 2021
 
 
 
-Amsüss, et al.           Expires 23 August 2021                [Page 20]
+Amsüss, et al.           Expires 25 August 2021                [Page 20]
 
 Internet-Draft           CoRE Resource Directory           February 2021
 
@@ -1140,9 +1140,9 @@ Internet-Draft           CoRE Resource Directory           February 2021
    Req: GET coap://[MCD1]/.well-known/core?rt=core.rd*
 
    Res: 2.05 Content
-   </rd>;rt="core.rd";ct=40,
-   </rd-lookup/ep>;rt="core.rd-lookup-ep";ct=40,
-   </rd-lookup/res>;rt="core.rd-lookup-res";ct=40
+   </rd>;rt=core.rd;ct=40,
+   </rd-lookup/ep>;rt=core.rd-lookup-ep;ct=40,
+   </rd-lookup/res>;rt=core.rd-lookup-res;ct=40
 
                     Figure 5: Example discovery exchange
 
@@ -1161,9 +1161,9 @@ Internet-Draft           CoRE Resource Directory           February 2021
    Req: GET coap://[MCD1]/.well-known/core?rt=core.rd*
 
    Res: 2.05 Content
-   </rd>;rt="core.rd";ct="40 65225",
-   </rd-lookup/res>;rt="core.rd-lookup-res";ct="40 TBD64 TBD504";obs,
-   </rd-lookup/ep>;rt="core.rd-lookup-ep";ct="40 TBD64 TBD504"
+   </rd>;rt=core.rd;ct="40 65225",
+   </rd-lookup/res>;rt=core.rd-lookup-res;ct="40 TBD64 TBD504";obs,
+   </rd-lookup/ep>;rt=core.rd-lookup-ep;ct="40 TBD64 TBD504"
 
          Figure 6: Example discovery exchange indicating additional
                               content-formats
@@ -1173,7 +1173,7 @@ Internet-Draft           CoRE Resource Directory           February 2021
 
 
 
-Amsüss, et al.           Expires 23 August 2021                [Page 21]
+Amsüss, et al.           Expires 25 August 2021                [Page 21]
 
 Internet-Draft           CoRE Resource Directory           February 2021
 
@@ -1192,7 +1192,7 @@ Internet-Draft           CoRE Resource Directory           February 2021
 
    Res: 2.05 Content
    <http://software.example.com/shiny-resource-directory/1.0beta1>;
-       rel="impl-info"
+       rel=impl-info
 
            Figure 7: Example exchange of obtaining implementation
        information, using the relation type currently proposed in the
@@ -1229,7 +1229,7 @@ Internet-Draft           CoRE Resource Directory           February 2021
 
 
 
-Amsüss, et al.           Expires 23 August 2021                [Page 22]
+Amsüss, et al.           Expires 25 August 2021                [Page 22]
 
 Internet-Draft           CoRE Resource Directory           February 2021
 
@@ -1285,7 +1285,7 @@ Internet-Draft           CoRE Resource Directory           February 2021
 
 
 
-Amsüss, et al.           Expires 23 August 2021                [Page 23]
+Amsüss, et al.           Expires 25 August 2021                [Page 23]
 
 Internet-Draft           CoRE Resource Directory           February 2021
 
@@ -1341,7 +1341,7 @@ Internet-Draft           CoRE Resource Directory           February 2021
 
 
 
-Amsüss, et al.           Expires 23 August 2021                [Page 24]
+Amsüss, et al.           Expires 25 August 2021                [Page 24]
 
 Internet-Draft           CoRE Resource Directory           February 2021
 
@@ -1397,7 +1397,7 @@ Internet-Draft           CoRE Resource Directory           February 2021
 
 
 
-Amsüss, et al.           Expires 23 August 2021                [Page 25]
+Amsüss, et al.           Expires 25 August 2021                [Page 25]
 
 Internet-Draft           CoRE Resource Directory           February 2021
 
@@ -1419,9 +1419,9 @@ Internet-Draft           CoRE Resource Directory           February 2021
    Req: POST coap://rd.example.com/rd?ep=node1
    Content-Format: 40
    Payload:
-   </sensors/temp>;rt="temperature-c";if="sensor",
+   </sensors/temp>;rt=temperature-c;if=sensor,
    <http://www.example.com/sensors/temp>;
-     anchor="/sensors/temp";rel="describedby"
+     anchor="/sensors/temp";rel=describedby
 
    Res: 2.01 Created
    Location-Path: /rd/4521
@@ -1436,9 +1436,9 @@ Internet-Draft           CoRE Resource Directory           February 2021
    Host: rd.example.com
    Content-Type: application/link-format
 
-   </sensors/temp>;rt="temperature-c";if="sensor",
+   </sensors/temp>;rt=temperature-c;if=sensor,
    <http://www.example.com/sensors/temp>;
-     anchor="/sensors/temp";rel="describedby"
+     anchor="/sensors/temp";rel=describedby
 
    Res:
    HTTP/1.1 201 Created
@@ -1453,7 +1453,7 @@ Internet-Draft           CoRE Resource Directory           February 2021
 
 
 
-Amsüss, et al.           Expires 23 August 2021                [Page 26]
+Amsüss, et al.           Expires 25 August 2021                [Page 26]
 
 Internet-Draft           CoRE Resource Directory           February 2021
 
@@ -1509,7 +1509,7 @@ Internet-Draft           CoRE Resource Directory           February 2021
 
 
 
-Amsüss, et al.           Expires 23 August 2021                [Page 27]
+Amsüss, et al.           Expires 25 August 2021                [Page 27]
 
 Internet-Draft           CoRE Resource Directory           February 2021
 
@@ -1565,7 +1565,7 @@ Internet-Draft           CoRE Resource Directory           February 2021
 
 
 
-Amsüss, et al.           Expires 23 August 2021                [Page 28]
+Amsüss, et al.           Expires 25 August 2021                [Page 28]
 
 Internet-Draft           CoRE Resource Directory           February 2021
 
@@ -1621,7 +1621,7 @@ Internet-Draft           CoRE Resource Directory           February 2021
 
 
 
-Amsüss, et al.           Expires 23 August 2021                [Page 29]
+Amsüss, et al.           Expires 25 August 2021                [Page 29]
 
 Internet-Draft           CoRE Resource Directory           February 2021
 
@@ -1677,7 +1677,7 @@ Internet-Draft           CoRE Resource Directory           February 2021
 
 
 
-Amsüss, et al.           Expires 23 August 2021                [Page 30]
+Amsüss, et al.           Expires 25 August 2021                [Page 30]
 
 Internet-Draft           CoRE Resource Directory           February 2021
 
@@ -1733,7 +1733,7 @@ Internet-Draft           CoRE Resource Directory           February 2021
 
 
 
-Amsüss, et al.           Expires 23 August 2021                [Page 31]
+Amsüss, et al.           Expires 25 August 2021                [Page 31]
 
 Internet-Draft           CoRE Resource Directory           February 2021
 
@@ -1782,14 +1782,14 @@ Internet-Draft           CoRE Resource Directory           February 2021
 
    *  lifetime (lt)=500
 
-   *  Base URI (base)=coap://local-proxy-old.example.com:5683
+   *  Base URI (base)=coap://local-proxy-old.example.com
 
    *  payload of Figure 8
 
 
 
 
-Amsüss, et al.           Expires 23 August 2021                [Page 32]
+Amsüss, et al.           Expires 25 August 2021                [Page 32]
 
 Internet-Draft           CoRE Resource Directory           February 2021
 
@@ -1800,19 +1800,18 @@ Internet-Draft           CoRE Resource Directory           February 2021
 
    Res: 2.05 Content
    Payload:
-   <coap://local-proxy-old.example.com:5683/sensors/temp>;
-       rt="temperature-c";if="sensor";
-       anchor="coap://local-proxy-old.example.com:5683/",
+   <coap://local-proxy-old.example.com/sensors/temp>;
+       rt=temperature-c;if=sensor,
    <http://www.example.com/sensors/temp>;
-       anchor="coap://local-proxy-old.example.com:5683/sensors/temp";
-       rel="describedby"
+       anchor="coap://local-proxy-old.example.com/sensors/temp";
+       rel=describedby
 
        Figure 14: Example lookup before a change to the base address
 
    The following example shows the registering endpoint changing the
    Base URI to "coaps://new.example.com:5684":
 
-   Req: POST /rd/4521?base=coaps://new.example.com:5684
+   Req: POST /rd/4521?base=coaps://new.example.com
 
    Res: 2.04 Changed
 
@@ -1824,12 +1823,11 @@ Internet-Draft           CoRE Resource Directory           February 2021
 
    Res: 2.05 Content
    Payload:
-   <coap://new.example.com:5684/sensors/temp>;
-       rt="temperature-c";if="sensor";
-       anchor="coap://new.example.com:5684/",
+   <coaps://new.example.com/sensors/temp>;
+       rt=temperature-c;if=sensor,
    <http://www.example.com/sensors/temp>;
-       anchor="coap://new.example.com:5684/sensors/temp";
-       rel="describedby"
+       anchor="coaps://new.example.com/sensors/temp";
+       rel=describedby
 
         Figure 16: Example lookup after a change to the base address
 
@@ -1842,15 +1840,15 @@ Internet-Draft           CoRE Resource Directory           February 2021
    removal interface on the RD by performing a DELETE on the endpoint
    resource.
 
+   The removal request interface is specified as follows:
 
 
 
-Amsüss, et al.           Expires 23 August 2021                [Page 33]
+
+Amsüss, et al.           Expires 25 August 2021                [Page 33]
 
 Internet-Draft           CoRE Resource Directory           February 2021
 
-
-   The removal request interface is specified as follows:
 
    Interaction:  EP or CT -> RD
 
@@ -1891,21 +1889,6 @@ Internet-Draft           CoRE Resource Directory           February 2021
    Those operations are out of scope of this document, and will require
    media types suitable for modifying sets of links.
 
-
-
-
-
-
-
-
-
-
-
-Amsüss, et al.           Expires 23 August 2021                [Page 34]
-
-Internet-Draft           CoRE Resource Directory           February 2021
-
-
 6.  RD Lookup
 
    To discover the resources registered with the RD, a lookup interface
@@ -1915,6 +1898,13 @@ Internet-Draft           CoRE Resource Directory           February 2021
    [I-D.ietf-core-links-json]) or using more advanced interfaces (e.g.
    supporting context or semantic based lookup) on different resources
    that are discovered independently.
+
+
+
+Amsüss, et al.           Expires 25 August 2021                [Page 34]
+
+Internet-Draft           CoRE Resource Directory           February 2021
+
 
    RD Lookup allows lookups for endpoints and resources using attributes
    defined in this document and for use with the CoRE Link Format.  The
@@ -1950,18 +1940,6 @@ Internet-Draft           CoRE Resource Directory           February 2021
    was submitted as a (full) URI are returned with the respective
    attribute unmodified.
 
-
-
-
-
-
-
-
-Amsüss, et al.           Expires 23 August 2021                [Page 35]
-
-Internet-Draft           CoRE Resource Directory           February 2021
-
-
    The above rules allow the client to interpret the response as links
    without any further knowledge of the storage conventions of the RD.
    The RD MAY replace the registration base URIs with a configured
@@ -1972,6 +1950,17 @@ Internet-Draft           CoRE Resource Directory           February 2021
    RD MUST NOT show its links unless the lookup was made from the link
    on which the registered endpoint can be reached.  The RD MUST NOT
    include zone identifiers in the resolved URIs.
+
+
+
+
+
+
+
+Amsüss, et al.           Expires 25 August 2021                [Page 35]
+
+Internet-Draft           CoRE Resource Directory           February 2021
+
 
 6.2.  Lookup filtering
 
@@ -2010,14 +1999,6 @@ Internet-Draft           CoRE Resource Directory           February 2021
    lookup results in specified increments using pagination, where count
    specifies how many links to return and page specifies which subset of
    links organized in sequential pages, each containing 'count' links,
-
-
-
-Amsüss, et al.           Expires 23 August 2021                [Page 36]
-
-Internet-Draft           CoRE Resource Directory           February 2021
-
-
    starting with link zero and page zero.  Thus, specifying count of 10
    and page of 0 will return the first 10 links in the result set (links
    0-9).  Count = 10 and page = 1 will return the next 'page' containing
@@ -2029,6 +2010,13 @@ Internet-Draft           CoRE Resource Directory           February 2021
    more efficient observations of collections.  These are advertised,
    detected and used according to their own specifications and can be
    used with the lookup interface as with any other resource.
+
+
+
+Amsüss, et al.           Expires 25 August 2021                [Page 36]
+
+Internet-Draft           CoRE Resource Directory           February 2021
+
 
    When resource observation is used, every time the set of matching
    links changes, or the content of a matching link changes, the RD
@@ -2062,18 +2050,6 @@ Internet-Draft           CoRE Resource Directory           February 2021
          index (page * count).  Page numbering starts with zero.
 
                             count :=  Count (optional).  Number of
-
-
-
-
-
-
-
-Amsüss, et al.           Expires 23 August 2021                [Page 37]
-
-Internet-Draft           CoRE Resource Directory           February 2021
-
-
          results is limited to this parameter value.  If the page
          parameter is also present, the response MUST only include
          'count' links starting with the (page * count) link in the
@@ -2089,6 +2065,14 @@ Internet-Draft           CoRE Resource Directory           February 2021
    Success:  2.05 "Content" or 200 "OK" with an "application/link-
       format" or other web link payload containing matching entries for
       the lookup.
+
+
+
+
+Amsüss, et al.           Expires 25 August 2021                [Page 37]
+
+Internet-Draft           CoRE Resource Directory           February 2021
+
 
       The payload can contain zero links (which is an empty payload in
       [RFC6690] link format, but could also be "[]" in JSON based
@@ -2107,28 +2091,12 @@ Internet-Draft           CoRE Resource Directory           February 2021
 
    Res: 2.05 Content
    <coap://[2001:db8:3::123]:61616/temp>;
-       rt="tag:example.org,2020:temperature";
-       anchor="coap://[2001:db8:3::123]:61616"
+       rt="tag:example.org,2020:temperature"
 
                     Figure 18: Example a resource lookup
 
    A client that wants to be notified of new resources as they show up
    can use observation:
-
-
-
-
-
-
-
-
-
-
-
-Amsüss, et al.           Expires 23 August 2021                [Page 38]
-
-Internet-Draft           CoRE Resource Directory           February 2021
-
 
    Req: GET /rd-lookup/res?rt=tag:example.org,2020:light
    Observe: 0
@@ -2142,12 +2110,9 @@ Internet-Draft           CoRE Resource Directory           February 2021
    Res: 2.05 Content
    Observe: 24
    Payload:
-   <coap://[2001:db8:3::124]/west>;rt="tag:example.org,2020:light";
-       anchor="coap://[2001:db8:3::124]",
-   <coap://[2001:db8:3::124]/south>;rt="tag:example.org,2020:light";
-       anchor="coap://[2001:db8:3::124]",
-   <coap://[2001:db8:3::124]/east>;rt="tag:example.org,2020:light";
-       anchor="coap://[2001:db8:3::124]"
+   <coap://[2001:db8:3::124]/west>;rt="tag:example.org,2020:light",
+   <coap://[2001:db8:3::124]/south>;rt="tag:example.org,2020:light",
+   <coap://[2001:db8:3::124]/east>;rt="tag:example.org,2020:light"
 
               Figure 19: Example an observing resource lookup
 
@@ -2160,28 +2125,7 @@ Internet-Draft           CoRE Resource Directory           February 2021
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Amsüss, et al.           Expires 23 August 2021                [Page 39]
+Amsüss, et al.           Expires 25 August 2021                [Page 38]
 
 Internet-Draft           CoRE Resource Directory           February 2021
 
@@ -2189,30 +2133,20 @@ Internet-Draft           CoRE Resource Directory           February 2021
    Req: GET /rd-lookup/res?page=0&count=5
 
    Res: 2.05 Content
-   <coap://[2001:db8:3::123]:61616/res/0>;ct=60;
-       anchor="coap://[2001:db8:3::123]:61616",
-   <coap://[2001:db8:3::123]:61616/res/1>;ct=60;
-       anchor="coap://[2001:db8:3::123]:61616",
-   <coap://[2001:db8:3::123]:61616/res/2>;ct=60;
-       anchor="coap://[2001:db8:3::123]:61616",
-   <coap://[2001:db8:3::123]:61616/res/3>;ct=60;
-       anchor="coap://[2001:db8:3::123]:61616",
-   <coap://[2001:db8:3::123]:61616/res/4>;ct=60;
-       anchor="coap://[2001:db8:3::123]:61616"
+   <coap://[2001:db8:3::123]:61616/res/0>;ct=60,
+   <coap://[2001:db8:3::123]:61616/res/1>;ct=60,
+   <coap://[2001:db8:3::123]:61616/res/2>;ct=60,
+   <coap://[2001:db8:3::123]:61616/res/3>;ct=60,
+   <coap://[2001:db8:3::123]:61616/res/4>;ct=60
 
    Req: GET /rd-lookup/res?page=1&count=5
 
    Res: 2.05 Content
-   <coap://[2001:db8:3::123]:61616/res/5>;ct=60;
-       anchor="coap://[2001:db8:3::123]:61616",
-   <coap://[2001:db8:3::123]:61616/res/6>;ct=60;
-       anchor="coap://[2001:db8:3::123]:61616",
-   <coap://[2001:db8:3::123]:61616/res/7>;ct=60;
-       anchor="coap://[2001:db8:3::123]:61616",
-   <coap://[2001:db8:3::123]:61616/res/8>;ct=60;
-       anchor="coap://[2001:db8:3::123]:61616",
-   <coap://[2001:db8:3::123]:61616/res/9>;ct=60;
-       anchor="coap://[2001:db8:3::123]:61616"
+   <coap://[2001:db8:3::123]:61616/res/5>;ct=60,
+   <coap://[2001:db8:3::123]:61616/res/6>;ct=60,
+   <coap://[2001:db8:3::123]:61616/res/7>;ct=60,
+   <coap://[2001:db8:3::123]:61616/res/8>;ct=60,
+   <coap://[2001:db8:3::123]:61616/res/9>;ct=60
 
               Figure 20: Examples of paginated resource lookup
 
@@ -2227,43 +2161,30 @@ Internet-Draft           CoRE Resource Directory           February 2021
    It demonstrates how absolute link targets stay unmodified, while
    relative ones are resolved:
 
+   Req: GET /rd-lookup/res?et=tag:example.com,2020:platform
+
+   <coap://sensor1.example.com/sensors>;ct=40;title="Sensor Index",
+   <coap://sensor1.example.com/sensors/temp>;rt=temperature-c;if=sensor,
+   <coap://sensor1.example.com/sensors/light>;rt=light-lux;if=sensor,
+   <http://www.example.com/sensors/t123>;rel=describedby;
+       anchor="coap://sensor1.example.com/sensors/temp",
+   <coap://sensor1.example.com/t>;rel=alternate;
+       anchor="coap://sensor1.example.com/sensors/temp",
+   <coap://sensor2.example.com/sensors>;ct=40;title="Sensor Index",
+   <coap://sensor2.example.com/sensors/temp>;rt=temperature-c;if=sensor,
+   <coap://sensor2.example.com/sensors/light>;rt=light-lux;if=sensor,
+   <http://www.example.com/sensors/t123>;rel=describedby;
+       anchor="coap://sensor2.example.com/sensors/temp",
+   <coap://sensor2.example.com/t>;rel=alternate;
+       anchor="coap://sensor2.example.com/sensors/temp"
 
 
 
 
-
-
-
-
-
-
-Amsüss, et al.           Expires 23 August 2021                [Page 40]
+Amsüss, et al.           Expires 25 August 2021                [Page 39]
 
 Internet-Draft           CoRE Resource Directory           February 2021
 
-
-   Req: GET /rd-lookup/res?et=tag:example.com,2020:platform
-
-   <coap://sensor1.example.com/sensors>;ct=40;title="Sensor Index";
-       anchor="coap://sensor1.example.com",
-   <coap://sensor1.example.com/sensors/temp>;rt="temperature-c";
-       if="sensor"; anchor="coap://sensor1.example.com",
-   <coap://sensor1.example.com/sensors/light>;rt="light-lux";
-       if="sensor"; anchor="coap://sensor1.example.com",
-   <http://www.example.com/sensors/t123>;rel="describedby";
-       anchor="coap://sensor1.example.com/sensors/temp",
-   <coap://sensor1.example.com/t>;rel="alternate";
-       anchor="coap://sensor1.example.com/sensors/temp",
-   <coap://sensor2.example.com/sensors>;ct=40;title="Sensor Index";
-       anchor="coap://sensor2.example.com",
-   <coap://sensor2.example.com/sensors/temp>;rt="temperature-c";
-       if="sensor"; anchor="coap://sensor2.example.com",
-   <coap://sensor2.example.com/sensors/light>;rt="light-lux";
-       if="sensor"; anchor="coap://sensor2.example.com",
-   <http://www.example.com/sensors/t123>;rel="describedby";
-       anchor="coap://sensor2.example.com/sensors/temp",
-   <coap://sensor2.example.com/t>;rel="alternate";
-       anchor="coap://sensor2.example.com/sensors/temp"
 
        Figure 21: Example of resource lookup from multiple endpoints
 
@@ -2290,14 +2211,6 @@ Internet-Draft           CoRE Resource Directory           February 2021
    lookup was made from the same link from which the registration was
    made.
 
-
-
-
-Amsüss, et al.           Expires 23 August 2021                [Page 41]
-
-Internet-Draft           CoRE Resource Directory           February 2021
-
-
    While Endpoint Lookup does expose the registration resources, the RD
    does not need to make them accessible to clients.  Clients SHOULD NOT
    attempt to dereference or manipulate them.
@@ -2315,11 +2228,19 @@ Internet-Draft           CoRE Resource Directory           February 2021
    Req: GET /rd-lookup/ep?et=tag:example.com,2020:platform
 
    Res: 2.05 Content
-   </rd/1234>;base="coap://[2001:db8:3::127]:61616";ep="node5";
-       et="tag:example.com,2020:platform";ct="40";rt="core.rd-ep",
-   </rd/4521>;base="coap://[2001:db8:3::129]:61616";ep="node7";
-       et="tag:example.com,2020:platform";ct="40";d="floor-3";
-       rt="core.rd-ep"
+   </rd/1234>;base="coap://[2001:db8:3::127]:61616";ep=node5;
+       et="tag:example.com,2020:platform";ct=40;rt=core.rd-ep,
+   </rd/4521>;base="coap://[2001:db8:3::129]:61616";ep=node7;
+       et="tag:example.com,2020:platform";ct=40;d=floor-3;
+       rt=core.rd-ep
+
+
+
+
+Amsüss, et al.           Expires 25 August 2021                [Page 40]
+
+Internet-Draft           CoRE Resource Directory           February 2021
+
 
                    Figure 22: Examples of endpoint lookup
 
@@ -2346,14 +2267,6 @@ Internet-Draft           CoRE Resource Directory           February 2021
    authorized to serve as an RD according to the application's
    requirements.
 
-
-
-
-Amsüss, et al.           Expires 23 August 2021                [Page 42]
-
-Internet-Draft           CoRE Resource Directory           February 2021
-
-
 7.1.  Endpoint name
 
    Whenever an RD needs to provide trustworthy results to clients doing
@@ -2370,6 +2283,20 @@ Internet-Draft           CoRE Resource Directory           February 2021
    name and sector are transported when certificates are used.  For
    example, it may describe how SubjectAltName dNSName entries are
    mapped to endpoint and domain names.
+
+
+
+
+
+
+
+
+
+
+Amsüss, et al.           Expires 25 August 2021                [Page 41]
+
+Internet-Draft           CoRE Resource Directory           February 2021
+
 
 7.1.1.  Random endpoint names
 
@@ -2402,14 +2329,6 @@ Internet-Draft           CoRE Resource Directory           February 2021
    Note that the impact of having undesirable links in the RD depends on
    the application: if the client requires the firmware server to
    present credentials as a firmware server, a fraudulent link's impact
-
-
-
-Amsüss, et al.           Expires 23 August 2021                [Page 43]
-
-Internet-Draft           CoRE Resource Directory           February 2021
-
-
    is limited to the client revealing its intention to obtain updates
    and slowing down the client until it finds a legitimate firmware
    server; if the client accepts any credentials from the server as long
@@ -2427,6 +2346,14 @@ Internet-Draft           CoRE Resource Directory           February 2021
    As above, the impact of undesirable links depends on the extent to
    which the lookup client relies on the RD.  To avoid the limitations,
    RD applications should consider prescribing that lookup clients only
+
+
+
+Amsüss, et al.           Expires 25 August 2021                [Page 42]
+
+Internet-Draft           CoRE Resource Directory           February 2021
+
+
    use the discovered information as hints, and describe which pieces of
    information need to be verified because they impact the application's
    security.  A straightforward way to verify such information is to
@@ -2455,17 +2382,6 @@ Internet-Draft           CoRE Resource Directory           February 2021
    approach to endpoint names and place limits on the entered links
    based on their attributes instead.
 
-
-
-
-
-
-
-Amsüss, et al.           Expires 23 August 2021                [Page 44]
-
-Internet-Draft           CoRE Resource Directory           February 2021
-
-
    Care must be taken in such setups to determine the applicable access
    control measures to each operation.  One easy way to do that is to
    mandate the use of the sector parameter on all operations, as no
@@ -2478,6 +2394,21 @@ Internet-Draft           CoRE Resource Directory           February 2021
    that implementations may choose to use as default policy in absence
    of other configuration.  It is designed to enable efficient discovery
    operations even in ad-hoc settings.
+
+
+
+
+
+
+
+
+
+
+
+Amsüss, et al.           Expires 25 August 2021                [Page 43]
+
+Internet-Draft           CoRE Resource Directory           February 2021
+
 
    Under this policy, the RD accepts registrations for any endpoint name
    that is not assigned to an active registration resource, and only
@@ -2514,14 +2445,6 @@ Internet-Draft           CoRE Resource Directory           February 2021
    As part of the registration operation, that information is stored
    along with the registration resource.
 
-
-
-
-Amsüss, et al.           Expires 23 August 2021                [Page 45]
-
-Internet-Draft           CoRE Resource Directory           February 2021
-
-
    The RD MUST accept all registrations whose registration resource is
    not already active, as long as they are made using a security layer
    supported by the RD.
@@ -2535,6 +2458,14 @@ Internet-Draft           CoRE Resource Directory           February 2021
    are never directly compared to endpoint names, and an endpoint can
    not expect to "own" any particular endpoint name outside of an active
    registration -- even if a certificate says so.  It is an accepted
+
+
+
+Amsüss, et al.           Expires 25 August 2021                [Page 44]
+
+Internet-Draft           CoRE Resource Directory           February 2021
+
+
    shortcoming of this approach that the endpoint has no indication of
    whether the RD remembers it by its subject name or public key;
    recognition by subject happens on a best-effort base (given the RD
@@ -2564,20 +2495,6 @@ Internet-Draft           CoRE Resource Directory           February 2021
    affects depends on the security policies of the application (see
    Section 7).
 
-
-
-
-
-
-
-
-
-
-Amsüss, et al.           Expires 23 August 2021                [Page 46]
-
-Internet-Draft           CoRE Resource Directory           February 2021
-
-
 8.1.  Discovery
 
    Most steps in discovery of the RD, and possibly its resources, are
@@ -2591,6 +2508,19 @@ Internet-Draft           CoRE Resource Directory           February 2021
    discovery options like configured addresses, and send queries for RDs
    in a very general form ("?rt=core.rd*" rather than "?rt=core.rd-
    lookup-ep").
+
+
+
+
+
+
+
+
+
+Amsüss, et al.           Expires 25 August 2021                [Page 45]
+
+Internet-Draft           CoRE Resource Directory           February 2021
+
 
 8.2.  Endpoint Identification and Authentication
 
@@ -2622,18 +2552,6 @@ Internet-Draft           CoRE Resource Directory           February 2021
    (and sector; Section 7.1) or whether arbitrary names are accepted
    (Section 7.1.1).
 
-
-
-
-
-
-
-
-Amsüss, et al.           Expires 23 August 2021                [Page 47]
-
-Internet-Draft           CoRE Resource Directory           February 2021
-
-
    Simple registration could be used to circumvent address-based access
    control: An attacker would send a simple registration request with
    the victim's address as source address, and later look up the
@@ -2646,6 +2564,19 @@ Internet-Draft           CoRE Resource Directory           February 2021
    shown as target attributes or lookup attributes.  The RD needs to
    consider this in the choice of Registration Resource paths, and
    administrators or endpoint in their choice of attributes.
+
+
+
+
+
+
+
+
+
+Amsüss, et al.           Expires 25 August 2021                [Page 46]
+
+Internet-Draft           CoRE Resource Directory           February 2021
+
 
 8.3.  Access Control
 
@@ -2682,14 +2613,6 @@ Internet-Draft           CoRE Resource Directory           February 2021
 
    ]
 
-
-
-
-Amsüss, et al.           Expires 23 August 2021                [Page 48]
-
-Internet-Draft           CoRE Resource Directory           February 2021
-
-
 9.  IANA Considerations
 
 9.1.  Resource Types
@@ -2697,6 +2620,19 @@ Internet-Draft           CoRE Resource Directory           February 2021
    IANA is asked to enter the following values into the Resource Type
    (rt=) Link Target Attribute Values sub-registry of the Constrained
    Restful Environments (CoRE) Parameters registry defined in [RFC6690]:
+
+
+
+
+
+
+
+
+
+Amsüss, et al.           Expires 25 August 2021                [Page 47]
+
+Internet-Draft           CoRE Resource Directory           February 2021
+
 
     +====================+=============================+=============+
     | Value              | Description                 | Reference   |
@@ -2739,13 +2675,6 @@ Internet-Draft           CoRE Resource Directory           February 2021
 
    *  the human readable name of the parameter,
 
-
-
-Amsüss, et al.           Expires 23 August 2021                [Page 49]
-
-Internet-Draft           CoRE Resource Directory           February 2021
-
-
    *  the short name as used in query parameters or target attributes,
 
    *  indication of whether it can be passed as a query parameter at
@@ -2753,6 +2682,13 @@ Internet-Draft           CoRE Resource Directory           February 2021
       expressed as a target attribute,
 
    *  syntax and validity requirements if any,
+
+
+
+Amsüss, et al.           Expires 25 August 2021                [Page 48]
+
+Internet-Draft           CoRE Resource Directory           February 2021
+
 
    *  a description,
 
@@ -2797,7 +2733,15 @@ Internet-Draft           CoRE Resource Directory           February 2021
 
 
 
-Amsüss, et al.           Expires 23 August 2021                [Page 50]
+
+
+
+
+
+
+
+
+Amsüss, et al.           Expires 25 August 2021                [Page 49]
 
 Internet-Draft           CoRE Resource Directory           February 2021
 
@@ -2853,7 +2797,7 @@ Internet-Draft           CoRE Resource Directory           February 2021
 
 
 
-Amsüss, et al.           Expires 23 August 2021                [Page 51]
+Amsüss, et al.           Expires 25 August 2021                [Page 50]
 
 Internet-Draft           CoRE Resource Directory           February 2021
 
@@ -2909,7 +2853,7 @@ Internet-Draft           CoRE Resource Directory           February 2021
 
 
 
-Amsüss, et al.           Expires 23 August 2021                [Page 52]
+Amsüss, et al.           Expires 25 August 2021                [Page 51]
 
 Internet-Draft           CoRE Resource Directory           February 2021
 
@@ -2965,7 +2909,7 @@ Internet-Draft           CoRE Resource Directory           February 2021
 
 
 
-Amsüss, et al.           Expires 23 August 2021                [Page 53]
+Amsüss, et al.           Expires 25 August 2021                [Page 52]
 
 Internet-Draft           CoRE Resource Directory           February 2021
 
@@ -3021,7 +2965,7 @@ Internet-Draft           CoRE Resource Directory           February 2021
 
 
 
-Amsüss, et al.           Expires 23 August 2021                [Page 54]
+Amsüss, et al.           Expires 25 August 2021                [Page 53]
 
 Internet-Draft           CoRE Resource Directory           February 2021
 
@@ -3077,7 +3021,7 @@ Internet-Draft           CoRE Resource Directory           February 2021
 
 
 
-Amsüss, et al.           Expires 23 August 2021                [Page 55]
+Amsüss, et al.           Expires 25 August 2021                [Page 54]
 
 Internet-Draft           CoRE Resource Directory           February 2021
 
@@ -3133,7 +3077,7 @@ Internet-Draft           CoRE Resource Directory           February 2021
 
 
 
-Amsüss, et al.           Expires 23 August 2021                [Page 56]
+Amsüss, et al.           Expires 25 August 2021                [Page 55]
 
 Internet-Draft           CoRE Resource Directory           February 2021
 
@@ -3189,13 +3133,13 @@ Internet-Draft           CoRE Resource Directory           February 2021
 
 
 
-Amsüss, et al.           Expires 23 August 2021                [Page 57]
+Amsüss, et al.           Expires 25 August 2021                [Page 56]
 
 Internet-Draft           CoRE Resource Directory           February 2021
 
 
    Req: POST coap://[2001:db8:4::ff]/rd
-   ?ep=grp_R2-4-015&et=core.rd-group&base=coap://[ff05::1]
+     ?ep=grp_R2-4-015&et=core.rd-group&base=coap://[ff05::1]
    Payload:
    </light/left>;rt="tag:example.com,2020:light",
    </light/middle>;rt="tag:example.com,2020:light",
@@ -3218,8 +3162,8 @@ Internet-Draft           CoRE Resource Directory           February 2021
      ?d=R2-4-015&et=core.rd-group&rt=light
 
    Res: 2.05 Content
-   </rd/501>;ep="grp_R2-4-015";et="core.rd-group";
-             base="coap://[ff05::1]";rt="core.rd-ep"
+   </rd/501>;ep=grp_R2-4-015;et=core.rd-group;
+             base="coap://[ff05::1]";rt=core.rd-ep
 
           Figure 25: Example of a lookup exchange to find suitable
                             multicast addresses
@@ -3245,7 +3189,7 @@ Internet-Draft           CoRE Resource Directory           February 2021
 
 
 
-Amsüss, et al.           Expires 23 August 2021                [Page 58]
+Amsüss, et al.           Expires 25 August 2021                [Page 57]
 
 Internet-Draft           CoRE Resource Directory           February 2021
 
@@ -3301,7 +3245,7 @@ Internet-Draft           CoRE Resource Directory           February 2021
 
 
 
-Amsüss, et al.           Expires 23 August 2021                [Page 59]
+Amsüss, et al.           Expires 25 August 2021                [Page 58]
 
 Internet-Draft           CoRE Resource Directory           February 2021
 
@@ -3357,7 +3301,7 @@ Internet-Draft           CoRE Resource Directory           February 2021
 
 
 
-Amsüss, et al.           Expires 23 August 2021                [Page 60]
+Amsüss, et al.           Expires 25 August 2021                [Page 59]
 
 Internet-Draft           CoRE Resource Directory           February 2021
 
@@ -3413,7 +3357,7 @@ Internet-Draft           CoRE Resource Directory           February 2021
 
 
 
-Amsüss, et al.           Expires 23 August 2021                [Page 61]
+Amsüss, et al.           Expires 25 August 2021                [Page 60]
 
 Internet-Draft           CoRE Resource Directory           February 2021
 
@@ -3469,7 +3413,7 @@ Internet-Draft           CoRE Resource Directory           February 2021
 
 
 
-Amsüss, et al.           Expires 23 August 2021                [Page 62]
+Amsüss, et al.           Expires 25 August 2021                [Page 61]
 
 Internet-Draft           CoRE Resource Directory           February 2021
 
@@ -3525,7 +3469,7 @@ Internet-Draft           CoRE Resource Directory           February 2021
 
 
 
-Amsüss, et al.           Expires 23 August 2021                [Page 63]
+Amsüss, et al.           Expires 25 August 2021                [Page 62]
 
 Internet-Draft           CoRE Resource Directory           February 2021
 
@@ -3581,7 +3525,7 @@ Internet-Draft           CoRE Resource Directory           February 2021
 
 
 
-Amsüss, et al.           Expires 23 August 2021                [Page 64]
+Amsüss, et al.           Expires 25 August 2021                [Page 63]
 
 Internet-Draft           CoRE Resource Directory           February 2021
 
@@ -3637,7 +3581,7 @@ Internet-Draft           CoRE Resource Directory           February 2021
 
 
 
-Amsüss, et al.           Expires 23 August 2021                [Page 65]
+Amsüss, et al.           Expires 25 August 2021                [Page 64]
 
 Internet-Draft           CoRE Resource Directory           February 2021
 
@@ -3693,7 +3637,7 @@ Internet-Draft           CoRE Resource Directory           February 2021
 
 
 
-Amsüss, et al.           Expires 23 August 2021                [Page 66]
+Amsüss, et al.           Expires 25 August 2021                [Page 65]
 
 Internet-Draft           CoRE Resource Directory           February 2021
 
@@ -3749,7 +3693,7 @@ Internet-Draft           CoRE Resource Directory           February 2021
 
 
 
-Amsüss, et al.           Expires 23 August 2021                [Page 67]
+Amsüss, et al.           Expires 25 August 2021                [Page 66]
 
 Internet-Draft           CoRE Resource Directory           February 2021
 
@@ -3805,7 +3749,7 @@ Internet-Draft           CoRE Resource Directory           February 2021
 
 
 
-Amsüss, et al.           Expires 23 August 2021                [Page 68]
+Amsüss, et al.           Expires 25 August 2021                [Page 67]
 
 Internet-Draft           CoRE Resource Directory           February 2021
 
@@ -3861,7 +3805,7 @@ Internet-Draft           CoRE Resource Directory           February 2021
 
 
 
-Amsüss, et al.           Expires 23 August 2021                [Page 69]
+Amsüss, et al.           Expires 25 August 2021                [Page 68]
 
 Internet-Draft           CoRE Resource Directory           February 2021
 
@@ -3917,7 +3861,7 @@ Internet-Draft           CoRE Resource Directory           February 2021
 
 
 
-Amsüss, et al.           Expires 23 August 2021                [Page 70]
+Amsüss, et al.           Expires 25 August 2021                [Page 69]
 
 Internet-Draft           CoRE Resource Directory           February 2021
 
@@ -3973,7 +3917,7 @@ Internet-Draft           CoRE Resource Directory           February 2021
 
 
 
-Amsüss, et al.           Expires 23 August 2021                [Page 71]
+Amsüss, et al.           Expires 25 August 2021                [Page 70]
 
 Internet-Draft           CoRE Resource Directory           February 2021
 
@@ -4029,7 +3973,7 @@ Internet-Draft           CoRE Resource Directory           February 2021
 
 
 
-Amsüss, et al.           Expires 23 August 2021                [Page 72]
+Amsüss, et al.           Expires 25 August 2021                [Page 71]
 
 Internet-Draft           CoRE Resource Directory           February 2021
 
@@ -4085,7 +4029,7 @@ Internet-Draft           CoRE Resource Directory           February 2021
 
 
 
-Amsüss, et al.           Expires 23 August 2021                [Page 73]
+Amsüss, et al.           Expires 25 August 2021                [Page 72]
 
 Internet-Draft           CoRE Resource Directory           February 2021
 
@@ -4141,7 +4085,7 @@ Internet-Draft           CoRE Resource Directory           February 2021
 
 
 
-Amsüss, et al.           Expires 23 August 2021                [Page 74]
+Amsüss, et al.           Expires 25 August 2021                [Page 73]
 
 Internet-Draft           CoRE Resource Directory           February 2021
 
@@ -4197,7 +4141,7 @@ Internet-Draft           CoRE Resource Directory           February 2021
 
 
 
-Amsüss, et al.           Expires 23 August 2021                [Page 75]
+Amsüss, et al.           Expires 25 August 2021                [Page 74]
 
 Internet-Draft           CoRE Resource Directory           February 2021
 
@@ -4253,7 +4197,7 @@ Internet-Draft           CoRE Resource Directory           February 2021
 
 
 
-Amsüss, et al.           Expires 23 August 2021                [Page 76]
+Amsüss, et al.           Expires 25 August 2021                [Page 75]
 
 Internet-Draft           CoRE Resource Directory           February 2021
 
@@ -4309,7 +4253,7 @@ Appendix A.  Groups Registration and Lookup
 
 
 
-Amsüss, et al.           Expires 23 August 2021                [Page 77]
+Amsüss, et al.           Expires 25 August 2021                [Page 76]
 
 Internet-Draft           CoRE Resource Directory           February 2021
 
@@ -4320,7 +4264,7 @@ Internet-Draft           CoRE Resource Directory           February 2021
    Payload:
    </light>;rt="tag:example.com,2020:light";
         if="tag:example.net,2020:actuator",
-   </color-temperature>;if="tag:example.net,2020:parameter";u="K"
+   </color-temperature>;if="tag:example.net,2020:parameter";u=K
 
    Res: 2.01 Created
    Location-Path: /rd/12
@@ -4345,42 +4289,30 @@ Internet-Draft           CoRE Resource Directory           February 2021
 
    Res: 2.05 Content
    Payload:
-   </rd/501>;ep="grp_R2-4-015";et="core.rd-group";
-                                      base="coap://[ff05::1]",
    </rd/12>;ep=lights&et=core.rd-group;
-            base="coap://[ff35:30:2001:f1:db8::8000:1]";rt="core.rd-ep"
+            base="coap://[ff35:30:2001:f1:db8::8000:1]";rt=core.rd-ep
 
                     Figure 27: Example lookup of groups
 
    The following example shows a client performing a lookup of all
    resources of all endpoints (groups) with et=core.rd-group.
 
-
-
-
-
-
-
-
-
-
-
-Amsüss, et al.           Expires 23 August 2021                [Page 78]
-
-Internet-Draft           CoRE Resource Directory           February 2021
-
-
    Req: GET /rd-lookup/res?et=core.rd-group
 
    <coap://[ff35:30:2001:db8:f1::8000:1]/light>;
         rt="tag:example.com,2020:light";
-        if="tag:example.net,2020:actuator";
-        anchor="coap://[ff35:30:2001:db8:f1::8000:1]",
+        if="tag:example.net,2020:actuator",
    <coap://[ff35:30:2001:db8:f1::8000:1]/color-temperature>;
-        if="tag:example.net,2020:parameter";u="K";
-        anchor="coap://[ff35:30:2001:db8:f1::8000:1]"
+        if="tag:example.net,2020:parameter";u=K,
 
             Figure 28: Example lookup of resources inside groups
+
+
+
+Amsüss, et al.           Expires 25 August 2021                [Page 77]
+
+Internet-Draft           CoRE Resource Directory           February 2021
+
 
 Appendix B.  Web links and the Resource Directory
 
@@ -4412,41 +4344,41 @@ B.1.  A simple example
    GET coap://[ff02::fd]:5683/.well-known/core?rt=temperature
 
    RES 2.05 Content
-   </temp>;rt=temperature;ct=0
+   </sensors/temp>;rt=temperature;ct=0
 
               Figure 29: Example of direct resource discovery
 
    where the response is sent by the server, "[2001:db8:f0::1]:5683".
 
-
-
-
-Amsüss, et al.           Expires 23 August 2021                [Page 79]
-
-Internet-Draft           CoRE Resource Directory           February 2021
-
-
    While the client -- on the practical or implementation side -- can
    just go ahead and create a new request to "[2001:db8:f0::1]:5683"
-   with Uri-Path: "temp", the full resolution steps for insertion into
-   and retrieval from the RD without any shortcuts are:
+   with Uri-Path: "sensors" and "temp", the full resolution steps for
+   insertion into and retrieval from the RD without any shortcuts are:
 
 B.1.1.  Resolving the URIs
 
    The client parses the single returned record.  The link's target
-   (sometimes called "href") is ""/temp"", which is a relative URI that
-   needs resolving.  The base URI <coap://[ff02::fd]:5683/.well-known/
-   core> is used to resolve the reference /temp against.
+   (sometimes called "href") is ""/sensors/temp"", which is a relative
+   URI that needs resolving.  The base URI
+   <coap://[ff02::fd]:5683/.well-known/core> is used to resolve the
+   reference /sensors/temp against.
+
+
+
+Amsüss, et al.           Expires 25 August 2021                [Page 78]
+
+Internet-Draft           CoRE Resource Directory           February 2021
+
 
    The Base URI of the requested resource can be composed from the
    options of the CoAP GET request by following the steps of [RFC7252]
    section 6.5 (with an addition at the end of 8.2) into
    ""coap://[2001:db8:f0::1]/.well-known/core"".
 
-   Because ""/temp"" starts with a single slash, the record's target is
-   resolved by replacing the path ""/.well-known/core"" from the Base
-   URI (section 5.2 [RFC3986]) with the relative target URI ""/temp""
-   into ""coap://[2001:db8:f0::1]/temp"".
+   Because ""/sensors/temp"" starts with a single slash, the record's
+   target is resolved by replacing the path ""/.well-known/core"" from
+   the Base URI (section 5.2 [RFC3986]) with the relative target URI
+   ""/sensors/temp"" into ""coap://[2001:db8:f0::1]/sensors/temp"".
 
 B.1.2.  Interpreting attributes and relations
 
@@ -4465,7 +4397,7 @@ B.1.2.  Interpreting attributes and relations
    full English expression of the "host relation" is:
 
    '"coap://[2001:db8:f0::1]/.well-known/core" is hosting the resource
-   "coap://[2001:db8:f0::1]/temp", which is of the resource type
+   "coap://[2001:db8:f0::1]/sensors/temp", which is of the resource type
    "temperature" and can be accessed using the text/plain content
    format.'
 
@@ -4474,24 +4406,25 @@ B.2.  A slightly more complex example
    Omitting the "rt=temperature" filter, the discovery query would have
    given some more records in the payload:
 
-
-
-
-Amsüss, et al.           Expires 23 August 2021                [Page 80]
-
-Internet-Draft           CoRE Resource Directory           February 2021
-
-
    GET coap://[ff02::fd]:5683/.well-known/core
 
    RES 2.05 Content
-   </temp>;rt=temperature;ct=0,
-   </light>;rt=light-lux;ct=0,
+   </sensors/temp>;rt=temperature;ct=0,
+   </sensors/light>;rt=light-lux;ct=0,
    </t>;anchor="/sensors/temp";rel=alternate,
-   <http://www.example.com/sensors/t123>;anchor="/temp";
-       rel="describedby"
+   <http://www.example.com/sensors/t123>;anchor="/sensors/temp";
+       rel=describedby
 
           Figure 30: Extended example of direct resource discovery
+
+
+
+
+
+Amsüss, et al.           Expires 25 August 2021                [Page 79]
+
+Internet-Draft           CoRE Resource Directory           February 2021
+
 
    Parsing the third record, the client encounters the "anchor"
    parameter.  It is a URI relative to the Base URI of the request and
@@ -4529,15 +4462,6 @@ B.3.  Enter the Resource Directory
    that the Base URI constructed that way always yields a URI of the
    form: scheme://authority without path suffix.
 
-
-
-
-
-Amsüss, et al.           Expires 23 August 2021                [Page 81]
-
-Internet-Draft           CoRE Resource Directory           February 2021
-
-
    If the client now queries the RD as it would previously have issued a
    multicast request, it would go through the RD discovery steps by
    fetching "coap://[2001:db8:f0::ff]/.well-known/core?rt=core.rd-
@@ -4546,16 +4470,23 @@ Internet-Draft           CoRE Resource Directory           February 2021
    "coap://[2001:db8:f0::ff]/rd-lookup/res?rt=temperature" to receive
    the following data:
 
-   <coap://[2001:db8:f0::1]/temp>;rt=temperature;ct=0;
-       anchor="coap://[2001:db8:f0::1]"
+   <coap://[2001:db8:f0::1]/sensors/temp>;rt=temperature;ct=0
 
        Figure 32: Example payload of a response to a resource lookup
+
+
+
+
+Amsüss, et al.           Expires 25 August 2021                [Page 80]
+
+Internet-Draft           CoRE Resource Directory           February 2021
+
 
    This is not _literally_ the same response that it would have received
    from a multicast request, but it contains the equivalent statement:
 
    '"coap://[2001:db8:f0::1]" is hosting the resource
-   "coap://[2001:db8:f0::1]/temp", which is of the resource type
+   "coap://[2001:db8:f0::1]/sensors/temp", which is of the resource type
    "temperature" and can be accessed using the text/plain content
    format.'
 
@@ -4570,14 +4501,12 @@ Internet-Draft           CoRE Resource Directory           February 2021
    A request to "coap://[2001:db8:f0::ff]/rd-lookup/res?ep=simple-host1"
    would return
 
-   <coap://[2001:db8:f0::1]/temp>;rt=temperature;ct=0;
-       anchor="coap://[2001:db8:f0::1]",
-   <coap://[2001:db8:f0::1]/light>;rt=light-lux;ct=0;
-       anchor="coap://[2001:db8:f0::1]",
+   <coap://[2001:db8:f0::1]/sensors/temp>;rt=temperature;ct=0,
+   <coap://[2001:db8:f0::1]/sensors/light>;rt=light-lux;ct=0,
    <coap://[2001:db8:f0::1]/t>;
        anchor="coap://[2001:db8:f0::1]/sensors/temp";rel=alternate,
    <http://www.example.com/sensors/t123>;
-       anchor="coap://[2001:db8:f0::1]/sensors/temp";rel="describedby"
+       anchor="coap://[2001:db8:f0::1]/sensors/temp";rel=describedby
 
       Figure 33: Extended example payload of a response to a resource
                                    lookup
@@ -4585,27 +4514,29 @@ Internet-Draft           CoRE Resource Directory           February 2021
    All the target and anchor references are already in absolute form
    there, which don't need to be resolved any further.
 
-
-
-
-
-Amsüss, et al.           Expires 23 August 2021                [Page 82]
-
-Internet-Draft           CoRE Resource Directory           February 2021
-
-
    Had the simple host done an equivalent full registration with a base=
    parameter (e.g. "?ep=simple-host1&base=coap+tcp://simple-
    host1.example.com"), that context would have been used to resolve the
    relative anchor values instead, giving
 
-   <coap+tcp://simple-host1.example.com/temp>;rt=temperature;ct=0;
-       anchor="coap+tcp://simple-host1.example.com"
+  <coap+tcp://simple-host1.example.com/sensors/temp>;rt=temperature;ct=0
 
-       Figure 34: Example payload of a response to a resource lookup
-                         with a dedicated base URI
+      Figure 34: Example payload of a response to a resource lookup
+                        with a dedicated base URI
 
    and analogous records.
+
+
+
+
+
+
+
+
+Amsüss, et al.           Expires 25 August 2021                [Page 81]
+
+Internet-Draft           CoRE Resource Directory           February 2021
+
 
 B.4.  A note on differences between link-format and Link header fields
 
@@ -4642,23 +4573,26 @@ B.4.  A note on differences between link-format and Link header fields
       For example, while a Link header field in a page about a Swedish
       city might read
 
-
-
-
-Amsüss, et al.           Expires 23 August 2021                [Page 83]
-
-Internet-Draft           CoRE Resource Directory           February 2021
-
-
-      Link: </temperature/Malm%C3%B6>;rel="live-environment-data"
+      Link: </temperature/Malm%C3%B6>;rel=live-environment-data
 
       a link-format document from the same source might describe the
       link as
 
-      </temperature/Malmö>;rel="live-environment-data"
+      </temperature/Malmö>;rel=live-environment-data
 
       Parsers and producers of link-format and header fields need to be
       aware of this difference.
+
+
+
+
+
+
+
+Amsüss, et al.           Expires 25 August 2021                [Page 82]
+
+Internet-Draft           CoRE Resource Directory           February 2021
+
 
 Appendix C.  Limited Link Format
 
@@ -4698,14 +4632,6 @@ Authors' Addresses
    Email: christian@amsuess.com
 
 
-
-
-
-Amsüss, et al.           Expires 23 August 2021                [Page 84]
-
-Internet-Draft           CoRE Resource Directory           February 2021
-
-
    Zach Shelby
    ARM
    150 Rose Orchard
@@ -4714,6 +4640,14 @@ Internet-Draft           CoRE Resource Directory           February 2021
 
    Phone: +1-408-203-9434
    Email: zach.shelby@arm.com
+
+
+
+
+
+Amsüss, et al.           Expires 25 August 2021                [Page 83]
+
+Internet-Draft           CoRE Resource Directory           February 2021
 
 
    Michael Koster
@@ -4757,4 +4691,14 @@ Internet-Draft           CoRE Resource Directory           February 2021
 
 
 
-Amsüss, et al.           Expires 23 August 2021                [Page 85]
+
+
+
+
+
+
+
+
+
+
+Amsüss, et al.           Expires 25 August 2021                [Page 84]
