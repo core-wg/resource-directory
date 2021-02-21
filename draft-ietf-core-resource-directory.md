@@ -1968,7 +1968,7 @@ these concerns need to be balanced:
   an attacker may create any combination of attributes ever set,
   with the attack difficulty determined by the security layer's replay properties.
 
-  For example, if {{example-freshness} were conducted without freshness assurances,
+  For example, if {{example-freshness}} were conducted without freshness assurances,
   an attacker could later reset the lifetime back to 7200.
   <!-- That is, with DTLS without replay protection, or DTLS when causing a retransmission and swallowing one message,
   or with OSCORE when swallowing all of an update's retransmission but the ep later tries again. -->
