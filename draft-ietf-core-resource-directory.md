@@ -73,6 +73,7 @@ normative:
   RFC7230:
   RFC7252:
   RFC8288:
+  I-D.ietf-core-echo-request-tag:
 informative:
   RFC6775:
   RFC6874:
@@ -1145,7 +1146,7 @@ Success:
 When the RD is in a position to successfully execute this second interaction and other network participants that can reach it are not,
 it SHOULD verify that the apparent registrant-ep intends to register with the given registration parameters
 before revealing the obtained discovery information to lookup clients.
-An easy way to do that is to verify the simple registration request's sender address using the Echo option as described in {{?I-D.ietf-core-echo-request-tag}} Section 2.4.
+An easy way to do that is to verify the simple registration request's sender address using the Echo option as described in {{I-D.ietf-core-echo-request-tag}} Section 2.4.
 
 The RD MUST delete registrations created by simple registration after the expiration of their lifetime. Additional operations on the registration resource cannot be executed because no registration location is returned.
 
@@ -1924,14 +1925,14 @@ larger than requests, RDs are prone to this.
 
 {{RFC7252}} describes this at length in its Section 11.3,
 including some mitigation by using small block sizes in responses.
-The upcoming {{?I-D.ietf-core-echo-request-tag}} updates that
+The upcoming {{I-D.ietf-core-echo-request-tag}} updates that
 by describing a source address verification mechanism using the Echo option.
 
 \[ If this document is published together with or after I-D.ietf-core-echo-request-tag,
 the above paragraph is replaced with the following:
 
 {{RFC7252}} describes this at length in its Section 11.3,
-and {{?I-D.ietf-core-echo-request-tag}} (which updates the former)
+and {{I-D.ietf-core-echo-request-tag}} (which updates the former)
 recommends using the Echo option to verify the request's source address.
 
 \]
