@@ -1178,12 +1178,12 @@ Amsüss, et al.           Expires 26 August 2021                [Page 21]
 Internet-Draft           CoRE Resource Directory           February 2021
 
 
-   From a management and maintenance perspective, it is necessary to
+   For maintenance, management and debugging, it can be useful to
    identify the components that constitute the RD server.  The
-   identification refers to information about for example client-server
-   incompatibilities, supported features, required updates and other
-   aspects.  The URI discovery address, as described in section 4 of
-   [RFC6690] can be used to find the identification.
+   identification can be used to find client-server incompatibilities,
+   supported features, required updates and other aspects.  The Well-
+   Known interface described in Section 4 of [RFC6690] can be used to
+   find such data.
 
    It would typically be stored in an implementation information link
    (as described in [I-D.bormann-t2trg-rel-impl]):
@@ -3430,6 +3430,8 @@ Internet-Draft           CoRE Resource Directory           February 2021
 
    *  Point out the non-atomic properties of paginated access.
 
+   *  Clarification around impl-info reference.
+
    *  Inconsistencies and extraneous quotings removed from examples.
 
    changes from -25 to -26
@@ -3464,8 +3466,6 @@ Internet-Draft           CoRE Resource Directory           February 2021
 
    *  Security considerations:
 
-      -  Generalize to all current options for security layers usable
-         with CoAP (OSCORE was missing as the text predated RFC8613)
 
 
 
@@ -3473,6 +3473,9 @@ Amsüss, et al.           Expires 26 August 2021                [Page 62]
 
 Internet-Draft           CoRE Resource Directory           February 2021
 
+
+      -  Generalize to all current options for security layers usable
+         with CoAP (OSCORE was missing as the text predated RFC8613)
 
       -  Relax the previous SHOULD on secure access to SHOULD where
          protection is indicated by security policies (bringing the text
@@ -3517,11 +3520,8 @@ Internet-Draft           CoRE Resource Directory           February 2021
       -  Wording around "mostly mandatory" has been improved, conflicts
          clarified and sector default selection adjusted.
 
-   *  Simple registration: Rather than coopting POSTs to /.well-known/
-      core, a new resource /.well-known/rd is registered.  A historical
-      note in the text documents the change.
 
-   *  Examples:
+
 
 
 
@@ -3529,6 +3529,12 @@ Amsüss, et al.           Expires 26 August 2021                [Page 63]
 
 Internet-Draft           CoRE Resource Directory           February 2021
 
+
+   *  Simple registration: Rather than coopting POSTs to /.well-known/
+      core, a new resource /.well-known/rd is registered.  A historical
+      note in the text documents the change.
+
+   *  Examples:
 
       -  Use example URIs rather than unclear reg names (unless it's
          RFC6690 examples, which were kept for continuity)
@@ -3571,12 +3577,6 @@ Internet-Draft           CoRE Resource Directory           February 2021
    *  Registration update: Relax requirement to not send parameters
       needlessly
 
-   *  Terminology: Clarify that the CTs' installation events can occur
-      multiple times.
-
-   *  Promote RFCs 7252, 7230 and 8288 to normative references
-
-   *  Moved Christian Amsuess to first author
 
 
 
@@ -3585,6 +3585,13 @@ Amsüss, et al.           Expires 26 August 2021                [Page 64]
 
 Internet-Draft           CoRE Resource Directory           February 2021
 
+
+   *  Terminology: Clarify that the CTs' installation events can occur
+      multiple times.
+
+   *  Promote RFCs 7252, 7230 and 8288 to normative references
+
+   *  Moved Christian Amsuess to first author
 
    changes from -24 to -25
 
@@ -3628,19 +3635,18 @@ Internet-Draft           CoRE Resource Directory           February 2021
       -  Include syntax as part of a field's validity in entry
          requirements
 
-   *  Editorial changes
-
-      -  Align wording between abstract and introduction
-
-      -  Abbreviation normalization: "ER model", "RD"
-
-
 
 
 Amsüss, et al.           Expires 26 August 2021                [Page 65]
 
 Internet-Draft           CoRE Resource Directory           February 2021
 
+
+   *  Editorial changes
+
+      -  Align wording between abstract and introduction
+
+      -  Abbreviation normalization: "ER model", "RD"
 
       -  RFC8174 boilerplate update
 
@@ -3685,18 +3691,16 @@ Internet-Draft           CoRE Resource Directory           February 2021
 
    *  Fix erroneous examples
 
-   *  Editorial changes
-
-      -  Add figure numbers to examples
-
-
-
 
 
 Amsüss, et al.           Expires 26 August 2021                [Page 66]
 
 Internet-Draft           CoRE Resource Directory           February 2021
 
+
+   *  Editorial changes
+
+      -  Add figure numbers to examples
 
       -  Update RD parameters table to reflect changes of earlier
          versions in the text
@@ -3743,16 +3747,16 @@ Internet-Draft           CoRE Resource Directory           February 2021
 
       -  Add CT to Figure 1
 
-      -  Consistency in the use of the term "Content Format"
-
-   changes from -18 to -19
-
 
 
 Amsüss, et al.           Expires 26 August 2021                [Page 67]
 
 Internet-Draft           CoRE Resource Directory           February 2021
 
+
+      -  Consistency in the use of the term "Content Format"
+
+   changes from -18 to -19
 
    *  link-local addresses: allow but prescribe split-horizon fashion
       when used, disallow zone identifiers
@@ -3797,11 +3801,7 @@ Internet-Draft           CoRE Resource Directory           February 2021
    *  Drop a figure that has become useless due to the changes of and
       -13 and -17
 
-   *  Wording consistency fixes: Use "Registrations" and "target
-      attributes"
 
-   *  Fix incorrect use of content negotiation in discovery interface
-      description (Content-Format -> Accept)
 
 
 
@@ -3809,6 +3809,12 @@ Amsüss, et al.           Expires 26 August 2021                [Page 68]
 
 Internet-Draft           CoRE Resource Directory           February 2021
 
+
+   *  Wording consistency fixes: Use "Registrations" and "target
+      attributes"
+
+   *  Fix incorrect use of content negotiation in discovery interface
+      description (Content-Format -> Accept)
 
    *  State that the base attribute value is part of endpoint lookup
       even when implicit in the registration
@@ -3852,12 +3858,6 @@ Internet-Draft           CoRE Resource Directory           February 2021
    *  Clarify that the "base" parameter text applies both to relative
       references both in anchor and href
 
-   *  Renamed "Registree-EP" to Registrant-EP"
-
-   *  Talk of "relative references" and "URIs" rather than "relative"
-      and "absolute" URIs.  (The concept of "absolute URIs" of [RFC3986]
-      is not needed in RD).
-
 
 
 
@@ -3865,6 +3865,12 @@ Amsüss, et al.           Expires 26 August 2021                [Page 69]
 
 Internet-Draft           CoRE Resource Directory           February 2021
 
+
+   *  Renamed "Registree-EP" to Registrant-EP"
+
+   *  Talk of "relative references" and "URIs" rather than "relative"
+      and "absolute" URIs.  (The concept of "absolute URIs" of [RFC3986]
+      is not needed in RD).
 
    *  Fixed examples
 
@@ -3908,12 +3914,6 @@ Internet-Draft           CoRE Resource Directory           February 2021
 
    *  clarified registration update rules
 
-   *  lt-value semantics for lookup clarified.
-
-   *  added template for simple registration
-
-   changes from -12 to -13
-
 
 
 
@@ -3921,6 +3921,12 @@ Amsüss, et al.           Expires 26 August 2021                [Page 70]
 
 Internet-Draft           CoRE Resource Directory           February 2021
 
+
+   *  lt-value semantics for lookup clarified.
+
+   *  added template for simple registration
+
+   changes from -12 to -13
 
    *  Added "all resource directory" nodes MC address
 
@@ -3965,18 +3971,18 @@ Internet-Draft           CoRE Resource Directory           February 2021
    *  lookup interface: group and endpoint lookup return group and
       registration resources as link targets
 
-   *  lookup interface: search parameters work the same across all
-      entities
-
-   *  removed all methods that modify links in an existing registration
-      (POST with payload, PATCH and iPATCH)
-
 
 
 Amsüss, et al.           Expires 26 August 2021                [Page 71]
 
 Internet-Draft           CoRE Resource Directory           February 2021
 
+
+   *  lookup interface: search parameters work the same across all
+      entities
+
+   *  removed all methods that modify links in an existing registration
+      (POST with payload, PATCH and iPATCH)
 
    *  removed plurality definition (was only needed for link
       modification)
@@ -4020,12 +4026,6 @@ Internet-Draft           CoRE Resource Directory           February 2021
    *  Maximum length of domain parameter 63 bytes for consistency with
       group
 
-   *  removed option for simple POST of link data, don't require a
-      .well-known/core resource to accept POST data and handle it in a
-      special way; we already have /rd for that
-
-   *  add IPv6 ND Option for discovery of an RD
-
 
 
 
@@ -4033,6 +4033,12 @@ Amsüss, et al.           Expires 26 August 2021                [Page 72]
 
 Internet-Draft           CoRE Resource Directory           February 2021
 
+
+   *  removed option for simple POST of link data, don't require a
+      .well-known/core resource to accept POST data and handle it in a
+      special way; we already have /rd for that
+
+   *  add IPv6 ND Option for discovery of an RD
 
    *  clarify group configuration section 6.1 that endpoints must be
       registered before including them in a group
@@ -4077,18 +4083,18 @@ Internet-Draft           CoRE Resource Directory           February 2021
 
    *  Add application/link-format+cbor content-format
 
-   Changes from -02 to -03:
-
-   *  Added an example for lighting and DNS integration
-
-   *  Added an example for RD use in OMA LWM2M
-
 
 
 Amsüss, et al.           Expires 26 August 2021                [Page 73]
 
 Internet-Draft           CoRE Resource Directory           February 2021
 
+
+   Changes from -02 to -03:
+
+   *  Added an example for lighting and DNS integration
+
+   *  Added an example for RD use in OMA LWM2M
 
    *  Added Read Links operation for link inspection by endpoints
 
@@ -4132,12 +4138,6 @@ Internet-Draft           CoRE Resource Directory           February 2021
 
    *  Updated the version and date.
 
-   Changes from -04 to -05:
-
-   *  Restricted Update to parameter updates.
-
-   *  Added pagination support for the Lookup interface.
-
 
 
 
@@ -4145,6 +4145,12 @@ Amsüss, et al.           Expires 26 August 2021                [Page 74]
 
 Internet-Draft           CoRE Resource Directory           February 2021
 
+
+   Changes from -04 to -05:
+
+   *  Restricted Update to parameter updates.
+
+   *  Added pagination support for the Lookup interface.
 
    *  Minor editing, bug fixes and reference updates.
 
@@ -4189,18 +4195,16 @@ Internet-Draft           CoRE Resource Directory           February 2021
    *  Added the concept of an RD Domain and a registration parameter for
       it.
 
-   *  Recommended the Location returned from a registration to be
-      stable, allowing for endpoint and Domain information to be changed
-      during updates.
-
-
-
 
 
 Amsüss, et al.           Expires 26 August 2021                [Page 75]
 
 Internet-Draft           CoRE Resource Directory           February 2021
 
+
+   *  Recommended the Location returned from a registration to be
+      stable, allowing for endpoint and Domain information to be changed
+      during updates.
 
    *  Changed the lookup interface to accept endpoint and Domain as
       query string parameters to control the scope of a lookup.
@@ -4244,10 +4248,6 @@ Internet-Draft           CoRE Resource Directory           February 2021
               RFC 7230, DOI 10.17487/RFC7230, June 2014,
               <https://www.rfc-editor.org/info/rfc7230>.
 
-   [RFC7252]  Shelby, Z., Hartke, K., and C. Bormann, "The Constrained
-              Application Protocol (CoAP)", RFC 7252,
-              DOI 10.17487/RFC7252, June 2014,
-              <https://www.rfc-editor.org/info/rfc7252>.
 
 
 
@@ -4257,6 +4257,11 @@ Amsüss, et al.           Expires 26 August 2021                [Page 76]
 
 Internet-Draft           CoRE Resource Directory           February 2021
 
+
+   [RFC7252]  Shelby, Z., Hartke, K., and C. Bormann, "The Constrained
+              Application Protocol (CoAP)", RFC 7252,
+              DOI 10.17487/RFC7252, June 2014,
+              <https://www.rfc-editor.org/info/rfc7252>.
 
    [RFC8126]  Cotton, M., Leiba, B., and T. Narten, "Guidelines for
               Writing an IANA Considerations Section in RFCs", BCP 26,
@@ -4300,11 +4305,6 @@ Internet-Draft           CoRE Resource Directory           February 2021
               draft-ietf-ace-oauth-authz-37, 4 February 2021,
               <https://www.ietf.org/archive/id/draft-ietf-ace-oauth-
               authz-37.txt>.
-
-
-
-
-
 
 
 
