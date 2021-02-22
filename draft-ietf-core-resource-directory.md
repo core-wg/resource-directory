@@ -817,11 +817,11 @@ Payload:
 ~~~~
 {: #example-discovery-ct title="Example discovery exchange indicating additional content-formats" }
 
-From a management and maintenance perspective,
-it is necessary to identify the components that constitute the RD server.
-The identification refers to information about for example client-server incompatibilities,
+For maintenance, management and debugging,
+it can be useful to identify the components that constitute the RD server.
+The identification can be used to find client-server incompatibilities,
 supported features, required updates and other aspects.
-The URI discovery address, as described in section 4 of {{RFC6690}} can be used to find the identification.
+The Well-Known interface described in Section 4 of {{RFC6690}} can be used to find such data.
 
 It
 would typically be stored in an implementation information link
@@ -2346,6 +2346,8 @@ changes from -26 to -27
   The simple wording missed the authorization part, and did not emphasize that this is a per-deployment property.
 
 * Point out the non-atomic properties of paginated access.
+
+* Clarification around impl-info reference.
 
 * Inconsistencies and extraneous quotings removed from examples.
 
