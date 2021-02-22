@@ -789,6 +789,7 @@ content-format delivered by the server hosting the resource is application/link-
 Req: GET coap://[MCD1]/.well-known/core?rt=core.rd*
 
 Res: 2.05 Content
+Payload:
 </rd>;rt=core.rd;ct=40,
 </rd-lookup/ep>;rt=core.rd-lookup-ep;ct=40,
 </rd-lookup/res>;rt=core.rd-lookup-res;ct=40
@@ -809,6 +810,7 @@ The server in this example also indicates that it is capable of providing observ
 Req: GET coap://[MCD1]/.well-known/core?rt=core.rd*
 
 Res: 2.05 Content
+Payload:
 </rd>;rt=core.rd;ct="40 65225",
 </rd-lookup/res>;rt=core.rd-lookup-res;ct="40 TBD64 TBD504";obs,
 </rd-lookup/ep>;rt=core.rd-lookup-ep;ct="40 TBD64 TBD504"
@@ -829,6 +831,7 @@ would typically be stored in an implementation information link
 Req: GET /.well-known/core?rel=impl-info
 
 Res: 2.05 Content
+Payload:
 <http://software.example.com/shiny-resource-directory/1.0beta1>;
     rel=impl-info
 ~~~~
@@ -1595,6 +1598,7 @@ The following example shows a client performing a resource lookup with the examp
 Req: GET /rd-lookup/res?rt=tag:example.org,2020:temperature
 
 Res: 2.05 Content
+Payload:
 <coap://[2001:db8:3::123]:61616/temp>;
     rt="tag:example.org,2020:temperature"
 ~~~~
@@ -1628,6 +1632,7 @@ The following example shows a client performing a paginated resource lookup
 Req: GET /rd-lookup/res?page=0&count=5
 
 Res: 2.05 Content
+Payload:
 <coap://[2001:db8:3::123]:61616/res/0>;ct=60,
 <coap://[2001:db8:3::123]:61616/res/1>;ct=60,
 <coap://[2001:db8:3::123]:61616/res/2>;ct=60,
@@ -1637,6 +1642,7 @@ Res: 2.05 Content
 Req: GET /rd-lookup/res?page=1&count=5
 
 Res: 2.05 Content
+Payload:
 <coap://[2001:db8:3::123]:61616/res/5>;ct=60,
 <coap://[2001:db8:3::123]:61616/res/6>;ct=60,
 <coap://[2001:db8:3::123]:61616/res/7>;ct=60,
@@ -1657,6 +1663,8 @@ are resolved:
 ~~~~
 Req: GET /rd-lookup/res?et=tag:example.com,2020:platform
 
+Res: 2.05 Content
+Payload:
 <coap://sensor1.example.com/sensors>;ct=40;title="Sensor Index",
 <coap://sensor1.example.com/sensors/temp>;rt=temperature-c;if=sensor,
 <coap://sensor1.example.com/sensors/light>;rt=light-lux;if=sensor,
@@ -1704,6 +1712,7 @@ The following example shows a client performing an endpoint lookup limited to en
 Req: GET /rd-lookup/ep?et=tag:example.com,2020:platform
 
 Res: 2.05 Content
+Payload:
 </rd/1234>;base="coap://[2001:db8:3::127]:61616";ep=node5;
     et="tag:example.com,2020:platform";ct=40;rt=core.rd-ep,
 </rd/4521>;base="coap://[2001:db8:3::129]:61616";ep=node7;
@@ -2270,6 +2279,7 @@ Req: GET coap://[2001:db8:4::ff]/rd-lookup/ep
   ?d=R2-4-015&et=core.rd-group&rt=light
 
 Res: 2.05 Content
+Payload:
 </rd/501>;ep=grp_R2-4-015;et=core.rd-group;
           base="coap://[ff05::1]";rt=core.rd-ep
 ~~~~
@@ -2849,6 +2859,8 @@ The following example shows a client performing a lookup of all resources of all
 ~~~~
 Req: GET /rd-lookup/res?et=core.rd-group
 
+Res: 2.05 Content
+Payload:
 <coap://[ff35:30:2001:db8:f1::8000:1]/light>;
      rt="tag:example.com,2020:light";
      if="tag:example.net,2020:actuator",
@@ -2880,9 +2892,10 @@ resource-type "temperature".
 The client sends a link-local multicast:
 
 ~~~~
-GET coap://[ff02::fd]:5683/.well-known/core?rt=temperature
+Req: GET coap://[ff02::fd]:5683/.well-known/core?rt=temperature
 
-RES 2.05 Content
+Res: 2.05 Content
+Payload:
 </sensors/temp>;rt=temperature;ct=0
 ~~~~
 {: #example-weblink-wkc title="Example of direct resource discovery"}
@@ -2935,9 +2948,10 @@ Omitting the `rt=temperature` filter, the discovery query would
 have given some more records in the payload:
 
 ~~~~
-GET coap://[ff02::fd]:5683/.well-known/core
+Req: GET coap://[ff02::fd]:5683/.well-known/core
 
-RES 2.05 Content
+Res: 2.05 Content
+Payload:
 </sensors/temp>;rt=temperature;ct=0,
 </sensors/light>;rt=light-lux;ct=0,
 </t>;anchor="/sensors/temp";rel=alternate,
@@ -2968,9 +2982,11 @@ Registration to register at the RD that was announced to it,
 sending this request from its UDP port `[2001:db8:f0::1]:6553`:
 
 ~~~~
-POST coap://[2001:db8:f01::ff]/.well-known/rd?ep=simple-host1
+Req: POST coap://[2001:db8:f01::ff]/.well-known/rd?ep=simple-host1
+
+Res: 2.04 Changed
 ~~~~
-{: #example-weblink-simple title="Example request starting a simple registration"}
+{: #example-weblink-simple title="Example of a simple registration"}
 
 The RD would have accepted the registration, and queried the
 simple host's `/.well-known/core` by itself. As a result, the host is registered
@@ -2982,13 +2998,16 @@ If the client now queries the RD as it would previously have issued a multicast
 request, it would go through the RD discovery steps by fetching
 `coap://[2001:db8:f0::ff]/.well-known/core?rt=core.rd-lookup-res`, obtain
 `coap://[2001:db8:f0::ff]/rd-lookup/res` as the resource lookup endpoint, and
-issue a request to `coap://[2001:db8:f0::ff]/rd-lookup/res?rt=temperature` to
-receive the following data:
+ask it for all temperature resources:
 
 ~~~~
+Req: GET coap://[2001:db8:f0::ff]/rd-lookup/res?rt=temperature
+
+Res: 2.05 Content
+Payload:
 <coap://[2001:db8:f0::1]/sensors/temp>;rt=temperature;ct=0
 ~~~~
-{: #example-weblink-lookup-result title="Example payload of a response to a resource lookup"}
+{: #example-weblink-lookup-result title="Example exchange performing resource lookup"}
 
 This is not *literally* the same response that it would have received from a
 multicast request, but it contains the equivalent statement:
@@ -2998,10 +3017,13 @@ multicast request, but it contains the equivalent statement:
 can be accessed using the text/plain content format.'
 
 To complete the examples, the client could also query all resources hosted at
-the endpoint with the known endpoint name "simple-host1". A request to
-`coap://[2001:db8:f0::ff]/rd-lookup/res?ep=simple-host1` would return
+the endpoint with the known endpoint name "simple-host1":
 
 ~~~~
+Req: GET coap://[2001:db8:f0::ff]/rd-lookup/res?ep=simple-host1
+
+Res: 2.05 Content
+Payload:
 <coap://[2001:db8:f0::1]/sensors/temp>;rt=temperature;ct=0,
 <coap://[2001:db8:f0::1]/sensors/light>;rt=light-lux;ct=0,
 <coap://[2001:db8:f0::1]/t>;
@@ -3009,7 +3031,7 @@ the endpoint with the known endpoint name "simple-host1". A request to
 <http://www.example.com/sensors/t123>;
     anchor="coap://[2001:db8:f0::1]/sensors/temp";rel=describedby
 ~~~~
-{: #example-weblink-lookup-result-extended title="Extended example payload of a response to a resource lookup"}
+{: #example-weblink-lookup-result-extended title="Extended example exchange performing resource lookup "}
 
 All the target and anchor references are already in absolute form there, which
 don't need to be resolved any further.
