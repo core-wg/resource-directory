@@ -2879,10 +2879,12 @@ resource-type "temperature".
 
 The client sends a link-local multicast:
 
-    GET coap://[ff02::fd]:5683/.well-known/core?rt=temperature
+~~~~
+GET coap://[ff02::fd]:5683/.well-known/core?rt=temperature
 
-    RES 2.05 Content
-    </sensors/temp>;rt=temperature;ct=0
+RES 2.05 Content
+</sensors/temp>;rt=temperature;ct=0
+~~~~
 {: #example-weblink-wkc title="Example of direct resource discovery"}
 
 where the response is sent by the server, `[2001:db8:f0::1]:5683`.
@@ -2932,14 +2934,16 @@ can be accessed using the text/plain content format.'
 Omitting the `rt=temperature` filter, the discovery query would
 have given some more records in the payload:
 
-    GET coap://[ff02::fd]:5683/.well-known/core
+~~~~
+GET coap://[ff02::fd]:5683/.well-known/core
 
-    RES 2.05 Content
-    </sensors/temp>;rt=temperature;ct=0,
-    </sensors/light>;rt=light-lux;ct=0,
-    </t>;anchor="/sensors/temp";rel=alternate,
-    <http://www.example.com/sensors/t123>;anchor="/sensors/temp";
-        rel=describedby
+RES 2.05 Content
+</sensors/temp>;rt=temperature;ct=0,
+</sensors/light>;rt=light-lux;ct=0,
+</t>;anchor="/sensors/temp";rel=alternate,
+<http://www.example.com/sensors/t123>;anchor="/sensors/temp";
+    rel=describedby
+~~~~
 {: #example-weblink-wkc-extended title="Extended example of direct resource discovery"}
 
 Parsing the third record, the client encounters the "anchor" parameter. It is
@@ -2963,7 +2967,9 @@ For the following queries, we will assume that the simple host has used Simple
 Registration to register at the RD that was announced to it,
 sending this request from its UDP port `[2001:db8:f0::1]:6553`:
 
-    POST coap://[2001:db8:f01::ff]/.well-known/rd?ep=simple-host1
+~~~~
+POST coap://[2001:db8:f01::ff]/.well-known/rd?ep=simple-host1
+~~~~
 {: #example-weblink-simple title="Example request starting a simple registration"}
 
 The RD would have accepted the registration, and queried the
@@ -2979,7 +2985,9 @@ request, it would go through the RD discovery steps by fetching
 issue a request to `coap://[2001:db8:f0::ff]/rd-lookup/res?rt=temperature` to
 receive the following data:
 
-    <coap://[2001:db8:f0::1]/sensors/temp>;rt=temperature;ct=0
+~~~~
+<coap://[2001:db8:f0::1]/sensors/temp>;rt=temperature;ct=0
+~~~~
 {: #example-weblink-lookup-result title="Example payload of a response to a resource lookup"}
 
 This is not *literally* the same response that it would have received from a
@@ -2993,12 +3001,14 @@ To complete the examples, the client could also query all resources hosted at
 the endpoint with the known endpoint name "simple-host1". A request to
 `coap://[2001:db8:f0::ff]/rd-lookup/res?ep=simple-host1` would return
 
-    <coap://[2001:db8:f0::1]/sensors/temp>;rt=temperature;ct=0,
-    <coap://[2001:db8:f0::1]/sensors/light>;rt=light-lux;ct=0,
-    <coap://[2001:db8:f0::1]/t>;
-        anchor="coap://[2001:db8:f0::1]/sensors/temp";rel=alternate,
-    <http://www.example.com/sensors/t123>;
-        anchor="coap://[2001:db8:f0::1]/sensors/temp";rel=describedby
+~~~~
+<coap://[2001:db8:f0::1]/sensors/temp>;rt=temperature;ct=0,
+<coap://[2001:db8:f0::1]/sensors/light>;rt=light-lux;ct=0,
+<coap://[2001:db8:f0::1]/t>;
+    anchor="coap://[2001:db8:f0::1]/sensors/temp";rel=alternate,
+<http://www.example.com/sensors/t123>;
+    anchor="coap://[2001:db8:f0::1]/sensors/temp";rel=describedby
+~~~~
 {: #example-weblink-lookup-result-extended title="Extended example payload of a response to a resource lookup"}
 
 All the target and anchor references are already in absolute form there, which
@@ -3008,7 +3018,9 @@ Had the simple host done an equivalent full registration with a base= parameter 
 `?ep=simple-host1&base=coap+tcp://simple-host1.example.com`), that context would
 have been used to resolve the relative anchor values instead, giving
 
-    <coap+tcp://simple-host1.example.com/sensors/temp>;rt=temperature;ct=0
+~~~~
+<coap+tcp://simple-host1.example.com/sensors/temp>;rt=temperature;ct=0
+~~~~
 {: #example-weblink-lookup-result-base title="Example payload of a response to a resource lookup with a dedicated base URI"}
 
 and analogous records.
