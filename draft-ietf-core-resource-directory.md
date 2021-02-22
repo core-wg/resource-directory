@@ -1143,7 +1143,8 @@ Success:
 : 2.05 "Content".
 
 
-When the RD is in a position to successfully execute this second interaction and other network participants that can reach it are not,
+When the RD uses any authorization credentials to access the endpoint's discovery resource,
+or when it is deployed in a location where third parties might reach it but not the endpoint,
 it SHOULD verify that the apparent registrant-ep intends to register with the given registration parameters
 before revealing the obtained discovery information to lookup clients.
 An easy way to do that is to verify the simple registration request's sender address using the Echo option as described in {{I-D.ietf-core-echo-request-tag}} Section 2.4.
@@ -2325,6 +2326,10 @@ changes from -26 to -27
 
   The Echo mechanism (previously suggested in various places but never exclusively) is the one prescribed way of getting this ordering,
   making the echo-request-tag reference normative.
+
+* Improved expression about when an RD needs to verify simple registration.
+
+  The simple wording missed the authorization part, and did not emphasize that this is a per-deployment property.
 
 * Inconsistencies and extraneous quotings removed from examples.
 
