@@ -1527,6 +1527,10 @@ Queries for resource link targets MUST be in URI form (i.e. not relative referen
 The `anchor` attribute is usable for resource lookups, and, if queried, MUST be in URI form as well.
 
 Additional query parameters "page" and "count" are used to obtain lookup results in specified increments using pagination, where count specifies how many links to return and page specifies which subset of links organized in sequential pages, each containing 'count' links, starting with link zero and page zero. Thus, specifying count of 10 and page of 0 will return the first 10 links in the result set (links 0-9). Count = 10 and page = 1 will return the next 'page' containing links 10-19, and so on.
+Unlike block-wise transfer of a compelte result set,
+these parameters ensure that each chunk of results can be interpreted on its own.
+This simplifies the processing,
+but can result in duplicate or missed items when coinciding with changes from the registration interface.
 
 Endpoints that are interested in a lookup result repeatedly or continuously can use
 mechanisms like ETag caching, resource observation ({{RFC7641}}),
@@ -2340,6 +2344,8 @@ changes from -26 to -27
 * Improved expression about when an RD needs to verify simple registration.
 
   The simple wording missed the authorization part, and did not emphasize that this is a per-deployment property.
+
+* Point out the non-atomic properties of paginated access.
 
 * Inconsistencies and extraneous quotings removed from examples.
 
