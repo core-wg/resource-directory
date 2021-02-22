@@ -1176,6 +1176,9 @@ After the initial registration, the registering endpoint retains the returned lo
 
 The Registration Resource may also be used cancel the registration using DELETE, and to perform further operations beyond the scope of this specification.
 
+Operations on the Registration Resource are sensitive to reordering;
+{{freshness}} describes how order is restored.
+
 The operations on the Registration Resource are described below.
 
 ### Registration Update {#update}
@@ -1378,6 +1381,91 @@ Additional operations on the registration can be specified in future documents, 
 * Use GET to read the currently stored set of links in a registration resource.
 
 Those operations are out of scope of this document, and will require media types suitable for modifying sets of links.
+
+### Request freshness {#freshness}
+
+Some security mechanisms usable with an RD allow out of order request processing,
+or do not even mandate replay protection at all.
+The RD needs to ensure that operations on the registration resource
+are executed in an order that does not distort the client's intentions.
+
+This ordering of operations is expressed in terms of freshness as defined in {{I-D.ietf-core-echo-request-tag}}.
+Requests that alter a resource's state need to be fresh relative to the latest request
+that altered that state in a conflicting way.
+
+An RD SHOULD determine a request's freshness,
+and MUST use the Echo option if it requires request freshness and can not determine the it in any other way.
+An endpoint MUST support the use of the Echo option.
+(One reason why an RD would not require freshness is when no relevant registration properties are covered by is security policies.)
+
+#### Efficient use of Echo by an RD
+
+To keep latency and traffic added by the freshness requirements to a minimum,
+RDs should avoid naïve (sufficient but inefficient) freshness criteria.
+
+Some simple mechanisms the RD can employ are:
+
+* State counter.
+  The RD can keep a monotonous counter that increments whenever a registration changes.
+  For every registration resource, it stores the post-increment value of that resource's last change.
+  Requests altering them need to have at least that value encoded in their Echo option,
+  and are otherwise rejected with a 4.01 Unauthorized and the current counter value as the Echo value.
+  If other applications on the same server use Echo as well,
+  that encoding may include a prefix indicating that it pertains to the RD's counter.
+
+  The value associated with a resource needs to be kept across the removal of registrations
+  if the same registration resource is to be reused.
+
+  The counter can be reset (and the values of removed resources forgotten)
+  when all previous security associations are reset.
+  <!-- It can *also* be reset more frequently in an epoch based scheme, but that description is too large to fit in the margin. -->
+
+  This is the "Persistent Counter" method of {{I-D.ietf-core-echo-request-tag}} Appendix A.
+
+* Preemptive Echo values.
+  The current state counter can be sent in an Echo option not only when requests are rejected with 4.01 Unauthorized,
+  but also with successful responses.
+  Thus, clients can be provided with Echo values sufficient for their next request on a regular basis.
+
+  While endpoints may discard received Echo values at leisure between requests,
+  they are encouraged to retain these values for the next request to avoid additional round trips.
+
+* If the RD can ensure that only one security association has modifying access to any registration at any given time,
+  and that security association provides order on the requests,
+  that order is sufficient to show request freshness.
+
+#### Examples of Echo usage
+
+{{example-freshness}} shows the interactions of an endpoint
+that has forgotten the server's latest Echo value
+and temporarily reduces its registration lifetime:
+
+~~~~
+Req: POST /rd/4521?lt=7200
+
+Res: 4.01 Unauthorized
+Echo: 0x0123
+
+(EP tries again immediately)
+
+Req: POST /rd/4521?lt=7200
+Echo: 0x0123
+
+Res: 2.04 Changed
+Echo: 0x0124
+
+(Later the EP regains its confidence in its long-term reachability)
+
+Req: POST /rd/4521?lt=90000
+Echo: 0x0124
+
+Res: 2.04 Changed
+Echo: 0x0247
+~~~~
+{: #example-freshness title="Example update of a registration" }
+
+The other examples do not show Echo options for simplicity,
+and because they lack the context for any example values to have meaning.
 
 # RD Lookup {#lookup}
 
@@ -1848,7 +1936,29 @@ recommends using the Echo option to verify the request's source address.
 
 \]
 
+## Skipping freshness checks
 
+When RD based applications are built in which request freshness checks are not performed,
+these concerns need to be balanced:
+
+* When alterations to registration attributes are reordered,
+  an attacker may create any combination of attributes ever set,
+  with the attack difficulty determined by the security layer's replay properties.
+
+  For example, if {{example-freshness}} were conducted without freshness assurances,
+  an attacker could later reset the lifetime back to 7200.
+  <!-- That is, with DTLS without replay protection, or DTLS when causing a retransmission and swallowing one message,
+  or with OSCORE when swallowing all of an update's retransmission but the ep later tries again. -->
+  Thus, the device is made unreachable to lookup clients.
+
+* When registration updates without query parameters
+  (which just serve to restart the lifetime)
+  can be reordered,
+  an attacker can use intercepted messages to give the appearance of the device being alive to the RD.
+
+  This is unacceptable when when the RD's security policy promises reachability of endpoints
+  (e.g. when disappearing devices would trigger further investigation),
+  but may be acceptable with other policies.
 
 # IANA Considerations
 
