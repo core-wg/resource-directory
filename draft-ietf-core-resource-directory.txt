@@ -2133,7 +2133,11 @@ Internet-Draft           CoRE Resource Directory           February 2021
    starting with link zero and page zero.  Thus, specifying count of 10
    and page of 0 will return the first 10 links in the result set (links
    0-9).  Count = 10 and page = 1 will return the next 'page' containing
-   links 10-19, and so on.
+   links 10-19, and so on.  Unlike block-wise transfer of a compelte
+   result set, these parameters ensure that each chunk of results can be
+   interpreted on its own.  This simplifies the processing, but can
+   result in duplicate or missed items when coinciding with changes from
+   the registration interface.
 
    Endpoints that are interested in a lookup result repeatedly or
    continuously can use mechanisms like ETag caching, resource
@@ -2174,10 +2178,6 @@ Internet-Draft           CoRE Resource Directory           February 2021
          index (page * count).  Page numbering starts with zero.
 
                             count :=  Count (optional).  Number of
-
-
-
-
 
 
 
@@ -3428,6 +3428,8 @@ Internet-Draft           CoRE Resource Directory           February 2021
       The simple wording missed the authorization part, and did not
       emphasize that this is a per-deployment property.
 
+   *  Point out the non-atomic properties of paginated access.
+
    *  Inconsistencies and extraneous quotings removed from examples.
 
    changes from -25 to -26
@@ -3464,8 +3466,6 @@ Internet-Draft           CoRE Resource Directory           February 2021
 
       -  Generalize to all current options for security layers usable
          with CoAP (OSCORE was missing as the text predated RFC8613)
-
-
 
 
 
