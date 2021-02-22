@@ -3385,6 +3385,12 @@ Internet-Draft           CoRE Resource Directory           February 2021
 
    changes from -26 to -27
 
+   *  In general, this addresses the points that were pointed out in
+      https://mailarchive.ietf.org/arch/msg/core/xWLomwwhovkU-
+      CPGNxnvs40BhaM/ as having "evolved from the review comments being
+      discussed in the interim meetings", and the review comments from
+      Esko Dijk that were largely entangled in these points.
+
    *  Relaxation of the serialization rules for link-format
 
       The interpretation of RFC6690 used in Appendix B.4 was shown to be
@@ -3405,18 +3411,18 @@ Internet-Draft           CoRE Resource Directory           February 2021
       later be extended compatibly to allow these cases and drop the
       requirement of Limited Link Format.
 
-   *  Add Request freshness subsection
-
-      It is now recommended (with security considerations on
-      consequences of not doing it) to require ordering of RD
-      operations.
-
 
 
 Amsüss, et al.           Expires 26 August 2021                [Page 61]
 
 Internet-Draft           CoRE Resource Directory           February 2021
 
+
+   *  Add Request freshness subsection
+
+      It is now recommended (with security considerations on
+      consequences of not doing it) to require ordering of RD
+      operations.
 
       The Echo mechanism (previously suggested in various places but
       never exclusively) is the one prescribed way of getting this
@@ -3460,12 +3466,6 @@ Internet-Draft           CoRE Resource Directory           February 2021
          any client may need to verify by checking the RD's
          authorization.
 
-      -  Clarify how information from an untrusted RD can be verified
-
-      -  Remove speculation about how in detail ACE scopes are obtained.
-
-   *  Security considerations:
-
 
 
 
@@ -3473,6 +3473,12 @@ Amsüss, et al.           Expires 26 August 2021                [Page 62]
 
 Internet-Draft           CoRE Resource Directory           February 2021
 
+
+      -  Clarify how information from an untrusted RD can be verified
+
+      -  Remove speculation about how in detail ACE scopes are obtained.
+
+   *  Security considerations:
 
       -  Generalize to all current options for security layers usable
          with CoAP (OSCORE was missing as the text predated RFC8613)
@@ -3517,18 +3523,15 @@ Internet-Draft           CoRE Resource Directory           February 2021
 
    *  Registration:
 
-      -  Wording around "mostly mandatory" has been improved, conflicts
-         clarified and sector default selection adjusted.
-
-
-
-
 
 
 Amsüss, et al.           Expires 26 August 2021                [Page 63]
 
 Internet-Draft           CoRE Resource Directory           February 2021
 
+
+      -  Wording around "mostly mandatory" has been improved, conflicts
+         clarified and sector default selection adjusted.
 
    *  Simple registration: Rather than coopting POSTs to /.well-known/
       core, a new resource /.well-known/rd is registered.  A historical
@@ -3574,9 +3577,6 @@ Internet-Draft           CoRE Resource Directory           February 2021
    *  Interaction tables: list CTs as possible initiators where
       applicable
 
-   *  Registration update: Relax requirement to not send parameters
-      needlessly
-
 
 
 
@@ -3585,6 +3585,9 @@ Amsüss, et al.           Expires 26 August 2021                [Page 64]
 
 Internet-Draft           CoRE Resource Directory           February 2021
 
+
+   *  Registration update: Relax requirement to not send parameters
+      needlessly
 
    *  Terminology: Clarify that the CTs' installation events can occur
       multiple times.
@@ -3632,15 +3635,15 @@ Internet-Draft           CoRE Resource Directory           February 2021
       -  Don't announce expected number of registrations (goes to write-
          up)
 
-      -  Include syntax as part of a field's validity in entry
-         requirements
-
 
 
 Amsüss, et al.           Expires 26 August 2021                [Page 65]
 
 Internet-Draft           CoRE Resource Directory           February 2021
 
+
+      -  Include syntax as part of a field's validity in entry
+         requirements
 
    *  Editorial changes
 
@@ -3686,10 +3689,7 @@ Internet-Draft           CoRE Resource Directory           February 2021
 
    changes from -21 to -22
 
-   *  Request a dedicated IPv4 address from IANA (rather than sharing
-      with All CoAP nodes)
 
-   *  Fix erroneous examples
 
 
 
@@ -3697,6 +3697,11 @@ Amsüss, et al.           Expires 26 August 2021                [Page 66]
 
 Internet-Draft           CoRE Resource Directory           February 2021
 
+
+   *  Request a dedicated IPv4 address from IANA (rather than sharing
+      with All CoAP nodes)
+
+   *  Fix erroneous examples
 
    *  Editorial changes
 
@@ -3741,11 +3746,6 @@ Internet-Draft           CoRE Resource Directory           February 2021
 
    *  Assorted editorial changes
 
-      -  Unify examples style
-
-      -  Terminology: RDAO defined and not only expanded
-
-      -  Add CT to Figure 1
 
 
 
@@ -3753,6 +3753,12 @@ Amsüss, et al.           Expires 26 August 2021                [Page 67]
 
 Internet-Draft           CoRE Resource Directory           February 2021
 
+
+      -  Unify examples style
+
+      -  Terminology: RDAO defined and not only expanded
+
+      -  Add CT to Figure 1
 
       -  Consistency in the use of the term "Content Format"
 
@@ -3795,12 +3801,6 @@ Internet-Draft           CoRE Resource Directory           February 2021
    *  Abstract and introduction reworded to avoid the impression that
       resources are stored in full in the RD
 
-   *  Simplify the rules governing when a registration resource can or
-      must be changed.
-
-   *  Drop a figure that has become useless due to the changes of and
-      -13 and -17
-
 
 
 
@@ -3809,6 +3809,12 @@ Amsüss, et al.           Expires 26 August 2021                [Page 68]
 
 Internet-Draft           CoRE Resource Directory           February 2021
 
+
+   *  Simplify the rules governing when a registration resource can or
+      must be changed.
+
+   *  Drop a figure that has become useless due to the changes of and
+      -13 and -17
 
    *  Wording consistency fixes: Use "Registrations" and "target
       attributes"
@@ -3853,18 +3859,17 @@ Internet-Draft           CoRE Resource Directory           February 2021
 
    changes from -14 to -15
 
-   *  Rewrite of section "Security policies"
-
-   *  Clarify that the "base" parameter text applies both to relative
-      references both in anchor and href
-
-
 
 
 Amsüss, et al.           Expires 26 August 2021                [Page 69]
 
 Internet-Draft           CoRE Resource Directory           February 2021
 
+
+   *  Rewrite of section "Security policies"
+
+   *  Clarify that the "base" parameter text applies both to relative
+      references both in anchor and href
 
    *  Renamed "Registree-EP" to Registrant-EP"
 
@@ -3910,17 +3915,16 @@ Internet-Draft           CoRE Resource Directory           February 2021
    *  Registration resource locations can not have query or fragment
       parts
 
-   *  Default life time extended to 25 hours
-
-   *  clarified registration update rules
-
-
 
 
 Amsüss, et al.           Expires 26 August 2021                [Page 70]
 
 Internet-Draft           CoRE Resource Directory           February 2021
 
+
+   *  Default life time extended to 25 hours
+
+   *  clarified registration update rules
 
    *  lt-value semantics for lookup clarified.
 
@@ -3966,10 +3970,6 @@ Internet-Draft           CoRE Resource Directory           February 2021
    *  clarified where relative references are resolved, and how context
       and anchor interact
 
-   *  new appendix on the interaction with RFCs 6690, 5988 and 3986
-
-   *  lookup interface: group and endpoint lookup return group and
-      registration resources as link targets
 
 
 
@@ -3977,6 +3977,11 @@ Amsüss, et al.           Expires 26 August 2021                [Page 71]
 
 Internet-Draft           CoRE Resource Directory           February 2021
 
+
+   *  new appendix on the interaction with RFCs 6690, 5988 and 3986
+
+   *  lookup interface: group and endpoint lookup return group and
+      registration resources as link targets
 
    *  lookup interface: search parameters work the same across all
       entities
@@ -4020,11 +4025,6 @@ Internet-Draft           CoRE Resource Directory           February 2021
 
    changes from -07 to -08
 
-   *  removed link target value returned from domain and group lookup
-      types
-
-   *  Maximum length of domain parameter 63 bytes for consistency with
-      group
 
 
 
@@ -4033,6 +4033,12 @@ Amsüss, et al.           Expires 26 August 2021                [Page 72]
 
 Internet-Draft           CoRE Resource Directory           February 2021
 
+
+   *  removed link target value returned from domain and group lookup
+      types
+
+   *  Maximum length of domain parameter 63 bytes for consistency with
+      group
 
    *  removed option for simple POST of link data, don't require a
       .well-known/core resource to accept POST data and handle it in a
@@ -4077,18 +4083,18 @@ Internet-Draft           CoRE Resource Directory           February 2021
 
    Changes from -03 to -04:
 
-   *  Added http response codes
-
-   *  Clarified endpoint name usage
-
-   *  Add application/link-format+cbor content-format
-
 
 
 Amsüss, et al.           Expires 26 August 2021                [Page 73]
 
 Internet-Draft           CoRE Resource Directory           February 2021
 
+
+   *  Added http response codes
+
+   *  Clarified endpoint name usage
+
+   *  Add application/link-format+cbor content-format
 
    Changes from -02 to -03:
 
@@ -4132,12 +4138,6 @@ Internet-Draft           CoRE Resource Directory           February 2021
 
    *  Added support for the JSON Link Format.
 
-   *  Added reference to the Groupcomm WG draft.
-
-   Changes from -05 to WG Document -00:
-
-   *  Updated the version and date.
-
 
 
 
@@ -4145,6 +4145,12 @@ Amsüss, et al.           Expires 26 August 2021                [Page 74]
 
 Internet-Draft           CoRE Resource Directory           February 2021
 
+
+   *  Added reference to the Groupcomm WG draft.
+
+   Changes from -05 to WG Document -00:
+
+   *  Updated the version and date.
 
    Changes from -04 to -05:
 
@@ -4189,18 +4195,18 @@ Internet-Draft           CoRE Resource Directory           February 2021
 
    *  Added a terminology section.
 
-   *  Changed the inclusion of an ETag in registration or update to a
-      MAY.
-
-   *  Added the concept of an RD Domain and a registration parameter for
-      it.
-
 
 
 Amsüss, et al.           Expires 26 August 2021                [Page 75]
 
 Internet-Draft           CoRE Resource Directory           February 2021
 
+
+   *  Changed the inclusion of an ETag in registration or update to a
+      MAY.
+
+   *  Added the concept of an RD Domain and a registration parameter for
+      it.
 
    *  Recommended the Location returned from a registration to be
       stable, allowing for endpoint and Domain information to be changed
@@ -4243,12 +4249,6 @@ Internet-Draft           CoRE Resource Directory           February 2021
               Discovery", RFC 6763, DOI 10.17487/RFC6763, February 2013,
               <https://www.rfc-editor.org/info/rfc6763>.
 
-   [RFC7230]  Fielding, R., Ed. and J. Reschke, Ed., "Hypertext Transfer
-              Protocol (HTTP/1.1): Message Syntax and Routing",
-              RFC 7230, DOI 10.17487/RFC7230, June 2014,
-              <https://www.rfc-editor.org/info/rfc7230>.
-
-
 
 
 
@@ -4257,6 +4257,11 @@ Amsüss, et al.           Expires 26 August 2021                [Page 76]
 
 Internet-Draft           CoRE Resource Directory           February 2021
 
+
+   [RFC7230]  Fielding, R., Ed. and J. Reschke, Ed., "Hypertext Transfer
+              Protocol (HTTP/1.1): Message Syntax and Routing",
+              RFC 7230, DOI 10.17487/RFC7230, June 2014,
+              <https://www.rfc-editor.org/info/rfc7230>.
 
    [RFC7252]  Shelby, Z., Hartke, K., and C. Bormann, "The Constrained
               Application Protocol (CoAP)", RFC 7252,
@@ -4301,11 +4306,6 @@ Internet-Draft           CoRE Resource Directory           February 2021
               Seitz, L., Selander, G., Wahlstroem, E., Erdtman, S., and
               H. Tschofenig, "Authentication and Authorization for
               Constrained Environments (ACE) using the OAuth 2.0
-              Framework (ACE-OAuth)", Work in Progress, Internet-Draft,
-              draft-ietf-ace-oauth-authz-37, 4 February 2021,
-              <https://www.ietf.org/archive/id/draft-ietf-ace-oauth-
-              authz-37.txt>.
-
 
 
 
@@ -4313,6 +4313,11 @@ Amsüss, et al.           Expires 26 August 2021                [Page 77]
 
 Internet-Draft           CoRE Resource Directory           February 2021
 
+
+              Framework (ACE-OAuth)", Work in Progress, Internet-Draft,
+              draft-ietf-ace-oauth-authz-37, 4 February 2021,
+              <https://www.ietf.org/archive/id/draft-ietf-ace-oauth-
+              authz-37.txt>.
 
    [I-D.ietf-core-links-json]
               LI, K., Rahman, A., and C. Bormann, "Representing
@@ -4357,11 +4362,6 @@ Internet-Draft           CoRE Resource Directory           February 2021
               DOI 10.17487/RFC4122, July 2005,
               <https://www.rfc-editor.org/info/rfc4122>.
 
-   [RFC4944]  Montenegro, G., Kushalnagar, N., Hui, J., and D. Culler,
-              "Transmission of IPv6 Packets over IEEE 802.15.4
-              Networks", RFC 4944, DOI 10.17487/RFC4944, September 2007,
-              <https://www.rfc-editor.org/info/rfc4944>.
-
 
 
 
@@ -4369,6 +4369,11 @@ Amsüss, et al.           Expires 26 August 2021                [Page 78]
 
 Internet-Draft           CoRE Resource Directory           February 2021
 
+
+   [RFC4944]  Montenegro, G., Kushalnagar, N., Hui, J., and D. Culler,
+              "Transmission of IPv6 Packets over IEEE 802.15.4
+              Networks", RFC 4944, DOI 10.17487/RFC4944, September 2007,
+              <https://www.rfc-editor.org/info/rfc4944>.
 
    [RFC5771]  Cotton, M., Vegoda, L., and D. Meyer, "IANA Guidelines for
               IPv4 Multicast Address Assignments", BCP 51, RFC 5771,
@@ -4411,11 +4416,6 @@ Internet-Draft           CoRE Resource Directory           February 2021
               (CoAP)", RFC 8132, DOI 10.17487/RFC8132, April 2017,
               <https://www.rfc-editor.org/info/rfc8132>.
 
-   [RFC8141]  Saint-Andre, P. and J. Klensin, "Uniform Resource Names
-              (URNs)", RFC 8141, DOI 10.17487/RFC8141, April 2017,
-              <https://www.rfc-editor.org/info/rfc8141>.
-
-
 
 
 
@@ -4425,6 +4425,10 @@ Amsüss, et al.           Expires 26 August 2021                [Page 79]
 
 Internet-Draft           CoRE Resource Directory           February 2021
 
+
+   [RFC8141]  Saint-Andre, P. and J. Klensin, "Uniform Resource Names
+              (URNs)", RFC 8141, DOI 10.17487/RFC8141, April 2017,
+              <https://www.rfc-editor.org/info/rfc8141>.
 
    [RFC8613]  Selander, G., Mattsson, J., Palombini, F., and L. Seitz,
               "Object Security for Constrained RESTful Environments
@@ -4468,10 +4472,6 @@ Appendix A.  Groups Registration and Lookup
    Location-Path: /rd/12
 
                  Figure 27: Example registration of a group
-
-
-
-
 
 
 
