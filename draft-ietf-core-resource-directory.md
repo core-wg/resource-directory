@@ -2320,6 +2320,12 @@ originally developed.
 
 changes from -26 to -27
 
+* In general, this addresses the points that were pointed out in
+  https://mailarchive.ietf.org/arch/msg/core/xWLomwwhovkU-CPGNxnvs40BhaM/ as
+  having "evolved from the review comments being discussed in the interim
+  meetings", and the review comments from Esko Dijk that were largely entangled
+  in these points.
+
 * Relaxation of the serialization rules for link-format
 
   The interpretation of RFC6690 used in {{resolution-rules}} was shown to be faulty.
