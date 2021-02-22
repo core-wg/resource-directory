@@ -2319,6 +2319,15 @@ changes from -26 to -27
   but there is insufficient implementation and deployment experience with them to warrant a change changes on that front at this point.
   The specification can later be extended compatibly to allow these cases and drop the requirement of Limited Link Format.
 
+* Add Request freshness subsection
+
+  It is now recommended (with security considerations on consequences of not doing it) to require ordering of RD operations.
+
+  The Echo mechanism (previously suggested in various places but never exclusively) is the one prescribed way of getting this ordering,
+  making the echo-request-tag reference normative.
+
+* Inconsistencies and extraneous quotings removed from examples.
+
 changes from -25 to -26
 
 * Security policies:
