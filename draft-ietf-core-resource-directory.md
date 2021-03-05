@@ -1800,6 +1800,9 @@ or when lookups to that interface are subject so stricter firewalling than looku
 the RD may need to limit which lookup clients may access the information.
 
 In this case, the endpoint (and not the lookup clients) needs to be careful to check the RD's authorization.
+The RD needs to check any lookup client's authorization
+before revealing information directly (in resource lookup)
+or indirectly (when using it to satisfy a resource lookup search criterion).
 
 ## Segmentation
 
@@ -2319,6 +2322,8 @@ originally developed.
 # Changelog
 
 changes from -27 to -28
+
+* Security policies / link confidentiality: Point out the RD's obligations that follow from such a policy.
 
 * Simple registration: clarify term "regular registration" by introducing it along with the reference to {{registration}}
 
