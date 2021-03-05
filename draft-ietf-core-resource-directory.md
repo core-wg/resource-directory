@@ -1058,7 +1058,7 @@ The links in that document are subject to the same limitations as the payload of
 request to the `/.well-known/rd` URI of the directory server of choice. The body of the POST request is empty, and triggers the resource
 directory server to perform GET requests at the requesting registrant-ep's /.well-known/core to obtain the link-format payload to register.
 
-  The registrant-ep includes the same registration parameters in the POST request as it would per {{registration}}. The registration base URI of the registration is taken from the registrant-ep's network address (as is default with regular registrations).
+  The registrant-ep includes the same registration parameters in the POST request as it would with a regular registration per {{registration}}. The registration base URI of the registration is taken from the registrant-ep's network address (as is default with regular registrations).
 
   Example request from registrant-EP to RD (unanswered until the next step):
 
@@ -2319,6 +2319,8 @@ originally developed.
 # Changelog
 
 changes from -27 to -28
+
+* Simple registration: clarify term "regular registration" by introducing it along with the reference to {{registration}}
 
 * Wording fixes in RD definition
 
