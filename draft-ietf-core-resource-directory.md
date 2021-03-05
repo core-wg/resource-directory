@@ -166,7 +166,7 @@ that resolving an empty URI reference gives the base URI without any fragment id
 
 Resource Directory (RD)
 :   A web entity that stores information about web resources and implements the
-REST interfaces defined in this specification for discovery, for the creation, the maintenance and the removal of registrations, and for lookup
+REST interfaces defined in this specification for discovery, for the creation, maintenance and removal of registrations, and for lookup
 of the registered resources.
 
 Sector
@@ -2317,6 +2317,10 @@ originally developed.
 
 
 # Changelog
+
+changes from -27 to -28
+
+* Wording fixes in RD definition
 
 changes from -26 to -27
 
