@@ -1830,7 +1830,7 @@ It does, however, guarantee towards any endpoint that for the duration of its re
 
 When a registration or operation is attempted, the RD MUST determine the client's subject name or public key:
 
-* If the client's credentials indicate any subject name that is certified by any authority which the RD recognizes (which may be the system's trust anchor store), all those subject names are stored.
+* If the client's credentials indicate any subject name that is certified by any authority which the RD recognizes (which may be the system's trust anchor store), all such subject names are stored.
   With CWT or JWT based credentials (as common with ACE), the Subject (sub) claim is stored as a single name, if it exists.
   With X.509 certificates, the Common Name (CN) and the complete list of SubjectAltName entries are stored.
   In both cases, the authority that certified the claim is stored along with the subject, as the latter may only be locally unique.
@@ -2326,6 +2326,8 @@ changes from -27 to -28
 * Security policies / link confidentiality: Point out the RD's obligations that follow from such a policy.
 
 * Simple registration: clarify term "regular registration" by introducing it along with the reference to {{registration}}
+
+* Wording fix in first-come-first-remembered
 
 * Wording fixes in RD definition
 
