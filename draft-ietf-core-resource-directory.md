@@ -166,7 +166,7 @@ that resolving an empty URI reference gives the base URI without any fragment id
 
 Resource Directory (RD)
 :   A web entity that stores information about web resources and implements the
-REST interfaces defined in this specification for discovery, for the creation, the maintenance and the removal of registrations, and for lookup
+REST interfaces defined in this specification for discovery, for the creation, maintenance and removal of registrations, and for lookup
 of the registered resources.
 
 Sector
@@ -478,7 +478,7 @@ sleeping devices.
 Both can use the common RD infrastructure to establish device interactions efficiently,
 but can pick security policies suitable for their needs.
 
-Two phases can be discerned for a network servicing the system: (1) installation and (2) operation. During the operational phase, the network is connected to the Internet with a Border Router (e.g. a 6LoWPAN Border Router (6LBR), see {{RFC6775}) and the nodes connected to the network can use the Internet services that are provided by the Internet Provider or the network administrator. During the installation phase, the network is completely stand-alone, no Border Router is connected, and the network only supports the IP communication between the connected nodes. The installation phase is usually followed by the operational phase.
+Two phases can be discerned for a network servicing the system: (1) installation and (2) operation. During the operational phase, the network is connected to the Internet with a Border Router (e.g. a 6LoWPAN Border Router (6LBR), see {{RFC6775}}) and the nodes connected to the network can use the Internet services that are provided by the Internet Provider or the network administrator. During the installation phase, the network is completely stand-alone, no Border Router is connected, and the network only supports the IP communication between the connected nodes. The installation phase is usually followed by the operational phase.
 As an RD's operations work without hard dependencies on names or addresses,
 it can be used for discovery across both phases.
 
@@ -1058,7 +1058,7 @@ The links in that document are subject to the same limitations as the payload of
 request to the `/.well-known/rd` URI of the directory server of choice. The body of the POST request is empty, and triggers the resource
 directory server to perform GET requests at the requesting registrant-ep's /.well-known/core to obtain the link-format payload to register.
 
-  The registrant-ep includes the same registration parameters in the POST request as it would per {{registration}}. The registration base URI of the registration is taken from the registrant-ep's network address (as is default with regular registrations).
+  The registrant-ep includes the same registration parameters in the POST request as it would with a regular registration per {{registration}}. The registration base URI of the registration is taken from the registrant-ep's network address (as is default with regular registrations).
 
   Example request from registrant-EP to RD (unanswered until the next step):
 
@@ -1800,6 +1800,9 @@ or when lookups to that interface are subject so stricter firewalling than looku
 the RD may need to limit which lookup clients may access the information.
 
 In this case, the endpoint (and not the lookup clients) needs to be careful to check the RD's authorization.
+The RD needs to check any lookup client's authorization
+before revealing information directly (in resource lookup)
+or indirectly (when using it to satisfy a resource lookup search criterion).
 
 ## Segmentation
 
@@ -1827,7 +1830,7 @@ It does, however, guarantee towards any endpoint that for the duration of its re
 
 When a registration or operation is attempted, the RD MUST determine the client's subject name or public key:
 
-* If the client's credentials indicate any subject name that is certified by any authority which the RD recognizes (which may be the system's trust anchor store), all those subject names are stored.
+* If the client's credentials indicate any subject name that is certified by any authority which the RD recognizes (which may be the system's trust anchor store), all such subject names are stored.
   With CWT or JWT based credentials (as common with ACE), the Subject (sub) claim is stored as a single name, if it exists.
   With X.509 certificates, the Common Name (CN) and the complete list of SubjectAltName entries are stored.
   In both cases, the authority that certified the claim is stored along with the subject, as the latter may only be locally unique.
@@ -2317,6 +2320,16 @@ originally developed.
 
 
 # Changelog
+
+changes from -27 to -28
+
+* Security policies / link confidentiality: Point out the RD's obligations that follow from such a policy.
+
+* Simple registration: clarify term "regular registration" by introducing it along with the reference to {{registration}}
+
+* Wording fix in first-come-first-remembered
+
+* Wording fixes in RD definition
 
 changes from -26 to -27
 
@@ -3071,7 +3084,7 @@ care must be taken to follow the {{RFC6690}} behavior
 whenever application/link-format representations are used.
 
 * "Default value of anchor":
-  Both under {{RFC6690}} and {{RFC8288},
+  Both under {{RFC6690}} and {{RFC8288}},
   relative references in the term inside the angle brackets (the target)
   and the anchor attribute are resolved against the relevant base URI
   (which usually is the URI used to retrieve the entity),
