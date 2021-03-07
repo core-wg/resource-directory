@@ -173,7 +173,7 @@ Sector
 :   In the context of an RD, a sector is a
 logical grouping of endpoints.
 
-: The abbreviation "d=" is used for the sector in query parameters for
+    The abbreviation "d=" is used for the sector in query parameters for
 compatibility with deployed implementations.
 
 Endpoint
@@ -191,14 +191,14 @@ resolve relative references of the registration into URIs.
 Target
 :   The target of a link is the destination address (URI) of the link. It is sometimes identified with "href=", or displayed as `<target>`. Relative targets need resolving with respect to the Base URI (section 5.2 of {{RFC3986}}).
 
-:   This use of the term Target is consistent with {{RFC8288}}'s use of the term.
+    This use of the term Target is consistent with {{RFC8288}}'s use of the term.
 
 Context
 :   The context of a link is the source address (URI) of the link,
     and describes which resource is linked to the target.
     A link's context is made explicit in serialized links as the "anchor=" attribute.
 
-:   This use of the term Context is consistent with {{RFC8288}}'s use of the term.
+    This use of the term Context is consistent with {{RFC8288}}'s use of the term.
 
 Directory Resource
 :  A resource in the RD containing registration resources.
