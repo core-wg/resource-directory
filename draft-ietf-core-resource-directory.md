@@ -1177,14 +1177,14 @@ An endpoint should not use this interface for registrations that it did not crea
 This is usually enforced by security policies,
 which in general require equivalent credentials for creation of and operations on a registration.
 
-After the initial registration, the registering endpoint retains the returned location of the Registration Resource for further operations, including refreshing the registration in order to extend the lifetime and "keep-alive" the registration. When the lifetime of the registration has expired, the RD SHOULD NOT respond to discovery queries concerning this endpoint. The RD SHOULD continue to provide access to the Registration Resource after a registration time-out occurs in order to enable the registering endpoint to eventually refresh the registration. The RD MAY eventually remove the registration resource for the purpose of garbage collection. If the Registration Resource is removed, the corresponding endpoint will need to be re-registered.
+After the initial registration, the registering endpoint retains the returned location of the registration resource for further operations, including refreshing the registration in order to extend the lifetime and "keep-alive" the registration. When the lifetime of the registration has expired, the RD SHOULD NOT respond to discovery queries concerning this endpoint. The RD SHOULD continue to provide access to the registration resource after a registration time-out occurs in order to enable the registering endpoint to eventually refresh the registration. The RD MAY eventually remove the registration resource for the purpose of garbage collection. If the registration resource is removed, the corresponding endpoint will need to be re-registered.
 
-The Registration Resource may also be used cancel the registration using DELETE, and to perform further operations beyond the scope of this specification.
+The registration resource may also be used cancel the registration using DELETE, and to perform further operations beyond the scope of this specification.
 
-Operations on the Registration Resource are sensitive to reordering;
+Operations on the registration resource are sensitive to reordering;
 {{freshness}} describes how order is restored.
 
-The operations on the Registration Resource are described below.
+The operations on the registration resource are described below.
 
 ### Registration Update {#update}
 
@@ -1914,10 +1914,10 @@ An attacker would send a simple registration request with the victim's address a
 and later look up the victim's /.well-known/core content in the RD.
 Mitigation for this is recommended in {{simple}}.
 
-The Registration Resource path is visible to any client that is allowed endpoint lookup,
+The registration resource path is visible to any client that is allowed endpoint lookup,
 and can be extracted by resource lookup clients as well.
 The same goes for registration attributes that are shown as target attributes or lookup attributes.
-The RD needs to consider this in the choice of Registration Resource paths,
+The RD needs to consider this in the choice of registration resource paths,
 and administrators or endpoint in their choice of attributes.
 
 ## Access Control
@@ -2330,6 +2330,8 @@ changes from -27 to -28
 * Wording fix in first-come-first-remembered
 
 * Wording fixes in RD definition
+
+* Capitalization: Consistently using "registration resource"
 
 changes from -26 to -27
 
