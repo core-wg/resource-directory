@@ -2894,7 +2894,7 @@ Payload:
      rt="tag:example.com,2020:light";
      if="tag:example.net,2020:actuator",
 <coap://[ff35:30:2001:db8:f1::8000:1]/color-temperature>;
-     if="tag:example.net,2020:parameter";u=K,
+     if="tag:example.net,2020:parameter";u=K
 ~~~~
 {: #example-group-lookup-res title="Example lookup of resources inside groups"}
 
