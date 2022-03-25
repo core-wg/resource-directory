@@ -28,20 +28,18 @@ Directory</title>
       </address>
     </author>
     <author initials="Z." surname="Shelby" fullname="Zach Shelby">
-      <organization>ARM</organization>
+      <organization>Edge Impulse</organization>
       <address>
         <postal>
-          <street>150 Rose Orchard</street>
+          <street>3031 Tisch Way</street>
           <city>San Jose</city>
-          <code>95134</code>
+          <code>95128</code>
           <country>United States of America</country>
         </postal>
-        <phone>+1-408-203-9434</phone>
-        <email>zach.shelby@arm.com</email>
+        <email>zach@edgeimpulse.com</email>
       </address>
     </author>
-    <author initials="M." surname="Koster" fullname="Michael Koster"
-	    role="editor">
+    <author initials="M." surname="Koster" fullname="Michael Koster">
       <organization>PassiveLogic</organization>
       <address>
         <postal>
@@ -69,14 +67,12 @@ Directory</title>
       </address>
     </author>
     <author initials="P." surname="van der Stok" fullname="Peter van der Stok">
-      <organization abbrev="Consultant">Consultant</organization>
+      <organization>vanderstok consultancy</organization>
       <address>
-        <phone>+31-492474673 (Netherlands), +33-966015248 (France)</phone>
-        <email>consultancy@vanderstok.org</email>
-        <uri>www.vanderstok.org</uri>
+        <email>stokcons@bbhmail.nl</email>
       </address>
     </author>
-    <date year="2022" month="February"/>
+    <date year="2022" month="March"/>
     <area>Internet</area>
     <workgroup>CoRE</workgroup>
     <keyword>CoRE</keyword>
@@ -223,13 +219,13 @@ format is used <xref target="RFC6570" format="default"/>.</t>
       <section anchor="principles" numbered="true" toc="default">
         <name>Principles</name>
         <t>The RD is primarily a tool to make discovery operations more
-efficient than querying /.well-known/core on all connected devices or across
+efficient than querying <tt>/.well-known/core</tt> on all connected devices or across
 boundaries that would limit those operations.</t>
         <t>It provides information about resources hosted by other devices that could otherwise only be obtained by
-directly querying the /.well-known/core resource on these other devices, either by a unicast request or a multicast request.</t>
+directly querying the <tt>/.well-known/core</tt> resource on these other devices, either by a unicast request or a multicast request.</t>
         <t>Information <bcp14>SHOULD</bcp14> only be stored in the RD
 if it can be obtained by querying the described device's
-/.well-known/core resource directly.</t>
+<tt>/.well-known/core</tt> resource directly.</t>
         <t>Data in the RD can only be provided by the
 device that hosts the data or a dedicated Commissioning Tool (CT).
 These CTs act on behalf of endpoints too constrained, or generally
@@ -282,12 +278,12 @@ is that they constitute a fall-back path for a single registration.</t>
       </section>
       <section anchor="ER-model" numbered="true" toc="default">
         <name>RD Content Model</name>
-        <t>The Entity-Relationship (ER) models shown in Figures <xref target="fig-ER-WKC" format="counter"/> and <xref target="fig-ER-RD" format="counter"/> model the contents of /.well-known/core and the RD respectively, with entity-relationship diagrams <xref target="ER" format="default"/>. Entities (rectangles) are used for concepts that exist independently. Attributes (ovals) are used for concepts that exist only in connection with a related entity. Relations (diamonds) give a semantic meaning to the relation between entities. Numbers specify the cardinality of the relations.</t>
+        <t>The Entity-Relationship (ER) models shown in Figures <xref target="fig-ER-WKC" format="counter"/> and <xref target="fig-ER-RD" format="counter"/> model the contents of <tt>/.well-known/core</tt> and the RD respectively, with entity-relationship diagrams <xref target="ER" format="default"/>. Entities (rectangles) are used for concepts that exist independently. Attributes (ovals) are used for concepts that exist only in connection with a related entity. Relations (diamonds) give a semantic meaning to the relation between entities. Numbers specify the cardinality of the relations.</t>
         <t>Some of the attribute values are URIs. Those values are always full URIs and never relative references in the information model.
 However, they can be expressed as relative references in serializations, and they often are.</t>
         <t>These models provide an abstract view of the information expressed in link-format documents and an RD. They cover the concepts but not necessarily all details of an RD's operation; they are meant to give an overview and not be a template for implementations.</t>
         <figure anchor="fig-ER-WKC">
-          <name>ER Model of the Content of /.well-known/core</name>
+          <name>ER Model of the Content of <tt>/.well-known/core</tt></name>
           <artwork name="" type="ascii-art" align="left" alt=""><![CDATA[
            +----------------------+
            |   /.well-known/core  |
@@ -318,7 +314,7 @@ o  attribute o        | 0+   oooooo
 ]]></artwork>
         </figure>
         <t><xref target="fig-ER-WKC" format="default"/> models the contents of
-	/.well-known/core, which contains a set of links belonging to the hosting web server.</t>
+	<tt>/.well-known/core</tt>, which contains a set of links belonging to the hosting web server.</t>
 	<t>The web server is free to choose links it deems appropriate to be exposed in its <tt>/.well-known/core</tt>.
 Typically, the links describe resources that are served by the host, but the set can also contain links to resources on other servers (see examples in <xref target="RFC6690" sectionFormat="of" section="5"/>).
 The set does not necessarily contain links to all resources served by the host.</t>
@@ -388,10 +384,10 @@ o  base o-------|  registration |
 ]]></artwork>
         </figure>
         <t><xref target="fig-ER-RD" format="default"/> models the contents of
-	the RD, which contains, in addition to /.well-known/core, 0 to n registrations of
+	the RD, which contains, in addition to <tt>/.well-known/core</tt>, 0 to n registrations of
 	endpoints.</t>
         <t>A registration is associated with one endpoint. A registration defines a set of links,
-	as defined for /.well-known/core. A registration has six types of attributes:</t>
+	as defined for <tt>/.well-known/core</tt>. A registration has six types of attributes:</t>
         <ul spacing="normal">
           <li>an endpoint name ("ep", a Unicode string) unique within a sector</li>
           <li>a registration base URI ("base", a URI typically describing the scheme://authority part)</li>
@@ -560,7 +556,7 @@ RD (using the Authoritative Border Router Option (ABRO) to find that <xref targe
 Confirmation can be obtained by sending a unicast to
 <tt>coap://[6LBR]/.well-known/core?rt=core.rd*</tt>.</li>
 <li>In a network that supports multicast well, discover the RD using
-a multicast query for /.well-known/core, as specified in CoRE Link
+a multicast query for <tt>/.well-known/core</tt>, as specified in CoRE Link
 Format <xref target="RFC6690" format="default"/>, and send a Multicast GET to
 <tt>coap://[ff0x::fe]/.well-known/core?rt=core.rd*</tt>.  RDs within the
 multicast scope will answer the query.</li>
@@ -673,7 +669,7 @@ specified in <xref target="I-D.ietf-core-rd-dns-sd" format="default"/>.</t>
       <section anchor="payload-content-formats" numbered="true" toc="default">
         <name>Payload Content Formats</name>
         <t>RDs implementing this specification <bcp14>MUST</bcp14> support the
-application/link-format content format (ct=40).</t>
+<tt>application/link-format</tt> content format (ct=40).</t>
         <t>RDs implementing this specification <bcp14>MAY</bcp14> support additional content formats.</t>
         <t>Any additional content format supported by an RD implementing this
 specification <bcp14>SHOULD</bcp14> be able to express all the information expressible in link format.
@@ -709,7 +705,7 @@ and not limit the set of discovered URIs to those hosted at the address used for
         <t>With security policies where the client requires the RD to be authorized to act as an RD,
 that authorization may be limited to resources on which the authorized RD advertises the adequate resource types.
 Clients that have obtained links they cannot rely on yet
-can repeat the "URI discovery" step at the /.well-known/core resource of the indicated host
+can repeat the "URI discovery" step at the <tt>/.well-known/core resource</tt> of the indicated host
 to obtain the resource type information from an authorized source.</t>
         <t>The URI discovery operation can yield multiple URIs of a given resource type.
 The client of the RD can use any of the discovered addresses initially.</t>
@@ -722,7 +718,7 @@ The client of the RD can use any of the discovered addresses initially.</t>
   <dt>Method:</dt>
   <dd>GET</dd>
   <dt>URI Template:</dt>
-  <dd>/.well-known/core{?rt}</dd>
+  <dd><tt>/.well-known/core{?rt}</tt></dd>
     <dt>URI Template Variables:</dt>
     <dd>
       <t><br/></t>
@@ -734,7 +730,7 @@ The client of the RD can use any of the discovered addresses initially.</t>
       </dl>
     </dd>
   <dt>Accept:</dt>
-  <dd>absent, application/link-format, or any other media type representing web links</dd>
+  <dd>absent, <tt>application/link-format</tt>, or any other media type representing web links</dd>
 </dl>
 
 <t>The following response is expected on this interface:</t>
@@ -742,12 +738,12 @@ The client of the RD can use any of the discovered addresses initially.</t>
 <dl>
   <dt>Success:</dt>
   <dd>2.05 (Content) or 200 (OK) with an
-  application/link-format or other web link payload containing one or more matching entries for the RD resource.</dd>
+  <tt>application/link-format</tt> or other web link payload containing one or more matching entries for the RD resource.</dd>
 </dl>
 
 <t>The following example shows an endpoint discovering an RD using this interface,
 thus learning that the directory resource location in this example is /rd and that the
-content-format delivered by the server hosting the resource is application/link-format
+content-format delivered by the server hosting the resource is <tt>application/link-format</tt>
 	(ct=40).  Note that it is up to the RD to choose its RD locations.</t>
 
 
@@ -769,7 +765,7 @@ Payload:
 	include a space-separated sequence of Content-Format codes, as specified in <xref
 	target="RFC7252" section="7.2.1" sectionFormat="of"/>, indicating that multiple
 	content-formats are available. The example below shows the required Content-Format 40
-	(application/link-format) indicated, as well as Concise Binary Object Representation (CBOR)
+	(<tt>application/link-format</tt>) indicated, as well as Concise Binary Object Representation (CBOR)
 	and JSON representations in the style of <xref target="I-D.ietf-core-links-json" format="default"/>
 	(for which the experimental values 65060 and 65050 are used in this example). The RD resource locations /rd
 	and /rd-lookup are example values. The server in this example also indicates that
@@ -842,7 +838,7 @@ The RD server needs to resolve these references in order to faithfully represent
 They are resolved against the base URI of the registration,
 which is provided either explicitly in the <tt>base</tt> parameter or constructed implicitly from the requester's URI, as constructed from its network address and scheme.</t>
       <t>For media types to which <xref target="limitedlinkformat" format="default"/> applies
-(i.e., documents in application/link-format),
+(i.e., documents in <tt>application/link-format</tt>),
 request bodies <bcp14>MUST</bcp14> be expressed in Limited Link Format.</t>
       <t>The registration request interface is specified as follows:</t>
 
@@ -944,7 +940,7 @@ request bodies <bcp14>MUST</bcp14> be expressed in Limited Link Format.</t>
 	    </dl>
 	  </dd>
 	  <dt>Content-Format:</dt>
-          <dd>application/link-format or any other indicated media type representing web links</dd>
+          <dd><tt>application/link-format</tt> or any other indicated media type representing web links</dd>
 	</dl>
 	<t>The following response is expected on this interface:</t>
 	<dl>
@@ -1033,7 +1029,7 @@ The links in that document are subject to the same limitations as the payload of
 	    request to the <tt>/.well-known/rd</tt> URI of the directory server of choice. The
 	    body of the POST request is empty and triggers the resource
 	    directory server to perform GET requests at the requesting registrant-EP's
-	    /.well-known/core to obtain the link-format payload to register.  </t>
+	    <tt>/.well-known/core</tt> to obtain the link-format payload to register.  </t>
 	    <t>The registrant-EP includes the same registration parameters in the POST request as
 	    it would with a regular registration, per <xref target="registration"
 	    format="default"/>. The registration base URI of the registration is taken from the
@@ -1090,7 +1086,7 @@ Then, the RD can reply immediately, and the registrant can receive the response.
 	  <dt>Method:  </dt>
           <dd>POST</dd>
 	  <dt>URI Template:  </dt>
-             <dd>/.well-known/rd{?ep,d,lt,extra-attrs*}</dd>
+             <dd><tt>/.well-known/rd{?ep,d,lt,extra-attrs*}</tt></dd>
         </dl>
 	
         <t>URI Template Variables are the same as for registration in <xref target="registration" format="default"/>.
@@ -1114,7 +1110,7 @@ For some time during this document's development, the URI Template <tt>/.well-kn
           <dt>Method:</dt>
           <dd>GET</dd>
           <dt>URI Template:</dt>
-          <dd>/.well-known/core</dd>
+          <dd><tt>/.well-known/core</tt></dd>
         </dl>
         <t>The following response is expected on this interface:</t>
         <dl>
@@ -1560,7 +1556,7 @@ especially with respect to representing zero matching links
 	  </dd>
 
           <dt>Accept:</dt>
-          <dd>absent, application/link-format, or any other indicated media type representing web
+          <dd>absent, <tt>application/link-format</tt>, or any other indicated media type representing web
 	  links</dd>
         </dl>
 	
@@ -1775,7 +1771,7 @@ That is similar to what happens in <xref target="discovery" format="default"/> w
       </section>
       <section anchor="link-confidentiality" numbered="true" toc="default">
         <name>Link Confidentiality</name>
-        <t>When registrants publish information in the RD that is not available to any client that would query the registrant's /.well-known/core interface,
+        <t>When registrants publish information in the RD that is not available to any client that would query the registrant's <tt>/.well-known/core</tt> interface,
 or when lookups to that interface are subject to stricter firewalling than lookups to the RD,
 the RD may need to limit which lookup clients may access the information.</t>
         <t>In this case, the endpoint (and not the lookup clients) needs to be careful to check the RD's authorization.
@@ -1877,7 +1873,7 @@ independently of whether there are configured requirements on the credentials fo
 or whether arbitrary names are accepted (<xref target="arbitrary-ep" format="default"/>).</t>
         <t>Simple registration could be used to circumvent address-based access control.
 An attacker would send a simple registration request with the victim's address as the source address
-and later look up the victim's /.well-known/core content in the RD.
+and later look up the victim's <tt>/.well-known/core</tt> content in the RD.
 Mitigation for this is recommended in <xref target="simple" format="default"/>.</t>
         <t>The registration resource path is visible to any client that is allowed endpoint lookup
 and can be extracted by resource lookup clients as well.
@@ -2516,7 +2512,7 @@ of the multicast group.</t>
         <t>An LwM2M server is an instance of an LwM2M middleware service layer, containing an RD (<xref target="LwM2M" format="default"/>, page 36f).</t>
         <t>That RD only implements the registration interface, and no lookup is implemented.
 Instead, the LwM2M server provides access to the registered resources in a similar way to a reverse proxy.</t>
-        <t>The location of the LwM2M server and RD URI path is provided by the LwM2M bootstrap process, so no dynamic discovery of the RD is used. LwM2M servers and endpoints are not required to implement the /.well-known/core resource.</t>
+        <t>The location of the LwM2M server and RD URI path is provided by the LwM2M bootstrap process, so no dynamic discovery of the RD is used. LwM2M servers and endpoints are not required to implement the <tt>/.well-known/core</tt> resource.</t>
       </section>
     </section>
   </middle>
@@ -2796,7 +2792,7 @@ ahead and create a new request to <tt>[2001:db8:f0::1]:5683</tt> with Uri-Path
           <t>The client parses the single returned record. The link's target (sometimes
 called "href") is <tt>/sensors/temp</tt>, which is a relative URI that needs resolving.
 The base
-URI &lt;coap://[ff02::fd]:5683/.well-known/core&gt; is used to resolve the
+URI <tt>coap://[ff02::fd]:5683/.well-known/core</tt> is used to resolve the
 reference against /sensors/temp.</t>
           <t>The base URI of the requested resource can be composed from the options of the CoAP GET request by following the steps of
 <xref target="RFC7252" sectionFormat="comma" section="6.5"/> (with an addition at the end of Section <xref target="RFC7252" sectionFormat="bare" section="8.2"/>) into
@@ -2815,7 +2811,7 @@ text/plain (ct=0).</t>
 and the target resource, like "<em>This page</em> has <em>its table
 of contents</em> at <em>/toc.html</em>". In link-format documents,
 there is an implicit "host relation" specified with default parameter rel="hosts".</t>
-          <t>In our example, the context resource of the link is implied to be "coap:://[2001:db8:f0::1]"
+          <t>In our example, the context resource of the link is implied to be <tt>coap:://[2001:db8:f0::1]</tt>
 by the default value of the anchor (see <xref target="resolution-rules" format="default"/>).
 A full English expression of the "host relation" is:</t>
           <t indent="3"><tt>coap://[2001:db8:f0::1]</tt> is hosting the resource
@@ -2929,7 +2925,7 @@ model of typed links, there are some differences between <xref target="RFC6690" 
 <xref target="RFC8288" format="default"/>.
 When implementing an RD or interacting with an RD,
 care must be taken to follow the behavior described in <xref target="RFC6690" format="default"/>
-whenever application/link-format representations are used.</t>
+whenever <tt>application/link-format</tt> representations are used.</t>
         <ul spacing="normal">
           <li>
             <t>"Default value of anchor":
@@ -2981,7 +2977,7 @@ a subset of link format documents called the Limited Link Format.
 The one rule herein is not very limiting in practice --
 all examples in <xref target="RFC6690" format="default"/> and all deployments the authors are aware of already stick to them --
 but eases the implementation of RD servers.</t>
-      <t>It is applicable to representations in the application/link-format media type
+      <t>It is applicable to representations in the <tt>application/link-format</tt> media type
 and any other media types that inherit <xref target="RFC6690" section="2.1" sectionFormat="comma"/>. </t>
       <t>A link format representation is in the Limited Link Format if,
 for each link in it,
