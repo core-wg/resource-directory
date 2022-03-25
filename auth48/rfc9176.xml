@@ -50,17 +50,19 @@ Directory</title>
         <email>zach.shelby@arm.com</email>
       </address>
     </author>
-    <author initials="M." surname="Koster" fullname="Michael Koster">
-      <organization>SmartThings</organization>
+    <author initials="M." surname="Koster" fullname="Michael Koster"
+	    role="editor">
+      <organization>PassiveLogic</organization>
       <address>
         <postal>
-          <street>665 Clyde Avenue</street>
-          <city>Mountain View</city>
-          <code>94043</code>
+          <street>524 H Street</street>
+          <city>Antioch</city>
+	  <region>CA</region>
+          <code>94509</code>
           <country>United States of America</country>
         </postal>
         <phone>+1-707-502-5136</phone>
-        <email>Michael.Koster@smartthings.com</email>
+        <email>michaeljohnkoster@gmail.com</email>
       </address>
     </author>
     <author initials="C." surname="Bormann" fullname="Carsten Bormann">
@@ -146,29 +148,13 @@ describe the REST interfaces defined in this specification, the URI Template
 format is used <xref target="RFC6570" format="default"/>.</t>
       <t>This specification makes use of the following additional terminology:</t>
       <dl newline="true">
-
-<!-- [rfced] This sentence is difficult to follow. How may we recast for
-clarity?
-
-Original:
-      Noteworthy corner cases are that if the URI-reference is a (full)
-      URI and resolved against any base URI, that gives the original
-      full URI, and that resolving an empty URI reference gives the base
-      URI without any fragment identifier.
-
-Perhaps:
-      Noteworthy corner cases include the following: (1) if the URI-reference is a (full)
+	<dt>Resolve Against</dt>
+        <dd>The expression "a URI reference is <em>resolved against</em> a base URI" is used
+	to describe the process of <xref target="RFC3986" section="5.2" sectionFormat="comma"/>.
+	      Noteworthy corner cases include the following: (1) if the URI reference is a (full)
       URI, resolving against any base URI gives the original
       full URI and (2) resolving an empty URI reference gives the base
-      URI without any fragment identifier.
--->
-	<dt>Resolve Against</dt>
-        <dd>The expression "a URI-reference is <em>resolved against</em> a base URI" is used
-	to describe the process of <xref target="RFC3986" section="5.2" sectionFormat="comma"/>.
-	Noteworthy corner cases are
-	that, if the URI-reference is a (full) URI and resolved  against any base URI, that gives
-	the original full URI and that resolving an empty URI reference gives the base URI
-	without any fragment identifier.</dd>
+      URI without any fragment identifier.</dd>
         <dt>Resource Directory (RD)</dt>
         <dd>
           <t>A web entity that stores information about web resources and
@@ -230,10 +216,10 @@ Perhaps:
 	  by assigning values to parameters, naming endpoints and groups, or adapting
 	  the installation to the needs of the applications.</t>
         </dd>
-        <dt>Registrant-ep</dt>
+        <dt>Registrant-EP</dt>
         <dd>
-          <t>A registrant-ep is the endpoint that is registered into the RD. The registrant-ep can
-	  register itself, or a CT registers the registrant-ep.</t>
+          <t>A registrant-EP is the endpoint that is registered into the RD. The registrant-EP can
+	  register itself, or a CT registers the registrant-EP.</t>
         </dd>
         <dt>Resource Directory Address Option (RDAO)</dt>
         <dd>
@@ -297,7 +283,7 @@ provided using the CoRE Link Format.</t>
 +----+
 ]]></artwork>
         </figure>
-        <t>A registrant-ep <bcp14>MAY</bcp14> keep concurrent registrations to more than one RD at the same time
+        <t>A registrant-EP <bcp14>MAY</bcp14> keep concurrent registrations to more than one RD at the same time
 if explicitly configured to do so,
 but that is not expected to be supported by typical EP implementations.
 Any such registrations are independent of each other.
@@ -343,15 +329,6 @@ o  attribute o        | 0+   oooooo
         </figure>
         <t><xref target="fig-ER-WKC" format="default"/> models the contents of
 	/.well-known/core, which contains a set of links belonging to the hosting web server.</t>
-
-<!-- [rfced] FYI: We updated "page 14" to "Section 5" here.
-
-Original:
-   Typically, the links describe
-   resources that are served by the host, but the set can also contain
-   links to resources on other servers (see examples in [RFC6690] page
-   14).
--->
 	<t>The web server is free to choose links it deems appropriate to be exposed in its <tt>/.well-known/core</tt>.
 Typically, the links describe resources that are served by the host, but the set can also contain links to resources on other servers (see examples in <xref target="RFC6690" sectionFormat="of" section="5"/>).
 The set does not necessarily contain links to all resources served by the host.</t>
@@ -529,12 +506,6 @@ In all definitions in these sections, both CoAP response codes (with dot notatio
 the discovery, registration, update, lookup, and removal interfaces.</t>
       <t>All operations on the contents of the RD <bcp14>MUST</bcp14> be atomic and idempotent.</t>
 
-<!-- [rfced] Should "what" read "how" here? 
-
-Original:
-   they do not limit what a server may respond under atypical
-   circumstances.
--->
       <t>For several operations, interface templates are given in list form;
 those describe the operation participants, request codes, URIs, content formats, and outcomes.
 Sections of those templates contain normative content about
@@ -545,8 +516,8 @@ for options (like Content-Format) and for Failure codes
 give typical cases that an implementation of the RD should deal with.
 Those serve to illustrate the typical responses
 to readers who are not yet familiar with all the details of CoAP-based interfaces;
-they do not limit what a server may respond under atypical circumstances.</t>
-      <t>REST clients (registrant-eps and CTs during registration and maintenance, lookup clients, and RD servers during simple registrations)
+they do not limit how a server may respond under atypical circumstances.</t>
+      <t>REST clients (registrant-EPs and CTs during registration and maintenance, lookup clients, and RD servers during simple registrations)
 must be prepared to receive any unsuccessful code and act upon it
 according to its definition, options, and/or payload to the best of their capabilities,
 falling back to failing the operation if recovery is not possible.
@@ -598,24 +569,6 @@ suggests a number of candidates:</t>
 RD (using the Authoritative Border Router Option (ABRO) to find that <xref target="RFC6775" format="default"/>).
 Confirmation can be obtained by sending a unicast to
 <tt>coap://[6LBR]/.well-known/core?rt=core.rd*</tt>.</li>
-
-<!-- [rfced] We have revised this text as follows to make it a complete
-sentence. Please review to ensure that the updates accurately convey the
-intended meaning.
-
-Original:
-   2.  In a network that supports multicast well, discovering the RD
-       using a multicast query for /.well-known/core as specified in
-       CoRE Link Format [RFC6690]: Sending a Multicast GET to
-       "coap://[MCD1]/.well-known/core?rt=core.rd*".
-       
-Updated:
-   2.  In a network that supports multicast well, discover the RD using
-       a multicast query for /.well-known/core, as specified in CoRE
-       Link Format [RFC6690], and send a Multicast GET to
-       coap://[ff0x::fe]/.well-known/core?rt=core.rd*. 
--->
-
 <li>In a network that supports multicast well, discover the RD using
 a multicast query for /.well-known/core, as specified in CoRE Link
 Format <xref target="RFC6690" format="default"/>, and send a Multicast GET to
@@ -623,25 +576,10 @@ Format <xref target="RFC6690" format="default"/>, and send a Multicast GET to
 multicast scope will answer the query.</li>
         </ol>
 
-<!-- [rfced] How can we clarify "When [RFC6724] is used" here?
-
-Original:
-   When [RFC6724] is used for source address selection,
-   this can be achieved by applying the changes of its Section 10.4,
-   picking public addresses in its Section 5 Rule 7, and superseding
-   rule 8 with preferring the source address's precedence.
-   
-Perhaps:
-   When the mechanism described in [RFC6724] is used for source address selection,
-   this can be achieved by applying the changes of its Section 10.4,
-   picking public addresses in Rule 7 of its Section 5, and superseding
-   Rule 8 with preferring the source address's precedence.
--->
-
 	<t>When answering a multicast request directed at a link-local group,
   the RD may want to respond from a routable address;
   this makes it easier for registrants to use one of their own routable addresses for registration.
-When <xref target="RFC6724" format="default"/> is used for source address selection,
+When source addresses are selected using the mechanism described in <xref target="RFC6724" format="default"/>,
 this can be achieved by applying the changes of its Section <xref target="RFC6724" section="10.4" sectionFormat="bare"/>,
 picking public addresses in Rule 7 of its Section <xref target="RFC6724" section="5" sectionFormat="bare"/>,
 and superseding Rule 8 with preferring the source address's precedence.</t>
@@ -656,7 +594,7 @@ may indicate unwillingness of a CoAP server to act as a directory
 server.</t>
         <t>The following RD discovery mechanisms are recommended:</t>
         <ul spacing="normal">
-          <li>In managed networks with border routers that need stand-alone operation, the RDAO option is recommended (e.g., the operational phase described in <xref target="automation" format="default"/>).</li>
+          <li>In managed networks with border routers that need stand-alone operation, the RDAO is recommended (e.g., the operational phase described in <xref target="automation" format="default"/>).</li>
           <li>In managed networks without border routers (no Internet services available), the use of a preconfigured anycast address is recommended (e.g., the installation phase described in <xref target="automation" format="default"/>).</li>
           <li>In networks managed using DNS-SD, the use of DNS-SD for discovery, as described in <xref target="rd-using-dnssd" format="default"/>, is recommended.</li>
         </ul>
@@ -672,7 +610,7 @@ endpoint and the RD are separated by a border router
 (6LBR). In many circumstances, the availability of DHCP cannot be guaranteed
 during commissioning of the network either. The presence and the use of the RD is
 essential during commissioning.</t>
-          <t>It is possible to send multiple RDAO options in one message,
+          <t>It is possible to send multiple RDAOs in one message,
 indicating as many RD addresses.</t>
           <t>The RDAO format is:</t>
           <figure anchor="fig-rdao">
@@ -788,23 +726,6 @@ The client of the RD can use any of the discovered addresses initially.</t>
         <t>The discovery request interface is specified as follows
 (this is exactly the well-known interface of <xref target="RFC6690" section="4" sectionFormat="comma"/>,
 	with the additional requirement that the server <bcp14>MUST</bcp14> support query filtering):</t>
-
-<!-- [rfced] Will "absent" here be clear to readers? Note that similar text
-appears two times in the document.
-
-Original:
-   Accept:  absent, application/link-format or any other media type
-      representing web links
-   
-Perhaps:
-   Accept:  absent, application/link-format, or any other media type
-   representing web links
-
-Or:
-   Accept:  if absent, application/link-format or any other media type
-      representing web links
--->
-
 <dl>
   <dt>Interaction:</dt>
   <dd> EP, CT, or Client -&gt; RD </dd>
@@ -844,7 +765,7 @@ content-format delivered by the server hosting the resource is application/link-
 <figure anchor="example-discovery">
           <name>Example Discovery Exchange</name>
           <sourcecode type=""><![CDATA[
-Req: GET coap://[ff0x::fe]/.well-known/core?rt=core.rd*
+Req: GET coap://[ff02::fe]/.well-known/core?rt=core.rd*
 
 Res: 2.05 Content
 Payload:
@@ -887,7 +808,7 @@ Original:
         <figure anchor="example-discovery-ct">
           <name>Example Discovery Exchange Indicating Additional Content-Formats</name>
           <sourcecode type=""><![CDATA[
-Req: GET coap://[ff0x::fe]/.well-known/core?rt=core.rd*
+Req: GET coap://[ff02::fe]/.well-known/core?rt=core.rd*
 
 Res: 2.05 Content
 Payload:
@@ -901,14 +822,6 @@ it can be useful to identify the components that constitute the RD server.
 The identification can be used to find client-server incompatibilities,
 supported features, required updates, and other aspects.
 The well-known interface described in <xref target="RFC6690" section="4" sectionFormat="of"/> can be used to find such data.</t>
-
-<!-- [rfced] Will readers understand what "It" refers to here?
-
-Original:
-   It would typically be stored in an implementation information link
-   (as described in [I-D.bormann-t2trg-rel-impl]): 
--->
-
 <t>It would typically be stored in an implementation information link
 (as described in <xref target="I-D.bormann-t2trg-rel-impl" format="default"/>).</t>
         <figure anchor="example-impl-discovery">
@@ -932,8 +845,8 @@ are run on the same server.</t>
     </section>
     <section anchor="registration" numbered="true" toc="default">
       <name>Registration</name>
-      <t>After discovering the location of an RD, a registrant-ep or CT <bcp14>MAY</bcp14>
-register the resources of the registrant-ep using the registration interface. This interface
+      <t>After discovering the location of an RD, a registrant-EP or CT <bcp14>MAY</bcp14>
+register the resources of the registrant-EP using the registration interface. This interface
 accepts a POST from an endpoint containing the list of resources to be added
 to the directory as the message payload in the CoRE Link Format <xref target="RFC6690" format="default"/> or other representations of web links, along with query
 parameters indicating the name of the endpoint and, optionally, the sector,
@@ -1024,41 +937,8 @@ request bodies <bcp14>MUST</bcp14> be expressed in Limited Link Format.</t>
 	      The URI <bcp14>SHOULD NOT</bcp14> have a query or fragment component,
 	      as any non-empty relative part in a reference would remove those parts from the
 	      resulting URI.</t>
-
-<!--[rfced] It is unclear if "scheme of" also applies to the "source address"
-and "source port". How may we update the sentence below for clarity?
-
-Original:
-   In the absence of this parameter the scheme of the protocol,
-   source address and source port of the registration request are
-   assumed.
-
-Perhaps:
-   In the absence of this parameter, the source address, source
-   port, and scheme of the protocol of the registration request
-   are assumed.
--->
-
-<!-- [rfced] We have updated the text starting with "in analogy..." as
-follows. Please review to confirm that this update accurately conveys the
-intended meaning.
-
-Original:
-   The Base URI is consecutively constructed by
-   concatenating the used protocol's scheme with the characters
-   "://", the requester's source address as an address literal and
-   ":" followed by its port (if it was not the protocol's default
-   one) in analogy to [RFC7252] Section 6.5.
-
-Perhaps:
-   The base URI is consecutively constructed by
-   concatenating the used protocol's scheme with the characters
-   "://", the requester's source address as an address literal,
-   and ":" followed by its port (if it was not the protocol's
-   default one). This is analogous to the process described in [RFC7252], Section 6.5.
--->
-	      <t>In the absence of this parameter, the scheme of the protocol, source address,
-	      and source port of the registration request are assumed.
+	      <t>In the absence of this parameter, the scheme of the protocol, the source address,
+	      and the source port of the registration request are assumed.
 	      The base URI is consecutively constructed by concatenating the used protocol's scheme
 	      with the characters "://", the requester's source address as an address literal,
 	      and ":" followed by its port (if it was not the protocol's default
@@ -1066,7 +946,7 @@ Perhaps:
 	      <t>This parameter is
 	      mandatory when the directory is filled by a third party, such as a
 	      commissioning tool.</t>
-              <t>If the registrant-ep uses an ephemeral port to register with, it
+              <t>If the registrant-EP uses an ephemeral port to register with, it
 	      <bcp14>MUST</bcp14> include the base
 	      parameter in the registration to provide a valid network path.</t>
               <t>A registrant that cannot be reached by potential lookup clients at the address it
@@ -1084,31 +964,12 @@ Perhaps:
 	      target="limitedlinkformat" format="default"/> is not applicable
 	      (e.g., <xref target="I-D.ietf-core-coral" format="default"/>). </t>
 	    </dd>
-<!--[rfced] We see a number of author-inserted comments in the .xml file for this
-document. We are unsure if these have been resolved. Please review and let us know
-if these can be deleted or if they need to be addressed.-->
-
-	      <!-- or may just use unlimited link format if there is indication that the server is not strict about it -->
-
-
-<!-- [rfced] Will "it processes it" be clear to readers here?
-
-Original:
-   If the RD is aware
-   of the parameter's specified semantics, it processes it
-   accordingly.  
-
-Perhaps:
-   If the RD is aware
-   of the parameter's specified semantics, it processes the parameter
-   accordingly.  
--->
 	      
              <dt>extra-attrs :=</dt>
 	      <dd>Additional registration attributes (optional). The endpoint can pass any
 	      parameter registered in <xref target="iana-registry" format="default"/> to the
 	      directory. If the RD is
-	      aware of the parameter's specified semantics, it processes it accordingly.
+	      aware of the parameter's specified semantics, it processes the parameter accordingly.
 	      Otherwise, it <bcp14>MUST</bcp14> store the unknown key and its value(s) as an
 	      endpoint attribute for further lookup.</dd>
 	    </dl>
@@ -1146,11 +1007,11 @@ Perhaps:
 	    pick other choices from the "Finding a Resource Directory" step.
 	    Care has to be taken to consider the freshness of results obtained earlier,
 	    e.g., the result of a <tt>/.well-known/core</tt> response,
-	    the lifetime of an RDAO option, and DNS responses.
+	    the lifetime of an RDAO, and DNS responses.
 	    Any rate limits and persistent errors from the "Finding a Resource Directory" step
 	    must be considered for the whole registration time,
 	    not only for a single operation.</t>
-	    <t>The following example shows a registrant-ep with the name "node1" registering
+	    <t>The following example shows a registrant-EP with the name "node1" registering
 	    two resources to an RD using this interface. The location "/rd"
 	    is an example RD location discovered in a request similar to <xref
 	    target="example-discovery" format="default"/>.</t>
@@ -1196,24 +1057,24 @@ Location: /rd/4521
         <name>Simple Registration</name>
         <t>Not all endpoints hosting resources are expected to know how to upload links to an RD, as described in <xref target="registration" format="default"/>. Instead, simple endpoints can implement the simple registration approach described in this section. An RD implementing this specification <bcp14>MUST</bcp14> implement simple registration. However, there may
 be security reasons why this form of directory discovery would be disabled.</t>
-        <t>This approach requires that the registrant-ep makes available the hosted resources
+        <t>This approach requires that the registrant-EP makes available the hosted resources
 that it wants to be discovered as links on its <tt>/.well-known/core</tt> interface, as
 specified in <xref target="RFC6690" format="default"/>.
 The links in that document are subject to the same limitations as the payload of a registration
 (with respect to <xref target="limitedlinkformat" format="default"/>).</t>
         <ul spacing="normal">
-          <li>The registrant-ep finds one or more addresses of the directory server, as described in <xref target="finding_an_rd" format="default"/>.</li>
+          <li>The registrant-EP finds one or more addresses of the directory server, as described in <xref target="finding_an_rd" format="default"/>.</li>
           <li>
-            <t>The registrant-ep sends (and regularly refreshes with) a POST
+            <t>The registrant-EP sends (and regularly refreshes with) a POST
 	    request to the <tt>/.well-known/rd</tt> URI of the directory server of choice. The
 	    body of the POST request is empty and triggers the resource
-	    directory server to perform GET requests at the requesting registrant-ep's
+	    directory server to perform GET requests at the requesting registrant-EP's
 	    /.well-known/core to obtain the link-format payload to register.  </t>
-	    <t>The registrant-ep includes the same registration parameters in the POST request as
+	    <t>The registrant-EP includes the same registration parameters in the POST request as
 	    it would with a regular registration, per <xref target="registration"
 	    format="default"/>. The registration base URI of the registration is taken from the
-	    registrant-ep's network address (as is default with regular registrations).  </t>
-	    <t>The following is an example request from the registrant-ep to the RD (unanswered
+	    registrant-EP's network address (as is default with regular registrations).  </t>
+	    <t>The following is an example request from the registrant-EP to the RD (unanswered
 	    until the next step):</t>
 
         <figure anchor="example-simple1">
@@ -1225,10 +1086,10 @@ Req: POST /.well-known/rd?lt=6000&ep=node1
         </figure>
 	  </li>
           <li>
-            <t>The RD queries the registrant-ep's discovery resource to determine the success of
+            <t>The RD queries the registrant-EP's discovery resource to determine the success of
 	    the operation. It <bcp14>SHOULD</bcp14> keep a cache of the discovery resource and not
 	    query it again as long as it is fresh.  </t>
-            <t>The following is an example request from the RD to the registrant-ep:</t>
+            <t>The following is an example request from the RD to the registrant-EP:</t>
         <figure anchor="example-simple2">
           <name>Example Exchange of the RD Querying the Simple Endpoint</name>
           <sourcecode type=""><![CDATA[
@@ -1279,12 +1140,9 @@ For some time during this document's development, the URI Template <tt>/.well-kn
   <dd>2.04 (Changed)</dd>
 </dl>
         <t>For the second interaction triggered by the above, the
-        registrant-ep takes the role of server and the RD takes the role of
+        registrant-EP takes the role of server and the RD takes the role of
         client.  (Note that this is exactly the well-known interface
         of <xref target="RFC6690" section="4" sectionFormat="comma"/>):
-	
-<!-- the above paragraph could just as well be any other text;
-what matters is that the tables above and below are clearly separated. -->
         </t>
         <dl>
           <dt>Interaction:</dt>
@@ -1301,7 +1159,7 @@ what matters is that the tables above and below are clearly separated. -->
         </dl>
         <t>When the RD uses any authorization credentials to access the endpoint's discovery
 	resource or when it is deployed in a location where third parties might reach it but not
-	the endpoint, it <bcp14>SHOULD</bcp14> verify that the apparent registrant-ep intends to
+	the endpoint, it <bcp14>SHOULD</bcp14> verify that the apparent registrant-EP intends to
 	register with the given registration parameters
 	before revealing the obtained discovery information to lookup clients.
 	An easy way to do that is to verify the simple registration request's sender address using
@@ -1322,7 +1180,7 @@ that purpose scheme, the IP address and port of the URI of the registered device
       </section>
       <section anchor="operations-on-the-registration-resource" numbered="true" toc="default">
         <name>Operations on the Registration Resource</name>
-        <t>This section describes how the registering endpoint can maintain the registrations that it created. The registering endpoint can be the registrant-ep or the CT. The registrations are resources of the RD.</t>
+        <t>This section describes how the registering endpoint can maintain the registrations that it created. The registering endpoint can be the registrant-EP or the CT. The registrations are resources of the RD.</t>
         <t>An endpoint should not use this interface for registrations that it did not create.
 	This is usually enforced by security policies,
 	which, in general, require equivalent credentials for creation of and operations on a
@@ -1549,15 +1407,6 @@ RDs should avoid naive (sufficient but inefficient) freshness criteria.</t>
             <t>Some simple mechanisms the RD can employ are:</t>
             <ul spacing="normal">
               <li>
-
-<!-- [rfced] Should "use Echo" here read "use the Echo option"?
-
-Original:
-   If other applications on the same server use
-   Echo as well, that encoding may include a prefix indicating that
-   it pertains to the RD's counter.
--->
-
 		<t>State counter. The RD can keep a monotonous counter that increments
 		whenever a registration changes. For every registration resource, it stores
 		the post-increment value of that resource's last change. Requests altering
@@ -1569,8 +1418,7 @@ Original:
                 <t>The value associated with a resource needs to be kept across the removal
 		of registrations if the same registration resource is to be reused.</t>
                 <t>The counter can be reset (and the values of removed resources forgotten)
-		when all previous security associations are reset.
-<!-- It can *also* be reset more frequently in an epoch based scheme, but that description is too large to fit in the margin. -->  </t>
+		when all previous security associations are reset.</t>
                 <t>This is the "Persistent Counter" method of <xref target="RFC9175"
 		section="A" sectionFormat="comma"/>.</t>
               </li>
@@ -1619,19 +1467,8 @@ Echo: 0x0247
 ]]></sourcecode>
             </figure>
 
-<!-- [rfced] This sentence does not parse. Should "and because" read
-simply "bacause"?
-
-Original:
-   The other examples do not show Echo options for simplicity, and
-   because they lack the context for any example values to have meaning.
-
-Perhaps:
-   The other examples do not show Echo options for simplicity, 
-   because they lack the context for any example values to have meaning.
--->
-	    <t>The other examples do not show Echo options for simplicity,
-and because they lack the context for any example values to have meaning.</t>
+	    <t>The other examples do not show Echo options for two reasons: (1) for simplicity
+and (2) because they lack the context for any example values to have meaning.</t>
           </section>
         </section>
       </section>
@@ -1874,7 +1711,7 @@ Payload:
         <t>The endpoint lookup returns links to and information about registration resources,
 	which themselves can only be manipulated by the registering endpoint.</t>
         <t>Endpoint registration resources are annotated with their endpoint names (ep), sectors
-	(d, if present), and registration base URI (base; reports the registrant-ep's address if
+	(d, if present), and registration base URI (base; reports the registrant-EP's address if
 	no explicit base was given), as well as a constant resource type (rt="core.rd-ep"); the
 	lifetime (lt) is not reported.
 	Additional endpoint attributes are added as target attributes to their endpoint link
@@ -1883,26 +1720,15 @@ Payload:
 	required, as (full) URIs. (This ensures that the output conforms to Limited Link Format,
 	as described in <xref target="limitedlinkformat" format="default"/>.)</t>
         <t>Base addresses that contain link-local addresses <bcp14>MUST NOT</bcp14> include zone
-	identifiers, and such registrations <!-- or "' base attributes" --> <bcp14>MUST
+	identifiers, and such registrations  <bcp14>MUST
 	NOT</bcp14> be shown unless the lookup was made from the same link from which the
 	registration was made.</t>
 
-<!-- [rfced] May we update "differ from the lookup resource's" as follows for
-clarity?
-
-Original:
-   An RD can report registrations in lookup whose URI scheme and
-   authority differ from the lookup resource's.
-
-Perhaps:
-   An RD can report registrations in lookup whose URI scheme and
-   authority differ from that of the lookup resource.  
--->
 	<t>While the endpoint lookup does expose the registration resources,
 	the RD does not need to make them accessible to clients.
 	Clients <bcp14>SHOULD NOT</bcp14> attempt to dereference or manipulate them.</t>
-        <t>An RD can report registrations in lookups whose URI scheme and authority differ from 
-	the lookup resource's.
+        <t>  An RD can report registrations in lookup whose URI scheme and
+   authority differ from that of the lookup resource.  
 	Lookup clients <bcp14>MUST</bcp14> be prepared to see arbitrary URIs as registration
 	resources in the results and treat them as opaque identifiers;
 	the precise semantics of such links are left to future specifications.</t>
@@ -1931,7 +1757,7 @@ and are not set out normatively here.</t>
       <t>This section provides a list of aspects that applications should consider when describing their use of the RD,
 without claiming to cover all cases.
 It uses terminology of <xref target="I-D.ietf-ace-oauth-authz" format="default"/>,
-in which the RD acts as the Resource Server (RS), and both registrant-eps and lookup clients act as Clients (C) with support from an Authorization Server (AS),
+in which the RD acts as the Resource Server (RS), and both registrant-EPs and lookup clients act as Clients (C) with support from an Authorization Server (AS),
 without the intention of ruling out other schemes (e.g., those based on certificates/Public Key Infrastructures (PKIs)).</t>
       <t>Any, all, or none of the below can apply to an application.
 Which are relevant depends on its protection objectives.</t>
@@ -1944,7 +1770,7 @@ and authorized to serve as an RD according to the application's requirements.</t
 or resource lookup with filtering on the endpoint name,
 the RD must ensure that the registrant is authorized to use the given endpoint name.
 This applies both to registration and later to operations on the registration resource.
-It is immaterial whether the client is the registrant-ep itself or a CT is doing the registration.
+It is immaterial whether the client is the registrant-EP itself or a CT is doing the registration.
 The RD cannot tell the difference, and CTs may use authorization credentials authorizing only operations on that particular endpoint name or a wider range of endpoint names.</t>
         <t>It is up to the concrete security policy to describe
 how the endpoint name and sector are transported when certificates are used.
@@ -1957,18 +1783,10 @@ The RD should then remember unique properties of the registrant,
 associate them with the registration for as long as its registration resource is active (which may be longer than the registration's lifetime),
 and require the same properties for operations on the registration resource.</t>
 
-<!-- [rfced] Should "such a recovery options" here read "such a recovery
-option" (singular) or "such recovery options" (plural)?
-
-Original:
-   registrants without such a recovery options should pick
-   significantly longer endpoint names
--->
-
 <t>Registrants that are prepared to pick a different identifier when their initial attempt
 (or attempts, in the unlikely case of two subsequent collisions)
 at registration is unauthorized should pick an identifier at least twice as long as the expected number of registrants;
-registrants without such a recovery options should pick significantly longer endpoint names (e.g., using Universally Unique Identifier (UUID) URNs <xref target="RFC4122" format="default"/>).</t>
+registrants without any such recovery options should pick significantly longer endpoint names (e.g., using Universally Unique Identifier (UUID) URNs <xref target="RFC4122" format="default"/>).</t>
         </section>
       </section>
       <section anchor="entered-resources" numbered="true" toc="default">
@@ -1982,27 +1800,11 @@ If the client requires the firmware server to present credentials as a firmware 
 a fraudulent link's impact is limited to the client revealing its intention to obtain updates and slowing down the client until it finds a legitimate firmware server;
 if the client accepts any credentials from the server as long as they fit the provided URI, the impact is larger.</t>
 
-<!-- [rfced] May we update as follows to clarify "as a client that they'd need
-to present"? Also, will it be clear to readers what "which may
-include..." refers to?
-
-Original:
-   One way to do this is to demand that the
-   registrant present the same credentials as a client that they'd need
-   to present if contacted as a server at the resources' URI, which may
-   include using the address and port that are part of the URI.  
-
-Perhaps:
-   One way to do this is to demand that the
-   registrant present the same credentials that a client would need
-   to present if contacted as a server at the resources' URI. These credentials may
-   include using the address and port that are part of the URI.  
--->
 <t>An RD may also require that links are only registered if the registrant is authorized to publish information about the anchor (or even target) of the link.
-One way to do this is to demand that the registrant present the same credentials as a client that they'd need to present if contacted as a server at the resources' URI, which may include using the address and port that are part of the URI.
+One way to do this is to demand that the registrant present the same credentials in its role as a registering client that it would need to present in its role as a server when contacted at the resources' URI. These credentials may include using the address and port that are part of the URI.
 Such a restriction places severe practical limitations on the links that can be registered.</t>
         <t>As above, the impact of undesirable links depends on the extent to which the lookup client relies on the RD.
-To avoid the limitations, RD applications should consider <!-- can we pull in RFC6919 to make this normative? --> prescribing that lookup clients only use the discovered information as hints
+To avoid the limitations, RD applications should consider prescribing that lookup clients only use the discovered information as hints
 and describe which pieces of information need to be verified because they impact the application's security.
 A straightforward way to verify such information is to request it again from an authorized server, typically the one that hosts the target resource.
 That is similar to what happens in <xref target="discovery" format="default"/> when the URI discovery step is repeated.</t>
@@ -2033,45 +1835,14 @@ as no credentials are suitable for operations across sector borders anyway.</t>
 	security policy definition and as a policy that implementations may choose to use as
 	default policy in the absence of another configuration. It is designed to enable efficient
 	discovery operations even in ad hoc settings.</t>
-
-<!-- [rfced] Please review the use of "towards" in these sentences. Would
-"for" be a better word choice? Also, reivew the use of "claims". Does our
-suggested text below convey the intended meaning?
-
-Original:
-   The policy is
-   minimal in that towards lookup clients it does not make any of the
-   claims of Section 7.2 and Section 7.3, and its claims on Section 7.1
-   are limited to the lifetime of that endpoint's registration.  It
-   does, however, guarantee towards any endpoint that for the duration
-   of its registration, its links will be discoverable on the RD.
-   
-Perhaps:
-   The policy is
-   minimal in that for lookup clients, it does not follow the
-   policies described in Sections 7.2 and 7.3 and limits the policy in Section 7.1
-   to the lifetime of that endpoint's registration. However, it
-   does guarantee that its links will be discoverable on the RD for any endpoint
-   for the duration of its registration.
--->
-
 	<t>Under this policy, the RD accepts registrations for any endpoint name that is not assigned to an active registration resource
 and only accepts registration updates from the same endpoint.
-The policy is minimal in that, towards lookup clients, it does not make any of the claims of Sections <xref target="entered-resources" format="counter"/> and <xref target="link-confidentiality" format="counter"/>,
-and its claims in <xref target="secure-ep" format="default"/> are limited to the lifetime of that endpoint's registration.
-However, towards any endpoint, it does guarantee that, for the duration of its registration, its links will be discoverable on the RD.</t>
+The policy is minimal in that it does not make any promises to lookup clients about the claims of Sections <xref target="entered-resources" format="counter"/> and <xref target="link-confidentiality" format="counter"/>,
+and promises about the claims in <xref target="secure-ep" format="default"/> are limited to the lifetime of that endpoint's registration.
+It does however promise the endpoint that, for the duration of its registration, its links will be discoverable on the RD.</t>
         <t>When a registration or operation is attempted, the RD <bcp14>MUST</bcp14> determine the client's subject name or public key:</t>
         <ul spacing="normal">
           <li>If the client's credentials indicate any subject name that is certified by any authority that the RD recognizes (which may be the system's trust anchor store), all such subject names are stored.
-
-<!--[rfced] We expanded "ACE" as "Authentication and Authorization for Constrained
-Environments" here. Please let us know if that is incorrect.
-
-Original:
-  With CWT or JWT based credentials (as common with ACE),
-  the Subject (sub) claim is stored as a single name, if it exists.
--->
-	  
 With credentials based on CWT or JWT (as common with Authentication and Authorization for Constrained Environments (ACE)), the Subject (sub) claim is stored as a single name, if it exists.
 With X.509 certificates, the Common Name (CN) and the complete list of SubjectAltName entries are stored.
 In both cases, the authority that certified the claim is stored along with the subject, as the latter may only be locally unique.</li>
@@ -2088,19 +1859,12 @@ as long as they are made using a security layer supported by the RD.</t>
 including registrations that lead to an existing registration resource,
 <bcp14>MUST</bcp14> be rejected by the RD unless all the stored information is found in the new request's credentials.</t>
 
-<!-- [rfced] Is "base" correct here, or is "basis" intended?
-
-Original:
-   recognition by subject happens on a best-effort base
-   (given the RD may not recognize any authority).
--->
-
 <t>Note that, even though subject names are compared in this policy,
 they are never directly compared to endpoint names,
 and an endpoint cannot expect to "own" any particular endpoint name outside of an active registration --
 even if a certificate says so.
 It is an accepted shortcoming of this approach that the endpoint has no indication of whether the RD remembers it by its subject name or public key;
-recognition by subject happens on a best-effort base (given the RD may not recognize any authority).
+recognition by subject happens on a best-effort basis (given the RD may not recognize any authority).
 Clients <bcp14>MUST</bcp14> be prepared to pick a different endpoint name when rejected by the RD initially or after a change in their credentials;
 picking an endpoint name, as per <xref target="arbitrary-ep" format="default"/>, is an easy option for that.</t>
         <t>For this policy to be usable without configuration, clients should not set a sector name in their registrations.
@@ -2144,25 +1908,8 @@ whether the identifier provided in the DTLS handshake matches the
 identifier used at the CoAP layer, then it may be inclined to use the
 endpoint name for looking up what information to provision to the malicious device.</t>
 
-
-<!-- [rfced] Should "(and sector; Section 7.1)" be updated as follows?
-
-Original:
-   Endpoint authorization needs to be checked on registration and
-   registration resource operations independently of whether there are
-   configured requirements on the credentials for a given endpoint name
-   (and sector; Section 7.1) or whether arbitrary names are accepted
-   (Section 7.1.1).
-   
-Perhaps:
-   Endpoint authorization needs to be checked on registration and
-   registration resource operations independently of whether there are
-   configured requirements on the credentials for a given endpoint name
-   and sector (Section 7.1) or whether arbitrary names are accepted
-   (Section 7.1.1).
--->
 <t>Endpoint authorization needs to be checked on registration and registration resource operations
-independently of whether there are configured requirements on the credentials for a given endpoint name (and sector; <xref target="secure-ep" format="default"/>)
+independently of whether there are configured requirements on the credentials for a given endpoint name and sector (<xref target="secure-ep" format="default"/>)
 or whether arbitrary names are accepted (<xref target="arbitrary-ep" format="default"/>).</t>
         <t>Simple registration could be used to circumvent address-based access control.
 An attacker would send a simple registration request with the victim's address as the source address
@@ -2209,8 +1956,6 @@ with the attack difficulty determined by the security layer's replay properties.
             <t>
 For example, if <xref target="example-freshness" format="default"/> were conducted without freshness assurances,
 an attacker could later reset the lifetime back to 7200.
-<!-- That is, with DTLS without replay protection, or DTLS when causing a retransmission and swallowing one message,
-or with OSCORE when swallowing all of an update's retransmission but the ep later tries again. -->
 Thus, the device is made unreachable to lookup clients.</t>
           </li>
           <li>
@@ -2231,22 +1976,6 @@ the document.  In addition to responding to those questions, please
 review all of the IANA-related updates carefully and let us know if any
 updates are needed.
 
-a) Please confirm that the section numbers listed in Table 2 in Section 9.1
-are correct. We ask because, although we see the following text in Section
-4.3, we also note that Section 6.1 is titled "Resource Lookup" and Section 6.4
-is titled "Endpoint Lookup".
-
-Text from Section 4.3:
-   Discovery of the RD registration URI is performed by sending either a
-   multicast or unicast GET request to "/.well-known/core" and including
-   a Resource Type (rt) parameter [RFC6690] with the value "core.rd" in
-   the query string.  Likewise, a Resource Type parameter value of
-   "core.rd-lookup*" is used to discover the URIs for RD Lookup
-   operations, core.rd* is used to discover all URIs for RD operations.
-   Upon success, the response will contain a payload with a link format
-   entry for each RD function discovered, indicating the URI of the RD
-   function returned and the corresponding Resource Type.
-
 
 b) In Section 9.3, we would like to confirm that this statement is correct. We
 ask because we are unsure if the descriptions in the table in this section
@@ -2255,160 +1984,6 @@ fulfill this requirement.
 Original:
    The description must give details on whether the parameter can be
    updated, and how it is to be processed in lookups.
-
-
-c) We have updated the "Description" for "Registration Base URI" in the table
-in Section 9.3 as follows. Please let us know any objections. Note that we
-will ask IANA to update the "RD Parameters" registry accordingly prior to
-publication if any changes are made here. Link to registry:
-https://www.iana.org/assignments/core-parameters/core-parameters.xhtml#rd-parameters.
-
-Original:
-   The scheme, address and port and path at which this server is
-   available
-
-Updated:
-   The scheme, address, port, and path at which this server is                              
-   available
-
-
-d) FYI: For clarity, we updated 'Endpoint Type subregistry' to '"Endpoint Type
-(et=) RD Parameter Values" subregistry' here. Please let us know any
-objections.
-
-Original:
-   An endpoint type is expressed as a string, which can be
-   either a URI or one of the values defined in the Endpoint Type sub-
-   registry.
-
-Updated:
-   An endpoint type is expressed as a string, which can be
-   either a URI or one of the values defined in the "Endpoint Type
-   (et=) RD Parameter Values" subregistry.
-
-
-e) In Section 9.4, may we update "Resource Type parameters in [RFC6690]" as follows?
-
-Original:
-   The registry properties (required policy, requirements, template) are
-   identical to those of the Resource Type parameters in [RFC6690], in
-   short:
-
-Perhaps:
-   The registry properties (required policy, requirements, and template) are
-   identical to those of the "Resource Type (rt=) Link Target Attribute Values"
-   subregistry defined in [RFC6690]; in short,
-
-
-f) FYI: Prior to publication, we will ask IANA to add the comma before
-"Appendix A" in the description below for consistency with Section 9.4. Note
-that IANA will update to the RFC number after the documenet is published.
-
-Link to registry:
-https://www.iana.org/assignments/core-parameters/core-parameters.xhtml#et-rd-parameter-value
-
-Current in "Endpoint Type (et=) RD Parameter Values" registry:
-   An application group as described in [RFC-ietf-core-resource-directory-28] Appendix A.
-
-
-g) Note that we do not see any instances of "MCD2" in the document aside from
-in Section 9.5. Please let us know if we missed anything here.
-
-Authors' note to RFC Editor:
-   [ The RFC editor is asked to replace MCD1 and MCD2 with the assigned
-   addresses throughout the document. ]
-
-
-h) As per your note in the original, we have updated "MCD1" to "ff0x::fe"
-throughout the document. Please confirm that our updates are correct.
-
-Note that we used the shortened and lowercased form per Sections 4.2.1 and 4.3
-of RFC 5952, which state:
-
-   The use of the symbol "::" MUST be used to its maximum capability.
-   For example, 2001:db8:0:0:0:0:2:1 must be shortened to 2001:db8::2:1.
-   Likewise, 2001:db8::0:1 is not acceptable, because the symbol "::"
-   could have been used to produce a shorter representation 2001:db8::1.
-   ...
-   The characters "a", "b", "c", "d", "e", and "f" in an IPv6 address
-   MUST be represented in lowercase.
-
-Original:
-   "coap://[MCD1]/.well-known/core?rt=core.rd*"
-   ...
-   Req: GET coap://[MCD1]/.well-known/core?rt=core.rd*
-   ...
-   Req: GET coap://[MCD1]/.well-known/core?rt=core.rd*
-   ...
-   IPv6 - "all CoRE Resource Directories" address MCD1 (suggestions
-     FF0X::FE), from the "IPv6 Multicast Address Space Registry", in the
-     "Variable Scope Multicast Addresses" space (RFC 3307).  
-   
-Updated:
-   "coap://[ff0x::fe]/.well-known/core?rt=core.rd*"
-   ...
-   Req: GET coap://[ff0x::fe]/.well-known/core?rt=core.rd*
-   ...
-   Req: GET coap://[ff0x::fe]/.well-known/core?rt=core.rd*
-   ...
-   IPv6  - "all CoRE Resource Directories" address ff0x::fe, in the
-      "Variable Scope Multicast Addresses" subregistry within the "IPv6
-      Multicast Address Space Registry" [RFC3307]. 
-
-
-i) We note discrepancies in capitalization for the following:
-
-Document (for both IPv4 and IPv6 in Section 9.5):
-   all CoRE Resource Directories
-
-Registry for IPv4 - "Internetwork Control Block (224.0.1.0 - 224.0.1.255 (224.0.1/24))" (https://www.iana.org/assignments/multicast-addresses/multicast-addresses.xhtml#multicast-addresses-2):
-    all CoRE resource directories
-
-Registry for IPv6 - "Variable Scope Multicast Addresses" subregistry (https://www.iana.org/assignments/ipv6-multicast-addresses/ipv6-multicast-addresses.xhtml#variable):
-   all CoRE Resource Directories
-
-How should this be updated? Perhaps we can update both the document and the registries to read:
-   All CoRE Resource Directories
-
-Note that if changes are made here, we will ask IANA to update both of
-registries accordingly.
-
-
-j) Note that this document uses "core-rd-tls" for "Resource Directory accessed
-using CoAP over TLS", while the "Service Name and Transport Protocol Port
-Number Registry" uses "core-rd-dtls" (note "dtls" rather than "tls"). We
-believe that the registry should be updated to match the document. Please
-confirm that this is correct, and we will request that IANA make this update
-prior to publication.
-
-Also, should the short descriptions in the first paragraph of Section 4.1.2
-(see below) be updated to exactly match the descriptions on the IANA registry,
-or are the shortened forms okay?
-
-Link to registry: https://www.iana.org/assignments/service-names-port-numbers/service-names-port-numbers.xhtml?search=core-
-
-Original:
-   An RD can advertise its presence in DNS-SD [RFC6763] using the
-   service name "_core-rd._udp" (for CoAP), "_core-rd-dtls._udp" (for
-   CoAP over DTLS), "_core-rd._tcp" (for CoAP over TCP) or "_core-rd-
-   tls._tcp" (for CoAP over TLS) defined in this document.
-   ...
-   Service Name:  core-rd-tls
-   Transport Protocol:  tcp
-   Description:  Resource Directory accessed using CoAP over TLS
-
-Registry:
-   core-rd-dtls  tcp   Resource Directory accessed using CoAP over TLS
--->
-
-<!-- [rfced] Please clarify "on in endpoint lookups" here. Should this read
-"in endpoint lookups" (no "on"), or is another meaning intended?
-
-Original:
-   The mechanisms around new RD parameters should be designed in such a
-   way that they tolerate RD implementations that are unaware of the
-   parameter and expose any parameter passed at registration or updates
-   on in endpoint lookups.
 -->
 
     <section anchor="iana-considerations" numbered="true" toc="default">
@@ -2499,8 +2074,8 @@ Original:
           <li>a link to reference documentation.</li>
         </ul>
         <t>The query parameter <bcp14>MUST</bcp14> be both a valid URI query key <xref target="RFC3986" format="default"/> and a token as used in <xref target="RFC8288" format="default"/>.</t>
-        <t>The description must give details on whether the parameter can be updated and how it is to be processed in lookups.</t>
-        <t>The mechanisms around new RD parameters should be designed in such a way that they tolerate RD implementations that are unaware of the parameter and expose any parameter passed at registration or updates on in endpoint lookups. (For example, if a parameter used at registration were to be confidential, the registering endpoint should be instructed to only set that parameter if the RD advertises support for keeping it confidential at the discovery step.)</t>
+        <t>The specification must give details on whether the parameter can be updated and how it is to be processed in lookups.</t>
+        <t>The mechanisms around new RD parameters should be designed in such a way that they tolerate RD implementations that are unaware of the parameter and expose any parameter passed at registration or updates in endpoint lookups. (For example, if a parameter used at registration were to be confidential, the registering endpoint should be instructed to only set that parameter if the RD advertises support for keeping it confidential at the discovery step.)</t>
         <t>Initial entries in this subregistry are as follows:</t>
         <table anchor="tab-registry" align="center">
           <name>New RD Parameters Registry</name>
@@ -2630,10 +2205,11 @@ attributes.</t>
         <name>Endpoint Type (et=) RD Parameter Values</name>
         <t>This specification establishes a new subregistry called "Endpoint
         Type (et=) RD Parameter Values" within the "Constrained RESTful
-        Environments (CoRE) Parameters" registry.  The registry properties
-        (required policy, requirements, and template) are identical to those
-        of the resource type parameters in <xref target="RFC6690"
-        format="default"/>; in short, the review policy is IETF Review for
+        Environments (CoRE) Parameters" registry.
+	The registry properties (required policy, requirements, and template) are
+	identical to those of the "Resource Type (rt=) Link Target Attribute
+	Values" subregistry defined in <xref target="RFC6690" format="default"/>;
+	in short, the review policy is IETF Review for
         values starting with "core" and Specification Required for others.</t>
         <t>The requirements to be enforced are:</t>
         <ul spacing="normal">
@@ -2670,24 +2246,14 @@ attributes.</t>
 	the following multicast addresses for use by CoAP nodes:</t>
 	<dl newline="false" spacing="normal">
           <dt>IPv4</dt>
-	  <dd>-- "all CoRE Resource Directories" address 224.0.1.190, in the
+	  <dd>-- "All CoRE Resource Directories" address 224.0.1.190, in the
 	  "Internetwork Control Block (224.0.1.0 - 224.0.1.255 (224.0.1/24))"
 	  subregistry within the "IPv4 Multicast Address Space Registry".  As
 	  the address is used for discovery that may span beyond a single
 	  network, it has come from the Internetwork Control Block (224.0.1.x)
-	  <xref target="RFC5771" format="default"/>.</dd>
-
-<!--[rfced] Please note that, as there is no corresponding reference entry in the References
-section, we have listed RFC 3307 as an informative reference.
-
-Original:
-   IPv6 - "all CoRE Resource Directories" address MCD1 (suggestions
-   FF0X::FE), from the "IPv6 Multicast Address Space Registry", in the
-   "Variable Scope Multicast Addresses" space (RFC 3307).
--->   
-      
+	  <xref target="RFC5771" format="default"/>.</dd>      
       <dt>IPv6</dt>
-      <dd>-- "all CoRE Resource Directories" address ff0x::fe, in
+      <dd>-- "All CoRE Resource Directories" address ff0x::fe, in
       the "Variable Scope Multicast Addresses" subregistry within the "IPv6
       Multicast Address Space Registry" <xref target="RFC3307"
       format="default"/>.  Note that there is a distinct multicast address for
@@ -3278,22 +2844,7 @@ from the base URI (<xref target="RFC3986" sectionFormat="comma" section="5.2"/>)
         </section>
         <section anchor="interpreting-attributes-and-relations" numbered="true" toc="default">
           <name>Interpreting Attributes and Relations</name>
-
-<!-- [rfced] We are having trouble understanding "Some more information but"
-here. Please clarify.
-
-Original:
-   Some more information but the record's target can be obtained from
-   the payload: the resource type of the target is "temperature", and
-   its content format is text/plain (ct=0).
-
-Perhaps:
-   Some information (but not the record's target) can be obtained from
-   the payload: the resource type of the target is "temperature", and
-   its content format is text/plain (ct=0).
--->
-
-	  <t>Some more information but the record's target can be obtained from the payload:
+	  <t>Some more information about the record's target can be obtained from the payload:
 the resource type of the target is "temperature", and its content format is
 text/plain (ct=0).</t>
           <t>A relation in a web link is a three-part statement that specifies a named relation between the so-called "context resource"
@@ -3397,19 +2948,12 @@ Payload:
         <t>All the target and anchor references are already in absolute form there, which
 don't need to be resolved any further.</t>
         <t>Had the simple host done an equivalent full registration with a base= parameter (e.g.,
-<tt>?ep=simple-host1&amp;base=coap+tcp://simple-host1.example.com</tt>), that context would
+<tt>?ep=simple-host1&amp;base=coap+tcp://sh1.example.com</tt>), that context would
 have been used to resolve the relative anchor values instead, giving the following and analogous records:</t>
         <figure anchor="example-weblink-lookup-result-base">
           <name>Example Payload of a Response to a Resource Lookup with a Dedicated Base URI</name>
-
-<!-- [rfced] Figures 35 is too wide for the .txt output (width is a maximum of
-72 characters). Please let us know how to shorten or wrap the line to fit.
-
-  <coap+tcp://simple-host1.example.com/sensors/temp>;rt=temperature;ct=0
--->
-	  
          <sourcecode type=""><![CDATA[
-<coap+tcp://simple-host1.example.com/sensors/temp>;rt=temperature;ct=0
+<coap+tcp://sh1.example.com/sensors/temp>;rt=temperature;ct=0
 ]]></sourcecode>
         </figure>
 
@@ -3481,21 +3025,6 @@ the following applies:</t>
       <t>All URI references either follow the URI or the path-absolute ABNF rule of
   <xref target="RFC3986" format="default"/> (i.e, the target and anchor each either start with a scheme or with a
   single slash).</t>
-      <!--  LocalWords:  lookups multicast lookup RESTful CoRE LoWPAN CoAP
- -->
-<!--  LocalWords:  microcontrollers URI DNS EP IP EPs discoverable
- -->
-<!--  LocalWords:  Metadata metadata lossless anycast ABRO RDNSS ICMP
- -->
-<!--  LocalWords:  DHCPv RD's DHCP RDs unicast JSON CBOR wildcard TLS
- -->
-<!--  LocalWords:  subdomain substring prepending subtype DTLS UDP
- -->
-<!--  LocalWords:  routability NTP TCP WiFi GPRS FQDN SLAAC IPv SDOs
- -->
-<!--  LocalWords:  OMA LWM IETF OMNA API SMS MSISDN
- -->
-
     </section>
         <section anchor="acknowledgments" numbered="false" toc="default">
       <name>Acknowledgments</name>
@@ -3545,41 +3074,6 @@ the "type" attribute not set. See the current list of preferred values for
 
 <!--[rfced] Terminology
 
-a) We note inconsistencies in the terms listed below. We chose the form on the
-right.  Please let us know any objections.
-
-Base URI vs. base URI
-  (Note: RFCs 3986, 6690, 7252, and 8288 use the lowercase form.)
-
-Registration Base URI vs. registration base URI
-
-Registrant-ep vs. Registrant-EP vs. registrant-EP vs. registrant-ep
-
-Border Router vs. border router
-
-Resource Type vs. resource type
-
-Endpoint Type vs. endpoint type
-
-Endpoint vs. endpoint
-
-registration-request vs. registration request
-
-Registration Update vs. registration update
-
-Simple Registration vs. simple registration
-
-RD Lookup vs. RD lookup
-
-Endpoint Lookup vs. endpoint lookup
-
-
-b) Throughout the text, the following terminology appears to be used
-inconsistently. Please review these occurrences and let us know if/how they
-may be made consistent.
-
-URI-reference vs. URI reference
-
 Content-Format vs. content format vs. content-format
 
 link-format vs. link format
@@ -3624,32 +3118,8 @@ Perhaps:
    endpoints cannot discover the RD with a link-local or realm-local
    scope multicast address, for instance, because the endpoint and the
    RD are separated by a 6LBR. 
-
-
-e) Should instances of "RDAO option" read simply "RDAO" (without "option")?
-We ask because if expanded, this would read "Resource Directory Address Option
-option".
-
-Original:
-   *  In managed networks with border routers that need stand-alone
-      operation, the RDAO option is recommended (e.g. operational phase
-      described in Section 3.6).
-   ...
-   It is possible to send multiple RDAO options in one message,
-   indicating as many RD addresses.
-   ...
-   ...e.g. of the
-   result of a "/.well-known/core" response, the lifetime of an RDAO
-   option and of DNS responses.
-
-
-f) FYI: We used "lookup" (one word) for the noun and adjective forms and "look
-up" (two words) for the verb form.
 -->
 
-<!-- [rfced] Please review the "Inclusive Language" portion of the online 
-Style Guide <https://www.rfc-editor.org/styleguide/part2/#inclusive_language>
-and let us know if any changes are needed. -->
 
 
   </back> </rfc>
