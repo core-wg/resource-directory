@@ -257,7 +257,7 @@ endpoint uses this registration resource to manage the contents of registrations
 provided using the CoRE Link Format.</t>
         <figure anchor="fig-arch">
           <name>The RD Architecture</name>
-<artwork name="" type="" align="left" alt=""><![CDATA[
+<artwork name="" type="ascii-art" align="left" alt=""><![CDATA[
            Registration         Lookup
             Interface         Interface
 +----+          |                 |
@@ -288,7 +288,7 @@ However, they can be expressed as relative references in serializations, and the
         <t>These models provide an abstract view of the information expressed in link-format documents and an RD. They cover the concepts but not necessarily all details of an RD's operation; they are meant to give an overview and not be a template for implementations.</t>
         <figure anchor="fig-ER-WKC">
           <name>ER Model of the Content of /.well-known/core</name>
-          <artwork name="" type="" align="left" alt=""><![CDATA[
+          <artwork name="" type="ascii-art" align="left" alt=""><![CDATA[
            +----------------------+
            |   /.well-known/core  |
            +----------------------+
@@ -344,7 +344,7 @@ The set does not necessarily contain links to all resources served by the host.<
         </ul>
 	        <figure anchor="fig-ER-RD">
           <name>ER Model of the Content of the RD</name>
-          <artwork name="" type="" align="left" alt=""><![CDATA[
+          <artwork name="" type="ascii-art" align="left" alt=""><![CDATA[
                  +--------------+
                  +      RD      +
                  +--------------+
@@ -513,7 +513,7 @@ according to its definition, options, and/or payload to the best of their capabi
 falling back to failing the operation if recovery is not possible.
 In particular, they <bcp14>SHOULD</bcp14> retry the request upon 5.03 (Service Unavailable; 503 in HTTP)
 according to the Max-Age (Retry-After in HTTP) option
-and <bcp14>SHOULD</bcp14> fall back to link-format when receiving 4.15 (Unsupported Content-Format; 415 in HTTP).</t>
+and <bcp14>SHOULD</bcp14> fall back to link format when receiving 4.15 (Unsupported Content-Format; 415 in HTTP).</t>
       <t>An RD <bcp14>MAY</bcp14> make the information submitted to it available to further
 directories (subject to security policies on link confidentiality)
 if it can ensure that a loop does not form.  The protocol used
@@ -555,7 +555,7 @@ suitable RD.</t>
         <t>The present specification does not fully define these heuristics but
 suggests a number of candidates:</t>
         <ol spacing="normal" type="1">
-          <li>In a 6LoWPAN, just assume the border router (6LBR) can act as an
+          <li>In a 6LoWPAN, just assume the 6LBR can act as an
 RD (using the Authoritative Border Router Option (ABRO) to find that <xref target="RFC6775" format="default"/>).
 Confirmation can be obtained by sending a unicast to
 <tt>coap://[6LBR]/.well-known/core?rt=core.rd*</tt>.</li>
@@ -596,8 +596,8 @@ information about the address of the RD in RAs (Router Advertisements) of IPv6 N
 similar to how Recursive DNS Server (RDNSS) options <xref target="RFC8106" format="default"/> are sent. This information is
 needed when endpoints cannot discover the RD with a link-local
 or realm-local scope multicast address, for instance, because the
-endpoint and the RD are separated by a border router
-(6LBR). In many circumstances, the availability of DHCP cannot be guaranteed
+endpoint and the RD are separated by a
+6LBR. In many circumstances, the availability of DHCP cannot be guaranteed
 during commissioning of the network either. The presence and the use of the RD is
 essential during commissioning.</t>
           <t>It is possible to send multiple RDAOs in one message,
@@ -605,7 +605,7 @@ indicating as many RD addresses.</t>
           <t>The RDAO format is:</t>
           <figure anchor="fig-rdao">
             <name>Resource Directory Address Option</name>
-            <artwork name="" type="" align="left" alt=""><![CDATA[
+            <artwork name="" type="ascii-art" align="left" alt=""><![CDATA[
 0                   1                   2                   3
 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
 +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
@@ -665,7 +665,7 @@ indicating as many RD addresses.</t>
 	  used.)</t>
 	  <t>The selection of the service indicates the protocol used, and
 	  the SRV record points the client to a host name and port to use as a starting point for
-	  the URI discovery steps of <xref target="discovery" format="default"/>.</t>
+	  the "URI discovery" steps of <xref target="discovery" format="default"/>.</t>
           <t>This section is a simplified, concrete application of the more generic mechanism
 specified in <xref target="I-D.ietf-core-rd-dns-sd" format="default"/>.</t>
         </section>
@@ -676,8 +676,8 @@ specified in <xref target="I-D.ietf-core-rd-dns-sd" format="default"/>.</t>
 application/link-format content format (ct=40).</t>
         <t>RDs implementing this specification <bcp14>MAY</bcp14> support additional content formats.</t>
         <t>Any additional content format supported by an RD implementing this
-specification <bcp14>SHOULD</bcp14> be able to express all the information expressible in link-format.
-It <bcp14>MAY</bcp14> be able to express information that is inexpressible in link-format,
+specification <bcp14>SHOULD</bcp14> be able to express all the information expressible in link format.
+It <bcp14>MAY</bcp14> be able to express information that is inexpressible in link format,
 but those expressions <bcp14>SHOULD</bcp14> be avoided where possible.</t>
       </section>
       <section anchor="discovery" numbered="true" toc="default">
@@ -709,7 +709,7 @@ and not limit the set of discovered URIs to those hosted at the address used for
         <t>With security policies where the client requires the RD to be authorized to act as an RD,
 that authorization may be limited to resources on which the authorized RD advertises the adequate resource types.
 Clients that have obtained links they cannot rely on yet
-can repeat the URI discovery step at the /.well-known/core resource of the indicated host
+can repeat the "URI discovery" step at the /.well-known/core resource of the indicated host
 to obtain the resource type information from an authorized source.</t>
         <t>The URI discovery operation can yield multiple URIs of a given resource type.
 The client of the RD can use any of the discovered addresses initially.</t>
@@ -770,9 +770,8 @@ Payload:
 	target="RFC7252" section="7.2.1" sectionFormat="of"/>, indicating that multiple
 	content-formats are available. The example below shows the required Content-Format 40
 	(application/link-format) indicated, as well as Concise Binary Object Representation (CBOR)
-	and JSON representations from <xref target="I-D.ietf-core-links-json" format="default"/>
-	(which have no numeric values assigned yet, so they are shown as TBD64 and TBD504 as in
-	that draft). The RD resource locations /rd
+	and JSON representations in the style of <xref target="I-D.ietf-core-links-json" format="default"/>
+	(for which the experimental values 65060 and 65050 are used in this example). The RD resource locations /rd
 	and /rd-lookup are example values. The server in this example also indicates that
 	it is capable of providing observation on resource lookups.</t>
         <figure anchor="example-discovery-ct">
@@ -783,8 +782,8 @@ Req: GET coap://[ff02::fe]/.well-known/core?rt=core.rd*
 Res: 2.05 Content
 Payload:
 </rd>;rt=core.rd;ct="40 65225",
-</rd-lookup/res>;rt=core.rd-lookup-res;ct="40 TBD64 TBD504";obs,
-</rd-lookup/ep>;rt=core.rd-lookup-ep;ct="40 TBD64 TBD504"
+</rd-lookup/res>;rt=core.rd-lookup-res;ct="40 65060 65050";obs,
+</rd-lookup/ep>;rt=core.rd-lookup-ep;ct="40 65060 65050"
 ]]></sourcecode>
         </figure>
         <t>For maintenance, management, and debugging,
@@ -972,13 +971,13 @@ request bodies <bcp14>MUST</bcp14> be expressed in Limited Link Format.</t>
 	    <t>If the registration fails, including request timeouts,
 	    or if delays from Service Unavailable responses with Max-Age or Retry-After
 	    accumulate to exceed the registrant's configured timeouts,
-	    it <bcp14>SHOULD</bcp14> pick another registration URI from the "URI Discovery" step,
+	    it <bcp14>SHOULD</bcp14> pick another registration URI from the "URI discovery" step of <xref target="discovery"/>,
 	    and, if there is only one or the list is exhausted,
-	    pick other choices from the "Finding a Resource Directory" step.
+	    pick other choices from the "finding a  resource directory" step of <xref target="finding_an_rd"/>.
 	    Care has to be taken to consider the freshness of results obtained earlier,
 	    e.g., the result of a <tt>/.well-known/core</tt> response,
 	    the lifetime of an RDAO, and DNS responses.
-	    Any rate limits and persistent errors from the "Finding a Resource Directory" step
+	    Any rate limits and persistent errors from the "finding a resource directory" step
 	    must be considered for the whole registration time,
 	    not only for a single operation.</t>
 	    <t>The following example shows a registrant-EP with the name "node1" registering
@@ -1000,11 +999,6 @@ Location-Path: /rd/4521
 ]]></sourcecode>
       </figure>
       <t>An RD may optionally support HTTP. Here is an example of almost the same registration operation above when done using HTTP.</t>
-
-<!-- [rfced] In Figure 9, should "Res:" and "HTTP/1.1 201 Created" be on the
-same line? We ask because this seems to be the pattern in similar
-figures.
--->
 
       <figure anchor="example-payload-http">
         <name>Example Registration Payload as Expressed Using HTTP</name>
@@ -1396,7 +1390,7 @@ RDs should avoid naive (sufficient but inefficient) freshness criteria.</t>
                 <t>Preemptive Echo values. The current state counter can be sent in an Echo
 		option not only when requests are rejected with 4.01 (Unauthorized) but
 		also with successful responses. Thus, clients can be provided with Echo
-		values sufficient for their next request on a regular basis.</t>
+		values sufficient for their next request on a regular basis. This is also described in <xref target="RFC9175" section="2.3" sectionFormat="of"/> </t>
                 <t> While endpoints may discard received Echo values at leisure between
 		requests, they are encouraged to retain these values for the next request
 		to avoid additional round trips.</t>
@@ -1777,7 +1771,7 @@ Such a restriction places severe practical limitations on the links that can be 
 To avoid the limitations, RD applications should consider prescribing that lookup clients only use the discovered information as hints
 and describe which pieces of information need to be verified because they impact the application's security.
 A straightforward way to verify such information is to request it again from an authorized server, typically the one that hosts the target resource.
-That is similar to what happens in <xref target="discovery" format="default"/> when the URI discovery step is repeated.</t>
+That is similar to what happens in <xref target="discovery" format="default"/> when the "URI discovery" step is repeated.</t>
       </section>
       <section anchor="link-confidentiality" numbered="true" toc="default">
         <name>Link Confidentiality</name>
@@ -2159,7 +2153,7 @@ and the potential for conflict with commonly used target attributes (e.g., <tt>i
           type is expressed as a string, which can be either a URI or one of
           the values defined in the "Endpoint Type (et=) RD Parameter Values"
           subregistry.  Endpoint types can be passed in the <tt>et</tt> query
-          parameter as part of extra-attrs at the Registration step, are shown
+          parameter as part of extra-attrs at the "registration" step of <xref target="registration"/>, are shown
           on endpoint lookups using the <tt>et</tt> target attribute, and can
           be filtered for using <tt>et</tt> as a search criterion in resource
           and endpoint lookup.  Multiple endpoint types are given as separate
@@ -3002,92 +2996,10 @@ the following applies:</t>
 Brandt"/>, <contact fullname="Matthieu Vial"/>, <contact fullname="Jim Schaad"/>, <contact fullname="Mohit Sethi"/>, <contact fullname="Hauke Petersen"/>, <contact fullname="Hannes Tschofenig"/>, <contact fullname="Sampo Ukkola"/>, <contact fullname="Linyi Tian"/>, <contact fullname="Jan Newmarch"/>, <contact fullname="Matthias Kovatsch"/>, <contact fullname="Jaime Jimenez"/>, and <contact fullname="Ted Lemon"/> have provided helpful comments, discussions, and ideas to improve and shape this document. Zach would also like to thank his colleagues from the EU FP7 SENSEI project, where many of the RD concepts were originally developed.</t>
 	</section>
 
-<!-- [rfced] XML tagging
-
-a) We note that this document uses <tt>. 
-
-The txt rendering of the <tt> element was changed in Sept. 2021 (xml2rfc
-release 3.10.0). <tt> no longer yields quotation marks in the txt output. In
-light of this, please review and let us know if you want to make any changes
-(e.g., add quotation marks that would be in all three output formats).
-
-Note that you will see a number of deleted quotation marks in the diff file
-because of this. In some cases, the lack of quotation marks in the txt file
-may make the text difficult to understand.
-
-Please review and let us know how you would like to handle this. 
-
-Side note: <tt> yields fixed-width font in the HTML and PDF files.
-
-This alternative diff file has been provided so that you can review 
-changes without the noise of the quotation marks being removed due 
-to this change to the rendering of <tt>:
-https://www.rfc-editor.org/authors/rfc9176-alt-diff-TT.html
-
-   
-b) In addition, please review the document for consistent use of <tt> and let
-us know if any updates are needed. For example, it seems some parameter names
-use <tt> while others don't. Also, we see the following used both with and
-without <tt>.
-
-/.well-known/core
-application/link-format
-
-
-c) We updated some <artwork> to <sourcecode>. We did not include a "type"
-attribute. Please review whether the "type" attribute should be set for
-sourcecode elements in the XML file, but note that it is acceptable to leave
-the "type" attribute not set. See the current list of preferred values for
-"type" here: https://www.rfc-editor.org/materials/sourcecode-types.txt.
--->
-
 
 <!--[rfced] Terminology
 
 Content-Format vs. content format vs. content-format
-
-link-format vs. link format
-   (Should the hyphenated form be used for adjective and the open form for the
-   noun? Or should some noun forms also be hyphenated? Also, note that we are
-   asking about instances aside from "CoRE Link Format", "Limited Link Format",
-   and "application/link-format".)
-
-
-c) Should the names of steps be consistent in regards to capitalization and
-quotation marks? Also, would it be helpful to include the appropriate section
-number (i.e., Section 4.3 for "URI Discovery", Section 4.1 for "Finding a
-Resource Directory", and Section 4 for "Registration")?
-
-Some examples:
-URI discovery steps of Section 4.3
-discovery step
-URI discovery step
-"URI Discovery" step
-"Finding a Resource Directory" step
-Registration step
-
-
-d) Should the following instances of "Border Router (6LBR)" read simply "6LBR"
-or "6LoWPAN Border Router (6LBR)"?
-
-Original:
-   1.  In a 6LoWPAN, just assume the Border Router (6LBR) can act as an
-       RD (using the ABRO option to find that [RFC6775]). 
-   ...
-   This information is needed when endpoints cannot discover the
-   RD with a link-local or realm-local scope multicast address, for
-   instance because the endpoint and the RD are separated by a Border
-   Router (6LBR).
-   
-Perhaps:
-   1.  In a 6LoWPAN, just assume the 6LBR can act as an
-       RD (using the Authoritative Border Router Option (ABRO) to find
-       that [RFC6775]).
-   ...
-   This information is needed when
-   endpoints cannot discover the RD with a link-local or realm-local
-   scope multicast address, for instance, because the endpoint and the
-   RD are separated by a 6LBR. 
 -->
 
 
