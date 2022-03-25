@@ -12,16 +12,6 @@ tocDepth="3" symRefs="true" sortRefs="true" version="3">
 
   <!-- xml2rfc v2v3 conversion 2.47.0 -->
   <front>
-<!--[rfced] Please note that the title of the document has been updated as
-follows.  Abbreviations have been expanded per Section 3.6 of RFC 7322
-("RFC Style Guide").  Please review:
-
-Original:
-   CoRE Resource Directory
-
-Current:
-   Constrained RESTful Environments (CoRE) Resource Directory
--->
 <title abbrev="CoRE Resource Directory">Constrained RESTful Environments (CoRE) Resource
 Directory</title>
     <seriesInfo name="RFC" value="9176"/>
@@ -774,37 +764,17 @@ Payload:
 </rd-lookup/res>;rt=core.rd-lookup-res;ct=40
 ]]></sourcecode>
         </figure>
-
-
-<!-- [rfced] "TBD64" and "TBD504" are used in the following text and in
-the example in Figure 6. RFCs typically are not published with "TBD"
-placeholders for IANA-registered values. Is the example here necessary?
-Also, should the reference to [I-D.ietf-core-links-json] be normative
-instead of informative? Note that if the reference is normative, this
-document would wait for it and could contain the actual values rather than
-placeholders. Please note that we will ask the AD to approve the decision
-made here. 
-
-Original:
-   The example below shows the required
-   Content-Format 40 (application/link-format) indicated as well as a
-   CBOR and JSON representation from [I-D.ietf-core-links-json] (which
-   have no numeric values assigned yet, so they are shown as TBD64 and
-   TBD504 as in that draft).  The RD resource locations /rd, and /rd-
-   lookup are example values.  
--->
 	<t>The following example shows the way of indicating that a client may request
 	alternate content-formats. The Content-Format code attribute "ct" <bcp14>MAY</bcp14>
 	include a space-separated sequence of Content-Format codes, as specified in <xref
 	target="RFC7252" section="7.2.1" sectionFormat="of"/>, indicating that multiple
 	content-formats are available. The example below shows the required Content-Format 40
-	(application/link-format) indicated, as well as  Concise Binary Object Representation
-	(CBOR) and JSON representations from <xref target="I-D.ietf-core-links-json"
-	format="default"/> (which
-   have no numeric values assigned yet, so they are shown as TBD64 and
-   TBD504 as in that draft). The RD resource locations /rd and /rd-lookup are
-	example values. The server in this example also indicates that it is capable of providing
-	observation on resource lookups.</t>
+	(application/link-format) indicated, as well as Concise Binary Object Representation (CBOR)
+	and JSON representations from <xref target="I-D.ietf-core-links-json" format="default"/>
+	(which have no numeric values assigned yet, so they are shown as TBD64 and TBD504 as in
+	that draft). The RD resource locations /rd
+	and /rd-lookup are example values. The server in this example also indicates that
+	it is capable of providing observation on resource lookups.</t>
         <figure anchor="example-discovery-ct">
           <name>Example Discovery Exchange Indicating Additional Content-Formats</name>
           <sourcecode type=""><![CDATA[
@@ -2993,7 +2963,7 @@ the link's target.</t>
 	    <t>For example, while a Link header field in a page about a Swedish city might
 	    read:</t>
 
-            <sourcecode name="" type=""><![CDATA[
+            <sourcecode name="" type="http-message"><![CDATA[
 Link: </temperature/Malm%C3%B6>;rel=live-environment-data
 ]]></sourcecode>
             <t>
