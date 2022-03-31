@@ -1129,7 +1129,7 @@ become too onerous.</t>
 can be filled by a third-party device, called a Commissioning Tool (CT). The CT can fill the RD from a database or other means. For
 that purpose scheme, the IP address and port of the URI of the registered device is
  the value of the "base" parameter of the registration described in <xref target="registration" format="default"/>.</t>
-        <t>It should be noted that the value of the "base" parameter applies to all the links of the registration and has consequences for the anchor value of the individual links, as exemplified in <xref target="weblink" format="default"/>. An eventual (currently nonexistent) "base" attribute of the link is not affected by the value of "base" parameter in the registration.</t>
+        <t>It should be noted that the value of the "base" parameter applies to all the links of the registration and has consequences for the anchor value of the individual links, as exemplified in <xref target="weblink" format="default"/>.  A potential (currently nonexistent) "base" attribute of the link is not affected by the value of "base" parameter in the registration.</t>
       </section>
       <section anchor="operations-on-the-registration-resource" numbered="true" toc="default">
         <name>Operations on the Registration Resource</name>
