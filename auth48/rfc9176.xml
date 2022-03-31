@@ -701,7 +701,7 @@ Clients that have obtained links they cannot rely on yet
 can repeat the "URI discovery" step at the <tt>/.well-known/core resource</tt> of the indicated host
 to obtain the resource type information from an authorized source.</t>
         <t>The URI discovery operation can yield multiple URIs of a given resource type.
-The client of the RD can use any of the discovered addresses initially.</t>
+The client of the RD can try out any of the discovered addresses.</t>
         <t>The discovery request interface is specified as follows
 (this is exactly the well-known interface of <xref target="RFC6690" section="4" sectionFormat="comma"/>,
 	with the additional requirement that the server <bcp14>MUST</bcp14> support query filtering):</t>
