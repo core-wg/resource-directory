@@ -2502,7 +2502,7 @@ of the multicast group.</t>
       <section anchor="lwm2m-ex" numbered="true" toc="default">
         <name>OMA Lightweight M2M (LwM2M)</name>
         <t>OMA LwM2M is a profile for device services based on CoAP, providing interfaces and operations for device management and device service enablement.</t>
-        <t>An LwM2M server is an instance of an LwM2M middleware service layer, containing an RD (<xref target="LwM2M" format="default"/>, page 36f).</t>
+        <t>An LwM2M server is an instance of an LwM2M middleware service layer, containing an RD (<xref target="LwM2M" format="default"/>, starting at page 36).</t>
         <t>That RD only implements the registration interface, and no lookup is implemented.
 Instead, the LwM2M server provides access to the registered resources in a similar way to a reverse proxy.</t>
         <t>The location of the LwM2M server and RD URI path is provided by the LwM2M bootstrap process, so no dynamic discovery of the RD is used. LwM2M servers and endpoints are not required to implement the <tt>/.well-known/core</tt> resource.</t>
