@@ -1742,8 +1742,8 @@ at registration is unauthorized should pick an identifier at least twice as long
 registrants without any such recovery options should pick significantly longer endpoint names (e.g., using Universally Unique Identifier (UUID) URNs <xref target="RFC4122" format="default"/>).</t>
         </section>
       </section>
-      <section anchor="entered-resources" numbered="true" toc="default">
-        <name>Entered Resources</name>
+      <section anchor="entered-links" numbered="true" toc="default">
+        <name>Entered Links</name>
         <t>When lookup clients expect that certain types of links can only originate from certain endpoints,
 then the RD needs to apply filtering to the links an endpoint may register.</t>
         <t>For example, if clients use an RD to find a server that provides firmware updates,
@@ -1790,7 +1790,7 @@ as no credentials are suitable for operations across sector borders anyway.</t>
 	discovery operations even in ad hoc settings.</t>
 	<t>Under this policy, the RD accepts registrations for any endpoint name that is not assigned to an active registration resource
 and only accepts registration updates from the same endpoint.
-The policy is minimal in that it does not make any promises to lookup clients about the claims of Sections <xref target="entered-resources" format="counter"/> and <xref target="link-confidentiality" format="counter"/>,
+The policy is minimal in that it does not make any promises to lookup clients about the claims of Sections <xref target="entered-links" format="counter"/> and <xref target="link-confidentiality" format="counter"/>,
 and promises about the claims in <xref target="secure-ep" format="default"/> are limited to the lifetime of that endpoint's registration.
 It does however promise the endpoint that, for the duration of its registration, its links will be discoverable on the RD.</t>
         <t>When a registration or operation is attempted, the RD <bcp14>MUST</bcp14> determine the client's subject name or public key:</t>
