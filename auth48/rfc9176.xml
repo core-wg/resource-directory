@@ -2105,7 +2105,7 @@ Original:
 	    <t><br/></t>
 	    <dl spacing="normal">
 	      <dt>Unicode* = </dt>
-	      <dd>63 bytes of UTF-8-encoded Unicode, with no control characters as per                           
+	      <dd>up to 63 bytes of UTF-8-encoded Unicode, with no control characters as per                           
           <xref target="registration" format="default"/></dd>
 	  </dl>
 	  </dd>
