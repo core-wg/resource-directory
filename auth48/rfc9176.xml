@@ -770,7 +770,7 @@ Req: GET coap://[ff02::fe]/.well-known/core?rt=core.rd*
 
 Res: 2.05 Content
 Payload:
-</rd>;rt=core.rd;ct="40 65225",
+</rd>;rt=core.rd;ct=40,
 </rd-lookup/res>;rt=core.rd-lookup-res;ct="40 65060 65050";obs,
 </rd-lookup/ep>;rt=core.rd-lookup-ep;ct="40 65060 65050"
 ]]></sourcecode>
