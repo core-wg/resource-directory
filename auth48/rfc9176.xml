@@ -1021,7 +1021,7 @@ The links in that document are subject to the same limitations as the payload of
             <t>The registrant-EP sends (and regularly refreshes with) a POST
 	    request to the <tt>/.well-known/rd</tt> URI of the directory server of choice. The
 	    body of the POST request is empty and triggers the resource
-	    directory server to perform GET requests at the requesting registrant-EP's
+	    directory server to perform GET requests (redone before lifetime expiry) at the requesting registrant-EP's
 	    <tt>/.well-known/core</tt> to obtain the link-format payload to register.  </t>
 	    <t>The registrant-EP includes the same registration parameters in the POST request as
 	    it would with a regular registration, per <xref target="registration"
