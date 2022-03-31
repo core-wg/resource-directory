@@ -2296,7 +2296,7 @@ the RD with a CoAP interface to facilitate the installation and startup of
 the application code in the lights and sensors. In particular, the example
 leads to the definition of a group and the enabling of the corresponding
 multicast address, as described in <xref target="groups" format="default"/>. No conclusions must be drawn on the realization of actual
-installation or naming procedures, because the example only "emphasizes" some of the issues
+installation or naming procedures, because the example only emphasizes some of the issues
 that may influence the use of the RD and does not pretend to be normative.</t>
         <section anchor="lt-in-ch" numbered="true" toc="default">
           <name>Installation Characteristics</name>
