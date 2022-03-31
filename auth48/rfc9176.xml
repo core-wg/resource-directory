@@ -1438,7 +1438,7 @@ or use more advanced interfaces (e.g., supporting context- or semantic-based loo
 using attributes defined in this document and for use with the CoRE
 Link Format. The result of a lookup request is the list of links (if any)
 corresponding to the type of lookup.  Thus, an endpoint lookup <bcp14>MUST</bcp14> return a list of endpoints, and a resource lookup <bcp14>MUST</bcp14> return a list of links to resources.</t>
-      <t>The lookup type is selected by a URI endpoint, which is indicated by a resource type, as per <xref target="lookup-types" format="default"/>:</t>
+      <t>The lookup type implemented by a lookup resource is indicated by a resource type, as per <xref target="lookup-types" format="default"/>:</t>
       <table anchor="lookup-types" align="center">
         <name>Lookup Types</name>
         <thead>
