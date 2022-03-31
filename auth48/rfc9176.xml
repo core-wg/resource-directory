@@ -2766,7 +2766,7 @@ ahead and create a new request to <tt>[2001:db8:f0::1]:5683</tt> with Uri-Path
 <tt>sensors</tt> and <tt>temp</tt>, the full resolution steps for insertion into and retrieval from the RD without any shortcuts are as follows.</t>
         <section anchor="resolveURI" numbered="true" toc="default">
           <name>Resolving the URIs</name>
-          <t>The client parses the single returned record. The link's target (sometimes
+          <t>The client parses the single returned link. Its target (sometimes
 called "href") is <tt>/sensors/temp</tt>, which is a relative URI that needs resolving.
 The base
 URI <tt>coap://[ff02::fd]:5683/.well-known/core</tt> is used to resolve the
@@ -2775,13 +2775,13 @@ reference against <tt>/sensors/temp</tt>.</t>
 <xref target="RFC7252" sectionFormat="comma" section="6.5"/> (with an addition at the end of Section <xref target="RFC7252" sectionFormat="bare" section="8.2"/>) into
 <tt>coap://[2001:db8:f0::1]/.well-known/core</tt>.</t>
           <t>Because <tt>/sensors/temp</tt> starts with a single slash,
-the record's target is resolved by replacing the path <tt>/.well-known/core</tt>
+the link's target is resolved by replacing the path <tt>/.well-known/core</tt>
 from the base URI (<xref target="RFC3986" sectionFormat="comma" section="5.2"/>) with the relative target URI <tt>/sensors/temp</tt> into
 <tt>coap://[2001:db8:f0::1]/sensors/temp</tt>.</t>
         </section>
         <section anchor="interpreting-attributes-and-relations" numbered="true" toc="default">
           <name>Interpreting Attributes and Relations</name>
-	  <t>Some more information about the record's target can be obtained from the payload:
+	  <t>Some more information about the link's target can be obtained from the payload:
 the resource type of the target is "temperature", and its content format is
 text/plain (ct=0).</t>
           <t>A relation in a web link is a three-part statement that specifies a named relation between the so-called "context resource"
@@ -2799,7 +2799,7 @@ can be accessed using the text/plain content format.</t>
       <section anchor="a-slightly-more-complex-example" numbered="true" toc="default">
         <name>A Slightly More Complex Example</name>
         <t>Omitting the <tt>rt=temperature</tt> filter, the discovery query would
-have given some more records in the payload:</t>
+have given some more links in the payload:</t>
         <figure anchor="example-weblink-wkc-extended">
           <name>Extended Example of Direct Resource Discovery</name>
          <sourcecode type=""><![CDATA[
@@ -2814,15 +2814,15 @@ Payload:
     rel=describedby
 ]]></sourcecode>
         </figure>
-        <t>Parsing the third record, the client encounters the "anchor" parameter. It is
+        <t>Parsing the third link, the client encounters the "anchor" parameter. It is
 a URI relative to the base URI of the request and is thus resolved to
 <tt>coap://[2001:db8:f0::1]/sensors/temp</tt>.
 That is the context resource of the link, so the "rel" statement is not about
 the target and the base URI any more but about the target and the resolved
-URI. Thus, the third record could be read as:</t>
+URI. Thus, the third link could be read as:</t>
 <t indent="3"><tt>coap://[2001:db8:f0::1]/sensors/temp</tt> has an alternate representation at
 <tt>coap://[2001:db8:f0::1]/t</tt>.</t>
-        <t>Following the same resolution steps, the fourth record can be read as <tt>coap://[2001:db8:f0::1]/sensors/temp</tt> is
+        <t>Following the same resolution steps, the fourth link can be read as <tt>coap://[2001:db8:f0::1]/sensors/temp</tt> is
 described by <tt>http://www.example.com/sensors/t123</tt>.</t>
       </section>
       <section anchor="enter-the-resource-directory" numbered="true" toc="default">
@@ -2886,7 +2886,7 @@ Payload:
 don't need to be resolved any further.</t>
         <t>Had the simple host done an equivalent full registration with a base= parameter (e.g.,
 <tt>?ep=simple-host1&amp;base=coap+tcp://sh1.example.com</tt>), that context would
-have been used to resolve the relative anchor values instead, giving the following and analogous records:</t>
+have been used to resolve the relative anchor values instead, giving the following and analogous links:</t>
         <figure anchor="example-weblink-lookup-result-base">
           <name>Example Payload of a Response to a Resource Lookup with a Dedicated Base URI</name>
          <sourcecode type=""><![CDATA[
