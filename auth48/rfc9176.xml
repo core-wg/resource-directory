@@ -462,7 +462,7 @@ RD lookup to discover and resolve links
 to the desired resources and endpoints. The RD service need
 not be coupled with the data intermediary service. Mapping of RDs
 to data intermediaries may be many-to-many.</t>
-        <t>Metadata in web link formats like the one defined in <xref target="RFC6690" format="default"/>, which may be internally stored as  triples or relation/attribute
+        <t>Metadata in web link formats such as the one defined in <xref target="RFC6690" format="default"/>, which may be internally stored as  triples or relation/attribute
 pairs providing metadata about resource links, need to be supported by RDs. External catalogues that are
 represented in other formats may be converted to common web linking formats for
 storage and access by RDs. Since it is common practice for these
@@ -491,7 +491,7 @@ Sections of those templates contain normative content about
 Interaction, Method, URI Template, and URI Template Variables,
 as well as the details of the Success condition.
 The additional sections
-for options (like Content-Format) and for Failure codes
+for options (such as Content-Format) and for Failure codes
 give typical cases that an implementation of the RD should deal with.
 Those serve to illustrate the typical responses
 to readers who are not yet familiar with all the details of CoAP-based interfaces;
@@ -1147,7 +1147,7 @@ that purpose scheme, the IP address and port of the URI of the registered device
           <name>Registration Update</name>
           <t>The update interface is used by the registering endpoint to refresh or update its
 registration with an RD. To use the interface, the registering endpoint sends a POST request to the registration resource returned by the initial registration operation.</t>
-          <t>An update <bcp14>MAY</bcp14> update registration parameters like lifetime, base URI, or others.
+          <t>An update <bcp14>MAY</bcp14> update registration parameters such as lifetime, base URI, or others.
 Parameters that are not being changed should not
 be included in an update. Adding parameters that have not changed increases
 the size of the message but does not have any other implications.
@@ -1502,7 +1502,7 @@ these parameters ensure that each chunk of results can be interpreted on its own
 This simplifies the processing
 but can result in duplicate or missed items when coinciding with changes from the registration interface.</t>
         <t>Endpoints that are interested in a lookup result repeatedly or continuously can use
-mechanisms like ETag caching, resource observation <xref target="RFC7641" format="default"/>,
+mechanisms such as ETag caching, resource observation <xref target="RFC7641" format="default"/>,
 or any future mechanism that might allow more efficient observations of collections.
 These are advertised, detected, and used according to their own specifications
 and can be used with the lookup interface as with any other resource.</t>
@@ -1844,7 +1844,7 @@ This will not endanger the security properties of the registrations and lookup i
 but may leak the client's intention to third parties
 and allow them to slow down the process.</t>
         <t>To mitigate that, clients can retain the RD's address,
-use secure discovery options like configured addresses,
+use secure discovery options such as configured addresses,
 and send queries for RDs in a very general form (e.g., <tt>?rt=core.rd*</tt> rather than <tt>?rt=core.rd-lookup-ep</tt>).</t>
       </section>
       <section anchor="endpoint_identification" numbered="true" toc="default">
