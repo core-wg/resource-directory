@@ -823,7 +823,7 @@ with the same endpoint parameters ep and d (sector) does not create multiple reg
 a new registration is generated.</li>
         <li>When the (ep, d) value pair of the registration request is equal to an existing registration,
 the content and parameters of the existing registration are replaced with the content of the registration request.
-Like the later changes to registration resources, security policies (<xref target="policies" format="default"/>) usually require such requests to come from the same device.</li>
+As with changes to registration resources, security policies (<xref target="policies" format="default"/>) usually require such requests to come from the same device.</li>
       </ul>
       <t>The posted link-format document can (and typically does) contain relative references
 both in its link targets and in its anchors; it can also contain empty anchors.
