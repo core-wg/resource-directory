@@ -1352,7 +1352,7 @@ that altered that state in a conflicting way.</t>
           <t>An RD <bcp14>SHOULD</bcp14> determine a request's freshness
 and <bcp14>MUST</bcp14> use the Echo option if it requires request freshness and cannot determine it in any other way.
 An endpoint <bcp14>MUST</bcp14> support the use of the Echo option.
-(One reason why an RD would not require freshness is when no relevant registration properties are covered by is security policies.)</t>
+(One reason why an RD would not require freshness is when no relevant registration properties are covered by its security policies.)</t>
           <section anchor="efficient-use-of-echo-by-an-rd" numbered="true" toc="default">
             <name>Efficient Use of Echo by an RD</name>
             <t>To keep latency and traffic added by the freshness requirements to a minimum,
