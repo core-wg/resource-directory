@@ -1738,7 +1738,7 @@ and require the same properties for operations on the registration resource.</t>
 
 <t>Registrants that are prepared to pick a different identifier when their initial attempt
 (or attempts, in the unlikely case of two subsequent collisions)
-at registration is unauthorized should pick an identifier at least twice as long as the expected number of registrants;
+at registration is unauthorized should pick an identifier at least twice as long as would be needed to enumerate the expected number of registrants;
 registrants without any such recovery options should pick significantly longer endpoint names (e.g., using Universally Unique Identifier (UUID) URNs <xref target="RFC4122" format="default"/>).</t>
         </section>
       </section>
