@@ -2793,7 +2793,7 @@ by the default value of the anchor (see <xref target="resolution-rules" format="
 A full English expression of the "host relation" is:</t>
           <t indent="3"><tt>coap://[2001:db8:f0::1]</tt> is hosting the resource
 <tt>coap://[2001:db8:f0::1]/sensors/temp</tt>, which is of the resource type "temperature" and
-can be accessed using the text/plain content format.</t>
+can be read in the text/plain content format.</t>
         </section>
       </section>
       <section anchor="a-slightly-more-complex-example" numbered="true" toc="default">
