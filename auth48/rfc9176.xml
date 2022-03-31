@@ -2761,7 +2761,7 @@ Payload:
 ]]></sourcecode>
         </figure>
         <t>where the response is sent by the server, <tt>[2001:db8:f0::1]:5683</tt>.</t>
-        <t>While the client -- on the practical or implementation side -- can just go
+        <t>While a practical client side implementation might just go
 ahead and create a new request to <tt>[2001:db8:f0::1]:5683</tt> with Uri-Path
 <tt>sensors</tt> and <tt>temp</tt>, the full resolution steps for insertion into and retrieval from the RD without any shortcuts are as follows.</t>
         <section anchor="resolveURI" numbered="true" toc="default">
