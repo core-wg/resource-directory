@@ -412,7 +412,7 @@ to use addresses with larger scopes, if available.</t>
 have focused on development of M2M solutions in order to
 expand the business to the new type of users: machines. The
 machines are connected directly to a mobile network using an appropriate
-embedded wireless interface (GSM/General Packet Radio Service (GPRS), Wideband Code Division Multiple Access (W-CDMA), LTE) or via a gateway providing
+embedded wireless interface (GSM/General Packet Radio Service (GPRS), Wideband Code Division Multiple Access (W-CDMA), LTE, ...) or via a gateway providing
 short- and wide-range wireless interfaces.
 The ambition in such systems is to build them from reusable components.
 These speed up development and deployment
