@@ -1786,7 +1786,7 @@ as no credentials are suitable for operations across sector borders anyway.</t>
         <name>"First Come First Remembered": A Default Policy</name>
         <t>The "First Come First Remembered" policy is provided both as a reference example for a
 	security policy definition and as a policy that implementations may choose to use as
-	default policy in the absence of another configuration. It is designed to enable efficient
+	default policy in the absence of any other configuration. It is designed to enable efficient
 	discovery operations even in ad hoc settings.</t>
 	<t>Under this policy, the RD accepts registrations for any endpoint name that is not assigned to an active registration resource
 and only accepts registration updates from the same endpoint.
