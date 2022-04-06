@@ -48,7 +48,7 @@ Directory</title>
       </address>
     </author>
     <author initials="C." surname="Bormann" fullname="Carsten Bormann">
-      <organization>Universitaet Bremen TZI</organization>
+      <organization>Universität Bremen TZI</organization>
       <address>
         <postal>
           <street>Postfach 330440</street>
@@ -412,7 +412,7 @@ to use addresses with larger scopes, if available.</t>
 have focused on development of M2M solutions in order to
 expand the business to the new type of users: machines. The
 machines are connected directly to a mobile network using an appropriate
-embedded wireless interface (GSM/General Packet Radio Service (GPRS), Wideband Code Division Multiple Access (W-CDMA), LTE) or via a gateway providing
+embedded wireless interface (GSM/General Packet Radio Service (GPRS), Wideband Code Division Multiple Access (W-CDMA), LTE, ...) or via a gateway providing
 short- and wide-range wireless interfaces.
 The ambition in such systems is to build them from reusable components.
 These speed up development and deployment
@@ -462,7 +462,7 @@ RD lookup to discover and resolve links
 to the desired resources and endpoints. The RD service need
 not be coupled with the data intermediary service. Mapping of RDs
 to data intermediaries may be many-to-many.</t>
-        <t>Metadata in web link formats like the one defined in <xref target="RFC6690" format="default"/>, which may be internally stored as  triples or relation/attribute
+        <t>Metadata in web link formats such as the one defined in <xref target="RFC6690" format="default"/>, which may be internally stored as  triples or relation/attribute
 pairs providing metadata about resource links, need to be supported by RDs. External catalogues that are
 represented in other formats may be converted to common web linking formats for
 storage and access by RDs. Since it is common practice for these
@@ -491,7 +491,7 @@ Sections of those templates contain normative content about
 Interaction, Method, URI Template, and URI Template Variables,
 as well as the details of the Success condition.
 The additional sections
-for options (like Content-Format) and for Failure codes
+for options (such as Content-Format) and for Failure codes
 give typical cases that an implementation of the RD should deal with.
 Those serve to illustrate the typical responses
 to readers who are not yet familiar with all the details of CoAP-based interfaces;
@@ -679,7 +679,7 @@ CoRE Link Format <xref target="RFC6690" format="default"/> after having discover
 unicast GET request to <tt>/.well-known/core</tt> and including a resource type (rt)
 parameter <xref target="RFC6690" format="default"/> with the value "core.rd" in the query string. Likewise, a
 resource type parameter value of "core.rd-lookup*" is used to discover the
-URIs for RD lookup operations, and core.rd* is used to discover all URIs for RD operations.
+URIs for RD lookup operations, and "core.rd*" is used to discover all URIs for RD operations.
 Upon success, the response will contain a payload with
 a link format entry for each RD function discovered, indicating the URI
 of the RD function returned and the corresponding resource type. When performing
@@ -698,10 +698,10 @@ and not limit the set of discovered URIs to those hosted at the address used for
         <t>With security policies where the client requires the RD to be authorized to act as an RD,
 that authorization may be limited to resources on which the authorized RD advertises the adequate resource types.
 Clients that have obtained links they cannot rely on yet
-can repeat the "URI discovery" step at the <tt>/.well-known/core resource</tt> of the indicated host
+can repeat the "URI discovery" step at the <tt>/.well-known/core</tt> resource of the indicated host
 to obtain the resource type information from an authorized source.</t>
         <t>The URI discovery operation can yield multiple URIs of a given resource type.
-The client of the RD can use any of the discovered addresses initially.</t>
+The client of the RD can try out any of the discovered addresses.</t>
         <t>The discovery request interface is specified as follows
 (this is exactly the well-known interface of <xref target="RFC6690" section="4" sectionFormat="comma"/>,
 	with the additional requirement that the server <bcp14>MUST</bcp14> support query filtering):</t>
@@ -770,7 +770,7 @@ Req: GET coap://[ff02::fe]/.well-known/core?rt=core.rd*
 
 Res: 2.05 Content
 Payload:
-</rd>;rt=core.rd;ct="40 65225",
+</rd>;rt=core.rd;ct=40,
 </rd-lookup/res>;rt=core.rd-lookup-res;ct="40 65060 65050";obs,
 </rd-lookup/ep>;rt=core.rd-lookup-ep;ct="40 65060 65050"
 ]]></sourcecode>
@@ -823,7 +823,7 @@ with the same endpoint parameters ep and d (sector) does not create multiple reg
 a new registration is generated.</li>
         <li>When the (ep, d) value pair of the registration request is equal to an existing registration,
 the content and parameters of the existing registration are replaced with the content of the registration request.
-Like the later changes to registration resources, security policies (<xref target="policies" format="default"/>) usually require such requests to come from the same device.</li>
+As with changes to registration resources, security policies (<xref target="policies" format="default"/>) usually require such requests to come from the same device.</li>
       </ul>
       <t>The posted link-format document can (and typically does) contain relative references
 both in its link targets and in its anchors; it can also contain empty anchors.
@@ -856,7 +856,7 @@ request bodies <bcp14>MUST</bcp14> be expressed in Limited Link Format.</t>
 	    that <bcp14>MUST</bcp14> be unique within a sector.</t>
 	    
             <t>As the endpoint name is a Unicode string, it is
-            encoded in UTF-8 (and possibly encoded in pct) during
+            encoded in UTF-8 (and possibly percent-encoded) during
             variable expansion (see <xref target="RFC6570" section="3.2.1"
             sectionFormat="comma"/>).  The endpoint name <bcp14>MUST NOT</bcp14> contain any
 	    character in the inclusive ranges 0-31 or 127-159.</t>
@@ -1021,7 +1021,7 @@ The links in that document are subject to the same limitations as the payload of
             <t>The registrant-EP sends (and regularly refreshes with) a POST
 	    request to the <tt>/.well-known/rd</tt> URI of the directory server of choice. The
 	    body of the POST request is empty and triggers the resource
-	    directory server to perform GET requests at the requesting registrant-EP's
+	    directory server to perform GET requests (redone before lifetime expiry) at the requesting registrant-EP's
 	    <tt>/.well-known/core</tt> to obtain the link-format payload to register.  </t>
 	    <t>The registrant-EP includes the same registration parameters in the POST request as
 	    it would with a regular registration, per <xref target="registration"
@@ -1129,7 +1129,7 @@ become too onerous.</t>
 can be filled by a third-party device, called a Commissioning Tool (CT). The CT can fill the RD from a database or other means. For
 that purpose scheme, the IP address and port of the URI of the registered device is
  the value of the "base" parameter of the registration described in <xref target="registration" format="default"/>.</t>
-        <t>It should be noted that the value of the "base" parameter applies to all the links of the registration and has consequences for the anchor value of the individual links, as exemplified in <xref target="weblink" format="default"/>. An eventual (currently nonexistent) "base" attribute of the link is not affected by the value of "base" parameter in the registration.</t>
+        <t>It should be noted that the value of the "base" parameter applies to all the links of the registration and has consequences for the anchor value of the individual links, as exemplified in <xref target="weblink" format="default"/>.  A potential (currently nonexistent) "base" attribute of the link is not affected by the value of "base" parameter in the registration.</t>
       </section>
       <section anchor="operations-on-the-registration-resource" numbered="true" toc="default">
         <name>Operations on the Registration Resource</name>
@@ -1147,7 +1147,7 @@ that purpose scheme, the IP address and port of the URI of the registered device
           <name>Registration Update</name>
           <t>The update interface is used by the registering endpoint to refresh or update its
 registration with an RD. To use the interface, the registering endpoint sends a POST request to the registration resource returned by the initial registration operation.</t>
-          <t>An update <bcp14>MAY</bcp14> update registration parameters like lifetime, base URI, or others.
+          <t>An update <bcp14>MAY</bcp14> update registration parameters such as lifetime, base URI, or others.
 Parameters that are not being changed should not
 be included in an update. Adding parameters that have not changed increases
 the size of the message but does not have any other implications.
@@ -1352,7 +1352,7 @@ that altered that state in a conflicting way.</t>
           <t>An RD <bcp14>SHOULD</bcp14> determine a request's freshness
 and <bcp14>MUST</bcp14> use the Echo option if it requires request freshness and cannot determine it in any other way.
 An endpoint <bcp14>MUST</bcp14> support the use of the Echo option.
-(One reason why an RD would not require freshness is when no relevant registration properties are covered by is security policies.)</t>
+(One reason why an RD would not require freshness is when no relevant registration properties are covered by its security policies.)</t>
           <section anchor="efficient-use-of-echo-by-an-rd" numbered="true" toc="default">
             <name>Efficient Use of Echo by an RD</name>
             <t>To keep latency and traffic added by the freshness requirements to a minimum,
@@ -1438,7 +1438,7 @@ or use more advanced interfaces (e.g., supporting context- or semantic-based loo
 using attributes defined in this document and for use with the CoRE
 Link Format. The result of a lookup request is the list of links (if any)
 corresponding to the type of lookup.  Thus, an endpoint lookup <bcp14>MUST</bcp14> return a list of endpoints, and a resource lookup <bcp14>MUST</bcp14> return a list of links to resources.</t>
-      <t>The lookup type is selected by a URI endpoint, which is indicated by a resource type, as per <xref target="lookup-types" format="default"/>:</t>
+      <t>The lookup type implemented by a lookup resource is indicated by a resource type, as per <xref target="lookup-types" format="default"/>:</t>
       <table anchor="lookup-types" align="center">
         <name>Lookup Types</name>
         <thead>
@@ -1502,7 +1502,7 @@ these parameters ensure that each chunk of results can be interpreted on its own
 This simplifies the processing
 but can result in duplicate or missed items when coinciding with changes from the registration interface.</t>
         <t>Endpoints that are interested in a lookup result repeatedly or continuously can use
-mechanisms like ETag caching, resource observation <xref target="RFC7641" format="default"/>,
+mechanisms such as ETag caching, resource observation <xref target="RFC7641" format="default"/>,
 or any future mechanism that might allow more efficient observations of collections.
 These are advertised, detected, and used according to their own specifications
 and can be used with the lookup interface as with any other resource.</t>
@@ -1738,12 +1738,12 @@ and require the same properties for operations on the registration resource.</t>
 
 <t>Registrants that are prepared to pick a different identifier when their initial attempt
 (or attempts, in the unlikely case of two subsequent collisions)
-at registration is unauthorized should pick an identifier at least twice as long as the expected number of registrants;
+at registration is unauthorized should pick an identifier at least twice as long as would be needed to enumerate the expected number of registrants;
 registrants without any such recovery options should pick significantly longer endpoint names (e.g., using Universally Unique Identifier (UUID) URNs <xref target="RFC4122" format="default"/>).</t>
         </section>
       </section>
-      <section anchor="entered-resources" numbered="true" toc="default">
-        <name>Entered Resources</name>
+      <section anchor="entered-links" numbered="true" toc="default">
+        <name>Entered Links</name>
         <t>When lookup clients expect that certain types of links can only originate from certain endpoints,
 then the RD needs to apply filtering to the links an endpoint may register.</t>
         <t>For example, if clients use an RD to find a server that provides firmware updates,
@@ -1786,11 +1786,11 @@ as no credentials are suitable for operations across sector borders anyway.</t>
         <name>"First Come First Remembered": A Default Policy</name>
         <t>The "First Come First Remembered" policy is provided both as a reference example for a
 	security policy definition and as a policy that implementations may choose to use as
-	default policy in the absence of another configuration. It is designed to enable efficient
+	default policy in the absence of any other configuration. It is designed to enable efficient
 	discovery operations even in ad hoc settings.</t>
 	<t>Under this policy, the RD accepts registrations for any endpoint name that is not assigned to an active registration resource
 and only accepts registration updates from the same endpoint.
-The policy is minimal in that it does not make any promises to lookup clients about the claims of Sections <xref target="entered-resources" format="counter"/> and <xref target="link-confidentiality" format="counter"/>,
+The policy is minimal in that it does not make any promises to lookup clients about the claims of Sections <xref target="entered-links" format="counter"/> and <xref target="link-confidentiality" format="counter"/>,
 and promises about the claims in <xref target="secure-ep" format="default"/> are limited to the lifetime of that endpoint's registration.
 It does however promise the endpoint that, for the duration of its registration, its links will be discoverable on the RD.</t>
         <t>When a registration or operation is attempted, the RD <bcp14>MUST</bcp14> determine the client's subject name or public key:</t>
@@ -1844,7 +1844,7 @@ This will not endanger the security properties of the registrations and lookup i
 but may leak the client's intention to third parties
 and allow them to slow down the process.</t>
         <t>To mitigate that, clients can retain the RD's address,
-use secure discovery options like configured addresses,
+use secure discovery options such as configured addresses,
 and send queries for RDs in a very general form (e.g., <tt>?rt=core.rd*</tt> rather than <tt>?rt=core.rd-lookup-ep</tt>).</t>
       </section>
       <section anchor="endpoint_identification" numbered="true" toc="default">
@@ -1871,8 +1871,8 @@ Mitigation for this is recommended in <xref target="simple" format="default"/>.<
         <t>The registration resource path is visible to any client that is allowed endpoint lookup
 and can be extracted by resource lookup clients as well.
 The same goes for registration attributes that are shown as target attributes or lookup attributes.
-The RD needs to consider this in the choice of registration resource paths
-and administrators or endpoint in their choice of attributes.</t>
+The RD needs to consider this in the choice of registration resource paths,
+as do administrators or endpoints in their choice of attributes.</t>
       </section>
       <section anchor="access-control" numbered="true" toc="default">
         <name>Access Control</name>
@@ -2105,7 +2105,7 @@ Original:
 	    <t><br/></t>
 	    <dl spacing="normal">
 	      <dt>Unicode* = </dt>
-	      <dd>63 bytes of UTF-8-encoded Unicode, with no control characters as per                           
+	      <dd>up to 63 bytes of UTF-8-encoded Unicode, with no control characters as per                           
           <xref target="registration" format="default"/></dd>
 	  </dl>
 	  </dd>
@@ -2296,7 +2296,7 @@ the RD with a CoAP interface to facilitate the installation and startup of
 the application code in the lights and sensors. In particular, the example
 leads to the definition of a group and the enabling of the corresponding
 multicast address, as described in <xref target="groups" format="default"/>. No conclusions must be drawn on the realization of actual
-installation or naming procedures, because the example only "emphasizes" some of the issues
+installation or naming procedures, because the example only emphasizes some of the issues
 that may influence the use of the RD and does not pretend to be normative.</t>
         <section anchor="lt-in-ch" numbered="true" toc="default">
           <name>Installation Characteristics</name>
@@ -2502,7 +2502,7 @@ of the multicast group.</t>
       <section anchor="lwm2m-ex" numbered="true" toc="default">
         <name>OMA Lightweight M2M (LwM2M)</name>
         <t>OMA LwM2M is a profile for device services based on CoAP, providing interfaces and operations for device management and device service enablement.</t>
-        <t>An LwM2M server is an instance of an LwM2M middleware service layer, containing an RD (<xref target="LwM2M" format="default"/>, page 36f).</t>
+        <t>An LwM2M server is an instance of an LwM2M middleware service layer, containing an RD (<xref target="LwM2M" format="default"/>, starting at page 36).</t>
         <t>That RD only implements the registration interface, and no lookup is implemented.
 Instead, the LwM2M server provides access to the registered resources in a similar way to a reverse proxy.</t>
         <t>The location of the LwM2M server and RD URI path is provided by the LwM2M bootstrap process, so no dynamic discovery of the RD is used. LwM2M servers and endpoints are not required to implement the <tt>/.well-known/core</tt> resource.</t>
@@ -2761,12 +2761,12 @@ Payload:
 ]]></sourcecode>
         </figure>
         <t>where the response is sent by the server, <tt>[2001:db8:f0::1]:5683</tt>.</t>
-        <t>While the client -- on the practical or implementation side -- can just go
+        <t>While a practical client side implementation might just go
 ahead and create a new request to <tt>[2001:db8:f0::1]:5683</tt> with Uri-Path
 <tt>sensors</tt> and <tt>temp</tt>, the full resolution steps for insertion into and retrieval from the RD without any shortcuts are as follows.</t>
         <section anchor="resolveURI" numbered="true" toc="default">
           <name>Resolving the URIs</name>
-          <t>The client parses the single returned record. The link's target (sometimes
+          <t>The client parses the single returned link. Its target (sometimes
 called "href") is <tt>/sensors/temp</tt>, which is a relative URI that needs resolving.
 The base
 URI <tt>coap://[ff02::fd]:5683/.well-known/core</tt> is used to resolve the
@@ -2775,13 +2775,13 @@ reference against <tt>/sensors/temp</tt>.</t>
 <xref target="RFC7252" sectionFormat="comma" section="6.5"/> (with an addition at the end of Section <xref target="RFC7252" sectionFormat="bare" section="8.2"/>) into
 <tt>coap://[2001:db8:f0::1]/.well-known/core</tt>.</t>
           <t>Because <tt>/sensors/temp</tt> starts with a single slash,
-the record's target is resolved by replacing the path <tt>/.well-known/core</tt>
+the link's target is resolved by replacing the path <tt>/.well-known/core</tt>
 from the base URI (<xref target="RFC3986" sectionFormat="comma" section="5.2"/>) with the relative target URI <tt>/sensors/temp</tt> into
 <tt>coap://[2001:db8:f0::1]/sensors/temp</tt>.</t>
         </section>
         <section anchor="interpreting-attributes-and-relations" numbered="true" toc="default">
           <name>Interpreting Attributes and Relations</name>
-	  <t>Some more information about the record's target can be obtained from the payload:
+	  <t>Some more information about the link's target can be obtained from the payload:
 the resource type of the target is "temperature", and its content format is
 text/plain (ct=0).</t>
           <t>A relation in a web link is a three-part statement that specifies a named relation between the so-called "context resource"
@@ -2793,13 +2793,13 @@ by the default value of the anchor (see <xref target="resolution-rules" format="
 A full English expression of the "host relation" is:</t>
           <t indent="3"><tt>coap://[2001:db8:f0::1]</tt> is hosting the resource
 <tt>coap://[2001:db8:f0::1]/sensors/temp</tt>, which is of the resource type "temperature" and
-can be accessed using the text/plain content format.</t>
+can be read in the text/plain content format.</t>
         </section>
       </section>
       <section anchor="a-slightly-more-complex-example" numbered="true" toc="default">
         <name>A Slightly More Complex Example</name>
         <t>Omitting the <tt>rt=temperature</tt> filter, the discovery query would
-have given some more records in the payload:</t>
+have given some more links in the payload:</t>
         <figure anchor="example-weblink-wkc-extended">
           <name>Extended Example of Direct Resource Discovery</name>
          <sourcecode type=""><![CDATA[
@@ -2814,15 +2814,15 @@ Payload:
     rel=describedby
 ]]></sourcecode>
         </figure>
-        <t>Parsing the third record, the client encounters the "anchor" parameter. It is
+        <t>Parsing the third link, the client encounters the "anchor" parameter. It is
 a URI relative to the base URI of the request and is thus resolved to
 <tt>coap://[2001:db8:f0::1]/sensors/temp</tt>.
 That is the context resource of the link, so the "rel" statement is not about
 the target and the base URI any more but about the target and the resolved
-URI. Thus, the third record could be read as:</t>
+URI. Thus, the third link could be read as:</t>
 <t indent="3"><tt>coap://[2001:db8:f0::1]/sensors/temp</tt> has an alternate representation at
 <tt>coap://[2001:db8:f0::1]/t</tt>.</t>
-        <t>Following the same resolution steps, the fourth record can be read as <tt>coap://[2001:db8:f0::1]/sensors/temp</tt> is
+        <t>Following the same resolution steps, the fourth link can be read as <tt>coap://[2001:db8:f0::1]/sensors/temp</tt> is
 described by <tt>http://www.example.com/sensors/t123</tt>.</t>
       </section>
       <section anchor="enter-the-resource-directory" numbered="true" toc="default">
@@ -2886,7 +2886,7 @@ Payload:
 don't need to be resolved any further.</t>
         <t>Had the simple host done an equivalent full registration with a base= parameter (e.g.,
 <tt>?ep=simple-host1&amp;base=coap+tcp://sh1.example.com</tt>), that context would
-have been used to resolve the relative anchor values instead, giving the following and analogous records:</t>
+have been used to resolve the relative anchor values instead, giving the following and analogous links:</t>
         <figure anchor="example-weblink-lookup-result-base">
           <name>Example Payload of a Response to a Resource Lookup with a Dedicated Base URI</name>
          <sourcecode type=""><![CDATA[
